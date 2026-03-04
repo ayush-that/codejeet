@@ -46,23 +46,19 @@ The system targets **50 million daily active users (DAU)** and stores chat histo
   <div>
 
 2. **Receiver Side:**
-
    - **Polling:**
-
      - Client periodically asks the server if there are messages available.
      - Inefficient due to frequent, redundant requests.
 
         <img src="./images/polling.png" alt="Polling" width="400">
 
    - **Long Polling:**
-
      - Keeps the connection open until messages arrive.
      - Inefficient for inactive users.
 
         <img src="./images/long-polling.png" alt="Long Polling" width="400">
 
    - **WebSocket:**
-
      - A bi-directional, persistent connection for real-time communication, chosen for both sending and receiving messages.
      - Uses WebSockets (ws) protocol for sending and recieving messages.
 
@@ -176,7 +172,6 @@ as news messages:
    <div style="margin-left:3rem">
       <img src="./images/heartbeat-mechanism.png" alt="Heartbeat Mechanism" width="400"> 
    </div>
-
    - Clients send periodic heartbeats to presence servers to indicate they are online.
    - If no heartbeat is received within a threshold (for eg x = 30), the user is marked offline.
 
@@ -185,7 +180,6 @@ as news messages:
    <div style="margin-left:3rem">
       <img src="./images/fanout-presence.png" alt="Fanout Presence" width="400"> 
    </div>
-
    - Presence updates are pushed to friends using a publish-subscribe model in which each friend pair maintains a channel.
    - When User A’s online status changes, it publishes the event to three channels, channel A-B, A-C, and A-D.
    - Those three channels are subscribed by User B, C, and D, respectively which get the online status updates.

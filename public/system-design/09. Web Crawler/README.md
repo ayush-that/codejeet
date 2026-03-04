@@ -49,13 +49,11 @@ A good web crawler must address:
 </p>
 
 1. **Seed URLs:** Starting points for the crawler.
-
    - Need to selective as a good starting point that a crawler can utilize to traverse as many links as possible.
    - Can be based on locality based on different popular website or based on topics.
    - Strategies: Categorize by locality or topic (e.g., sports, healthcare).
 
 2. **URL Frontier:** Stores URLs to be downloaded.
-
    - Implemented as a **FIFO queue**.
 
 3. **HTML Downloader:** Downloads web pages from URLs provided by the URL Frontier.
@@ -63,7 +61,6 @@ A good web crawler must address:
 4. **DNS Resolver:** Converts URLs to IP addresses.
 
 5. **Content Parser:** Validates and parses web pages.
-
    - Discards malformed pages.
 
 6. **Content Seen?:** Checks for duplicate content using hash comparisons (compare the hash values of the two web pages).
@@ -101,7 +98,6 @@ A good web crawler must address:
 ### URL Frontier
 
 - **Politeness:**
-
   - Ensure only one request per host at a time. Add a dealy b/w two download tasks.
   - Use a mapping from hostnames to queues and worker (download) threads.
   - Each downloader thread has a separate FIFO queue and only downloads URLs from that queue.
@@ -114,7 +110,6 @@ A good web crawler must address:
   - **Worker thread 1 to N.** A worker thread downloads web pages sequentially from the same host. A delay can be added between two download tasks.
 
 - **Priority:**
-
   - Assign higher priority to important pages (e.g., by PageRank or update frequency).
 
       <img src="./images/prioritizer.png" alt="Politeness" width="500">

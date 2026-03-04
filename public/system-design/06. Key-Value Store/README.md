@@ -98,7 +98,6 @@ A **distributed key-value store** partitions data across multiple servers and mu
 Since data is replicated at multiple nodes, it must be synchronized across replicas.
 
 - **Quorum Consensus:**
-
   - `N`: Total replicas.
   - `W`: Write quorum size. For a write to be considered successful, write must be acknowledged from W replicas.
   - `R`: Read quorum size. For a read to be considered as successful, read must wait for responses from at least R replicas.
@@ -108,7 +107,6 @@ Since data is replicated at multiple nodes, it must be synchronized across repli
     <p align="center">
     <img src="./images/quorum-consensus.png"   alt="Quorum consensus" width="400">
     </p>
-
     - If R = 1 and W = N, the system is optimized for a fast read.
     - If W = 1 and R = N, the system is optimized for fast write.
     - If W + R > N, strong consistency is guaranteed (Usually N = 3, W = R = 2).
@@ -125,7 +123,6 @@ Replication gives high availability but causes inconsistencies among replicas. V
 vector locks are used to solve inconsistency problems.
 
 - **Versioning:**
-
   - Use **vector clocks** to track data versions and resolve conflicts.
   - Versioning means treating each data modification as a new immutable version of data.
       <div>
@@ -135,21 +132,17 @@ vector locks are used to solve inconsistency problems.
   - Server 1 changes the name , and server 2 also changes the name. These two changes are performed simultaneously. Now, we have conflicting values, called versions v1 and v2.
 
 - **Vector Clock**
-
   1. **Setup**: A vector clock is a [server, version] pair associated with a data item. It can be used to check
      if one version precedes, succeeds, or in conflict with others.
-
      - Assume a vector clock represented by D([S1, v1], [S2, v2], …, [Sn, vn]), If data item D is written to server
        Si, the system must perform one of the following tasks.
      - Where: `D` is the data item.`Si` is the server identifier.`vi` is the version counter for the data at server `Si`.
 
   2. **Updating the Vector Clock:** When a data item is modified at a server:
-
      - If the server exists in the vector clock, its version counter is incremented.
      - Otherwise, a new entry is added to the vector clock.
 
   3. **Conflict Detection:**
-
      - **No Conflict:** A version X is an ancestor of version Y if all counters in X are less than or equal to those in Y.
      - **Conflict Exists:** Two versions are siblings if there is at least one counter in Y that is less than its counterpart in X.
 
@@ -173,7 +166,6 @@ It is insufficient to believe that a server is down because another server says 
     <div style="margin-left:3rem">
         <img src="./images/gossip-protocol.png"  alt="Gossip protocol" width="600">
     </div>
-
   - Each node maintains member IDs and heartbeat counters.
   - Each node periodically increments its heartbeat counter.
   - Each node periodically sends heartbeats to a set of random nodes.
@@ -186,7 +178,6 @@ It is insufficient to believe that a server is down because another server says 
   <p align="center">
   <img src="./images/sloppy-quorum.png"   alt="Sloppy Quorum" width="400">
   </p>
-
   - After detecting failures, the system needs to deploy certain mechanisms to ensure availability
   - Instead of enforcing the quorum requirement, the system chooses the first W healthy servers for writes and first R
     healthy servers for reads on the hash ring.
@@ -201,15 +192,12 @@ It is insufficient to believe that a server is down because another server says 
   A **Merkle Tree** (or hash tree) is a data structure to efficiently detect and resolve inconsistencies between replicas during permanent failures.
 
 - Working
-
   1. **Structure:**
-
      - **Leaf Nodes** store the hash of individual data blocks.
      - **Non-Leaf Nodes** store the hash of their child nodes.
      - The **root hash** represents the combined state of all data in the tree.
 
   2. **Building a Merkle Tree:**
-
      - **Step 1:** Divide the key space into buckets.
 
          <img src="./images/key-bucket.png"   alt="Key Bucket" width="500">

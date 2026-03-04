@@ -1,15 +1,18 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import NumberTicker from "@/components/magic-ui/number-ticker";
 import { Button } from "@/components/ui/button";
 import { DotPattern } from "@/components/magic-ui/dot-pattern";
 
-const focusLabel: "DSA" | "System Design" =
-  typeof window !== "undefined" && Math.random() < 0.5 ? "System Design" : "DSA";
-
 export default function Home() {
+  const [focusLabel, setFocusLabel] = useState<"DSA" | "System Design">("DSA");
+
+  useEffect(() => {
+    if (Math.random() < 0.5) setFocusLabel("System Design");
+  }, []);
   return (
     <div>
       <main>
@@ -17,9 +20,7 @@ export default function Home() {
           <DotPattern className="absolute inset-0 z-0 [mask-image:radial-gradient(50vw_circle_at_center,white,transparent)]" />
           <div className="relative z-10 flex flex-col items-center justify-start min-h-screen space-y-4 px-4 pt-12">
             <div className="flex items-center gap-3">
-              <span className="text-sm font-semibold uppercase tracking-tight">
-                Proudly Open Source
-              </span>
+              <span className="text-sm font-semibold uppercase tracking-tight">Open Source</span>
               <span aria-hidden className="h-6 w-[2px] bg-foreground" />
               <div className="flex items-center gap-2">
                 <span className="text-base font-semibold leading-none text-foreground whitespace-nowrap">
@@ -35,7 +36,8 @@ export default function Home() {
               </div>
             </div>
             <h1 className="text-center text-4xl md:text-5xl lg:text-6xl font-bold break-words w-full max-w-[92vw] md:max-w-[1200px] px-2 mx-auto -z-10 leading-tight">
-              Padhle {focusLabel} kahin se, selection hogi yahi se.
+              Padhle {focusLabel} kahin se,
+              <br className="hidden lg:block" /> selection hogi yahi se.
             </h1>
             <h2 className="text-xl text-opacity-60 tracking-normal text-center max-w-2xl mx-auto z-10">
               Suffer from <NumberTicker value={17000} />+ company-wise DSA questions like a true

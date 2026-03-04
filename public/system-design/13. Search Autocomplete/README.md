@@ -36,7 +36,6 @@ Autocomplete, also known as typeahead or incremental search, provides real-time 
 At the high-level, the system is broken down into two services:
 
 1. **Data Gathering Service:**
-
    - Collects user queries and aggregates them for frequency analysis in real-time.
    - Real-time processing is not practical for large data sets; however, it is a good starting point
 
@@ -82,13 +81,11 @@ The **trie** is a tree-like data structure used to store and retrieve query stri
    <div style="margin-left:3rem">
       <img src="./images/trie-structure.png" alt="Trie Structure" width="500">
    </div>
-
    - Find the prefix
    - Traverse the subtree from prefix node to get all valid children
    - Sort the children and get top k
 
 4. **Optimizations:**
-
    - Cache top-k queries at each node to speed up retrieval and avoid traversing the whole trie.
 
         <img src="./images/cached-trie.png" alt="Cached Trie" width="600">
@@ -105,7 +102,6 @@ The **trie** is a tree-like data structure used to store and retrieve query stri
      <div style="margin-left:3rem">
         <img src="./images/delete-kv.png" alt="Delete KV" width="500">
      </div>
-
    - Filters remove unwanted or harmful suggestions (e.g., hate speech).
    - Having a filter layer gives us the flexibility of removing results based on different filter rules.
    - Unwanted suggestions are removed physically from the database asynchronically.
@@ -160,13 +156,10 @@ In the high-level design, whenever a user types a search query, data is updated 
 3. **Workers:**
    - Asynchronous servers rebuild the trie and store it in persistent storage.
 4. **Storage Options:**
-
    - **Trie Cache**: Trie Cache is a distributed cache system that keeps trie in memory for fast read.
    - **Trie DB**
-
      1. **Document Store (e.g., MongoDB)**: Since a new trie is built weekly, we can periodically take a snapshot of it, serialize it, and store the serialized data in the database like MongoDB
      2. **Key-Value Store:**
-
         - Maps prefixes to node data for fast access.
         - Every prefix in the trie is mapped to a key in a hash table.
         - Data on each trie node is mapped to a value in a hash table.
@@ -184,7 +177,6 @@ In the high-level design, whenever a user types a search query, data is updated 
    <div style="margin-left:3rem">
       <img src="./images/sharding.png" alt="Sharding" width="400">
    </div>
-
    - Use a shard map manager to route requests to the appropriate server.
 
 ---

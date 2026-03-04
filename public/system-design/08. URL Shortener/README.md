@@ -24,13 +24,11 @@ This chapter discusses the design of a URL shortening service like TinyURL. The 
 ### API Endpoints
 
 1. **URL Shortening:**
-
    - Endpoint: `POST api/v1/data/shorten`
    - Parameters: `{longUrl: longURLString}`
    - Returns: `shortURL`
 
 2. **URL Redirecting:**
-
    - Endpoint: `GET api/v1/shortUrl`
    - Returns: `longURL` for redirection.
 
@@ -100,7 +98,6 @@ Convert ID `2009215674938` to Base 62:
 ### Comparison
 
 - **Hash + Collision Resolution:**
-
   - Fixed short URL length
   - Does not need a unique ID generator
   - Collision is possbile and needs resolution

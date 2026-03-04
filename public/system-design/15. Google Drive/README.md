@@ -118,7 +118,6 @@ When two users modify the same file or folder at the same time, a conflict happe
 1. **User Interaction:**: Users access the application via browser or mobile app.
 
 2. **Block Servers:**
-
    - Files are split into **4 MB blocks** (maximum size) and assigned unique hash values.
    - Blocks are stored independently in cloud storage (e.g., Amazon S3).
    - File reconstruction involves joining blocks in a specific order.
@@ -130,17 +129,14 @@ When two users modify the same file or folder at the same time, a conflict happe
 5. **Load Balancer:** Distributes requests evenly among API servers to ensure efficient operation.
 
 6. **API Servers:**
-
    - Handle user authentication, profile management, and file metadata updates.
    - Manage all non-uploading workflows.
 
 7. **Metadata Database and Cache:**
-
    - Stores metadata for users, files, blocks, and versions.
    - Frequently accessed metadata is cached for faster retrieval.
 
 8. **Notification Service:**
-
    - A **publisher/subscriber system** that notifies clients about file changes (add, edit, delete).
    - Ensures clients can pull the latest updates.
 

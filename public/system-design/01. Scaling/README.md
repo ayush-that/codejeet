@@ -247,13 +247,11 @@ communication. It serves as a buffer and distributes asynchronous requests.
 #### Challenges
 
 1. **Resharding data:** Resharding data is needed when:
-
    - Single shard could no longer hold more data due to rapid growth.
    - Certain shards might experience shard exhaustion faster than others due to uneven data distribution.
    - Consistent Hashing is used to overcome these problems
 
 2. **Celebrity problem:** Excessive access to a specific shard could cause server overload.
-
    - To solve this problem, we may need to allocate a shard for each celebrity.
 
 3. **Join and de-normalization:** Once a database has been sharded across multiple servers, it is hard to perform join operations across database shards.

@@ -4,17 +4,15 @@ version = "0.1.0"
 description = "Add your description here"
 requires-python = ">=3.12"
 dependencies = [
-    "beautifulsoup4>=4.14.3",
-    "html2text>=2025.4.15",
-    "markdownify>=1.2.2",
-    "setuptools>=82.0.0",
-    "undetected-chromedriver>=3.5.5",
+  "beautifulsoup4>=4.14.3",
+  "html2text>=2025.4.15",
+  "markdownify>=1.2.2",
+  "setuptools>=82.0.0",
+  "undetected-chromedriver>=3.5.5",
 ]
 
 [dependency-groups]
-dev = [
-    "ruff>=0.9.1",
-]
+dev = ["ruff>=0.9.1"]
 
 [tool.ruff]
 line-length = 100

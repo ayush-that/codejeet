@@ -75,7 +75,6 @@ Cloud providers like Amazon, Google, and Microsoft aim for SLAs (Service Level A
 ### Estimations
 
 1. **Query Per Second (QPS):**
-
    - DAU = \( 300M x 50\% = 150M \)
    - Tweets QPS = \( 150M x 2 tweets / 24 hour / 3600 seconds = ~3500 )
    - Peak QPS = \( 2 x 3500 = ~7000 \)

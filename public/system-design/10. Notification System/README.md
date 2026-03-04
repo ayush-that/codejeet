@@ -39,7 +39,6 @@ The chapter focuses on designing a scalable system capable of sending millions o
 ### Components
 
 1. **Notification Types:**
-
    - **iOS Push Notifications:** Use **Apple Push Notification Service (APNS)**.
    - **Android Push Notifications:** Use **Firebase Cloud Messaging (FCM)**.
    - **SMS Messages:** Third-party services like Twilio or Nexmo.
@@ -49,7 +48,6 @@ The chapter focuses on designing a scalable system capable of sending millions o
    <div style="margin-left:3rem">
       <img src="./images/contact-info-gathering.png" alt="Contact Info Gathering" width="500">
    </div>
-
    - Collect device tokens, phone numbers, or email addresses during app installation or signup.
    - Store contact info in the database:
      - **Device Tokens Table:** For push notifications.
@@ -60,7 +58,6 @@ The chapter focuses on designing a scalable system capable of sending millions o
    <div style="margin-left:3rem">
       <img src="./images/high-level-design.png" alt="High Level Design" width="500">
    </div>
-
    - **Trigger Services:**
      - Generate events to initiate notifications (e.g., billing reminders, shipping updates).
      - A service can be a micro-service, a cron job, or a distributed system that triggers notification sending events.
@@ -98,7 +95,6 @@ The chapter focuses on designing a scalable system capable of sending millions o
    <div style="margin-left:3rem">
    <img src="./images/data-loss.png" alt="Data Loss" width="400">
    </div>
-
    - Persist notification data in a database and implement a retry mechanism.
    - The Notification log database is included for data persistence.
 

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import Navbar from "@/components/Navbar";
@@ -10,11 +11,30 @@ const jakarta = Plus_Jakarta_Sans({
   variable: "--font-jakarta",
 });
 
+export const metadata: Metadata = {
+  metadataBase: new URL("https://codejeet.com"),
+  title: {
+    default: "CodeJeet - Company-wise LeetCode Interview Questions",
+    template: "%s | CodeJeet",
+  },
+  description:
+    "Browse 17,000+ company-wise LeetCode DSA interview questions from 660+ companies. " +
+    "Filter by company, topic, and difficulty. Practice smarter for your next tech interview.",
+  openGraph: {
+    type: "website",
+    siteName: "CodeJeet",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+  },
+  robots: { index: true, follow: true },
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <link rel="icon" href="./icon.svg" />
         <link rel="preload" href="/image1.webp" as="image" type="image/webp" />
         <link rel="preload" href="/image2.webp" as="image" type="image/webp" />
       </head>

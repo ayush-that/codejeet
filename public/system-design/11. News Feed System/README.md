@@ -42,7 +42,6 @@ The design includes two main flows:
 ### News Feed APIs
 
 1. **Feed Publishing API:**
-
    - **Endpoint:** `POST /v1/me/feed`
    - **Params:** `content` (post text) and `auth_token` (authentication).
 
@@ -85,12 +84,10 @@ The design includes two main flows:
 ### Feed Publishing Deep Dive
 
 1. **Web Servers:**
-
    - Authenticate users using `auth_token`.
    - Enforce rate limits to prevent spam.
 
 2. **Fanout Service:**
-
    - **Fanout on Write:** Push posts to friends’ feeds at write time.
      - **Pros:** Real-time updates, fast feed retrieval.
      - **Cons:** Resource-intensive for users with many friends.
@@ -102,7 +99,6 @@ The design includes two main flows:
         <img src="./images/feed-publishing-deep-dive.png" alt="Feed Publishing Deep Dive" width="500">
 
    The **fanout service** works as following:
-
    1. **Fetch Friend IDs:** Retrieve the friend list from a graph database.
    2. **Filter Friends from Cache:** Access user settings in the cache to exclude certain friends (e.g., muted friends or selective sharing preferences).
    3. **Send to Message Queue:** Send the filtered friend list along with the new post ID to a message queue for processing.

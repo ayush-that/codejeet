@@ -25,7 +25,6 @@ This chapter introduces a **4-step framework** for navigating system design inte
 ### Approach
 
 - **Ask Clarifying Questions:**
-
   - What are the most important features?
   - What scale does the system need to handle?
   - Are we building for web, mobile, or both?
@@ -55,12 +54,10 @@ This chapter introduces a **4-step framework** for navigating system design inte
 ### Approach
 
 - **Draft a Blueprint:**
-
   - Use box diagrams for key components (e.g., clients, APIs, databases, caches, CDNs).
   - Treat the interviewer as a teammate to refine the design.
 
 - **Perform Back-of-the-Envelope Calculations:**
-
   - Ensure the design can handle the scale constraints.
 
 - **Walk Through Use Cases:** Identify edge cases and validate design assumptions.

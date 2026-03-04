@@ -70,7 +70,6 @@ YouTube is a massive video streaming platform supporting video uploads, playback
 #### 1. Video Uploading Flow
 
 - **Parallel Processes:**
-
   1. Upload video to original storage.
   2. Update video metadata in the database.
 
@@ -79,7 +78,6 @@ YouTube is a massive video streaming platform supporting video uploads, playback
     <div style="margin-left:3rem">
         <img src="./images/video-uploading-flow.png" alt="Video Upload Flow" width="500">
     </div>
-
   - [1] Videos are uploaded to blob storage.
   - [2] Transcoding servers convert videos to multiple formats.
   - [3] One trasncoding is complete, following two steps are exectued in parallel.
@@ -93,7 +91,6 @@ YouTube is a massive video streaming platform supporting video uploads, playback
     <div style="margin-left:3rem">
         <img src="./images/metadata-upload.png" alt="Metadata Upload" height="500">
     </div>
-
   - The client in parallel sends a request to update the video metadata
   - The request contains video metadata, including file name, size, format, etc.
 
@@ -152,7 +149,6 @@ YouTube is a massive video streaming platform supporting video uploads, playback
     <div style="margin-left: 3em;">
         <img src="./images/dag-config.png" alt="DAG Config" width="500">
     </div>
-
     - Video splitting: Video stream is split or further split into smaller Group of Pictures (GOP) alignment.
     - It split videos by GOP alignment for old clients.
     - It generates DAG based on configuration files client programmers write.
@@ -162,7 +158,6 @@ YouTube is a massive video streaming platform supporting video uploads, playback
     <div style="margin-left: 3em;">
         <img src="./images/dag-scheduler.png" alt="DAG Scheduler" width="500">
     </div>
-
     - It splits a DAG graph into stages of tasks and puts them in the task queue in the resource manager.
     - Stage 1: video, audio, and metadata.
     - The video file is further split into two tasks in stage 2: video encoding and thumbnail.
@@ -182,7 +177,6 @@ YouTube is a massive video streaming platform supporting video uploads, playback
      <div style="margin-left: 3em;">
          <img src="./images/task-worker.png" alt="Task Worker" width="250">
     </div>
-
     - Different task workers may run different tasks
 
 5.  **Temporary Storage:** Stores intermediate data for retries.

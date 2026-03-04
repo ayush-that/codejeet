@@ -120,7 +120,6 @@ A potiential improvement is to build index on logitude and latitude columns, alh
 
 - The problem with last approach is that the database index can only increase search speed in one dimension.
 - An optimal apporach is to reprsent the two-dimensional data into one dimension using geospatial indexing.
-
   - Hash: Even grid, Geo Hash
   - Tree: Quadtree, Google S2, RTree
 
@@ -160,7 +159,6 @@ A potiential improvement is to build index on logitude and latitude columns, alh
   <div style="margin-left:3rem">
     <img src="./images/boundary-issue.png" alt="Boundary Issue" width="300" />
   </div>
-
   - **Boundary issues** (businesses close to grid edges may get excluded).
     - Two locations can be very close but have no shared prefix at all (can be on other side of equator)
     - Two locations can have a long shared prefix but belong to different geohashes.
@@ -285,21 +283,17 @@ This final algorithm looks like this:
 ## Steps to Retrieve Nearby Businesses
 
 1. **User Request:**
-
    - A user searches for restaurants within **500 meters**.
    - The client sends **latitude (37.776720), longitude (-122.416730), and radius (500m)** to the **load balancer**.
 
 2. **Request Forwarding:**
-
    - The **load balancer (LB)** forwards the request to the **Location-Based Service (LBS)**.
 
 3. **Geohash Calculation:**
-
    - LBS determines the **geohash length** matching the radius.
    - Using a reference table, **500m corresponds to geohash length = 6**.
 
 4. **Fetching Neighboring Geohashes:**
-
    - LBS calculates **neighboring geohashes** to include nearby areas.
    - The result is a list:
      ```
@@ -307,7 +301,6 @@ This final algorithm looks like this:
      ```
 
 5. **Fetching Business IDs from Redis:**
-
    - For each geohash in the list, LBS queries the **Geohash Redis server** to fetch **business IDs**.
    - Parallel queries are used to minimize latency.
 

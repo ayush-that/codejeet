@@ -1,0 +1,100 @@
+/* Code blocks — mono font + theme-matched syntax highlighting */
+
+pre code,
+pre code.hljs {
+  font-family:
+    "JetBrains Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono",
+    monospace;
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+
+/* Base: match site background */
+pre code.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 1.25rem;
+  background: oklch(0.14 0 285.86); /* --background */
+  color: oklch(0.85 0 0);
+}
+
+/* Keywords: if, for, return, function, class, etc. */
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-built_in,
+.hljs-type {
+  color: oklch(0.72 0.18 310); /* soft purple */
+}
+
+/* Strings */
+.hljs-string,
+.hljs-attr,
+.hljs-template-variable,
+.hljs-addition {
+  color: oklch(0.75 0.15 160); /* green */
+}
+
+/* Numbers, booleans, null */
+.hljs-number,
+.hljs-literal {
+  color: oklch(0.78 0.14 65); /* amber */
+}
+
+/* Function/method names */
+.hljs-title,
+.hljs-title.function_ {
+  color: oklch(0.78 0.16 230); /* blue */
+}
+
+/* Comments */
+.hljs-comment,
+.hljs-quote {
+  color: oklch(0.5 0 0);
+  font-style: italic;
+}
+
+/* Class names, types */
+.hljs-title.class_ {
+  color: oklch(0.82 0.14 80); /* yellow */
+}
+
+/* Variables, params */
+.hljs-variable,
+.hljs-params {
+  color: oklch(0.85 0.06 250); /* light blue-gray */
+}
+
+/* Operators, punctuation */
+.hljs-operator,
+.hljs-punctuation {
+  color: oklch(0.7 0 0);
+}
+
+/* Meta, annotations, decorators */
+.hljs-meta,
+.hljs-meta .hljs-keyword {
+  color: oklch(0.65 0.2 25); /* orange-red */
+}
+
+/* Deletions */
+.hljs-deletion {
+  color: oklch(0.65 0.2 25);
+}
+
+/* Emphasis */
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: 700;
+}
+
+/* Inline code in prose */
+.prose :where(code):not(:where(pre *)) {
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  font-size: 0.85em;
+  padding: 0.15em 0.35em;
+  border-radius: 0.25rem;
+  background: oklch(0.21 0.01 285.93 / 0.6);
+}

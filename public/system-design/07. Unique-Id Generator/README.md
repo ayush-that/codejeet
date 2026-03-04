@@ -45,7 +45,6 @@ This chapter addresses the challenge of designing a **unique ID generator** for 
 ### 2. UUID (Universally Unique Identifier)
 
 - **Approach:**
-
   - Generate 128-bit unique identifiers independently on each server using UUID.
   - UUIDs can be generated independently without coordination between servers
 
@@ -85,7 +84,6 @@ This chapter addresses the challenge of designing a **unique ID generator** for 
     <div style="margin-left:3rem">
       <img src="./images/snowflake-id-breakdown.png"  alt="Snowflake ID breakdow" width="500">
     </div>
-
   - Divide IDs into sections to ensure uniqueness and scalability.
   - **Sign Bit (1 bit):** Always `0`, potentially distinguishing signed and unsigned numbers.
   - **Timestamp (41 bits):** Milliseconds since a custom epoch (Twitter's default is `1288834974657`, equivalent to Nov 04, 2010, 01:42:54 UTC). Ensures IDs are time-ordered.
