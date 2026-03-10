@@ -1,100 +1,192 @@
 ---
 title: "Dynamic Programming Questions at PayPal: What to Expect"
 description: "Prepare for Dynamic Programming interview questions at PayPal — patterns, difficulty breakdown, and study tips."
-date: "2028-05-18"
+date: "2028-05-10"
 category: "dsa-patterns"
 tags: ["paypal", "dynamic-programming", "interview prep"]
 ---
 
-Dynamic Programming (DP) is a core algorithmic technique for optimizing decisions over time or sequences, making it directly relevant to financial technology. At PayPal, with its focus on payments, risk analysis, fraud detection, and transaction optimization, DP is used to model complex, state-dependent problems efficiently. For example, calculating optimal currency conversion paths, minimizing transaction settlement times, or evaluating sequences of user behaviors for risk scoring can all be framed as DP problems. Mastering DP demonstrates your ability to handle overlapping subproblems and optimal substructure—key to writing performant systems at scale. Out of 106 total coding questions in PayPal's interview repertoire, 19 are DP problems, indicating its significant weight in their technical evaluation.
+Dynamic Programming at PayPal isn't just another algorithm topic to check off—it's a critical filter. With 19 DP questions in their known problem set of 106, that's roughly 18% of their technical question bank. In my experience conducting and analyzing interviews, DP questions at PayPal serve a specific purpose: they test a candidate's ability to model complex, stateful business logic—like calculating optimal transaction fees, minimizing risk in fraud detection pathways, or allocating resources in a financial system—into a clean, efficient computational solution. You won't get DP in every interview, but when you do, it's often in the second or third round with a senior engineer, and it's used to separate the strong candidates from the exceptional ones. The difficulty tends to be medium to hard; they're less interested in you memorizing "Minimum Path Sum" and more interested in seeing you _derive_ a DP solution for a problem you've likely never seen before.
 
-## What to Expect — Types of Problems
+## Specific Patterns PayPal Favors
 
-PayPal's DP questions typically fall into three categories, emphasizing practical applications over purely academic puzzles.
+PayPal's DP questions heavily favor **iterative, bottom-up tabulation** over recursive memoization. This mirrors real-world financial systems where stack depth is a concern and iterative loops are more performant and debuggable. The patterns cluster around a few core areas:
 
-1.  **String/Sequence Analysis:** These are among the most common. You might be asked to find the longest common subsequence (relevant for data matching or diff algorithms), edit distance (useful in fuzzy matching of transaction descriptions or user inputs), or count distinct subsequences. They test your ability to work with two-dimensional state representing indices in two strings or sequences.
-2.  **Knapsack & Resource Allocation:** Problems involving making optimal selections given constraints, like the classic 0/1 Knapsack or its variants. At PayPal, this could analogize to selecting a set of transactions to batch process under a time limit or allocating server resources to maximize throughput. These problems require thinking in terms of weight/value and capacity.
-3.  **Pathfinding & State Transition:** Problems like unique paths, minimum path sum, or climbing stairs. While seemingly simple, they test your grasp of state definition and transition. In a financial context, this pattern can model state machines for payment status flows or grid-based optimization in UI routing.
+1.  **Classic 1D/2D Sequence DP:** Problems like "Decode Ways" (#91) or "Longest Increasing Subsequence" (#300) are common because they model parsing financial messages or finding optimal transaction sequences.
+2.  **Knapsack & Subset Problems:** Given PayPal's core business of moving money, problems about partitioning sums or making selections with constraints are highly relevant. Think "Partition Equal Subset Sum" (#416) or "Coin Change" (#322).
+3.  **String & Interleaving DP:** Questions like "Interleaving String" (#97) or "Edit Distance" (#72) test your ability to handle complex state transitions between two sequences—analogous to reconciling two data streams or payment ledgers.
 
-The problems are designed to be challenging but solvable within a 30-45 minute interview slot. Interviewers look for your ability to identify the DP pattern, correctly define the state and recurrence relation, and then implement it efficiently, often moving from a recursive memoization solution to an iterative tabulation one.
+You'll notice a distinct _lack_ of highly abstract graph DP (like "Cherry Pickup" (#741)) or exotic DP on trees. Their problems are grounded and often have a clear analogy to a financial domain.
 
-## How to Prepare — Study Tips with One Code Example
+## How to Prepare
 
-Start by solidifying the fundamentals: understand what defines a DP problem (overlapping subproblems, optimal substructure). Memorization is not enough; you must learn to derive the solution. Follow this process for every problem:
+The key is to master the framework, not just the problems. For any DP problem, your thought process should be: 1) Define the state (`dp[i]` or `dp[i][j]` means what?), 2) Define the base case (the smallest, trivial answer), 3) Define the transition (how does state `i` relate to state `i-1` or `i-k`?), and 4) Determine the iteration order.
 
-1.  **Define the State:** What does `dp[i]` or `dp[i][j]` represent? Be precise.
-2.  **Define the Recurrence Relation:** How does `dp[i]` relate to previous states (e.g., `dp[i-1]`, `dp[i-2]`)?
-3.  **Base Cases:** What are the smallest, simplest states you can define directly?
-4.  **Order of Computation:** In which order should states be computed to ensure needed subproblems are solved?
-5.  **Final Answer:** Which state holds the solution?
-
-A critical pattern is the **"Two-State Sequence DP"** used in problems like "House Robber" (relevant to selecting non-adjacent transactions for review). The state often represents the maximum value achievable up to a certain point, with the recurrence choosing between including or excluding the current element.
+Let's look at the most fundamental pattern: **1D Sequence DP**, as seen in "Climbing Stairs" (#70). The state `dp[i]` represents the number of ways to reach step `i`.
 
 <div class="code-group">
 
 ```python
-def rob(nums):
-    # dp[i] = max money robbing up to house i
-    if not nums:
-        return 0
-    n = len(nums)
-    if n == 1:
-        return nums[0]
+def climbStairs(n: int) -> int:
+    # dp[i] = number of ways to reach step i
+    # Base cases: 1 way to be at step 0 (do nothing), 1 way to reach step 1 (single step)
+    if n <= 1:
+        return 1
 
-    dp = [0] * n
-    dp[0] = nums[0]
-    dp[1] = max(nums[0], nums[1])
+    # Initialize DP array. We only need the last two states, so space can be optimized to O(1).
+    dp = [0] * (n + 1)
+    dp[0], dp[1] = 1, 1
 
-    for i in range(2, n):
-        # Recurrence: rob current house + dp[i-2] OR skip it (dp[i-1])
-        dp[i] = max(dp[i-1], nums[i] + dp[i-2])
+    # Transition: To get to step i, you came from either step i-1 or step i-2.
+    for i in range(2, n + 1):
+        dp[i] = dp[i - 1] + dp[i - 2]
 
-    return dp[n-1]
+    return dp[n]
+# Time: O(n) | Space: O(n) [Optimizable to O(1)]
 ```
 
 ```javascript
-function rob(nums) {
-  if (nums.length === 0) return 0;
-  if (nums.length === 1) return nums[0];
+function climbStairs(n) {
+  if (n <= 1) return 1;
 
-  const dp = new Array(nums.length);
-  dp[0] = nums[0];
-  dp[1] = Math.max(nums[0], nums[1]);
+  let dp = new Array(n + 1).fill(0);
+  dp[0] = 1;
+  dp[1] = 1;
 
-  for (let i = 2; i < nums.length; i++) {
-    dp[i] = Math.max(dp[i - 1], nums[i] + dp[i - 2]);
+  for (let i = 2; i <= n; i++) {
+    dp[i] = dp[i - 1] + dp[i - 2];
   }
 
-  return dp[nums.length - 1];
+  return dp[n];
 }
+// Time: O(n) | Space: O(n)
 ```
 
 ```java
-public int rob(int[] nums) {
-    if (nums.length == 0) return 0;
-    if (nums.length == 1) return nums[0];
+public int climbStairs(int n) {
+    if (n <= 1) return 1;
 
-    int[] dp = new int[nums.length];
-    dp[0] = nums[0];
-    dp[1] = Math.max(nums[0], nums[1]);
+    int[] dp = new int[n + 1];
+    dp[0] = 1;
+    dp[1] = 1;
 
-    for (int i = 2; i < nums.length; i++) {
-        dp[i] = Math.max(dp[i - 1], nums[i] + dp[i - 2]);
+    for (int i = 2; i <= n; i++) {
+        dp[i] = dp[i - 1] + dp[i - 2];
     }
 
-    return dp[nums.length - 1];
+    return dp[n];
 }
+// Time: O(n) | Space: O(n)
 ```
 
 </div>
 
+The next pattern to internalize is the **0/1 Knapsack** pattern, which is the engine behind "Partition Equal Subset Sum" (#416). Here, `dp[i][j]` (or a 1D array `dp[j]`) asks: "Can we make sum `j` using the first `i` items?"
+
+<div class="code-group">
+
+```python
+def canPartition(nums: List[int]) -> bool:
+    total = sum(nums)
+    if total % 2 != 0:
+        return False
+    target = total // 2
+
+    # dp[j] = Can we make sum j using the numbers considered so far?
+    dp = [False] * (target + 1)
+    dp[0] = True  # Base case: sum of 0 is always possible (choose no numbers)
+
+    for num in nums:
+        # Iterate backwards to avoid re-using the same number in this iteration
+        for j in range(target, num - 1, -1):
+            if dp[j - num]:  # If we could make sum (j - num) before, we can make sum j now by adding num
+                dp[j] = True
+        if dp[target]:  # Early exit
+            return True
+    return dp[target]
+# Time: O(n * target) | Space: O(target)
+```
+
+```javascript
+function canPartition(nums) {
+  const total = nums.reduce((a, b) => a + b, 0);
+  if (total % 2 !== 0) return false;
+  const target = total / 2;
+
+  const dp = new Array(target + 1).fill(false);
+  dp[0] = true;
+
+  for (const num of nums) {
+    for (let j = target; j >= num; j--) {
+      if (dp[j - num]) {
+        dp[j] = true;
+      }
+    }
+    if (dp[target]) return true;
+  }
+  return dp[target];
+}
+// Time: O(n * target) | Space: O(target)
+```
+
+```java
+public boolean canPartition(int[] nums) {
+    int total = 0;
+    for (int num : nums) total += num;
+    if (total % 2 != 0) return false;
+    int target = total / 2;
+
+    boolean[] dp = new boolean[target + 1];
+    dp[0] = true;
+
+    for (int num : nums) {
+        for (int j = target; j >= num; j--) {
+            if (dp[j - num]) {
+                dp[j] = true;
+            }
+        }
+        if (dp[target]) return true;
+    }
+    return dp[target];
+}
+// Time: O(n * target) | Space: O(target)
+```
+
+</div>
+
+## How PayPal Tests Dynamic Programming vs Other Companies
+
+Compared to FAANG companies, PayPal's DP questions are less about algorithmic cleverness for its own sake and more about **applied modeling**. At Google or Meta, you might get a DP problem on an alien dictionary or a game theory puzzle. At PayPal, the problem statement, while abstracted, will often _feel_ like it could be part of a payment routing or risk assessment system. The difficulty is on par with Amazon but often requires cleaner code because the interviewer is evaluating if your solution would be maintainable in a production financial service.
+
+What's unique is the follow-up. At PayPal, after you code the solution, be prepared for a **scalability discussion**. "What if the `target` sum is in the billions?" (Discuss optimization or approximation.) "How would this function behave in a distributed system?" (Talk about state and idempotency.) They are testing your engineer mindset, not just your competitor mindset.
+
+## Study Order
+
+Tackle DP in this logical sequence to build a compounding understanding:
+
+1.  **Foundation (1D Sequence):** Start with "Climbing Stairs" (#70) and "House Robber" (#198). This teaches you state definition and simple transitions.
+2.  **String & 2D DP:** Move to "Longest Common Subsequence" (#1143) and "Edit Distance" (#72). This is crucial for PayPal-style sequence matching problems.
+3.  **Knapsack Fundamentals:** Learn the classic 0/1 Knapsack pattern via "Partition Equal Subset Sum" (#416) and "Target Sum" (#494). This is arguably the most important pattern for PayPal.
+4.  **Unbounded Knapsack & Coin Change:** Understand the variation where items can be reused, as in "Coin Change" (#322) and "Coin Change 2" (#518).
+5.  **Interval & State Machine DP:** Finally, tackle harder problems like "Best Time to Buy and Sell Stock with Cooldown" (#309), which models multi-state financial decisions.
+
 ## Recommended Practice Order
 
-Do not jump into hard problems. Build competence progressively.
+Solve these PayPal-relevant problems in sequence. Each builds on the previous pattern.
 
-1.  **Foundation:** Start with one-dimensional DP: Climbing Stairs, House Robber, Fibonacci. Focus on the state/recurrence definition.
-2.  **Core Patterns:** Move to fundamental 2D DP: Longest Common Subsequence, Edit Distance, and 0/1 Knapsack. These are the building blocks for most PayPal problems.
-3.  **Variants & Optimization:** Practice problems that are twists on the core patterns, like "Coin Change" (unbounded knapsack), "Longest Increasing Subsequence," or "Maximum Product Subarray."
-4.  **PayPal-Specific:** Finally, target the 19 PayPal-tagged DP problems. This sequence ensures you have the tools to deconstruct their specific questions.
+1.  Climbing Stairs (#70) - 1D Sequence
+2.  House Robber (#198) - 1D Sequence with a skip
+3.  Longest Increasing Subsequence (#300) - 1D Sequence with nested search
+4.  Decode Ways (#91) - 1D Sequence with conditionals
+5.  Partition Equal Subset Sum (#416) - 0/1 Knapsack
+6.  Target Sum (#494) - 0/1 Knapsack variation (convert to subset sum)
+7.  Coin Change (#322) - Unbounded Knapsack (minimization)
+8.  Coin Change 2 (#518) - Unbounded Knapsack (counting)
+9.  Longest Common Subsequence (#1143) - Classic 2D String DP
+10. Edit Distance (#72) - 2D String DP with operations
+11. Interleaving String (#97) - 2D String DP with a twist
+12. Best Time to Buy and Sell Stock with Cooldown (#309) - State Machine DP
+
+Mastering this progression will give you the toolkit and, more importantly, the flexible problem-solving approach needed to tackle the dynamic programming questions you'll encounter in a PayPal interview.
 
 [Practice Dynamic Programming at PayPal](/company/paypal/dynamic-programming)

@@ -1,135 +1,184 @@
 ---
 title: "TikTok vs Expedia: Interview Question Comparison"
 description: "Compare coding interview questions at TikTok and Expedia — difficulty levels, topic focus, and preparation strategy."
-date: "2027-04-14"
+date: "2030-01-12"
 category: "tips"
 tags: ["tiktok", "expedia", "comparison"]
 ---
 
-When preparing for technical interviews, company-specific question patterns reveal what skills they prioritize. TikTok and Expedia, while both assessing core data structures and algorithms, present distinct challenges in volume, difficulty, and focus. Understanding these differences helps you allocate your preparation time strategically.
+# TikTok vs Expedia: A Strategic Interview Question Comparison
 
-## Question Volume and Difficulty
+If you're preparing for interviews at both TikTok and Expedia, you're looking at two fundamentally different technical assessment experiences. TikTok represents the modern, high-intensity Silicon Valley-style coding interview, while Expedia offers a more traditional, focused software engineering assessment. The key insight isn't just that TikTok has more questions—it's that the companies test differently, prioritize different skills, and have distinct interview philosophies. Preparing for both requires strategic allocation of your limited study time.
 
-The sheer scale of TikTok's question bank is its most defining characteristic. With **383 questions** reported, it dwarfs Expedia's **54 questions**. This volume indicates a highly competitive process where you might encounter a wider variety of problems, making pattern recognition less predictable.
+## Question Volume and Difficulty: A Tale of Two Approaches
 
-The difficulty distribution further highlights the intensity of TikTok's technical bar:
+The numbers tell a clear story: TikTok's 383 questions (42 Easy, 260 Medium, 81 Hard) versus Expedia's 54 questions (13 Easy, 35 Medium, 6 Hard) reveals more than just quantity differences.
 
-- **TikTok (E42/M260/H81):** Medium and Hard questions constitute **89%** of its catalog. The significant portion of Hard questions (81) signals an expectation to solve complex optimization problems under interview conditions.
-- **Expedia (E13/M35/H6):** The focus is overwhelmingly on Medium difficulty (65% of questions), with only a small number of Hard problems. This suggests a strong emphasis on foundational competency and clean implementation rather than advanced algorithmic gymnastics.
+TikTok's distribution—with 68% Medium and 21% Hard questions—signals they're testing for strong algorithmic problem-solving under pressure. The high volume suggests they have a deep question bank and expect candidates to handle novel variations. You're not just implementing known patterns; you're adapting them to new constraints.
 
-In short, TikTok's process is a marathon of challenging problems, while Expedia's is a focused sprint on core concepts.
+Expedia's distribution (65% Medium, 11% Hard) indicates they prioritize solid fundamentals over extreme optimization. The smaller question bank suggests they value depth of understanding on core concepts rather than breadth of pattern recognition. You're more likely to see classic problems with clear, optimal solutions rather than obscure variations.
 
-## Topic Overlap
+The implication: For TikTok, you need both speed and adaptability. For Expedia, you need clarity and correctness. TikTok interviews feel like a sprint; Expedia interviews feel like a measured demonstration.
 
-Both companies heavily test fundamental data structures, as seen in their top topics: **Array, String, and Hash Table**. This is the universal bedrock of coding interviews.
+## Topic Overlap: Where Your Prep Pays Double
 
-The key differentiator lies in their advanced focuses:
+Both companies heavily test **Array**, **String**, and **Hash Table** problems. This is your highest-return preparation area—every hour spent here benefits both interview processes.
 
-- **TikTok's** fourth most frequent topic is **Dynamic Programming (DP)**. This aligns with its high volume of Hard questions, as DP is a classic method for testing optimization and state management in complex scenarios.
-- **Expedia's** fourth topic is **Greedy** algorithms. This suggests a practical focus on problems where a locally optimal choice leads to a global solution, often encountered in real-world scheduling, resource allocation, and trip optimization logic relevant to a travel company.
+**Array/String patterns** both companies love:
 
-This divergence means your deep-dive topics should differ. For TikTok, mastering DP patterns (0/1 knapsack, LCS, etc.) is non-negotiable. For Expedia, proficiency in identifying when a greedy approach is applicable is crucial.
+- Two-pointer techniques (especially for sorted arrays)
+- Sliding window problems
+- Prefix sum applications
+- String manipulation with character counting
+
+**Hash Table applications** you must master:
+
+- Frequency counting problems
+- Two-sum variations (the foundational hash table problem)
+- Subarray/substring problems with constraint checking
+
+Where they diverge: TikTok's **Dynamic Programming** emphasis (81 Hard problems often involve DP) versus Expedia's **Greedy** focus. This isn't accidental—TikTok tests DP because it reveals both recursive thinking and optimization skills, while Expedia's Greedy focus aligns with practical optimization problems common in travel systems (like scheduling or resource allocation).
+
+## Preparation Priority Matrix
+
+**Study First (Maximum ROI):**
+
+1. **Array/Two-pointer patterns** - LeetCode #11 (Container With Most Water), #15 (3Sum)
+2. **Hash Table applications** - LeetCode #1 (Two Sum), #49 (Group Anagrams), #76 (Minimum Window Substring)
+3. **String manipulation** - LeetCode #3 (Longest Substring Without Repeating Characters), #424 (Longest Repeating Character Replacement)
+
+**TikTok-Specific Priority:**
+
+1. **Dynamic Programming** - Start with 1D DP (#70 Climbing Stairs, #198 House Robber), then 2D DP (#1143 Longest Common Subsequence, #72 Edit Distance)
+2. **Graph algorithms** - Many TikTok Hard problems involve DFS/BFS variations
+3. **Backtracking** - Common in their Medium-Hard range
+
+**Expedia-Specific Priority:**
+
+1. **Greedy algorithms** - LeetCode #55 (Jump Game), #122 (Best Time to Buy and Sell Stock II), #406 (Queue Reconstruction by Height)
+2. **Sorting-based solutions** - Many Expedia problems involve clever sorting
+3. **Tree traversals** - Though not in their top topics, appears in their question bank
+
+## Interview Format Differences
+
+**TikTok's coding rounds** typically involve:
+
+- 2-3 technical interviews (45-60 minutes each)
+- Often 2 problems per round (or 1 complex problem with multiple parts)
+- Heavy emphasis on optimal time/space complexity
+- Expect follow-up questions: "What if the input was streamed?" or "How would you scale this?"
+- System design is separate but expects modern distributed systems knowledge
+
+**Expedia's coding rounds** typically involve:
+
+- 1-2 technical interviews (60 minutes each)
+- Usually 1 problem with multiple test cases to handle
+- Emphasis on clean, maintainable code and edge case handling
+- More discussion about trade-offs and real-world application
+- System design questions may be integrated or lighter, focusing on practical service design
+
+The behavioral component differs too: TikTok often includes behavioral questions within technical rounds, while Expedia typically has a separate behavioral round. TikTok looks for growth mindset and impact; Expedia values collaboration and customer focus.
+
+## Specific Problem Recommendations for Both Companies
+
+These 5 problems provide exceptional cross-company preparation value:
+
+1. **LeetCode #56 (Merge Intervals)** - Tests sorting, array manipulation, and interval logic. Useful for both companies as it appears in various forms across their question banks.
 
 <div class="code-group">
 
 ```python
-# Example: A Greedy problem (Expedia's focus)
-def max_meetings(start, end):
-    meetings = sorted(zip(start, end), key=lambda x: x[1])
-    count, last_end = 0, 0
-    for s, e in meetings:
-        if s >= last_end:
-            count += 1
-            last_end = e
-    return count
+# Time: O(n log n) | Space: O(n) for output, O(1) extra
+def merge(intervals):
+    if not intervals:
+        return []
 
-# Example: A DP problem (TikTok's focus)
-def coin_change(coins, amount):
-    dp = [float('inf')] * (amount + 1)
-    dp[0] = 0
-    for i in range(1, amount + 1):
-        for coin in coins:
-            if i - coin >= 0:
-                dp[i] = min(dp[i], dp[i - coin] + 1)
-    return dp[amount] if dp[amount] != float('inf') else -1
+    # Sort by start time
+    intervals.sort(key=lambda x: x[0])
+
+    merged = []
+    for interval in intervals:
+        # If merged is empty or no overlap
+        if not merged or merged[-1][1] < interval[0]:
+            merged.append(interval)
+        else:
+            # Merge overlapping intervals
+            merged[-1][1] = max(merged[-1][1], interval[1])
+
+    return merged
 ```
 
 ```javascript
-// Example: A Greedy problem (Expedia's focus)
-function maxMeetings(start, end) {
-  const meetings = start.map((s, i) => [s, end[i]]);
-  meetings.sort((a, b) => a[1] - b[1]);
-  let count = 0,
-    lastEnd = 0;
-  for (const [s, e] of meetings) {
-    if (s >= lastEnd) {
-      count++;
-      lastEnd = e;
-    }
-  }
-  return count;
-}
+// Time: O(n log n) | Space: O(n) for output, O(1) extra
+function merge(intervals) {
+  if (!intervals.length) return [];
 
-// Example: A DP problem (TikTok's focus)
-function coinChange(coins, amount) {
-  const dp = new Array(amount + 1).fill(Infinity);
-  dp[0] = 0;
-  for (let i = 1; i <= amount; i++) {
-    for (const coin of coins) {
-      if (i - coin >= 0) {
-        dp[i] = Math.min(dp[i], dp[i - coin] + 1);
-      }
+  intervals.sort((a, b) => a[0] - b[0]);
+
+  const merged = [intervals[0]];
+
+  for (let i = 1; i < intervals.length; i++) {
+    const last = merged[merged.length - 1];
+    const current = intervals[i];
+
+    if (last[1] < current[0]) {
+      merged.push(current);
+    } else {
+      last[1] = Math.max(last[1], current[1]);
     }
   }
-  return dp[amount] === Infinity ? -1 : dp[amount];
+
+  return merged;
 }
 ```
 
 ```java
-// Example: A Greedy problem (Expedia's focus)
-public int maxMeetings(int[] start, int[] end) {
-    int[][] meetings = new int[start.length][2];
-    for (int i = 0; i < start.length; i++) {
-        meetings[i][0] = start[i];
-        meetings[i][1] = end[i];
-    }
-    Arrays.sort(meetings, (a, b) -> Integer.compare(a[1], b[1]));
-    int count = 0, lastEnd = 0;
-    for (int[] meeting : meetings) {
-        if (meeting[0] >= lastEnd) {
-            count++;
-            lastEnd = meeting[1];
-        }
-    }
-    return count;
-}
+// Time: O(n log n) | Space: O(n) for output, O(1) extra
+public int[][] merge(int[][] intervals) {
+    if (intervals.length <= 1) return intervals;
 
-// Example: A DP problem (TikTok's focus)
-public int coinChange(int[] coins, int amount) {
-    int[] dp = new int[amount + 1];
-    Arrays.fill(dp, amount + 1);
-    dp[0] = 0;
-    for (int i = 1; i <= amount; i++) {
-        for (int coin : coins) {
-            if (i - coin >= 0) {
-                dp[i] = Math.min(dp[i], dp[i - coin] + 1);
-            }
+    Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
+
+    List<int[]> merged = new ArrayList<>();
+    int[] current = intervals[0];
+    merged.add(current);
+
+    for (int[] interval : intervals) {
+        if (interval[0] <= current[1]) {
+            current[1] = Math.max(current[1], interval[1]);
+        } else {
+            current = interval;
+            merged.add(current);
         }
     }
-    return dp[amount] > amount ? -1 : dp[amount];
+
+    return merged.toArray(new int[merged.size()][]);
 }
 ```
 
 </div>
 
+2. **LeetCode #238 (Product of Array Except Self)** - Excellent array manipulation problem that tests your ability to think about prefix/suffix patterns without division. Tests fundamental array skills both companies value.
+
+3. **LeetCode #253 (Meeting Rooms II)** - Combines sorting, heap/priority queue usage, and interval logic. The heap approach is particularly valuable for TikTok's emphasis on optimal data structure selection.
+
+4. **LeetCode #5 (Longest Palindromic Substring)** - Covers string manipulation, two-pointer techniques, and has both brute-force and optimized (expand around center) solutions. Great for discussing trade-offs.
+
+5. **LeetCode #139 (Word Break)** - Bridges both companies' interests: DP approach for TikTok, but also has greedy-like thinking for Expedia. The memoization vs tabulation discussion is valuable for both.
+
 ## Which to Prepare for First
 
-Your preparation order should be dictated by your interview timeline and the principle of **progressive overload**.
+**Prepare for TikTok first, then adapt for Expedia.** Here's why:
 
-**Prepare for Expedia first if you are early in your interview practice.** Its question set is a perfect training ground. Mastering its core Array, String, Hash Table, and Greedy problems will build a strong foundation. Solving most of its 54 questions is a feasible and confidence-boosting milestone.
+TikTok's broader, deeper question bank means that preparing for TikTok will naturally cover most of Expedia's requirements. If you can solve TikTok's Medium-Hard problems, Expedia's Medium problems will feel manageable. The reverse isn't true—preparing only for Expedia leaves you underprepared for TikTok's intensity.
 
-**Prepare for TikTok only after you have a robust foundation.** Treat it as an advanced tier of study. The vast number of Medium and Hard questions, especially in DP, requires you to be very comfortable with fundamentals before tackling them efficiently. Use TikTok's problems to stress-test your skills and improve your performance under pressure.
+**Strategic timeline:**
 
-Ultimately, a solid Expedia-level preparation is a subset of what's needed for TikTok. Starting with Expedia's focused list builds competency; expanding to TikTok's extensive catalog builds mastery.
+1. Weeks 1-3: Master the shared fundamentals (Array, String, Hash Table)
+2. Weeks 4-5: Dive deep into TikTok's unique emphasis (Dynamic Programming, advanced graph problems)
+3. Week 6: Review Expedia's specific focus (Greedy algorithms, practical optimization)
+4. Final days: Practice TikTok's pacing (2 problems in 45 minutes) and Expedia's depth (1 problem with thorough discussion)
 
-For detailed question lists and patterns, visit the company pages: [TikTok Interview Questions](/company/tiktok) and [Expedia Interview Questions](/company/expedia).
+Remember: TikTok preparation makes you stronger for Expedia, but you still need to adjust your approach. In TikTok interviews, lead with the optimal solution. In Expedia interviews, walk through your thought process more deliberately, discussing alternatives even if you know the optimal approach immediately.
+
+For company-specific question lists and recent interview experiences, check our [TikTok interview guide](/company/tiktok) and [Expedia interview guide](/company/expedia).

@@ -1,83 +1,133 @@
 ---
 title: "Array Questions at LinkedIn: What to Expect"
 description: "Prepare for Array interview questions at LinkedIn — patterns, difficulty breakdown, and study tips."
-date: "2027-10-11"
+date: "2027-10-03"
 category: "dsa-patterns"
 tags: ["linkedin", "array", "interview prep"]
 ---
 
-Array questions dominate LinkedIn’s technical interview landscape, making up roughly 40% of their problem catalog. This emphasis isn’t arbitrary. LinkedIn’s core products—the news feed, connection graphs, job listings, and messaging systems—rely heavily on efficient data sequencing, real-time updates, and in-memory processing of ordered data. Whether it’s ranking feed updates, managing user connections, or processing batches of profile data, the fundamental operations of searching, sorting, filtering, and traversing sequences are performed on array-like structures daily. Mastering arrays is therefore not just about solving algorithm puzzles; it’s about demonstrating the foundational skill needed to work on LinkedIn’s primary data pipelines and features.
+## Why Array Questions Dominate at LinkedIn
 
-## What to Expect — Types of Problems
+If you're preparing for a LinkedIn interview, you should know this: out of their 180 tagged problems on LeetCode, 70 are Array-based. That's nearly 40%. This isn't a coincidence. Arrays are the fundamental data structure for representing sequences, intervals, user feeds, connection lists, and time-series data — all core to LinkedIn's products. When I interviewed there, every technical round touched an array problem, either directly or as part of a larger system design. They test arrays not as academic exercises, but as proxies for real-world data manipulation you'd encounter while building features like "People You May Know," job recommendation feeds, or engagement analytics dashboards.
 
-LinkedIn’s array problems tend to focus on practical applications over abstract complexity. You can generally expect a mix of these categories:
+## Specific Patterns LinkedIn Favors
 
-- **Two Pointers & Sliding Window:** Extremely common for problems involving sorted data, subarrays, or removing duplicates. Think merging sorted lists, finding a contiguous subarray meeting a condition (e.g., maximum sum, target average), or the classic "two sum" in a sorted array.
-- **Sorting & Searching:** Questions often test your ability to leverage sorting to simplify a problem or implement efficient search variants. Examples include finding the intersection of arrays, meeting scheduler problems, or finding a missing element.
-- **In-Place Array Manipulation:** A key pattern for optimizing space to O(1). Problems may ask you to move zeros, remove elements, or rearrange items (like the Dutch National Flag problem) without allocating extra space.
-- **Prefix Sum or Running Aggregates:** Useful for questions about subarray sums or averages where you need to answer many queries efficiently.
-- **Simulation & Matrix Traversal:** Since a 2D array (matrix) is just an array of arrays, you’ll encounter problems involving spiral order, rotation, or searching in a 2D sorted matrix.
+LinkedIn's array problems have a distinct flavor. They heavily favor **interval merging, two-pointer techniques, and sorting-based solutions** over complex dynamic programming or obscure data structures. The problems often model real platform scenarios: merging overlapping availability slots (Calendar), deduplicating sorted feed items, or finding connection distances.
 
-## How to Prepare — Study Tips with One Code Example
+You'll see these patterns repeatedly:
 
-Focus on pattern recognition, not memorization. For each problem type above, learn the core technique and practice its variations. Always discuss time and space complexity first. A highly effective strategy is to master the **Two Pointers** pattern, as it’s versatile and frequently appears.
+1.  **Merge Intervals:** This is arguably LinkedIn's signature pattern. Problems like **Merge Intervals (#56)** and **Insert Interval (#57)** appear constantly because they map directly to scheduling features.
+2.  **Two-Pointers (Sorted Input):** Problems like **Remove Duplicates from Sorted Array (#26)** and **Two Sum II - Input Array Is Sorted (#167)** are common. They test efficient in-place manipulation, crucial for processing large, sorted datasets like user logs.
+3.  **Prefix Sum / Running Aggregation:** Questions like **Maximum Subarray (#53)** (Kadane's Algorithm) and **Product of Array Except Self (#238)** test your ability to derive insights from sequential data without nested loops — a key skill for analytics roles.
 
-Consider the classic problem: **Given a sorted array, remove duplicates in-place such that each element appears at most twice, and return the new length.**
+Notice what's _not_ heavily emphasized: complex graph traversal (though it exists), recursive DP with memoization, or advanced tree rotations. LinkedIn's array questions are practical.
 
-The efficient approach uses a slow pointer to build the "valid" array and a fast pointer to scan through the original. This is O(n) time and O(1) space.
+## How to Prepare: Master the Interval Merge
+
+The interval merge pattern is non-negotiable. Let's break down the universal template. The core insight is to sort by the start time, then iterate, merging when the current interval starts before or at the end of the previous merged interval.
 
 <div class="code-group">
 
 ```python
-def removeDuplicates(nums):
-    if len(nums) <= 2:
-        return len(nums)
-    slow = 2  # Start from the third position
-    for fast in range(2, len(nums)):
-        if nums[fast] != nums[slow - 2]:  # Allow at most two duplicates
-            nums[slow] = nums[fast]
-            slow += 1
-    return slow
+def merge(intervals):
+    """
+    Merge overlapping intervals.
+    Time: O(n log n) due to sorting. Space: O(n) for output (or O(1) extra space).
+    """
+    if not intervals:
+        return []
+
+    # Sort by the start value
+    intervals.sort(key=lambda x: x[0])
+
+    merged = []
+    for interval in intervals:
+        # If merged is empty or no overlap, append
+        if not merged or merged[-1][1] < interval[0]:
+            merged.append(interval)
+        else:
+            # There is overlap, merge by updating the end
+            merged[-1][1] = max(merged[-1][1], interval[1])
+
+    return merged
 ```
 
 ```javascript
-function removeDuplicates(nums) {
-  if (nums.length <= 2) return nums.length;
-  let slow = 2;
-  for (let fast = 2; fast < nums.length; fast++) {
-    if (nums[fast] !== nums[slow - 2]) {
-      nums[slow] = nums[fast];
-      slow++;
+function merge(intervals) {
+  // Time: O(n log n) | Space: O(n) for output (or O(log n) extra for sort)
+  if (intervals.length === 0) return [];
+
+  intervals.sort((a, b) => a[0] - b[0]);
+
+  const merged = [];
+  for (let interval of intervals) {
+    if (merged.length === 0 || merged[merged.length - 1][1] < interval[0]) {
+      merged.push(interval);
+    } else {
+      merged[merged.length - 1][1] = Math.max(merged[merged.length - 1][1], interval[1]);
     }
   }
-  return slow;
+  return merged;
 }
 ```
 
 ```java
-public int removeDuplicates(int[] nums) {
-    if (nums.length <= 2) return nums.length;
-    int slow = 2;
-    for (int fast = 2; fast < nums.length; fast++) {
-        if (nums[fast] != nums[slow - 2]) {
-            nums[slow] = nums[fast];
-            slow++;
+public int[][] merge(int[][] intervals) {
+    // Time: O(n log n) | Space: O(n) for output (or O(log n) extra for sort)
+    if (intervals.length == 0) return new int[0][];
+
+    Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
+
+    List<int[]> merged = new ArrayList<>();
+    for (int[] interval : intervals) {
+        if (merged.isEmpty() || merged.get(merged.size() - 1)[1] < interval[0]) {
+            merged.add(interval);
+        } else {
+            merged.get(merged.size() - 1)[1] =
+                Math.max(merged.get(merged.size() - 1)[1], interval[1]);
         }
     }
-    return slow;
+    return merged.toArray(new int[merged.size()][]);
 }
 ```
 
 </div>
 
+The variation **Insert Interval (#57)** is the same pattern with a twist: you have a sorted list of non-overlapping intervals and one new interval to insert. The efficient approach is a three-phase linear scan: add all intervals ending before the new one starts, merge the new interval with any overlapping ones, then add the remaining intervals.
+
+## How LinkedIn Tests Array vs Other Companies
+
+Compared to other FAANG-tier companies, LinkedIn's array problems are less about clever trickery and more about **clean, robust implementation of business logic**. At Google, you might get an array problem that's a thin disguise for a graph search or requires a non-intuitive combinatorial insight. At Meta, array problems often tie directly to binary search or hash maps for frequency counting. LinkedIn sits in the middle: they want optimal solutions, but the path to optimization is usually through sorting or a well-chosen two-pointer strategy, not a leap of genius.
+
+The difficulty is consistent "Medium." You're unlikely to see a "Hard" array problem in a first-round phone screen. Their "Hard" problems often involve arrays combined with another concept (e.g., **LRU Cache (#146)** uses a hash map and a doubly linked list). The uniqueness is in the problem statements: they often feel like a product requirement doc. "Given a list of meeting intervals, find the minimum number of rooms required" (**Meeting Rooms II (#253)**) is a classic example — it's a direct translation of a calendar feature.
+
+## Study Order
+
+Tackle array patterns in this order to build foundational knowledge before combining concepts:
+
+1.  **Basic Traversal & Two-Pointers:** Start with **Two Sum (#1)** and **Remove Duplicates from Sorted Array (#26)**. This builds comfort with index manipulation and the idea of efficient single passes.
+2.  **Sorting & Searching:** Move to **Merge Intervals (#56)** and **Search in Rotated Sorted Array (#33)**. Sorting is the most common pre-processing step for LinkedIn's array problems.
+3.  **Running Computations (Prefix Sum/Kadane's):** Learn **Maximum Subarray (#53)** and **Product of Array Except Self (#238)**. These teach you to derive information from cumulative data.
+4.  **Matrix Traversal:** Practice **Spiral Matrix (#54)** and **Set Matrix Zeroes (#73)**. LinkedIn asks matrix questions as 2D array problems.
+5.  **Combination Patterns:** Finally, tackle problems that blend patterns, like **Meeting Rooms II (#253)** (sorting + min-heap) or **Insert Delete GetRandom O(1) (#380)** (array + hash map).
+
+This order works because it moves from single-operation techniques (pointers) to data transformation (sorting), then to stateful aggregation (prefix sums), before tackling multi-dimensional data and finally hybrid designs.
+
 ## Recommended Practice Order
 
-1.  Start with **fundamental operations**: binary search, two-sum, and basic two-pointer problems.
-2.  Move to **in-place manipulation**: removing elements, moving zeros, and the Dutch National Flag problem.
-3.  Tackle **sliding window** problems for subarrays, both fixed and variable length.
-4.  Practice **prefix sum** and basic **matrix traversal**.
-5.  Finally, combine patterns with **medium-difficulty problems** that simulate real data tasks, like merging intervals or inserting/deleting in a sorted array.
+Solve these specific problems in sequence. Each introduces a slight twist on a pattern you'll need.
 
-This progression builds the layered understanding needed to tackle LinkedIn’s array-focused interviews efficiently.
+1.  **Merge Intervals (#56)** - The foundational pattern.
+2.  **Insert Interval (#57)** - The core merge pattern applied to insertion.
+3.  **Meeting Rooms II (#253)** - Interval merging plus resource scheduling (uses a min-heap for efficiency).
+4.  **Two Sum II - Input Array Is Sorted (#167)** - Classic two-pointer on sorted input.
+5.  **Remove Duplicates from Sorted Array (#26 & #80)** - In-place manipulation mastery.
+6.  **Maximum Subarray (#53)** - Kadane's Algorithm, essential for any data analysis.
+7.  **Product of Array Except Self (#238)** - Clever prefix and suffix product accumulation.
+8.  **Spiral Matrix (#54)** - Controlled 2D traversal.
+9.  **Find First and Last Position of Element in Sorted Array (#34)** - Binary search with a twist.
+10. **LRU Cache (#146)** - Combines array-like structure (linked list) with a hash map for a classic system design problem.
+
+If you master this list, you'll have covered the vast majority of patterns LinkedIn tests in array-focused interviews. The key is to understand _why_ each solution works for the business scenario implied by the problem statement.
 
 [Practice Array at LinkedIn](/company/linkedin/array)

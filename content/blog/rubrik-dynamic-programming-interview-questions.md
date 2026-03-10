@@ -1,93 +1,133 @@
 ---
 title: "Dynamic Programming Questions at Rubrik: What to Expect"
 description: "Prepare for Dynamic Programming interview questions at Rubrik — patterns, difficulty breakdown, and study tips."
-date: "2030-04-14"
+date: "2030-04-06"
 category: "dsa-patterns"
 tags: ["rubrik", "dynamic-programming", "interview prep"]
 ---
 
-Dynamic Programming (DP) is a core algorithmic technique for optimizing solutions to complex problems by breaking them down into simpler overlapping subproblems. At Rubrik, a company specializing in data security, management, and recovery, efficient algorithms are non-negotiable. Systems must handle massive datasets, perform rapid backups, and execute precise recoveries under resource constraints. DP questions test a candidate's ability to design optimal, scalable solutions—a direct reflection of the engineering needed to build robust, performant data management platforms. With 6 out of their 37 total coding problems tagged as Dynamic Programming, mastering this paradigm is crucial for anyone interviewing in software engineering or related roles at Rubrik.
+Dynamic Programming at Rubrik isn't just another topic on a checklist—it's a fundamental lens through which they evaluate how you think about optimization and state. With 6 out of their 37 tagged problems being DP, it represents roughly 16% of their technical question pool. In practice, this means you have a significant chance of encountering at least one DP problem in your interview loop, especially in the later technical rounds where they test for algorithmic depth. Rubrik's core business—data management, backup, and recovery—involves solving complex optimization problems: scheduling backups efficiently, minimizing storage costs while ensuring recovery point objectives, or optimizing data transfer across networks. Dynamic Programming is the natural algorithmic framework for these "constrained optimization" scenarios. They're not looking for you to memorize solutions; they're testing if you can recognize when a problem has overlapping subproblems and optimal substructure, and then systematically build a solution from the ground up.
 
-## What to Expect — Types of Problems
+## Specific Patterns Rubrik Favors
 
-Rubrik's DP problems typically focus on practical optimization and combinatorial challenges. You won't encounter purely academic puzzles; expect problems grounded in logical resource allocation, pathfinding, or sequence analysis. Common categories include:
+Rubrik's DP questions tend to cluster around two main themes: **String/Sequence DP** and **Classic Knapsack-style Optimization**. You'll rarely see highly esoteric DP variations. Their problems are often clean, medium-to-hard applications of foundational patterns.
 
-- **Knapsack-style Problems:** Optimizing resource usage, such as allocating backup storage or scheduling data transfer jobs with constraints.
-- **String/Sequence DP:** Involves operations on strings or arrays, like calculating edit distance (relevant for data deduplication or delta encoding) or finding the longest common subsequence.
-- **Grid or Path Problems:** Finding minimum/maximum cost paths in a matrix, which can model network traversal or state transition costs.
-- **Partition or Decision Problems:** Splitting a dataset or task into optimal segments.
+1.  **String/Sequence Alignment & Comparison:** This is their most frequent category. Think problems like **Edit Distance (#72)**, **Longest Common Subsequence (#1143)**, or **Regular Expression Matching (#10)**. These mirror real-world tasks like data deduplication (finding common sequences) or policy matching.
+2.  **0/1 Knapsack & Partition Problems:** The second major category involves making optimal decisions with constraints. **Partition Equal Subset Sum (#416)** is a quintessential example. This pattern directly models resource allocation—splitting workloads or data across systems under capacity limits.
+3.  **1D/2D State DP:** They favor problems where the state can be represented clearly in a 1D or 2D table. Recursive solutions with memoization are acceptable, but interviewers will push you towards the more space-efficient iterative (bottom-up) tabulation approach. They want to see you derive the transition function.
 
-The problems often have a clear optimal substructure and overlapping subproblems, the two hallmarks of DP. Expect to justify both time and space complexity of your solution.
+You will _not_ typically find graph-based DP (like Floyd-Warshall) or highly complex DP on trees at Rubrik for general software engineering roles. Their focus is on applied, business-logic-adjacent optimization.
 
-## How to Prepare — Study Tips with One Code Example
+## How to Prepare
 
-Start by solidifying the core DP patterns: top-down (memoized recursion) and bottom-up (tabular iteration). Understand when to use each. For Rubrik, ensure you can not only solve a problem but also articulate the thought process from brute-force recursion to optimized DP.
+The key is to move from pattern recognition to derivation. Start every DP problem by forcing yourself to answer three questions aloud:
 
-A fundamental pattern is the **0/1 Knapsack** problem, which models selecting items with given weights and values to maximize total value without exceeding a capacity. This pattern underlies many resource optimization scenarios.
+1.  What is the **state**? (What do I need to remember?)
+2.  What is the **base case**? (What's the simplest, smallest version of this problem?)
+3.  What is the **transition/recurrence relation**? (How does the solution to a larger state depend on smaller states?)
+
+Let's look at the **Partition Equal Subset Sum (#416)** pattern, which is highly relevant. The knapsack logic is core.
 
 <div class="code-group">
 
 ```python
-def knapsack_01(values, weights, capacity):
-    n = len(values)
-    # dp[i][w] = max value using first i items with capacity w
-    dp = [[0] * (capacity + 1) for _ in range(n + 1)]
+def canPartition(nums):
+    """
+    Determines if the array can be partitioned into two subsets with equal sums.
+    Time: O(n * target) | Space: O(target) where target = sum(nums)//2
+    """
+    total = sum(nums)
+    if total % 2 != 0:
+        return False
+    target = total // 2
 
-    for i in range(1, n + 1):
-        for w in range(1, capacity + 1):
-            if weights[i-1] <= w:
-                # Option 1: Take item i-1
-                dp[i][w] = max(dp[i-1][w], values[i-1] + dp[i-1][w - weights[i-1]])
-            else:
-                # Option 2: Skip item i-1
-                dp[i][w] = dp[i-1][w]
-    return dp[n][capacity]
+    # dp[j] represents whether a subset sum of 'j' is achievable
+    dp = [False] * (target + 1)
+    dp[0] = True  # Base case: sum of 0 is always achievable (empty subset)
+
+    for num in nums:
+        # Iterate backwards to prevent re-using the same element (0/1 knapsack)
+        for j in range(target, num - 1, -1):
+            # Transition: achieve sum 'j' either by already having it (dp[j])
+            # or by achieving sum 'j - num' and adding the current num
+            dp[j] = dp[j] or dp[j - num]
+    return dp[target]
 ```
 
 ```javascript
-function knapsack01(values, weights, capacity) {
-  const n = values.length;
-  const dp = Array.from({ length: n + 1 }, () => new Array(capacity + 1).fill(0));
+function canPartition(nums) {
+  // Time: O(n * target) | Space: O(target)
+  const total = nums.reduce((a, b) => a + b, 0);
+  if (total % 2 !== 0) return false;
+  const target = total / 2;
 
-  for (let i = 1; i <= n; i++) {
-    for (let w = 1; w <= capacity; w++) {
-      if (weights[i - 1] <= w) {
-        dp[i][w] = Math.max(dp[i - 1][w], values[i - 1] + dp[i - 1][w - weights[i - 1]]);
-      } else {
-        dp[i][w] = dp[i - 1][w];
-      }
+  const dp = new Array(target + 1).fill(false);
+  dp[0] = true; // Base case
+
+  for (const num of nums) {
+    // Iterate backwards for 0/1 knapsack property
+    for (let j = target; j >= num; j--) {
+      dp[j] = dp[j] || dp[j - num];
     }
   }
-  return dp[n][capacity];
+  return dp[target];
 }
 ```
 
 ```java
-public int knapsack01(int[] values, int[] weights, int capacity) {
-    int n = values.length;
-    int[][] dp = new int[n + 1][capacity + 1];
+public boolean canPartition(int[] nums) {
+    // Time: O(n * target) | Space: O(target)
+    int total = 0;
+    for (int num : nums) total += num;
+    if (total % 2 != 0) return false;
+    int target = total / 2;
 
-    for (int i = 1; i <= n; i++) {
-        for (int w = 1; w <= capacity; w++) {
-            if (weights[i-1] <= w) {
-                dp[i][w] = Math.max(dp[i-1][w], values[i-1] + dp[i-1][w - weights[i-1]]);
-            } else {
-                dp[i][w] = dp[i-1][w];
-            }
+    boolean[] dp = new boolean[target + 1];
+    dp[0] = true; // Base case
+
+    for (int num : nums) {
+        // Iterate backwards to ensure each number is used at most once
+        for (int j = target; j >= num; j--) {
+            dp[j] = dp[j] || dp[j - num];
         }
     }
-    return dp[n][capacity];
+    return dp[target];
 }
 ```
 
 </div>
 
+For string problems, practice deriving the 2D table. For **Edit Distance**, the state `dp[i][j]` is the min operations to convert word1[0..i] to word2[0..j]. The transition considers insertion, deletion, and substitution.
+
+## How Rubrik Tests Dynamic Programming vs Other Companies
+
+Rubrik's DP questions sit in a distinctive middle ground. Compared to **Google**, which might ask a more novel, "figure-out-the-state" DP problem, Rubrik's problems are more classically structured. Compared to **Meta**, which heavily prioritizes speed and pattern matching on high-frequency problems, Rubrik allows for more deliberate derivation and discussion of the state transition. Their interviewers often act as collaborators, guiding you if you correctly identify the problem as DP but get stuck on the recurrence.
+
+The unique aspect is the **follow-up on space optimization**. At Rubrik, it's very common for the interviewer to ask, after you present a 2D DP solution, "Can we optimize the space complexity?" This tests if you truly understand the dependencies in your state transition. For example, going from a 2D table for Edit Distance to two 1D arrays or even a single 1D array is a classic Rubrik follow-up. They care about engineering efficiency, not just correctness.
+
+## Study Order
+
+Tackle DP in this order to build a compounding understanding:
+
+1.  **Foundation: Fibonacci & Climbing Stairs (#70).** Learn the difference between top-down (memoized recursion) and bottom-up (tabulation). This is where you internalize the concept of overlapping subproblems.
+2.  **1D Linear DP:** Problems like **House Robber (#198)**. Here, the state is usually `dp[i]` meaning "best answer up to index i". This solidifies defining state and simple transitions.
+3.  **Classic 0/1 Knapsack:** **Partition Equal Subset Sum (#416)** is the perfect entry point. Master the "backwards iteration" trick for space-optimized 1D DP. This pattern is a huge workhorse.
+4.  **2D String/Sequence DP:** Move to **Longest Common Subsequence (#1143)** and then **Edit Distance (#72)**. This teaches you to handle two sequences and more complex transitions.
+5.  **2D Matrix Path DP:** Problems like **Unique Paths (#62)** and **Minimum Path Sum (#64)**. These are simpler 2D states that reinforce grid-based thinking.
+6.  **Unbounded Knapsack & Coin Change:** Finally, tackle **Coin Change (#322)**. This introduces the concept of an unbounded supply (iterating forwards in the inner loop) vs. the 0/1 supply (iterating backwards).
+
 ## Recommended Practice Order
 
-1.  **Master the Fundamentals:** Solve classical problems like Fibonacci, Climbing Stairs, and 0/1 Knapsack until you can derive the DP table state and transition fluently.
-2.  **Learn Key Patterns:** Group problems by pattern: Unbounded Knapsack, Longest Common Subsequence, Longest Increasing Subsequence, Matrix Chain Multiplication, and Coin Change.
-3.  **Practice Rubrik-specific Problems:** Tackle the 6 DP problems in Rubrik's question bank. Analyze why DP is the suitable approach for each.
-4.  **Optimize Space:** Learn to reduce DP tables from 2D to 1D where possible (as in the space-optimized Knapsack solution).
-5.  **Simulate Interview Conditions:** Time yourself, explain your solution aloud, and discuss trade-offs.
+Solve these problems in sequence. Each builds on the last.
+
+1.  Climbing Stairs (#70) - Pure foundation.
+2.  House Robber (#198) - 1D state, simple decision.
+3.  Partition Equal Subset Sum (#416) - Introduction to the target-sum knapsack.
+4.  Longest Common Subsequence (#1143) - Introduction to 2D sequence DP.
+5.  Edit Distance (#72) - More complex 2D sequence transitions.
+6.  Coin Change (#322) - Unbounded knapsack variation.
+7.  (Rubrik Specific) Practice the space optimization follow-up for #72 and #416 until you can derive it on the spot.
+
+Remember, at Rubrik, the clarity of your thought process as you define the state and transition is as important as the working code. Talk through your 3-question framework (State, Base Case, Transition) for every problem.
 
 [Practice Dynamic Programming at Rubrik](/company/rubrik/dynamic-programming)

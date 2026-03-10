@@ -1,109 +1,209 @@
 ---
 title: "Dynamic Programming Questions at Expedia: What to Expect"
 description: "Prepare for Dynamic Programming interview questions at Expedia — patterns, difficulty breakdown, and study tips."
-date: "2029-06-10"
+date: "2029-06-02"
 category: "dsa-patterns"
 tags: ["expedia", "dynamic-programming", "interview prep"]
 ---
 
-Dynamic Programming (DP) is a critical skill for technical interviews at Expedia, especially for roles involving backend systems, optimization, and large-scale data processing. Expedia’s platform handles complex problems like pricing algorithms, route optimization, inventory management, and resource allocation—all areas where DP’s ability to break down overlapping subproblems and cache results leads to efficient, scalable solutions. With 7 out of their 54 total coding questions tagged as Dynamic Programming, mastering this paradigm is a significant differentiator. It signals to interviewers that you can think recursively about a problem, optimize brute-force approaches, and design systems that perform under constraints, which is essential for building the high-performance services Expedia relies on.
+Dynamic Programming at Expedia isn't just another topic on a checklist; it's a critical filter. With 7 out of their 54 total tagged questions being DP, that's roughly 13% of their problem bank. In practice, this means you have a significant chance of encountering at least one DP question in your interview loop, especially for mid-to-senior backend or full-stack roles. Why? Expedia deals with massive, complex optimization problems daily: finding the cheapest flight itineraries across multiple airlines and dates, optimizing hotel package deals, scheduling resources. These are, at their core, dynamic programming problems. An interviewer isn't just testing if you can memorize the knapsack solution; they're probing your ability to break down a complex, real-world optimization constraint into an optimal substructure and overlapping subproblems. If you can't demonstrate that systematic thinking, you likely won't pass the technical bar.
 
-## What to Expect — Types of Problems
+## Specific Patterns Expedia Favors
 
-Expedia’s DP questions typically focus on practical, high-frequency patterns rather than obscure puzzles. You can expect:
+Expedia's DP questions tend to cluster around practical optimization and sequence problems, not abstract mathematical puzzles. You'll rarely see exotic DP on trees or game theory. Instead, focus on these three core patterns:
 
-- **Knapsack & Subset Problems:** These model resource allocation, such as selecting optimal travel packages or budget-constrained feature sets. Variations include 0/1 Knapsack and Partition Equal Subset Sum.
-- **String & Sequence DP:** Common for tasks involving user inputs, itinerary matching, or data validation. Look for Longest Common Subsequence, Edit Distance, and Palindrome-related problems.
-- **1D/2D DP on Arrays:** Used for optimization over sequences, like maximizing profit from hotel bookings or minimizing costs in a scheduling system. Problems often involve House Robber, Maximum Subarray, or unique paths on a grid.
-- **Caching/Memoization of Recursive Solutions:** Many problems start as a recursive tree that can be optimized with top-down memoization, testing your ability to identify and eliminate redundant computations.
+1.  **1D/2D "Take or Skip" Decisions (Classic Knapsack):** This is their bread and butter. The problem will involve making a series of decisions (include a flight leg, select a hotel, use a coupon) with a constraint (budget, time, number of stops). The state is typically `(index, remaining_constraint)`.
+    - **LeetCode Examples:** Perfect Squares (#279), Coin Change (#322), Partition Equal Subset Sum (#416). Coin Change is a quintessential Expedia-style problem: find the minimum number of coins (flights) to make an amount (reach a destination cost).
 
-The problems are designed to assess both your algorithmic thinking and your ability to implement clean, efficient code under interview conditions.
+2.  **String/Sequence Alignment & Comparison:** This tests your ability to handle two sequences—think of comparing two travel itineraries, user query strings, or city codes. The state is usually `(i, j)` representing positions in two strings/arrays.
+    - **LeetCode Examples:** Edit Distance (#72), Longest Common Subsequence (#1143). Edit Distance is highly relevant for any company dealing with search and data matching.
 
-## How to Prepare — Study Tips with One Code Example
+3.  **State Machine DP (Buy/Sell with Cooldown):** This is an advanced but favorite pattern for senior candidates. It models problems where your available actions depend on a previous state (e.g., you can't book a flight if you're in a "cooldown" period from a cancellation, or the classic stock trading with cooldown). The state is `(index, state)` where state could be `hold`, `sold`, `cooldown`.
+    - **LeetCode Example:** Best Time to Buy and Sell Stock with Cooldown (#309).
 
-Start by understanding the core principle: DP is “smart recursion.” It avoids recomputing the same subproblem by storing its result. Follow these steps:
+Their implementation preference leans heavily toward **iterative, bottom-up tabulation**. They want to see clean, efficient, and space-optimized loops. While explaining the recursive relation is good, your final code should be the optimized DP table version.
 
-1.  **Identify the DP property:** Does the problem have overlapping subproblems and optimal substructure? Can it be broken down into smaller, similar decisions?
-2.  **Define the state:** What parameters uniquely represent a subproblem? This often becomes the index/key in your DP array or memo.
-3.  **Formulate the recurrence relation:** Write the decision logic that connects states. This is the core of the solution.
-4.  **Implement:** Choose top-down (memoized recursion) for clarity or bottom-up (tabular DP) for optimal space, and handle base cases.
+## How to Prepare
 
-A fundamental pattern is the Fibonacci sequence, which directly demonstrates overlapping subproblems. The naive recursive solution is exponentially slow, but DP optimizes it to linear time.
+The key is to internalize the framework, not just the solutions. For any DP problem, your thought process should be:
+
+1.  Define the `dp` array/state. What does `dp[i][j]` represent?
+2.  Define the base case(s). What's the smallest, trivial answer?
+3.  Define the recurrence relation. How does `dp[i][j]` depend on previous states?
+4.  Determine the iteration order. In what order must you fill the table?
+5.  (Crucial) Space Optimization. Can you reduce a 2D table to 1D?
+
+Let's look at the **Coin Change** pattern, optimized. The standard 2D DP is `dp[i][amount]`. But you can optimize it to 1D because you only need the previous row (for the "take" decision) and values earlier in the same row (for the "skip" decision).
 
 <div class="code-group">
 
 ```python
-def fib_memo(n, memo={}):
-    if n in memo:
-        return memo[n]
-    if n <= 1:
-        return n
-    memo[n] = fib_memo(n-1, memo) + fib_memo(n-2, memo)
-    return memo[n]
+def coinChange(coins, amount):
+    # dp[x] = min coins to make amount x
+    # Initialize with infinity, dp[0] = 0
+    dp = [float('inf')] * (amount + 1)
+    dp[0] = 0
 
-def fib_tab(n):
-    if n <= 1:
-        return n
-    dp = [0] * (n + 1)
-    dp[1] = 1
-    for i in range(2, n + 1):
-        dp[i] = dp[i-1] + dp[i-2]
-    return dp[n]
+    for coin in coins:  # Iterate over each coin type
+        for x in range(coin, amount + 1):  # Iterate over all achievable amounts
+            # Recurrence: min(skip this coin, take this coin + 1)
+            dp[x] = min(dp[x], dp[x - coin] + 1)
+
+    return dp[amount] if dp[amount] != float('inf') else -1
+
+# Time: O(A * C) where A = amount, C = number of coins
+# Space: O(A) for the 1D dp array
 ```
 
 ```javascript
-function fibMemo(n, memo = {}) {
-  if (n in memo) return memo[n];
-  if (n <= 1) return n;
-  memo[n] = fibMemo(n - 1, memo) + fibMemo(n - 2, memo);
-  return memo[n];
+function coinChange(coins, amount) {
+  const dp = new Array(amount + 1).fill(Infinity);
+  dp[0] = 0;
+
+  for (const coin of coins) {
+    for (let x = coin; x <= amount; x++) {
+      dp[x] = Math.min(dp[x], dp[x - coin] + 1);
+    }
+  }
+
+  return dp[amount] === Infinity ? -1 : dp[amount];
 }
 
-function fibTab(n) {
-  if (n <= 1) return n;
-  const dp = new Array(n + 1).fill(0);
-  dp[1] = 1;
-  for (let i = 2; i <= n; i++) {
-    dp[i] = dp[i - 1] + dp[i - 2];
-  }
-  return dp[n];
-}
+// Time: O(A * C) | Space: O(A)
 ```
 
 ```java
-public class Fibonacci {
-    // Top-down with memoization
-    public static int fibMemo(int n, int[] memo) {
-        if (n <= 1) return n;
-        if (memo[n] != 0) return memo[n];
-        memo[n] = fibMemo(n - 1, memo) + fibMemo(n - 2, memo);
-        return memo[n];
+public int coinChange(int[] coins, int amount) {
+    int[] dp = new int[amount + 1];
+    Arrays.fill(dp, amount + 1); // Use amount+1 as "infinity"
+    dp[0] = 0;
+
+    for (int coin : coins) {
+        for (int x = coin; x <= amount; x++) {
+            dp[x] = Math.min(dp[x], dp[x - coin] + 1);
+        }
     }
 
-    // Bottom-up tabulation
-    public static int fibTab(int n) {
-        if (n <= 1) return n;
-        int[] dp = new int[n + 1];
-        dp[1] = 1;
-        for (int i = 2; i <= n; i++) {
-            dp[i] = dp[i - 1] + dp[i - 2];
-        }
-        return dp[n];
-    }
+    return dp[amount] > amount ? -1 : dp[amount];
 }
+
+// Time: O(A * C) | Space: O(A)
 ```
 
 </div>
 
+For **State Machine DP**, the pattern is distinct. Let's look at the skeleton for "Best Time to Buy and Sell Stock with Cooldown". You maintain multiple DP arrays representing different states.
+
+<div class="code-group">
+
+```python
+def maxProfit(prices):
+    if not prices:
+        return 0
+
+    n = len(prices)
+    # State arrays
+    hold = [0] * n      # Max profit if we HOLD a stock on day i
+    sold = [0] * n      # Max profit if we SOLD a stock on day i
+    rest = [0] * n      # Max profit if we are in REST/cooldown on day i
+
+    # Base cases
+    hold[0] = -prices[0]  # Buy on day 0
+    sold[0] = float('-inf')  # Cannot sell on day 0
+    rest[0] = 0
+
+    for i in range(1, n):
+        # Recurrence relations
+        hold[i] = max(hold[i-1], rest[i-1] - prices[i])  # Hold previous or buy today from rest
+        sold[i] = hold[i-1] + prices[i]                  # Sell the stock we were holding
+        rest[i] = max(rest[i-1], sold[i-1])              # Rest or come from sold (cooldown)
+
+    return max(sold[-1], rest[-1])  # Final state must be sold or rest, not hold
+
+# Time: O(N) | Space: O(N) (can be optimized to O(1))
+```
+
+```javascript
+function maxProfit(prices) {
+  if (prices.length === 0) return 0;
+
+  const n = prices.length;
+  let hold = -prices[0];
+  let sold = -Infinity;
+  let rest = 0;
+
+  for (let i = 1; i < n; i++) {
+    const prevHold = hold;
+    const prevSold = sold;
+    const prevRest = rest;
+
+    hold = Math.max(prevHold, prevRest - prices[i]);
+    sold = prevHold + prices[i];
+    rest = Math.max(prevRest, prevSold);
+  }
+
+  return Math.max(sold, rest);
+}
+
+// Time: O(N) | Space: O(1) - optimized version
+```
+
+```java
+public int maxProfit(int[] prices) {
+    if (prices.length == 0) return 0;
+
+    int hold = -prices[0];
+    int sold = Integer.MIN_VALUE;
+    int rest = 0;
+
+    for (int i = 1; i < prices.length; i++) {
+        int prevHold = hold;
+        int prevSold = sold;
+        int prevRest = rest;
+
+        hold = Math.max(prevHold, prevRest - prices[i]);
+        sold = prevHold + prices[i];
+        rest = Math.max(prevRest, prevSold);
+    }
+
+    return Math.max(sold, rest);
+}
+
+// Time: O(N) | Space: O(1)
+```
+
+</div>
+
+## How Expedia Tests Dynamic Programming vs Other Companies
+
+Expedia's DP questions sit in a sweet spot between FAANG and pure finance companies. Compared to Google or Meta, Expedia's problems are less about clever "aha!" insights and more about methodical application of known patterns to a business-logic wrapper. They won't ask something like "Dungeon Game" (#174) which requires reverse DP thinking. Compared to quant firms (like Jane Street), their problems are less mathematically dense and more grounded in operational scenarios.
+
+The unique aspect is the **follow-up**. At Expedia, after you code the solution, expect a practical follow-up question: "How would this change if each 'coin' (flight) had an associated time duration as well as cost?" or "What if you could use each coupon only once?" They are testing if you truly understand the state definition and can modify it. This mirrors the real-world complexity of their systems.
+
+## Study Order
+
+Don't jump into hard problems. Build your DP intuition sequentially:
+
+1.  **Fibonacci & Climbing Stairs (#70):** Understand the core concept of overlapping subproblems and memoization vs. tabulation.
+2.  **1D Linear DP:** Problems like House Robber (#198). Learn to define `dp[i]` as the best answer up to index `i`.
+3.  **Classic 0/1 Knapsack:** Start with the recursive decision tree, then build the 2D table, then optimize to 1D. Use Partition Equal Subset Sum (#416).
+4.  **Unbounded Knapsack:** This is where Coin Change (#322) lives. Understand the subtle difference in the loop order compared to 0/1 knapsack.
+5.  **2-Sequence DP:** Practice Longest Common Subsequence (#1143) and Edit Distance (#72). Master building the 2D table and deriving the recurrence from the characters/items being equal or not.
+6.  **State Machine DP:** Tackle the Buy/Sell with Cooldown (#309) pattern. This solidifies your understanding of DP with multiple states.
+7.  **Advanced Optimization:** Finally, look at problems where you can optimize space from O(n²) to O(n) or O(1), or where the state definition is non-obvious.
+
 ## Recommended Practice Order
 
-Build proficiency systematically:
+Solve these Expedia-relevant problems in this sequence:
 
-1.  **Foundations:** Master Fibonacci, Climbing Stairs, and House Robber to internalize 1D DP.
-2.  **Core Patterns:** Practice 0/1 Knapsack, Longest Common Subsequence, and Coin Change (unbounded knapsack). These form the basis for many variations.
-3.  **String & Grid DP:** Solve Edit Distance, Palindrome Partitioning, and Unique Paths.
-4.  **Expedia-Specific Practice:** Focus on problems tagged under Expedia’s company page that involve DP, simulating the actual interview environment.
+1.  Climbing Stairs (#70) - Warm-up
+2.  Coin Change (#322) - Unbounded knapsack, minimum decision
+3.  Partition Equal Subset Sum (#416) - 0/1 knapsack, existence check
+4.  Perfect Squares (#279) - Unbounded knapsack application
+5.  Longest Common Subsequence (#1143) - 2-sequence DP
+6.  Edit Distance (#72) - 2-sequence DP with cost operations
+7.  Best Time to Buy and Sell Stock with Cooldown (#309) - State machine
 
-Consistent practice with a focus on deriving the recurrence relation yourself—not just memorizing solutions—is key.
+This order builds from foundational decision DP to sequence comparison, ending with the complex state management that senior roles are expected to handle.
 
 [Practice Dynamic Programming at Expedia](/company/expedia/dynamic-programming)

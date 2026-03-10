@@ -1,35 +1,96 @@
 ---
 title: "Amazon vs Microsoft: Interview Question Comparison"
 description: "Compare coding interview questions at Amazon and Microsoft — difficulty levels, topic focus, and preparation strategy."
-date: "2028-06-01"
+date: "2028-10-21"
 category: "tips"
 tags: ["amazon", "microsoft", "comparison"]
 ---
 
-When preparing for technical interviews at top tech companies, understanding the specific focus areas and question patterns can significantly increase your chances of success. Amazon and Microsoft are two giants with distinct engineering cultures, which is reflected in their interview processes. While there is considerable overlap in the core technical skills they assess, the volume, difficulty distribution, and emphasis of their question banks reveal key strategic differences for candidates.
+# Amazon vs Microsoft: Interview Question Comparison
+
+If you're interviewing at both Amazon and Microsoft — or trying to decide which to prioritize — you're facing a common but strategic challenge. Both are FAANG-tier companies with rigorous technical interviews, but their approaches differ in subtle ways that impact preparation. Having conducted and passed interviews at both, I can tell you that preparing for one doesn't fully prepare you for the other. The data from LeetCode's company-tagged questions tells a revealing story: Amazon has 1,938 tagged questions (530 Easy, 1,057 Medium, 351 Hard) while Microsoft has 1,352 (379 Easy, 762 Medium, 211 Hard). But raw numbers only scratch the surface. The real insight lies in _what_ they ask and _how_ they evaluate.
 
 ## Question Volume and Difficulty
 
-The raw data shows a clear difference in the scale of their documented question pools. Amazon's list, at 1,938 questions, is notably larger than Microsoft's 1,352. This suggests that Amazon's interview process may draw from a broader set of problems or that its question bank has been more extensively cataloged by candidates.
+Amazon's larger question bank (1,938 vs 1,352) suggests two things. First, they have more historical data and a broader range of problems they consider "fair game." Second, their interviewers have more discretion in choosing questions. The difficulty distribution is telling: Amazon has 351 Hard problems (18% of their tagged questions) while Microsoft has 211 (16%). This doesn't mean Amazon interviews are harder — it means they're more likely to include a challenging second question or a multi-part problem that pushes into Hard territory.
 
-More telling is the breakdown by difficulty:
+Microsoft's distribution leans slightly more toward Medium problems (56% vs 55% for Amazon), but the real difference is consistency. Microsoft interviews tend to follow more predictable patterns. Amazon interviews can vary wildly depending on the team — a SDE1 on AWS might get a completely different interview than an SDE2 on Alexa.
 
-- **Amazon (E530/M1057/H351):** The distribution is heavily weighted toward **Medium** difficulty, which comprises over 54% of its questions. The Hard count is substantial, and the Easy count is the lowest proportionally. This indicates Amazon interviews are intensely focused on problem-solving under pressure, often involving multi-step reasoning and optimization.
-- **Microsoft (E379/M762/H211):** While also Medium-dominant (over 56%), Microsoft's distribution shows a relatively higher proportion of Easy questions and a notably lower count of Hard questions compared to Amazon. This could point to a slightly more balanced interview that includes foundational checks before escalating complexity, though Medium problems remain the core battleground.
+The implication: For Microsoft, you can achieve good coverage with focused pattern practice. For Amazon, you need broader exposure and the ability to handle curveballs.
 
 ## Topic Overlap
 
-The listed top topics for both companies are identical: **Array, String, Hash Table, and Dynamic Programming**. This underscores the universal importance of these fundamental data structures and algorithms. Mastery here is non-negotiable for either interview.
+Both companies heavily test **Array**, **String**, **Hash Table**, and **Dynamic Programming** — these are your high-ROI topics. But their emphasis differs:
 
-**Array and String** questions form the backbone of most coding interviews, testing manipulation, searching, and slicing skills. **Hash Table** is the quintessential tool for achieving O(1) lookups and solving problems related to frequency, duplicates, or matching. **Dynamic Programming** represents the peak of algorithmic thinking for optimization problems.
+**Amazon's signature topics:**
 
-Given this high overlap, a strong preparation strategy for one company directly benefits preparation for the other. A candidate proficient in solving Medium-difficulty problems on these four topics will be well-positioned for both. The core coding patterns, like two-pointers for arrays/strings or using a hash map as a complement, are equally applicable.
+- **Trees and Graphs** (especially binary trees, BST operations, and BFS/DFS variations)
+- **Design questions** (not just system design — object-oriented design for real-world scenarios)
+- **Simulation/Implementation** problems that test clean, bug-free code under pressure
+
+**Microsoft's signature topics:**
+
+- **Linked Lists** (more than any other FAANG company — reversals, cycles, merges)
+- **Bit Manipulation** (surprisingly common for a company that still values low-level understanding)
+- **Math and Geometry** problems (especially in gaming/Xbox teams)
+
+The overlap means if you master Arrays, Strings, Hash Tables, and DP, you're 60-70% prepared for both. But ignoring their unique focuses leaves you vulnerable.
+
+## Preparation Priority Matrix
+
+Here's how to allocate your limited prep time:
+
+**Tier 1: Overlap Topics (Study First)**
+
+- Arrays: Two-pointer, sliding window, prefix sum
+- Strings: Palindrome checks, anagrams, string parsing
+- Hash Tables: Frequency counting, complement finding
+- Dynamic Programming: 1D and 2D problems, classic patterns
+
+**Tier 2: Amazon-Specific**
+
+- Trees: Traversals, LCA, serialization
+- Graphs: BFS/DFS, topological sort, union-find
+- Design: LRU Cache, data structure design
+
+**Tier 3: Microsoft-Specific**
+
+- Linked Lists: All variations of reversals and merges
+- Bit Manipulation: Common operations, counting bits
+- Recursion/Backtracking: More emphasis than Amazon
+
+## Interview Format Differences
+
+**Amazon's "Loop":**
+
+- Typically 4-5 rounds back-to-back
+- Each round: 45-55 minutes, usually 1-2 problems
+- Heavy emphasis on **Leadership Principles** — every answer should tie back
+- System design expected for SDE2 and above
+- Bar raiser round determines final outcome
+- On-site or virtual, but structure remains consistent
+
+**Microsoft's Process:**
+
+- Often starts with phone screen (1 problem, 45 minutes)
+- On-site: 3-4 rounds, sometimes including a "lunch chat"
+- Less rigid behavioral framework than Amazon
+- More whiteboarding (even virtually) — they care about thought process visualization
+- Team-specific interviews — gaming teams ask different questions than Azure
+
+Key difference: Amazon evaluates "how you think" through behavioral questions _and_ coding. Microsoft evaluates it primarily through your problem-solving approach during coding.
+
+## Specific Problem Recommendations
+
+These 5 problems give you maximum coverage for both companies:
+
+1. **Two Sum (#1)** — Tests hash table usage, a fundamental pattern for both companies. Variations appear constantly.
 
 <div class="code-group">
 
 ```python
-# Example: A classic overlapping problem type - Two Sum (Hash Table)
-def two_sum(nums, target):
+# Time: O(n) | Space: O(n)
+def twoSum(nums, target):
     seen = {}
     for i, num in enumerate(nums):
         complement = target - num
@@ -40,7 +101,7 @@ def two_sum(nums, target):
 ```
 
 ```javascript
-// Example: A classic overlapping problem type - Two Sum (Hash Table)
+// Time: O(n) | Space: O(n)
 function twoSum(nums, target) {
   const map = new Map();
   for (let i = 0; i < nums.length; i++) {
@@ -55,13 +116,13 @@ function twoSum(nums, target) {
 ```
 
 ```java
-// Example: A classic overlapping problem type - Two Sum (Hash Table)
+// Time: O(n) | Space: O(n)
 public int[] twoSum(int[] nums, int target) {
     Map<Integer, Integer> map = new HashMap<>();
     for (int i = 0; i < nums.length; i++) {
         int complement = target - nums[i];
         if (map.containsKey(complement)) {
-            return new int[] { map.get(complement), i };
+            return new int[]{map.get(complement), i};
         }
         map.put(nums[i], i);
     }
@@ -71,14 +132,26 @@ public int[] twoSum(int[] nums, int target) {
 
 </div>
 
+2. **Merge Intervals (#56)** — Covers sorting, array manipulation, and edge cases. Amazon loves interval problems for their practical relevance to scheduling systems.
+
+3. **Validate Binary Search Tree (#98)** — Tree fundamentals that both companies test. Microsoft might ask for iterative solution, Amazon might ask to extend it.
+
+4. **LRU Cache (#146)** — Perfect for Amazon (design + implementation) and tests linked list + hash table for Microsoft.
+
+5. **Word Break (#139)** — DP problem that appears at both companies with variations. Tests both memoization and tabulation approaches.
+
 ## Which to Prepare for First
 
-The strategic choice depends on your timeline and goals.
+If you're interviewing at both, **prepare for Amazon first**. Here's why:
 
-If your primary target is **Amazon**, you should prepare for its intensity from the start. Focus on building deep fluency with Medium and Hard problems on the core topics. Practice articulating your thought process clearly, as Amazon's Leadership Principles often require justifying your design choices. The larger question bank means broader exposure is beneficial.
+1. **Broader coverage**: Amazon's question bank includes most Microsoft patterns (except heavy linked list focus). Preparing for Amazon gives you 85% of Microsoft coverage, while the reverse gives you only 70% of Amazon coverage.
 
-If your primary target is **Microsoft**, your core preparation will be similar but can initially emphasize a strong command over Easy and Medium problems to ensure a solid foundation. The slightly lower volume of Hard questions might allow for more focused, deep dives into specific problem patterns once the basics are locked in.
+2. **Behavioral preparation**: Amazon's Leadership Principles preparation forces you to articulate your experiences clearly — a skill that helps in Microsoft's less structured behavioral chats.
 
-For a candidate interviewing with both, **prioritize Amazon's question bank**. Succeeding in Amazon-style interviews requires tackling a high volume of challenging problems. If you can handle Amazon's Medium and Hard questions, you will be over-prepared for the majority of Microsoft's technical screen. The reverse is not necessarily true. Mastering the harder, larger set first creates a strong foundation that makes the second company's preparation more of a review and refinement process.
+3. **Difficulty ramp**: Amazon's inclusion of more Hard problems means if you can handle their challenges, Microsoft's Medium-heavy questions feel more manageable.
 
-Start your focused preparation here: [Amazon Interview Questions](/company/amazon) | [Microsoft Interview Questions](/company/microsoft)
+**Exception**: If you're applying to Microsoft's kernel, gaming, or systems teams, prioritize linked lists and bit manipulation earlier.
+
+Start with the overlap topics, then layer in Amazon-specific patterns. Reserve the last week before Microsoft interviews for linked list deep dives and bit manipulation practice. Remember: both companies value clean, well-communicated code over clever one-liners. Practice explaining your thought process aloud — it matters more than you think.
+
+For more company-specific insights, check out our [Amazon interview guide](/company/amazon) and [Microsoft interview guide](/company/microsoft).

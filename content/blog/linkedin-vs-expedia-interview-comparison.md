@@ -1,140 +1,253 @@
 ---
 title: "LinkedIn vs Expedia: Interview Question Comparison"
 description: "Compare coding interview questions at LinkedIn and Expedia — difficulty levels, topic focus, and preparation strategy."
-date: "2029-01-05"
+date: "2031-10-06"
 category: "tips"
 tags: ["linkedin", "expedia", "comparison"]
 ---
 
-When preparing for technical interviews, understanding the specific focus and expectations of each company can dramatically improve your efficiency. LinkedIn and Expedia, while both major tech employers, present distinct interview landscapes in terms of question volume, difficulty distribution, and core topic emphasis. This comparison breaks down their profiles to help you prioritize your study time effectively.
+# LinkedIn vs Expedia: Interview Question Comparison
+
+If you're interviewing at both LinkedIn and Expedia, or trying to decide where to focus your preparation, you're facing two distinct interview cultures. LinkedIn, with its massive question bank of 180 problems, represents the classic "big tech" intensive preparation challenge. Expedia, with 54 curated questions, offers a more focused but still rigorous technical assessment. The key insight isn't just about volume—it's about understanding what each company values in their engineering candidates and how that translates to your preparation strategy.
 
 ## Question Volume and Difficulty
 
-The most immediate difference is the sheer scale of their question banks on platforms like CodeJeet.
+Let's start with the raw numbers. LinkedIn's 180 questions (26 Easy, 117 Medium, 37 Hard) tell a clear story: they expect comprehensive preparation. The Medium-heavy distribution (65% of questions) means you'll face problems requiring multiple steps, careful edge case handling, and optimization trade-offs. The 37 Hard problems signal they're willing to push candidates with complex graph traversals, dynamic programming, or tricky implementation challenges.
 
-**LinkedIn** presents a formidable **180 questions**, categorized by difficulty as Easy (26), Medium (117), and Hard (37). This large volume, with nearly two-thirds of questions at the Medium level, indicates a deep and well-established interview process. Preparing for LinkedIn requires a significant time investment to cover a broad range of problem variations and complexities. The high number of Medium questions suggests they heavily test the application of core algorithms to non-trivial scenarios.
+Expedia's 54 questions (13 Easy, 35 Medium, 6 Hard) presents a different picture. The Medium focus is even stronger (65% as well), but the total volume is 70% smaller. This doesn't mean Expedia interviews are easier—it means they're more predictable. They've curated a smaller set of problems that effectively test their core competencies. The minimal Hard questions (just 6) suggest they prioritize clean, correct solutions over extreme optimization.
 
-**Expedia**, in contrast, has a more focused set of **54 questions**, with a difficulty spread of Easy (13), Medium (35), and Hard (6). The distribution is still Medium-heavy, but the total count is about 30% of LinkedIn's. This smaller, more concentrated set implies you can achieve solid coverage with less time. The lower number of Hard questions suggests their interviews may place slightly more weight on foundational competency and clean implementation under pressure rather than on solving the most complex algorithmic puzzles.
+The implication for preparation: LinkedIn requires breadth-first study—you need exposure to many patterns. Expedia allows for depth-first study—mastering fewer patterns thoroughly.
 
 ## Topic Overlap
 
-Both companies strongly emphasize fundamental data structures, as seen in their top topics: **Array, String, and Hash Table**. This overlap means core preparation in these areas serves you for both.
+Both companies heavily test **Array**, **String**, and **Hash Table** problems. This is your foundation—if you can efficiently manipulate arrays, process strings, and use hash maps for lookups, you're 60% prepared for both companies.
 
-**LinkedIn's** unique standout is **Depth-First Search (DFS)**, a specific graph/tree traversal algorithm. This signals that LinkedIn interviews frequently involve problems related to trees (binary trees, n-ary trees) or graph exploration (connected components, pathfinding), requiring recursive or iterative stack-based solutions.
+Where they diverge is revealing:
 
-**Expedia's** distinctive key topic is **Greedy Algorithms**. This indicates a focus on problems where a locally optimal choice leads to a global optimum, often in domains like scheduling, partitioning, or interval problems. While DFS is a specific technique, Greedy represents a broader problem-solving paradigm.
+- **LinkedIn's unique emphasis**: Depth-First Search (DFS) appears in their top topics. This aligns with LinkedIn's social graph structure—they're literally a graph company. Expect tree and graph traversal problems.
+- **Expedia's unique emphasis**: Greedy algorithms. This makes perfect sense for a travel company optimizing routes, schedules, and pricing. Greedy problems test your ability to make locally optimal choices that lead to globally optimal solutions.
 
-**Preparation Implication:** If targeting both, master Arrays, Strings, and Hash Tables first. Then, branch into DFS (tree problems, recursion) for LinkedIn and Greedy (sorting + iteration logic) for Expedia.
+The shared topics represent efficient preparation ROI. The unique topics reveal company-specific engineering challenges.
+
+## Preparation Priority Matrix
+
+Here's how to allocate your study time strategically:
+
+**Phase 1: Shared Foundation (Highest ROI)**
+
+- Hash Table + Two Pointer combinations (like Two Sum variations)
+- Array sorting and searching patterns
+- String manipulation with sliding window techniques
+
+**Phase 2: LinkedIn-Specific Depth**
+
+- Graph traversal (DFS/BFS) with adjacency lists
+- Tree problems, especially binary trees
+- Union-Find for connectivity problems (relevant for social networks)
+
+**Phase 3: Expedia-Specific Patterns**
+
+- Interval scheduling and merging (travel bookings)
+- Greedy assignment problems
+- Simple dynamic programming for optimization
+
+A specific pattern that bridges both companies: the "frequency counter" using hash maps. It's fundamental to array/string problems at LinkedIn and appears in Expedia's data processing questions.
 
 <div class="code-group">
 
 ```python
-# Example: A problem combining Hash Table & Array (common to both)
-def two_sum(nums, target):
-    seen = {}
-    for i, num in enumerate(nums):
-        complement = target - num
-        if complement in seen:
-            return [seen[complement], i]
-        seen[num] = i
-    return []
+# Frequency counter pattern - useful for both companies
+# Time: O(n) | Space: O(n)
+def find_anagram_indices(s, p):
+    """
+    LeetCode #438 - Find All Anagrams in a String
+    Useful for both: LinkedIn (string manipulation)
+    and Expedia (pattern matching in data)
+    """
+    if len(p) > len(s):
+        return []
 
-# Example: DFS for LinkedIn
-def dfs_tree(node):
-    if not node:
-        return
-    # Process node
-    dfs_tree(node.left)
-    dfs_tree(node.right)
+    p_count = {}
+    s_count = {}
 
-# Example: Greedy for Expedia
-def max_profit(prices):
-    min_price = float('inf')
-    max_profit = 0
-    for price in prices:
-        min_price = min(min_price, price)
-        max_profit = max(max_profit, price - min_price)
-    return max_profit
+    # Initialize frequency maps for first window
+    for i in range(len(p)):
+        p_count[p[i]] = p_count.get(p[i], 0) + 1
+        s_count[s[i]] = s_count.get(s[i], 0) + 1
+
+    result = [0] if p_count == s_count else []
+
+    # Slide window through s
+    for i in range(len(p), len(s)):
+        # Add new character
+        s_count[s[i]] = s_count.get(s[i], 0) + 1
+
+        # Remove old character
+        s_count[s[i - len(p)]] -= 1
+        if s_count[s[i - len(p)]] == 0:
+            del s_count[s[i - len(p)]]
+
+        # Compare frequency maps
+        if s_count == p_count:
+            result.append(i - len(p) + 1)
+
+    return result
 ```
 
 ```javascript
-// Example: A problem combining Hash Table & Array (common to both)
-function twoSum(nums, target) {
-  const map = new Map();
-  for (let i = 0; i < nums.length; i++) {
-    const complement = target - nums[i];
-    if (map.has(complement)) {
-      return [map.get(complement), i];
+// Frequency counter pattern - useful for both companies
+// Time: O(n) | Space: O(n)
+function findAnagramIndices(s, p) {
+  /**
+   * LeetCode #438 - Find All Anagrams in a String
+   * Useful for both: LinkedIn (string manipulation)
+   * and Expedia (pattern matching in data)
+   */
+  if (p.length > s.length) return [];
+
+  const pCount = new Map();
+  const sCount = new Map();
+
+  // Initialize frequency maps for first window
+  for (let i = 0; i < p.length; i++) {
+    pCount.set(p[i], (pCount.get(p[i]) || 0) + 1);
+    sCount.set(s[i], (sCount.get(s[i]) || 0) + 1);
+  }
+
+  const result = compareMaps(pCount, sCount) ? [0] : [];
+
+  // Slide window through s
+  for (let i = p.length; i < s.length; i++) {
+    // Add new character
+    sCount.set(s[i], (sCount.get(s[i]) || 0) + 1);
+
+    // Remove old character
+    const oldChar = s[i - p.length];
+    sCount.set(oldChar, sCount.get(oldChar) - 1);
+    if (sCount.get(oldChar) === 0) {
+      sCount.delete(oldChar);
     }
-    map.set(nums[i], i);
+
+    // Compare frequency maps
+    if (compareMaps(pCount, sCount)) {
+      result.push(i - p.length + 1);
+    }
   }
-  return [];
+
+  return result;
 }
 
-// Example: DFS for LinkedIn
-function dfsTree(node) {
-  if (!node) return;
-  // Process node
-  dfsTree(node.left);
-  dfsTree(node.right);
-}
-
-// Example: Greedy for Expedia
-function maxProfit(prices) {
-  let minPrice = Infinity;
-  let maxProfit = 0;
-  for (let price of prices) {
-    minPrice = Math.min(minPrice, price);
-    maxProfit = Math.max(maxProfit, price - minPrice);
+function compareMaps(map1, map2) {
+  if (map1.size !== map2.size) return false;
+  for (let [key, val] of map1) {
+    if (map2.get(key) !== val) return false;
   }
-  return maxProfit;
+  return true;
 }
 ```
 
 ```java
-// Example: A problem combining Hash Table & Array (common to both)
-public int[] twoSum(int[] nums, int target) {
-    Map<Integer, Integer> map = new HashMap<>();
-    for (int i = 0; i < nums.length; i++) {
-        int complement = target - nums[i];
-        if (map.containsKey(complement)) {
-            return new int[]{map.get(complement), i};
+// Frequency counter pattern - useful for both companies
+// Time: O(n) | Space: O(n)
+import java.util.*;
+
+public class AnagramIndices {
+    /**
+     * LeetCode #438 - Find All Anagrams in a String
+     * Useful for both: LinkedIn (string manipulation)
+     * and Expedia (pattern matching in data)
+     */
+    public List<Integer> findAnagrams(String s, String p) {
+        List<Integer> result = new ArrayList<>();
+        if (p.length() > s.length()) return result;
+
+        Map<Character, Integer> pCount = new HashMap<>();
+        Map<Character, Integer> sCount = new HashMap<>();
+
+        // Initialize frequency maps for first window
+        for (int i = 0; i < p.length(); i++) {
+            pCount.put(p.charAt(i), pCount.getOrDefault(p.charAt(i), 0) + 1);
+            sCount.put(s.charAt(i), sCount.getOrDefault(s.charAt(i), 0) + 1);
         }
-        map.put(nums[i], i);
-    }
-    return new int[]{};
-}
 
-// Example: DFS for LinkedIn
-public void dfsTree(TreeNode node) {
-    if (node == null) return;
-    // Process node
-    dfsTree(node.left);
-    dfsTree(node.right);
-}
+        if (pCount.equals(sCount)) {
+            result.add(0);
+        }
 
-// Example: Greedy for Expedia
-public int maxProfit(int[] prices) {
-    int minPrice = Integer.MAX_VALUE;
-    int maxProfit = 0;
-    for (int price : prices) {
-        minPrice = Math.min(minPrice, price);
-        maxProfit = Math.max(maxProfit, price - minPrice);
+        // Slide window through s
+        for (int i = p.length(); i < s.length(); i++) {
+            // Add new character
+            char newChar = s.charAt(i);
+            sCount.put(newChar, sCount.getOrDefault(newChar, 0) + 1);
+
+            // Remove old character
+            char oldChar = s.charAt(i - p.length());
+            sCount.put(oldChar, sCount.get(oldChar) - 1);
+            if (sCount.get(oldChar) == 0) {
+                sCount.remove(oldChar);
+            }
+
+            // Compare frequency maps
+            if (pCount.equals(sCount)) {
+                result.add(i - p.length() + 1);
+            }
+        }
+
+        return result;
     }
-    return maxProfit;
 }
 ```
 
 </div>
 
+## Interview Format Differences
+
+**LinkedIn** typically follows the FAANG-style format:
+
+- 4-5 rounds including coding, system design, and behavioral
+- 45-60 minutes per coding round, often 2 problems per round
+- Heavy emphasis on system design for senior roles (they want to see you design scalable systems)
+- Virtual or on-site with whiteboarding
+- Behavioral questions tied to LinkedIn's cultural principles
+
+**Expedia** has a more streamlined approach:
+
+- 3-4 rounds total, with coding being the primary focus
+- 60 minutes per coding round, usually 1-2 problems
+- Less emphasis on system design unless you're senior+
+- Often includes a "practical" problem related to travel or bookings
+- Behavioral questions focus on collaboration and customer impact
+
+The key difference: LinkedIn tests if you can be a Facebook/Google-level engineer. Expedia tests if you can be a productive Expedia engineer.
+
+## Specific Problem Recommendations
+
+For maximum overlap preparation, focus on these:
+
+1. **Two Sum (#1)** - The foundational hash table problem. Master all variations (sorted/unsorted, one solution/all solutions, different data structures).
+
+2. **Merge Intervals (#56)** - Critical for Expedia (booking systems) and appears in LinkedIn's array problems. Teaches sorting and interval manipulation.
+
+3. **Number of Islands (#200)** - DFS classic that covers LinkedIn's graph focus while being a medium-difficulty problem appropriate for both.
+
+4. **Longest Substring Without Repeating Characters (#3)** - Covers string manipulation (both companies) and sliding window technique.
+
+5. **Meeting Rooms II (#253)** - Perfect for Expedia's domain, tests greedy/priority queue thinking, and is medium difficulty.
+
 ## Which to Prepare for First
 
-Your priority should be dictated by your timeline and the depth of preparation required.
+Start with **Expedia**. Here's why:
 
-**Prepare for Expedia first if:** You are short on time or newer to technical interviews. The smaller question bank allows you to build confidence by achieving comprehensive coverage of their focused problem set. Mastering their core topics (Array, String, Hash Table, Greedy) provides a strong foundation that is also largely transferable to LinkedIn's requirements.
+1. **Foundation first**: Expedia's focused question set forces mastery of core patterns. If you can solve their 54 problems confidently, you have the foundation for 70% of LinkedIn's problems.
 
-**Prepare for LinkedIn first if:** You have more lead time or are already comfortable with fundamentals. Tackling LinkedIn's larger and more difficult question set is a more intensive undertaking. Successfully covering a significant portion of their 180 questions, especially the 117 Medium problems, will inherently prepare you well for Expedia's interview, as you will have deeply practiced the overlapping core topics and developed stronger general problem-solving stamina.
+2. **Progressive overload**: Expedia's medium-difficulty focus is the perfect training weight. LinkedIn's hard problems are the "max lift" - attempt them only after building strength with mediums.
 
-Ultimately, the shared foundation in Array, String, and Hash Table problems means preparation for one company is beneficial for the other. Start with the company whose timeline is sooner, or choose Expedia to build a quick, strong base before diving into LinkedIn's greater depth and breadth.
+3. **Interview scheduling**: If you have both interviews scheduled, do Expedia first. The feedback (even if you don't get an offer) will reveal gaps in your fundamental knowledge that you can fix before LinkedIn.
 
-For focused practice, visit the [LinkedIn question list](/company/linkedin) and the [Expedia question list](/company/expedia) on CodeJeet.
+4. **Psychological advantage**: Doing well in Expedia's interview builds confidence. Walking into LinkedIn after solving 50+ problems well feels different than walking in cold.
+
+The strategic path: Master Expedia's 54 problems → Add LinkedIn's DFS/graph problems → Practice LinkedIn's hard problems as "stretch goals" → Return to both companies' shared problems for polish.
+
+Remember: Both companies ultimately want clean, working code with good communication. The patterns differ, but the core engineering mindset doesn't.
+
+For more company-specific insights, check out our [LinkedIn interview guide](/company/linkedin) and [Expedia interview guide](/company/expedia).

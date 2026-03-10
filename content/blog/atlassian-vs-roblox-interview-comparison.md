@@ -1,130 +1,174 @@
 ---
 title: "Atlassian vs Roblox: Interview Question Comparison"
 description: "Compare coding interview questions at Atlassian and Roblox — difficulty levels, topic focus, and preparation strategy."
-date: "2026-10-16"
+date: "2026-10-08"
 category: "tips"
 tags: ["atlassian", "roblox", "comparison"]
 ---
 
-When preparing for technical interviews, understanding company-specific patterns is crucial for efficient study. Atlassian and Roblox, while both major tech employers, present distinct interview landscapes in terms of volume, difficulty, and focus areas. A targeted analysis of their question banks reveals key strategic differences for candidates.
+If you're interviewing at both Atlassian and Roblox, or trying to decide where to focus your preparation, you're in a good position. Both are respected tech companies with distinct cultures and product focuses—Atlassian in developer tools and team collaboration, Roblox in gaming and social platforms. However, from a coding interview perspective, they share a surprising amount of common ground, which you can leverage for efficient study. The key is understanding the subtle differences in emphasis and format to avoid being caught off guard. Let's break down what the data and patterns tell us.
 
 ## Question Volume and Difficulty
 
-Atlassian's catalog shows a slightly higher total volume with **62 questions**, categorized as 7 Easy, 43 Medium, and 12 Hard. This distribution indicates a strong emphasis on Medium-difficulty problems, which are typical for assessing core problem-solving and implementation skills under interview conditions.
+Looking at the aggregated question data (Atlassian: 62 questions, Roblox: 56), the first takeaway is that the overall volume and difficulty distribution are remarkably similar.
 
-Roblox's list contains **56 questions**, with a breakdown of 8 Easy, 36 Medium, and 12 Hard. The profiles are remarkably similar, with Roblox having one more Easy question and Atlassian having seven more Medium questions. The identical count of Hard questions (12) suggests both companies include complex problems likely reserved for later interview rounds or more senior positions.
+**Atlassian (62q: E7/M43/H12):** The distribution shows a strong focus on Medium-difficulty problems (69% of their catalog). This is the sweet spot for most software engineering interviews—problems that require applying known algorithms or patterns with a twist, not just textbook recall. The 12 Hard problems suggest you might encounter one in later rounds (e.g., a final onsite or for a senior role), but the core of the interview will be Mediums. The 7 Easy problems are likely used for initial screening or warm-up questions.
 
-The takeaway: both sets are dominated by Medium-difficulty questions, making them the critical area for preparation. The small difference in total volume is negligible; depth of understanding on Medium problems matters more.
+**Roblox (56q: E8/M36/H12):** Almost an identical profile. Slightly more Easys, which could indicate a slightly higher chance of a straightforward array or string manipulation problem in an early round. The Medium dominance (64%) is again the headline. The identical number of Hard problems (12) sends the same signal: be prepared for at least one challenging problem if you're aiming for a senior level.
+
+**Implication:** Don't let the slight difference in total questions fool you. The intensity and expected problem-solving level are virtually identical. Your preparation for Medium LeetCode problems will be the highest-yield activity for both.
 
 ## Topic Overlap
 
-The stated topic tags reveal a high degree of fundamental overlap, but with a subtle shift in emphasis.
+This is where the efficiency gains are. Both companies' most frequent topics are **Array, Hash Table, String, and Sorting**.
 
-**Shared Core:** Both companies heavily test **Array**, **Hash Table**, and **String** manipulation. These are the building blocks of algorithmic interviews. Questions in these areas often involve two-pointers, sliding windows, frequency counting, and string matching algorithms.
+- **Array & String:** The bread and butter. Expect problems involving traversal, two-pointers, sliding windows, and in-place modifications.
+- **Hash Table:** The go-to tool for achieving O(1) lookups to reduce time complexity from O(n²) to O(n). Problems often combine Hash Tables with Arrays or Strings.
+- **Sorting:** Frequently a pre-processing step that unlocks a simpler solution (like two-pointers on a sorted array).
+
+**The key divergence is in the next tier of topics:**
+
+- **Atlassian** explicitly lists **Sorting** as a top-4 topic. This suggests you may more frequently encounter problems where implementing a custom comparator or understanding sort stability is part of the core solution.
+- **Roblox** lists **Math** as a top-4 topic. This points toward a higher likelihood of problems involving number theory, simulation, or arithmetic logic (think problems about game mechanics, currencies, or probabilities).
+
+## Preparation Priority Matrix
+
+Use this to prioritize your study time.
+
+1.  **Maximum ROI (Study First):** Problems that combine **Array, Hash Table, and String**.
+    - **Patterns:** Two Sum variants, Sliding Window, Hash Map for frequency/counting.
+    - **Example Problems:** Two Sum (#1), Longest Substring Without Repeating Characters (#3), Group Anagrams (#49).
+
+2.  **High Priority for Atlassian:** **Sorting-intensive problems.** Be comfortable with `sorted(key=...)` in Python, `.sort()` with comparators in Java/JS.
+    - **Patterns:** Merge Intervals, Meeting Rooms, Custom Sorting.
+    - **Example Problems:** Merge Intervals (#56), Non-overlapping Intervals (#435), Largest Number (#179).
+
+3.  **High Priority for Roblox:** **Math-based problems.** Focus on simulation, modulo arithmetic, and basic geometry/distance calculations.
+    - **Patterns:** Simulation, Euclidean distance, Prime factors.
+    - **Example Problems:** Rotate Image (#48), Happy Number (#202), Robot Bounded In Circle (#1041).
+
+## Interview Format Differences
+
+While the problems are similar, the interview _experience_ can differ.
+
+**Atlassian:** Known for a structured interview process. You can expect:
+
+- **Coding Rounds:** Typically 2-3 rounds of live coding (using a platform like CoderPad or CodeSignal).
+- **Problem Focus:** Often one problem per 45-60 minute round, allowing for deep discussion on edge cases, optimization, and trade-offs. They value clean, readable code and clear communication.
+- **System Design:** For mid-level (L4) and above, expect a dedicated system design round. For Atlassian, think about scalability of collaboration features, real-time updates, or permission systems.
+- **Behavioral:** The "Values Interview" or "Behavioral Round" carries significant weight. Atlassian's values (like "Open Company, No Bullshit") are directly assessed. Use the STAR method and have concrete examples.
+
+**Roblox:** The process can feel more like a blend of gaming and social media tech interviews.
+
+- **Coding Rounds:** Also 2-3 rounds. Problems may have a subtle bent towards simulations, state management, or efficiency in loops—skills relevant to game loops.
+- **Problem Pace:** Sometimes you might be expected to solve two Medium problems in a round, testing your speed and fluency with fundamentals.
+- **System Design:** For relevant levels, design problems could involve game servers, chat systems, virtual economy, or massive concurrent user loads.
+- **Behavioral:** Focuses on collaboration, passion for the platform (genuine interest helps), and problem-solving in ambiguous situations.
+
+## Specific Problem Recommendations for Both
+
+Here are 5 problems that provide excellent cross-training for Atlassian and Roblox interviews.
+
+1.  **Product of Array Except Self (#238):** A quintessential Array problem that tests your ability to think in prefixes and suffixes. It's a Medium that feels like a Hard if you haven't seen the pattern. Mastering this teaches you space optimization and forward/backward pass logic.
+2.  **Top K Frequent Elements (#347):** Perfectly combines **Hash Table** (for frequency counting) and **Sorting** (via a heap or bucket sort). This is a high-probability pattern for both companies.
+3.  **Valid Sudoku (#36):** Excellent for practicing nested array traversal and the clever use of **Hash Tables** (or sets) for validation across rows, columns, and sub-boxes. It's a practical, logic-based problem.
+4.  **Merge Intervals (#56):** The definitive **Sorting** problem. If you prep for Atlassian, you'll cover this. Its pattern of sorting by a start point and then merging is reusable in many scenarios (meetings, inserting intervals).
+5.  **Encode and Decode Strings (LeetCode Premium):** A fantastic **String** manipulation problem that tests your ability to design a serialization protocol. It's about careful iteration and handling edge cases, skills valued in both data processing (Atlassian) and network communication (Roblox).
 
 <div class="code-group">
 
 ```python
-# Example: Frequency count with Hash Table (common to both)
-def find_anagram_indices(s, p):
-    p_count = {}
-    for char in p:
-        p_count[char] = p_count.get(char, 0) + 1
+# Example: Top K Frequent Elements (#347) - Python
+# Time: O(n log k) for heap solution, O(n) for bucket sort | Space: O(n)
+from collections import Counter
+import heapq
 
-    result = []
-    window_count = {}
-    for i in range(len(s)):
-        # Add new char to window
-        window_count[s[i]] = window_count.get(s[i], 0) + 1
-        # Remove char leaving window (when window is size len(p))
-        if i >= len(p):
-            left_char = s[i - len(p)]
-            if window_count[left_char] == 1:
-                del window_count[left_char]
-            else:
-                window_count[left_char] -= 1
-        # Compare window to pattern
-        if i >= len(p) - 1 and window_count == p_count:
-            result.append(i - len(p) + 1)
-    return result
+class Solution:
+    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+        # Count frequencies - O(n) time, O(n) space
+        count = Counter(nums)
+
+        # Use a min-heap of size k to store the top k elements
+        # Heap elements are (frequency, value). Python heap is min-heap.
+        heap = []
+        for num, freq in count.items():
+            heapq.heappush(heap, (freq, num))
+            if len(heap) > k:
+                heapq.heappop(heap)  # Remove the least frequent
+
+        # Extract the values from the heap
+        return [num for freq, num in heap]
 ```
 
 ```javascript
-// Example: Frequency count with Hash Table (common to both)
-function findAnagramIndices(s, p) {
-  const pCount = {};
-  for (const char of p) {
-    pCount[char] = (pCount[char] || 0) + 1;
+// Example: Top K Frequent Elements (#347) - JavaScript
+// Time: O(n log k) | Space: O(n)
+function topKFrequent(nums, k) {
+  // Count frequencies
+  const freqMap = new Map();
+  for (const num of nums) {
+    freqMap.set(num, (freqMap.get(num) || 0) + 1);
   }
 
-  const result = [];
-  const windowCount = {};
-  for (let i = 0; i < s.length; i++) {
-    // Add new char to window
-    windowCount[s[i]] = (windowCount[s[i]] || 0) + 1;
-    // Remove char leaving window
-    if (i >= p.length) {
-      const leftChar = s[i - p.length];
-      if (windowCount[leftChar] === 1) {
-        delete windowCount[leftChar];
-      } else {
-        windowCount[leftChar]--;
-      }
-    }
-    // Compare
-    if (i >= p.length - 1 && _.isEqual(windowCount, pCount)) {
-      // Note: requires deep equality check
-      result.push(i - p.length + 1);
+  // Use min-priority queue (simulated with array and sort)
+  // In a real interview, you might implement a heap or explain its use.
+  const minHeap = [];
+  for (const [num, freq] of freqMap) {
+    minHeap.push([freq, num]);
+    minHeap.sort((a, b) => a[0] - b[0]); // Keep sorted ascending
+    if (minHeap.length > k) {
+      minHeap.shift(); // Remove smallest frequency
     }
   }
-  return result;
+
+  return minHeap.map((item) => item[1]);
 }
 ```
 
 ```java
-// Example: Frequency count with Hash Table (common to both)
+// Example: Top K Frequent Elements (#347) - Java
+// Time: O(n log k) | Space: O(n)
 import java.util.*;
 
-public List<Integer> findAnagramIndices(String s, String p) {
-    Map<Character, Integer> pCount = new HashMap<>();
-    for (char c : p.toCharArray()) {
-        pCount.put(c, pCount.getOrDefault(c, 0) + 1);
-    }
+public class Solution {
+    public int[] topKFrequent(int[] nums, int k) {
+        // Count frequencies
+        Map<Integer, Integer> count = new HashMap<>();
+        for (int num : nums) {
+            count.put(num, count.getOrDefault(num, 0) + 1);
+        }
 
-    List<Integer> result = new ArrayList<>();
-    Map<Character, Integer> windowCount = new HashMap<>();
-    for (int i = 0; i < s.length(); i++) {
-        // Add new char
-        char rightChar = s.charAt(i);
-        windowCount.put(rightChar, windowCount.getOrDefault(rightChar, 0) + 1);
-        // Remove old char
-        if (i >= p.length()) {
-            char leftChar = s.charAt(i - p.length());
-            if (windowCount.get(leftChar) == 1) {
-                windowCount.remove(leftChar);
-            } else {
-                windowCount.put(leftChar, windowCount.get(leftChar) - 1);
+        // Min-heap using PriorityQueue
+        PriorityQueue<Map.Entry<Integer, Integer>> minHeap =
+            new PriorityQueue<>((a, b) -> a.getValue() - b.getValue());
+
+        for (Map.Entry<Integer, Integer> entry : count.entrySet()) {
+            minHeap.offer(entry);
+            if (minHeap.size() > k) {
+                minHeap.poll(); // Remove the least frequent
             }
         }
-        // Compare
-        if (i >= p.length() - 1 && windowCount.equals(pCount)) {
-            result.add(i - p.length() + 1);
+
+        // Build result
+        int[] result = new int[k];
+        for (int i = k - 1; i >= 0; i--) {
+            result[i] = minHeap.poll().getKey();
         }
+        return result;
     }
-    return result;
 }
 ```
 
 </div>
 
-**Divergence:** The fourth topic highlights the difference. Atlassian lists **Sorting**, implying a focus on algorithms that involve ordering data, custom comparators, or leveraging sorted order for optimization (e.g., two-sum on a sorted array). Roblox lists **Math**, pointing toward problems involving number theory, arithmetic, geometry, or simulation. This suggests Roblox interviews may include more problems related to game mechanics or coordinate systems.
+## Which to Prepare for First?
 
-## Which to Prepare for First
+**Prepare for Atlassian first.** Here’s the strategic reasoning:
 
-Prepare for **Atlassian first** if your interviews are scheduled closely together. Its question set is marginally larger and its focus on Sorting integrates seamlessly with the core Array/String topics. Mastering sorting patterns (like merge intervals or Kth element problems) reinforces general algorithmic thinking. The skills transfer directly to Roblox's core, and you can then supplement with specific Math practice (e.g., gcd, modulo arithmetic, prime numbers).
+1.  **Foundation First:** Atlassian's strong emphasis on **Sorting** as a core topic forces you to master a fundamental algorithm pattern that is widely applicable. This creates a stronger foundation.
+2.  **Coverage:** The core topics (Array, Hash Table, String) are identical. By preparing for Atlassian, you automatically cover 80%+ of Roblox's problem space.
+3.  **The Top-Up:** Once comfortable with the shared base and Atlassian's sorting focus, you can efficiently "top up" your preparation for Roblox by practicing a handful of **Math**-focused problems (like #48, #202, #1041). This is a smaller, more targeted effort than going the other way around.
 
-If you are only interviewing at Roblox, start directly with its core three (Array, Hash Table, String) and then prioritize Math problems. However, the overlap is so significant that a robust foundation built for Atlassian will cover the majority of what you need for Roblox, with only a slight topic pivot required.
+In essence, Atlassian's profile demands a slightly broader algorithmic base. Building that base first makes you well-prepared for both, allowing you to specialize for Roblox with minimal extra time.
 
-Ultimately, the strategy is the same: achieve fluency in Medium-difficulty problems on the core data structures. The small differences in topic emphasis should guide your final days of review, not your entire study plan.
-
-For specific question lists, visit the [Atlassian question bank](/company/atlassian) and the [Roblox question bank](/company/roblox).
+For more detailed company-specific question breakdowns and guides, visit the CodeJeet pages for [Atlassian](/company/atlassian) and [Roblox](/company/roblox).

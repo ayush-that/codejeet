@@ -1,149 +1,150 @@
 ---
 title: "Goldman Sachs vs DoorDash: Interview Question Comparison"
 description: "Compare coding interview questions at Goldman Sachs and DoorDash — difficulty levels, topic focus, and preparation strategy."
-date: "2028-02-08"
+date: "2030-11-08"
 category: "tips"
 tags: ["goldman-sachs", "doordash", "comparison"]
 ---
 
-When preparing for technical interviews, understanding company-specific patterns is crucial for efficient study. Goldman Sachs and DoorDash represent distinct ends of the financial technology and consumer delivery spectra, which is reflected in their technical interview approaches. While both assess core algorithmic competency, their question volume, difficulty distribution, and topical emphasis differ significantly, requiring tailored preparation strategies.
+# Goldman Sachs vs DoorDash: Interview Question Comparison
+
+If you're interviewing at both Goldman Sachs and DoorDash, you're looking at two very different beasts from the same jungle. One is a 150-year-old financial institution with a deeply analytical engineering culture focused on risk and systems stability. The other is an 11-year-old logistics platform dealing with real-time coordination and hypergrowth scaling. Both will test your algorithmic chops, but they approach coding interviews with different priorities, intensities, and problem selection. Understanding these differences isn't just academic—it lets you allocate your limited prep time where it matters most.
 
 ## Question Volume and Difficulty
 
-The sheer volume of documented questions is the most striking difference. Goldman Sachs's pool is over three times larger, with approximately 270 questions compared to DoorDash's 87. This suggests that for Goldman Sachs, interviewers draw from a much broader set of problems, making it harder to predict what you might see. The difficulty distribution also varies:
+The raw numbers tell an immediate story. Goldman Sachs has **270 tagged questions** on LeetCode (51 Easy, 171 Medium, 48 Hard), while DoorDash has **87 tagged questions** (6 Easy, 51 Medium, 30 Hard).
 
-- **Goldman Sachs (E51/M171/H48):** The majority of questions are tagged as Medium (171), with a substantial number of Easy (51) and Hard (48) problems. This indicates a strong focus on intermediate problem-solving, but candidates must be prepared for a wide range of challenges.
-- **DoorDash (E6/M51/H30):** The distribution is heavily skewed toward Medium (51) and Hard (30) questions, with very few Easy (6). This points to a consistently higher bar for algorithmic complexity. DoorDash interviews are known to be rigorous, often involving multi-layered problems that combine algorithms with system design considerations, especially for senior roles.
+Goldman's sheer volume suggests a broader, more established interview question bank. With nearly triple the questions, patterns are less predictable. The 63% Medium, 18% Hard split indicates they lean heavily on standard algorithmic challenges—you'll need solid fundamentals across many domains. The high Medium count is typical for large financial firms: they want reliable, competent engineers who won't break their trading systems.
 
-In essence, Goldman Sachs tests breadth across difficulties, while DoorDash tests depth, primarily at the Medium-Hard level.
+DoorDash's distribution is more intense: a staggering 59% of their questions are Medium, and 34% are Hard. With only 7% Easy questions, they're signaling they filter for stronger algorithmic performers. The smaller question bank (87 vs 270) might suggest more repetition or a more focused set of core patterns. This is common at product-focused tech companies—they drill deep on problems relevant to their domain (scheduling, mapping, resource allocation) rather than casting a wide net.
+
+**Implication:** For Goldman, breadth of preparation is key. For DoorDash, depth on their favorite patterns is crucial. You can't skate by on Easy problems for either, but DoorDash's higher Hard percentage means you need to be comfortable with complex implementations and optimizations.
 
 ## Topic Overlap
 
-Both companies heavily emphasize foundational data structures. **Array, String, and Hash Table** problems are critical for both. However, their secondary focuses diverge, revealing their operational priorities.
+Both companies heavily test **Array, String, and Hash Table** problems. This is the universal foundation of coding interviews. Where they diverge is telling:
 
-- **Goldman Sachs** places a significant emphasis on **Dynamic Programming (DP)**. This aligns with financial modeling and optimization problems common in quantitative finance and risk analysis. Expect problems involving maximization, minimization, and state transition.
-  <div class="code-group">
-  ```python
-  # Example DP problem: Coin Change
-  def coinChange(coins, amount):
-      dp = [float('inf')] * (amount + 1)
-      dp[0] = 0
-      for i in range(1, amount + 1):
-          for coin in coins:
-              if i - coin >= 0:
-                  dp[i] = min(dp[i], dp[i - coin] + 1)
-      return dp[amount] if dp[amount] != float('inf') else -1
-  ```
-  ```javascript
-  // Example DP problem: Coin Change
-  function coinChange(coins, amount) {
-      const dp = new Array(amount + 1).fill(Infinity);
-      dp[0] = 0;
-      for (let i = 1; i <= amount; i++) {
-          for (const coin of coins) {
-              if (i - coin >= 0) {
-                  dp[i] = Math.min(dp[i], dp[i - coin] + 1);
-              }
-          }
-      }
-      return dp[amount] === Infinity ? -1 : dp[amount];
+**Goldman Sachs' unique emphasis:** **Dynamic Programming** appears in their top four. Finance is built on optimization, risk calculation, and maximizing value under constraints—DP is the natural algorithmic embodiment of this. Expect problems about optimal paths, resource allocation, and sequence decisions.
+
+**DoorDash's unique emphasis:** **Depth-First Search** (and by extension, general Graph/Tree traversal) is in their top four. This reflects their core business: modeling cities as graphs, restaurants and customers as nodes, delivery routes as traversal problems. They live and breathe connectivity, cycles, and search.
+
+**Shared Prep Value:** Mastering Array/String manipulation and Hash Table applications (like Two Sum variants, sliding window, frequency counting) gives you the highest return on investment for interviewing at both. These fundamentals underpin more complex problems at both companies.
+
+## Preparation Priority Matrix
+
+Use this to triage your study time:
+
+1.  **Max ROI (Study First):** Array, String, Hash Table.
+    - **Problems:** Two Sum (#1), Longest Substring Without Repeating Characters (#3), Group Anagrams (#49), Merge Intervals (#56).
+
+2.  **Goldman-Specific Priority:** Dynamic Programming, plus likely Matrix/2D Array problems (common in finance).
+    - **Problems:** Best Time to Buy and Sell Stock (#121), Coin Change (#322), Longest Increasing Subsequence (#300), Unique Paths (#62).
+
+3.  **DoorDash-Specific Priority:** Depth-First Search, Graphs, Trees, and likely Breadth-First Search for shortest-path scenarios.
+    - **Problems:** Number of Islands (#200), Clone Graph (#133), Course Schedule (#207), Binary Tree Level Order Traversal (#102).
+
+## Interview Format Differences
+
+**Goldman Sachs** typically uses a more traditional, multi-round format. You might encounter:
+
+- **HackerRank OA:** Often 2-3 problems in 60-90 minutes, heavy on Medium DP and array manipulation.
+- **Technical Rounds (2-3):** 45-60 minutes each, usually one coding problem per round with follow-ups. The problems are often self-contained algorithmic puzzles.
+- **System Design:** For senior roles, but often with a finance twist (e.g., design a risk calculation service, order matching engine).
+- **Behavioral/Cultural Fit:** Significant weight. They value clarity, precision, and understanding the "why" behind your solution. Communication under pressure is key.
+
+**DoorDash** mirrors the standard FAANG-style process:
+
+- **OA/Phone Screen:** 1-2 problems focusing on their core patterns (graphs, trees, simulation).
+- **Virtual Onsite (4-5 rounds):** Often includes 2-3 pure coding rounds, a system design round, and a behavioral/cultural round ("DoorDash Leadership Principles").
+- **Coding Rounds:** Expect **2 problems in 45 minutes** or 1 complex problem with multiple follow-ups. Speed and optimality are critical. Interviewers often look for clean, production-ready code.
+- **System Design:** Almost guaranteed for mid-level and above, focusing on scalable, real-time systems (e.g., design DoorDash, a food delivery dispatch system).
+
+## Specific Problem Recommendations for Dual Prep
+
+These problems train patterns useful for both companies:
+
+1.  **Merge Intervals (#56) - Medium:** This pattern is everywhere. Goldman might use it for merging time-based financial data; DoorDash for consolidating delivery windows or schedule conflicts. It teaches sorting and greedy merging.
+
+<div class="code-group">
+
+```python
+# Time: O(n log n) | Space: O(n) (or O(1) if sorting in-place)
+def merge(intervals):
+    if not intervals:
+        return []
+    # Sort by start time
+    intervals.sort(key=lambda x: x[0])
+    merged = [intervals[0]]
+    for current in intervals[1:]:
+        last = merged[-1]
+        # If intervals overlap, merge them
+        if current[0] <= last[1]:
+            last[1] = max(last[1], current[1])
+        else:
+            merged.append(current)
+    return merged
+```
+
+```javascript
+// Time: O(n log n) | Space: O(n)
+function merge(intervals) {
+  if (intervals.length === 0) return [];
+  intervals.sort((a, b) => a[0] - b[0]);
+  const merged = [intervals[0]];
+  for (let i = 1; i < intervals.length; i++) {
+    const last = merged[merged.length - 1];
+    const current = intervals[i];
+    if (current[0] <= last[1]) {
+      last[1] = Math.max(last[1], current[1]);
+    } else {
+      merged.push(current);
+    }
   }
-  ```
-  ```java
-  // Example DP problem: Coin Change
-  public int coinChange(int[] coins, int amount) {
-      int[] dp = new int[amount + 1];
-      Arrays.fill(dp, amount + 1);
-      dp[0] = 0;
-      for (int i = 1; i <= amount; i++) {
-          for (int coin : coins) {
-              if (i - coin >= 0) {
-                  dp[i] = Math.min(dp[i], dp[i - coin] + 1);
-              }
-          }
-      }
-      return dp[amount] > amount ? -1 : dp[amount];
-  }
-  ```
-  </div>
+  return merged;
+}
+```
 
-- **DoorDash** frequently tests **Depth-First Search (DFS)** and related graph/tree traversal. This is central to problems involving geographical data, route optimization, menu hierarchies, or dependency resolution—core to delivery logistics and platform features.
-  <div class="code-group">
-  ```python
-  # Example DFS problem: Number of Islands
-  def numIslands(grid):
-      def dfs(r, c):
-          if not (0 <= r < len(grid) and 0 <= c < len(grid[0]) and grid[r][c] == '1'):
-              return
-          grid[r][c] = '0'  # Mark as visited
-          for dr, dc in [(1,0), (-1,0), (0,1), (0,-1)]:
-              dfs(r + dr, c + dc)
+```java
+// Time: O(n log n) | Space: O(n) (or O(log n) for sorting space)
+public int[][] merge(int[][] intervals) {
+    if (intervals.length <= 1) return intervals;
+    Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
+    List<int[]> merged = new ArrayList<>();
+    merged.add(intervals[0]);
+    for (int i = 1; i < intervals.length; i++) {
+        int[] last = merged.get(merged.size() - 1);
+        int[] current = intervals[i];
+        if (current[0] <= last[1]) {
+            last[1] = Math.max(last[1], current[1]);
+        } else {
+            merged.add(current);
+        }
+    }
+    return merged.toArray(new int[merged.size()][]);
+}
+```
 
-      count = 0
-      for r in range(len(grid)):
-          for c in range(len(grid[0])):
-              if grid[r][c] == '1':
-                  dfs(r, c)
-                  count += 1
-      return count
+</div>
 
-  ````
-  ```javascript
-  // Example DFS problem: Number of Islands
-  function numIslands(grid) {
-      function dfs(r, c) {
-          if (r < 0 || r >= grid.length || c < 0 || c >= grid[0].length || grid[r][c] === '0') return;
-          grid[r][c] = '0';
-          dfs(r + 1, c);
-          dfs(r - 1, c);
-          dfs(r, c + 1);
-          dfs(r, c - 1);
-      }
+2.  **Word Break (#139) - Medium:** A classic DP problem that Goldman loves (optimal segmentation). For DoorDash, it's a good primer for DFS/memoization on strings, which can model decision trees (like valid delivery route combinations).
 
-      let count = 0;
-      for (let r = 0; r < grid.length; r++) {
-          for (let c = 0; c < grid[0].length; c++) {
-              if (grid[r][c] === '1') {
-                  dfs(r, c);
-                  count++;
-              }
-          }
-      }
-      return count;
-  }
-  ````
+3.  **Clone Graph (#133) - Medium:** DoorDash directly tests graph traversal. For Goldman, this is excellent practice for handling complex object relationships and deep copying—a concept that can appear in system design discussions about data replication.
 
-  ```java
-  // Example DFS problem: Number of Islands
-  public int numIslands(char[][] grid) {
-      int count = 0;
-      for (int r = 0; r < grid.length; r++) {
-          for (int c = 0; c < grid[0].length; c++) {
-              if (grid[r][c] == '1') {
-                  dfs(grid, r, c);
-                  count++;
-              }
-          }
-      }
-      return count;
-  }
+4.  **Coin Change (#322) - Medium:** A fundamental DP problem for Goldman. For DoorDash, while less direct, the "minimum number of X to reach Y" pattern appears in logistics optimization (minimum deliveries, minimum drivers).
 
-  private void dfs(char[][] grid, int r, int c) {
-      if (r < 0 || r >= grid.length || c < 0 || c >= grid[0].length || grid[r][c] == '0') return;
-      grid[r][c] = '0';
-      dfs(grid, r + 1, c);
-      dfs(grid, r - 1, c);
-      dfs(grid, r, c + 1);
-      dfs(grid, r, c - 1);
-  }
-  ```
+5.  **Longest Palindromic Substring (#5) - Medium:** Excellent for both. Tests two-pointer expansion (useful for many array/string problems) and DP. Goldman might frame it as finding symmetric patterns in data; DoorDash could adapt it to pattern matching in addresses or order IDs.
 
-  </div>
+## Which to Prepare for First?
 
-## Which to Prepare for First
+**Prepare for DoorDash first.** Here's the strategic reasoning:
 
-Prepare for **DoorDash first** if you are interviewing at both. The reason is foundational: DoorDash's focus on high-difficulty graph and tree problems requires deep, conceptual understanding and practice. Mastering DFS, BFS, and complex graph algorithms will build a robust problem-solving muscle that is transferable. Once you are comfortable solving DoorDash's Medium-Hard problems, tackling Goldman Sachs's broader set will feel more manageable, as you will have already conquered some of the hardest problem types. Your study for Goldman Sachs would then involve filling in the specific gaps, particularly through extensive Dynamic Programming practice and brushing up on a wider variety of Easy and Medium problems from their large pool.
+DoorDash's interview is more concentrated and intense on algorithmic difficulty. If you can handle their Medium/Hard problems—particularly graph/DFS challenges—you'll be in a strong position for Goldman's broader but generally slightly less difficult (by percentage) question set. The graph skills you build for DoorDash are transferable, while the DP depth for Goldman is more niche. Starting with the harder, more focused target makes the broader target feel more manageable.
 
-Start with core data structures (Array, Hash Table, String), then drill deeply into graph theory and recursion for DoorDash. Subsequently, expand into Dynamic Programming and a wider range of problem patterns for Goldman Sachs.
+Think of it as sharpening a specific blade (DoorDash's patterns) versus forging a wider sword (Goldman's breadth). The sharp blade can still cut most things; the wide sword might not penetrate the toughest material.
 
-For targeted practice, explore the question banks directly: [Goldman Sachs Questions](/company/goldman-sachs) | [DoorDash Questions](/company/doordash)
+Once you're comfortable with DoorDash's core patterns, spend your final week broadening into Goldman's DP-heavy question bank and brushing up on finance-specific behavioral questions.
+
+**Resources:**
+
+- [Goldman Sachs Interview Questions](/company/goldman-sachs)
+- [DoorDash Interview Questions](/company/doordash)

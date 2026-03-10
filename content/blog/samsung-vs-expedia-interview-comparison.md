@@ -1,157 +1,90 @@
 ---
 title: "Samsung vs Expedia: Interview Question Comparison"
 description: "Compare coding interview questions at Samsung and Expedia — difficulty levels, topic focus, and preparation strategy."
-date: "2026-06-22"
+date: "2026-06-14"
 category: "tips"
 tags: ["samsung", "expedia", "comparison"]
 ---
 
-When preparing for technical interviews, understanding the specific focus areas of your target companies can dramatically increase your efficiency. Samsung and Expedia, while both major tech employers, present distinct interview landscapes in terms of question volume, difficulty distribution, and core topics. This comparison breaks down their patterns to help you prioritize your study.
+# Samsung vs Expedia: A Strategic Interview Question Comparison
 
-## Question Volume and Difficulty
+If you're preparing for interviews at both Samsung and Expedia, you're looking at two distinct engineering cultures with different technical priorities. Samsung, a hardware and electronics giant, tends to emphasize algorithmic rigor and optimization in its software roles. Expedia, a travel technology company, focuses more on practical problem-solving with data structures. The good news is that strategic preparation can cover significant ground for both. Let's break down what the data tells us and how to allocate your study time effectively.
 
-The data reveals a clear difference in both the number of questions and their difficulty profiles.
+## Question Volume and Difficulty: What the Numbers Reveal
 
-**Samsung** has a larger overall question bank of 69 questions. The difficulty distribution is heavily weighted towards medium and hard problems: 37 Medium (M37) and 17 Hard (H17), with only 15 Easy (E15). This suggests Samsung's interviews are rigorous, designed to thoroughly test a candidate's problem-solving skills under pressure. You must be comfortable with complex algorithmic challenges.
+Looking at the question banks (Samsung: 69 questions, Expedia: 54), the first insight is in the difficulty distribution.
 
-**Expedia**, with 54 total questions, has a more moderate volume. Its difficulty distribution is notably different: 35 Medium (M35), 13 Easy (E13), and only 6 Hard (H6). This indicates that while Expedia's process still requires strong competency, it places a greater emphasis on foundational and medium-level problem-solving rather than the most advanced, optimization-heavy questions. The low number of hard questions is a significant differentiator.
+**Samsung (E15/M37/H17):** This spread is classic for companies with a strong focus on core computer science fundamentals. The majority of questions (37) are Medium difficulty, which is the sweet spot for testing if you can implement a correct, optimized solution under pressure. The 17 Hard questions signal that for certain roles or final rounds, they will push into complex DP, graph, or advanced data structure problems. You need to be comfortable with non-trivial algorithms.
 
-## Topic Overlap
+**Expedia (E13/M35/H6):** Notice the stark difference in Hard questions—only 6. Expedia's interview leans heavily toward practical, implementable solutions. The high number of Mediums (35) means they want to see clean, efficient code, but the ceiling is lower. The 13 Easy questions often appear in phone screens or as warm-ups. This distribution suggests Expedia values robustness and clarity over algorithmic wizardry.
 
-Both companies share a strong emphasis on **Array** and **Hash Table** problems. These are fundamental data structures for handling collections and enabling efficient lookups, making them universal interview staples.
+**Implication:** Preparing for Samsung will inherently cover Expedia's technical ceiling, but not vice-versa. If you only prep for Expedia's level, you'll be underprepared for Samsung's harder problems.
 
-**Samsung's Unique Focus:** Samsung's list highlights **Dynamic Programming (DP)** and **Two Pointers** as key topics. DP questions are classic for testing optimal substructure and memoization, often appearing in medium to hard challenges. Two Pointers is a versatile technique for solving problems on sorted arrays or linked lists with optimal space.
+## Topic Overlap: Your High-Value Study Areas
 
-<div class="code-group">
+Both companies test **Array** and **Hash Table** extensively. This is your highest-yield overlap.
 
-```python
-# Example: Two Pointers (Find pair with target sum)
-def two_sum_sorted(numbers, target):
-    left, right = 0, len(numbers) - 1
-    while left < right:
-        current_sum = numbers[left] + numbers[right]
-        if current_sum == target:
-            return [left + 1, right + 1]  # 1-indexed
-        elif current_sum < target:
-            left += 1
-        else:
-            right -= 1
-    return []
+- **Array** manipulation is fundamental. Think sorting, searching, prefix sums, and in-place operations.
+- **Hash Table** usage is critical for achieving O(1) lookups and solving problems like pair-finding or frequency counting.
 
-# Example: Dynamic Programming (Climbing Stairs)
-def climb_stairs(n):
-    if n <= 2:
-        return n
-    dp = [0] * (n + 1)
-    dp[1], dp[2] = 1, 2
-    for i in range(3, n + 1):
-        dp[i] = dp[i - 1] + dp[i - 2]
-    return dp[n]
-```
+**Samsung's Unique Emphasis:** **Dynamic Programming** and **Two Pointers**. Samsung's DP questions (likely from their 17 Hards) can range from classic (knapsack, LCS) to more obscure variations. Two Pointers is a versatile pattern for sorted arrays, sliding windows, and linked list cycles.
 
-```javascript
-// Example: Two Pointers (Find pair with target sum)
-function twoSumSorted(numbers, target) {
-  let left = 0,
-    right = numbers.length - 1;
-  while (left < right) {
-    const sum = numbers[left] + numbers[right];
-    if (sum === target) return [left + 1, right + 1];
-    else if (sum < target) left++;
-    else right--;
-  }
-  return [];
-}
+**Expedia's Unique Emphasis:** **String** and **Greedy**. Expedia's focus on String problems aligns with real-world data processing (user inputs, search queries, data parsing). Greedy algorithms are often tested because they lead to elegant, efficient solutions for scheduling, partitioning, or interval problems—common in travel tech.
 
-// Example: Dynamic Programming (Climbing Stairs)
-function climbStairs(n) {
-  if (n <= 2) return n;
-  const dp = new Array(n + 1).fill(0);
-  dp[1] = 1;
-  dp[2] = 2;
-  for (let i = 3; i <= n; i++) {
-    dp[i] = dp[i - 1] + dp[i - 2];
-  }
-  return dp[n];
-}
-```
+**Key Takeaway:** Master Arrays and Hash Tables first. Then, if prepping for both, you must add Samsung's DP and Two Pointers to your list. Expedia's String and Greedy topics are smaller, targeted additions.
 
-```java
-// Example: Two Pointers (Find pair with target sum)
-public int[] twoSumSorted(int[] numbers, int target) {
-    int left = 0, right = numbers.length - 1;
-    while (left < right) {
-        int sum = numbers[left] + numbers[right];
-        if (sum == target) return new int[]{left + 1, right + 1};
-        else if (sum < target) left++;
-        else right--;
-    }
-    return new int[]{};
-}
+## Preparation Priority Matrix
 
-// Example: Dynamic Programming (Climbing Stairs)
-public int climbStairs(int n) {
-    if (n <= 2) return n;
-    int[] dp = new int[n + 1];
-    dp[1] = 1; dp[2] = 2;
-    for (int i = 3; i <= n; i++) {
-        dp[i] = dp[i - 1] + dp[i - 2];
-    }
-    return dp[n];
-}
-```
+Use this to sequence your study. ROI = Return on Investment.
 
-</div>
+| Priority            | Topics                            | Reason                                                            | Recommended LeetCode Problems (Study in this order)                                                                                                                 |
+| :------------------ | :-------------------------------- | :---------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **P0: Max ROI**     | Array, Hash Table                 | Heavily tested by both companies. Foundational.                   | #1 Two Sum, #56 Merge Intervals, #238 Product of Array Except Self, #49 Group Anagrams                                                                              |
+| **P1: For Samsung** | Dynamic Programming, Two Pointers | Critical for Samsung's harder questions. Less vital for Expedia.  | #70 Climbing Stairs (DP intro), #5 Longest Palindromic Substring (DP/Two Pointers), #3 Longest Substring Without Repeating Characters (Sliding Window/Two Pointers) |
+| **P2: For Expedia** | String, Greedy                    | Needed to cover Expedia's specific focus. Generally lighter lift. | #14 Longest Common Prefix, #122 Best Time to Buy and Sell Stock II (Greedy), #763 Partition Labels (Greedy)                                                         |
 
-**Expedia's Unique Focus:** Expedia emphasizes **String** manipulation and **Greedy** algorithms. String problems test careful indexing and edge-case handling, while Greedy algorithms assess the ability to make locally optimal choices for a globally optimal solution, common in scheduling or resource allocation problems.
+## Interview Format Differences
 
-<div class="code-group">
+How you're tested matters as much as what you're tested on.
 
-```python
-# Example: Greedy (Maximum Subarray - Kadane's Algorithm)
-def max_subarray(nums):
-    current_max = global_max = nums[0]
-    for num in nums[1:]:
-        current_max = max(num, current_max + num)
-        global_max = max(global_max, current_max)
-    return global_max
-```
+**Samsung** often has a multi-round on-site process. You might encounter:
 
-```javascript
-// Example: Greedy (Maximum Subarray - Kadane's Algorithm)
-function maxSubarray(nums) {
-  let currentMax = nums[0],
-    globalMax = nums[0];
-  for (let i = 1; i < nums.length; i++) {
-    currentMax = Math.max(nums[i], currentMax + nums[i]);
-    globalMax = Math.max(globalMax, currentMax);
-  }
-  return globalMax;
-}
-```
+- **2-3 coding rounds** with a mix of Medium and Hard problems.
+- Problems can be more abstract or math-adjacent.
+- A strong emphasis on **time and space complexity analysis**. You must articulate your optimization choices.
+- Possible system design round for senior roles, often with a focus on scalability or embedded systems considerations.
 
-```java
-// Example: Greedy (Maximum Subarray - Kadane's Algorithm)
-public int maxSubArray(int[] nums) {
-    int currentMax = nums[0], globalMax = nums[0];
-    for (int i = 1; i < nums.length; i++) {
-        currentMax = Math.max(nums[i], currentMax + nums[i]);
-        globalMax = Math.max(globalMax, currentMax);
-    }
-    return globalMax;
-}
-```
+**Expedia** typically follows a more standard tech interview flow:
 
-</div>
+- **1-2 phone screens** focusing on a Medium problem, testing clean code and communication.
+- **Virtual or on-site final rounds** with 2-3 coding sessions, mostly Mediums.
+- Greater weight on **behavioral and experiential questions** ("Tell me about a time you improved a system's performance").
+- System design is role-dependent but tends to be more practical, focusing on API design, database schema, and real-world travel domain problems.
 
-## Which to Prepare for First
+**Strategy:** For Samsung, practice whiteboarding complex logic. For Expedia, practice talking through your reasoning clearly and concisely on a video call.
 
-Your preparation order should depend on your timeline and strengths.
+## Specific Problem Recommendations for Dual Preparation
 
-Prepare for **Expedia first** if you are earlier in your interview preparation journey or prioritizing a slightly less daunting difficulty curve. The stronger focus on Strings, Arrays, and Hash Tables, combined with fewer hard problems, allows you to solidify core data structure skills. Mastering Expedia's pattern will build a robust foundation applicable to many companies.
+These 5 problems provide exceptional coverage for both companies' patterns.
 
-Prepare for **Samsung first** if you are already comfortable with medium-level problems and need to ramp up for a highly challenging interview. The significant volume of medium and hard questions, especially in Dynamic Programming and Two Pointers, requires dedicated, advanced practice. Conquering Samsung's question bank will make most other interviews, including Expedia's, feel more manageable.
+1.  **Two Sum (#1):** The quintessential Hash Table problem. It teaches the complement map pattern, which is reused in dozens of other problems. Must be able to solve and explain in your sleep.
+2.  **Merge Intervals (#56):** A classic Array/Sorting problem that tests your ability to manage overlapping ranges. The pattern appears in scheduling, a relevant domain for both companies (device timers for Samsung, trip bookings for Expedia).
+3.  **Longest Substring Without Repeating Characters (#3):** A perfect blend of Hash Table (for character tracking) and the Sliding Window technique (a Two Pointers variant). It's a Medium that feels like a Hard if you don't know the pattern, making it great prep for Samsung's upper-tier Mediums.
+4.  **Product of Array Except Self (#238):** An excellent Array problem that forces you to think about prefix and suffix computations. It's a common interview question that tests if you can optimize for O(1) extra space (excluding the output array). Tests fundamental data manipulation skills valued by both.
+5.  **Climbing Stairs (#70):** The gateway Dynamic Programming problem. If you're weak on DP, start here. Understanding the memoization and state transition here unlocks the pattern for many Samsung problems. While less likely at Expedia, it's a fundamental CS concept.
 
-In practice, a strong candidate should be proficient in all the overlapping topics (Array, Hash Table). The decision hinges on whether you need to deepen your knowledge in DP/Two Pointers (Samsung) or Greedy/Strings (Expedia) and how comfortable you are with hard problem difficulty.
+## Which to Prepare for First? The Strategic Order
 
-For detailed question lists, visit the [Samsung](/company/samsung) and [Expedia](/company/expedia) pages on CodeJeet.
+**Prepare for Samsung first.**
+
+Here's why: The technical scope required for Samsung is a superset of what's required for Expedia. By drilling into Dynamic Programming and tougher Two Pointer problems, you will be over-prepared for Expedia's coding rounds. Once you've built that algorithmic muscle memory, you can shift focus to:
+
+1.  **Practicing communication:** Do mock interviews where you explain Medium problems clearly from start to finish. This is key for Expedia.
+2.  **Reviewing String manipulations and Greedy patterns:** This is a lighter, targeted review.
+3.  **Preparing behavioral stories:** Expedia will likely dive deeper here.
+
+If you prepare for Expedia first, you'll then face a daunting leap to Samsung's Hard problems. The reverse path is more efficient and less stressful.
+
+**Final Thought:** Both companies value engineers who can write working, efficient code. Samsung seems to probe deeper on _how you optimize_, while Expedia cares more about _how you build and communicate_. Tailor your practice accordingly.
+
+For more detailed company-specific question lists and guides, visit our pages for [Samsung](/company/samsung) and [Expedia](/company/expedia).

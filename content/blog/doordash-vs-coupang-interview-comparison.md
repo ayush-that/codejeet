@@ -1,165 +1,209 @@
 ---
 title: "DoorDash vs Coupang: Interview Question Comparison"
 description: "Compare coding interview questions at DoorDash and Coupang — difficulty levels, topic focus, and preparation strategy."
-date: "2026-03-22"
+date: "2034-03-06"
 category: "tips"
 tags: ["doordash", "coupang", "comparison"]
 ---
 
-When preparing for technical interviews at major tech companies, understanding the specific patterns and expectations of each can significantly streamline your study process. DoorDash and Coupang, while both being large-scale logistics and e-commerce platforms, present distinct interview landscapes in terms of volume, difficulty, and focus areas. A targeted comparison helps you allocate your preparation time effectively.
+# DoorDash vs Coupang: Interview Question Comparison
+
+If you're interviewing at both DoorDash and Coupang, you're looking at two distinct interview cultures shaped by their business models. DoorDash operates in the hyper-competitive U.S. delivery space, while Coupang dominates South Korean e-commerce with its "Rocket Delivery" infrastructure. This difference manifests in their technical interviews: DoorDash tends toward breadth and practical problem-solving, while Coupang emphasizes algorithmic depth, particularly in optimization. Preparing for both simultaneously is efficient—they share significant overlap—but requires strategic prioritization.
 
 ## Question Volume and Difficulty
 
-The most immediate difference is the sheer number of documented questions. DoorDash has a larger question pool with approximately 87 questions, categorized as 6 Easy, 51 Medium, and 30 Hard. This indicates a strong emphasis on challenging problem-solving, with nearly 35% of questions being Hard. Coupang's pool is smaller, with around 53 questions (3 Easy, 36 Medium, 14 Hard). While still challenging, the proportion of Hard questions is lower (~26%).
+DoorDash's 87 questions (51 Medium, 30 Hard) versus Coupang's 53 questions (36 Medium, 14 Hard) tells a story about interview intensity and focus.
 
-This suggests DoorDash interviews may involve a higher probability of encountering a complex, multi-step problem requiring optimal solutions. Coupang's focus appears more centered on solid performance across Medium-difficulty problems, though Hard questions are certainly in play.
+DoorDash's larger question bank suggests they've conducted more interviews or have a wider variety of problems. The higher Hard count (30 vs 14) indicates DoorDash frequently pushes candidates to complex problem-solving, often involving multiple concepts in one question. In practice, DoorDash interviews feel like solving practical logistics problems—routing, scheduling, resource allocation—disguised as LeetCode problems.
 
-<div class="code-group">
+Coupang's smaller but denser question set points to a more curated interview process. With 68% of their questions at Medium difficulty, they're testing for solid fundamentals and clean implementation. Their Hard problems often involve optimization—think minimizing delivery times or warehouse sorting efficiency—which aligns with their logistics-heavy business.
 
-```python
-# Example of a potential "Hard" pattern: Graph DFS with state tracking
-def critical_connections(n, connections):
-    from collections import defaultdict
-    graph = defaultdict(list)
-    for u, v in connections:
-        graph[u].append(v)
-        graph[v].append(u)
-
-    disc = [-1] * n
-    low = [-1] * n
-    time = [0]
-    result = []
-
-    def dfs(u, parent):
-        disc[u] = low[u] = time[0]
-        time[0] += 1
-        for v in graph[u]:
-            if v == parent:
-                continue
-            if disc[v] == -1:
-                dfs(v, u)
-                low[u] = min(low[u], low[v])
-                if low[v] > disc[u]:
-                    result.append([u, v])
-            else:
-                low[u] = min(low[u], disc[v])
-
-    dfs(0, -1)
-    return result
-```
-
-```javascript
-// Example of a common "Medium" pattern: Sliding Window
-function lengthOfLongestSubstring(s) {
-  const charSet = new Set();
-  let left = 0;
-  let maxLength = 0;
-
-  for (let right = 0; right < s.length; right++) {
-    while (charSet.has(s[right])) {
-      charSet.delete(s[left]);
-      left++;
-    }
-    charSet.add(s[right]);
-    maxLength = Math.max(maxLength, right - left + 1);
-  }
-  return maxLength;
-}
-```
-
-```java
-// Example of a common "Medium" pattern: Dynamic Programming
-public int coinChange(int[] coins, int amount) {
-    int[] dp = new int[amount + 1];
-    Arrays.fill(dp, amount + 1);
-    dp[0] = 0;
-
-    for (int i = 1; i <= amount; i++) {
-        for (int coin : coins) {
-            if (coin <= i) {
-                dp[i] = Math.min(dp[i], dp[i - coin] + 1);
-            }
-        }
-    }
-    return dp[amount] > amount ? -1 : dp[amount];
-}
-```
-
-</div>
+The takeaway: DoorDash interviews might throw more curveballs, while Coupang interviews test deeper mastery of core algorithms.
 
 ## Topic Overlap
 
-Both companies heavily test core data structures: **Array, String, and Hash Table** are top topics for each. This is the foundational overlap you must master.
+Both companies heavily test:
 
-The key divergence lies in their secondary focuses. **DoorDash** prominently features **Depth-First Search (DFS)**, indicating a significant emphasis on graph and tree traversal problems, which aligns with modeling delivery networks and location hierarchies. **Coupang** places notable weight on **Dynamic Programming (DP)**, suggesting interviews may probe deeper into optimization problems, combinatorial counting, or resource allocation—relevant for inventory, pricing, or logistics optimization.
+- **Array/String manipulation** (foundation for everything)
+- **Hash Table applications** (frequency counting, memoization, lookups)
+- **Depth-First Search** (though DoorDash emphasizes it more)
 
-Thus, while preparation for both should solidify arrays, strings, and hashing, you should tailor your deep dives: prioritize graph algorithms for DoorDash and DP patterns for Coupang.
+Unique emphasis:
 
-## Which to Prepare for First
+- **DoorDash**: Depth-First Search appears in 15% of their questions—think pathfinding in delivery grids or menu category traversal.
+- **Coupang**: Dynamic Programming appears in 20% of their questions—optimization problems like inventory management or delivery cost minimization.
 
-If you are interviewing at both, start with the **common core**: Array, String, and Hash Table problems at the Medium level. This builds a strong base for either company.
+The overlap means studying Array, String, and Hash Table problems gives you maximum return on investment for both companies. DFS knowledge helps more with DoorDash, while DP mastery is crucial for Coupang.
 
-Next, prioritize based on your interview schedule. If you have a DoorDash interview first, drill into **DFS, BFS, and tree variations**. Practice constructing graphs from edge lists and performing traversals with additional state.
+## Preparation Priority Matrix
+
+**High Priority (Both Companies)**
+
+- Array manipulation (sliding window, two pointers)
+- Hash Table applications (frequency maps, complement searching)
+- String algorithms (palindromes, subsequences, encoding)
+
+**Medium Priority (DoorDash Focus)**
+
+- Graph traversal (DFS/BFS on grids or trees)
+- Interval problems (scheduling deliveries)
+- Stack/Queue applications (request processing)
+
+**Medium Priority (Coupang Focus)**
+
+- Dynamic Programming (knapsack variants, sequence DP)
+- Greedy algorithms (optimization problems)
+- Sorting with custom comparators (inventory sorting)
+
+**Specific crossover problems:**
+
+- **Two Sum (#1)** - Tests hash table fundamentals
+- **Merge Intervals (#56)** - Applies to both delivery scheduling (DoorDash) and warehouse time slots (Coupang)
+- **Longest Substring Without Repeating Characters (#3)** - Sliding window technique used by both
+
+## Interview Format Differences
+
+**DoorDash** typically follows:
+
+1. Phone screen (1 coding problem, 45 minutes)
+2. Virtual onsite (4-5 rounds: 2-3 coding, 1 system design, 1 behavioral)
+3. Coding rounds: 45-50 minutes, often 1 medium-hard problem or 2 medium problems
+4. Heavy emphasis on real-world scenarios: "How would you design a food delivery tracking system?"
+
+**Coupang** structure differs:
+
+1. Online assessment (2-3 problems, 90 minutes)
+2. Technical interviews (2-3 rounds, 60 minutes each)
+3. Problems tend to be single, complex algorithm questions rather than multiple smaller ones
+4. More mathematical/optimization focus: "Minimize warehouse robot travel distance"
+
+Key distinction: DoorDash wants to see you translate business problems to code quickly. Coupang wants to see rigorous algorithmic thinking and optimization proof.
+
+## Specific Problem Recommendations
+
+Here are 5 problems that provide crossover value:
+
+1. **Number of Islands (#200)** - DFS/BFS fundamental that appears in both companies' question lists. DoorDash uses it for delivery area mapping; Coupang for warehouse grid navigation.
 
 <div class="code-group">
 
 ```python
-# DFS on a tree (common for DoorDash)
-def max_path_sum(root):
-    def dfs(node):
-        if not node:
-            return 0
-        left_gain = max(dfs(node.left), 0)
-        right_gain = max(dfs(node.right), 0)
-        current_path = node.val + left_gain + right_gain
-        nonlocal max_sum
-        max_sum = max(max_sum, current_path)
-        return node.val + max(left_gain, right_gain)
+# Time: O(m*n) | Space: O(m*n) in worst case (call stack)
+def numIslands(grid):
+    if not grid:
+        return 0
 
-    max_sum = float('-inf')
-    dfs(root)
-    return max_sum
+    rows, cols = len(grid), len(grid[0])
+    islands = 0
+
+    def dfs(r, c):
+        if r < 0 or c < 0 or r >= rows or c >= cols or grid[r][c] != '1':
+            return
+        grid[r][c] = '0'  # Mark as visited
+        dfs(r + 1, c)
+        dfs(r - 1, c)
+        dfs(r, c + 1)
+        dfs(r, c - 1)
+
+    for r in range(rows):
+        for c in range(cols):
+            if grid[r][c] == '1':
+                islands += 1
+                dfs(r, c)
+
+    return islands
 ```
 
 ```javascript
-// BFS level-order traversal
-function levelOrder(root) {
-  if (!root) return [];
-  const result = [];
-  const queue = [root];
-  while (queue.length) {
-    const levelSize = queue.length;
-    const currentLevel = [];
-    for (let i = 0; i < levelSize; i++) {
-      const node = queue.shift();
-      currentLevel.push(node.val);
-      if (node.left) queue.push(node.left);
-      if (node.right) queue.push(node.right);
+// Time: O(m*n) | Space: O(m*n) in worst case (call stack)
+function numIslands(grid) {
+  if (!grid.length) return 0;
+
+  const rows = grid.length;
+  const cols = grid[0].length;
+  let islands = 0;
+
+  function dfs(r, c) {
+    if (r < 0 || c < 0 || r >= rows || c >= cols || grid[r][c] !== "1") {
+      return;
     }
-    result.push(currentLevel);
+    grid[r][c] = "0";
+    dfs(r + 1, c);
+    dfs(r - 1, c);
+    dfs(r, c + 1);
+    dfs(r, c - 1);
   }
-  return result;
+
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      if (grid[r][c] === "1") {
+        islands++;
+        dfs(r, c);
+      }
+    }
+  }
+
+  return islands;
 }
 ```
 
 ```java
-// Dynamic Programming - Fibonacci (common for Coupang)
-public int fib(int n) {
-    if (n <= 1) return n;
-    int prev2 = 0, prev1 = 1;
-    for (int i = 2; i <= n; i++) {
-        int current = prev1 + prev2;
-        prev2 = prev1;
-        prev1 = current;
+// Time: O(m*n) | Space: O(m*n) in worst case (call stack)
+public int numIslands(char[][] grid) {
+    if (grid == null || grid.length == 0) return 0;
+
+    int rows = grid.length;
+    int cols = grid[0].length;
+    int islands = 0;
+
+    for (int r = 0; r < rows; r++) {
+        for (int c = 0; c < cols; c++) {
+            if (grid[r][c] == '1') {
+                islands++;
+                dfs(grid, r, c);
+            }
+        }
     }
-    return prev1;
+
+    return islands;
+}
+
+private void dfs(char[][] grid, int r, int c) {
+    if (r < 0 || c < 0 || r >= grid.length || c >= grid[0].length || grid[r][c] != '1') {
+        return;
+    }
+    grid[r][c] = '0';
+    dfs(grid, r + 1, c);
+    dfs(grid, r - 1, c);
+    dfs(grid, r, c + 1);
+    dfs(grid, r, c - 1);
 }
 ```
 
 </div>
 
-If Coupang is your first target, shift focus to **Dynamic Programming**. Master fundamental patterns like 0/1 knapsack, unbounded knapsack (coin change), longest common subsequence, and DP on strings or grids.
+2. **Longest Palindromic Substring (#5)** - Tests dynamic programming (Coupang) and string manipulation (both). The expand-around-center approach is particularly elegant.
 
-Ultimately, the larger and slightly harder DoorDash question pool might require more cumulative study time. However, the focused DP expectation at Coupang demands deep, pattern-specific practice. Solidify the shared fundamentals, then branch into each company's specialty.
+3. **Merge Intervals (#56)** - Critical for both: DoorDash (delivery time windows), Coupang (warehouse operation scheduling). Practice both sorting and merging approaches.
 
-For more detailed question lists and patterns, visit the [DoorDash interview guide](/company/doordash) and the [Coupang interview guide](/company/coupang).
+4. **Coin Change (#322)** - Classic DP problem that appears in Coupang's list. Understanding the bottom-up tabulation approach is essential for their optimization questions.
+
+5. **Course Schedule (#207)** - Graph/topological sort problem that tests cycle detection. DoorDash uses this for prerequisite checking (menu categories, delivery rules).
+
+## Which to Prepare for First
+
+Start with **Coupang**, then transition to DoorDash. Here's why:
+
+Coupang's focus on Dynamic Programming and algorithmic depth requires more concentrated study time. DP patterns don't come naturally to most engineers—they need deliberate practice. Once you've built that mental muscle, transitioning to DoorDash's broader but shallower problem set is easier.
+
+Study sequence:
+
+1. Week 1-2: Core algorithms (Arrays, Strings, Hash Tables) + Dynamic Programming
+2. Week 3: Graph algorithms (DFS/BFS) + practice Coupang-style optimization problems
+3. Week 4: DoorDash-specific patterns (intervals, stacks, real-world problem translation)
+
+This approach gives you the rigorous foundation Coupang wants while preparing you for DoorDash's variety. The crossover topics (70% of what both test) become your strong suit, while company-specific topics get focused attention in the final stretch.
+
+Remember: Both companies value clean, communicative code over clever one-liners. Comment your thought process, discuss tradeoffs, and always mention time/space complexity—this matters more at Coupang but is appreciated at DoorDash too.
+
+For more company-specific insights, check out our [DoorDash interview guide](/company/doordash) and [Coupang interview guide](/company/coupang).

@@ -1,91 +1,258 @@
 ---
 title: "Dynamic Programming Questions at Salesforce: What to Expect"
 description: "Prepare for Dynamic Programming interview questions at Salesforce — patterns, difficulty breakdown, and study tips."
-date: "2027-09-27"
+date: "2027-09-19"
 category: "dsa-patterns"
 tags: ["salesforce", "dynamic-programming", "interview prep"]
 ---
 
-Dynamic Programming (DP) is a core algorithmic technique for solving complex optimization and combinatorial problems by breaking them into overlapping subproblems. At Salesforce, with 38 DP questions in its coding interview repertoire, mastery of this concept is non-negotiable. The company's products handle massive datasets, complex business logic, and real-time optimizations—scenarios where brute-force solutions are computationally impossible. DP provides the framework for efficient, scalable algorithms, making it a direct indicator of a candidate's ability to design systems that are both correct and performant under constraints.
+## Why Dynamic Programming Matters at Salesforce
 
-## What to Expect — Types of Problems
+Salesforce’s engineering interviews place a significant emphasis on algorithmic problem-solving, and Dynamic Programming (DP) is a core component of that assessment. With 38 DP problems in their tagged question list (out of 189 total), DP represents roughly 20% of their technical question pool—a substantial portion that you cannot afford to overlook. This frequency isn’t arbitrary. Salesforce builds and maintains complex, large-scale systems involving multi-tenant architectures, workflow automation, and data processing pipelines. Many of these real-world problems—like optimizing resource allocation, calculating efficient data aggregation paths, or determining minimum cost configurations—are fundamentally DP problems in disguise. In an interview, a well-structured DP solution demonstrates your ability to break down a complex problem, identify overlapping subproblems, and build an efficient bottom-up or memoized solution. It tests not just coding skill, but system design thinking applied to an algorithm. While not every interview will feature a DP question, the statistical weight suggests you have a high probability of encountering at least one DP problem across your interview loop. Treating DP as a secondary topic is a strategic mistake.
 
-Salesforce's DP problems typically fall into two categories, reflecting real-world engineering challenges.
+## Specific Patterns Salesforce Favors
 
-1.  **Classic Sequence & String Problems:** These are foundational. Expect variations on longest common subsequence, edit distance, palindromic substrings, and ways to decode messages. They test your ability to model relationships between sequences, a common task in data processing and integration pipelines.
-2.  **Knapsack & Partition Problems:** These deal with resource allocation and optimization. You might encounter problems like "Target Sum," "Partition Equal Subset Sum," or coin change variants. These directly mirror backend challenges at Salesforce: optimizing server resource allocation, feature flag rollouts, or balancing loads across services.
+Salesforce’s DP questions tend to cluster around practical, business-logic-adjacent patterns rather than abstract mathematical puzzles. You’ll notice a strong preference for problems involving **sequences, strings, and simple 1D/2D state transitions**. The goal is to assess if you can model a real-world optimization constraint.
 
-The problems are rarely presented in their textbook form. The key is to recognize the underlying pattern—often, a problem about assigning tasks or dividing arrays is a partition problem in disguise.
+1.  **String/Sequence DP (Edit Distance, LCS variants):** Problems like determining the minimum operations to transform one sequence to another or finding optimal alignments are common. This tests your ability to handle two-state DP tables.
+    - **LeetCode #72 (Edit Distance):** A classic. You must convert `word1` to `word2` using insert, delete, or replace operations.
+    - **LeetCode #1143 (Longest Common Subsequence):** Foundational for understanding 2D DP on sequences.
 
-## How to Prepare — Study Tips with One Code Example
+2.  **Knapsack-Style Problems (Subset Sum, Partitioning):** These are highly relevant to resource allocation scenarios. Can you divide a set of "values" (like server loads, transaction amounts) to meet a target or optimize a constraint?
+    - **LeetCode #416 (Partition Equal Subset Sum):** A direct application of the 0/1 knapsack pattern.
+    - **LeetCode #494 (Target Sum):** A more advanced variation that reduces to a subset count problem.
 
-Start by internalizing the core DP patterns: 1) Define the state `dp[i]` or `dp[i][j]`, 2) Establish the recurrence relation, and 3) Determine the base case and traversal order. Drill these patterns until you can derive them from the problem statement.
+3.  **1D/2D Grid Pathfinding with Constraints:** Problems where you find unique paths, minimum path costs, or ways to traverse a grid with obstacles. These often model state machines or workflow transitions.
+    - **LeetCode #62 (Unique Paths) & #63 (Unique Paths II):** The foundational grid DP problems.
+    - **LeetCode #64 (Minimum Path Sum):** Adds a cost optimization layer.
 
-A fundamental pattern is the **"House Robber"** problem, which teaches state definition for sequential decision-making. The recurrence relation is: `dp[i] = max(dp[i-1], dp[i-2] + nums[i])`. This pattern appears in problems where you make decisions that affect adjacent elements.
+You will see far fewer pure "graph theory DP" problems (like Floyd-Warshall or traveling salesman) and a stronger focus on **iterative, bottom-up tabulation**. Interviewers want to see clean, efficient, space-optimized loops. Recursive top-down memoization is acceptable, but be prepared to discuss and convert it to a bottom-up solution.
+
+## How to Prepare
+
+The key is to internalize the pattern, not just memorize problems. Let’s take the **0/1 Knapsack** pattern, which underlies problems like Partition Equal Subset Sum (#416). The core idea: you have a list of numbers (weights/values) and a target sum (capacity). For each number, you decide to include it or not.
+
+The naive recursive solution has exponential time. The DP approach uses a table `dp[i][s]` meaning: "can we form sum `s` using the first `i` items?" The recurrence is: `dp[i][s] = dp[i-1][s] OR dp[i-1][s - nums[i-1]]` (if `s >= nums[i-1]`).
+
+Here is the space-optimized version, which uses only a 1D array. This is the version you should aim to produce in an interview.
 
 <div class="code-group">
 
 ```python
-def rob(nums):
-    if not nums:
-        return 0
-    n = len(nums)
-    if n == 1:
-        return nums[0]
+def canPartition(nums):
+    """
+    LeetCode #416: Partition Equal Subset Sum
+    Time: O(n * target) | Space: O(target)
+    """
+    total = sum(nums)
+    if total % 2 != 0:
+        return False
+    target = total // 2
 
-    dp = [0] * n
-    dp[0] = nums[0]
-    dp[1] = max(nums[0], nums[1])
+    # dp[s] will be True if sum 's' can be formed with processed numbers
+    dp = [False] * (target + 1)
+    dp[0] = True  # Base case: sum 0 is always achievable
 
-    for i in range(2, n):
-        dp[i] = max(dp[i-1], dp[i-2] + nums[i])
-
-    return dp[-1]
+    for num in nums:
+        # Iterate backwards to avoid re-using the same num in one iteration
+        for s in range(target, num - 1, -1):
+            if dp[s - num]:  # If we can form (s - num) without current num...
+                dp[s] = True  # ...then we can form 's' by including current num
+        # Early exit optimization
+        if dp[target]:
+            return True
+    return dp[target]
 ```
 
 ```javascript
-function rob(nums) {
-  if (nums.length === 0) return 0;
-  if (nums.length === 1) return nums[0];
+function canPartition(nums) {
+  /**
+   * LeetCode #416: Partition Equal Subset Sum
+   * Time: O(n * target) | Space: O(target)
+   */
+  const total = nums.reduce((a, b) => a + b, 0);
+  if (total % 2 !== 0) return false;
+  const target = total / 2;
 
-  let dp = new Array(nums.length);
-  dp[0] = nums[0];
-  dp[1] = Math.max(nums[0], nums[1]);
+  // dp[s] = true if sum 's' is achievable
+  const dp = new Array(target + 1).fill(false);
+  dp[0] = true; // Base case
 
-  for (let i = 2; i < nums.length; i++) {
-    dp[i] = Math.max(dp[i - 1], dp[i - 2] + nums[i]);
+  for (const num of nums) {
+    // Traverse backwards to prevent overwriting needed previous states
+    for (let s = target; s >= num; s--) {
+      if (dp[s - num]) {
+        dp[s] = true;
+      }
+    }
+    if (dp[target]) return true; // Early exit
   }
-
-  return dp[nums.length - 1];
+  return dp[target];
 }
 ```
 
 ```java
-public int rob(int[] nums) {
-    if (nums.length == 0) return 0;
-    if (nums.length == 1) return nums[0];
+public boolean canPartition(int[] nums) {
+    /**
+     * LeetCode #416: Partition Equal Subset Sum
+     * Time: O(n * target) | Space: O(target)
+     */
+    int total = 0;
+    for (int num : nums) total += num;
+    if (total % 2 != 0) return false;
+    int target = total / 2;
 
-    int[] dp = new int[nums.length];
-    dp[0] = nums[0];
-    dp[1] = Math.max(nums[0], nums[1]);
+    // dp[s] = true if sum 's' can be formed
+    boolean[] dp = new boolean[target + 1];
+    dp[0] = true; // Base case
 
-    for (int i = 2; i < nums.length; i++) {
-        dp[i] = Math.max(dp[i-1], dp[i-2] + nums[i]);
+    for (int num : nums) {
+        // Iterate backwards to avoid using the same element multiple times
+        for (int s = target; s >= num; s--) {
+            if (dp[s - num]) {
+                dp[s] = true;
+            }
+        }
+        if (dp[target]) return true; // Early exit
     }
-
-    return dp[nums.length - 1];
+    return dp[target];
 }
 ```
 
 </div>
 
+Another critical pattern is **2D String DP**. Let's look at the core structure for Longest Common Subsequence (#1143).
+
+<div class="code-group">
+
+```python
+def longestCommonSubsequence(text1, text2):
+    """
+    LeetCode #1143: Longest Common Subsequence
+    Time: O(n * m) | Space: O(min(n, m)) - Optimized space version.
+    """
+    # Ensure text1 is the shorter string for space optimization
+    if len(text1) > len(text2):
+        text1, text2 = text2, text1
+    n, m = len(text1), len(text2)
+
+    # dp[j] represents the LCS length for the current row (i) and column j
+    prev = [0] * (m + 1)
+    curr = [0] * (m + 1)
+
+    for i in range(1, n + 1):
+        for j in range(1, m + 1):
+            if text1[i - 1] == text2[j - 1]:
+                curr[j] = 1 + prev[j - 1]
+            else:
+                curr[j] = max(prev[j], curr[j - 1])
+        # Swap rows for the next iteration
+        prev, curr = curr, prev
+    # After the last swap, 'prev' holds the final row's data
+    return prev[m]
+```
+
+```javascript
+function longestCommonSubsequence(text1, text2) {
+  /**
+   * LeetCode #1143: Longest Common Subsequence
+   * Time: O(n * m) | Space: O(min(n, m))
+   */
+  // Ensure text1 is the shorter string
+  if (text1.length > text2.length) [text1, text2] = [text2, text1];
+  const n = text1.length,
+    m = text2.length;
+
+  let prev = new Array(m + 1).fill(0);
+  let curr = new Array(m + 1).fill(0);
+
+  for (let i = 1; i <= n; i++) {
+    for (let j = 1; j <= m; j++) {
+      if (text1[i - 1] === text2[j - 1]) {
+        curr[j] = 1 + prev[j - 1];
+      } else {
+        curr[j] = Math.max(prev[j], curr[j - 1]);
+      }
+    }
+    // Swap the rows
+    [prev, curr] = [curr, prev];
+  }
+  return prev[m];
+}
+```
+
+```java
+public int longestCommonSubsequence(String text1, String text2) {
+    /**
+     * LeetCode #1143: Longest Common Subsequence
+     * Time: O(n * m) | Space: O(min(n, m))
+     */
+    // Ensure text1 is the shorter string
+    if (text1.length() > text2.length()) {
+        String temp = text1;
+        text1 = text2;
+        text2 = temp;
+    }
+    int n = text1.length(), m = text2.length();
+
+    int[] prev = new int[m + 1];
+    int[] curr = new int[m + 1];
+
+    for (int i = 1; i <= n; i++) {
+        for (int j = 1; j <= m; j++) {
+            if (text1.charAt(i - 1) == text2.charAt(j - 1)) {
+                curr[j] = 1 + prev[j - 1];
+            } else {
+                curr[j] = Math.max(prev[j], curr[j - 1]);
+            }
+        }
+        // Swap the arrays
+        int[] temp = prev;
+        prev = curr;
+        curr = temp;
+        // Optional: clear curr for next iteration (not strictly needed as values are overwritten)
+        // java.util.Arrays.fill(curr, 0);
+    }
+    return prev[m];
+}
+```
+
+</div>
+
+## How Salesforce Tests Dynamic Programming vs Other Companies
+
+Salesforce's DP questions sit in a middle ground between the **abstract mathematical rigor of Google** and the **direct, business-logic-heavy problems of Amazon**.
+
+- **vs. Google/Facebook (Meta):** Google often asks DP problems that are clever reductions or have non-obvious optimal substructure (e.g., "Dungeon Game" #174). They test deep insight. Salesforce problems are more about clean application of known patterns. The "aha" moment is less critical than the correct implementation.
+- **vs. Amazon:** Amazon's DP problems are often explicitly about system scenarios (e.g., "Coin Change" for transaction processing). Salesforce's problems are slightly more abstracted but still feel grounded. The difficulty is comparable to Amazon's medium-hard questions.
+- **The Salesforce Difference:** Interviewers here frequently ask **follow-up optimization questions**. After you write the standard O(n²) space solution, expect: "Can we optimize the space to O(n)?" or "What if the input stream is infinite?" They care about the journey from a brute-force idea to a memoized solution to an optimized tabulation. Be ready to walk through this evolution and discuss trade-offs clearly.
+
+## Study Order
+
+Tackle DP in this order to build a solid foundation without getting overwhelmed:
+
+1.  **Foundation: Fibonacci & Climbing Stairs.** Understand memoization vs. tabulation. (LeetCode #70)
+2.  **1D Linear DP.** Problems where the state is just an index. This builds intuition for state definition. (LeetCode #198 House Robber, #139 Word Break).
+3.  **2D Grid DP.** Introduce a second dimension (usually a second index or a capacity). This is where the classic `dp[i][j]` table becomes essential. (LeetCode #62 Unique Paths, #1143 LCS).
+4.  **Knapsack & Subset Problems.** Learn to model "include/exclude" decisions and work with target sums. This is a huge category for Salesforce. (LeetCode #416, #494).
+5.  **String Transformation DP.** Combine string manipulation with 2D state. (LeetCode #72 Edit Distance, #115 Distinct Subsequences).
+6.  **Advanced Optimization.** Practice space-optimized versions of all the above and handle more complex constraints (like Kadane's algorithm variations or multi-state DP like #123 Best Time to Buy and Sell Stock III).
+
 ## Recommended Practice Order
 
-Do not attempt random DP problems. Follow a structured progression:
+Solve these Salesforce-tagged problems in sequence. Each problem builds on the concepts of the previous one.
 
-1.  **Foundation:** Solve "Climbing Stairs" and "Fibonacci" to understand state and recurrence.
-2.  **1D DP:** Master "House Robber," "Coin Change," and "Longest Increasing Subsequence." This builds intuition for single-array state.
-3.  **2D DP:** Tackle "Longest Common Subsequence," "Edit Distance," and "0/1 Knapsack." This is critical for Salesforce's string and optimization problems.
-4.  **Salesforce-Specific:** Finally, practice the 38 tagged problems on CodeJeet. Focus on identifying which classic pattern each problem maps to.
+1.  **LeetCode #70 (Climbing Stairs)** - The "Hello World" of DP.
+2.  **LeetCode #198 (House Robber)** - Classic 1D linear DP.
+3.  **LeetCode #62 (Unique Paths)** - Intro to 2D grid DP.
+4.  **LeetCode #1143 (Longest Common Subsequence)** - Master the 2D string DP template.
+5.  **LeetCode #416 (Partition Equal Subset Sum)** - Master the 0/1 Knapsack pattern.
+6.  **LeetCode #72 (Edit Distance)** - Apply the 2D template to a different recurrence.
+7.  **LeetCode #322 (Coin Change)** - Unbounded knapsack pattern (another common variant).
+8.  **LeetCode #300 (Longest Increasing Subsequence)** - A different 1D pattern with O(n log n) optimization potential.
+9.  **LeetCode #139 (Word Break)** - Excellent problem combining 1D DP with string lookups.
+10. **LeetCode #221 (Maximal Square)** - A more challenging 2D DP that requires deriving the state relation.
+
+This progression takes you from foundational concepts to the complex, multi-state problems that can appear in later interview rounds. Remember, the goal is not to solve every problem, but to understand the underlying patterns so thoroughly that you can derive the solution for a new variation under pressure.
 
 [Practice Dynamic Programming at Salesforce](/company/salesforce/dynamic-programming)

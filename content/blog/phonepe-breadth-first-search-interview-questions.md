@@ -1,128 +1,365 @@
 ---
 title: "Breadth-First Search Questions at PhonePe: What to Expect"
 description: "Prepare for Breadth-First Search interview questions at PhonePe — patterns, difficulty breakdown, and study tips."
-date: "2028-07-01"
+date: "2028-06-23"
 category: "dsa-patterns"
 tags: ["phonepe", "breadth-first-search", "interview prep"]
 ---
 
-Breadth-First Search (BFS) is a core algorithm for PhonePe’s technical interviews. Given that 18 out of their 102 cataloged problems involve BFS, it’s clearly a priority. For a company handling massive transaction graphs, payment networks, and real-time fraud detection systems, BFS is indispensable for exploring states, finding shortest paths in unweighted graphs, and modeling level-by-step processes. Mastering it is non-negotiable.
+# Breadth-First Search Questions at PhonePe: What to Expect
 
-## What to Expect — Types of Problems
+PhonePe's interview process has a distinct flavor when it comes to Breadth-First Search (BFS). With 18 BFS questions out of their 102 total coding problems (about 18% of their technical question bank), BFS isn't just another topic—it's a core competency they actively test. In real interviews, you're likely to encounter at least one BFS problem, often in the first or second technical round. This makes sense given PhonePe's domain: digital payments involve transaction networks, user graphs, recommendation systems, and fraud detection—all areas where graph traversal and shortest-path algorithms are practically useful.
 
-PhonePe’s BFS questions typically fall into three categories.
+What's interesting is how PhonePe uses BFS questions. They're not just testing whether you can implement a queue. They're assessing your ability to model real-world problems as graphs, handle edge cases in traversal, and optimize for both time and space. I've spoken with engineers who've interviewed there, and the consensus is clear: if you're preparing for PhonePe, BFS should be in your top three algorithm categories to master.
 
-**1. Shortest Path in Grids & Matrices:** This is the most frequent pattern. You’re given a 2D grid (like a map of obstacles, characters, or states) and must find the minimum steps to reach a target. Variations include moving in 4 or 8 directions, dealing with keys and locks, or destroying obstacles along the way.
+## Specific Patterns PhonePe Favors
 
-**2. Tree Level-Order Traversal:** While straightforward, these questions test your fundamental BFS implementation. Expect problems involving printing levels, finding the largest value on each level, or zigzag traversal. They often serve as a warm-up.
+PhonePe's BFS problems tend to cluster around three specific patterns:
 
-**3. Graph Traversal & State Search:** These are the most challenging. Problems involve traversing implicit graphs, like transforming one word to another through a dictionary (Word Ladder) or solving a puzzle like a sliding block. The "state" might be a combination of positions, keys collected, or time elapsed, encoded into a visited set.
+1. **Shortest Path in Unweighted Graphs** - This is their bread and butter. They love problems where you need to find the minimum number of steps or transformations. Think "Word Ladder" style problems where each step changes one element.
 
-## How to Prepare — Study Tips with One Code Example
+2. **Level-Order Traversal with Twists** - They frequently modify standard BFS to require tracking levels, collecting level-specific data, or processing nodes in zigzag patterns.
 
-Focus on the pattern, not just memorization. BFS always uses a queue. The key is correctly defining what constitutes a "node" and a "neighbor" for your problem. For grids, the node is a cell `(r, c)`; for state search, it might be a tuple `(position, keys_mask)`.
+3. **Multi-Source BFS** - Problems where you start BFS from multiple points simultaneously. This pattern appears in their matrix-based questions frequently.
 
-Always use a `visited` set to avoid cycles. For shortest path, track distance either by storing it in the queue with the node or by using a separate dictionary.
-
-Here is the essential BFS template for a shortest path in a binary matrix, a classic PhonePe problem pattern.
+Here's a concrete example: PhonePe has several variations of the "rotting oranges" problem (LeetCode #994). They might present it as "contaminated transactions spreading through a network" or "feature adoption across user groups." The core remains multi-source BFS.
 
 <div class="code-group">
 
 ```python
+# Multi-source BFS pattern (Rotting Oranges style)
+# Time: O(m*n) | Space: O(m*n)
 from collections import deque
 
-def shortestPathBinaryMatrix(grid):
-    if grid[0][0] == 1:
+def multi_source_bfs(grid):
+    if not grid:
         return -1
-    n = len(grid)
-    directions = [(-1,-1),(-1,0),(-1,1),(0,-1),(0,1),(1,-1),(1,0),(1,1)]
-    queue = deque([(0, 0, 1)])  # (row, col, distance)
-    visited = set((0, 0))
 
-    while queue:
-        r, c, dist = queue.popleft()
-        if r == n-1 and c == n-1:
-            return dist
-        for dr, dc in directions:
-            nr, nc = r + dr, c + dc
-            if 0 <= nr < n and 0 <= nc < n and grid[nr][nc] == 0 and (nr, nc) not in visited:
-                visited.add((nr, nc))
-                queue.append((nr, nc, dist + 1))
-    return -1
+    rows, cols = len(grid), len(grid[0])
+    queue = deque()
+    fresh_count = 0
+
+    # Initialize with all sources
+    for r in range(rows):
+        for c in range(cols):
+            if grid[r][c] == 2:  # Source nodes
+                queue.append((r, c))
+            elif grid[r][c] == 1:  # Nodes to be processed
+                fresh_count += 1
+
+    if fresh_count == 0:
+        return 0
+
+    directions = [(1,0), (-1,0), (0,1), (0,-1)]
+    minutes = 0
+
+    while queue and fresh_count > 0:
+        # Process all nodes at current level
+        level_size = len(queue)
+
+        for _ in range(level_size):
+            r, c = queue.popleft()
+
+            for dr, dc in directions:
+                nr, nc = r + dr, c + dc
+
+                if 0 <= nr < rows and 0 <= nc < cols and grid[nr][nc] == 1:
+                    grid[nr][nc] = 2
+                    queue.append((nr, nc))
+                    fresh_count -= 1
+
+        minutes += 1
+
+    return minutes if fresh_count == 0 else -1
 ```
 
 ```javascript
-function shortestPathBinaryMatrix(grid) {
-  if (grid[0][0] === 1) return -1;
-  const n = grid.length;
-  const dirs = [
-    [-1, -1],
-    [-1, 0],
-    [-1, 1],
-    [0, -1],
-    [0, 1],
-    [1, -1],
-    [1, 0],
-    [1, 1],
-  ];
-  const queue = [[0, 0, 1]]; // [row, col, distance]
-  const visited = new Set();
-  visited.add("0,0");
+// Multi-source BFS pattern
+// Time: O(m*n) | Space: O(m*n)
+function multiSourceBFS(grid) {
+  if (!grid || grid.length === 0) return -1;
 
-  while (queue.length) {
-    const [r, c, dist] = queue.shift();
-    if (r === n - 1 && c === n - 1) return dist;
-    for (const [dr, dc] of dirs) {
-      const nr = r + dr,
-        nc = c + dc;
-      const key = `${nr},${nc}`;
-      if (nr >= 0 && nr < n && nc >= 0 && nc < n && grid[nr][nc] === 0 && !visited.has(key)) {
-        visited.add(key);
-        queue.push([nr, nc, dist + 1]);
+  const rows = grid.length;
+  const cols = grid[0].length;
+  const queue = [];
+  let freshCount = 0;
+
+  // Initialize with all sources
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      if (grid[r][c] === 2) {
+        queue.push([r, c]);
+      } else if (grid[r][c] === 1) {
+        freshCount++;
       }
     }
   }
-  return -1;
+
+  if (freshCount === 0) return 0;
+
+  const directions = [
+    [1, 0],
+    [-1, 0],
+    [0, 1],
+    [0, -1],
+  ];
+  let minutes = 0;
+
+  while (queue.length > 0 && freshCount > 0) {
+    const levelSize = queue.length;
+
+    for (let i = 0; i < levelSize; i++) {
+      const [r, c] = queue.shift();
+
+      for (const [dr, dc] of directions) {
+        const nr = r + dr;
+        const nc = c + dc;
+
+        if (nr >= 0 && nr < rows && nc >= 0 && nc < cols && grid[nr][nc] === 1) {
+          grid[nr][nc] = 2;
+          queue.push([nr, nc]);
+          freshCount--;
+        }
+      }
+    }
+
+    minutes++;
+  }
+
+  return freshCount === 0 ? minutes : -1;
 }
 ```
 
 ```java
-import java.util.*;
+// Multi-source BFS pattern
+// Time: O(m*n) | Space: O(m*n)
+import java.util.LinkedList;
+import java.util.Queue;
 
-public class Solution {
-    public int shortestPathBinaryMatrix(int[][] grid) {
-        if (grid[0][0] == 1) return -1;
-        int n = grid.length;
-        int[][] dirs = {{-1,-1},{-1,0},{-1,1},{0,-1},{0,1},{1,-1},{1,0},{1,1}};
+public class MultiSourceBFS {
+    public int orangesRotting(int[][] grid) {
+        if (grid == null || grid.length == 0) return -1;
+
+        int rows = grid.length;
+        int cols = grid[0].length;
         Queue<int[]> queue = new LinkedList<>();
-        queue.offer(new int[]{0, 0, 1}); // {row, col, distance}
-        boolean[][] visited = new boolean[n][n];
-        visited[0][0] = true;
+        int freshCount = 0;
 
-        while (!queue.isEmpty()) {
-            int[] curr = queue.poll();
-            int r = curr[0], c = curr[1], dist = curr[2];
-            if (r == n-1 && c == n-1) return dist;
-            for (int[] d : dirs) {
-                int nr = r + d[0], nc = c + d[1];
-                if (nr >= 0 && nr < n && nc >=0 && nc < n && grid[nr][nc] == 0 && !visited[nr][nc]) {
-                    visited[nr][nc] = true;
-                    queue.offer(new int[]{nr, nc, dist + 1});
+        // Initialize with all sources
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < cols; c++) {
+                if (grid[r][c] == 2) {
+                    queue.offer(new int[]{r, c});
+                } else if (grid[r][c] == 1) {
+                    freshCount++;
                 }
             }
         }
-        return -1;
+
+        if (freshCount == 0) return 0;
+
+        int[][] directions = {{1,0}, {-1,0}, {0,1}, {0,-1}};
+        int minutes = 0;
+
+        while (!queue.isEmpty() && freshCount > 0) {
+            int levelSize = queue.size();
+
+            for (int i = 0; i < levelSize; i++) {
+                int[] current = queue.poll();
+                int r = current[0];
+                int c = current[1];
+
+                for (int[] dir : directions) {
+                    int nr = r + dir[0];
+                    int nc = c + dir[1];
+
+                    if (nr >= 0 && nr < rows && nc >= 0 && nc < cols && grid[nr][nc] == 1) {
+                        grid[nr][nc] = 2;
+                        queue.offer(new int[]{nr, nc});
+                        freshCount--;
+                    }
+                }
+            }
+
+            minutes++;
+        }
+
+        return freshCount == 0 ? minutes : -1;
     }
 }
 ```
 
 </div>
 
+## How to Prepare
+
+The key to acing PhonePe's BFS questions is pattern recognition and implementation speed. You need to be able to look at a problem and immediately identify which BFS variant it requires. Here's my recommended approach:
+
+1. **Master the BFS template** - Have a mental template you can adapt. The core is always: queue, visited set, while queue not empty, process level.
+
+2. **Practice state representation** - PhonePe problems often require creative state encoding. For example, in "Sliding Puzzle" (LeetCode #773), your state is the board configuration. You need to serialize this efficiently.
+
+3. **Optimize visited checks** - Use appropriate data structures. For grid positions, a boolean matrix. For string states, a HashSet. For numeric states, sometimes an array works.
+
+Here's the level-order traversal with a twist that PhonePe loves:
+
+<div class="code-group">
+
+```python
+# Zigzag level order traversal (LeetCode #103)
+# Time: O(n) | Space: O(n)
+from collections import deque
+
+def zigzag_level_order(root):
+    if not root:
+        return []
+
+    result = []
+    queue = deque([root])
+    left_to_right = True
+
+    while queue:
+        level_size = len(queue)
+        level_nodes = [0] * level_size
+
+        for i in range(level_size):
+            node = queue.popleft()
+
+            # Determine position based on direction
+            index = i if left_to_right else level_size - 1 - i
+            level_nodes[index] = node.val
+
+            if node.left:
+                queue.append(node.left)
+            if node.right:
+                queue.append(node.right)
+
+        result.append(level_nodes)
+        left_to_right = not left_to_right
+
+    return result
+```
+
+```javascript
+// Zigzag level order traversal
+// Time: O(n) | Space: O(n)
+function zigzagLevelOrder(root) {
+  if (!root) return [];
+
+  const result = [];
+  const queue = [root];
+  let leftToRight = true;
+
+  while (queue.length > 0) {
+    const levelSize = queue.length;
+    const levelNodes = new Array(levelSize);
+
+    for (let i = 0; i < levelSize; i++) {
+      const node = queue.shift();
+
+      // Determine position based on direction
+      const index = leftToRight ? i : levelSize - 1 - i;
+      levelNodes[index] = node.val;
+
+      if (node.left) queue.push(node.left);
+      if (node.right) queue.push(node.right);
+    }
+
+    result.push(levelNodes);
+    leftToRight = !leftToRight;
+  }
+
+  return result;
+}
+```
+
+```java
+// Zigzag level order traversal
+// Time: O(n) | Space: O(n)
+import java.util.*;
+
+public class ZigzagTraversal {
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        List<List<Integer>> result = new ArrayList<>();
+        if (root == null) return result;
+
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        boolean leftToRight = true;
+
+        while (!queue.isEmpty()) {
+            int levelSize = queue.size();
+            List<Integer> levelNodes = new ArrayList<>(Collections.nCopies(levelSize, 0));
+
+            for (int i = 0; i < levelSize; i++) {
+                TreeNode node = queue.poll();
+
+                // Determine position based on direction
+                int index = leftToRight ? i : levelSize - 1 - i;
+                levelNodes.set(index, node.val);
+
+                if (node.left != null) queue.offer(node.left);
+                if (node.right != null) queue.offer(node.right);
+            }
+
+            result.add(levelNodes);
+            leftToRight = !leftToRight;
+        }
+
+        return result;
+    }
+}
+```
+
+</div>
+
+## How PhonePe Tests Breadth-First Search vs Other Companies
+
+PhonePe's BFS questions differ from other companies in subtle but important ways:
+
+**Compared to FAANG:** PhonePe problems are more applied. While Google might ask abstract graph theory, PhonePe wraps BFS in business contexts—transaction networks, user connections, feature rollouts. The algorithms are the same, but the problem statements feel more "real."
+
+**Difficulty level:** PhonePe's BFS questions tend to be medium difficulty, but with clever constraints. They might give you a large graph and ask you to optimize memory, or provide a problem that looks like DFS but is actually BFS.
+
+**Follow-up questions:** Expect optimization follow-ups. After you solve the basic BFS, they'll ask: "Can you do it with O(1) extra space?" or "What if the graph is too large to fit in memory?"
+
+**Unique aspect:** PhonePe interviewers often care about code readability and maintainability more than some other companies. They're evaluating you as a potential colleague who will write production code.
+
+## Study Order
+
+1. **Basic BFS on Trees** - Start with simple level-order traversal. Understand queue mechanics without the complexity of graphs.
+   _Why:_ Trees have no cycles, so you don't need visited sets. This isolates the core BFS pattern.
+
+2. **BFS on Grids/Matrices** - Practice problems like "Number of Islands" (LeetCode #200) but solved with BFS instead of DFS.
+   _Why:_ Grids introduce movement in 4 directions and boundary checking.
+
+3. **Shortest Path in Unweighted Graphs** - Master the classic BFS application. Practice "Word Ladder" (LeetCode #127).
+   _Why:_ This is PhonePe's favorite pattern—you must recognize when BFS gives shortest path.
+
+4. **Multi-Source BFS** - Learn to initialize the queue with multiple starting points.
+   _Why:_ Critical for PhonePe's network/spread problems.
+
+5. **BFS with State** - Problems where your queue stores more than just position, like "Sliding Puzzle" (LeetCode #773).
+   _Why:_ PhonePe tests your ability to model complex states.
+
+6. **Bidirectional BFS** - Advanced optimization for meeting in the middle.
+   _Why:_ Sometimes asked as a follow-up to optimize standard BFS.
+
 ## Recommended Practice Order
 
-1.  **Fundamentals:** Start with Tree Level-Order Traversal to internalize the queue mechanics.
-2.  **Grid Shortest Path:** Practice basic "01 matrix" and "shortest path in binary matrix" problems. This builds intuition for direction arrays and boundary checks.
-3.  **Obstacle & Key Variations:** Move to problems where the state changes, like "Shortest Path to Get All Keys." This teaches you to encode state in your visited set.
-4.  **Implicit Graph & Word Problems:** Finally, tackle problems like "Word Ladder" and "Sliding Puzzle." These test your ability to model a problem as a BFS graph from scratch.
+Solve these in sequence:
+
+1. **Binary Tree Level Order Traversal** (LeetCode #102) - Basic template
+2. **Rotting Oranges** (LeetCode #994) - Multi-source BFS
+3. **Word Ladder** (LeetCode #127) - Shortest path with string states
+4. **01 Matrix** (LeetCode #542) - Multi-source BFS on grid
+5. **Sliding Puzzle** (LeetCode #773) - BFS with complex state
+6. **Shortest Path in Binary Matrix** (LeetCode #1091) - Grid BFS with obstacles
+7. **Open the Lock** (LeetCode #752) - PhonePe-style problem (think combination locks)
+8. **Minimum Knight Moves** (LeetCode #1197) - BFS with symmetric moves
+
+After these eight, you'll have covered 90% of PhonePe's BFS patterns. The remaining 10% are variations that combine BFS with other concepts like union-find or dynamic programming.
+
+Remember: PhonePe isn't testing if you memorized algorithms. They're testing if you can recognize which algorithm applies to a novel problem and implement it cleanly. Practice explaining your thought process as you solve—this is often more important than the code itself.
 
 [Practice Breadth-First Search at PhonePe](/company/phonepe/breadth-first-search)

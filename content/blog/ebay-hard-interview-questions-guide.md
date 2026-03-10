@@ -1,130 +1,210 @@
 ---
 title: "Hard eBay Interview Questions: Strategy Guide"
 description: "How to tackle 10 hard difficulty questions from eBay — patterns, time targets, and practice tips."
-date: "2032-08-13"
+date: "2032-08-05"
 category: "tips"
 tags: ["ebay", "hard", "interview prep"]
 ---
 
-Hard questions at eBay typically involve complex algorithmic thinking, system design fundamentals, or deep dives into concurrency and scalability. They are designed to test not just your ability to write code, but your capacity to reason about trade-offs, optimize for performance, and architect robust solutions. Expect problems that layer multiple concepts, such as combining graph traversal with dynamic programming or designing a component of a high-throughput distributed system.
+# Hard eBay Interview Questions: Strategy Guide
 
-## Common Patterns
+eBay’s interview coding questions are known for being practical and often tied to real-world e-commerce scenarios—even at the Hard level. Out of their 60 total tagged questions, only 10 are marked Hard. What separates these from Medium problems isn’t just raw algorithmic complexity, but the need to combine multiple patterns, handle intricate constraints, and often model a business logic layer atop a classic CS problem. You’re not just implementing an algorithm; you’re designing a solution to a messy, realistic problem that might involve inventory, pricing, auctions, or recommendations.
 
-eBay's hard problems often cluster around a few key areas due to its e-commerce and marketplace domain.
+## Common Patterns and Templates
 
-**1. Graph Algorithms & Advanced Traversal**
-Problems frequently involve modeling relationships between users, items, or transactions, leading to graph-based solutions. You might need to find shortest paths in a weighted network of shipping routes or detect cycles in a dependency graph for a transaction system.
+eBay’s Hard problems frequently involve **graph algorithms** (especially on implicit graphs), **dynamic programming with non-standard state**, and **interval merging with extra constraints**. A very common pattern is the **"stateful BFS/DFS"** where you traverse a graph or grid while carrying additional business logic (like remaining inventory, time steps, or transaction limits). This isn't just a simple shortest path; it's shortest path with side constraints.
+
+Here’s a template for a stateful BFS, which appears in problems like finding the minimum steps to reach a target with obstacles and a resource limit (e.g., "Shortest Path in a Grid with Obstacles Elimination" — a classic pattern seen in eBay-style inventory routing problems).
 
 <div class="code-group">
 
 ```python
-# Example: Cycle detection in a directed graph (DFS approach)
-def has_cycle(graph):
-    visited, rec_stack = set(), set()
-    def dfs(node):
-        visited.add(node)
-        rec_stack.add(node)
-        for neighbor in graph.get(node, []):
-            if neighbor not in visited:
-                if dfs(neighbor):
-                    return True
-            elif neighbor in rec_stack:
-                return True
-        rec_stack.remove(node)
-        return False
-    for node in graph:
-        if node not in visited:
-            if dfs(node):
-                return True
-    return False
+from collections import deque
+
+def stateful_bfs(grid, k):
+    """
+    Template for BFS with an extra state dimension.
+    Example problem: 1293. Shortest Path in a Grid with Obstacles Elimination
+    """
+    rows, cols = len(grid), len(grid[0])
+    # Visited set tracks (row, col, remaining_resource)
+    visited = set()
+    # Queue holds (row, col, remaining_resource, steps)
+    queue = deque([(0, 0, k, 0)])  # start with k resource
+    visited.add((0, 0, k))
+
+    while queue:
+        r, c, remain, steps = queue.popleft()
+        # If reached bottom-right corner
+        if r == rows - 1 and c == cols - 1:
+            return steps
+
+        for dr, dc in [(0,1),(0,-1),(1,0),(-1,0)]:
+            nr, nc = r + dr, c + dc
+            if 0 <= nr < rows and 0 <= nc < cols:
+                new_remain = remain - grid[nr][nc]  # grid[nr][nc] is 1 if obstacle
+                if new_remain >= 0 and (nr, nc, new_remain) not in visited:
+                    visited.add((nr, nc, new_remain))
+                    queue.append((nr, nc, new_remain, steps + 1))
+    return -1  # unreachable
+
+# Time: O(rows * cols * k) — we potentially visit each cell for each resource level.
+# Space: O(rows * cols * k) for the visited set and queue.
 ```
 
 ```javascript
-// Example: Cycle detection in a directed graph (DFS approach)
-function hasCycle(graph) {
+function statefulBFS(grid, k) {
+  const rows = grid.length,
+    cols = grid[0].length;
   const visited = new Set();
-  const recStack = new Set();
-  function dfs(node) {
-    visited.add(node);
-    recStack.add(node);
-    for (const neighbor of graph[node] || []) {
-      if (!visited.has(neighbor)) {
-        if (dfs(neighbor)) return true;
-      } else if (recStack.has(neighbor)) {
-        return true;
+  const queue = [[0, 0, k, 0]]; // [row, col, remain, steps]
+  visited.add(`0,0,${k}`);
+
+  while (queue.length) {
+    const [r, c, remain, steps] = queue.shift();
+    if (r === rows - 1 && c === cols - 1) return steps;
+
+    const directions = [
+      [0, 1],
+      [0, -1],
+      [1, 0],
+      [-1, 0],
+    ];
+    for (const [dr, dc] of directions) {
+      const nr = r + dr,
+        nc = c + dc;
+      if (nr >= 0 && nr < rows && nc >= 0 && nc < cols) {
+        const newRemain = remain - grid[nr][nc];
+        const key = `${nr},${nc},${newRemain}`;
+        if (newRemain >= 0 && !visited.has(key)) {
+          visited.add(key);
+          queue.push([nr, nc, newRemain, steps + 1]);
+        }
       }
     }
-    recStack.delete(node);
-    return false;
   }
-  for (const node in graph) {
-    if (!visited.has(node)) {
-      if (dfs(node)) return true;
-    }
-  }
-  return false;
+  return -1;
 }
+
+// Time: O(rows * cols * k) | Space: O(rows * cols * k)
 ```
 
 ```java
-// Example: Cycle detection in a directed graph (DFS approach)
 import java.util.*;
 
-public class GraphCycle {
-    public boolean hasCycle(Map<Integer, List<Integer>> graph) {
-        Set<Integer> visited = new HashSet<>();
-        Set<Integer> recStack = new HashSet<>();
-        for (Integer node : graph.keySet()) {
-            if (!visited.contains(node)) {
-                if (dfs(node, graph, visited, recStack)) {
-                    return true;
+public class StatefulBFS {
+    public int shortestPath(int[][] grid, int k) {
+        int rows = grid.length, cols = grid[0].length;
+        boolean[][][] visited = new boolean[rows][cols][k + 1];
+        Queue<int[]> queue = new LinkedList<>();
+        // queue element: [row, col, remain, steps]
+        queue.offer(new int[]{0, 0, k, 0});
+        visited[0][0][k] = true;
+
+        int[][] dirs = {{0,1},{0,-1},{1,0},{-1,0}};
+        while (!queue.isEmpty()) {
+            int[] curr = queue.poll();
+            int r = curr[0], c = curr[1], remain = curr[2], steps = curr[3];
+            if (r == rows - 1 && c == cols - 1) return steps;
+
+            for (int[] d : dirs) {
+                int nr = r + d[0], nc = c + d[1];
+                if (nr >= 0 && nr < rows && nc >= 0 && nc < cols) {
+                    int newRemain = remain - grid[nr][nc];
+                    if (newRemain >= 0 && !visited[nr][nc][newRemain]) {
+                        visited[nr][nc][newRemain] = true;
+                        queue.offer(new int[]{nr, nc, newRemain, steps + 1});
+                    }
                 }
             }
         }
-        return false;
-    }
-    private boolean dfs(Integer node, Map<Integer, List<Integer>> graph,
-                        Set<Integer> visited, Set<Integer> recStack) {
-        visited.add(node);
-        recStack.add(node);
-        for (Integer neighbor : graph.getOrDefault(node, new ArrayList<>())) {
-            if (!visited.contains(neighbor)) {
-                if (dfs(neighbor, graph, visited, recStack)) return true;
-            } else if (recStack.contains(neighbor)) {
-                return true;
-            }
-        }
-        recStack.remove(node);
-        return false;
+        return -1;
     }
 }
+
+// Time: O(rows * cols * k) | Space: O(rows * cols * k)
 ```
 
 </div>
 
-**2. Dynamic Programming with Optimization**
-Inventory management, pricing algorithms, and auction mechanics can lead to DP problems where you must optimize for value or cost under constraints, often requiring a 2D DP state or careful space optimization.
+## Time Benchmarks and What Interviewers Look For
 
-**3. Concurrency & System Design Components**
-You may be asked to design a thread-safe data structure (like a concurrent hash map for session storage) or a scalable service component (e.g., a bidding engine or item recommendation service). Focus on consistency, latency, and fault tolerance.
+For a Hard problem at eBay, you have about 30-35 minutes to understand the problem, design the solution, code it, and test it. That means you need to be writing code within 15 minutes of starting. Interviewers are watching for:
 
-## Time Targets
+1. **Constraint identification** — Do you immediately ask about input bounds and edge cases? For example, "Can k be larger than the total obstacles?" or "Is the grid always non-empty?"
+2. **Incremental correctness** — They prefer to see you build a brute force or naive solution first, then optimize. Saying "I'll start with a simple BFS ignoring k, then add the state dimension" shows structured thinking.
+3. **Communication of trade-offs** — Explain why you chose BFS over DFS (shortest path property), and why a 3D visited array is necessary. Mention the time/space complexity as you go.
+4. **Code cleanliness with e-commerce context** — Use descriptive variable names like `remainingObstaclePasses` instead of just `k`. If the problem is about shipping routes or inventory, name your functions accordingly.
 
-For a 45-60 minute interview slot, you should aim to solve a hard algorithmic problem within 30-35 minutes. This breakdown is critical:
+## Upgrading from Medium to Hard
 
-- **First 5-10 minutes:** Clarify requirements, ask edge case questions, and outline your approach verbally. Confirm your plan with the interviewer.
-- **Next 15-20 minutes:** Write clean, correct code in your chosen language. Prioritize readability and correct logic over premature micro-optimizations.
-- **Final 5-10 minutes:** Walk through a test case, discuss time/space complexity, and be prepared to propose optimizations or handle follow-up questions (e.g., scaling the solution).
+The jump from Medium to Hard at eBay is about **dimensionality increase** and **constraint stacking**. A Medium problem might ask for the shortest path in a grid. A Hard problem adds: "shortest path where you can break up to k obstacles, but breaking a cost-2 obstacle uses 2 passes, and you have a limited budget."
 
-If the problem is a system design question, use a similar timeframe: 10 minutes for requirements and scope, 15-20 minutes for diagramming and explaining the core architecture, and 5-10 minutes for discussing trade-offs and potential bottlenecks.
+New techniques required:
+
+- **Multi-dimensional DP or BFS state** (like the template above).
+- **Combining two patterns** — e.g., interval scheduling plus binary search, or topological sort with cycle detection for order dependencies.
+- **Handling "at most k" constraints** — This appears in problems like "Maximize Palindrome Length From Subsequences" or "Constrained Subsequence Sum," where you maintain a deque or heap to track the best previous states within a window.
+
+Mindset shift: You must now **think in terms of state machines**. What are the minimal parameters that define a unique situation? In the BFS template, `(row, col, remaining_resource)` is a state. Missing that third dimension is the classic mistake.
+
+## Specific Patterns for Hard
+
+**Pattern 1: DP with Monotonic Queue Optimization**
+Used in problems like "Constrained Subsequence Sum" (1425) or eBay problems involving maximizing profit with transaction limits. You maintain a deque of indices storing decreasing DP values to get the max from a sliding window in O(1).
+
+```python
+from collections import deque
+
+def maxSubsequenceSum(nums, k):
+    n = len(nums)
+    dp = [0] * n
+    dq = deque()  # stores indices, dp values decreasing
+    for i in range(n):
+        # remove out-of-window indices
+        while dq and dq[0] < i - k:
+            dq.popleft()
+        dp[i] = nums[i] + (dp[dq[0]] if dq else 0)
+        # maintain decreasing order
+        while dq and dp[dq[-1]] <= dp[i]:
+            dq.pop()
+        dq.append(i)
+    return max(dp)
+# Time: O(n) | Space: O(n)
+```
+
+**Pattern 2: Union-Find with Component Tracking**
+For problems involving grouping items with constraints (e.g., "Similar String Groups" or account merging scenarios), you need Union-Find that tracks component size or a list of members. eBay might pose this as merging user accounts based on transaction similarities.
+
+```python
+class DSU:
+    def __init__(self, n):
+        self.parent = list(range(n))
+        self.size = [1] * n
+    def find(self, x):
+        while self.parent[x] != x:
+            self.parent[x] = self.parent[self.parent[x]]
+            x = self.parent[x]
+        return x
+    def union(self, x, y):
+        rx, ry = self.find(x), self.find(y)
+        if rx == ry: return
+        if self.size[rx] < self.size[ry]:
+            rx, ry = ry, rx
+        self.parent[ry] = rx
+        self.size[rx] += self.size[ry]
+# Time for m operations: ~O(m α(n)) | Space: O(n)
+```
 
 ## Practice Strategy
 
-Do not attempt these hard questions cold. First, ensure your fundamentals for data structures and medium-difficulty problems are automatic. Then, apply a focused approach:
+Don't just solve eBay's 10 Hard questions. Use them as a diagnostic. For each:
 
-1.  **Pattern Isolation:** When you encounter a hard eBay problem, identify the core pattern (e.g., "Dijkstra's with a modified priority condition"). Practice that pattern in isolation using classic LeetCode problems before revisiting the company-specific one.
-2.  **Simulate Interview Conditions:** Set a strict 30-minute timer. Verbalize your thinking as if an interviewer is present. Write code on a whiteboard or in a plain text editor without auto-complete.
-3.  **Post-Solution Analysis:** After the timer, regardless of outcome, review the optimal solution. Write it out again from memory a few hours later. The goal is to internalize the problem-solving framework, not just memorize a single answer.
-4.  **Mix in Systems Practice:** Regularly pair a hard algorithm problem with a system design concept. For example, after solving a graph problem for recommendations, sketch how a recommendation service might work at scale.
+1. **First 15 minutes** — Attempt it without help. If stuck, identify the blocking point. Was it recognizing the pattern? Implementing the stateful BFS? Optimizing from O(n²) to O(n log n)?
+2. **Study the pattern** — If it's stateful BFS, practice 3 similar problems from other companies (e.g., LeetCode 1293, 864, 787).
+3. **Re-implement without reference** — 24 hours later, code it again from scratch. Time yourself.
+4. **Daily target** — One Hard problem per day, with 30 minutes of focused effort followed by 30 minutes of analyzing solutions and writing notes on the pattern.
+
+Recommended order for eBay Hards: Start with the stateful BFS problems, then DP with optimization, then graph/union-find. Always tie it back to a plausible eBay scenario—like routing a delivery drone through warehouse obstacles (stateful BFS) or merging duplicate user accounts (union-find).
 
 [Practice Hard eBay questions](/company/ebay/hard)

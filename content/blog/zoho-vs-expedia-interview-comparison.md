@@ -1,86 +1,170 @@
 ---
 title: "Zoho vs Expedia: Interview Question Comparison"
 description: "Compare coding interview questions at Zoho and Expedia — difficulty levels, topic focus, and preparation strategy."
-date: "2029-03-16"
+date: "2031-12-15"
 category: "tips"
 tags: ["zoho", "expedia", "comparison"]
 ---
 
-When preparing for technical interviews, understanding company-specific patterns is crucial. Zoho and Expedia, while both testing core computer science fundamentals, present distinct challenges in volume, difficulty, and focus. Zoho's process is known for its depth and breadth, often involving multiple rigorous rounds. Expedia's interviews tend to be more focused on practical problem-solving within a smaller question set. This comparison breaks down their key differences to help you strategize your preparation.
+# Zoho vs Expedia: Interview Question Comparison
+
+If you're preparing for interviews at both Zoho and Expedia, you're looking at two distinct engineering cultures with different hiring priorities. Zoho, a bootstrapped enterprise software giant from India, emphasizes algorithmic rigor and problem-solving stamina. Expedia, the global travel technology leader, focuses more on practical, business-aligned coding challenges. The smart approach isn't to prepare twice as much, but to prepare strategically — identifying where their requirements overlap and where they diverge.
 
 ## Question Volume and Difficulty
 
-The data shows a significant disparity in the sheer number of documented questions.
+The numbers tell a clear story about interview intensity. Zoho's 179 questions in their tagged LeetCode collection dwarf Expedia's 54. More importantly, Zoho's difficulty distribution (62 Easy, 97 Medium, 20 Hard) reveals a Medium-heavy focus with a non-trivial Hard component. Expedia's distribution (13 Easy, 35 Medium, 6 Hard) shows they still test Medium problems primarily, but with fewer overall questions and a lighter Hard presence.
 
-**Zoho** has a large repository of **179 questions**, with a difficulty distribution of Easy (62), Medium (97), and Hard (20). This high volume, especially the strong emphasis on Medium-difficulty problems, indicates a comprehensive and challenging interview process. You can expect multiple technical rounds that progressively test deeper understanding and optimization skills. The substantial number of questions suggests a wider pool of problems, making rote memorization ineffective and demanding genuine problem-solving ability.
-
-**Expedia** has a more contained set of **54 questions**, distributed as Easy (13), Medium (35), and Hard (6). The focus is clearly on Medium-difficulty problems, with fewer extreme challenges. This smaller, more concentrated question bank implies that while the interview is still technically demanding, the scope might be more predictable. Preparation can be more focused, with an emphasis on mastering common patterns that appear in their Medium-tier questions.
+What this means practically: Zoho interviews are marathon sessions. You might face 3-4 coding problems in a single round, with increasing difficulty. Their Hard problems often involve complex dynamic programming or tricky optimizations. Expedia interviews are more like sprints — typically 1-2 well-chosen problems per round, but they expect clean, production-ready code with good edge case handling. If you're interviewing at both, build stamina for Zoho's volume while maintaining precision for Expedia's quality expectations.
 
 ## Topic Overlap
 
-Both companies heavily test the foundational data structures and algorithms.
+Both companies heavily test **Arrays**, **Strings**, and **Hash Tables** — the fundamental building blocks of most coding interviews. This overlap is your preparation sweet spot.
 
-**Shared Core Topics:** Array, String, and Hash Table problems form the backbone of interviews at both companies. You must be exceptionally proficient in manipulating these structures, performing searches, and implementing efficient solutions using hash maps for fast lookups.
+**Shared focus areas:**
 
-**Diverging Advanced Topics:**
+- Array manipulation and traversal patterns
+- String operations and character counting
+- Hash table applications for lookups and frequency counting
 
-- **Zoho** explicitly lists **Dynamic Programming (DP)** as a key topic. Given their question count and difficulty, you should prepare for medium-to-hard DP problems involving optimal substructure and memoization/tabulation.
-- **Expedia** lists **Greedy Algorithms** as a primary topic instead. This points to a focus on problems where a locally optimal choice leads to a global solution, such as interval scheduling or coin change (canonical greedy version).
+**Zoho-specific emphasis:** Dynamic Programming appears consistently in their question set. They love problems that can be solved with both brute force and optimized DP approaches, testing whether candidates can recognize and implement optimal substructure.
 
-This divergence is critical. Zoho's inclusion of DP signals a need for strong competency in building up solutions to complex problems, while Expedia's greedy focus often tests logical reasoning and pattern identification for optimization problems.
+**Expedia-specific emphasis:** Greedy algorithms feature prominently. This aligns with their travel optimization business — many Expedia problems involve finding optimal schedules, minimizing costs, or maximizing value within constraints.
 
-**Example: A "Maximum Subarray" Problem Variation**
-A Zoho question might lean towards a DP solution (Kadane's Algorithm), while an Expedia variation could involve a greedy choice for a related problem, like partitioning.
+## Preparation Priority Matrix
+
+Here's how to allocate your limited preparation time:
+
+**High Priority (Overlap Topics - Study First):**
+
+- Array manipulation: Two-pointer techniques, sliding window, prefix sums
+- String algorithms: Palindrome checks, anagrams, subsequence problems
+- Hash table patterns: Frequency counting, two-sum variations, caching
+
+**Medium Priority (Zoho-Specific):**
+
+- Dynamic Programming: Start with 1D DP (Fibonacci patterns), then 2D DP (grid problems)
+- Backtracking and recursion (appears in their Hard problems)
+
+**Medium Priority (Expedia-Specific):**
+
+- Greedy algorithms: Interval scheduling, task assignment, minimum cost problems
+- Graph traversal (lightweight — BFS/DFS for tree problems)
+
+**Specific LeetCode problems valuable for both:**
+
+- Two Sum (#1) — fundamental hash table application
+- Merge Intervals (#56) — tests sorting and interval logic
+- Valid Parentheses (#20) — stack fundamentals
+- Longest Substring Without Repeating Characters (#3) — sliding window mastery
+
+## Interview Format Differences
+
+**Zoho's format:** Typically involves multiple technical rounds (3-4), often conducted virtually. Each round may include 2-3 coding problems of increasing difficulty. They emphasize algorithmic correctness and optimization. System design questions are less common for junior roles but appear for senior positions. Behavioral questions are minimal — they want to see you solve problems under pressure.
+
+**Expedia's format:** Usually 2-3 technical rounds, often starting with a phone screen. Problems are more likely to be business-contextualized (e.g., "design a flight booking system" or "optimize hotel allocations"). They expect clean, maintainable code with good test cases. Behavioral questions carry significant weight — they're assessing cultural fit and collaboration skills. For mid-level and above, expect system design discussions related to distributed systems.
+
+## Specific Problem Recommendations
+
+Here are 5 problems that provide excellent coverage for both companies:
+
+1. **Container With Most Water (#11)** — Tests two-pointer technique on arrays, valuable for both companies.
 
 <div class="code-group">
 
 ```python
-# Python: Kadane's Algorithm (DP approach for Zoho-style)
-def maxSubArray(nums):
-    max_current = max_global = nums[0]
-    for num in nums[1:]:
-        max_current = max(num, max_current + num)
-        max_global = max(max_global, max_current)
-    return max_global
+# Time: O(n) | Space: O(1)
+def maxArea(height):
+    """
+    Two-pointer approach: Start with widest container,
+    then move the pointer with smaller height inward.
+    """
+    left, right = 0, len(height) - 1
+    max_water = 0
+
+    while left < right:
+        width = right - left
+        current_height = min(height[left], height[right])
+        max_water = max(max_water, width * current_height)
+
+        # Move the pointer with smaller height
+        if height[left] < height[right]:
+            left += 1
+        else:
+            right -= 1
+
+    return max_water
 ```
 
 ```javascript
-// JavaScript: Kadane's Algorithm
-function maxSubArray(nums) {
-  let maxCurrent = nums[0];
-  let maxGlobal = nums[0];
-  for (let i = 1; i < nums.length; i++) {
-    maxCurrent = Math.max(nums[i], maxCurrent + nums[i]);
-    maxGlobal = Math.max(maxGlobal, maxCurrent);
+// Time: O(n) | Space: O(1)
+function maxArea(height) {
+  let left = 0;
+  let right = height.length - 1;
+  let maxWater = 0;
+
+  while (left < right) {
+    const width = right - left;
+    const currentHeight = Math.min(height[left], height[right]);
+    maxWater = Math.max(maxWater, width * currentHeight);
+
+    // Move the pointer with smaller height
+    if (height[left] < height[right]) {
+      left++;
+    } else {
+      right--;
+    }
   }
-  return maxGlobal;
+
+  return maxWater;
 }
 ```
 
 ```java
-// Java: Kadane's Algorithm
-public int maxSubArray(int[] nums) {
-    int maxCurrent = nums[0];
-    int maxGlobal = nums[0];
-    for (int i = 1; i < nums.length; i++) {
-        maxCurrent = Math.max(nums[i], maxCurrent + nums[i]);
-        maxGlobal = Math.max(maxGlobal, maxCurrent);
+// Time: O(n) | Space: O(1)
+public int maxArea(int[] height) {
+    int left = 0;
+    int right = height.length - 1;
+    int maxWater = 0;
+
+    while (left < right) {
+        int width = right - left;
+        int currentHeight = Math.min(height[left], height[right]);
+        maxWater = Math.max(maxWater, width * currentHeight);
+
+        // Move the pointer with smaller height
+        if (height[left] < height[right]) {
+            left++;
+        } else {
+            right--;
+        }
     }
-    return maxGlobal;
+
+    return maxWater;
 }
 ```
 
 </div>
 
+2. **Longest Palindromic Substring (#5)** — Covers string manipulation and dynamic programming (for Zoho) with a clean expand-around-center approach (for Expedia).
+
+3. **Coin Change (#322)** — Excellent DP problem that Zoho loves, but also teaches optimization thinking valuable for Expedia's greedy-adjacent problems.
+
+4. **Meeting Rooms II (#253)** — Interval problem that tests sorting and greedy allocation (Expedia focus) while being complex enough for Zoho's Medium problems.
+
+5. **Subarray Sum Equals K (#560)** — Hash table + prefix sum combination that appears in both companies' question banks.
+
 ## Which to Prepare for First
 
-Your choice depends on your timeline and the companies you are targeting.
+Prepare for **Zoho first**, then adapt for Expedia. Here's why: Zoho's broader question coverage and higher difficulty ceiling mean that if you can handle their interviews, you'll be over-prepared for Expedia's technical rounds. The reverse isn't true — Expedia's focus on cleaner code and business context won't fully prepare you for Zoho's algorithmic depth.
 
-**Prepare for Zoho first if:** You are interviewing with Zoho, or you have a longer timeline and want to build a very robust foundation. Mastering Zoho's large and difficult problem set, including Dynamic Programming, will inherently cover the core topics (Array, String, Hash Table) needed for Expedia and make their Greedy problems feel like a subset of your skills. It's the more comprehensive, and thus more time-intensive, path.
+**Week 1-2:** Master the overlap topics (Arrays, Strings, Hash Tables) with emphasis on Medium difficulty problems. Practice solving 3 problems in 60 minutes to build Zoho stamina.
 
-**Prepare for Expedia first if:** You are short on time and have an upcoming Expedia interview. The smaller, more focused question bank allows for targeted practice. You can solidify your core skills on Arrays, Strings, and Hash Tables, then drill specifically on Greedy algorithm patterns. This provides an efficient route to readiness for their specific interview format.
+**Week 3:** Dive into Zoho-specific DP problems. Start with classical DP (Fibonacci, knapsack) then move to string/array DP.
 
-In essence, preparing for Zoho is like training for a marathon—it builds immense endurance and skill. Preparing for Expedia is like training for a 10K—focused and intense, but with a narrower scope. If you must choose one order, tackling Zoho's material first will make you over-prepared for Expedia's technical screen, which is a good position to be in.
+**Week 4:** Transition to Expedia preparation by focusing on code quality — write cleaner solutions with better variable names, comments, and edge case handling. Practice explaining your thinking aloud.
 
-For detailed question lists and patterns, visit the Zoho and Expedia company pages.
-[Zoho Interview Questions](/company/zoho) | [Expedia Interview Questions](/company/expedia)
+**Final days:** For Expedia, rehearse behavioral stories using the STAR method. For Zoho, do speed drills on Medium problems.
+
+Remember: Zoho tests how many problems you can solve correctly under time pressure. Expedia tests how well you can solve a single problem with production-quality code. Master both mindsets, and you'll be ready for either company.
+
+For more company-specific insights, check out our [Zoho interview guide](/company/zoho) and [Expedia interview guide](/company/expedia).

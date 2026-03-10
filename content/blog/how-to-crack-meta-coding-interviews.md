@@ -1,342 +1,172 @@
 ---
 title: "How to Crack Meta Coding Interviews in 2026"
 description: "Complete guide to Meta coding interviews — question patterns, difficulty breakdown, must-practice topics, and preparation strategy."
-date: "2026-06-07"
+date: "2026-01-09"
 category: "company-guide"
 company: "meta"
 tags: ["meta", "interview prep", "leetcode"]
 ---
 
-Meta (formerly Facebook) runs one of the most coding-heavy interview processes in big tech. The typical loop includes an initial recruiter screen, one or two technical phone screens, and then an on-site consisting of two coding rounds, one system design round (for E4+), and one behavioral round. What distinguishes Meta is the pace — each coding round is 35 to 40 minutes, and you are expected to solve two medium-level problems or one hard problem in that window. This is faster than most other companies, and it means speed matters. If you cannot get to working code quickly, you will struggle regardless of how well you understand the concepts.
+# How to Crack Meta Coding Interviews in 2026
 
-Meta interviewers tend to be direct. They want to see you write correct, efficient code with minimal hand-holding. The problems lean toward well-known patterns but with enough variation to test whether you truly understand the underlying concepts or have simply memorized solutions.
+Meta’s interview process is a marathon, not a sprint. You’ll typically face two 45-minute coding rounds, one or two system design rounds, and a behavioral round (often based on their Leadership Principles). What makes their process unique is the intense focus on **performance optimization** and **real-world scalability** even in coding problems. They don’t just want a working solution; they want the _most efficient_ solution you can derive under pressure, followed by a clear discussion of trade-offs. You’ll code in a collaborative editor (CoderPad/CodePair), and while pseudocode might be accepted briefly, they expect fully executable, clean code by the end.
+
+## What Makes Meta Different
+
+While most top tech companies test algorithmic proficiency, Meta’s interviews have a distinct flavor shaped by their engineering culture. First, **optimization is non-negotiable**. A brute-force solution that would pass at some companies will be immediately challenged here. You must articulate time and space complexity and be prepared to improve it. Second, problems often have a **“second layer”**—after solving the core algorithm, you might be asked how you’d handle the problem if the data streamed in, or how to distribute the computation across servers. This tests your ability to think about scale, a daily concern at Meta. Third, they heavily favor **practical, product-adjacent problems**. You’re less likely to get abstract graph theory puzzles and more likely to get problems mimicking real backend tasks: merging user sessions, ranking feed items, or deduplicating events. Finally, communication is key. Interviewers act as collaborators, and your ability to think aloud, ask clarifying questions, and adapt to hints is part of the evaluation.
 
 ## By the Numbers
 
-Meta's question pool contains **1,387 questions**, making it the third largest among the major tech companies. The difficulty breakdown is notably friendlier than Google's:
+Meta’s question bank (as of 2026) contains **1387 problems**, with a difficulty breakdown of 30% Easy (414), 55% Medium (762), and 15% Hard (211). This distribution is telling: **Medium problems are the core of the interview**. You must be exceptionally strong here. Easy problems often serve as warm-ups or parts of a larger discussion, while Hards are reserved for senior roles or particularly tough interviewers.
 
-- **Easy: 414 questions (30%)**
-- **Medium: 762 questions (55%)**
-- **Hard: 211 questions (15%)**
+The numbers also reveal what to prioritize. For example, **Array** and **String** problems dominate because they model so much user data. **Hash Table** is ubiquitous for its O(1) lookups, essential for scale. **Dynamic Programming**, while a smaller percentage, is a classic differentiator—cracking a tough DP problem can seal a strong performance.
 
-The 30% easy rate is the highest among FAANG companies, and the 15% hard rate is the lowest. This does not mean Meta interviews are easy — it means the difficulty curve is shifted toward the medium range. Expect to face two medium problems per round rather than one hard. The challenge is speed and accuracy, not raw difficulty.
+Specific LeetCode problems known to appear at Meta include:
+
+- **Merge Intervals (#56)**: A classic for handling user sessions or time ranges.
+- **Valid Parentheses (#20)**: Often a warm-up, testing stack fundamentals.
+- **Product of Array Except Self (#238)**: Tests optimization and array manipulation.
+- **Word Break (#139)**: A common DP problem.
+- **LRU Cache (#146)**: Tests design and data structure knowledge.
 
 ## Top Topics to Focus On
 
-**Arrays** — Array manipulation is the bread and butter of Meta interviews. Two pointers, sliding window, prefix sums, and in-place modifications appear constantly. Many candidates report that at least one of their interview problems was array-based.
+**Array & String Manipulation**
+Meta’s systems process billions of array-like data structures daily (posts, comments, friend lists). Mastery of in-place operations, two-pointer techniques, and sliding windows is critical. These problems test your ability to handle data efficiently without excessive memory overhead.
 
-Let's look at a classic two-pointer problem: **Two Sum II - Input Array Is Sorted**. The goal is to find two numbers in a sorted array that add up to a target. The two-pointer technique is optimal here.
+**Hash Table**
+The workhorse of scalable systems. Meta uses hash tables everywhere—for caching, deduplication, and fast lookups. You must know when and how to use them, including handling collisions and designing custom keys for complex objects.
+
+**Dynamic Programming**
+This is a key differentiator for strong candidates. Meta uses DP in problems related to optimization, resource allocation, and sequence matching (like in their AI/ML systems). Being able to identify overlapping subproblems and optimal substructure is a prized skill.
+
+**Graph & Tree Algorithms**
+While slightly less frequent than arrays, graphs are vital for modeling social networks (friends, connections, recommendations). You must be comfortable with BFS, DFS, union-find, and trie structures.
 
 <div class="code-group">
 
 ```python
-def two_sum_sorted(numbers, target):
-    left, right = 0, len(numbers) - 1
-    while left < right:
-        current_sum = numbers[left] + numbers[right]
-        if current_sum == target:
-            return [left + 1, right + 1]  # 1-indexed
-        elif current_sum < target:
-            left += 1
-        else:
-            right -= 1
-    return [-1, -1]  # Not found
+# Meta Pattern: Sliding Window (Example: Longest Substring Without Repeating Characters #3)
+# Why it matters: Models scanning through a continuous data stream (e.g., user activity log).
+# Time: O(n) | Space: O(min(m, n)) where m is charset size
+def length_of_longest_substring(s: str) -> int:
+    char_index_map = {}
+    left = 0
+    max_length = 0
+
+    for right in range(len(s)):
+        # If character is in map and within current window, move left pointer
+        if s[right] in char_index_map and char_index_map[s[right]] >= left:
+            left = char_index_map[s[right]] + 1
+        # Update the character's latest index
+        char_index_map[s[right]] = right
+        # Update max length
+        max_length = max(max_length, right - left + 1)
+
+    return max_length
 ```
 
 ```javascript
-function twoSumSorted(numbers, target) {
+// Meta Pattern: Sliding Window (Example: Longest Substring Without Repeating Characters #3)
+// Why it matters: Models scanning through a continuous data stream (e.g., user activity log).
+// Time: O(n) | Space: O(min(m, n)) where m is charset size
+function lengthOfLongestSubstring(s) {
+  const charIndexMap = new Map();
   let left = 0;
-  let right = numbers.length - 1;
-  while (left < right) {
-    const sum = numbers[left] + numbers[right];
-    if (sum === target) {
-      return [left + 1, right + 1]; // 1-indexed
-    } else if (sum < target) {
-      left++;
-    } else {
-      right--;
+  let maxLength = 0;
+
+  for (let right = 0; right < s.length; right++) {
+    // If character is in map and within current window, move left pointer
+    if (charIndexMap.has(s[right]) && charIndexMap.get(s[right]) >= left) {
+      left = charIndexMap.get(s[right]) + 1;
     }
+    // Update the character's latest index
+    charIndexMap.set(s[right], right);
+    // Update max length
+    maxLength = Math.max(maxLength, right - left + 1);
   }
-  return [-1, -1];
+
+  return maxLength;
 }
 ```
 
 ```java
-public int[] twoSumSorted(int[] numbers, int target) {
+// Meta Pattern: Sliding Window (Example: Longest Substring Without Repeating Characters #3)
+// Why it matters: Models scanning through a continuous data stream (e.g., user activity log).
+// Time: O(n) | Space: O(min(m, n)) where m is charset size
+public int lengthOfLongestSubstring(String s) {
+    Map<Character, Integer> charIndexMap = new HashMap<>();
     int left = 0;
-    int right = numbers.length - 1;
-    while (left < right) {
-        int sum = numbers[left] + numbers[right];
-        if (sum == target) {
-            return new int[]{left + 1, right + 1}; // 1-indexed
-        } else if (sum < target) {
-            left++;
-        } else {
-            right--;
+    int maxLength = 0;
+
+    for (int right = 0; right < s.length(); right++) {
+        char c = s.charAt(right);
+        // If character is in map and within current window, move left pointer
+        if (charIndexMap.containsKey(c) && charIndexMap.get(c) >= left) {
+            left = charIndexMap.get(c) + 1;
         }
+        // Update the character's latest index
+        charIndexMap.put(c, right);
+        // Update max length
+        maxLength = Math.max(maxLength, right - left + 1);
     }
-    return new int[]{-1, -1};
+
+    return maxLength;
 }
 ```
 
 </div>
 
-**Strings** — Meta has a particular fondness for string problems. Valid palindrome variations, substring searches, and string transformation problems are common. Pay special attention to problems involving two-pointer techniques applied to strings.
-
-A frequent variation is checking if a string is a palindrome after removing at most one character. This requires careful two-pointer logic.
+**Math & Bit Manipulation**
+Underrated but important. Meta asks math problems related to probability, combinatorics (for A/B testing), and bit manipulation for low-level optimizations in systems code.
 
 <div class="code-group">
 
 ```python
-def valid_palindrome_ii(s):
-    def is_palindrome_range(left, right):
-        while left < right:
-            if s[left] != s[right]:
-                return False
-            left += 1
-            right -= 1
-        return True
-
-    left, right = 0, len(s) - 1
-    while left < right:
-        if s[left] != s[right]:
-            # Try skipping either the left or right character
-            return (is_palindrome_range(left + 1, right) or
-                    is_palindrome_range(left, right - 1))
-        left += 1
-        right -= 1
-    return True
+# Meta Pattern: Hash Table for Two-Sum Variant (Example: Two Sum #1)
+# Why it matters: Foundation for faster lookups; used in features like "People You May Know".
+# Time: O(n) | Space: O(n)
+def two_sum(nums, target):
+    num_map = {}
+    for i, num in enumerate(nums):
+        complement = target - num
+        if complement in num_map:
+            return [num_map[complement], i]
+        num_map[num] = i
+    return []  # No solution
 ```
 
 ```javascript
-function validPalindromeII(s) {
-  const isPalindromeRange = (left, right) => {
-    while (left < right) {
-      if (s[left] !== s[right]) return false;
-      left++;
-      right--;
+// Meta Pattern: Hash Table for Two-Sum Variant (Example: Two Sum #1)
+// Why it matters: Foundation for faster lookups; used in features like "People You May Know".
+// Time: O(n) | Space: O(n)
+function twoSum(nums, target) {
+  const numMap = new Map();
+  for (let i = 0; i < nums.length; i++) {
+    const complement = target - nums[i];
+    if (numMap.has(complement)) {
+      return [numMap.get(complement), i];
     }
-    return true;
-  };
-
-  let left = 0,
-    right = s.length - 1;
-  while (left < right) {
-    if (s[left] !== s[right]) {
-      return isPalindromeRange(left + 1, right) || isPalindromeRange(left, right - 1);
-    }
-    left++;
-    right--;
+    numMap.set(nums[i], i);
   }
-  return true;
+  return []; // No solution
 }
 ```
 
 ```java
-public boolean validPalindromeII(String s) {
-    int left = 0, right = s.length() - 1;
-    while (left < right) {
-        if (s.charAt(left) != s.charAt(right)) {
-            return isPalindromeRange(s, left + 1, right) ||
-                   isPalindromeRange(s, left, right - 1);
+// Meta Pattern: Hash Table for Two-Sum Variant (Example: Two Sum #1)
+// Why it matters: Foundation for faster lookups; used in features like "People You May Know".
+// Time: O(n) | Space: O(n)
+public int[] twoSum(int[] nums, int target) {
+    Map<Integer, Integer> numMap = new HashMap<>();
+    for (int i = 0; i < nums.length; i++) {
+        int complement = target - nums[i];
+        if (numMap.containsKey(complement)) {
+            return new int[]{numMap.get(complement), i};
         }
-        left++;
-        right--;
+        numMap.put(nums[i], i);
     }
-    return true;
-}
-
-private boolean isPalindromeRange(String s, int left, int right) {
-    while (left < right) {
-        if (s.charAt(left) != s.charAt(right)) return false;
-        left++;
-        right--;
-    }
-    return true;
-}
-```
-
-</div>
-
-**Hash Tables** — Frequency counting, grouping, and lookup problems are everywhere in Meta's question bank. Hash maps are often the key to converting a brute force O(n^2) solution into an optimal O(n) one, and Meta interviewers expect you to make that leap quickly.
-
-A quintessential problem is **Group Anagrams**, where you group strings that are anagrams of each other.
-
-<div class="code-group">
-
-```python
-def group_anagrams(strs):
-    from collections import defaultdict
-    anagram_map = defaultdict(list)
-    for s in strs:
-        # Use sorted string as key
-        key = ''.join(sorted(s))
-        anagram_map[key].append(s)
-    return list(anagram_map.values())
-```
-
-```javascript
-function groupAnagrams(strs) {
-  const map = new Map();
-  for (const s of strs) {
-    const key = s.split("").sort().join("");
-    if (!map.has(key)) {
-      map.set(key, []);
-    }
-    map.get(key).push(s);
-  }
-  return Array.from(map.values());
-}
-```
-
-```java
-public List<List<String>> groupAnagrams(String[] strs) {
-    Map<String, List<String>> map = new HashMap<>();
-    for (String s : strs) {
-        char[] chars = s.toCharArray();
-        Arrays.sort(chars);
-        String key = new String(chars);
-        map.putIfAbsent(key, new ArrayList<>());
-        map.get(key).add(s);
-    }
-    return new ArrayList<>(map.values());
-}
-```
-
-</div>
-
-**Math** — Meta asks more math-flavored problems than you might expect. Problems involving arithmetic operations, number properties, and basic combinatorics appear regularly. These tend to be on the easier side individually, but they can trip you up if you have not practiced them.
-
-A common example is **Reverse Integer**, which tests your understanding of integer overflow and modulo arithmetic.
-
-<div class="code-group">
-
-```python
-def reverse_integer(x):
-    INT_MAX, INT_MIN = 2**31 - 1, -2**31
-    rev = 0
-    sign = 1 if x >= 0 else -1
-    x = abs(x)
-    while x != 0:
-        pop = x % 10
-        x //= 10
-        # Check for overflow before multiplying
-        if rev > (INT_MAX - pop) // 10:
-            return 0
-        rev = rev * 10 + pop
-    return sign * rev
-```
-
-```javascript
-function reverseInteger(x) {
-  const INT_MAX = 2 ** 31 - 1;
-  const INT_MIN = -(2 ** 31);
-  let rev = 0;
-  while (x !== 0) {
-    const pop = x % 10;
-    x = Math.trunc(x / 10);
-    // Check for overflow
-    if (rev > Math.floor((INT_MAX - pop) / 10) || rev < Math.ceil((INT_MIN - pop) / 10)) {
-      return 0;
-    }
-    rev = rev * 10 + pop;
-  }
-  return rev;
-}
-```
-
-```java
-public int reverseInteger(int x) {
-    int rev = 0;
-    while (x != 0) {
-        int pop = x % 10;
-        x /= 10;
-        // Check for overflow
-        if (rev > Integer.MAX_VALUE/10 || (rev == Integer.MAX_VALUE/10 && pop > 7)) return 0;
-        if (rev < Integer.MIN_VALUE/10 || (rev == Integer.MIN_VALUE/10 && pop < -8)) return 0;
-        rev = rev * 10 + pop;
-    }
-    return rev;
-}
-```
-
-</div>
-
-**Dynamic Programming** — While DP is not as dominant at Meta as it is at Google, it still appears in roughly 10-15% of interview questions. Focus on the most common patterns: 1D DP, string-based DP (edit distance, longest common subsequence), and simple 2D grid problems.
-
-A foundational 1D DP problem is **Climbing Stairs**, which is essentially Fibonacci.
-
-<div class="code-group">
-
-```python
-def climb_stairs(n):
-    if n <= 2:
-        return n
-    dp = [0] * (n + 1)
-    dp[1], dp[2] = 1, 2
-    for i in range(3, n + 1):
-        dp[i] = dp[i - 1] + dp[i - 2]
-    return dp[n]
-
-# Space-optimized version
-def climb_stairs_opt(n):
-    if n <= 2:
-        return n
-    first, second = 1, 2
-    for _ in range(3, n + 1):
-        third = first + second
-        first, second = second, third
-    return second
-```
-
-```javascript
-function climbStairs(n) {
-  if (n <= 2) return n;
-  const dp = new Array(n + 1).fill(0);
-  dp[1] = 1;
-  dp[2] = 2;
-  for (let i = 3; i <= n; i++) {
-    dp[i] = dp[i - 1] + dp[i - 2];
-  }
-  return dp[n];
-}
-
-// Space-optimized version
-function climbStairsOpt(n) {
-  if (n <= 2) return n;
-  let first = 1,
-    second = 2;
-  for (let i = 3; i <= n; i++) {
-    const third = first + second;
-    first = second;
-    second = third;
-  }
-  return second;
-}
-```
-
-```java
-public int climbStairs(int n) {
-    if (n <= 2) return n;
-    int[] dp = new int[n + 1];
-    dp[1] = 1;
-    dp[2] = 2;
-    for (int i = 3; i <= n; i++) {
-        dp[i] = dp[i - 1] + dp[i - 2];
-    }
-    return dp[n];
-}
-
-// Space-optimized version
-public int climbStairsOpt(int n) {
-    if (n <= 2) return n;
-    int first = 1, second = 2;
-    for (int i = 3; i <= n; i++) {
-        int third = first + second;
-        first = second;
-        second = third;
-    }
-    return second;
+    return new int[]{}; // No solution
 }
 ```
 
@@ -344,222 +174,126 @@ public int climbStairsOpt(int n) {
 
 ## Preparation Strategy
 
-**Weeks 1-2: Speed Drills on Core Topics.** Meta rewards speed. Start by solving 8-10 easy and medium problems per day across arrays, strings, and hash tables. Use a strict timer: 15 minutes per easy, 25 minutes per medium. If you cannot solve it in time, look at the solution, understand it deeply, and re-solve it the next day without help.
+A 6-week plan is ideal for thorough preparation.
 
-**Week 3: Graph and Tree Mastery.** Binary tree problems (level-order traversal, serialize/deserialize, path sums) and graph problems (BFS, DFS, number of islands, clone graph) are Meta staples. Spend this week doing 5-6 problems per day from these categories. Focus on writing clean recursive and iterative solutions for tree problems.
+**Weeks 1-2: Foundation & Patterns**
 
-Let's examine a classic graph problem: **Number of Islands** using BFS/DFS.
+- Goal: Solve 80 problems (60 Medium, 20 Easy).
+- Focus: Array, String, Hash Table. Complete all Meta-tagged Easy problems and 30 Mediums per topic.
+- Daily: 3-4 problems, focusing on pattern recognition. Use a timer (30 mins per Medium).
 
-<div class="code-group">
+**Weeks 3-4: Core Topics & Depth**
 
-```python
-def num_islands(grid):
-    if not grid:
-        return 0
-    rows, cols = len(grid), len(grid[0])
-    count = 0
+- Goal: Solve 100 problems (85 Medium, 15 Hard).
+- Focus: Dynamic Programming, Graphs, Trees. Do 40 DP problems (start with 1D, then 2D). Practice 20 graph problems (BFS/DFS/Union-Find).
+- Daily: 4 problems, with one Hard problem every other day.
 
-    def dfs(r, c):
-        if r < 0 or c < 0 or r >= rows or c >= cols or grid[r][c] != '1':
-            return
-        grid[r][c] = '0'  # Mark as visited
-        dfs(r + 1, c)
-        dfs(r - 1, c)
-        dfs(r, c + 1)
-        dfs(r, c - 1)
+**Week 5: Meta-Specific & Mock Interviews**
 
-    for r in range(rows):
-        for c in range(cols):
-            if grid[r][c] == '1':
-                count += 1
-                dfs(r, c)
-    return count
-```
+- Goal: Solve 60 Meta-tagged problems (all Medium/Hard).
+- Focus: Do 2-3 mock interviews per week with a partner. Simulate the exact environment: 45 minutes, video on, talking through your approach.
+- Review: Re-solve problems you struggled with.
 
-```javascript
-function numIslands(grid) {
-  if (!grid.length) return 0;
-  const rows = grid.length,
-    cols = grid[0].length;
-  let count = 0;
+**Week 6: Refinement & System Design Integration**
 
-  const dfs = (r, c) => {
-    if (r < 0 || c < 0 || r >= rows || c >= cols || grid[r][c] !== "1") return;
-    grid[r][c] = "0"; // Mark as visited
-    dfs(r + 1, c);
-    dfs(r - 1, c);
-    dfs(r, c + 1);
-    dfs(r, c - 1);
-  };
+- Goal: 20 problems (all Hard or toughest Mediums).
+- Focus: For each problem, ask the “second layer” question: “How would this work if data streamed in?” or “How to shard this?”.
+- Final Prep: Rest, review notes, practice behavioral stories using Meta’s Leadership Principles.
 
-  for (let r = 0; r < rows; r++) {
-    for (let c = 0; c < cols; c++) {
-      if (grid[r][c] === "1") {
-        count++;
-        dfs(r, c);
-      }
-    }
-  }
-  return count;
-}
-```
+## Common Mistakes
 
-```java
-public int numIslands(char[][] grid) {
-    if (grid == null || grid.length == 0) return 0;
-    int rows = grid.length, cols = grid[0].length;
-    int count = 0;
-    for (int r = 0; r < rows; r++) {
-        for (int c = 0; c < cols; c++) {
-            if (grid[r][c] == '1') {
-                count++;
-                dfs(grid, r, c);
-            }
-        }
-    }
-    return count;
-}
+1. **Stopping at the First Working Solution**
+   Meta interviewers expect optimization. If you present a O(n²) solution, they’ll immediately ask for better. The fix: Always state your brute-force complexity, then say “Let me think of a more optimal approach.” Think aloud as you improve it.
 
-private void dfs(char[][] grid, int r, int c) {
-    if (r < 0 || c < 0 || r >= grid.length || c >= grid[0].length || grid[r][c] != '1') return;
-    grid[r][c] = '0'; // Mark as visited
-    dfs(grid, r + 1, c);
-    dfs(grid, r - 1, c);
-    dfs(grid, r, c + 1);
-    dfs(grid, r, c - 1);
-}
-```
+2. **Ignoring the Scale Discussion**
+   When asked “How would this work for billions of users?”, candidates often freeze. The fix: Practice attaching a scale discussion to every problem. Mention partitioning, caching, eventual consistency, and approximate algorithms where relevant.
 
-</div>
+3. **Poor Collaboration with the Interviewer**
+   Treating the interviewer as a silent judge is a mistake. They’re your teammate for 45 minutes. The fix: Ask clarifying questions upfront (“Can the input be empty?”). Verbalize your thought process. If you’re stuck, say “I’m considering using a heap here, but I’m concerned about memory. What are your thoughts?”
 
-**Week 4: Dynamic Programming and Backtracking.** Cover the essential DP patterns and backtracking problems (subsets, permutations, combination sum). Meta does not go as deep into DP as Google, so you can focus on the 20 most common DP problems rather than trying to cover everything.
-
-A standard backtracking problem is **Subsets**, generating all possible subsets of a set.
-
-<div class="code-group">
-
-```python
-def subsets(nums):
-    result = []
-    def backtrack(start, current):
-        result.append(current[:])
-        for i in range(start, len(nums)):
-            current.append(nums[i])
-            backtrack(i + 1, current)
-            current.pop()
-    backtrack(0, [])
-    return result
-```
-
-```javascript
-function subsets(nums) {
-  const result = [];
-  const backtrack = (start, current) => {
-    result.push([...current]);
-    for (let i = start; i < nums.length; i++) {
-      current.push(nums[i]);
-      backtrack(i + 1, current);
-      current.pop();
-    }
-  };
-  backtrack(0, []);
-  return result;
-}
-```
-
-```java
-public List<List<Integer>> subsets(int[] nums) {
-    List<List<Integer>> result = new ArrayList<>();
-    backtrack(nums, 0, new ArrayList<>(), result);
-    return result;
-}
-
-private void backtrack(int[] nums, int start, List<Integer> current, List<List<Integer>> result) {
-    result.add(new ArrayList<>(current));
-    for (int i = start; i < nums.length; i++) {
-        current.add(nums[i]);
-        backtrack(nums, i + 1, current, result);
-        current.remove(current.size() - 1);
-    }
-}
-```
-
-</div>
-
-**Week 5: Two-Problem Practice and Mock Interviews.** Start simulating real Meta rounds: set a 40-minute timer and solve two medium problems back to back. This is the single most important exercise for Meta preparation. Do this at least twice a day. Supplement with 2-3 full mock interviews.
-
-**Week 6: Review, Weak Spots, and Behavioral Prep.** Revisit every problem you failed or took too long on. Identify your weak patterns and drill them. Meta's behavioral round focuses on collaboration, conflict resolution, and impact — prepare 5-6 stories. Also review system design fundamentals if you are interviewing for E4 or above.
+4. **Sloppy Code Under Pressure**
+   Meta values clean, production-ready code. The fix: Practice writing code with consistent naming, proper spacing, and clear comments _while_ talking. After coding, walk through a small test case to verify.
 
 ## Key Tips
 
-1.  **Speed is non-negotiable.** Meta expects two problems in 35-40 minutes. If you are not finishing problems within 15-20 minutes during practice, you are not ready. Prioritize speed once your accuracy is solid.
+1. **Memorize the Top 10 Meta Patterns**
+   Know these cold: Sliding Window, Two Pointers, Fast & Slow Pointers, Merge Intervals, Cyclic Sort, In-place Reversal, Tree BFS/DFS, Two Heaps, Subsets, Modified Binary Search. For each, have a Meta-tagged problem example ready.
 
-2.  **Know your BFS and DFS cold.** Graph traversal problems are among Meta's most frequently asked. You should be able to write BFS and DFS in your sleep, including variations like multi-source BFS and cycle detection.
+2. **Practice the “Optimization Dialogue”**
+   Script your response: “My initial approach is O(n²) time and O(1) space. I can improve time to O(n log n) by sorting, or potentially O(n) with a hash map, though that would use O(n) space. Which trade-off is preferable here?” This shows structured thinking.
 
-    Here is a template for iterative BFS on a graph represented as an adjacency list:
+3. **Always Discuss Trade-offs**
+   For every solution, explicitly state time/space complexity. If there’s a trade-off (time vs. space), explain it. Mention if your solution is optimal or if there’s a theoretical lower bound.
+
+4. **Link Problems to Meta Products**
+   When solving, briefly note how it relates: “This interval merging is similar to consolidating user ad view sessions.” It shows you think about practical application, not just algorithms.
+
+5. **Master One Language Deeply**
+   Use a language you’re fluent in (Python, Java, C++, or JavaScript). Know its standard library for data structures (e.g., `collections.deque`, `PriorityQueue`, `Map`) and time complexities for operations.
 
 <div class="code-group">
 
 ```python
-from collections import deque
+# Meta Pattern: Dynamic Programming (Example: Word Break #139)
+# Why it matters: Used in text processing, search, and NLP features.
+# Time: O(n^3) for substring check, but O(n^2) with set lookup | Space: O(n)
+def word_break(s, word_dict):
+    word_set = set(word_dict)
+    dp = [False] * (len(s) + 1)
+    dp[0] = True  # Empty string can be segmented
 
-def bfs(graph, start):
-    visited = set([start])
-    queue = deque([start])
-    while queue:
-        node = queue.popleft()
-        # Process node
-        print(node)
-        for neighbor in graph[node]:
-            if neighbor not in visited:
-                visited.add(neighbor)
-                queue.append(neighbor)
+    for i in range(1, len(s) + 1):
+        for j in range(i):
+            if dp[j] and s[j:i] in word_set:
+                dp[i] = True
+                break
+    return dp[len(s)]
 ```
 
 ```javascript
-function bfs(graph, start) {
-  const visited = new Set([start]);
-  const queue = [start];
-  while (queue.length) {
-    const node = queue.shift();
-    // Process node
-    console.log(node);
-    for (const neighbor of graph[node]) {
-      if (!visited.has(neighbor)) {
-        visited.add(neighbor);
-        queue.push(neighbor);
+// Meta Pattern: Dynamic Programming (Example: Word Break #139)
+// Why it matters: Used in text processing, search, and NLP features.
+// Time: O(n^3) for substring check, but O(n^2) with set lookup | Space: O(n)
+function wordBreak(s, wordDict) {
+  const wordSet = new Set(wordDict);
+  const dp = new Array(s.length + 1).fill(false);
+  dp[0] = true; // Empty string can be segmented
+
+  for (let i = 1; i <= s.length; i++) {
+    for (let j = 0; j < i; j++) {
+      if (dp[j] && wordSet.has(s.substring(j, i))) {
+        dp[i] = true;
+        break;
       }
     }
   }
+  return dp[s.length];
 }
 ```
 
 ```java
-public void bfs(List<List<Integer>> graph, int start) {
-    boolean[] visited = new boolean[graph.size()];
-    Queue<Integer> queue = new LinkedList<>();
-    visited[start] = true;
-    queue.offer(start);
-    while (!queue.isEmpty()) {
-        int node = queue.poll();
-        // Process node
-        System.out.println(node);
-        for (int neighbor : graph.get(node)) {
-            if (!visited[neighbor]) {
-                visited[neighbor] = true;
-                queue.offer(neighbor);
+// Meta Pattern: Dynamic Programming (Example: Word Break #139)
+// Why it matters: Used in text processing, search, and NLP features.
+// Time: O(n^3) for substring check, but O(n^2) with set lookup | Space: O(n)
+public boolean wordBreak(String s, List<String> wordDict) {
+    Set<String> wordSet = new HashSet<>(wordDict);
+    boolean[] dp = new boolean[s.length() + 1];
+    dp[0] = true; // Empty string can be segmented
+
+    for (int i = 1; i <= s.length(); i++) {
+        for (int j = 0; j < i; j++) {
+            if (dp[j] && wordSet.contains(s.substring(j, i))) {
+                dp[i] = true;
+                break;
             }
         }
     }
+    return dp[s.length()];
 }
 ```
 
 </div>
 
-3.  **Communicate concisely.** Meta interviewers appreciate brevity. State your approach in 2-3 sentences, confirm with the interviewer, then start coding. Long-winded explanations eat into your limited time.
-
-4.  **Handle edge cases proactively.** Before writing code, call out the key edge cases (empty input, single element, duplicates). This shows maturity and saves you from debugging later.
-
-5.  **Practice on a plain text editor.** Meta's coding environment is minimal — no autocomplete, no syntax highlighting in some cases. Get comfortable writing code without IDE assistance.
+Meta’s interviews are challenging but predictable. By focusing on their preferred topics, practicing optimization dialogues, and thinking at scale, you can demonstrate the kind of engineering mindset they value. Remember, they’re not just testing your ability to solve problems—they’re assessing how you’d build and optimize products for billions of users.
 
 [Browse all Meta questions on CodeJeet](/company/meta)

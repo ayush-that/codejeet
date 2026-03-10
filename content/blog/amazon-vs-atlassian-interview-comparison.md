@@ -1,113 +1,225 @@
 ---
 title: "Amazon vs Atlassian: Interview Question Comparison"
 description: "Compare coding interview questions at Amazon and Atlassian — difficulty levels, topic focus, and preparation strategy."
-date: "2026-04-13"
+date: "2029-01-01"
 category: "tips"
 tags: ["amazon", "atlassian", "comparison"]
 ---
 
-When preparing for technical interviews at major tech companies, understanding the specific focus and style of each company's interview questions can significantly impact your preparation strategy. Amazon and Atlassian, while both prominent in the tech industry, present distinct interview landscapes in terms of question volume, difficulty distribution, and topical emphasis. This comparison breaks down the key differences to help you tailor your study plan effectively.
+# Amazon vs Atlassian: Interview Question Comparison
+
+If you're interviewing at both Amazon and Atlassian, you're looking at two distinct engineering cultures with surprisingly different interview approaches. Amazon, with its massive scale and breadth of services, has developed a highly standardized, data-driven interview process that's been refined over decades. Atlassian, while smaller in scope, has a more focused, product-centric approach that values clean code and practical problem-solving. The key insight: preparing for Amazon will cover about 80% of what Atlassian tests, but the remaining 20% requires specific attention to Atlassian's unique patterns.
 
 ## Question Volume and Difficulty
 
-The most immediate difference is the sheer scale of available practice material. Amazon's question bank is massive, with 1,938 documented questions, reflecting its long history of a standardized, data-driven interview process. The difficulty distribution (530 Easy, 1,057 Medium, 351 Hard) shows a strong emphasis on Medium-level problems, which are typical for assessing core problem-solving and implementation skills under pressure.
+The numbers tell a clear story. Amazon has **1,938 tagged questions** on LeetCode (530 Easy, 1,057 Medium, 351 Hard), while Atlassian has only **62 tagged questions** (7 Easy, 43 Medium, 12 Hard). This isn't because Atlassian interviews are easier—it's because they're more focused.
 
-In stark contrast, Atlassian's curated list is much smaller, with only 62 questions (7 Easy, 43 Medium, 12 Hard). This doesn't mean the interview is easier; rather, it suggests Atlassian's process may rely more heavily on a consistent, smaller set of core problems or place greater weight on system design and behavioral discussions. The high proportion of Medium questions (nearly 70%) aligns with the industry standard for assessing fundamental competency.
+Amazon's massive question bank reflects their scale: they interview thousands of candidates annually across hundreds of teams. Their process is highly standardized, with questions recycled and adapted across interviews. The Medium-heavy distribution (55% of questions) aligns with their "bar raiser" philosophy: they want to see you solve non-trivial problems under pressure.
+
+Atlassian's smaller question bank suggests more consistency in their interview process. With 69% Medium questions, they're testing practical problem-solving rather than algorithmic brilliance. Their Hard questions tend to be implementation-heavy rather than purely algorithmic—think building a simplified version of an Atlassian product feature.
+
+**Implication:** For Amazon, you need breadth—exposure to many problem patterns. For Atlassian, you need depth—mastery of their favorite patterns.
 
 ## Topic Overlap
 
-Both companies heavily test foundational data structures and algorithms. The top four topics for each are nearly identical:
+Both companies heavily test **Arrays, Hash Tables, and Strings**. This is the core of modern coding interviews. However, their emphasis differs:
 
-- **Amazon:** Array, String, Hash Table, Dynamic Programming
-- **Atlassian:** Array, Hash Table, String, Sorting
+**Shared high-priority topics:**
 
-This overlap means a strong grasp of these core areas is non-negotiable for both. You must be proficient in manipulating arrays and strings, leveraging hash tables for efficient lookups, and implementing standard sorting algorithms. The key differentiator is Amazon's explicit, prominent focus on **Dynamic Programming (DP)**. DP is a classic topic for Amazon interviews, often appearing in questions about optimization, counting, or pathfinding. While DP can appear at Atlassian, its absence from the top four topics suggests it's a less frequent primary focus.
+- **Hash Tables:** Both love problems where efficient lookup transforms the solution. Amazon uses them for everything from caching patterns to distributed systems simulations. Atlassian uses them for feature flag systems, user permission checks, and data synchronization.
+- **Arrays:** Manipulation, searching, and transformation appear constantly.
+- **Strings:** Parsing, validation, and transformation problems appear at both.
 
-A practical example illustrates the common ground and the Amazon-specific DP twist:
+**Amazon-specific emphasis:**
 
-**Common Focus (Array & Hash Table): Two Sum**
+- **Dynamic Programming:** Appears in 351 Amazon questions but isn't in Atlassian's top topics. Amazon tests DP heavily for optimization problems (inventory management, route planning, cost minimization).
+- **Trees and Graphs:** More prevalent at Amazon due to their work on recommendation systems, logistics networks, and organizational hierarchies.
+
+**Atlassian-specific emphasis:**
+
+- **Sorting:** Appears in their top 4 topics but not Amazon's. Atlassian loves problems involving ordering data—think ticket prioritization (Jira), dependency resolution, or timeline displays.
+- **Design questions** often relate directly to their products: collaborative editing, permission systems, or notification feeds.
+
+## Preparation Priority Matrix
+
+Maximize your ROI with this strategic approach:
+
+**Study First (Overlap Topics - Maximum ROI):**
+
+1. **Hash Table applications** - Two Sum variations, substring problems
+2. **Array manipulation** - sliding window, two pointers, in-place operations
+3. **String processing** - parsing, validation, transformation
+
+**Amazon-Specific Priority:**
+
+1. **Dynamic Programming** - start with 1D then 2D DP
+2. **Graph traversal** - BFS/DFS applications
+3. **Tree problems** - especially BST operations
+
+**Atlassian-Specific Priority:**
+
+1. **Sorting algorithms** with custom comparators
+2. **Design problems** related to collaboration tools
+3. **Concurrency basics** (for their real-time collaboration features)
+
+**Recommended problems useful for both:**
 
 <div class="code-group">
 
 ```python
-def two_sum(nums, target):
-    seen = {}
-    for i, num in enumerate(nums):
-        complement = target - num
-        if complement in seen:
-            return [seen[complement], i]
-        seen[num] = i
-    return []
+# 49. Group Anagrams - Tests hash table + string manipulation
+# Time: O(n*k) where n=#strings, k=avg length | Space: O(n)
+def groupAnagrams(strs):
+    from collections import defaultdict
+    groups = defaultdict(list)
+    for s in strs:
+        # Create key from sorted characters
+        key = ''.join(sorted(s))
+        groups[key].append(s)
+    return list(groups.values())
 ```
 
 ```javascript
-function twoSum(nums, target) {
+// 49. Group Anagrams - Tests hash table + string manipulation
+// Time: O(n*k log k) | Space: O(n)
+function groupAnagrams(strs) {
   const map = new Map();
-  for (let i = 0; i < nums.length; i++) {
-    const complement = target - nums[i];
-    if (map.has(complement)) {
-      return [map.get(complement), i];
-    }
-    map.set(nums[i], i);
+  for (const s of strs) {
+    const key = s.split("").sort().join("");
+    if (!map.has(key)) map.set(key, []);
+    map.get(key).push(s);
   }
-  return [];
+  return Array.from(map.values());
 }
 ```
 
 ```java
-public int[] twoSum(int[] nums, int target) {
-    Map<Integer, Integer> map = new HashMap<>();
-    for (int i = 0; i < nums.length; i++) {
-        int complement = target - nums[i];
-        if (map.containsKey(complement)) {
-            return new int[]{map.get(complement), i};
-        }
-        map.put(nums[i], i);
+// 49. Group Anagrams - Tests hash table + string manipulation
+// Time: O(n*k log k) | Space: O(n)
+public List<List<String>> groupAnagrams(String[] strs) {
+    Map<String, List<String>> map = new HashMap<>();
+    for (String s : strs) {
+        char[] chars = s.toCharArray();
+        Arrays.sort(chars);
+        String key = new String(chars);
+        map.putIfAbsent(key, new ArrayList<>());
+        map.get(key).add(s);
     }
-    return new int[]{};
+    return new ArrayList<>(map.values());
 }
 ```
 
 </div>
 
-**Amazon-Specific Emphasis (DP): Climbing Stairs**
+## Interview Format Differences
+
+**Amazon's "Loop":**
+
+- Typically 4-5 interviews over 4-6 hours
+- Each session: 45-55 minutes, usually 1-2 problems
+- Heavy emphasis on **Leadership Principles** - every answer should tie back
+- **Bar Raiser** round determines hire/no-hire
+- System design expected for SDE2+ (often a dedicated round)
+- Virtual or on-site equally common now
+
+**Atlassian's Process:**
+
+- Usually 3-4 technical rounds plus behavioral
+- 60-minute coding sessions, often single problem with follow-ups
+- Less rigid structure, more conversational
+- Strong focus on **code quality and readability**
+- System design relates to their product domain
+- Often includes a **pair programming** component
+
+**Key difference:** Amazon wants to see you solve the problem correctly under time pressure. Atlassian wants to see how you think through the problem and write maintainable code.
+
+## Specific Problem Recommendations
+
+These 5 problems provide maximum coverage for both companies:
+
+1. **56. Merge Intervals** - Tests sorting + array manipulation. Amazon uses for scheduling problems; Atlassian for timeline displays.
+
+2. **238. Product of Array Except Self** - Classic array manipulation that appears at both. Tests your ability to optimize space.
+
+3. **973. K Closest Points to Origin** - Tests sorting with custom comparator. Amazon for logistics; Atlassian for mapping/UI features.
+
+4. **139. Word Break** - Dynamic programming (Amazon focus) that also tests string manipulation (both companies).
+
+5. **146. LRU Cache** - Design + hash table + linked list. Amazon for caching systems; Atlassian for recent items display.
+
+For **Merge Intervals**, here's the optimal approach:
 
 <div class="code-group">
 
 ```python
-def climb_stairs(n):
-    if n <= 2:
-        return n
-    dp = [0] * (n + 1)
-    dp[1], dp[2] = 1, 2
-    for i in range(3, n + 1):
-        dp[i] = dp[i-1] + dp[i-2]
-    return dp[n]
+# 56. Merge Intervals
+# Time: O(n log n) | Space: O(n) or O(1) if we can modify input
+def merge(intervals):
+    if not intervals:
+        return []
+
+    # Sort by start time
+    intervals.sort(key=lambda x: x[0])
+
+    merged = []
+    for interval in intervals:
+        # If no overlap, add new interval
+        if not merged or merged[-1][1] < interval[0]:
+            merged.append(interval)
+        else:
+            # Merge with previous interval
+            merged[-1][1] = max(merged[-1][1], interval[1])
+
+    return merged
 ```
 
 ```javascript
-function climbStairs(n) {
-  if (n <= 2) return n;
-  let dp = new Array(n + 1).fill(0);
-  dp[1] = 1;
-  dp[2] = 2;
-  for (let i = 3; i <= n; i++) {
-    dp[i] = dp[i - 1] + dp[i - 2];
+// 56. Merge Intervals
+// Time: O(n log n) | Space: O(n)
+function merge(intervals) {
+  if (intervals.length === 0) return [];
+
+  intervals.sort((a, b) => a[0] - b[0]);
+
+  const merged = [intervals[0]];
+
+  for (let i = 1; i < intervals.length; i++) {
+    const last = merged[merged.length - 1];
+    const current = intervals[i];
+
+    if (last[1] < current[0]) {
+      merged.push(current);
+    } else {
+      last[1] = Math.max(last[1], current[1]);
+    }
   }
-  return dp[n];
+
+  return merged;
 }
 ```
 
 ```java
-public int climbStairs(int n) {
-    if (n <= 2) return n;
-    int[] dp = new int[n + 1];
-    dp[1] = 1;
-    dp[2] = 2;
-    for (int i = 3; i <= n; i++) {
-        dp[i] = dp[i-1] + dp[i-2];
+// 56. Merge Intervals
+// Time: O(n log n) | Space: O(n)
+public int[][] merge(int[][] intervals) {
+    if (intervals.length <= 1) return intervals;
+
+    Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
+
+    List<int[]> merged = new ArrayList<>();
+    int[] current = intervals[0];
+    merged.add(current);
+
+    for (int[] interval : intervals) {
+        if (interval[0] <= current[1]) {
+            current[1] = Math.max(current[1], interval[1]);
+        } else {
+            current = interval;
+            merged.add(current);
+        }
     }
-    return dp[n];
+
+    return merged.toArray(new int[merged.size()][]);
 }
 ```
 
@@ -115,10 +227,18 @@ public int climbStairs(int n) {
 
 ## Which to Prepare for First
 
-Start with the **common foundation**. Mastering Arrays, Strings, Hash Tables, and Sorting will build the skills necessary for both interviews. Use Atlassian's smaller, high-quality question set as an efficient benchmark. If you can comfortably solve most of its Medium problems, your core algorithmic skills are likely in good shape.
+**Prepare for Amazon first.** Here's why:
 
-Then, **layer on Amazon-specific preparation**. Dive into their vast question bank, with dedicated practice on Dynamic Programming, Trees/Graphs (implied by common Amazon topics), and a larger volume of Medium problems to build stamina and familiarity with Amazon's problem patterns. The volume prepares you for the unpredictability and breadth of their interview loops.
+1. **Breadth covers depth:** Amazon's wide question bank will expose you to more patterns. Mastering these will give you strong fundamentals for Atlassian's more focused questions.
 
-In summary, Atlassian's list provides a focused, high-yield core curriculum. Amazon's requires a broader, more endurance-based study plan with deep dives into specific advanced topics like DP. Solidify your fundamentals first, then expand your scope and depth based on your target company.
+2. **Timing pressure:** Amazon's 45-minute sessions with 1-2 problems train you to work faster. Atlassian's 60-minute single-problem sessions will feel more relaxed by comparison.
 
-For more detailed question lists and patterns, visit the company pages: [Amazon](/company/amazon) and [Atlassian](/company/atlassian).
+3. **Behavioral preparation:** Amazon's Leadership Principles preparation will help you structure behavioral stories that work for any company, including Atlassian.
+
+4. **System design overlap:** While domains differ, the system design fundamentals for Amazon (scalability, availability) apply to Atlassian's collaborative tools.
+
+**Schedule your interviews strategically:** If possible, interview with Atlassian 1-2 weeks after Amazon. This gives you time to shift from Amazon's breadth-first preparation to Atlassian's depth-first approach, focusing on code quality and their specific problem patterns.
+
+**Final tip:** For Amazon, practice explaining your thought process in terms of their Leadership Principles. For Atlassian, practice writing clean, readable code with good variable names and comments. Both value communication, but in different forms.
+
+For more company-specific insights, check out our [Amazon interview guide](/company/amazon) and [Atlassian interview guide](/company/atlassian).

@@ -1,636 +1,348 @@
 ---
 title: "How to Crack Yandex Coding Interviews in 2026"
 description: "Complete guide to Yandex coding interviews — question patterns, difficulty breakdown, must-practice topics, and preparation strategy."
-date: "2026-01-05"
+date: "2026-02-14"
 category: "company-guide"
 company: "yandex"
 tags: ["yandex", "interview prep", "leetcode"]
 ---
 
-Yandex, often called "Russia's Google," is a major tech player with a rigorous interview process for software engineers. Their coding interviews are designed to assess strong algorithmic problem-solving skills and clean code implementation. Understanding the specific patterns and topics they favor is the most direct path to success.
+Yandex, often called "Russia's Google," has an interview process that reflects its unique engineering culture—a blend of rigorous algorithmic thinking, practical system design, and a focus on building resilient, high-scale services for a diverse and demanding market. While the process varies by team and location (including their growing international offices), a typical software engineering loop consists of a recruiter screen, 2-3 technical interviews (often mixing algorithms and system design), and a final team/leadership round. What makes their process distinct is its **pragmatic depth**. Interviewers, many of whom are actively working on Yandex's search, maps, taxi, or cloud platforms, tend to frame problems within real-world constraints. You might be asked to optimize a delivery routing algorithm, design a cache for a weather service, or parse complex log formats. Pseudocode is sometimes acceptable in early discussions, but they expect you to translate your solution into clean, compilable code. The emphasis is less on knowing every obscure data structure and more on applying fundamental patterns correctly under the pressure of evolving requirements.
+
+## What Makes Yandex Different
+
+Don't walk into a Yandex interview with a purely "LeetCode grind" mentality. While algorithmic competency is mandatory, the differentiating factor is how you handle **problem evolution**. A Yandex interviewer often starts with a standard algorithmic question, then layers on complications: "Now assume the input stream is infinite," "How would this work if data is distributed across multiple data centers?" or "Design the class structure for this solution so it can be extended later." This tests not just your coding skills but your software engineering intuition.
+
+They highly value **optimization justification**. It's not enough to say "this is O(n log n)." You must be prepared to discuss _why_ that's acceptable for the given constraints, what the memory trade-offs are, and how you'd profile the solution if it became a bottleneck. Furthermore, Yandex problems frequently involve **string manipulation and parsing** at a higher rate than some other top tech companies, reflecting their work in search, translation, and natural language processing. The ability to cleanly handle edge cases in string processing—encoding, delimiting, tokenizing—is a silent but critical skill they assess.
 
 ## By the Numbers
 
-The data from reported interviews shows a clear emphasis on medium-difficulty problems, which make up 54% of the questions. This means your core preparation should be centered on mastering LeetCode Medium problems. The 39% Easy questions typically serve as warm-ups or initial screening problems, so you must solve them flawlessly and efficiently. Notably, only 7% of reported questions are Hard. This suggests that while you should be prepared for a challenging follow-up, the interview is more about demonstrating consistent, robust problem-solving on standard algorithmic themes rather than solving obscure, highly complex puzzles. Your goal is to dominate the Easy and Medium tiers.
+Based on an analysis of 134 identified Yandex-associated problems, the difficulty distribution is revealing: **Easy: 52 (39%), Medium: 72 (54%), Hard: 10 (7%)**. This breakdown is your strategic guide. The high percentage of Medium problems is the core of the interview. You will almost certainly face 1-2 Medium problems per technical round. The Easy problems often appear as warm-ups or as sub-components within a larger, multi-part question. The relatively low number of Hards suggests that while you should be prepared for a challenging problem, it's more likely to be a highly complex Medium rather than a purely algorithmic brain-teaser.
+
+What does this mean for prep? **Master the Medium.** Focus on problems where the pattern is clear but the implementation has several tricky steps. Classic Yandex Mediums include variations on **Merge Intervals (#56)**, **Top K Frequent Elements (#347)**, and **LRU Cache (#146)**. The Hard problems often cluster around advanced graph algorithms (like **Alien Dictionary (#269)**) or dynamic programming with a twist. Your goal is to build such fluency with Medium patterns that you have ample mental bandwidth to handle the interviewer's follow-up questions and modifications.
 
 ## Top Topics to Focus On
 
-The five most frequent topics—Array, Hash Table, String, Two Pointers, and Sorting—form the essential core of Yandex's technical interviews.
+The data shows a clear set of high-priority topics. Here’s why Yandex favors each and the key pattern to internalize.
 
-**Array:** This is the most fundamental data structure. Expect questions on manipulation, searching, and subarray problems. Practice prefix sums, sliding window, and in-place modifications. A deep understanding of array indexing, time complexity of operations (O(1) access, O(n) insertion/deletion), and memory layout is crucial. Many graph and matrix problems are also essentially array problems in disguise.
+**Array:** The fundamental data structure. Yandex uses array problems to test basic manipulation, in-place algorithms, and boundary handling—skills essential for processing large datasets in services like Yandex.Disk or Yandex.Music. The **Two Pointers** pattern is paramount.
 
-**Hash Table:** The go-to tool for achieving O(1) lookups to optimize solutions. You will use it constantly for frequency counting, memoization, and checking for duplicates. Understand the underlying principles of hash functions, collision resolution (chaining, open addressing), and the amortized time complexity. Knowing when a hash set or hash map is appropriate is key.
+**Hash Table:** The workhorse for efficient lookups. Given Yandex's search and catalog domains (Market, Images), rapid data retrieval is a first-class concern. Expect to use hash maps for frequency counting, memoization, and designing efficient data structures.
 
-**String:** Problems often involve parsing, comparison, and transformation. Be comfortable with string builders, character encoding basics, and common patterns like palindromes. Strings are immutable in many languages, so operations like concatenation in a loop can lead to O(n²) time complexity—always use a StringBuilder or similar mutable structure for efficient construction.
+**String:** As mentioned, this is a signature area. From query processing to log analysis, clean string handling is non-negotiable. Focus on **sliding window** techniques for substrings and robust parsing logic.
 
-**Two Pointers:** A critical technique for optimizing array and string problems, especially those involving sorted data or comparing elements from opposite ends. It's a clean alternative to nested loops. There are two main patterns: the "opposite ends" pointer approach (often for sorted arrays) and the "fast & slow" runner approach (for cycle detection or partitioning).
+**Two Pointers:** A versatile optimization pattern for arrays and strings. It's favored because it often yields O(n) time and O(1) space solutions, which is ideal for high-throughput systems. You must know both the opposite-direction and fast-slow variants.
 
-**Sorting:** Rarely the final answer, but often the crucial first step that enables efficient solutions with other techniques like two pointers or binary search. Know the trade-offs of common sorting algorithms (QuickSort's O(n log n) average case but O(n²) worst case, MergeSort's stable O(n log n) but O(n) space, HeapSort's in-place O(n log n)). Understanding stable vs. unstable sorts is also important for certain problems.
+**Sorting:** Rarely the final answer, but often the critical enabler. Many Yandex problems involve organizing data before applying another pattern (like two pointers or greedy selection). Understanding the cost of sorting and when it's justified is key.
 
-Let's look at a classic problem that combines several of these topics: **The Two Sum problem**. It's a perfect example of using a Hash Table to optimize an Array search.
+Let's look at a crucial pattern that combines Array and Two Pointers, common in problems like **Container With Most Water (#11)** or **3Sum (#15)**.
 
 <div class="code-group">
 
 ```python
-def two_sum(nums, target):
+def max_area(height):
     """
-    Finds two indices such that nums[i] + nums[j] = target.
-    Returns the indices as a list.
-    Time: O(n), Space: O(n)
+    Yandex-relevant pattern: Two Pointers (opposite ends) for optimization.
+    Problem: Container With Most Water (#11)
     """
-    num_to_index = {}  # Hash map to store number -> index
+    left, right = 0, len(height) - 1
+    max_water = 0
 
-    for i, num in enumerate(nums):
-        complement = target - num
-        if complement in num_to_index:
-            return [num_to_index[complement], i]
-        num_to_index[num] = i
-    return []  # No solution found
+    # Move pointers inward, always moving the shorter line
+    while left < right:
+        # Calculate current area: width * min_height
+        width = right - left
+        current_height = min(height[left], height[right])
+        max_water = max(max_water, width * current_height)
 
-# Example usage
-nums = [2, 7, 11, 15]
-target = 9
-print(two_sum(nums, target))  # Output: [0, 1]
+        # Key insight: The area is limited by the shorter line.
+        # Moving the taller line inward cannot increase the area.
+        if height[left] < height[right]:
+            left += 1
+        else:
+            right -= 1
+
+    return max_water
+
+# Time: O(n) | Space: O(1) - Single pass with two pointers.
 ```
 
 ```javascript
-function twoSum(nums, target) {
-  /**
-   * Finds two indices such that nums[i] + nums[j] = target.
-   * Returns the indices as an array.
-   * Time: O(n), Space: O(n)
-   */
-  const numToIndex = new Map(); // Hash map to store number -> index
+function maxArea(height) {
+  // Yandex-relevant pattern: Two Pointers (opposite ends) for optimization.
+  // Problem: Container With Most Water (#11)
+  let left = 0;
+  let right = height.length - 1;
+  let maxWater = 0;
 
-  for (let i = 0; i < nums.length; i++) {
-    const complement = target - nums[i];
-    if (numToIndex.has(complement)) {
-      return [numToIndex.get(complement), i];
+  while (left < right) {
+    const width = right - left;
+    const currentHeight = Math.min(height[left], height[right]);
+    maxWater = Math.max(maxWater, width * currentHeight);
+
+    // Always move the pointer pointing to the shorter line
+    if (height[left] < height[right]) {
+      left++;
+    } else {
+      right--;
     }
-    numToIndex.set(nums[i], i);
   }
-  return []; // No solution found
+
+  return maxWater;
 }
 
-// Example usage
-const nums = [2, 7, 11, 15];
-const target = 9;
-console.log(twoSum(nums, target)); // Output: [0, 1]
+// Time: O(n) | Space: O(1)
 ```
 
 ```java
-import java.util.HashMap;
-import java.util.Map;
+public int maxArea(int[] height) {
+    // Yandex-relevant pattern: Two Pointers (opposite ends) for optimization.
+    // Problem: Container With Most Water (#11)
+    int left = 0;
+    int right = height.length - 1;
+    int maxWater = 0;
 
-public class TwoSum {
-    public int[] twoSum(int[] nums, int target) {
-        /**
-         * Finds two indices such that nums[i] + nums[j] = target.
-         * Returns the indices as an array.
-         * Time: O(n), Space: O(n)
-         */
-        Map<Integer, Integer> numToIndex = new HashMap<>(); // Hash map to store number -> index
+    while (left < right) {
+        int width = right - left;
+        int currentHeight = Math.min(height[left], height[right]);
+        maxWater = Math.max(maxWater, width * currentHeight);
 
-        for (int i = 0; i < nums.length; i++) {
-            int complement = target - nums[i];
-            if (numToIndex.containsKey(complement)) {
-                return new int[] {numToIndex.get(complement), i};
-            }
-            numToIndex.put(nums[i], i);
+        // Greedy choice: move the shorter line inward
+        if (height[left] < height[right]) {
+            left++;
+        } else {
+            right--;
         }
-        return new int[] {}; // No solution found
     }
 
-    // Example usage
-    public static void main(String[] args) {
-        TwoSum solver = new TwoSum();
-        int[] nums = {2, 7, 11, 15};
-        int target = 9;
-        int[] result = solver.twoSum(nums, target);
-        System.out.println("[" + result[0] + ", " + result[1] + "]"); // Output: [0, 1]
-    }
+    return maxWater;
 }
+
+// Time: O(n) | Space: O(1)
 ```
 
 </div>
 
-Now let's examine a **Two Pointers** example with a string problem: checking if a string is a palindrome. This demonstrates the opposite ends pointer pattern.
+Next, let's examine a Hash Table pattern for frequency counting, essential for problems like **Top K Frequent Elements (#347)** or **First Unique Character in a String (#387)**.
 
 <div class="code-group">
 
 ```python
-def is_palindrome(s):
+def top_k_frequent(nums, k):
     """
-    Checks if a string is a palindrome, ignoring non-alphanumeric characters and case.
-    Uses two pointers from opposite ends.
-    Time: O(n), Space: O(1)
+    Yandex-relevant pattern: Hash Table for frequency + Bucket Sort.
+    Problem: Top K Frequent Elements (#347)
     """
-    left, right = 0, len(s) - 1
+    # 1. Count frequencies: O(n) time, O(n) space
+    freq_map = {}
+    for num in nums:
+        freq_map[num] = freq_map.get(num, 0) + 1
 
-    while left < right:
-        # Skip non-alphanumeric characters
-        while left < right and not s[left].isalnum():
-            left += 1
-        while left < right and not s[right].isalnum():
-            right -= 1
+    # 2. Create buckets where index = frequency
+    # At most, a number can appear n times.
+    buckets = [[] for _ in range(len(nums) + 1)]
+    for num, count in freq_map.items():
+        buckets[count].append(num)
 
-        # Compare characters (case-insensitive)
-        if s[left].lower() != s[right].lower():
-            return False
+    # 3. Gather top k from highest frequency buckets
+    result = []
+    for i in range(len(buckets) - 1, 0, -1):
+        for num in buckets[i]:
+            result.append(num)
+            if len(result) == k:
+                return result
+    return result
 
-        left += 1
-        right -= 1
-
-    return True
-
-# Example usage
-print(is_palindrome("A man, a plan, a canal: Panama"))  # Output: True
-print(is_palindrome("race a car"))  # Output: False
+# Time: O(n) for counting + O(n) for bucket traversal = O(n)
+# Space: O(n) for map + O(n) for buckets = O(n)
 ```
 
 ```javascript
-function isPalindrome(s) {
-  /**
-   * Checks if a string is a palindrome, ignoring non-alphanumeric characters and case.
-   * Uses two pointers from opposite ends.
-   * Time: O(n), Space: O(1)
-   */
-  let left = 0;
-  let right = s.length - 1;
-
-  while (left < right) {
-    // Skip non-alphanumeric characters
-    while (left < right && !/[a-zA-Z0-9]/.test(s[left])) {
-      left++;
-    }
-    while (left < right && !/[a-zA-Z0-9]/.test(s[right])) {
-      right--;
-    }
-
-    // Compare characters (case-insensitive)
-    if (s[left].toLowerCase() !== s[right].toLowerCase()) {
-      return false;
-    }
-
-    left++;
-    right--;
+function topKFrequent(nums, k) {
+  // Yandex-relevant pattern: Hash Table for frequency + Bucket Sort.
+  // Problem: Top K Frequent Elements (#347)
+  const freqMap = new Map();
+  for (const num of nums) {
+    freqMap.set(num, (freqMap.get(num) || 0) + 1);
   }
 
-  return true;
+  // Create buckets: index = frequency
+  const buckets = new Array(nums.length + 1).fill().map(() => []);
+  for (const [num, count] of freqMap) {
+    buckets[count].push(num);
+  }
+
+  // Collect top k
+  const result = [];
+  for (let i = buckets.length - 1; i > 0 && result.length < k; i--) {
+    for (const num of buckets[i]) {
+      result.push(num);
+      if (result.length === k) break;
+    }
+  }
+  return result;
 }
 
-// Example usage
-console.log(isPalindrome("A man, a plan, a canal: Panama")); // Output: true
-console.log(isPalindrome("race a car")); // Output: false
+// Time: O(n) | Space: O(n)
 ```
 
 ```java
-public class PalindromeChecker {
-    public boolean isPalindrome(String s) {
-        /**
-         * Checks if a string is a palindrome, ignoring non-alphanumeric characters and case.
-         * Uses two pointers from opposite ends.
-         * Time: O(n), Space: O(1)
-         */
-        int left = 0;
-        int right = s.length() - 1;
+public int[] topKFrequent(int[] nums, int k) {
+    // Yandex-relevant pattern: Hash Table for frequency + Bucket Sort.
+    // Problem: Top K Frequent Elements (#347)
+    Map<Integer, Integer> freqMap = new HashMap<>();
+    for (int num : nums) {
+        freqMap.put(num, freqMap.getOrDefault(num, 0) + 1);
+    }
 
-        while (left < right) {
-            // Skip non-alphanumeric characters
-            while (left < right && !Character.isLetterOrDigit(s.charAt(left))) {
-                left++;
-            }
-            while (left < right && !Character.isLetterOrDigit(s.charAt(right))) {
-                right--;
-            }
+    // Buckets: index = frequency
+    List<Integer>[] buckets = new List[nums.length + 1];
+    for (int i = 0; i < buckets.length; i++) {
+        buckets[i] = new ArrayList<>();
+    }
+    for (Map.Entry<Integer, Integer> entry : freqMap.entrySet()) {
+        buckets[entry.getValue()].add(entry.getKey());
+    }
 
-            // Compare characters (case-insensitive)
-            if (Character.toLowerCase(s.charAt(left)) != Character.toLowerCase(s.charAt(right))) {
-                return false;
-            }
-
-            left++;
-            right--;
+    // Gather top k
+    List<Integer> resultList = new ArrayList<>();
+    for (int i = buckets.length - 1; i > 0 && resultList.size() < k; i--) {
+        for (int num : buckets[i]) {
+            resultList.add(num);
+            if (resultList.size() == k) break;
         }
-
-        return true;
     }
 
-    // Example usage
-    public static void main(String[] args) {
-        PalindromeChecker checker = new PalindromeChecker();
-        System.out.println(checker.isPalindrome("A man, a plan, a canal: Panama")); // Output: true
-        System.out.println(checker.isPalindrome("race a car")); // Output: false
+    // Convert to array
+    int[] result = new int[resultList.size()];
+    for (int i = 0; i < resultList.size(); i++) {
+        result[i] = resultList.get(i);
     }
+    return result;
 }
+
+// Time: O(n) | Space: O(n)
+```
+
+</div>
+
+Finally, a String pattern using the Sliding Window technique, common in problems like **Longest Substring Without Repeating Characters (#3)**.
+
+<div class="code-group">
+
+```python
+def length_of_longest_substring(s: str) -> int:
+    """
+    Yandex-relevant pattern: Sliding Window with Hash Set for strings.
+    Problem: Longest Substring Without Repeating Characters (#3)
+    """
+    char_set = set()
+    left = 0
+    max_length = 0
+
+    for right in range(len(s)):
+        # If duplicate found, shrink window from left
+        while s[right] in char_set:
+            char_set.remove(s[left])
+            left += 1
+        # Add current char and update max length
+        char_set.add(s[right])
+        max_length = max(max_length, right - left + 1)
+
+    return max_length
+
+# Time: O(n) - Each character visited at most twice (by left and right pointers)
+# Space: O(min(m, n)) where m is charset size (for the set)
+```
+
+```javascript
+function lengthOfLongestSubstring(s) {
+  // Yandex-relevant pattern: Sliding Window with Hash Set for strings.
+  // Problem: Longest Substring Without Repeating Characters (#3)
+  const charSet = new Set();
+  let left = 0;
+  let maxLength = 0;
+
+  for (let right = 0; right < s.length; right++) {
+    // Shrink window until it's valid again
+    while (charSet.has(s[right])) {
+      charSet.delete(s[left]);
+      left++;
+    }
+    // Expand window
+    charSet.add(s[right]);
+    maxLength = Math.max(maxLength, right - left + 1);
+  }
+
+  return maxLength;
+}
+
+// Time: O(n) | Space: O(min(m, n)) for the set
+```
+
+```java
+public int lengthOfLongestSubstring(String s) {
+    // Yandex-relevant pattern: Sliding Window with Hash Set for strings.
+    // Problem: Longest Substring Without Repeating Characters (#3)
+    Set<Character> charSet = new HashSet<>();
+    int left = 0;
+    int maxLength = 0;
+
+    for (int right = 0; right < s.length(); right++) {
+        // Shrink the window from the left if duplicate exists
+        while (charSet.contains(s.charAt(right))) {
+            charSet.remove(s.charAt(left));
+            left++;
+        }
+        // Add the new character and update max length
+        charSet.add(s.charAt(right));
+        maxLength = Math.max(maxLength, right - left + 1);
+    }
+
+    return maxLength;
+}
+
+// Time: O(n) | Space: O(min(m, n)) for the set
 ```
 
 </div>
 
 ## Preparation Strategy
 
-A focused 4-6 week plan is sufficient if you have a baseline in data structures.
+A targeted 6-week plan is ideal. Adjust based on your starting point.
 
-**Weeks 1-2: Foundation Building.** Dedicate this time exclusively to the top five topics. Solve 15-20 problems per topic, mixing Easy and Medium. For each problem, first attempt it yourself, then study optimal solutions. Internalize the patterns: when to reach for a hash map, how to identify a sliding window opportunity, or when sorting the input is the key insight.
+**Weeks 1-2: Foundation & Patterns.** Focus exclusively on Easy and Medium problems from the top 5 topics (Array, Hash Table, String, Two Pointers, Sorting). Complete 40-50 problems. Goal: Recognize the pattern within 2 minutes of reading a problem. Don't just solve—after each problem, write down the pattern name and time/space complexity from memory.
 
-**Practice implementing core sorting algorithms** to understand their mechanics, even though you'll use built-in functions in interviews. Here's a quick comparison of common sorts:
+**Week 3: Deep Dive on Mediums.** Tackle 25-30 Medium problems, prioritizing Yandex-tagged ones. Here, focus on **clean implementation**. Write full, compilable code with clear variable names on a whiteboard or in a plain text editor (no IDE). Practice explaining your reasoning aloud as you code.
 
-<div class="code-group">
+**Week 4: Problem Evolution & System Design.** For each algorithmic problem you solve, ask yourself the Yandex follow-ups: "What if the data is streaming?" (think about heaps or reservoirs), "How would I make this distributed?" (consider sharding keys), "How would I design a class API for this?" Spend 30% of this week on basic system design concepts (caching, load balancing, basic DB schema design).
 
-```python
-# QuickSort implementation (in-place)
-def quicksort(arr, low, high):
-    if low < high:
-        pi = partition(arr, low, high)
-        quicksort(arr, low, pi - 1)
-        quicksort(arr, pi + 1, high)
+**Week 5: Mock Interviews & Hards.** Conduct at least 3 mock interviews with a friend or using a platform. Simulate the full experience: clarify requirements, discuss approach, code, test, and discuss optimizations. Solve 5-8 Hard problems, not to memorize but to stretch your problem-solving stamina. Focus on the thought process, not just the solution.
 
-def partition(arr, low, high):
-    pivot = arr[high]
-    i = low - 1
-    for j in range(low, high):
-        if arr[j] <= pivot:
-            i += 1
-            arr[i], arr[j] = arr[j], arr[i]
-    arr[i + 1], arr[high] = arr[high], arr[i + 1]
-    return i + 1
+**Week 6: Consolidation & Yandex Specifics.** Re-solve 15-20 of the most common Yandex-tagged problems from memory. Research Yandex's products and tech stack (Yandex Search, Yandex.Taxi, YDB, Yandex Object Storage). Be prepared to ask insightful questions about their specific engineering challenges.
 
-# Example usage
-arr = [10, 7, 8, 9, 1, 5]
-quicksort(arr, 0, len(arr) - 1)
-print(arr)  # Output: [1, 5, 7, 8, 9, 10]
-```
+## Common Mistakes
 
-```javascript
-// QuickSort implementation (in-place)
-function quickSort(arr, low = 0, high = arr.length - 1) {
-  if (low < high) {
-    const pi = partition(arr, low, high);
-    quickSort(arr, low, pi - 1);
-    quickSort(arr, pi + 1, high);
-  }
-}
+1.  **Ignoring the "So What?" of Complexity:** Stating time complexity without context. **Fix:** Always follow your Big O statement with a practical justification. e.g., "O(n log n) is fine here because with n up to 10^5, that's about 1.7 million operations, which is well within limits for a single API call."
 
-function partition(arr, low, high) {
-  const pivot = arr[high];
-  let i = low - 1;
+2.  **Over-Engineering the First Solution:** Jumping to a trie or segment tree when a hash map and array would suffice. Yandex values simplicity and maintainability. **Fix:** Verbally state the brute force first, then optimize. Ask, "Is the performance of the simpler solution acceptable for the expected constraints?"
 
-  for (let j = low; j < high; j++) {
-    if (arr[j] <= pivot) {
-      i++;
-      [arr[i], arr[j]] = [arr[j], arr[i]];
-    }
-  }
+3.  **Fumbling String Edge Cases:** Forgetting about empty strings, Unicode, or case sensitivity in string problems. **Fix:** Before coding, explicitly list your assumptions about the input string. Write a quick test case table in the corner of your virtual whiteboard covering empty, single char, all same, and Unicode inputs.
 
-  [arr[i + 1], arr[high]] = [arr[high], arr[i + 1]];
-  return i + 1;
-}
-
-// Example usage
-const arr = [10, 7, 8, 9, 1, 5];
-quickSort(arr);
-console.log(arr); // Output: [1, 5, 7, 8, 9, 10]
-```
-
-```java
-public class QuickSortExample {
-    // QuickSort implementation (in-place)
-    public static void quickSort(int[] arr, int low, int high) {
-        if (low < high) {
-            int pi = partition(arr, low, high);
-            quickSort(arr, low, pi - 1);
-            quickSort(arr, pi + 1, high);
-        }
-    }
-
-    private static int partition(int[] arr, int low, int high) {
-        int pivot = arr[high];
-        int i = low - 1;
-
-        for (int j = low; j < high; j++) {
-            if (arr[j] <= pivot) {
-                i++;
-                // Swap arr[i] and arr[j]
-                int temp = arr[i];
-                arr[i] = arr[j];
-                arr[j] = temp;
-            }
-        }
-
-        // Swap arr[i+1] and arr[high] (or pivot)
-        int temp = arr[i + 1];
-        arr[i + 1] = arr[high];
-        arr[high] = temp;
-
-        return i + 1;
-    }
-
-    // Example usage
-    public static void main(String[] args) {
-        int[] arr = {10, 7, 8, 9, 1, 5};
-        quickSort(arr, 0, arr.length - 1);
-        System.out.println(Arrays.toString(arr)); // Output: [1, 5, 7, 8, 9, 10]
-    }
-}
-```
-
-</div>
-
-**Weeks 3-4: Pattern Integration and Mock Interviews.** Start solving problems that combine topics, like "Two Sum" (Array + Hash Table) or merging intervals (Array + Sorting). Begin doing timed practice sessions. Simulate the interview environment by explaining your thought process out loud as you code. This is when you transition from knowing solutions to applying them under pressure.
-
-**Practice a problem that combines Sorting and Two Pointers:** The "3Sum" problem is an excellent example that builds upon Two Sum and requires careful handling of duplicates.
-
-<div class="code-group">
-
-```python
-def three_sum(nums):
-    """
-    Finds all unique triplets that sum to zero.
-    Combines sorting and two pointers.
-    Time: O(n²), Space: O(1) excluding output
-    """
-    nums.sort()
-    result = []
-
-    for i in range(len(nums) - 2):
-        # Skip duplicate values for the first element
-        if i > 0 and nums[i] == nums[i - 1]:
-            continue
-
-        left, right = i + 1, len(nums) - 1
-        while left < right:
-            total = nums[i] + nums[left] + nums[right]
-
-            if total < 0:
-                left += 1
-            elif total > 0:
-                right -= 1
-            else:
-                result.append([nums[i], nums[left], nums[right]])
-
-                # Skip duplicates for the second and third elements
-                while left < right and nums[left] == nums[left + 1]:
-                    left += 1
-                while left < right and nums[right] == nums[right - 1]:
-                    right -= 1
-
-                left += 1
-                right -= 1
-
-    return result
-
-# Example usage
-nums = [-1, 0, 1, 2, -1, -4]
-print(three_sum(nums))  # Output: [[-1, -1, 2], [-1, 0, 1]]
-```
-
-```javascript
-function threeSum(nums) {
-  /**
-   * Finds all unique triplets that sum to zero.
-   * Combines sorting and two pointers.
-   * Time: O(n²), Space: O(1) excluding output
-   */
-  nums.sort((a, b) => a - b);
-  const result = [];
-
-  for (let i = 0; i < nums.length - 2; i++) {
-    // Skip duplicate values for the first element
-    if (i > 0 && nums[i] === nums[i - 1]) {
-      continue;
-    }
-
-    let left = i + 1;
-    let right = nums.length - 1;
-
-    while (left < right) {
-      const total = nums[i] + nums[left] + nums[right];
-
-      if (total < 0) {
-        left++;
-      } else if (total > 0) {
-        right--;
-      } else {
-        result.push([nums[i], nums[left], nums[right]]);
-
-        // Skip duplicates for the second and third elements
-        while (left < right && nums[left] === nums[left + 1]) {
-          left++;
-        }
-        while (left < right && nums[right] === nums[right - 1]) {
-          right--;
-        }
-
-        left++;
-        right--;
-      }
-    }
-  }
-
-  return result;
-}
-
-// Example usage
-const nums = [-1, 0, 1, 2, -1, -4];
-console.log(threeSum(nums)); // Output: [[-1, -1, 2], [-1, 0, 1]]
-```
-
-```java
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-public class ThreeSum {
-    public List<List<Integer>> threeSum(int[] nums) {
-        /**
-         * Finds all unique triplets that sum to zero.
-         * Combines sorting and two pointers.
-         * Time: O(n²), Space: O(1) excluding output
-         */
-        Arrays.sort(nums);
-        List<List<Integer>> result = new ArrayList<>();
-
-        for (int i = 0; i < nums.length - 2; i++) {
-            // Skip duplicate values for the first element
-            if (i > 0 && nums[i] == nums[i - 1]) {
-                continue;
-            }
-
-            int left = i + 1;
-            int right = nums.length - 1;
-
-            while (left < right) {
-                int total = nums[i] + nums[left] + nums[right];
-
-                if (total < 0) {
-                    left++;
-                } else if (total > 0) {
-                    right--;
-                } else {
-                    result.add(Arrays.asList(nums[i], nums[left], nums[right]));
-
-                    // Skip duplicates for the second and third elements
-                    while (left < right && nums[left] == nums[left + 1]) {
-                        left++;
-                    }
-                    while (left < right && nums[right] == nums[right - 1]) {
-                        right--;
-                    }
-
-                    left++;
-                    right--;
-                }
-            }
-        }
-
-        return result;
-    }
-
-    // Example usage
-    public static void main(String[] args) {
-        ThreeSum solver = new ThreeSum();
-        int[] nums = {-1, 0, 1, 2, -1, -4};
-        List<List<Integer>> result = solver.threeSum(nums);
-        System.out.println(result); // Output: [[-1, -1, 2], [-1, 0, 1]]
-    }
-}
-```
-
-</div>
-
-**Weeks 5-6: Refinement and Gaps.** Take several full mock interviews. Review any remaining weaknesses in the top topics. Briefly familiarize yourself with related common topics like Linked Lists, Binary Trees, and DFS/BFS, as they may appear. Re-solve the most frequent Yandex questions from the reported list to ensure you know their common problem styles.
+4.  **Being Passive in the Problem Evolution:** When the interviewer adds a twist, freezing or starting over from scratch. **Fix:** Treat modifications as a collaborative design session. Say, "Given the new streaming constraint, my previous array storage won't work. We'd need a data structure that can give us the top K elements dynamically, like a min-heap. Let me adjust my approach..."
 
 ## Key Tips
 
-**Communicate Relentlessly.** Never code in silence. Articulate your understanding of the problem, discuss potential approaches and their trade-offs, and explain your chosen solution before you write a single line of code. This is how you turn a good solution into a great interview. Practice the "think aloud" method during your preparation. For example, when approaching a problem, verbalize: "I see this is an array problem. A brute force approach would be O(n²) by checking all pairs. However, I think we can optimize using a hash table to achieve O(n) time complexity, though it would require O(n) extra space."
+1.  **Practice Articulating Trade-offs:** For every solution, practice saying, "The trade-off here is between time and space. My O(n) space solution uses a hash map for instant lookups. If we were extremely memory-constrained, we could sort and use binary search for O(log n) lookups, but that would cost O(n log n) time upfront."
 
-**Optimize Incrementally.** Start with a brute-force solution if the optimal one isn't immediately obvious. Clearly state its complexity, then methodically work towards optimization. Interviewers want to see your problem-solving journey, not just the destination. Document your optimization process. For instance: "My initial solution uses O(n²) time and O(1) space. I notice that if we sort the array first (O(n log n)), we can then use two pointers to solve it in O(n) time, giving us O(n log n) overall with O(1) or O(n) space depending on the sort implementation."
+2.  **Use Yandex's Scale as a Lens:** When discussing design, frame your thoughts around scalability for the Russian/CIS internet population (tens of millions) and harsh latency requirements. Mentioning concepts like geo-distribution, caching at the edge, or idempotency for retries shows system-aware thinking.
 
-**Write Production-Ready Code.** Use clear variable names, include consistent spacing, and break your code into logical functions. Handle edge cases explicitly. Your code should be easy to read and maintain, not just functionally correct. Consider adding input validation and meaningful comments. Here's an example of clean, production-style code for a sliding window problem:
+3.  **Master In-Place Array Operations:** Many Yandex array problems reward O(1) space solutions. Be exceptionally comfortable with the two-pointer and read/write index patterns for removing duplicates, partitioning, or rotating arrays in-place.
 
-<div class="code-group">
+4.  **Prepare a "Parsing" Template:** Have a mental checklist for string parsing problems: 1. Trim whitespace? 2. Handle signs (+/-)? 3. Stop at non-digit or specific delimiter? 4. Check for integer overflow? Rehearse this template so you don't miss edge cases under pressure.
 
-```python
-def max_sum_subarray(arr, k):
-    """
-    Returns the maximum sum of any contiguous subarray of size k.
+5.  **Ask Clarifying Questions About Data:** Before coding, always ask: "What is the expected size of `n`?" "Is the input sorted?" "Can the input contain negative numbers or zeros?" This mimics real-world requirements gathering and is expected.
 
-    Args:
-        arr: List of integers
-        k: Size of the subarray (positive integer)
-
-    Returns:
-        Maximum sum of any contiguous subarray of size k
-        Returns 0 if k > len(arr) or arr is empty
-    """
-    # Edge case handling
-    if not arr or k <= 0 or k > len(arr):
-        return 0
-
-    # Calculate initial window sum
-    window_sum = sum(arr[:k])
-    max_sum = window_sum
-
-    # Slide the window
-    for i in range(k, len(arr)):
-        window_sum = window_sum - arr[i - k] + arr[i]
-        max_sum = max(max_sum, window_sum)
-
-    return max_sum
-
-# Example usage with edge cases
-print(max_sum_subarray([1, 4, 2, 10, 23, 3, 1, 0, 20], 4))  # Output: 39
-print(max_sum_subarray([], 4))  # Output: 0
-print(max_sum_subarray([1, 2, 3], 5))  # Output: 0
-```
-
-```javascript
-function maxSumSubarray(arr, k) {
-  /**
-   * Returns the maximum sum of any contiguous subarray of size k.
-   *
-   * @param {number[]} arr - Array of integers
-   * @param {number} k - Size of the subarray (positive integer)
-   * @returns {number} Maximum sum of any contiguous subarray of size k
-   *                   Returns 0 if k > arr.length or arr is empty
-   */
-  // Edge case handling
-  if (!arr || k <= 0 || k > arr.length) {
-    return 0;
-  }
-
-  // Calculate initial window sum
-  let windowSum = 0;
-  for (let i = 0; i < k; i++) {
-    windowSum += arr[i];
-  }
-  let maxSum = windowSum;
-
-  // Slide the window
-  for (let i = k; i < arr.length; i++) {
-    windowSum = windowSum - arr[i - k] + arr[i];
-    maxSum = Math.max(maxSum, windowSum);
-  }
-
-  return maxSum;
-}
-
-// Example usage with edge cases
-console.log(maxSumSubarray([1, 4, 2, 10, 23, 3, 1, 0, 20], 4)); // Output: 39
-console.log(maxSumSubarray([], 4)); // Output: 0
-console.log(maxSumSubarray([1, 2, 3], 5)); // Output: 0
-```
-
-```java
-public class MaxSumSubarray {
-    /**
-     * Returns the maximum sum of any contiguous subarray of size k.
-     *
-     * @param arr Array of integers
-     * @param k Size of the subarray (positive integer)
-     * @return Maximum sum of any contiguous subarray of size k
-     *         Returns 0 if k > arr.length or arr is empty
-     */
-    public static int maxSumSubarray(int[] arr, int k) {
-        // Edge case handling
-        if (arr == null || k <= 0 || k > arr.length) {
-            return 0;
-        }
-
-        // Calculate initial window sum
-        int windowSum = 0;
-        for (int i = 0; i < k; i++) {
-            windowSum += arr[i];
-        }
-        int maxSum = windowSum;
-
-        // Slide the window
-        for (int i = k; i < arr.length; i++) {
-            windowSum = windowSum - arr[i - k] + arr[i];
-            maxSum = Math.max(maxSum, windowSum);
-        }
-
-        return maxSum;
-    }
-
-    // Example usage with edge cases
-    public static void main(String[] args) {
-        int[] arr1 = {1, 4, 2, 10, 23, 3, 1, 0, 20};
-        System.out.println(maxSumSubarray(arr1, 4)); // Output: 39
-
-        int[] arr2 = {};
-        System.out.println(maxSumSubarray(arr2, 4)); // Output: 0
-
-        int[] arr3 = {1, 2, 3};
-        System.out.println(maxSumSubarray(arr3, 5)); // Output: 0
-    }
-}
-```
-
-</div>
-
-**Master the Follow-Up.** After solving the core problem, be prepared for a variation: "What if the input is too large for memory?" or "How would you handle streaming data?" This tests your ability to think beyond the base case. For example, if asked about handling streaming data for the Two Sum problem, you might discuss using a hash table that grows as data arrives, or if memory is constrained, discuss approximate solutions using Bloom filters or discussing trade-offs with the interviewer.
-
-Success in a Yandex interview is a matter of focused, pattern-based practice. By concentrating on the high-probability topics and honing your communication, you can approach the process with confidence.
+Success in a Yandex interview hinges on demonstrating that you are not just a competent algorithm solver, but a pragmatic engineer who can build and reason about systems. Target your preparation on their favored patterns, practice thinking aloud, and always be ready to adapt your solution. Good luck.
 
 [Browse all Yandex questions on CodeJeet](/company/yandex)

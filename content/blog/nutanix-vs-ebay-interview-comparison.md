@@ -1,87 +1,137 @@
 ---
 title: "Nutanix vs eBay: Interview Question Comparison"
 description: "Compare coding interview questions at Nutanix and eBay — difficulty levels, topic focus, and preparation strategy."
-date: "2026-07-10"
+date: "2026-07-02"
 category: "tips"
 tags: ["nutanix", "ebay", "comparison"]
 ---
 
-When preparing for technical interviews, understanding company-specific patterns can dramatically increase your efficiency. Nutanix and eBay, while both major tech employers, present distinct interview landscapes. Nutanix's process is known for its depth and algorithmic rigor, often leaning towards systems design and complex problem-solving. eBay's interviews, while still challenging, tend to have a stronger focus on practical data manipulation and scalable web-based systems. A direct comparison of their curated question lists reveals clear differences in volume, difficulty, and emphasis that should inform your study strategy.
+If you're preparing for interviews at both Nutanix and eBay, you're looking at two distinct technical cultures that happen to share a significant amount of ground in their fundamental coding assessments. Nutanix, a cloud infrastructure company, and eBay, a massive e-commerce marketplace, might seem worlds apart, but their interview question profiles reveal a surprising overlap. The key to efficient preparation isn't just grinding more problems; it's strategically mapping the shared terrain and the unique peaks for each company. This comparison will help you build a study plan that maximizes your return on investment for both.
 
 ## Question Volume and Difficulty
 
-The raw numbers offer the first clue. Nutanix's list contains **68 questions**, categorized as 5 Easy, 46 Medium, and 17 Hard. eBay's list is slightly smaller at **60 questions**, broken down as 12 Easy, 38 Medium, and 10 Hard.
+The raw numbers tell the first part of the story. Based on aggregated data, Nutanix has a catalog of around 68 questions, with a distribution of 68% Easy, 24% Medium, and 8% Hard. eBay's catalog is slightly smaller at 60 questions, but with a more challenging mix: 20% Easy, 63% Medium, and 17% Hard.
 
-The distribution tells a significant story. Nutanix allocates a full **25% of its questions (17/68) to the Hard category**, indicating a strong expectation for candidates to tackle highly complex algorithmic problems, often involving optimization or non-trivial graph/DFS logic. eBay, in contrast, has a steeper ramp-up from Easy questions but a more moderate Hard count, with only **~17% of its list (10/60) in the Hard tier**. This suggests eBay's technical screen might place a greater initial emphasis on foundational correctness and clean code, progressing to sophisticated problems, but with a slightly lower ceiling on pure algorithmic difficulty than Nutanix.
+**What this implies:**
 
-**Example of a Medium-Difficulty Pattern (Common to Both):**
-Both lists heavily feature problems solvable with a hash map for efficient lookups.
+- **Nutanix** interviews might feel more accessible initially, with a higher proportion of Easy questions. This doesn't mean they're easy overall; it often indicates they use foundational problems to quickly filter candidates or as a first step in a multi-part question. The lower Hard percentage suggests they prioritize clean, correct solutions to standard problems over extreme algorithmic optimization in the coding rounds.
+- **eBay**'s profile skews significantly toward Medium, with a notable chunk of Hard problems. This signals an interview process that expects you to navigate complexity consistently. You're more likely to encounter a problem that requires combining multiple patterns or careful edge-case handling. The intensity per question is likely higher.
+
+In short, preparing for eBay's curve will inherently cover the technical depth needed for Nutanix, but you must also be prepared for Nutanix's potential breadth across its unique topics.
+
+## Topic Overlap
+
+This is where your prep gets efficient. Both companies heavily test the **core quartet** of data structures:
+
+1.  **Array:** The fundamental workhorse. Expect manipulations, two-pointer techniques, and sliding windows.
+2.  **String:** Closely related to array problems, often involving parsing, matching, or transformation.
+3.  **Hash Table:** The go-to tool for O(1) lookups, frequency counting, and mapping relationships. This is arguably the single most important data structure for both companies.
+4.  **Sorting:** Not just calling `.sort()`, but using sorting as a pre-processing step to enable other algorithms (like two-pointer) or solving interval problems.
+
+**The Divergence:** Nutanix's list includes **Depth-First Search (DFS)**, which is conspicuously absent from eBay's top topics. This is a critical insight. Nutanix, dealing with infrastructure, networks, and file systems (tree-like structures), naturally leans on graph and tree traversal algorithms. eBay's problem domain (transactions, listings, user data) more frequently maps to linear data structures and relational logic.
+
+## Preparation Priority Matrix
+
+Use this to triage your study time.
+
+| Priority                      | Topics                                                | Rationale                                                                          | Sample LeetCode Problems                                                               |
+| :---------------------------- | :---------------------------------------------------- | :--------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------- |
+| **Tier 1 (Max ROI)**          | **Array, String, Hash Table, Sorting**                | Direct, high-frequency overlap for both companies. Mastery here is non-negotiable. | #1 Two Sum, #49 Group Anagrams, #56 Merge Intervals, #238 Product of Array Except Self |
+| **Tier 2 (Nutanix-Specific)** | **Depth-First Search, Trees, Graphs**                 | Essential for Nutanix, lower probability for eBay. Study after Tier 1.             | #100 Same Tree, #200 Number of Islands, #543 Diameter of Binary Tree                   |
+| **Tier 3 (eBay Intensity)**   | **Advanced Medium & Hard problems** on Tier 1 topics. | To meet eBay's difficulty curve. Practice complex applications of core structures. | #15 3Sum, #139 Word Break, #253 Meeting Rooms II                                       |
+
+## Interview Format Differences
+
+Beyond the questions themselves, the _structure_ of the interview day differs.
+
+**Nutanix** typically follows a standard Silicon Valley software engineer loop:
+
+- **Format:** Usually 4-5 rounds onsite (or virtual), including 2-3 coding rounds, 1 system design round (especially for E5+), and 1 behavioral/experience round.
+- **Coding Rounds:** Often 45-60 minutes, with a possibility of 1-2 problems. The second problem might be a follow-up or a simpler, related question. Interviewers may dive into tree-based system design (e.g., directory structures) even in coding chats.
+- **System Design:** Expect infrastructure-adjacent problems: design a file sync service, a key-value store, or a monitoring system.
+
+**eBay**'s process can be slightly more condensed and focused on practical coding:
+
+- **Format:** Often 3-4 rounds virtual/onsite. May have a heavier weighting on pure coding.
+- **Coding Rounds:** Leans towards 1 substantial problem per 45-60 minute round, aligning with their higher Medium/Hard percentage. The discussion may pivot to scalability: "How would this work for 100 million listings?"
+- **System Design:** Tends toward e-commerce domain problems: design a bidding system, a recommendation engine, or the checkout flow.
+
+## Specific Problem Recommendations
+
+Here are 5 problems that provide exceptional value for interviewing at both companies, targeting the overlap zone and key differentiators.
+
+1.  **LeetCode #56: Merge Intervals**
+    - **Why:** Perfectly blends **Array** and **Sorting**. It's a classic pattern that appears in countless variations (insert interval, meeting rooms, employee free time). Mastering the "sort by start time and merge" template is high-yield.
 
 <div class="code-group">
 
 ```python
-# Example: Two Sum
-def twoSum(nums, target):
-    seen = {}
-    for i, num in enumerate(nums):
-        complement = target - num
-        if complement in seen:
-            return [seen[complement], i]
-        seen[num] = i
-    return []
+# Time: O(n log n) | Space: O(n) [or O(1) if sorting in-place]
+def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+    intervals.sort(key=lambda x: x[0])  # Sort by start time
+    merged = []
+    for interval in intervals:
+        # If merged is empty or current interval does not overlap with previous
+        if not merged or merged[-1][1] < interval[0]:
+            merged.append(interval)
+        else:
+            # There is overlap, merge by updating the end time
+            merged[-1][1] = max(merged[-1][1], interval[1])
+    return merged
 ```
 
 ```javascript
-// Example: Two Sum
-function twoSum(nums, target) {
-  const map = new Map();
-  for (let i = 0; i < nums.length; i++) {
-    const complement = target - nums[i];
-    if (map.has(complement)) {
-      return [map.get(complement), i];
+// Time: O(n log n) | Space: O(n)
+function merge(intervals) {
+  intervals.sort((a, b) => a[0] - b[0]);
+  const merged = [];
+  for (const interval of intervals) {
+    if (merged.length === 0 || merged[merged.length - 1][1] < interval[0]) {
+      merged.push(interval);
+    } else {
+      merged[merged.length - 1][1] = Math.max(merged[merged.length - 1][1], interval[1]);
     }
-    map.set(nums[i], i);
   }
-  return [];
+  return merged;
 }
 ```
 
 ```java
-// Example: Two Sum
-public int[] twoSum(int[] nums, int target) {
-    Map<Integer, Integer> map = new HashMap<>();
-    for (int i = 0; i < nums.length; i++) {
-        int complement = target - nums[i];
-        if (map.containsKey(complement)) {
-            return new int[] { map.get(complement), i };
+// Time: O(n log n) | Space: O(n)
+public int[][] merge(int[][] intervals) {
+    Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
+    LinkedList<int[]> merged = new LinkedList<>();
+    for (int[] interval : intervals) {
+        if (merged.isEmpty() || merged.getLast()[1] < interval[0]) {
+            merged.add(interval);
+        } else {
+            merged.getLast()[1] = Math.max(merged.getLast()[1], interval[1]);
         }
-        map.put(nums[i], i);
     }
-    return new int[0];
+    return merged.toArray(new int[merged.size()][]);
 }
 ```
 
 </div>
 
-## Topic Overlap
+2.  **LeetCode #49: Group Anagrams**
+    - **Why:** The quintessential **Hash Table** and **String** problem. Tests your ability to devise a good key (sorted string or character count array). This pattern is ubiquitous.
 
-The core topic overlap is substantial, which is typical for software engineering roles. Both companies prioritize **Array, String, and Hash Table** questions. These form the bedrock of most coding interviews.
+3.  **LeetCode #238: Product of Array Except Self**
+    - **Why:** A superb **Array** problem that moves beyond basics. It tests your ability to use prefix/postfix concepts (a form of dynamic programming) and write efficient, O(1) extra space solutions (excluding the output array). It's a common "Medium" benchmark.
 
-The key differentiator is the **fourth most frequent topic**. For Nutanix, it's **Depth-First Search (DFS)**, a staple for tree and graph traversal problems that often fall into the Medium or Hard difficulty. This aligns with the higher proportion of Hard questions and points to Nutanix's potential focus on recursive thinking, backtracking, and navigating complex data structures.
+4.  **LeetCode #200: Number of Islands**
+    - **Why:** The canonical **DFS (or BFS)** problem. This is your must-practice for Nutanix's graph/tree focus. The pattern of traversing a 2D grid applies to many other problems. If you master this, you can handle most matrix DFS questions.
 
-For eBay, the fourth topic is **Sorting**. This indicates a notable emphasis on problems involving ordering data, searching within sorted structures, or using sorting as a key preprocessing step to enable efficient solutions. While DFS may appear, the explicit prominence of Sorting suggests a strong focus on algorithms involving arrays, comparisons, and divide-and-conquer approaches like merge sort or quick sort.
+5.  **LeetCode #15: 3Sum**
+    - **Why:** This is your **eBay intensity** trainer. It builds on Two Sum (**Hash Table**) but adds **Sorting** and the **Two-Pointer** technique. It's a Medium-Hard that forces you to manage complexity and avoid duplicates—exactly the kind of problem eBay's distribution suggests.
 
 ## Which to Prepare for First
 
-Your choice depends on your target and timeline.
+The strategic choice is clear: **Prepare for eBay first.**
 
-**Prepare for Nutanix first if:** You are aiming for roles with a strong systems or infrastructure component, or if you want to tackle the more challenging problem set upfront. Mastering Nutanix's list, with its high density of DFS and Hard problems, will build deep algorithmic muscle memory. Success here will make eBay's list feel more approachable, as you will have already conquered the toughest problem types. This is the "hardest first" strategy.
+Here's the logic: eBay's question profile is more demanding (higher concentration of Medium/Hard). By structuring your study plan to meet that standard, you will automatically achieve the proficiency needed for Nutanix's core topics (Array, String, Hash Table, Sorting). Once you are comfortable with eBay-level problems, you then layer on the **Nutanix-specific** preparation: a dedicated review of Depth-First Search, tree traversals, and related graph problems. This approach ensures you build from a solid, high-ceiling foundation upward, rather than having to ramp up intensity later.
 
-**Prepare for eBay first if:** You are building confidence or prefer a more gradual increase in difficulty. The higher number of Easy questions provides a gentler on-ramp to reinforce fundamentals. The strong focus on Arrays, Strings, and Sorting is excellent core practice that applies universally. After solidifying these patterns, transitioning to Nutanix's material means adding DFS and advanced graph concepts to an already strong foundation, rather than learning everything at once.
+In essence, use eBay's difficulty to forge your core algorithmic skills, and then specialize with Nutanix's domain focus. This two-phase plan gives you the best chance of success at both.
 
-For a generalist strategy, starting with **eBay's list** is often more efficient. It ensures thorough coverage of the most common interview topics (Array, String, Hash Table) and builds confidence with a manageable difficulty curve. You can then layer on the specific advanced patterns (like intensive DFS) required for Nutanix.
-
-Explore the specific question lists for each company to tailor your practice:
-
-- [Nutanix Interview Questions](/company/nutanix)
-- [eBay Interview Questions](/company/ebay)
+For more detailed company-specific question breakdowns, visit the CodeJeet pages for [Nutanix](/company/nutanix) and [eBay](/company/ebay).

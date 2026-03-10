@@ -1,79 +1,74 @@
 ---
 title: "Binary Search Questions at Samsung: What to Expect"
 description: "Prepare for Binary Search interview questions at Samsung — patterns, difficulty breakdown, and study tips."
-date: "2028-11-26"
+date: "2028-11-18"
 category: "dsa-patterns"
 tags: ["samsung", "binary-search", "interview prep"]
 ---
 
-Binary Search isn't just another algorithm at Samsung—it's a core assessment tool. With 8 out of their 69 tagged problems being Binary Search variations, it's clear they prioritize candidates who can efficiently navigate sorted data and apply the "halving" principle to complex scenarios. This focus tests fundamental algorithmic thinking: the ability to optimize beyond brute force, handle edge cases in search spaces, and reduce time complexity from O(n) to O(log n). For roles involving large-scale data processing, embedded systems optimization, or algorithm development, demonstrating mastery here is non-negotiable.
+If you're preparing for a Samsung coding interview, you'll quickly notice a significant pattern: **Binary Search is a major focus.** With 8 out of their 69 tagged problems on LeetCode being Binary Search, it's not just a topic you might see—it's one you _will_ see. This frequency suggests Samsung's interviewers have a strong preference for algorithmic problems that test precision, edge-case handling, and the ability to optimize a working solution. Unlike companies that might use Binary Search as a one-off trick, Samsung often integrates it into problems that, at first glance, might seem to require a linear scan. They are testing if you can recognize the opportunity to apply O(log n) logic to a non-obvious scenario.
 
-## What to Expect — Types of Problems
+## Specific Patterns Samsung Favors
 
-Samsung's Binary Search problems typically extend beyond textbook array searches. Expect these categories:
+Samsung's Binary Search questions rarely ask you to implement a vanilla search on a sorted array. Instead, they heavily favor **"Binary Search on Answer"** or **"Search in a Modified/Rotated Space"** patterns. This means you are given a problem where the direct input isn't sorted, but the _answer space_ or a _derived property_ is monotonic, allowing for a binary search.
 
-1.  **Classic Search Variations:** Finding first/last occurrence, count of an element, or searching in rotated sorted arrays.
-2.  **Answer on a Sorted Range (Binary Search on Answer):** The most common and critical pattern. The problem presents a scenario where the answer is an integer within a predictable range (e.g., minimum capacity, maximum minimum distance, or a time threshold). Your task is to binary search over this _range of possible answers_, using a helper function to check if a candidate value is feasible.
-3.  **Search in Structured Data:** Applying the divide-and-conquer logic to matrices, streams, or custom data structures.
-4.  **Integration with Other Concepts:** Problems that combine Binary Search with two-pointers, greedy algorithms, or simple math.
+A classic example is **finding the minimum or maximum of something that satisfies a condition**. You guess an answer (mid), write a helper function to check if that guess is feasible, and then adjust your search bounds based on the result. This pattern is powerful for optimization problems.
 
-The "Binary Search on Answer" pattern is especially prevalent. You won't be searching for an element in an array; instead, you'll be searching for the optimal _answer_ by testing candidate values.
+For instance, a problem like **"Koko Eating Bananas" (LeetCode #875)** is a quintessential "Binary Search on Answer" problem. You search for the minimum eating speed `k`. The array of pile heights isn't sorted, but the property "can Koko finish all bananas in `H` hours at speed `k`?" is monotonic: if she can finish at speed `k`, she can finish at any speed greater than `k`. This creates a perfect sorted condition on the answer space `[1, max(piles)]`.
 
-## How to Prepare — Study Tips with One Code Example
-
-Master the universal template. A robust Binary Search implementation avoids infinite loops and handles edge cases cleanly. The key is maintaining clear invariants.
-
-**Core Tip:** Always define what your `left` and `right` bounds represent. When writing the condition in your helper function (`canSolve(mid)`), ask: "If I can achieve `mid`, can I also achieve a better (larger or smaller) answer?" This determines whether you adjust `left` or `right`.
-
-Below is the essential pattern for "Binary Search on Answer," demonstrated in a problem like "Find the minimum capacity required to ship a weight within D days." The `canShip` function is the critical helper.
+Another pattern they use is **searching in a rotated sorted array** or its variants, which tests your understanding of how to compare `mid` with the bounds to determine which side is properly sorted and where the target must lie.
 
 <div class="code-group">
 
 ```python
-def min_capacity(weights, days):
-    def can_ship(capacity):
-        current_load = 0
-        days_needed = 1
-        for w in weights:
-            if current_load + w > capacity:
-                days_needed += 1
-                current_load = 0
-            current_load += w
-        return days_needed <= days
+# Pattern: Binary Search on Answer (Feasibility Check)
+# Example: Koko Eating Bananas (LeetCode #875)
+# Time: O(n * log m) where n = len(piles), m = max(piles) | Space: O(1)
 
-    left, right = max(weights), sum(weights)
+import math
+
+def minEatingSpeed(piles, h):
+    def can_eat(k):
+        # Helper: checks if eating at speed k is feasible within h hours
+        hours = 0
+        for bananas in piles:
+            hours += math.ceil(bananas / k)
+        return hours <= h
+
+    left, right = 1, max(piles)
     while left < right:
         mid = (left + right) // 2
-        if can_ship(mid):
-            right = mid  # Try for a smaller capacity
+        if can_eat(mid):
+            # Feasible, try a smaller speed (search left)
+            right = mid
         else:
-            left = mid + 1  # Need a larger capacity
-    return left
+            # Not feasible, need a faster speed (search right)
+            left = mid + 1
+    return left  # left is the minimum feasible k
 ```
 
 ```javascript
-function minCapacity(weights, days) {
-  const canShip = (capacity) => {
-    let currentLoad = 0;
-    let daysNeeded = 1;
-    for (const w of weights) {
-      if (currentLoad + w > capacity) {
-        daysNeeded++;
-        currentLoad = 0;
-      }
-      currentLoad += w;
+// Pattern: Binary Search on Answer (Feasibility Check)
+// Example: Koko Eating Bananas (LeetCode #875)
+// Time: O(n * log m) where n = piles.length, m = max(piles) | Space: O(1)
+
+function minEatingSpeed(piles, h) {
+  const canEat = (k) => {
+    let hours = 0;
+    for (const bananas of piles) {
+      hours += Math.ceil(bananas / k);
     }
-    return daysNeeded <= days;
+    return hours <= h;
   };
 
-  let left = Math.max(...weights);
-  let right = weights.reduce((a, b) => a + b, 0);
+  let left = 1;
+  let right = Math.max(...piles);
   while (left < right) {
     const mid = Math.floor((left + right) / 2);
-    if (canShip(mid)) {
-      right = mid;
+    if (canEat(mid)) {
+      right = mid; // feasible, try smaller
     } else {
-      left = mid + 1;
+      left = mid + 1; // not feasible, need faster
     }
   }
   return left;
@@ -81,48 +76,77 @@ function minCapacity(weights, days) {
 ```
 
 ```java
-public int minCapacity(int[] weights, int days) {
-    int left = 0, right = 0;
-    for (int w : weights) {
-        left = Math.max(left, w);
-        right += w;
+// Pattern: Binary Search on Answer (Feasibility Check)
+// Example: Koko Eating Bananas (LeetCode #875)
+// Time: O(n * log m) where n = piles.length, m = max(piles) | Space: O(1)
+
+public class Solution {
+    public int minEatingSpeed(int[] piles, int h) {
+        int left = 1;
+        int right = 0;
+        for (int pile : piles) {
+            right = Math.max(right, pile);
+        }
+
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            if (canEat(piles, h, mid)) {
+                right = mid;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return left;
     }
 
-    while (left < right) {
-        int mid = left + (right - left) / 2;
-        if (canShip(weights, days, mid)) {
-            right = mid;
-        } else {
-            left = mid + 1;
+    private boolean canEat(int[] piles, int h, int k) {
+        long hours = 0; // Use long to prevent overflow
+        for (int bananas : piles) {
+            hours += (bananas + k - 1) / k; // ceiling division
         }
+        return hours <= h;
     }
-    return left;
-}
-
-private boolean canShip(int[] weights, int days, int capacity) {
-    int currentLoad = 0;
-    int daysNeeded = 1;
-    for (int w : weights) {
-        if (currentLoad + w > capacity) {
-            daysNeeded++;
-            currentLoad = 0;
-        }
-        currentLoad += w;
-    }
-    return daysNeeded <= days;
 }
 ```
 
 </div>
 
+## How to Prepare
+
+Your preparation should center on mastering the **feasibility check framework**. For any problem, ask yourself: "If I guess the answer, can I write a function to verify it?" If that verification function is O(n) or better and the guess space is sorted, binary search applies.
+
+1.  **Identify the Search Space:** It's usually `[min_possible_answer, max_possible_answer]`. For Koko, it was `[1, max(piles)]`. For a split array largest sum problem, it might be `[max(nums), sum(nums)]`.
+2.  **Write the `isFeasible(guess)` Helper:** This is often the trickier part. It's the logic specific to the problem.
+3.  **Nail the Binary Search Loop:** Use the standard `while (left < right)` pattern. The critical decision is how to update `left` and `right` based on the feasibility result. A safe rule: if `isFeasible(mid)` is true, you set `right = mid` (you've found a candidate, but look for a better/smaller one). If false, set `left = mid + 1` (you must increase your guess).
+4.  **Handle Edge Cases:** Empty inputs, single element arrays, and cases where the initial `left` or `right` bound might already be the answer.
+
+## How Samsung Tests Binary Search vs Other Companies
+
+Compared to other tech giants, Samsung's Binary Search problems tend to be **applied and embedded within a slightly more complex scenario**, but the core logic remains clean. They are less likely to ask a purely academic Binary Search variant and more likely to ask one that feels like a real-world optimization problem (e.g., "minimum capacity to ship packages in D days", "allocate minimum number of pages to students").
+
+At companies like Google or Meta, a Binary Search problem might be one layer in a more complex data structure (e.g., searching in a 2D matrix that is sorted row and column-wise). At Amazon, you might see it combined with a system design concept. Samsung's style is often more direct: "Here is a practical constraint optimization problem. Find the optimal value." This tests your ability to abstract the monotonic property from a wordy problem description.
+
+## Study Order
+
+Tackle these sub-topics in this order to build a solid foundation:
+
+1.  **Classic Binary Search on a Sorted Array:** Before you run, you must walk. Implement iterative and recursive versions. Understand the difference between `while (left <= right)` and `while (left < right)` and when to return `mid`, `left`, or `right`.
+2.  **Search in a Rotated Sorted Array:** This teaches you to analyze the `mid` relative to the bounds (`left` and `right`) to deduce which side is normally sorted and where your target must be. It's a crucial step in thinking flexibly about sorted properties.
+3.  **Binary Search on Answer (Feasibility Check):** This is the core of Samsung's focus. Start with the most famous examples to internalize the pattern.
+4.  **Search in a 2D Sorted Space:** Problems like "Search a 2D Matrix II" help you extend the "reducing search space" logic to two dimensions, which is good mental training.
+5.  **Advanced Variations:** Finally, look at problems where Binary Search is combined with another technique (like with a sliding window inside the feasibility check) or used on a function's output.
+
 ## Recommended Practice Order
 
-Build competence sequentially:
+Solve these problems in sequence. Each builds on the concepts of the last.
 
-1.  **Fundamentals:** Standard search, first/last position.
-2.  **Search Space Transformation:** Find min/max of something, peak element, rotated array search.
-3.  **Binary Search on Answer:** Start with classic problems (ship capacity, split array largest sum, koko eating bananas). This is the heart of Samsung's questions.
-4.  **Advanced Structures:** Search in a 2D matrix or row/column sorted matrix.
-5.  **Samsung-specific Problems:** Finally, tackle the 8 tagged problems to familiarize yourself with their presentation and constraints.
+1.  **704. Binary Search:** The absolute baseline. Get your loop conditions perfect.
+2.  **33. Search in Rotated Sorted Array:** Master the two-case analysis (which side is sorted?).
+3.  **875. Koko Eating Bananas:** Your first "Binary Search on Answer." The feasibility function is straightforward.
+4.  **1011. Capacity To Ship Packages Within D Days:** A direct sibling to Koko. Solidifies the pattern.
+5.  **410. Split Array Largest Sum:** A harder feasibility check. This is a favorite at many companies, including Samsung.
+6.  **4. Median of Two Sorted Arrays:** A notoriously difficult Binary Search problem. Attempt this last to stretch your understanding of partition logic and edge cases.
+
+By following this progression, you move from the mechanical implementation of Binary Search to the intuitive recognition of when and how to apply its most powerful pattern. For Samsung, that recognition is the key.
 
 [Practice Binary Search at Samsung](/company/samsung/binary-search)

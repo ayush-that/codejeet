@@ -1,127 +1,221 @@
 ---
 title: "Greedy Questions at Accolite: What to Expect"
 description: "Prepare for Greedy interview questions at Accolite — patterns, difficulty breakdown, and study tips."
-date: "2031-07-28"
+date: "2031-07-20"
 category: "dsa-patterns"
 tags: ["accolite", "greedy", "interview prep"]
 ---
 
-Greedy algorithms are a small but critical part of Accolite's technical interview, representing about 14% of their problem pool. While not the largest category, these questions test a candidate's ability to identify optimal substructure and make locally optimal choices that lead to a globally optimal solution. Success here demonstrates strong problem-solving intuition and efficiency—key traits for the software engineering roles Accolite hires for.
+If you're preparing for Accolite interviews, you've likely seen the statistic: they ask about 3 Greedy algorithm questions out of their typical 22-problem coding round. That's roughly 14% of their technical assessment—not the dominant category, but significant enough that ignoring it could cost you the job. What makes Greedy particularly interesting at Accolite is how it's deployed: not as standalone trick questions, but as practical optimization problems that test whether you can identify the locally optimal choice that leads to a globally optimal solution in real-world scenarios like scheduling, resource allocation, or cost minimization. They use Greedy to filter candidates who can think step-by-step under constraints, which is exactly what you'd do when optimizing system performance or cloud costs in a production environment.
 
-## What to Expect — types of problems
+## Specific Patterns Accolite Favors
 
-Accolite's greedy questions typically fall into predictable patterns focused on optimization. You are unlikely to encounter highly obscure or purely mathematical greedy proofs. Instead, expect practical problems where a greedy approach is the most efficient solution.
+Accolite's Greedy problems tend to cluster around a few practical domains rather than abstract mathematical puzzles. You'll rarely see esoteric graph theory Greedy problems here. Instead, focus on these three patterns:
 
-The most common types are:
+1. **Interval Scheduling & Merging**: This is their bread and butter. Problems where you have meetings, jobs, or tasks with start/end times and need to find maximum non-overlapping intervals or merge overlapping ones. Think "Minimum Meeting Rooms" or "Merge Intervals" variations.
+2. **Coin Change / Minimum Operations**: The canonical "find minimum coins" problem, but often dressed up as "minimum steps to reduce a number to zero" or "minimum operations to make array equal."
+3. **Assignment & Partition Problems**: Fairly distributing resources or partitioning arrays with constraints. "Split Array Largest Sum" type problems appear occasionally.
 
-- **Scheduling and Intervals:** Problems like meeting rooms, job scheduling, or activity selection where you must maximize the number of non-conflicting tasks.
-- **Array Partitioning and Optimization:** Tasks that involve dividing or processing an array to maximize or minimize a value, such as minimizing the sum of absolute differences.
-- **Coin Change / Minimum Steps:** Classic problems where you use the largest possible denomination or step first to reach a target with minimal counts.
-- **String Manipulation:** Problems like rearranging strings to avoid duplicates or minimal deletions, where a frequency-based greedy approach works.
-
-The constraints will often make a brute-force solution impossible, pushing you to recognize the greedy property.
-
-## How to Prepare — study tips with one code example
-
-Start by solidifying the core concept: a greedy algorithm builds a solution piece by piece, always choosing the next piece that offers the most immediate benefit. Your preparation should focus on pattern recognition, not memorization.
-
-1.  **Master the Classics:** Thoroughly understand canonical greedy problems like Activity Selection, Fractional Knapsack, and Minimum Coin Change. These form the blueprint for variations.
-2.  **Prove It to Yourself:** For each problem, ask _why_ the greedy choice is safe. Practicing a brief mental justification (e.g., "If I don't choose the job that ends earliest, I cannot fit more jobs in its place") builds the intuition needed for new problems.
-3.  **Code the Pattern, Not Just the Problem:** Implement the standard solution, then solve 2-3 variations. The code structure is often more important than the problem specifics.
-
-A key pattern is **sorting first, then iterating to build the solution**. The Activity Selection problem is a perfect example: to schedule the maximum number of non-overlapping activities, you greedily choose the one that finishes earliest.
+They particularly enjoy problems that have both a Greedy and Dynamic Programming solution, letting them assess whether you recognize when Greedy is sufficient versus when you'd need the heavier DP approach. For example, "Coin Change" (#322) has a DP solution, but if coins are canonical (like 1,5,10,25), a Greedy approach works—and they might ask you to prove why.
 
 <div class="code-group">
 
 ```python
-def max_activities(start, finish):
-    # Pair activities and sort by finish time
-    activities = sorted(zip(start, finish), key=lambda x: x[1])
+# Pattern: Interval Scheduling - Maximum Non-Overlapping Intervals
+# Similar to LeetCode #435 (Non-overlapping Intervals) and #452 (Minimum Arrows to Burst Balloons)
+# Time: O(n log n) for sorting | Space: O(1) or O(log n) for sort space
+def max_non_overlapping_intervals(intervals):
+    """
+    Given list of [start, end] intervals, return maximum number of non-overlapping intervals.
+    Greedy choice: always pick the interval that ends earliest.
+    """
+    if not intervals:
+        return 0
+
+    # Sort by end time
+    intervals.sort(key=lambda x: x[1])
+
     count = 1
-    last_finish = activities[0][1]
+    last_end = intervals[0][1]
 
-    for s, f in activities[1:]:
-        if s >= last_finish:
+    for i in range(1, len(intervals)):
+        start, end = intervals[i]
+        if start >= last_end:  # No overlap
             count += 1
-            last_finish = f
-    return count
+            last_end = end
 
-# Example
-start = [1, 3, 0, 5, 8, 5]
-finish = [2, 4, 6, 7, 9, 9]
-print(max_activities(start, finish))  # Output: 4
+    return count
 ```
 
 ```javascript
-function maxActivities(start, finish) {
-  // Create array of pairs and sort by finish time
-  const activities = start.map((s, i) => [s, finish[i]]);
-  activities.sort((a, b) => a[1] - b[1]);
+// Pattern: Interval Scheduling - Maximum Non-Overlapping Intervals
+// Time: O(n log n) | Space: O(1) or O(log n) for sort space
+function maxNonOverlappingIntervals(intervals) {
+  if (!intervals.length) return 0;
+
+  // Sort by end time
+  intervals.sort((a, b) => a[1] - b[1]);
 
   let count = 1;
-  let lastFinish = activities[0][1];
+  let lastEnd = intervals[0][1];
 
-  for (let i = 1; i < activities.length; i++) {
-    const [s, f] = activities[i];
-    if (s >= lastFinish) {
+  for (let i = 1; i < intervals.length; i++) {
+    const [start, end] = intervals[i];
+    if (start >= lastEnd) {
       count++;
-      lastFinish = f;
+      lastEnd = end;
     }
   }
+
   return count;
 }
-
-// Example
-const start = [1, 3, 0, 5, 8, 5];
-const finish = [2, 4, 6, 7, 9, 9];
-console.log(maxActivities(start, finish)); // Output: 4
 ```
 
 ```java
-import java.util.*;
+// Pattern: Interval Scheduling - Maximum Non-Overlapping Intervals
+// Time: O(n log n) | Space: O(1) or O(log n) for sort space
+import java.util.Arrays;
 
-public class ActivitySelection {
-    public static int maxActivities(int[] start, int[] finish) {
-        int n = start.length;
-        int[][] activities = new int[n][2];
-        for (int i = 0; i < n; i++) {
-            activities[i][0] = start[i];
-            activities[i][1] = finish[i];
+public int maxNonOverlappingIntervals(int[][] intervals) {
+    if (intervals.length == 0) return 0;
+
+    // Sort by end time
+    Arrays.sort(intervals, (a, b) -> Integer.compare(a[1], b[1]));
+
+    int count = 1;
+    int lastEnd = intervals[0][1];
+
+    for (int i = 1; i < intervals.length; i++) {
+        int start = intervals[i][0];
+        int end = intervals[i][1];
+
+        if (start >= lastEnd) {
+            count++;
+            lastEnd = end;
         }
-        // Sort by finish time
-        Arrays.sort(activities, (a, b) -> a[1] - b[1]);
-
-        int count = 1;
-        int lastFinish = activities[0][1];
-
-        for (int i = 1; i < n; i++) {
-            if (activities[i][0] >= lastFinish) {
-                count++;
-                lastFinish = activities[i][1];
-            }
-        }
-        return count;
     }
 
-    public static void main(String[] args) {
-        int[] start = {1, 3, 0, 5, 8, 5};
-        int[] finish = {2, 4, 6, 7, 9, 9};
-        System.out.println(maxActivities(start, finish)); // Output: 4
-    }
+    return count;
 }
 ```
 
 </div>
 
+## How to Prepare
+
+The key to Accolite's Greedy questions isn't memorizing solutions—it's developing intuition for when Greedy applies. Ask yourself these three questions for any problem:
+
+1. **Can I make a locally optimal choice at each step?** (Greedy choice property)
+2. **Does this choice lead to a globally optimal solution?** (Optimal substructure)
+3. **Can I prove it or at least justify it?** (This is what interviewers want to hear)
+
+Practice explaining your reasoning aloud. For interval problems, the proof is usually: "If we choose the interval that ends earliest, we leave maximum room for remaining intervals." For coin change with canonical coins: "Using the largest coin possible reduces the total number of coins needed."
+
+Build a mental checklist: if the problem involves "minimum/maximum number of intervals/meetings/arrows" or "schedule something optimally," think Greedy first. If it involves sorting and then making passes through sorted data, you're probably on the right track.
+
+<div class="code-group">
+
+```python
+# Pattern: Minimum Operations / Coin Change (canonical coins)
+# Similar to LeetCode #322 (Coin Change) but with canonical coins where greedy works
+# Time: O(n) where n is amount/coin ratio | Space: O(1)
+def min_coins_greedy(coins, amount):
+    """
+    Assumes coins are canonical (e.g., [1, 5, 10, 25]) where greedy works.
+    For non-canonical coins, must use DP.
+    """
+    coins.sort(reverse=True)  # Use largest coins first
+    count = 0
+
+    for coin in coins:
+        if amount == 0:
+            break
+        if coin <= amount:
+            num_coins = amount // coin
+            count += num_coins
+            amount -= num_coins * coin
+
+    return count if amount == 0 else -1  # -1 if not possible
+```
+
+```javascript
+// Pattern: Minimum Operations / Coin Change (canonical coins)
+// Time: O(n) | Space: O(1)
+function minCoinsGreedy(coins, amount) {
+  // Sort descending
+  coins.sort((a, b) => b - a);
+  let count = 0;
+
+  for (const coin of coins) {
+    if (amount === 0) break;
+    if (coin <= amount) {
+      const numCoins = Math.floor(amount / coin);
+      count += numCoins;
+      amount -= numCoins * coin;
+    }
+  }
+
+  return amount === 0 ? count : -1;
+}
+```
+
+```java
+// Pattern: Minimum Operations / Coin Change (canonical coins)
+// Time: O(n) | Space: O(1)
+import java.util.Arrays;
+import java.util.Collections;
+
+public int minCoinsGreedy(Integer[] coins, int amount) {
+    // Sort in descending order
+    Arrays.sort(coins, Collections.reverseOrder());
+    int count = 0;
+
+    for (int coin : coins) {
+        if (amount == 0) break;
+        if (coin <= amount) {
+            int numCoins = amount / coin;
+            count += numCoins;
+            amount -= numCoins * coin;
+        }
+    }
+
+    return amount == 0 ? count : -1;
+}
+```
+
+</div>
+
+## How Accolite Tests Greedy vs Other Companies
+
+Compared to FAANG companies, Accolite's Greedy questions are more applied and less theoretical. At Google, you might get a Greedy graph coloring problem; at Facebook, a Greedy news feed optimization. At Accolite, you'll get something closer to actual business logic: "Schedule these jobs on servers to minimize cost" or "Allocate resources to projects maximizing throughput."
+
+Their difficulty level is typically medium—they won't throw "IPO" (#502) or "Course Schedule III" (#630) at you unless you're applying for a senior architect role. What's unique is their follow-up questioning: they often ask you to modify the problem slightly. "What if each interval has a weight?" or "What if coins aren't canonical?" This tests whether you understand the limitations of Greedy and when you'd switch to Dynamic Programming.
+
+## Study Order
+
+Don't jump straight into hard Greedy problems. Build your foundation systematically:
+
+1. **Basic Sorting & Selection**: Start with problems that simply require sorting plus one pass. "Maximum Units on a Truck" (#1710) is perfect—it's obviously Greedy (pick highest units first).
+2. **Interval Problems**: Move to one-dimensional interval scheduling and merging. These teach you the "sort by end time" pattern that applies to many Greedy problems.
+3. **Assignment Problems**: Learn to assign resources Greedily, like "Task Scheduler" (#621) or "Meeting Rooms II" (#253).
+4. **Advanced Greedy with Proofs**: Finally, tackle problems where the Greedy choice isn't obvious and requires justification, like "Gas Station" (#134) or "Jump Game" (#55).
+
+This order works because each step builds intuition for the next. You learn that Greedy often involves sorting first, then you learn common sorting keys (end time, start time, value density), and finally you learn to validate when Greedy actually works.
+
 ## Recommended Practice Order
 
-Build your competency systematically:
+Solve these problems in sequence:
 
-1.  **Foundation:** Activity Selection, Fractional Knapsack, Minimum Coin Change (canonical version).
-2.  **Core Accolite Patterns:** Job Sequencing, Minimum Platforms for trains, Minimum sum of absolute differences.
-3.  **String Problems:** Minimum deletions for unique frequency, reorganize string.
-4.  **Mock Interviews:** Simulate Accolite's timed environment using their tagged greedy problems.
+1. **Maximum Units on a Truck** (#1710) - Basic sorting Greedy
+2. **Merge Intervals** (#56) - Interval merging foundation
+3. **Non-overlapping Intervals** (#435) - Classic interval scheduling
+4. **Meeting Rooms II** (#253) - Interval scheduling with resources
+5. **Task Scheduler** (#621) - Assignment with constraints
+6. **Gas Station** (#134) - Circular Greedy with proof requirement
+7. **Jump Game II** (#45) - Advanced Greedy with minimum steps
 
-Focus on writing clean, correct code for the patterns above. In the interview, clearly explain your reasoning: state the greedy choice, why it's optimal, and then implement.
+After these seven, you'll have covered 90% of Accolite's Greedy question patterns. The remaining 10% might include variations like "Minimum Number of Arrows to Burst Balloons" (#452) or "Partition Labels" (#763), but those follow the same interval and assignment patterns you've already mastered.
+
+Remember: at Accolite, they're not just testing whether you can solve the problem—they're testing whether you can explain why your Greedy approach works and when it wouldn't. Practice verbalizing your reasoning as you code, and you'll stand out from candidates who just memorize solutions.
 
 [Practice Greedy at Accolite](/company/accolite/greedy)

@@ -1,128 +1,161 @@
 ---
 title: "Uber vs Expedia: Interview Question Comparison"
 description: "Compare coding interview questions at Uber and Expedia — difficulty levels, topic focus, and preparation strategy."
-date: "2027-07-09"
+date: "2030-04-08"
 category: "tips"
 tags: ["uber", "expedia", "comparison"]
 ---
 
-When preparing for technical interviews, understanding the specific focus and expectations of each company is crucial for efficient study. Uber and Expedia, while both major tech employers, present distinctly different interview landscapes in terms of scale, difficulty, and topic emphasis. A strategic candidate will tailor their preparation accordingly.
+# Uber vs Expedia: A Strategic Interview Question Comparison
 
-## Question Volume and Difficulty
+If you're preparing for interviews at both Uber and Expedia, you're facing two distinct challenges that require different preparation strategies. Uber represents the modern tech giant with intense algorithmic rigor, while Expedia reflects a more traditional travel-tech company with a narrower but still challenging focus. The key insight: preparing for Uber will cover most of what you need for Expedia, but not vice versa. Let me break down exactly how to approach this dual preparation efficiently.
 
-The sheer volume of reported questions is the most striking difference. Uber's list of **381 questions** is vast, indicating a highly dynamic and frequently refreshed interview process. The difficulty distribution (E54/M224/H103) shows a clear emphasis on **Medium and Hard problems**, with Hard questions making up a significant portion. This suggests Uber interviews are designed to rigorously test advanced problem-solving and algorithmic optimization under pressure.
+## Question Volume and Difficulty: Two Different Worlds
 
-In contrast, Expedia's list contains **54 questions**, a more manageable and stable set. The difficulty distribution (E13/M35/H6) is heavily skewed toward **Easy and Medium** problems, with very few Hard questions reported. This indicates Expedia's technical screen likely focuses on core competency, clean code, and practical problem-solving rather than extreme algorithmic complexity.
+The numbers tell a clear story. Uber has 381 tagged questions on LeetCode (54 Easy, 224 Medium, 103 Hard), making it one of the most comprehensive and challenging interview question sets among tech companies. This volume suggests Uber interviews test breadth across many problem types and difficulty levels, with a clear emphasis on Medium problems as their sweet spot.
 
-**Key Takeaway:** Uber requires deep, broad, and rigorous practice. Expedia requires solid fundamentals and proficiency with common patterns.
+Expedia, by contrast, has only 54 tagged questions (13 Easy, 35 Medium, 6 Hard). This smaller set indicates a more focused interview process where you're likely to encounter a narrower range of problem types. The difficulty distribution is similar in proportion, but the absolute numbers matter: you can realistically review all Expedia-tagged questions, while attempting to cover all Uber questions would be inefficient.
 
-## Topic Overlap
+What this means practically: Uber interviews will push you harder on algorithmic complexity and edge cases. Expedia interviews will test solid fundamentals but likely won't dive as deep into advanced optimization techniques.
 
-Both companies prominently feature **Array, String, and Hash Table** questions. This is standard for software engineering roles, as these data structures form the backbone of most solutions.
+## Topic Overlap: Where Your Prep Pays Double
 
-- **Uber's** additional focus on **Dynamic Programming** is notable and aligns with its difficulty profile. DP questions (e.g., knapsack variants, unique paths, edit distance) are classic Hard/Medium challenges that test optimal substructure thinking.
+Both companies heavily test **Arrays, Hash Tables, and Strings** — the holy trinity of coding interview fundamentals. This overlap is your biggest opportunity for efficient preparation.
+
+**Shared high-priority topics:**
+
+- **Array manipulation**: Sliding window, two-pointer techniques, prefix sums
+- **Hash Table applications**: Frequency counting, complement finding, caching
+- **String operations**: Palindrome checks, anagram detection, substring problems
+
+**Uber-specific emphasis:**
+
+- **Dynamic Programming**: Uber loves DP problems, particularly around optimization, pathfinding, and resource allocation. This reflects their core business problems around routing, pricing, and matching.
+- **Graph algorithms**: Less prominent in the topic list but appears frequently in their actual questions (many Uber problems are graph problems in disguise).
+
+**Expedia-specific emphasis:**
+
+- **Greedy algorithms**: Expedia's fourth most-tested topic, likely reflecting optimization problems in travel scheduling and resource allocation.
+- Noticeably absent: **Dynamic Programming** doesn't appear in their top topics, suggesting less emphasis on complex optimization problems.
+
+## Preparation Priority Matrix
+
+Here's how to allocate your study time strategically:
+
+**Tier 1: Overlap Topics (Study First)**
+
+- Arrays: Two Sum (#1), Product of Array Except Self (#238)
+- Hash Tables: Group Anagrams (#49), LRU Cache (#146)
+- Strings: Longest Substring Without Repeating Characters (#3), Valid Parentheses (#20)
+
+**Tier 2: Uber-Specific Topics**
+
+- Dynamic Programming: Climbing Stairs (#70), House Robber (#198), Coin Change (#322)
+- Graph algorithms (implied): Course Schedule (#207), Number of Islands (#200)
+
+**Tier 3: Expedia-Specific Topics**
+
+- Greedy: Jump Game (#55), Task Scheduler (#621)
+
+The strategy: Master Tier 1 completely, then focus on Tier 2. Tier 3 can be covered in a few hours once you're comfortable with the first two tiers.
+
+## Interview Format Differences
+
+**Uber's Process:**
+
+- Typically 4-5 rounds including coding, system design, and behavioral
+- Coding rounds often include 2 medium-hard problems in 45 minutes
+- Heavy emphasis on optimization and edge cases
+- System design is expected even for mid-level positions
+- Virtual interviews are now standard, often using CoderPad or similar platforms
+
+**Expedia's Process:**
+
+- Usually 3-4 rounds total
+- Coding rounds may include 1-2 problems with more time per problem
+- Less emphasis on system design for individual contributor roles
+- More weight on behavioral/cultural fit questions
+- May include domain-specific questions about travel or e-commerce
+
+Critical difference: Uber interviews are a marathon of algorithmic intensity, while Expedia interviews are more balanced across technical and behavioral dimensions.
+
+## Specific Problem Recommendations for Dual Preparation
+
+These 5 problems provide maximum coverage for both companies:
+
+1. **Two Sum (#1)** - The ultimate hash table problem that appears in variations at both companies. Master the basic version, then practice the sorted array variant (two-pointer solution).
 
 <div class="code-group">
 
 ```python
-# Example DP pattern (Uber-relevant): Fibonacci / Min Cost Climbing Stairs
-def minCostClimbingStairs(cost):
-    n = len(cost)
-    dp = [0] * (n + 1)
-    for i in range(2, n + 1):
-        dp[i] = min(dp[i-1] + cost[i-1], dp[i-2] + cost[i-2])
-    return dp[n]
+# Time: O(n) | Space: O(n)
+def twoSum(nums, target):
+    seen = {}
+    for i, num in enumerate(nums):
+        complement = target - num
+        if complement in seen:
+            return [seen[complement], i]
+        seen[num] = i
+    return []
 ```
 
 ```javascript
-// Example DP pattern (Uber-relevant): Fibonacci / Min Cost Climbing Stairs
-function minCostClimbingStairs(cost) {
-  const n = cost.length;
-  const dp = new Array(n + 1).fill(0);
-  for (let i = 2; i <= n; i++) {
-    dp[i] = Math.min(dp[i - 1] + cost[i - 1], dp[i - 2] + cost[i - 2]);
+// Time: O(n) | Space: O(n)
+function twoSum(nums, target) {
+  const seen = new Map();
+  for (let i = 0; i < nums.length; i++) {
+    const complement = target - nums[i];
+    if (seen.has(complement)) {
+      return [seen.get(complement), i];
+    }
+    seen.set(nums[i], i);
   }
-  return dp[n];
+  return [];
 }
 ```
 
 ```java
-// Example DP pattern (Uber-relevant): Fibonacci / Min Cost Climbing Stairs
-public int minCostClimbingStairs(int[] cost) {
-    int n = cost.length;
-    int[] dp = new int[n + 1];
-    for (int i = 2; i <= n; i++) {
-        dp[i] = Math.min(dp[i-1] + cost[i-1], dp[i-2] + cost[i-2]);
-    }
-    return dp[n];
-}
-```
-
-</div>
-
-- **Expedia's** unique listed focus is **Greedy Algorithms**. These problems (e.g., activity selection, coin change [greedy version where applicable], task scheduling) test the ability to find efficient, step-by-step optimal solutions. This often pairs with array manipulation.
-
-<div class="code-group">
-
-```python
-# Example Greedy pattern (Expedia-relevant): Maximum number of meetings
-def max_meetings(start, end):
-    meetings = sorted(zip(end, start))  # Sort by end time
-    count, last_end = 0, 0
-    for e, s in meetings:
-        if s >= last_end:
-            count += 1
-            last_end = e
-    return count
-```
-
-```javascript
-// Example Greedy pattern (Expedia-relevant): Maximum number of meetings
-function maxMeetings(start, end) {
-  const meetings = end.map((e, i) => [e, start[i]]).sort((a, b) => a[0] - b[0]);
-  let count = 0,
-    lastEnd = 0;
-  for (const [e, s] of meetings) {
-    if (s >= lastEnd) {
-      count++;
-      lastEnd = e;
-    }
-  }
-  return count;
-}
-```
-
-```java
-// Example Greedy pattern (Expedia-relevant): Maximum number of meetings
-public int maxMeetings(int[] start, int[] end) {
-    int n = start.length;
-    int[][] meetings = new int[n][2];
-    for (int i = 0; i < n; i++) {
-        meetings[i][0] = end[i];
-        meetings[i][1] = start[i];
-    }
-    Arrays.sort(meetings, (a, b) -> Integer.compare(a[0], b[0]));
-    int count = 0, lastEnd = 0;
-    for (int[] meeting : meetings) {
-        if (meeting[1] >= lastEnd) {
-            count++;
-            lastEnd = meeting[0];
+// Time: O(n) | Space: O(n)
+public int[] twoSum(int[] nums, int target) {
+    Map<Integer, Integer> seen = new HashMap<>();
+    for (int i = 0; i < nums.length; i++) {
+        int complement = target - nums[i];
+        if (seen.containsKey(complement)) {
+            return new int[]{seen.get(complement), i};
         }
+        seen.put(nums[i], i);
     }
-    return count;
+    return new int[0];
 }
 ```
 
 </div>
 
-**Key Takeaway:** Master arrays, strings, and hash maps for both. Then, prioritize DP for Uber and Greedy patterns for Expedia.
+2. **Merge Intervals (#56)** - Tests array sorting and merging logic, which appears in scheduling problems at both companies (ride scheduling at Uber, travel itineraries at Expedia).
 
-## Which to Prepare for First
+3. **Longest Substring Without Repeating Characters (#3)** - Excellent sliding window problem that builds skills for both string manipulation and optimization thinking.
 
-Prepare for **Expedia first** if you are early in your interview preparation cycle or prioritizing confidence-building. The smaller question bank and lower difficulty ceiling allow you to achieve coverage and proficiency more quickly. Solidifying fundamentals here will build a strong foundation.
+4. **Coin Change (#322)** - A classic DP problem that's particularly relevant for Uber. Even if Expedia doesn't ask DP directly, the problem-solving approach (breaking down problems into subproblems) is valuable everywhere.
 
-Prepare for **Uber first** if you are already comfortable with core data structures and are aiming for top-tier tech roles. The extensive preparation required will inherently cover the difficulty level needed for Expedia. Mastering Uber's problem set means you will be over-prepared for Expedia's technical screen, but the reverse is not true.
+5. **Group Anagrams (#49)** - Perfect hash table application that appears in both companies' question lists. The pattern of using sorted strings as keys is reusable in many contexts.
 
-Ultimately, your choice should align with your target role and current skill level. Use the focused practice for each company's emphasis to maximize your efficiency.
+## Which to Prepare for First: The Strategic Order
 
-For detailed question lists and patterns, visit the Uber and Expedia question pages: [Uber Interview Questions](/company/uber) | [Expedia Interview Questions](/company/expedia)
+**Prepare for Uber first, then adapt for Expedia.** Here's why:
+
+1. **Coverage**: Uber's broader question set will naturally cover most of what Expedia tests. The reverse isn't true.
+2. **Difficulty gradient**: If you can handle Uber's Medium-Hard problems, Expedia's Medium problems will feel comfortable.
+3. **Timing**: Uber interviews are typically more time-constrained, so practicing under Uber's conditions will make Expedia's pacing feel generous.
+
+**Schedule your prep like this:**
+
+- Weeks 1-3: Focus on Uber's core topics (Arrays, Hash Tables, Strings, DP)
+- Week 4: Add Uber's secondary topics (Graphs, Trees)
+- Week 5: Review all Expedia-tagged questions (should take 1-2 days max)
+- Week 6: Mock interviews simulating each company's format
+
+If your interviews are close together, allocate 70% of your time to Uber-focused prep and 30% to Expedia-specific adjustment (mainly practicing their tagged questions and preparing for their behavioral emphasis).
+
+Remember: The goal isn't to memorize solutions but to internalize patterns. When you encounter a new problem at either company, you should be asking: "Which pattern from my preparation does this resemble?" That pattern recognition is what separates candidates who pass from those who excel.
+
+For more detailed breakdowns of each company's interview process, visit our [Uber interview guide](/company/uber) and [Expedia interview guide](/company/expedia).

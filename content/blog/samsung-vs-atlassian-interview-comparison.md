@@ -1,86 +1,163 @@
 ---
 title: "Samsung vs Atlassian: Interview Question Comparison"
 description: "Compare coding interview questions at Samsung and Atlassian — difficulty levels, topic focus, and preparation strategy."
-date: "2026-06-10"
+date: "2026-06-02"
 category: "tips"
 tags: ["samsung", "atlassian", "comparison"]
 ---
 
-When preparing for technical interviews at major tech companies, understanding their specific focus areas can dramatically improve your efficiency. Samsung and Atlassian, while both requiring strong algorithmic skills, show distinct patterns in their question banks. Samsung's list is larger and slightly more skewed toward harder problems, while Atlassian's is more concentrated on medium-difficulty questions with a tighter set of core topics. This comparison breaks down the volume, difficulty, and content to help you strategize your preparation.
+# Samsung vs Atlassian: Interview Question Comparison
+
+If you're preparing for interviews at both Samsung and Atlassian, you're facing two distinct engineering cultures with different problem-solving priorities. Samsung's questions reflect their hardware-software integration focus, while Atlassian's problems mirror their developer tools and collaboration platform mindset. The good news: there's significant overlap in core data structure testing, but the emphasis and problem flavors differ meaningfully. Preparing strategically for both requires understanding these nuances rather than just grinding random LeetCode problems.
 
 ## Question Volume and Difficulty
 
-The raw numbers reveal a clear difference in scope and challenge.
+Samsung's 69 questions (15 Easy, 37 Medium, 17 Hard) versus Atlassian's 62 questions (7 Easy, 43 Medium, 12 Hard) tells an immediate story: Atlassian skews harder. With 69% of their questions at Medium difficulty versus Samsung's 54%, Atlassian expects stronger algorithmic fundamentals. The Easy question count is particularly telling—Atlassian has half as many Easy questions, suggesting they rarely use simple warm-ups.
 
-**Samsung** presents a larger question bank with **69 total questions**, categorized as 15 Easy, 37 Medium, and 17 Hard. The higher proportion of Hard problems (nearly 25%) suggests their interviews may delve deeper into complex algorithmic optimization, particularly in their favored areas like Dynamic Programming. The significant number of Medium questions forms the critical bulk of their assessment.
-
-**Atlassian's** set is slightly smaller at **62 questions**, with a distribution of 7 Easy, 43 Medium, and 12 Hard. The standout figure is the overwhelming focus on Medium difficulty, which constitutes about 70% of their question bank. This indicates Atlassian interviews are highly likely to center on applying solid knowledge of data structures and algorithms to non-trivial, yet typically not esoteric, problems. The lower count of Easy and Hard questions suggests a more targeted evaluation on core competency.
+The volume difference (69 vs 62) is negligible in practice—both companies have substantial question banks, meaning you can't rely on memorization. However, Samsung's higher Hard count (17 vs 12) combined with their hardware context often means more complex implementation challenges rather than purely algorithmic difficulty. Atlassian's Hards tend to be cleaner algorithmic puzzles.
 
 ## Topic Overlap
 
-Both companies heavily test foundational data structures, but with different secondary emphases.
+Both companies heavily test **Arrays** and **Hash Tables**, which isn't surprising—these are interview staples. However, their applications differ:
 
-The strongest shared focus is on **Array** and **Hash Table** problems. These are ubiquitous in technical interviews for manipulating data, checking for duplicates, and achieving efficient lookups. A candidate proficient in these areas is well-prepared for a base layer of questions at both companies.
+**Shared high-priority topics:**
+
+- **Arrays**: Both test extensively, but Samsung often uses arrays to represent hardware states or memory layouts, while Atlassian uses arrays for data processing in their tools context
+- **Hash Tables**: Common to both for frequency counting and lookups
+
+**Samsung-unique emphasis:**
+
+- **Dynamic Programming**: Appears in 25%+ of Samsung questions versus minimal Atlassian presence. This reflects optimization problems common in embedded systems and resource-constrained environments.
+- **Two Pointers**: Samsung's hardware focus leads to more in-place array manipulation and memory-efficient algorithms.
+
+**Atlassian-unique emphasis:**
+
+- **Strings**: Appears far more frequently in Atlassian questions, reflecting their text-heavy products (Jira, Confluence, Bitbucket).
+- **Sorting**: While both test sorting algorithms, Atlassian emphasizes them more, likely due to data organization needs in their tools.
+
+## Preparation Priority Matrix
+
+Here's how to allocate your limited prep time:
+
+**Tier 1: Overlap Topics (Study First)**
+
+- Array manipulation (in-place operations, subarray problems)
+- Hash table applications (frequency counting, two-sum variants)
+- These give you maximum ROI for both interviews
+
+**Tier 2: Samsung-Specific**
+
+- Dynamic programming (start with 1D, then 2D problems)
+- Two pointer techniques (especially with arrays)
+- Graph traversal (less frequent but appears in their hardware context)
+
+**Tier 3: Atlassian-Specific**
+
+- String manipulation (parsing, transformation, comparison)
+- Sorting with custom comparators
+- Tree traversal (for hierarchical data like Jira issues)
+
+**Recommended shared-prep problems:**
+
+- Two Sum (#1) - foundational hash table usage
+- Product of Array Except Self (#238) - tests array manipulation insight
+- Contains Duplicate (#217) - simple but tests hash table vs sorting tradeoffs
+
+## Interview Format Differences
+
+**Samsung's coding rounds** typically involve:
+
+- 2-3 technical interviews, often with mixed difficulty
+- Problems frequently include optimization constraints (memory, time)
+- Sometimes include "practical" problems simulating hardware/embedded scenarios
+- Less emphasis on pure algorithmic elegance, more on working solutions
+
+**Atlassian's coding rounds** usually feature:
+
+- 2-3 algorithmic interviews with increasing difficulty
+- Clean, readable code is highly valued (they build developer tools)
+- Problems often relate to data processing or text manipulation
+- Strong emphasis on test cases and edge case handling
+
+Both companies include system design, but Atlassian's tends to be more abstract (designing a collaboration feature) while Samsung's might involve system architecture with hardware constraints. Behavioral rounds differ too: Atlassian heavily emphasizes cultural fit ("Playbook" values) while Samsung focuses more on technical experience and problem-solving approach.
+
+## Specific Problem Recommendations
+
+These five problems provide excellent coverage for both companies:
+
+1. **Maximum Subarray (#53)** - Tests array manipulation and Kadane's algorithm (DP). Samsung might frame it as optimizing resource usage; Atlassian might frame it as analyzing time-series data.
 
 <div class="code-group">
 
 ```python
-# Example: A common Array/Hash Table problem (Two Sum)
-def two_sum(nums, target):
-    seen = {}
-    for i, num in enumerate(nums):
-        complement = target - num
-        if complement in seen:
-            return [seen[complement], i]
-        seen[num] = i
-    return []
+# Time: O(n) | Space: O(1)
+def maxSubArray(nums):
+    """
+    Kadane's algorithm - keep running sum, reset when negative
+    """
+    max_sum = curr_sum = nums[0]
+
+    for num in nums[1:]:
+        # Either extend current subarray or start fresh
+        curr_sum = max(num, curr_sum + num)
+        max_sum = max(max_sum, curr_sum)
+
+    return max_sum
 ```
 
 ```javascript
-// Example: A common Array/Hash Table problem (Two Sum)
-function twoSum(nums, target) {
-  const map = new Map();
-  for (let i = 0; i < nums.length; i++) {
-    const complement = target - nums[i];
-    if (map.has(complement)) {
-      return [map.get(complement), i];
-    }
-    map.set(nums[i], i);
+// Time: O(n) | Space: O(1)
+function maxSubArray(nums) {
+  let maxSum = nums[0];
+  let currSum = nums[0];
+
+  for (let i = 1; i < nums.length; i++) {
+    currSum = Math.max(nums[i], currSum + nums[i]);
+    maxSum = Math.max(maxSum, currSum);
   }
-  return [];
+
+  return maxSum;
 }
 ```
 
 ```java
-// Example: A common Array/Hash Table problem (Two Sum)
-public int[] twoSum(int[] nums, int target) {
-    Map<Integer, Integer> map = new HashMap<>();
-    for (int i = 0; i < nums.length; i++) {
-        int complement = target - nums[i];
-        if (map.containsKey(complement)) {
-            return new int[] { map.get(complement), i };
-        }
-        map.put(nums[i], i);
+// Time: O(n) | Space: O(1)
+public int maxSubArray(int[] nums) {
+    int maxSum = nums[0];
+    int currSum = nums[0];
+
+    for (int i = 1; i < nums.length; i++) {
+        currSum = Math.max(nums[i], currSum + nums[i]);
+        maxSum = Math.max(maxSum, currSum);
     }
-    return new int[] {};
+
+    return maxSum;
 }
 ```
 
 </div>
 
-The key differences lie in the secondary topics:
+2. **Group Anagrams (#49)** - Combines hash tables and string sorting. Excellent for Atlassian's string focus, but the hash table pattern helps for Samsung too.
 
-- **Samsung** shows a pronounced emphasis on **Dynamic Programming (DP)** and **Two Pointers**. DP questions are often in the Medium-to-Hard range and test problem decomposition and state optimization. Two Pointers is crucial for solving array and string problems efficiently.
-- **Atlassian** lists **String** and **Sorting** as top topics alongside Array and Hash Table. This points to a high probability of questions involving string manipulation, parsing, comparison, and the application of sorting algorithms or built-in sort functions to enable other solutions.
+3. **Container With Most Water (#11)** - Two pointer classic. Directly relevant to Samsung's emphasis, but the optimization thinking helps for Atlassian's Medium/Hard problems.
+
+4. **Longest Palindromic Substring (#5)** - Covers strings (Atlassian) with DP aspects (Samsung). The expanding window solution is particularly elegant.
+
+5. **Merge Intervals (#56)** - Tests sorting and array manipulation. Samsung might frame it as scheduling hardware tasks; Atlassian might frame it as merging time periods in their tools.
 
 ## Which to Prepare for First
 
-Your preparation priority should be guided by the breadth of coverage.
+**Prepare for Atlassian first if:** You're stronger at algorithmic thinking and want to tackle the harder problems upfront. Atlassian's emphasis on Medium+ problems means once you're comfortable with their level, Samsung's questions will feel more manageable (except their specific DP problems).
 
-Start with **Atlassian's focus areas**. Mastering Arrays, Hash Tables, Strings, and Sorting will build a rock-solid foundation that is directly applicable to a vast majority of their questions. The concentration on Medium difficulty means achieving consistency here is paramount. This core skill set also translates perfectly to the base layer of Samsung's interview.
+**Prepare for Samsung first if:** You need to build confidence with array/DP patterns. Samsung's broader difficulty range lets you ramp up gradually. Their questions also tend to be more "applied," which some find less abstract than pure algorithm puzzles.
 
-Then, extend your study to **Samsung's additional specialties**. Specifically, dedicate time to **Dynamic Programming** (start with classical problems like climbing stairs, knapsack, and longest common subsequence) and the **Two Pointers** technique. Practicing these will cover the "gap" between the two company's question banks, ensuring you are prepared for Samsung's greater number of Hard problems and their specific algorithmic tastes.
+**Strategic hybrid approach:**
 
-In essence, Atlassian's list is a concentrated subset of a broader interview preparation. Building proficiency there first creates an efficient pathway to then expand for Samsung's wider and slightly more challenging scope.
+1. Week 1-2: Master overlap topics (arrays, hash tables) with problems like #1, #238, #217
+2. Week 3: Add Samsung's DP focus (start with #70, #322, then #1143)
+3. Week 4: Add Atlassian's string focus (#49, #5, #3)
+4. Final week: Mixed practice with company-tagged problems
 
-For targeted practice, visit the company pages: [Samsung](/company/samsung) and [Atlassian](/company/atlassian).
+Remember: Samsung interviews might happen over multiple days with different teams, while Atlassian's process is typically more standardized. Adjust your mental preparation accordingly—Samsung requires more adaptability to different interview styles.
+
+For more detailed breakdowns of each company's interview process, visit our [Samsung interview guide](/company/samsung) and [Atlassian interview guide](/company/atlassian).

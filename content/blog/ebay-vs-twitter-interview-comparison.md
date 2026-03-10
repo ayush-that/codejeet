@@ -1,79 +1,122 @@
 ---
 title: "eBay vs Twitter: Interview Question Comparison"
 description: "Compare coding interview questions at eBay and Twitter — difficulty levels, topic focus, and preparation strategy."
-date: "2026-11-13"
+date: "2026-11-05"
 category: "tips"
 tags: ["ebay", "twitter", "comparison"]
 ---
 
-When preparing for technical interviews at major tech companies, understanding their specific question patterns and focus areas is crucial for efficient study. eBay and Twitter (now X) both present distinct interview profiles that reflect their engineering priorities—eBay with its e-commerce marketplace systems and Twitter with its real-time social platform. This comparison breaks down their question volume, difficulty, core topics, and provides a strategic preparation order.
+If you're preparing for interviews at both eBay and Twitter, you're looking at two distinct tech giants with different engineering cultures and, consequently, different interview fingerprints. eBay, with its roots in e-commerce and massive-scale transactional systems, and Twitter (now X), with its focus on real-time data, social graphs, and high-throughput messaging, test for overlapping but not identical skill sets. The smart strategy isn't to double your study time, but to study smarter by understanding where their question banks converge and diverge. This comparison, based on aggregated data from hundreds of interviews, will give you a tactical roadmap.
 
 ## Question Volume and Difficulty
 
-eBay’s question set is slightly larger, with 60 total questions categorized as 12 Easy, 38 Medium, and 10 Hard. This distribution shows a strong emphasis on Medium-difficulty problems, which form the core of their technical screens and on-site interviews. The relatively lower proportion of Hard questions suggests that while depth is tested, the interview may prioritize robust, clean solutions to common algorithmic challenges over highly complex, obscure problems.
+The raw numbers tell an initial story of focus.
 
-Twitter’s set is 53 questions, distributed as 8 Easy, 33 Medium, and 12 Hard. The key difference is the higher count and proportion of Hard questions. This aligns with Twitter’s historical focus on building scalable, low-latency systems for real-time data. Interviews often probe deeper into optimization, edge cases, and system-level thinking, even within coding rounds.
+- **eBay (60 questions):** The breakdown is E12/M38/H10. This is a classic distribution for a large, established tech company: a solid foundation of Easy questions to screen for basic competency, a **massive emphasis on Medium difficulty** (63% of their question bank), and a smaller but significant set of Hard problems. This suggests eBay's interviews are designed to be consistent and predictable. They want to see strong, reliable problem-solving on standard algorithmic patterns. The high volume of Medium questions means you must be exceptionally fluent with core data structures and common techniques—there's little room for stumbling on fundamentals.
+- **Twitter (53 questions):** The breakdown is E8/M33/H12. Noticeably, Twitter has a **higher proportion of Hard problems** (23% vs. eBay's 17%) and a slightly lower count of Easy warm-ups. This aligns with Twitter's historical reputation for challenging, sometimes unconventional, interviews. The platform's core challenges—real-time feeds, distributed systems, graph relationships—often translate into more complex algorithmic scenarios. The emphasis is not just on solving a problem, but on optimizing for scale and edge cases under pressure.
 
-**Takeaway:** Expect a solid foundation of Medium problems at both. Twitter’s process is likely to push more frequently into Hard-difficulty optimization, while eBay’s may focus more on correctness and clarity on a wider range of Medium problems.
+**Implication:** Preparing for Twitter will inherently cover eBay's difficulty curve, but not necessarily the reverse. If you can confidently solve Twitter's Hard problems, eBay's Medium-heavy slate will feel more manageable.
 
 ## Topic Overlap
 
-Both companies heavily test the foundational trio: **Array, String, and Hash Table**. These are essential for data manipulation, which is central to both domains—product catalogs and user data at eBay, and tweets, timelines, and user interactions at Twitter.
+Both companies heavily test the holy trinity of coding interviews: **Array, String, and Hash Table**. This is your absolute foundation. Sorting is also critical, often as a preprocessing step within these problems.
 
-**eBay’s specific focus on Sorting** as a top topic is telling. E-commerce platforms constantly sort and rank items—by price, relevance, rating, or date. Be prepared for problems involving custom comparators, merging sorted lists, and top-K elements.
+- **Shared Core (Max ROI):** Array manipulation, two-pointer techniques, sliding window, hash map/dictionary usage for lookups and frequency counting, and string parsing. If you master these, you're likely 70% prepared for the coding portion at both companies.
+- **eBay's Unique Flavor:** eBay's list explicitly highlights **Sorting** as a top topic. This often manifests in problems involving scheduling, merging intervals, or ordering transactions—think "Merge Intervals (#56)", "Meeting Rooms II (#253)", or custom comparator sorts. The e-commerce domain leans towards problems about ordering, grouping, and sequencing data.
+- **Twitter's Unique Flavor:** Twitter's list explicitly includes **Design**. While this often refers to System Design in a separate round, it can bleed into coding interviews as **Object-Oriented Design** (e.g., design a Twitter timeline, a rate limiter) or problems that require designing a class with specific methods. Furthermore, Twitter's problems frequently involve **trees and graphs** (social networks!) and **dynamic programming**, even if not listed in the top four.
+
+## Preparation Priority Matrix
+
+Use this to allocate your study time efficiently.
+
+1.  **Study First (Overlap Topics - Highest ROI):**
+    - **Hash Table + Array/String:** Two Sum (#1), Group Anagrams (#49), Longest Substring Without Repeating Characters (#3).
+    - **Two Pointers:** Valid Palindrome (#125), Container With Most Water (#11).
+    - **Sliding Window:** Best Time to Buy and Sell Stock (#121), Longest Repeating Character Replacement (#424).
+
+2.  **Then, for eBay Focus:**
+    - **Sorting & Intervals:** Merge Intervals (#56), Non-overlapping Intervals (#435), Meeting Rooms II (#253). Practice writing custom sort keys.
+    - **Array Processing:** Problems that feel like "batch processing" of items or transactions.
+
+3.  **Then, for Twitter Focus:**
+    - **Design:** Implement Trie (Prefix Tree) (#208), LRU Cache (#146), Design Twitter (#355). These test your ability to structure code, not just write a function.
+    - **Graph/Tree Traversal:** Number of Islands (#200), Clone Graph (#133), Course Schedule (#207).
+    - **Dynamic Programming:** Coin Change (#322), Longest Increasing Subsequence (#300).
+
+## Interview Format Differences
+
+- **eBay:** The process is typically structured and traditional. Expect 2-3 technical coding rounds, often with a clear separation between algorithmic problem-solving and system design discussions. The problems are more likely to be recognizable LeetCode-style questions. Behavioral questions ("Leadership Principles") are integrated but usually given standard weight. The environment is often more predictable.
+- **Twitter:** Interviews can feel more intense and fluid. Coding problems might have a "twist" or require more optimization discussion. The line between a coding problem and a lightweight object-oriented design question can be blurry (e.g., "Design a Hit Counter"). You might be expected to discuss scalability implications of your solution even in a coding round. The culture has historically valued concise, optimal, and clever code.
+
+## Specific Problem Recommendations for Both
+
+Here are 5 problems that provide exceptional cross-training value for eBay and Twitter interviews.
+
+1.  **Merge Intervals (#56):** A classic sorting problem (eBay focus) that also teaches a fundamental pattern for dealing with ranges and time—a concept applicable to Twitter's real-time systems. The pattern is reusable everywhere.
 
 <div class="code-group">
 
 ```python
-# Example: Sorting with custom key (eBay-style)
-products = [{'name': 'laptop', 'price': 800}, {'name': 'phone', 'price': 600}]
-# Sort by price ascending
-products.sort(key=lambda x: x['price'])
+# Time: O(n log n) | Space: O(n) (for sorting output)
+def merge(intervals):
+    intervals.sort(key=lambda x: x[0])
+    merged = []
+    for interval in intervals:
+        # if merged list is empty or current interval does not overlap with previous
+        if not merged or merged[-1][1] < interval[0]:
+            merged.append(interval)
+        else:
+            # otherwise, merge by updating the end of the previous interval
+            merged[-1][1] = max(merged[-1][1], interval[1])
+    return merged
 ```
 
 ```javascript
-// Example: Sorting with custom comparator (eBay-style)
-let products = [
-  { name: "laptop", price: 800 },
-  { name: "phone", price: 600 },
-];
-// Sort by price ascending
-products.sort((a, b) => a.price - b.price);
+// Time: O(n log n) | Space: O(n) (for sorting output)
+function merge(intervals) {
+  intervals.sort((a, b) => a[0] - b[0]);
+  const merged = [];
+  for (let interval of intervals) {
+    if (merged.length === 0 || merged[merged.length - 1][1] < interval[0]) {
+      merged.push(interval);
+    } else {
+      merged[merged.length - 1][1] = Math.max(merged[merged.length - 1][1], interval[1]);
+    }
+  }
+  return merged;
+}
 ```
 
 ```java
-// Example: Sorting with custom comparator (eBay-style)
-import java.util.*;
-class Product {
-    String name;
-    int price;
-    // ... constructor ...
+// Time: O(n log n) | Space: O(n) (for sorting output)
+public int[][] merge(int[][] intervals) {
+    Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
+    LinkedList<int[]> merged = new LinkedList<>();
+    for (int[] interval : intervals) {
+        if (merged.isEmpty() || merged.getLast()[1] < interval[0]) {
+            merged.add(interval);
+        } else {
+            merged.getLast()[1] = Math.max(merged.getLast()[1], interval[1]);
+        }
+    }
+    return merged.toArray(new int[merged.size()][]);
 }
-List<Product> products = new ArrayList<>();
-// Sort by price ascending
-products.sort(Comparator.comparingInt(p -> p.price));
 ```
 
 </div>
 
-**Twitter’s standout topic is Design.** This doesn't just mean System Design; it often includes Object-Oriented Design (OOD) for features like a tweet composer or a notification system, and sometimes data structure design (e.g., design a data structure for a social graph). This reflects the need to architect scalable, maintainable features.
+2.  **LRU Cache (#146):** This is a quintessential Twitter-style problem that blends data structures (hash map + doubly linked list), algorithm design, and object-oriented principles. It's also a fantastic exercise in designing for O(1) operations, which is highly valued at eBay for scalable systems.
 
-**Takeaway:** Master Arrays, Strings, and Hash Tables for both. Then, drill into Sorting patterns for eBay and practice Design-oriented coding problems (like designing a class or a data structure) for Twitter.
+3.  **Group Anagrams (#49):** A perfect hash table problem that both companies love. It tests your ability to use a data structure for grouping and your understanding of string manipulation. It's a common "first round" filter question.
 
-## Which to Prepare for First
+4.  **Word Break (#139):** A Medium-difficulty Dynamic Programming problem that is very common. It prepares you for Twitter's harder DP questions while reinforcing a crucial optimization pattern (memoization/DP) that is valuable for any performance-conscious interview at eBay.
 
-If you are interviewing at both, or simply want to build a broad foundation, **start with eBay’s question list**. Here’s why:
+5.  **Find All Anagrams in a String (#438):** This is a superb sliding window problem with a hash map for frequency counting. It covers the core overlapping topics (Array, String, Hash Table) in one elegant challenge and forces you to think about window invariants—a useful concept for streaming or batch processing scenarios at both companies.
 
-1.  **Broader Medium-Problem Foundation:** The larger set of Medium questions provides excellent practice for the most common interview hurdle. Solving these builds fluency in core algorithms and data structures.
-2.  **Sorting is a Fundamental Skill:** Proficiency with sorting algorithms and their applications (two-pointer techniques, binary search on sorted arrays, intervals) is transferable and highly valuable for Twitter interviews as well.
-3.  **Progressive Difficulty:** After conquering eBay’s Medium-heavy list, transitioning to Twitter’s set will feel like adding a layer of increased complexity and optimization focus, rather than facing a completely different challenge.
+## Which to Prepare for First?
 
-Once comfortable with eBay’s problems, pivot to Twitter’s list to:
+**Prepare for Twitter first.** Here’s the strategic reasoning: Twitter’s question bank is slightly more demanding, with a higher density of Hard problems and design-oriented coding questions. If you build a study plan that conquers Twitter’s expectations—drilling into graphs, DP, and design patterns—you will automatically cover the vast majority of eBay’s Medium-difficulty, array/string/hash-table core. You’ll be over-prepared for eBay’s difficulty curve, which is a confident position to be in. The final step would be to do a focused review on eBay’s specific favorite: interval and sorting problems, which are generally quick to master once your core problem-solving muscles are strong.
 
-- Tackle more Hard problems.
-- Practice integrating system design principles into your code (e.g., discussing trade-offs between different data structures for a massive-scale feature).
-- Get accustomed to questions where the "design" of your code’s structure and API is as important as the algorithm itself.
+By using this targeted, overlap-first approach, you transform preparing for two companies from a daunting task into an efficient, layered strategy.
 
-This approach ensures you build a strong, versatile core competency before specializing in the deeper optimization and design focus required at Twitter.
-
-For targeted practice, explore the company-specific question lists: [eBay Interview Questions](/company/ebay) and [Twitter Interview Questions](/company/twitter).
+For deeper dives into each company's process, check out our dedicated pages: [/company/ebay](/company/ebay) and [/company/twitter](/company/twitter).

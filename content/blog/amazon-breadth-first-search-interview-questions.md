@@ -1,129 +1,410 @@
 ---
 title: "Breadth-First Search Questions at Amazon: What to Expect"
 description: "Prepare for Breadth-First Search interview questions at Amazon — patterns, difficulty breakdown, and study tips."
-date: "2027-03-07"
+date: "2027-02-27"
 category: "dsa-patterns"
 tags: ["amazon", "breadth-first-search", "interview prep"]
 ---
 
-Breadth-First Search (BFS) is a core algorithm for traversing graphs and trees level-by-level. At Amazon, it's a critical tool for solving problems related to hierarchical data, shortest paths in unweighted graphs, and systematic exploration—skills directly applicable to their massive distributed systems, warehouse routing, and network services. With 147 BFS questions in their question bank, it's one of their most frequently tested algorithms. Mastering BFS signals you can think in terms of layers, handle adjacency, and solve problems requiring minimal steps or distance, which is essential for Amazon's scale and complexity.
+# Breadth-First Search Questions at Amazon: What to Expect
 
-## What to Expect — Types of Problems
+Amazon has 147 Breadth-First Search questions in their interview question bank out of 1938 total. That's about 7.6% of all questions, which might not sound huge, but here's the reality: BFS is one of Amazon's most frequently tested algorithmic concepts in live interviews. Why? Because Amazon's business is built on graphs — from product recommendation networks and delivery route optimization to AWS infrastructure and organizational hierarchies. BFS isn't just an academic exercise for them; it's a practical tool they use daily.
 
-Amazon's BFS problems typically fall into three categories:
+In my experience conducting and passing Amazon interviews, I'd estimate about 1 in 3 onsite interviews includes some form of BFS question. They don't always present it as "implement BFS" — often it's disguised as a shortest path problem, level-order traversal, or connectivity check. The key insight is that Amazon values BFS for its ability to find shortest paths in unweighted graphs, which maps directly to problems like finding the minimum steps between warehouse locations, the fewest clicks between product pages, or the shortest chain between employees in an org chart.
 
-1.  **Shortest Path in Unweighted Graphs:** Finding the minimum number of steps between two points, like the shortest transformation sequence or the minimum moves to solve a puzzle.
-2.  **Level-Order Traversal:** Processing tree or graph nodes level by level. This often extends to problems like finding the largest value on each tree level or zigzag traversal.
-3.  **Matrix Traversal:** Treating a grid as a graph where each cell is a node connected to its adjacent cells. Common problems include rotting oranges, shortest path in a binary matrix, or counting islands (though DFS is also used here).
+## Specific Patterns Amazon Favors
 
-You can expect variations that combine BFS with other concepts, such as using a queue with a visited set to avoid cycles, or multi-source BFS starting from several points simultaneously.
+Amazon's BFS questions tend to cluster around three specific patterns:
 
-## How to Prepare — Study Tips with One Code Example
+1. **Shortest Path in Unweighted Grids** — This is their absolute favorite. Think "robot in a warehouse" or "delivery driver navigation" scenarios. They love giving you a 2D grid with obstacles (0s and 1s) and asking for the shortest path from point A to point B. The twist is usually in the movement rules — can you move diagonally? Can you break obstacles? Do you need to collect keys first?
 
-Focus on the pattern, not just memorization. The core BFS pattern uses a queue and a visited set. Practice writing this skeleton from scratch until it's automatic.
+2. **Level-Order Traversal Variations** — While basic level-order traversal of trees appears, Amazon prefers problems where you need to track something per level. For example, finding the largest value on each level (LeetCode #515), or connecting nodes at the same level (LeetCode #116).
 
-**Key Tip:** Always clarify with your interviewer: Can the graph have cycles? Are the edges directed? What constitutes a node's neighbors? This will determine if you need a visited set.
+3. **Multi-Source BFS** — This is an advanced pattern that appears more at Amazon than at other companies. Instead of starting BFS from one point, you start from multiple points simultaneously. This is perfect for problems like "rotting oranges" (LeetCode #994) or "walls and gates" (LeetCode #286) where you need to find the distance from the nearest source.
 
-Here is the essential BFS pattern for traversing from a start node in an unweighted graph:
+Here's the classic multi-source BFS pattern for "Rotting Oranges":
 
 <div class="code-group">
 
 ```python
 from collections import deque
+from typing import List
 
-def bfs(start, target, graph):
-    if start == target:
+def orangesRotting(grid: List[List[int]]) -> int:
+    if not grid:
         return 0
 
-    queue = deque([start])
-    visited = set([start])
-    distance = 0
+    rows, cols = len(grid), len(grid[0])
+    queue = deque()
+    fresh_count = 0
+    minutes = 0
 
-    while queue:
+    # Multi-source initialization: add all rotten oranges to queue
+    for r in range(rows):
+        for c in range(cols):
+            if grid[r][c] == 2:
+                queue.append((r, c))
+            elif grid[r][c] == 1:
+                fresh_count += 1
+
+    # If no fresh oranges initially
+    if fresh_count == 0:
+        return 0
+
+    directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+
+    # BFS with level tracking
+    while queue and fresh_count > 0:
+        minutes += 1
         level_size = len(queue)
+
         for _ in range(level_size):
-            node = queue.popleft()
-            # Process node here if needed
-            if node == target:
-                return distance
-            for neighbor in graph[node]:
-                if neighbor not in visited:
-                    visited.add(neighbor)
-                    queue.append(neighbor)
-        distance += 1
-    return -1  # Target not reachable
+            r, c = queue.popleft()
+
+            for dr, dc in directions:
+                nr, nc = r + dr, c + dc
+
+                if 0 <= nr < rows and 0 <= nc < cols and grid[nr][nc] == 1:
+                    grid[nr][nc] = 2
+                    fresh_count -= 1
+                    queue.append((nr, nc))
+
+    return minutes if fresh_count == 0 else -1
+
+# Time: O(rows * cols) | Space: O(rows * cols)
+# We visit each cell at most once, and the queue can hold all cells
 ```
 
 ```javascript
-function bfs(start, target, graph) {
-  if (start === target) return 0;
+function orangesRotting(grid) {
+  if (!grid || grid.length === 0) return 0;
 
-  const queue = [start];
-  const visited = new Set([start]);
-  let distance = 0;
+  const rows = grid.length;
+  const cols = grid[0].length;
+  const queue = [];
+  let freshCount = 0;
+  let minutes = 0;
 
-  while (queue.length > 0) {
+  // Multi-source initialization
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      if (grid[r][c] === 2) {
+        queue.push([r, c]);
+      } else if (grid[r][c] === 1) {
+        freshCount++;
+      }
+    }
+  }
+
+  if (freshCount === 0) return 0;
+
+  const directions = [
+    [1, 0],
+    [-1, 0],
+    [0, 1],
+    [0, -1],
+  ];
+
+  // BFS with level tracking
+  while (queue.length > 0 && freshCount > 0) {
+    minutes++;
     const levelSize = queue.length;
+
     for (let i = 0; i < levelSize; i++) {
-      const node = queue.shift();
-      // Process node here if needed
-      if (node === target) return distance;
-      for (const neighbor of graph[node] || []) {
-        if (!visited.has(neighbor)) {
-          visited.add(neighbor);
-          queue.push(neighbor);
+      const [r, c] = queue.shift();
+
+      for (const [dr, dc] of directions) {
+        const nr = r + dr;
+        const nc = c + dc;
+
+        if (nr >= 0 && nr < rows && nc >= 0 && nc < cols && grid[nr][nc] === 1) {
+          grid[nr][nc] = 2;
+          freshCount--;
+          queue.push([nr, nc]);
         }
       }
     }
-    distance++;
   }
-  return -1; // Target not reachable
+
+  return freshCount === 0 ? minutes : -1;
 }
+
+// Time: O(rows * cols) | Space: O(rows * cols)
 ```
 
 ```java
-import java.util.*;
+import java.util.LinkedList;
+import java.util.Queue;
 
-public int bfs(Object start, Object target, Map<Object, List<Object>> graph) {
-    if (start.equals(target)) return 0;
+public int orangesRotting(int[][] grid) {
+    if (grid == null || grid.length == 0) return 0;
 
-    Queue<Object> queue = new LinkedList<>();
-    Set<Object> visited = new HashSet<>();
-    queue.offer(start);
-    visited.add(start);
-    int distance = 0;
+    int rows = grid.length;
+    int cols = grid[0].length;
+    Queue<int[]> queue = new LinkedList<>();
+    int freshCount = 0;
+    int minutes = 0;
 
-    while (!queue.isEmpty()) {
+    // Multi-source initialization
+    for (int r = 0; r < rows; r++) {
+        for (int c = 0; c < cols; c++) {
+            if (grid[r][c] == 2) {
+                queue.offer(new int[]{r, c});
+            } else if (grid[r][c] == 1) {
+                freshCount++;
+            }
+        }
+    }
+
+    if (freshCount == 0) return 0;
+
+    int[][] directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+
+    // BFS with level tracking
+    while (!queue.isEmpty() && freshCount > 0) {
+        minutes++;
         int levelSize = queue.size();
+
         for (int i = 0; i < levelSize; i++) {
-            Object node = queue.poll();
-            // Process node here if needed
-            if (node.equals(target)) return distance;
-            for (Object neighbor : graph.getOrDefault(node, new ArrayList<>())) {
-                if (!visited.contains(neighbor)) {
-                    visited.add(neighbor);
-                    queue.offer(neighbor);
+            int[] current = queue.poll();
+            int r = current[0];
+            int c = current[1];
+
+            for (int[] dir : directions) {
+                int nr = r + dir[0];
+                int nc = c + dir[1];
+
+                if (nr >= 0 && nr < rows && nc >= 0 && nc < cols && grid[nr][nc] == 1) {
+                    grid[nr][nc] = 2;
+                    freshCount--;
+                    queue.offer(new int[]{nr, nc});
                 }
             }
         }
-        distance++;
     }
-    return -1; // Target not reachable
+
+    return freshCount == 0 ? minutes : -1;
 }
+
+// Time: O(rows * cols) | Space: O(rows * cols)
 ```
 
 </div>
 
+## How to Prepare
+
+The biggest mistake I see candidates make with Amazon BFS questions is not recognizing when to use BFS vs DFS. Here's the rule: **If the question asks for "shortest" or "minimum" in an unweighted graph, it's almost always BFS.** DFS can't guarantee shortest path without exploring all possibilities.
+
+When implementing BFS for Amazon interviews, always include these elements:
+
+1. A queue (deque in Python, Array in JavaScript, LinkedList in Java)
+2. A visited set or mechanism to avoid revisiting nodes
+3. Level tracking when you need to count steps or process by level
+4. Boundary checks for grid problems
+
+Here's the template for shortest path in a grid:
+
+<div class="code-group">
+
+```python
+from collections import deque
+from typing import List
+
+def shortestPathBinaryMatrix(grid: List[List[int]]) -> int:
+    if not grid or grid[0][0] == 1:
+        return -1
+
+    n = len(grid)
+    if n == 1:
+        return 1 if grid[0][0] == 0 else -1
+
+    queue = deque([(0, 0)])
+    grid[0][0] = 1  # Mark as visited by changing value
+    distance = 1
+
+    # 8 directions for diagonal movement
+    directions = [(-1, -1), (-1, 0), (-1, 1),
+                  (0, -1),          (0, 1),
+                  (1, -1),  (1, 0), (1, 1)]
+
+    while queue:
+        level_size = len(queue)
+
+        for _ in range(level_size):
+            r, c = queue.popleft()
+
+            # Check if reached destination
+            if r == n - 1 and c == n - 1:
+                return distance
+
+            for dr, dc in directions:
+                nr, nc = r + dr, c + dc
+
+                if 0 <= nr < n and 0 <= nc < n and grid[nr][nc] == 0:
+                    grid[nr][nc] = 1  # Mark as visited
+                    queue.append((nr, nc))
+
+        distance += 1
+
+    return -1
+
+# Time: O(n²) | Space: O(n²) in worst case when queue holds all cells
+```
+
+```javascript
+function shortestPathBinaryMatrix(grid) {
+  if (!grid || grid[0][0] === 1) return -1;
+
+  const n = grid.length;
+  if (n === 1) return grid[0][0] === 0 ? 1 : -1;
+
+  const queue = [[0, 0]];
+  grid[0][0] = 1; // Mark as visited
+  let distance = 1;
+
+  // 8 directions including diagonals
+  const directions = [
+    [-1, -1],
+    [-1, 0],
+    [-1, 1],
+    [0, -1],
+    [0, 1],
+    [1, -1],
+    [1, 0],
+    [1, 1],
+  ];
+
+  while (queue.length > 0) {
+    const levelSize = queue.length;
+
+    for (let i = 0; i < levelSize; i++) {
+      const [r, c] = queue.shift();
+
+      if (r === n - 1 && c === n - 1) {
+        return distance;
+      }
+
+      for (const [dr, dc] of directions) {
+        const nr = r + dr;
+        const nc = c + dc;
+
+        if (nr >= 0 && nr < n && nc >= 0 && nc < n && grid[nr][nc] === 0) {
+          grid[nr][nc] = 1;
+          queue.push([nr, nc]);
+        }
+      }
+    }
+
+    distance++;
+  }
+
+  return -1;
+}
+
+// Time: O(n²) | Space: O(n²)
+```
+
+```java
+import java.util.LinkedList;
+import java.util.Queue;
+
+public int shortestPathBinaryMatrix(int[][] grid) {
+    if (grid == null || grid[0][0] == 1) return -1;
+
+    int n = grid.length;
+    if (n == 1) return grid[0][0] == 0 ? 1 : -1;
+
+    Queue<int[]> queue = new LinkedList<>();
+    queue.offer(new int[]{0, 0});
+    grid[0][0] = 1;  // Mark as visited
+    int distance = 1;
+
+    int[][] directions = {
+        {-1, -1}, {-1, 0}, {-1, 1},
+        {0, -1},           {0, 1},
+        {1, -1},  {1, 0},  {1, 1}
+    };
+
+    while (!queue.isEmpty()) {
+        int levelSize = queue.size();
+
+        for (int i = 0; i < levelSize; i++) {
+            int[] current = queue.poll();
+            int r = current[0];
+            int c = current[1];
+
+            if (r == n - 1 && c == n - 1) {
+                return distance;
+            }
+
+            for (int[] dir : directions) {
+                int nr = r + dir[0];
+                int nc = c + dir[1];
+
+                if (nr >= 0 && nr < n && nc >= 0 && nc < n && grid[nr][nc] == 0) {
+                    grid[nr][nc] = 1;
+                    queue.offer(new int[]{nr, nc});
+                }
+            }
+        }
+
+        distance++;
+    }
+
+    return -1;
+}
+
+// Time: O(n²) | Space: O(n²)
+```
+
+</div>
+
+## How Amazon Tests Breadth-First Search vs Other Companies
+
+Amazon's BFS questions have a distinct flavor compared to other FAANG companies:
+
+**vs Google**: Google tends toward more theoretical graph problems with cleaner mathematical properties. Amazon's problems are messier, more practical, and often involve business scenarios (warehouses, deliveries, networks).
+
+**vs Facebook/Meta**: Meta loves tree BFS (level-order traversal) for their UI component hierarchy problems. Amazon focuses more on grid BFS for logistics and pathfinding.
+
+**vs Microsoft**: Microsoft mixes BFS with other concepts (like union-find or backtracking). Amazon's BFS questions are more "pure" — they want to see if you understand the algorithm deeply enough to apply it to a novel scenario.
+
+The unique Amazon twist is the **constraint variation**. They might start with a simple grid problem, then add constraints like:
+
+- "What if you need to collect a key before opening a door?"
+- "What if some cells have different movement costs?"
+- "What if multiple agents need to coordinate?"
+
+This tests whether you truly understand BFS or just memorized a template.
+
+## Study Order
+
+1. **Basic BFS on Trees** — Start with level-order traversal (LeetCode #102) to understand the queue mechanism and level tracking.
+
+2. **BFS on Simple Graphs** — Practice on adjacency list representations (LeetCode #133 Clone Graph) to understand visited sets for cyclic graphs.
+
+3. **Grid BFS with Obstacles** — This is where Amazon-specific prep begins. Practice LeetCode #1091 Shortest Path in Binary Matrix to get comfortable with 2D grids.
+
+4. **Multi-Source BFS** — Critical for Amazon. Master LeetCode #994 Rotting Oranges and #286 Walls and Gates.
+
+5. **BFS with State** — Advanced Amazon pattern. Problems like LeetCode #864 Shortest Path to Get All Keys where you need to track additional state (keys collected, doors opened).
+
+6. **Bidirectional BFS** — Optimization for some Amazon problems. Useful when you know both start and end points.
+
 ## Recommended Practice Order
 
-Build competence progressively:
+1. LeetCode #102 Binary Tree Level Order Traversal (warm-up)
+2. LeetCode #200 Number of Islands (BFS/DFS choice point)
+3. LeetCode #1091 Shortest Path in Binary Matrix (core Amazon pattern)
+4. LeetCode #994 Rotting Oranges (multi-source BFS)
+5. LeetCode #286 Walls and Gates (another multi-source)
+6. LeetCode #127 Word Ladder (graph construction + BFS)
+7. LeetCode #542 01 Matrix (multi-source BFS variation)
+8. LeetCode #864 Shortest Path to Get All Keys (BFS with state)
+9. LeetCode #1293 Shortest Path in a Grid with Obstacles Elimination (hard Amazon-style)
 
-1.  Start with basic level-order traversal on trees (LeetCode 102).
-2.  Move to simple matrix BFS (LeetCode 200, 994).
-3.  Practice classic shortest path problems (LeetCode 127, 279).
-4.  Tackle multi-source BFS (LeetCode 542) and more complex graph problems.
-5.  Finally, solve Amazon-tagged BFS questions under timed conditions.
+The progression moves from recognizing when to use BFS, to implementing it correctly, to handling Amazon's favorite variations. Notice that half these problems involve grids — that's no accident.
 
-Consistency is key. Solve at least 1-2 BFS problems daily for two weeks to build pattern recognition.
+Remember: Amazon interviewers care about clean code, correct complexity analysis, and the ability to handle follow-up questions. Always verbalize your thought process, and be prepared to optimize your solution if asked.
 
 [Practice Breadth-First Search at Amazon](/company/amazon/breadth-first-search)

@@ -1,104 +1,307 @@
 ---
 title: "Heap (Priority Queue) Questions at Pinterest: What to Expect"
 description: "Prepare for Heap (Priority Queue) interview questions at Pinterest — patterns, difficulty breakdown, and study tips."
-date: "2029-09-10"
+date: "2029-09-02"
 category: "dsa-patterns"
 tags: ["pinterest", "heap-priority-queue", "interview prep"]
 ---
 
-Heap (Priority Queue) is a critical data structure for Pinterest’s engineering interviews. With 6 out of 48 total tagged questions, it’s a frequent topic because it models real Pinterest systems. The platform constantly ranks and serves content—pins, boards, search results, and notifications—based on dynamic metrics like engagement, freshness, and user affinity. A heap’s ability to efficiently retrieve the “top K” or “most relevant” items in real-time is essential for building a responsive, personalized feed. Mastering heaps demonstrates you can design systems that prioritize millions of data points at scale.
+# Heap (Priority Queue) Questions at Pinterest: What to Expect
 
-## What to Expect — types of problems
+If you're preparing for Pinterest interviews, you might have noticed they have 6 Heap (Priority Queue) questions out of their 48 total tagged problems. That's 12.5% — not a massive focus, but significant enough that you'll likely encounter at least one heap question in your interview loop. The real insight? Pinterest uses heaps not as abstract algorithm trivia, but as practical tools for the types of problems they actually solve: content ranking, recommendation systems, and handling streaming data with priority constraints.
 
-Pinterest’s heap questions typically focus on two core patterns that mirror their product needs.
+Unlike companies that might ask heap questions purely to test algorithmic knowledge, Pinterest's heap problems tend to mirror real engineering challenges they face. When you're deciding which pins to show next in a user's feed, or processing millions of events to identify trending content, you're dealing with top-K elements, merging sorted streams, and scheduling tasks — all classic heap territory. So while you won't get a heap question in every interview, when you do get one, it's often a signal that the interviewer wants to see how you apply data structures to practical, scalable systems.
 
-**Top K / K-th Element Problems:** These are the most common. You’ll be asked to find the most frequent pins, the best recommendations, or the nearest locations. Examples include “Top K Frequent Pins” or “K Closest Servers.” The heap provides an O(n log k) solution, which is optimal for large, streaming data.
+## Specific Patterns Pinterest Favors
 
-**Merge K Sorted Lists/Streams:** Pinterest aggregates content from countless sources—user follows, interests, and trends. Questions like merging K sorted lists of pin IDs or timelines test your ability to efficiently combine multiple sorted data streams, a direct analog for building a unified feed.
+Pinterest's heap questions cluster around three practical patterns:
 
-Expect problems framed around real-world scenarios: ranking search autocomplete suggestions, scheduling background tasks for pin processing, or deduplicating near-identical content. The heap is rarely the final answer in isolation; you must justify its use over sorting or quickselect and discuss trade-offs in time, space, and data characteristics.
+1. **Top-K with frequency tracking** — Their most common pattern by far. Think "find the K most frequent pins" or "identify trending hashtags." These problems combine hash maps for counting with min-heaps for maintaining the top K elements efficiently. LeetCode #347 (Top K Frequent Elements) is the archetype here.
 
-## How to Prepare — study tips with one code example
+2. **Merging K sorted lists/streams** — Pinterest deals with multiple data sources (user feeds, search results, recommended content). Merging these efficiently is crucial. LeetCode #23 (Merge k Sorted Lists) appears in their list, and variations with streaming data are common.
 
-Focus on the two patterns above. Implement a min-heap and max-heap from scratch once to understand `heapify` and `sift` operations, but rely on language-standard libraries during practice. In interviews, you’ll use `heapq` (Python), `PriorityQueue` (Java), or manually simulate with arrays (JavaScript).
+3. **Interval scheduling with priority** — While less frequent, problems like meeting rooms (#253) or task scheduling appear because they model real resource allocation problems in distributed systems.
 
-Always verbalize the heap property: a complete binary tree where each node is ≤ (min-heap) or ≥ (max-heap) its children. For “Top K” problems, remember: use a _min-heap_ of size K to keep the largest K elements (pushing new values and popping the smallest), or a _max-heap_ for the smallest K.
+What's notably absent? Pure "find the median" problems or overly mathematical heap applications. Pinterest's questions are grounded in data processing scenarios.
 
-Here is the essential “Top K Frequent” pattern applied to finding the most common pin IDs:
+## How to Prepare
+
+The key insight for Pinterest heap questions: they're rarely just about the heap. They're about combining the heap with other structures. Let's look at the top-K pattern, which appears in 4 of their 6 heap questions.
 
 <div class="code-group">
 
 ```python
-import heapq
-from collections import Counter
+def topKFrequent(nums, k):
+    """
+    Find the k most frequent elements.
+    Time: O(n log k) - n elements, heap operations are log k
+    Space: O(n) - for the frequency map and heap
+    """
+    from collections import Counter
+    import heapq
 
-def top_k_frequent(pins, k):
-    count = Counter(pins)
-    # Use min-heap of size k storing (frequency, pin)
+    # Count frequencies - O(n)
+    freq = Counter(nums)
+
+    # Use min-heap to keep top k elements
+    # Heap stores (frequency, element) pairs
     heap = []
-    for pin, freq in count.items():
-        heapq.heappush(heap, (freq, pin))
+
+    for num, count in freq.items():
+        heapq.heappush(heap, (count, num))
+
+        # If heap exceeds k, remove the least frequent
         if len(heap) > k:
-            heapq.heappop(heap)  # Remove least frequent
-    # Heap now contains top k frequent pins
-    return [pin for _, pin in heap]
+            heapq.heappop(heap)
+
+    # Extract elements from heap
+    return [num for count, num in heap]
+
+# Example: topKFrequent([1,1,1,2,2,3], 2) returns [1,2]
 ```
 
 ```javascript
-function topKFrequent(pins, k) {
-  const freqMap = {};
-  for (const pin of pins) {
-    freqMap[pin] = (freqMap[pin] || 0) + 1;
+function topKFrequent(nums, k) {
+  /**
+   * Find the k most frequent elements.
+   * Time: O(n log k) - n elements, heap operations are log k
+   * Space: O(n) - for the frequency map and heap
+   */
+  const freq = new Map();
+
+  // Count frequencies - O(n)
+  for (const num of nums) {
+    freq.set(num, (freq.get(num) || 0) + 1);
   }
-  // Min-heap simulation using array sort
+
+  // Min-heap implementation (using array and comparator)
   const heap = [];
-  for (const [pin, freq] of Object.entries(freqMap)) {
-    heap.push([freq, pin]);
-    heap.sort((a, b) => a[0] - b[0]); // Keep sorted as min-heap
+
+  const pushHeap = (count, num) => {
+    heap.push([count, num]);
+    heap.sort((a, b) => a[0] - b[0]); // Min-heap by count
+  };
+
+  const popHeap = () => {
+    heap.sort((a, b) => a[0] - b[0]);
+    return heap.shift();
+  };
+
+  // Build heap with at most k elements
+  for (const [num, count] of freq.entries()) {
+    pushHeap(count, num);
+
     if (heap.length > k) {
-      heap.shift(); // Remove smallest frequency
+      popHeap();
     }
   }
+
   return heap.map((item) => item[1]);
 }
 ```
 
 ```java
-import java.util.*;
+public List<Integer> topKFrequent(int[] nums, int k) {
+    /**
+     * Find the k most frequent elements.
+     * Time: O(n log k) - n elements, heap operations are log k
+     * Space: O(n) - for the frequency map and heap
+     */
+    Map<Integer, Integer> freq = new HashMap<>();
 
-public class Solution {
-    public List<String> topKFrequent(String[] pins, int k) {
-        Map<String, Integer> count = new HashMap<>();
-        for (String pin : pins) {
-            count.put(pin, count.getOrDefault(pin, 0) + 1);
-        }
-        // Min-heap: comparator compares frequencies
-        PriorityQueue<Map.Entry<String, Integer>> heap =
-            new PriorityQueue<>((a, b) -> a.getValue() - b.getValue());
-        for (Map.Entry<String, Integer> entry : count.entrySet()) {
-            heap.offer(entry);
-            if (heap.size() > k) {
-                heap.poll(); // Remove least frequent
-            }
-        }
-        List<String> result = new ArrayList<>();
-        while (!heap.isEmpty()) {
-            result.add(heap.poll().getKey());
-        }
-        Collections.reverse(result); // Optional: restore descending order
-        return result;
+    // Count frequencies - O(n)
+    for (int num : nums) {
+        freq.put(num, freq.getOrDefault(num, 0) + 1);
     }
+
+    // Min-heap: store entries with smallest frequency at top
+    PriorityQueue<Map.Entry<Integer, Integer>> heap =
+        new PriorityQueue<>((a, b) -> a.getValue() - b.getValue());
+
+    // Build heap with at most k elements
+    for (Map.Entry<Integer, Integer> entry : freq.entrySet()) {
+        heap.offer(entry);
+
+        if (heap.size() > k) {
+            heap.poll();
+        }
+    }
+
+    // Extract results
+    List<Integer> result = new ArrayList<>();
+    while (!heap.isEmpty()) {
+        result.add(heap.poll().getKey());
+    }
+
+    return result;
 }
 ```
 
 </div>
 
+Notice the pattern: count first, then heap. The heap only needs to store K elements, giving us O(n log k) instead of O(n log n). This optimization matters at Pinterest scale.
+
+For merging K sorted lists, the pattern is similar but with a different comparator:
+
+<div class="code-group">
+
+```python
+def mergeKLists(lists):
+    """
+    Merge k sorted linked lists.
+    Time: O(n log k) where n is total nodes
+    Space: O(k) for the heap
+    """
+    import heapq
+
+    # Min-heap stores (value, list_index, node)
+    heap = []
+
+    # Initialize heap with first node from each list
+    for i, lst in enumerate(lists):
+        if lst:
+            heapq.heappush(heap, (lst.val, i, lst))
+
+    dummy = ListNode(0)
+    current = dummy
+
+    while heap:
+        val, i, node = heapq.heappop(heap)
+        current.next = node
+        current = current.next
+
+        # Add next node from the same list
+        if node.next:
+            heapq.heappush(heap, (node.next.val, i, node.next))
+
+    return dummy.next
+```
+
+```javascript
+function mergeKLists(lists) {
+  /**
+   * Merge k sorted linked lists.
+   * Time: O(n log k) where n is total nodes
+   * Space: O(k) for the heap
+   */
+  // Min-heap implementation
+  const heap = [];
+
+  const pushHeap = (node, listIndex) => {
+    heap.push({ val: node.val, listIndex, node });
+    heap.sort((a, b) => a.val - b.val);
+  };
+
+  const popHeap = () => {
+    heap.sort((a, b) => a.val - b.val);
+    return heap.shift();
+  };
+
+  // Initialize heap
+  for (let i = 0; i < lists.length; i++) {
+    if (lists[i]) {
+      pushHeap(lists[i], i);
+    }
+  }
+
+  const dummy = new ListNode(0);
+  let current = dummy;
+
+  while (heap.length > 0) {
+    const { node, listIndex } = popHeap();
+    current.next = node;
+    current = current.next;
+
+    if (node.next) {
+      pushHeap(node.next, listIndex);
+    }
+  }
+
+  return dummy.next;
+}
+```
+
+```java
+public ListNode mergeKLists(ListNode[] lists) {
+    /**
+     * Merge k sorted linked lists.
+     * Time: O(n log k) where n is total nodes
+     * Space: O(k) for the heap
+     */
+    PriorityQueue<ListNode> heap = new PriorityQueue<>(
+        (a, b) -> a.val - b.val
+    );
+
+    // Initialize heap
+    for (ListNode list : lists) {
+        if (list != null) {
+            heap.offer(list);
+        }
+    }
+
+    ListNode dummy = new ListNode(0);
+    ListNode current = dummy;
+
+    while (!heap.isEmpty()) {
+        ListNode node = heap.poll();
+        current.next = node;
+        current = current.next;
+
+        if (node.next != null) {
+            heap.offer(node.next);
+        }
+    }
+
+    return dummy.next;
+}
+```
+
+</div>
+
+## How Pinterest Tests Heap (Priority Queue) vs Other Companies
+
+Pinterest's heap questions differ from other companies in three key ways:
+
+1. **Practical over theoretical**: Google might ask "implement a heap from scratch." Pinterest asks "use a heap to solve this real data processing problem." They care more about application than implementation details.
+
+2. **Moderate difficulty**: Facebook's heap questions can get convoluted with multiple constraints. Pinterest's tend to be medium difficulty — the kind you can solve in 30 minutes with clean code. They're testing if you know the pattern, not if you're an algorithms PhD.
+
+3. **Follow-up heavy**: The initial heap solution is often just the beginning. Expect follow-ups like "what if K is very large?" or "how would this work with streaming data?" They want to see you think about scale.
+
+At companies like Amazon, heap questions often relate to system design (load balancing, task scheduling). At Pinterest, they relate to product features (ranking, recommendations).
+
+## Study Order
+
+1. **Basic heap operations** — Understand insert (O(log n)) and extract-min/max (O(log n)). Know when to use min-heap vs max-heap.
+
+2. **Top-K pattern** — Start here because it's Pinterest's most frequent pattern. Master the hashmap + heap combination.
+
+3. **K-way merge** — Learn to merge multiple sorted streams. This builds on basic heap operations.
+
+4. **Interval problems** — These combine heaps with sorting and greedy algorithms.
+
+5. **Custom comparators** — Practice implementing heaps with custom sorting logic (common in object-oriented problems).
+
+This order works because each step builds on the previous. Top-K teaches you the core "maintain K elements in a heap" pattern. K-way merge applies this to multiple streams. Interval problems add time-based thinking. Custom comparators prepare you for real-world objects.
+
 ## Recommended Practice Order
 
-1.  **Fundamentals:** Implement basic heap operations. Solve “Kth Largest Element in a Stream.”
-2.  **Top K Pattern:** Practice “Top K Frequent Elements,” “K Closest Points to Origin,” and “Find K Pairs with Smallest Sums.”
-3.  **Merge K Sorted:** Solve “Merge K Sorted Lists” and “Kth Smallest Element in a Sorted Matrix.”
-4.  **Pinterest-Specific:** Attempt all 6 tagged Pinterest heap questions. Simulate interview conditions—time yourself and explain your reasoning aloud.
-5.  **Optimization:** For each problem, analyze time/space complexity and consider follow-ups: “What if the data doesn’t fit in memory?” (Use external merge with a heap).
+Solve these in sequence:
+
+1. **LeetCode #347 (Top K Frequent Elements)** — The fundamental pattern. Do this until you can code it in under 5 minutes.
+
+2. **LeetCode #215 (Kth Largest Element in an Array)** — Simpler variant of top-K. Good for building confidence.
+
+3. **LeetCode #23 (Merge k Sorted Lists)** — The classic K-way merge problem.
+
+4. **LeetCode #253 (Meeting Rooms II)** — Interval scheduling with a heap. Tests if you can adapt the pattern.
+
+5. **LeetCode #621 (Task Scheduler)** — More complex scheduling problem that uses similar patterns.
+
+6. **LeetCode #767 (Reorganize String)** — Advanced pattern that combines frequency counting with greedy heap usage.
+
+After these six, you'll have covered every heap pattern Pinterest uses. Time yourself: you should solve medium heap problems in 20-25 minutes to have time for follow-ups.
+
+Remember: at Pinterest, the heap is a means to an end. They want to see that you can recognize when a heap is the right tool, implement it cleanly, and discuss its limitations at scale. Practice not just solving the problems, but explaining your tradeoffs aloud.
 
 [Practice Heap (Priority Queue) at Pinterest](/company/pinterest/heap-priority-queue)

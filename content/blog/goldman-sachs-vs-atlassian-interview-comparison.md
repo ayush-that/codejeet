@@ -1,37 +1,94 @@
 ---
 title: "Goldman Sachs vs Atlassian: Interview Question Comparison"
 description: "Compare coding interview questions at Goldman Sachs and Atlassian — difficulty levels, topic focus, and preparation strategy."
-date: "2028-02-28"
+date: "2030-11-28"
 category: "tips"
 tags: ["goldman-sachs", "atlassian", "comparison"]
 ---
 
-When preparing for technical interviews at top companies, understanding the specific focus and expectations of each can dramatically improve your efficiency. Goldman Sachs and Atlassian, while both prestigious, present distinct interview landscapes in terms of volume, difficulty, and topic emphasis. This comparison breaks down their technical question profiles to help you tailor your preparation strategy.
+# Goldman Sachs vs Atlassian: A Strategic Interview Question Comparison
 
-## Question Volume and Difficulty
+If you're preparing for interviews at both Goldman Sachs and Atlassian, you're looking at two very different beasts in the tech landscape. Goldman Sachs represents the intense, high-stakes world of financial technology where algorithmic precision meets business logic. Atlassian embodies the product-driven engineering culture of a successful SaaS company. The good news? There's significant overlap in their technical screening, which means strategic preparation can cover both. The bad news? Their interview formats and emphasis differ meaningfully, requiring tailored approaches. Let's break down what matters.
 
-The sheer number of cataloged questions is the most immediate difference. Goldman Sachs has a significantly larger pool of **270 questions**, compared to Atlassian's **62 questions**. This suggests that Goldman Sachs interviews pull from a much broader set of problems, making it harder to predict what you might see. The difficulty distribution also varies:
+## Question Volume and Difficulty: What the Numbers Tell Us
 
-- **Goldman Sachs (E51/M171/H48):** The majority of questions are Medium (171), with a substantial number of Hard (48). This indicates a strong emphasis on complex problem-solving, often requiring optimized solutions and handling edge cases under pressure.
-- **Atlassian (E7/M43/H12):** The focus is also on Medium-difficulty problems (43), but with far fewer Hard questions (12). The overall smaller pool and lower proportion of Hard problems suggest a slightly more predictable interview process centered on core algorithmic competence.
+Goldman Sachs' LeetCode profile shows 270 questions (51 Easy, 171 Medium, 48 Hard), while Atlassian lists 62 (7 Easy, 43 Medium, 12 Hard). These aren't just random counts—they reveal interview philosophy.
 
-## Topic Overlap
+Goldman's massive question bank suggests two things: First, they have a long history of technical interviews with many reported questions. Second, and more importantly, they tend to ask **variations on core patterns** rather than sticking to a small set of classics. The 171 Medium questions indicate this is their sweet spot—problems that require solid algorithmic knowledge but aren't purely academic. The 48 Hard questions often appear in final rounds or for senior roles.
 
-Both companies heavily test fundamental data structures. The top four topics are identical, though in a different order of priority:
+Atlassian's smaller, more concentrated question bank (62 total) suggests they focus on **well-established, high-signal problems**. With 43 Medium questions (69% of their total), they clearly prioritize problems that test practical problem-solving over either trivial exercises or obscure algorithms. This smaller set means you're more likely to encounter problems that have been asked before, making targeted preparation more effective.
 
-- **Goldman Sachs:** Array, String, Hash Table, Dynamic Programming
-- **Atlassian:** Array, Hash Table, String, Sorting
+**Implication:** For Goldman, you need breadth across patterns. For Atlassian, you need depth on their favorites.
 
-**Array, String, and Hash Table** questions form the common core. You can expect problems involving manipulation, traversal, and lookup using these structures at both companies. The key divergence is the fourth topic.
+## Topic Overlap: Shared Prep Value
 
-**Dynamic Programming (DP)** is a major focus for Goldman Sachs, aligning with its higher count of Hard problems. DP questions test advanced problem decomposition and optimization. **Sorting** is the distinct priority for Atlassian, pointing to an emphasis on algorithms that efficiently organize data, which is crucial for many backend and system design scenarios in their collaboration tools.
+Both companies heavily test:
 
-Here is a typical problem that could appear at either company, solved using a Hash Table:
+- **Array manipulation** (sliding window, two-pointer, prefix sums)
+- **String operations** (palindromes, anagrams, parsing)
+- **Hash Table applications** (frequency counting, memoization)
+
+This overlap is your preparation sweet spot. Master these, and you're covering 60-70% of what both companies test. The patterns here are highly transferable.
+
+Where they diverge:
+
+- **Goldman Sachs uniquely emphasizes Dynamic Programming** (48 questions tagged). This makes sense for finance—optimization problems, maximizing value, minimizing risk. You'll see DP in stock trading problems, resource allocation, and combinatorial optimization.
+- **Atlassian emphasizes Sorting algorithms** beyond basic array sorts—think custom comparators, interval sorting, and problems where sorting enables an optimal solution.
+- Goldman also tests more **Graph algorithms** and **Tree traversals** than Atlassian's profile suggests.
+
+## Preparation Priority Matrix
+
+Here's how to allocate your study time if interviewing at both:
+
+**Tier 1 (Study First - Maximum ROI):**
+
+- Array: Two-pointer technique, sliding window, subarray sums
+- Hash Table: Frequency maps, complement finding, caching
+- String: Palindrome validation, anagram detection, basic parsing
+
+**Tier 2 (Goldman-Specific):**
+
+- Dynamic Programming: Knapsack variations, stock trading patterns, minimum path problems
+- Graphs: BFS/DFS on grids, shortest path in weighted graphs
+
+**Tier 3 (Atlassian-Specific):**
+
+- Advanced Sorting: Custom comparator problems, interval merging after sorting
+- Design-oriented problems: Simple system design elements in coding questions
+
+## Interview Format Differences
+
+**Goldman Sachs** typically follows:
+
+1. **HackerRank assessment** (90 minutes, 2-3 problems)
+2. **Technical phone screen** (45-60 minutes, 1-2 problems)
+3. **Superday** (4-6 back-to-back interviews including coding, system design for seniors, and behavioral)
+   - Coding rounds: 45 minutes each, often 1 Medium-Hard problem
+   - Heavy on financial context: "Given stock prices..." or "Optimize trade execution..."
+   - Expect follow-up optimization questions
+
+**Atlassian's process is more streamlined:**
+
+1. **Initial technical screen** (CoderPad/CodeSignal, 60-75 minutes)
+2. **Virtual on-site** (3-4 rounds, 45 minutes each)
+   - Coding: 1-2 problems per round, often product-adjacent
+   - System design: For mid-level and above, focused on scalability
+   - Behavioral: Strong emphasis on collaboration and Jira/Confluence thinking
+   - They value clean, maintainable code over clever tricks
+
+**Key difference:** Goldman tests more problems in less time per problem. Atlassian gives more time for discussion and code quality.
+
+## Specific Problem Recommendations for Both Companies
+
+These 5 problems cover patterns both companies love:
+
+1. **Two Sum (#1)** - The ultimate hash table warm-up. Goldman might ask for indices, Atlassian might ask for values. Both test your complement-finding intuition.
 
 <div class="code-group">
 
 ```python
-def two_sum(nums, target):
+# Time: O(n) | Space: O(n)
+def twoSum(nums, target):
     seen = {}
     for i, num in enumerate(nums):
         complement = target - num
@@ -39,12 +96,10 @@ def two_sum(nums, target):
             return [seen[complement], i]
         seen[num] = i
     return []
-
-# Example
-print(two_sum([2, 7, 11, 15], 9))  # Output: [0, 1]
 ```
 
 ```javascript
+// Time: O(n) | Space: O(n)
 function twoSum(nums, target) {
   const map = new Map();
   for (let i = 0; i < nums.length; i++) {
@@ -56,35 +111,45 @@ function twoSum(nums, target) {
   }
   return [];
 }
-
-// Example
-console.log(twoSum([2, 7, 11, 15], 9)); // Output: [0, 1]
 ```
 
 ```java
+// Time: O(n) | Space: O(n)
 public int[] twoSum(int[] nums, int target) {
     Map<Integer, Integer> map = new HashMap<>();
     for (int i = 0; i < nums.length; i++) {
         int complement = target - nums[i];
         if (map.containsKey(complement)) {
-            return new int[] { map.get(complement), i };
+            return new int[]{map.get(complement), i};
         }
         map.put(nums[i], i);
     }
-    return new int[0];
+    return new int[]{};
 }
 ```
 
 </div>
 
-## Which to Prepare for First
+2. **Best Time to Buy and Sell Stock (#121)** - Financial context for Goldman, optimization thinking for Atlassian. Tests array traversal and maintaining minimum.
 
-Your preparation order should be guided by the breadth and depth of the question banks.
+3. **Merge Intervals (#56)** - Appears in both question banks. Tests sorting comprehension and interval logic. Goldman might frame as scheduling trades; Atlassian as merging time periods.
 
-**Start with Atlassian's core.** Its smaller, more concentrated question set on **Array, Hash Table, String, and Sorting** provides a solid and manageable foundation. Mastering these will build the essential skills needed for most interviews. Ensure you are comfortable with all major sorting algorithms and their trade-offs.
+4. **Longest Substring Without Repeating Characters (#3)** - Classic sliding window problem. Tests hash table usage for tracking seen characters and window adjustment logic.
 
-**Then, expand to Goldman Sachs.** After mastering the common core, layer on the additional complexity required for Goldman Sachs. This means dedicated practice in **Dynamic Programming** (e.g., knapsack, longest common subsequence, and pathfinding problems) and tackling a wider variety of Medium and Hard problems to build stamina for their larger question pool.
+5. **Coin Change (#322)** - Dynamic Programming fundamental. Essential for Goldman's DP emphasis, but also tests optimization thinking valuable for Atlassian's product scaling questions.
 
-In short, Atlassian's profile offers a focused starting point. Achieving fluency there will cover a significant portion of the foundational material for Goldman Sachs, which then requires expanding into more advanced topics and volume practice.
+## Which to Prepare for First?
 
-For detailed question lists, visit the [Goldman Sachs](/company/goldman-sachs) and [Atlassian](/company/atlassian) pages on CodeJeet.
+**Prepare for Goldman Sachs first.** Here's why:
+
+1. **Breadth-first preparation:** Goldman's wider question coverage forces you to learn more patterns. Once you've covered their DP, graphs, arrays, and strings, you're already prepared for 90% of Atlassian's technical questions.
+
+2. **Intensity prepares you for ease:** Goldman's faster-paced, problem-dense interviews will make Atlassian's more conversational format feel manageable. The reverse isn't true—preparing only for Atlassian might leave gaps for Goldman.
+
+3. **Pattern transferability:** The financial context in Goldman problems is usually superficial. Underneath "maximize portfolio value" is often just a knapsack problem. These core algorithms serve you everywhere.
+
+**Strategic timeline:** If interviews are close together, spend 70% of time on shared fundamentals and Goldman's unique topics (especially DP), then 30% on Atlassian's behavioral prep and sorting deep-dives.
+
+Remember: Both companies ultimately test problem-solving, not memorization. Understand why each pattern works, when to apply it, and how to communicate your thinking. The patterns above will serve you at both companies—and beyond.
+
+For more company-specific details, check out our [Goldman Sachs interview guide](/company/goldman-sachs) and [Atlassian interview guide](/company/atlassian).

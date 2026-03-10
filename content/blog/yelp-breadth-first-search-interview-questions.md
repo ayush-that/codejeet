@@ -1,118 +1,188 @@
 ---
 title: "Breadth-First Search Questions at Yelp: What to Expect"
 description: "Prepare for Breadth-First Search interview questions at Yelp — patterns, difficulty breakdown, and study tips."
-date: "2031-01-15"
+date: "2031-01-07"
 category: "dsa-patterns"
 tags: ["yelp", "breadth-first-search", "interview prep"]
 ---
 
-Breadth-First Search (BFS) is a core algorithm for navigating graphs and trees level by level. At Yelp, it's a practical tool for modeling real-world networks. Think about finding the shortest path between two businesses, discovering connections within social features, or traversing hierarchical categories. Yelp's platform is built on relationships—between users, reviews, locations, and services—making graph traversal algorithms directly relevant to their engineering problems. Of their 27 tagged coding questions, 3 specifically test BFS. While this may seem like a small fraction, BFS is often a fundamental component in solving more complex graph problems, so mastery is non-negotiable.
+Yelp’s engineering interviews are heavily weighted toward practical, real-world problems that map to their core services: location-based search, user reviews, business listings, and mapping features. Breadth-First Search (BFS) appears in about 11% of their tagged questions (3 out of 27), which is a significant concentration. This isn’t a coincidence. BFS is the fundamental algorithm for finding the shortest path in unweighted graphs, making it directly applicable to problems like finding the minimum steps between users and businesses, calculating distances in grid-based maps, or traversing social connections. At Yelp, BFS isn’t just an academic exercise—it’s a tool they use. In interviews, you’re likely to see it disguised as a “minimum steps” or “level-order” problem that mirrors their domain.
 
-## What to Expect — Types of Problems
+## Specific Patterns Yelp Favors
 
-Yelp's BFS questions typically fall into two categories, both emphasizing practical application.
+Yelp’s BFS questions tend to avoid abstract, complex graph theory. Instead, they focus on **grid traversal** and **shortest path in unweighted graphs**—problems that feel like mapping or navigation. You’ll often be given a matrix (like a city grid or a floor plan) where some cells are blocked, and you need to find the shortest path from a start to a target. The constraints usually involve simple movement (up/down/left/right), but sometimes include multi-state BFS where you track an additional condition, like having a key to pass a lock.
 
-**Shortest Path in an Unweighted Graph:** This is the most classic use case. You'll often model a scenario as a grid or an adjacency list where each move or edge has equal cost. Example problems include finding the minimum steps for a delivery driver between two points on a map grid or the minimum number of friend connections between two users. The key is recognizing that BFS inherently finds the shortest path when edges are unweighted.
+A classic example is **LeetCode 994: Rotting Oranges**. This is a multi-source BFS problem where you track the time it takes for rot to spread through a grid—analogous to how a feature might propagate through Yelp’s network. Another is **LeetCode 286: Walls and Gates**, where you find the shortest distance from each empty room to a gate, which maps directly to finding the nearest business of a certain type.
 
-**Level-Order Traversal or Processing:** Here, the goal isn't necessarily a single shortest path, but systematically visiting all nodes in a layered fashion. This is useful for scenarios like broadcasting a message to nearby users in concentric circles or processing batches of data that are one "hop" away. You may need to perform an operation at each level or track the nodes per level.
+Yelp also favors **level-order traversal of trees** (LeetCode 102: Binary Tree Level Order Traversal) because it tests your ability to process data in layers, similar to how they might batch process reviews or listings. The pattern is consistent: start with a queue, process nodes level by level, and track depth or distance.
 
-The problems are designed to test your ability to translate a business context (like "degrees of separation" or "service areas") into a graph model and then apply BFS correctly.
+## How to Prepare
 
-## How to Prepare — Study Tips with One Code Example
+Master the standard BFS template, but be ready to adapt it for Yelp’s style. The core template uses a queue to explore neighbors level by level. For grid problems, you’ll need a directions array and bounds checking. The key variation Yelp tests is **multi-source BFS**—starting BFS from multiple points simultaneously. This is more efficient than running BFS from each source individually.
 
-Focus on the pattern, not just memorization. The core BFS pattern uses a queue and a visited set.
-
-1.  **Memorize the Skeleton:** Internalize the standard iterative BFS template. You should be able to write it without thinking.
-2.  **Model the Graph:** Practice turning problem descriptions into a graph representation. Is it a grid (4-directional or 8-directional moves)? Is it an adjacency list from given edges?
-3.  **Track Extra State:** In interviews, you'll almost always need to track more than just the node. This could be the path distance, the path itself, or an associated value. A common technique is to store tuples `(node, distance)` in the queue.
-
-Here is the essential BFS template for finding the shortest path in an unweighted graph, adaptable to most problems:
+Here’s the multi-source BFS pattern for a grid, using the “rotting oranges” scenario:
 
 <div class="code-group">
 
 ```python
 from collections import deque
 
-def bfs_shortest_path(graph, start, target):
-    if start == target:
+def orangesRotting(grid):
+    rows, cols = len(grid), len(grid[0])
+    queue = deque()
+    fresh_count = 0
+    # Multi-source initialization: all rotten oranges at depth 0
+    for r in range(rows):
+        for c in range(cols):
+            if grid[r][c] == 2:
+                queue.append((r, c, 0))  # (row, col, depth)
+            elif grid[r][c] == 1:
+                fresh_count += 1
+
+    if fresh_count == 0:
         return 0
 
-    queue = deque([(start, 0)])  # (node, distance)
-    visited = set([start])
+    directions = [(1,0), (-1,0), (0,1), (0,-1)]
+    max_depth = 0
 
     while queue:
-        node, dist = queue.popleft()
+        r, c, depth = queue.popleft()
+        for dr, dc in directions:
+            nr, nc = r + dr, c + dc
+            if 0 <= nr < rows and 0 <= nc < cols and grid[nr][nc] == 1:
+                grid[nr][nc] = 2  # Mark as rotten
+                fresh_count -= 1
+                queue.append((nr, nc, depth + 1))
+                max_depth = max(max_depth, depth + 1)
 
-        for neighbor in graph[node]:
-            if neighbor == target:
-                return dist + 1
-            if neighbor not in visited:
-                visited.add(neighbor)
-                queue.append((neighbor, dist + 1))
-    return -1  # No path found
+    return max_depth if fresh_count == 0 else -1
+
+# Time: O(rows * cols) | Space: O(rows * cols) for the queue in worst case
 ```
 
 ```javascript
-function bfsShortestPath(graph, start, target) {
-  if (start === target) return 0;
+function orangesRotting(grid) {
+  const rows = grid.length,
+    cols = grid[0].length;
+  const queue = [];
+  let freshCount = 0;
 
-  const queue = [[start, 0]]; // [node, distance]
-  const visited = new Set([start]);
-
-  while (queue.length > 0) {
-    const [node, dist] = queue.shift(); // Use shift for FIFO
-
-    for (const neighbor of graph[node] || []) {
-      if (neighbor === target) return dist + 1;
-      if (!visited.has(neighbor)) {
-        visited.add(neighbor);
-        queue.push([neighbor, dist + 1]);
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      if (grid[r][c] === 2) {
+        queue.push([r, c, 0]); // [row, col, depth]
+      } else if (grid[r][c] === 1) {
+        freshCount++;
       }
     }
   }
-  return -1; // No path found
+
+  if (freshCount === 0) return 0;
+
+  const directions = [
+    [1, 0],
+    [-1, 0],
+    [0, 1],
+    [0, -1],
+  ];
+  let maxDepth = 0;
+
+  while (queue.length) {
+    const [r, c, depth] = queue.shift();
+    for (const [dr, dc] of directions) {
+      const nr = r + dr,
+        nc = c + dc;
+      if (nr >= 0 && nr < rows && nc >= 0 && nc < cols && grid[nr][nc] === 1) {
+        grid[nr][nc] = 2;
+        freshCount--;
+        queue.push([nr, nc, depth + 1]);
+        maxDepth = Math.max(maxDepth, depth + 1);
+      }
+    }
+  }
+
+  return freshCount === 0 ? maxDepth : -1;
 }
+
+// Time: O(rows * cols) | Space: O(rows * cols)
 ```
 
 ```java
-import java.util.*;
+import java.util.LinkedList;
+import java.util.Queue;
 
-public class BFS {
-    public int bfsShortestPath(Map<Integer, List<Integer>> graph, int start, int target) {
-        if (start == target) return 0;
+public int orangesRotting(int[][] grid) {
+    int rows = grid.length, cols = grid[0].length;
+    Queue<int[]> queue = new LinkedList<>();
+    int freshCount = 0;
 
-        Queue<int[]> queue = new LinkedList<>(); // [node, distance]
-        queue.offer(new int[]{start, 0});
-        Set<Integer> visited = new HashSet<>();
-        visited.add(start);
-
-        while (!queue.isEmpty()) {
-            int[] current = queue.poll();
-            int node = current[0];
-            int dist = current[1];
-
-            for (int neighbor : graph.getOrDefault(node, new ArrayList<>())) {
-                if (neighbor == target) return dist + 1;
-                if (!visited.contains(neighbor)) {
-                    visited.add(neighbor);
-                    queue.offer(new int[]{neighbor, dist + 1});
-                }
+    for (int r = 0; r < rows; r++) {
+        for (int c = 0; c < cols; c++) {
+            if (grid[r][c] == 2) {
+                queue.offer(new int[]{r, c, 0}); // {row, col, depth}
+            } else if (grid[r][c] == 1) {
+                freshCount++;
             }
         }
-        return -1; // No path found
     }
+
+    if (freshCount == 0) return 0;
+
+    int[][] directions = {{1,0}, {-1,0}, {0,1}, {0,-1}};
+    int maxDepth = 0;
+
+    while (!queue.isEmpty()) {
+        int[] current = queue.poll();
+        int r = current[0], c = current[1], depth = current[2];
+        for (int[] dir : directions) {
+            int nr = r + dir[0], nc = c + dir[1];
+            if (nr >= 0 && nr < rows && nc >= 0 && nc < cols && grid[nr][nc] == 1) {
+                grid[nr][nc] = 2;
+                freshCount--;
+                queue.offer(new int[]{nr, nc, depth + 1});
+                maxDepth = Math.max(maxDepth, depth + 1);
+            }
+        }
+    }
+
+    return freshCount == 0 ? maxDepth : -1;
 }
+
+// Time: O(rows * cols) | Space: O(rows * cols)
 ```
 
 </div>
 
+Another pattern is **BFS with state tracking**, like having a key to unlock doors. This requires a 3D visited set: `visited[row][col][keyState]`. Yelp might use this to model access levels in their systems.
+
+## How Yelp Tests Breadth-First Search vs Other Companies
+
+At companies like Google or Meta, BFS problems can be deeply nested in complex graph structures or combined with other algorithms (like Dijkstra’s for weighted edges). Yelp keeps it more grounded. Their problems are often directly solvable with standard BFS, but with a twist that requires careful state management. The difficulty is usually medium—hard enough to test your coding clarity and edge-case handling, but not so abstract that it feels like a competitive programming puzzle.
+
+What’s unique is the **domain relevance**. A problem about finding the shortest path in a grid with obstacles might be framed as “finding the closest sushi restaurant while avoiding construction zones.” This contextual framing is a Yelp hallmark. They want to see if you can translate a real-world scenario into a clean BFS implementation.
+
+## Study Order
+
+1.  **Basic BFS on Trees:** Start with level-order traversal (LeetCode 102). This ingrains the queue-based, level-by-level processing pattern without the complexity of cycles or grids.
+2.  **BFS on Graphs with Adjacency Lists:** Practice on simple undirected graphs (LeetCode 133: Clone Graph) to understand handling visited sets and neighbor iteration.
+3.  **Grid Traversal:** Move to matrix-based BFS (LeetCode 200: Number of Islands). This adds directions arrays and bounds checking—the core of many Yelp problems.
+4.  **Shortest Path in Unweighted Grids:** Solve problems like LeetCode 1091: Shortest Path in Binary Matrix. This combines grid traversal with explicit shortest-path finding.
+5.  **Multi-Source BFS:** Learn to initialize the queue with multiple sources (LeetCode 994: Rotting Oranges). This is a high-yield pattern for Yelp.
+6.  **BFS with State:** Finally, tackle problems that require tracking an additional state through the BFS, like LeetCode 864: Shortest Path to Get All Keys. This is the most advanced pattern they might touch.
+
+This order builds from simple to complex, ensuring you solidify the foundational queue mechanics before adding layers like grid movement, multiple sources, or state tracking.
+
 ## Recommended Practice Order
 
-Build your skills progressively:
+Solve these problems in sequence to build the specific skills Yelp tests:
 
-1.  Start with pure BFS on trees (Binary Tree Level Order Traversal).
-2.  Move to simple graphs on grids (Number of Islands, Shortest Path in Binary Matrix).
-3.  Tackle shortest path problems in explicit adjacency-list graphs.
-4.  Finally, practice Yelp's specific tagged problems. This layered approach ensures you understand the algorithm's core before applying it to more complex scenarios.
+1.  **LeetCode 102: Binary Tree Level Order Traversal** – Master the basic BFS template.
+2.  **LeetCode 200: Number of Islands** – Adapt BFS to a grid; practice marking visited cells.
+3.  **LeetCode 286: Walls and Gates** – Classic shortest distance in a grid; very Yelp-relevant.
+4.  **LeetCode 994: Rotting Oranges** – Multi-source BFS; understand time/depth propagation.
+5.  **LeetCode 1091: Shortest Path in Binary Matrix** – Explicit shortest path in a grid with obstacles.
+6.  **LeetCode 1293: Shortest Path in a Grid with Obstacles Elimination** – BFS with state (if you have time for a harder challenge).
+
+Focus on writing clean, bug-free code for the first five. For each, articulate the time and space complexity—Yelp interviewers appreciate that clarity. Remember, they’re evaluating how you’d write production code to solve a business problem, not just if you get the right answer.
 
 [Practice Breadth-First Search at Yelp](/company/yelp/breadth-first-search)

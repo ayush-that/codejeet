@@ -8,26 +8,16 @@ const SITE_URL = "https://codejeet.com";
 /** Fixed build date — avoids misleading per-page "now" timestamps. */
 const BUILD_DATE = new Date("2025-06-01");
 
-type SitemapGroup = "static" | "company" | "problem" | "topic" | "blog" | "other";
+type SitemapGroup = "static" | "company" | "problem" | "topic";
 
 function classifyUrl(urlPath: string): SitemapGroup {
   if (urlPath.startsWith("/company/")) return "company";
   if (urlPath.startsWith("/problem/")) return "problem";
   if (urlPath.startsWith("/topic/")) return "topic";
-  if (urlPath.startsWith("/blog")) return "blog";
-  if (
-    urlPath === "/" ||
-    urlPath === "/dashboard" ||
-    urlPath === "/companies" ||
-    urlPath === "/podcast" ||
-    urlPath.startsWith("/difficulty/") ||
-    urlPath.startsWith("/system-design")
-  )
-    return "static";
-  return "other";
+  return "static";
 }
 
-const GROUP_IDS: SitemapGroup[] = ["static", "company", "problem", "topic", "blog", "other"];
+const GROUP_IDS: SitemapGroup[] = ["static", "company", "problem", "topic"];
 
 export async function generateSitemaps() {
   return GROUP_IDS.map((id) => ({ id }));

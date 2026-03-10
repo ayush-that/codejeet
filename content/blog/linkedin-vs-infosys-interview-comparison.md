@@ -1,114 +1,213 @@
 ---
 title: "LinkedIn vs Infosys: Interview Question Comparison"
 description: "Compare coding interview questions at LinkedIn and Infosys — difficulty levels, topic focus, and preparation strategy."
-date: "2028-11-08"
+date: "2031-08-09"
 category: "tips"
 tags: ["linkedin", "infosys", "comparison"]
 ---
 
-When preparing for technical interviews, understanding the specific focus of each company can dramatically improve your efficiency. LinkedIn and Infosys, while both major tech employers, have distinct interview profiles based on their core business models—a social networking platform with complex data systems versus a global IT consulting and services firm. This comparison breaks down their question volume, difficulty, and topic emphasis to help you prioritize your study plan.
+# LinkedIn vs Infosys: Interview Question Comparison
+
+If you're preparing for interviews at both LinkedIn and Infosys, you're looking at two distinct challenges. LinkedIn represents the classic Silicon Valley tech interview—algorithm-heavy, competitive, and focused on data structure mastery. Infosys, while still technical, reflects a different profile with stronger emphasis on mathematical reasoning and dynamic programming. The good news: there's significant overlap in core topics, so you can prepare efficiently for both. The key is understanding where their priorities diverge so you can allocate your limited preparation time strategically.
 
 ## Question Volume and Difficulty
 
-The total number of documented questions provides a rough gauge of the breadth of their question banks. LinkedIn's list is slightly larger at 180 questions compared to Infosys's 158. However, the difficulty distribution reveals a more significant difference in their technical screening intensity.
+LinkedIn's 180 questions (26 Easy, 117 Medium, 37 Hard) tell a clear story: this is a Medium-dominant interview process. With 65% of questions at Medium difficulty, LinkedIn expects you to solve non-trivial algorithmic problems under pressure. The 21% Hard questions (higher than many companies) suggests they're willing to push candidates with challenging optimization problems, particularly for senior roles.
 
-LinkedIn's breakdown (Easy: 26, Medium: 117, Hard: 37) shows a heavy emphasis on **Medium-difficulty problems**. This skew suggests their interviews are designed to thoroughly assess core problem-solving and algorithmic skills under typical constraints. The notable portion of Hard questions (over 20%) indicates that for senior or specialized roles, you can expect challenging, multi-step problems.
+Infosys's 158 questions (42 Easy, 82 Medium, 34 Hard) shows a similar Medium-heavy distribution, but with more Easy questions (27% vs LinkedIn's 14%). This doesn't mean Infosys interviews are easier—rather, they may use Easy questions as warm-ups or in earlier screening rounds. The similar Hard percentage (22% vs 21%) indicates both companies test advanced problem-solving.
 
-Infosys's distribution (Easy: 42, Medium: 82, Hard: 34) presents a more balanced curve, with a higher proportion of Easy questions. This pattern is common for large service-based firms where interviews assess fundamental programming competency and logical thinking across a vast pool of candidates, from new graduates to experienced hires. The presence of Hard questions, though smaller in proportion than LinkedIn's, still necessitates preparation for complex scenarios.
+The takeaway: both require serious Medium-problem proficiency. If you can reliably solve Medium problems in 25-30 minutes, you're well-positioned for both. The difference lies in _which_ Medium problems they favor.
 
 ## Topic Overlap
 
-Analyzing the most frequent topics highlights common ground and key divergences.
+Both companies heavily test **Arrays** and **Strings**—these are your highest-ROI topics. Master sliding window, two-pointer techniques, and string manipulation for both interviews.
 
-**Common Ground:** Both companies heavily feature **Array** and **String** manipulation questions. These form the bedrock of algorithmic interviews, testing basic data structure handling, iteration, and edge-case management.
+Where they diverge:
 
-**LinkedIn's Focus:** Beyond arrays and strings, LinkedIn's list highlights **Hash Table** and **Depth-First Search (DFS)**. The hash table emphasis points to a need for optimal lookup solutions and handling frequency counting problems. The prominence of DFS signals that tree and graph traversal—essential for features like network connections or hierarchical data—is a critical area.
+- **LinkedIn's signature topic**: Depth-First Search (DFS). With 117 Medium questions, many involve tree/graph traversal. LinkedIn's product (social network) is essentially a giant graph, so they naturally emphasize graph algorithms.
+- **Infosys's signature topic**: Dynamic Programming (DP). This appears in their top topics but not LinkedIn's. Infosys interviews often include optimization problems requiring DP thinking.
+- **Infosys's other focus**: Math problems. These range from number theory to combinatorics—topics that appear less frequently at LinkedIn.
+
+Hash Table is LinkedIn's third most frequent topic but doesn't make Infosys's top four. However, Hash Tables are so fundamental they'll appear in both interviews—just more systematically tested at LinkedIn.
+
+## Preparation Priority Matrix
+
+Here's how to prioritize your study time when preparing for both:
+
+**Study First (Maximum ROI):**
+
+- Arrays (sliding window, two-pointer, subarray problems)
+- Strings (palindromes, anagrams, parsing)
+- Hash Tables (for both companies, despite Infosys not listing it)
+
+**Then Study LinkedIn-Specific:**
+
+- Depth-First Search (tree and graph traversal)
+- Breadth-First Search (often paired with DFS)
+- Union Find (for social network-like problems)
+
+**Then Study Infosys-Specific:**
+
+- Dynamic Programming (memoization, tabulation, common patterns)
+- Math (prime numbers, GCD/LCM, modular arithmetic)
+- Greedy Algorithms (often tested alongside DP)
+
+**Recommended problems useful for both:**
+
+1. Two Sum (#1) - Hash Table fundamentals
+2. Valid Parentheses (#20) - Stack/parsing (useful for both)
+3. Merge Intervals (#56) - Array manipulation pattern
+4. Maximum Subarray (#53) - Teaches both sliding window and DP thinking
+5. Binary Tree Level Order Traversal (#102) - Covers BFS for LinkedIn, tree basics for both
+
+## Interview Format Differences
+
+**LinkedIn** typically follows the FAANG-style process:
+
+- 1-2 phone screens (45-60 minutes each, 1-2 coding problems)
+- Virtual or on-site final rounds (4-5 interviews: 2-3 coding, 1 system design, 1 behavioral)
+- Coding rounds: 45 minutes, usually 1 Medium-Hard problem or 2 Mediums
+- System design: Expected for mid-level and above roles
+- Behavioral: Uses STAR format, focuses on leadership and impact
+
+**Infosys** varies more by role and location:
+
+- Often begins with an online assessment (90-120 minutes, multiple questions)
+- Technical interviews may be 1-2 rounds (45-60 minutes each)
+- Problems may be more mathematical or puzzle-like
+- Less emphasis on system design (except for architecture roles)
+- May include domain-specific questions based on the project/team
+
+Time pressure differs: LinkedIn expects optimal solutions with clean code. Infosys may prioritize correct reasoning and approach over perfect optimization.
+
+## Specific Problem Recommendations
+
+These 5 problems provide coverage for both companies:
+
+1. **Number of Islands (#200)** - Medium
+   - Why: Covers DFS/BFS (LinkedIn priority) on a grid. The pattern extends to many graph problems.
+   - Also useful for: Matrix traversal, connected components thinking.
 
 <div class="code-group">
 
 ```python
-# Example: DFS in a graph (common LinkedIn pattern)
-def dfs(node, visited, graph):
-    if not node or node in visited:
-        return
-    visited.add(node)
-    # Process node
-    for neighbor in graph[node]:
-        dfs(neighbor, visited, graph)
+# Time: O(m*n) | Space: O(m*n) in worst case (call stack)
+def numIslands(grid):
+    if not grid:
+        return 0
+
+    rows, cols = len(grid), len(grid[0])
+    count = 0
+
+    def dfs(r, c):
+        if r < 0 or c < 0 or r >= rows or c >= cols or grid[r][c] != '1':
+            return
+        grid[r][c] = '0'  # Mark as visited
+        dfs(r+1, c)
+        dfs(r-1, c)
+        dfs(r, c+1)
+        dfs(r, c-1)
+
+    for r in range(rows):
+        for c in range(cols):
+            if grid[r][c] == '1':
+                count += 1
+                dfs(r, c)
+
+    return count
 ```
 
 ```javascript
-// Example: DFS in a graph (common LinkedIn pattern)
-function dfs(node, visited, graph) {
-  if (!node || visited.has(node)) return;
-  visited.add(node);
-  // Process node
-  for (const neighbor of graph[node]) {
-    dfs(neighbor, visited, graph);
+// Time: O(m*n) | Space: O(m*n) in worst case (call stack)
+function numIslands(grid) {
+  if (!grid.length) return 0;
+
+  const rows = grid.length,
+    cols = grid[0].length;
+  let count = 0;
+
+  function dfs(r, c) {
+    if (r < 0 || c < 0 || r >= rows || c >= cols || grid[r][c] !== "1") return;
+    grid[r][c] = "0";
+    dfs(r + 1, c);
+    dfs(r - 1, c);
+    dfs(r, c + 1);
+    dfs(r, c - 1);
   }
-}
-```
 
-```java
-// Example: DFS in a graph (common LinkedIn pattern)
-public void dfs(Node node, Set<Node> visited, Map<Node, List<Node>> graph) {
-    if (node == null || visited.contains(node)) return;
-    visited.add(node);
-    // Process node
-    for (Node neighbor : graph.get(node)) {
-        dfs(neighbor, visited, graph);
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      if (grid[r][c] === "1") {
+        count++;
+        dfs(r, c);
+      }
     }
-}
-```
+  }
 
-</div>
-
-**Infosys's Focus:** Infosys's list shows a strong emphasis on **Dynamic Programming (DP)** and **Math**. The DP focus requires mastery of breaking down complex problems into overlapping subproblems (e.g., knapsack, longest common subsequence). The Math category includes problems related to number theory, combinatorics, and numerical computations, which are prevalent in general problem-solving and client project scenarios.
-
-<div class="code-group">
-
-```python
-# Example: DP - Fibonacci (common Infosys pattern)
-def fib(n, memo={}):
-    if n in memo:
-        return memo[n]
-    if n <= 2:
-        return 1
-    memo[n] = fib(n-1, memo) + fib(n-2, memo)
-    return memo[n]
-```
-
-```javascript
-// Example: DP - Fibonacci (common Infosys pattern)
-function fib(n, memo = {}) {
-  if (n in memo) return memo[n];
-  if (n <= 2) return 1;
-  memo[n] = fib(n - 1, memo) + fib(n - 2, memo);
-  return memo[n];
+  return count;
 }
 ```
 
 ```java
-// Example: DP - Fibonacci (common Infosys pattern)
-public int fib(int n, Map<Integer, Integer> memo) {
-    if (memo.containsKey(n)) return memo.get(n);
-    if (n <= 2) return 1;
-    int result = fib(n - 1, memo) + fib(n - 2, memo);
-    memo.put(n, result);
-    return result;
+// Time: O(m*n) | Space: O(m*n) in worst case (call stack)
+public int numIslands(char[][] grid) {
+    if (grid == null || grid.length == 0) return 0;
+
+    int rows = grid.length, cols = grid[0].length;
+    int count = 0;
+
+    for (int r = 0; r < rows; r++) {
+        for (int c = 0; c < cols; c++) {
+            if (grid[r][c] == '1') {
+                count++;
+                dfs(grid, r, c);
+            }
+        }
+    }
+
+    return count;
+}
+
+private void dfs(char[][] grid, int r, int c) {
+    if (r < 0 || c < 0 || r >= grid.length || c >= grid[0].length || grid[r][c] != '1') return;
+    grid[r][c] = '0';
+    dfs(grid, r+1, c);
+    dfs(grid, r-1, c);
+    dfs(grid, r, c+1);
+    dfs(grid, r, c-1);
 }
 ```
 
 </div>
+
+2. **Longest Palindromic Substring (#5)** - Medium
+   - Why: String manipulation (both companies) with DP solution (Infosys priority).
+   - Also useful for: Two-pointer technique, center expansion approach.
+
+3. **Coin Change (#322)** - Medium
+   - Why: Classic DP problem (Infosys priority) that also appears at LinkedIn.
+   - Also useful for: Unbounded knapsack pattern, bottom-up/top-down thinking.
+
+4. **Merge Intervals (#56)** - Medium
+   - Why: Array manipulation (both companies), teaches sorting with custom comparators.
+   - Also useful for: Calendar/scheduling problems common in interviews.
+
+5. **Course Schedule (#207)** - Medium
+   - Why: Graph/topological sort (LinkedIn priority) with practical application.
+   - Also useful for: Cycle detection, adjacency list representation.
 
 ## Which to Prepare for First
 
-Your preparation priority should align with your target role and current skill level.
+Start with LinkedIn preparation. Here's why:
 
-If you are aiming for a **software engineering role at a product-based company** like LinkedIn, prioritize their profile. Start with a strong foundation in arrays, strings, and hash tables, then drill deeply into graph and tree traversal algorithms (DFS, BFS). Practice a high volume of Medium-difficulty problems to build the stamina and pattern recognition needed for their interviews.
+1. **LinkedIn's topics are more foundational**: Mastering DFS/BFS and array/string manipulation will give you strong fundamentals that transfer to Infosys problems.
 
-If you are preparing for **Infosys or similar IT services firms**, begin with their list. Solidify your fundamentals in arrays, strings, and mathematical problem-solving. Then, dedicate significant time to understanding Dynamic Programming patterns, as this is a frequent differentiator. While the difficulty curve may be gentler, a methodical approach to problem decomposition is crucial.
+2. **LinkedIn's interview is more predictable**: The FAANG-style format is well-documented. Once you're comfortable with it, adapting to Infosys's variations is easier than the reverse.
 
-For a **generalized strategy**, start with the shared fundamentals: arrays and strings. These are universal. Then, incorporate hash table practice (beneficial for both) before branching into your target company's specialties—DFS for LinkedIn or DP/Math for Infosys. This approach ensures you build a versatile core competency.
+3. **The difficulty curve**: If you can handle LinkedIn's Medium-Hard problems, Infosys's mathematical/DP problems will feel like learning a new domain rather than increasing difficulty.
 
-For more detailed question lists and patterns, visit the LinkedIn and Infosys company pages: [LinkedIn Interview Questions](/company/linkedin) | [Infosys Interview Questions](/company/infosys)
+**Strategic approach**: Spend 70% of your time on shared topics + LinkedIn-specific topics first. Then dedicate the remaining 30% to Infosys-specific DP and Math problems. This ensures you're strong on fundamentals while still covering Infosys's unique emphasis.
+
+Remember: Both companies value clean, readable code and clear communication. Practice explaining your thinking as you solve—this matters more than minor optimizations at both companies.
+
+For more company-specific insights, check our guides: [LinkedIn Interview Guide](/company/linkedin) and [Infosys Interview Guide](/company/infosys).

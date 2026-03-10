@@ -1,119 +1,219 @@
 ---
 title: "Dynamic Programming Questions at Huawei: What to Expect"
 description: "Prepare for Dynamic Programming interview questions at Huawei — patterns, difficulty breakdown, and study tips."
-date: "2031-11-19"
+date: "2031-11-11"
 category: "dsa-patterns"
 tags: ["huawei", "dynamic-programming", "interview prep"]
 ---
 
-Dynamic Programming (DP) is a core algorithmic technique for optimizing solutions to complex problems by breaking them down into simpler overlapping subproblems. At Huawei, where engineers design efficient telecommunications systems, network algorithms, and resource-constrained software, the ability to model and solve optimization problems is critical. Of the approximately 20 coding questions in their technical interviews, around 6 are dedicated to Dynamic Programming. This high concentration signals that Huawei doesn't just test for basic coding ability; it assesses a candidate's skill in designing optimal, scalable solutions—a direct requirement for handling large-scale distributed systems and real-time data processing.
+If you're preparing for a Huawei software engineering interview, you should know that Dynamic Programming (DP) is not just another topic—it's a significant pillar of their technical assessment. With DP questions comprising roughly 30% of their problem pool (6 out of 20), it's a core focus area that frequently appears in real interviews, especially for roles involving algorithm optimization, network routing, or systems design. Huawei's work in telecommunications and complex systems often involves solving optimization problems with overlapping subproblems, making DP a highly relevant skill they actively test for. Failing to prepare for it is a strategic mistake.
 
-## What to Expect — Types of Problems
+## Specific Patterns Huawei Favors
 
-Huawei's DP questions often focus on practical optimization scenarios rather than purely academic puzzles. You can expect problems in these key categories:
+Huawei's DP questions tend to favor practical, iterative optimization problems over abstract or purely mathematical ones. You'll rarely see esoteric combinatorics. Instead, expect problems grounded in scenarios like resource allocation, pathfinding, or string/sequence manipulation. They heavily lean toward **one-dimensional and two-dimensional iterative (bottom-up) DP**. Recursive with memoization solutions are acceptable, but interviewers often probe for understanding of the more space-efficient tabulation approach.
 
-1.  **Knapsack & Resource Allocation:** Problems involving maximizing value or minimizing cost given limited resources (e.g., bandwidth, memory, budget). This directly mirrors allocating network resources or hardware constraints.
-2.  **String & Sequence Analysis:** Common problems include Longest Common Subsequence (LCS) and Edit Distance, which are foundational for data comparison, version control, and bioinformatics—all relevant to Huawei's work in software and data.
-3.  **Pathfinding & Grid Problems:** Finding minimum/maximum cost paths or unique paths in a grid. This models network routing, robot navigation, and optimization of signal paths.
-4.  **Interval & Scheduling Problems:** Determining optimal schedules or partitions, which relates to job scheduling on servers or efficient task processing.
+Two dominant patterns emerge:
 
-The problems will often be framed within a business or systems context, but their core will be a classic DP pattern.
+1.  **"Classic" Sequence DP:** Problems like Longest Increasing Subsequence or Edit Distance. These test your ability to define a state (`dp[i]`) representing the best solution up to a point `i`.
+2.  **"Take or Skip" / Knapsack-style DP:** Problems involving making optimal decisions with constraints, such as selecting items for a maximum sum or partitioning a set. This is highly relevant to resource-constrained optimization in networking.
 
-## How to Prepare — Study Tips with One Code Example
-
-Success in DP interviews requires recognizing patterns and implementing efficient solutions. Follow this approach:
-
-1.  **Master the Fundamentals:** Understand the core principles—optimal substructure and overlapping subproblems. Know the difference between top-down (memoization) and bottom-up (tabulation) approaches.
-2.  **Pattern Recognition:** Don't memorize problems. Learn to identify patterns like "0/1 Knapsack," "Longest Increasing Subsequence," or "Fibonacci-style" state transitions.
-3.  **Practice State Definition:** The hardest part is often defining `dp[i]` or `dp[i][j]`. Clearly articulate what your state represents before writing code.
-4.  **Start with Brute Force:** Before optimizing, reason through a recursive brute-force solution. This clarifies the subproblems and makes the transition to DP logical.
-
-**Code Example: The 0/1 Knapsack Pattern**
-This is a fundamental pattern for resource allocation problems. Given items with weights and values, and a capacity limit, maximize the total value.
+For example, a problem like **Partition Equal Subset Sum (LeetCode #416)** is a classic Huawei-style question. It's a direct application of the 0/1 knapsack pattern to a real-world-seeming data partitioning problem.
 
 <div class="code-group">
 
 ```python
-def knapsack(values, weights, capacity):
-    n = len(values)
-    # dp[i][w] = max value using first i items with capacity w
-    dp = [[0] * (capacity + 1) for _ in range(n + 1)]
+# LeetCode #416: Partition Equal Subset Sum
+# Time: O(n * target) | Space: O(target) where target = sum(nums)//2
+def canPartition(nums):
+    total = sum(nums)
+    if total % 2 != 0:
+        return False
+    target = total // 2
 
-    for i in range(1, n + 1):
-        for w in range(1, capacity + 1):
-            if weights[i-1] <= w:
-                # Option 1: Take the item
-                take = values[i-1] + dp[i-1][w - weights[i-1]]
-                # Option 2: Skip the item
-                skip = dp[i-1][w]
-                dp[i][w] = max(take, skip)
-            else:
-                # Cannot take the item
-                dp[i][w] = dp[i-1][w]
-    return dp[n][capacity]
+    # dp[j] represents whether a subset sum of 'j' is achievable
+    dp = [False] * (target + 1)
+    dp[0] = True  # Base case: sum of 0 is always achievable (empty subset)
+
+    for num in nums:
+        # Iterate backwards to prevent re-using the same num multiple times in one subset
+        for j in range(target, num - 1, -1):
+            if dp[j - num]:  # If we can achieve sum (j-num), then adding 'num' achieves sum 'j'
+                dp[j] = True
+    return dp[target]
 ```
 
 ```javascript
-function knapsack(values, weights, capacity) {
-  const n = values.length;
-  // dp[i][w] = max value using first i items with capacity w
-  const dp = Array.from({ length: n + 1 }, () => new Array(capacity + 1).fill(0));
+// LeetCode #416: Partition Equal Subset Sum
+// Time: O(n * target) | Space: O(target) where target = sum(nums)/2
+function canPartition(nums) {
+  const total = nums.reduce((a, b) => a + b, 0);
+  if (total % 2 !== 0) return false;
+  const target = total / 2;
 
-  for (let i = 1; i <= n; i++) {
-    for (let w = 1; w <= capacity; w++) {
-      if (weights[i - 1] <= w) {
-        // Option 1: Take the item
-        const take = values[i - 1] + dp[i - 1][w - weights[i - 1]];
-        // Option 2: Skip the item
-        const skip = dp[i - 1][w];
-        dp[i][w] = Math.max(take, skip);
-      } else {
-        // Cannot take the item
-        dp[i][w] = dp[i - 1][w];
+  const dp = new Array(target + 1).fill(false);
+  dp[0] = true;
+
+  for (const num of nums) {
+    for (let j = target; j >= num; j--) {
+      if (dp[j - num]) {
+        dp[j] = true;
       }
     }
   }
-  return dp[n][capacity];
+  return dp[target];
 }
 ```
 
 ```java
-public class Knapsack {
-    public static int knapsack(int[] values, int[] weights, int capacity) {
-        int n = values.length;
-        // dp[i][w] = max value using first i items with capacity w
-        int[][] dp = new int[n + 1][capacity + 1];
+// LeetCode #416: Partition Equal Subset Sum
+// Time: O(n * target) | Space: O(target) where target = sum(nums)/2
+public boolean canPartition(int[] nums) {
+    int total = 0;
+    for (int num : nums) total += num;
+    if (total % 2 != 0) return false;
+    int target = total / 2;
 
-        for (int i = 1; i <= n; i++) {
-            for (int w = 1; w <= capacity; w++) {
-                if (weights[i - 1] <= w) {
-                    // Option 1: Take the item
-                    int take = values[i - 1] + dp[i - 1][w - weights[i - 1]];
-                    // Option 2: Skip the item
-                    int skip = dp[i - 1][w];
-                    dp[i][w] = Math.max(take, skip);
-                } else {
-                    // Cannot take the item
-                    dp[i][w] = dp[i - 1][w];
-                }
+    boolean[] dp = new boolean[target + 1];
+    dp[0] = true;
+
+    for (int num : nums) {
+        for (int j = target; j >= num; j--) {
+            if (dp[j - num]) {
+                dp[j] = true;
             }
         }
-        return dp[n][capacity];
     }
+    return dp[target];
 }
 ```
 
 </div>
 
+## How to Prepare
+
+Your preparation must move beyond memorizing solutions. Focus on **pattern identification and state definition**. For any DP problem, practice verbalizing these steps:
+
+1.  What is the `dp` array or hash map representing? (Define the state)
+2.  What is the base case?
+3.  What is the recurrence relation? How does state `i` relate to previous states?
+4.  What is the final answer in terms of the `dp` structure?
+
+Drill the space-optimized versions of classic problems. For example, many 2D DP problems (like the classic **Longest Common Subsequence, LeetCode #1143**) can be optimized to 1D.
+
+<div class="code-group">
+
+```python
+# LeetCode #1143: Longest Common Subsequence (Space-Optimized)
+# Time: O(m * n) | Space: O(min(m, n))
+def longestCommonSubsequence(text1, text2):
+    # Ensure text1 is the shorter string to minimize space
+    if len(text1) > len(text2):
+        text1, text2 = text2, text1
+    m, n = len(text1), len(text2)
+
+    # Previous row of DP values
+    prev = [0] * (m + 1)
+
+    for j in range(1, n + 1):
+        curr = [0] * (m + 1)
+        for i in range(1, m + 1):
+            if text1[i-1] == text2[j-1]:
+                curr[i] = 1 + prev[i-1]
+            else:
+                curr[i] = max(prev[i], curr[i-1])
+        prev = curr  # Move current row to previous for next iteration
+    return prev[m]
+```
+
+```javascript
+// LeetCode #1143: Longest Common Subsequence (Space-Optimized)
+// Time: O(m * n) | Space: O(min(m, n))
+function longestCommonSubsequence(text1, text2) {
+  // Ensure text1 is the shorter string
+  if (text1.length > text2.length) [text1, text2] = [text2, text1];
+  const m = text1.length,
+    n = text2.length;
+
+  let prev = new Array(m + 1).fill(0);
+
+  for (let j = 1; j <= n; j++) {
+    const curr = new Array(m + 1).fill(0);
+    for (let i = 1; i <= m; i++) {
+      if (text1[i - 1] === text2[j - 1]) {
+        curr[i] = 1 + prev[i - 1];
+      } else {
+        curr[i] = Math.max(prev[i], curr[i - 1]);
+      }
+    }
+    prev = curr;
+  }
+  return prev[m];
+}
+```
+
+```java
+// LeetCode #1143: Longest Common Subsequence (Space-Optimized)
+// Time: O(m * n) | Space: O(min(m, n))
+public int longestCommonSubsequence(String text1, String text2) {
+    // Ensure text1 is the shorter string
+    if (text1.length() > text2.length()) {
+        String temp = text1;
+        text1 = text2;
+        text2 = temp;
+    }
+    int m = text1.length(), n = text2.length();
+
+    int[] prev = new int[m + 1];
+
+    for (int j = 1; j <= n; j++) {
+        int[] curr = new int[m + 1];
+        for (int i = 1; i <= m; i++) {
+            if (text1.charAt(i-1) == text2.charAt(j-1)) {
+                curr[i] = 1 + prev[i-1];
+            } else {
+                curr[i] = Math.max(prev[i], curr[i-1]);
+            }
+        }
+        prev = curr;
+    }
+    return prev[m];
+}
+```
+
+</div>
+
+## How Huawei Tests Dynamic Programming vs Other Companies
+
+Huawei's DP questions sit at a "medium" difficulty on platforms like LeetCode, but with a key differentiator: **practical framing**. While a company like Google might ask a more abstract DP problem requiring novel state definition (e.g., "Dungeon Game" #174), Huawei often frames the problem within a context like network packet routing, memory allocation, or task scheduling. The core pattern, however, remains a standard one.
+
+Unlike some US-based FAANG companies that might accept a brute-force solution followed by optimization, Huawei interviewers often expect you to identify the DP pattern quickly and implement the optimal solution. There's a stronger emphasis on **code correctness and efficiency on the first attempt**. They also tend to follow up with questions about space optimization more frequently.
+
+## Study Order
+
+Tackle DP in this logical sequence to build a compounding understanding:
+
+1.  **Foundation: Fibonacci & Climbing Stairs (LeetCode #70).** Understand overlapping subproblems and the difference between top-down (memoization) and bottom-up (tabulation).
+2.  **1D Linear DP:** Problems where `dp[i]` depends on a constant number of previous states (e.g., **House Robber #198**). This solidifies the state definition concept.
+3.  **Classic 2D Sequence DP:** Longest Common Subsequence (#1143) and Edit Distance (#72). This teaches you to handle two sequences and define `dp[i][j]`.
+4.  **Knapsack & Subset Problems:** 0/1 Knapsack, Partition Equal Subset Sum (#416), and Coin Change (#322). This introduces decision-based DP with constraints.
+5.  **Interval & Path DP:** More complex problems like **Longest Palindromic Substring (#5)** using a 2D state for intervals, or **Minimum Path Sum (#64)** on a grid.
+6.  **Advanced Optimization:** Practice space-optimizing the solutions from categories 3, 4, and 5. This is where you separate a good answer from a great one in a Huawei interview.
+
 ## Recommended Practice Order
 
-Build your DP skills progressively. Follow this order to solidify understanding before tackling Huawei-level problems:
+Solve these problems in sequence. Each builds on concepts from the previous one.
 
-1.  **Foundation:** Climbing Stairs, Fibonacci Number (understand state transition).
-2.  **1D DP:** House Robber, Coin Change (master single-array state).
-3.  **Classic 2D DP:** 0/1 Knapsack, Longest Common Subsequence (learn tabulation on grids).
-4.  **String DP:** Edit Distance, Longest Palindromic Subsequence.
-5.  **Interval & Advanced:** Matrix Chain Multiplication, Partition Equal Subset Sum.
-6.  **Huawei-Specific Practice:** Finally, solve problems tagged for Huawei on platforms like CodeJeet, focusing on the problem types outlined above.
+1.  Climbing Stairs (#70) - The absolute basics.
+2.  House Robber (#198) - Classic 1D linear DP.
+3.  Coin Change (#322) - Unbounded knapsack introduction.
+4.  Partition Equal Subset Sum (#416) - 0/1 knapsack application.
+5.  Longest Common Subsequence (#1143) - Foundational 2D sequence DP.
+6.  Edit Distance (#72) - More complex 2D recurrence.
+7.  Longest Palindromic Subsequence (#516) - Applies LCS pattern cleverly.
+8.  Minimum Path Sum (#64) - Straightforward 2D grid DP.
+9.  Decode Ways (#91) - A 1D DP that requires careful condition checking.
+10. Word Break (#139) - Combines sequence DP with hash set lookup.
+
+Mastering this progression will give you the pattern recognition and implementation speed needed to handle the DP portion of a Huawei interview with confidence.
 
 [Practice Dynamic Programming at Huawei](/company/huawei/dynamic-programming)

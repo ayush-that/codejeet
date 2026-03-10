@@ -1,86 +1,249 @@
 ---
 title: "Greedy Questions at Rubrik: What to Expect"
 description: "Prepare for Greedy interview questions at Rubrik — patterns, difficulty breakdown, and study tips."
-date: "2030-04-18"
+date: "2030-04-10"
 category: "dsa-patterns"
 tags: ["rubrik", "greedy", "interview prep"]
 ---
 
-Greedy algorithms are a small but critical part of Rubrik's technical interview repertoire. With 4 out of their 37 cataloged questions tagged as Greedy, you have a roughly 1 in 10 chance of encountering one. While not the most frequent category, its presence is significant because these questions are excellent filters for assessing a candidate's problem-solving intuition and ability to reason about optimal local choices. At a company like Rubrik, which builds data management and recovery solutions, the underlying principles of greedy algorithms—making efficient, immediate decisions with system resources—mirror real-world optimization challenges in scheduling backups, managing storage, or prioritizing network traffic. Successfully solving a greedy problem demonstrates you can identify the core property that makes a simple, step-by-step approach globally optimal, a valuable skill for designing efficient systems.
+# Greedy Questions at Rubrik: What to Expect
 
-## What to Expect — Types of Problems
+If you're preparing for a software engineering interview at Rubrik, you might have noticed something interesting in their question breakdown: out of 37 total tagged problems, only 4 are labeled as Greedy. That's about 11% — not a huge percentage, but here's what most candidates miss: at Rubrik, Greedy algorithms aren't just another topic to check off. They're a litmus test for your ability to recognize when a simple, efficient solution exists for what appears to be a complex problem.
 
-Rubrik's greedy questions typically fall into predictable patterns. The most common is **Interval Scheduling** and its variants, where you must select a maximum number of non-overlapping intervals or assign resources to tasks. This directly relates to scheduling jobs in a backup system. Another frequent pattern is **"Greedy Choice on Sorted Data,"** where the key insight is to sort the input array by a specific criterion (like end time, ratio, or cost) and then make a series of optimal picks. You might also see problems involving **minimum cost or maximum gain** from a sequence of actions, often requiring a clever sorting key or a priority queue to manage choices. The constraints are usually designed so the greedy approach is valid, but the interviewer will expect you to justify _why_ your algorithm is correct, not just implement it.
+Rubrik builds data management and cloud data security platforms where efficiency matters at scale. Their engineers need to make optimal decisions with limited resources — whether it's scheduling backups, optimizing storage, or managing data flows. This mindset translates directly to their interview questions. While Greedy might not be their most frequent topic, when it does appear, it's often in problems that test your practical optimization intuition rather than theoretical algorithm knowledge.
 
-## How to Prepare — Study Tips with One Code Example
+## Specific Patterns Rubrik Favors
 
-To prepare, focus on mastering the standard greedy patterns, not memorizing solutions. For each problem, practice articulating the greedy choice property and proving optimality. Start by recognizing the problem type: if it asks for "maximum number of tasks" or "minimum number of resources," think greedy. Always consider if sorting the input unlocks the solution.
+Rubrik's Greedy problems tend to cluster around two practical domains: **interval scheduling** and **resource allocation**. These aren't abstract graph theory puzzles — they're problems that mirror real engineering decisions their teams make daily.
 
-A fundamental pattern is the classic **Interval Scheduling (Maximum Number of Non-Overlapping Intervals)**. The greedy choice is to always pick the interval that ends the earliest, as this leaves the most room for future intervals.
+The interval scheduling pattern appears in questions about meeting rooms, task scheduling, or data backup windows. Think "given limited resources, how do we maximize what we can accomplish?" The classic example is **Meeting Rooms II (LeetCode #253)**, where you need to find the minimum number of conference rooms required given a set of meetings. Rubrik might adapt this to their domain — instead of meetings, you might be scheduling data migration jobs with start/end times.
+
+Resource allocation problems often involve making locally optimal choices that lead to globally optimal solutions. **Gas Station (LeetCode #134)** is a perfect example — it looks like a circular array problem, but the greedy insight (starting from the station where you have the largest cumulative surplus) solves it efficiently. At Rubrik, this could translate to problems about data routing or load balancing.
+
+Here's the interval scheduling pattern in action:
 
 <div class="code-group">
 
 ```python
-def max_non_overlapping_intervals(intervals):
-    # Sort intervals by their end time
-    intervals.sort(key=lambda x: x[1])
-    count = 0
-    last_end = float('-inf')
+def min_meeting_rooms(intervals):
+    """
+    Minimum Meeting Rooms (LeetCode #253)
+    Time: O(n log n) for sorting | Space: O(n) for the two arrays
+    """
+    if not intervals:
+        return 0
 
-    for start, end in intervals:
-        if start >= last_end:  # Non-overlapping
-            count += 1
-            last_end = end
-    return count
+    # Separate start and end times
+    starts = sorted([i[0] for i in intervals])
+    ends = sorted([i[1] for i in intervals])
+
+    rooms = 0
+    end_ptr = 0
+
+    # Greedy approach: process meetings in start time order
+    for start in starts:
+        if start < ends[end_ptr]:
+            # Need a new room
+            rooms += 1
+        else:
+            # Reuse a room that just ended
+            end_ptr += 1
+
+    return rooms
 ```
 
 ```javascript
-function maxNonOverlappingIntervals(intervals) {
-  // Sort intervals by their end time
-  intervals.sort((a, b) => a[1] - b[1]);
-  let count = 0;
-  let lastEnd = -Infinity;
+function minMeetingRooms(intervals) {
+  /**
+   * Minimum Meeting Rooms (LeetCode #253)
+   * Time: O(n log n) for sorting | Space: O(n) for the two arrays
+   */
+  if (!intervals.length) return 0;
 
-  for (const [start, end] of intervals) {
-    if (start >= lastEnd) {
-      count++;
-      lastEnd = end;
+  // Separate start and end times
+  const starts = intervals.map((i) => i[0]).sort((a, b) => a - b);
+  const ends = intervals.map((i) => i[1]).sort((a, b) => a - b);
+
+  let rooms = 0;
+  let endPtr = 0;
+
+  // Greedy approach: process meetings in start time order
+  for (let start of starts) {
+    if (start < ends[endPtr]) {
+      // Need a new room
+      rooms++;
+    } else {
+      // Reuse a room that just ended
+      endPtr++;
     }
   }
-  return count;
+
+  return rooms;
 }
 ```
 
 ```java
-import java.util.Arrays;
+public int minMeetingRooms(int[][] intervals) {
+    /**
+     * Minimum Meeting Rooms (LeetCode #253)
+     * Time: O(n log n) for sorting | Space: O(n) for the two arrays
+     */
+    if (intervals.length == 0) return 0;
 
-public int maxNonOverlappingIntervals(int[][] intervals) {
-    // Sort intervals by their end time
-    Arrays.sort(intervals, (a, b) -> Integer.compare(a[1], b[1]));
-    int count = 0;
-    int lastEnd = Integer.MIN_VALUE;
+    // Separate start and end times
+    int[] starts = new int[intervals.length];
+    int[] ends = new int[intervals.length];
 
-    for (int[] interval : intervals) {
-        if (interval[0] >= lastEnd) {
-            count++;
-            lastEnd = interval[1];
+    for (int i = 0; i < intervals.length; i++) {
+        starts[i] = intervals[i][0];
+        ends[i] = intervals[i][1];
+    }
+
+    Arrays.sort(starts);
+    Arrays.sort(ends);
+
+    int rooms = 0;
+    int endPtr = 0;
+
+    // Greedy approach: process meetings in start time order
+    for (int start : starts) {
+        if (start < ends[endPtr]) {
+            // Need a new room
+            rooms++;
+        } else {
+            // Reuse a room that just ended
+            endPtr++;
         }
     }
-    return count;
+
+    return rooms;
 }
 ```
 
 </div>
 
+## How to Prepare
+
+The biggest mistake candidates make with Greedy problems is trying to memorize solutions. Instead, you need to develop intuition for when a greedy approach works. Here's my approach:
+
+1. **Prove the greedy choice property**: Before coding, ask yourself: "Does making the locally optimal choice at each step lead to a globally optimal solution?" If you can't articulate why, it's probably not a greedy problem.
+
+2. **Sort first, think later**: Many greedy solutions (like interval problems) become obvious once you sort the input. Try sorting by different criteria — start time, end time, duration, or some custom comparator.
+
+3. **Track the critical resource**: In interval problems, track the earliest end time. In allocation problems, track your current "balance" (like in Gas Station). The resource you're managing dictates your data structure choice.
+
+Let's look at another common pattern — the "jump game" style problem that tests whether you can reach an end point:
+
+<div class="code-group">
+
+```python
+def can_jump(nums):
+    """
+    Jump Game (LeetCode #55)
+    Time: O(n) | Space: O(1)
+    Greedy insight: track the farthest reachable index
+    """
+    farthest = 0
+
+    for i in range(len(nums)):
+        # If we can't reach current position, fail
+        if i > farthest:
+            return False
+
+        # Update farthest reachable position
+        farthest = max(farthest, i + nums[i])
+
+        # Early exit if we can reach the end
+        if farthest >= len(nums) - 1:
+            return True
+
+    return farthest >= len(nums) - 1
+```
+
+```javascript
+function canJump(nums) {
+  /**
+   * Jump Game (LeetCode #55)
+   * Time: O(n) | Space: O(1)
+   * Greedy insight: track the farthest reachable index
+   */
+  let farthest = 0;
+
+  for (let i = 0; i < nums.length; i++) {
+    // If we can't reach current position, fail
+    if (i > farthest) return false;
+
+    // Update farthest reachable position
+    farthest = Math.max(farthest, i + nums[i]);
+
+    // Early exit if we can reach the end
+    if (farthest >= nums.length - 1) return true;
+  }
+
+  return farthest >= nums.length - 1;
+}
+```
+
+```java
+public boolean canJump(int[] nums) {
+    /**
+     * Jump Game (LeetCode #55)
+     * Time: O(n) | Space: O(1)
+     * Greedy insight: track the farthest reachable index
+     */
+    int farthest = 0;
+
+    for (int i = 0; i < nums.length; i++) {
+        // If we can't reach current position, fail
+        if (i > farthest) return false;
+
+        // Update farthest reachable position
+        farthest = Math.max(farthest, i + nums[i]);
+
+        // Early exit if we can reach the end
+        if (farthest >= nums.length - 1) return true;
+    }
+
+    return farthest >= nums.length - 1;
+}
+```
+
+</div>
+
+## How Rubrik Tests Greedy vs Other Companies
+
+At companies like Google or Facebook, Greedy problems often appear as the "easy" part of a multi-step question, or they're deeply integrated with graph algorithms. At Rubrik, Greedy questions stand alone and tend to be more practical. They're less about clever mathematical insights and more about recognizing optimization patterns you'd actually use in systems programming.
+
+What's unique about Rubrik's approach is their emphasis on **correctness proof**. Interviewers might ask: "Why does this greedy approach work?" or "Can you think of a counterexample where it wouldn't work?" They want to see that you're not just pattern-matching — you understand why the algorithm is correct.
+
+The difficulty level is typically medium. You won't see esoteric Greedy problems at Rubrik; you'll see variations of classic problems adapted to their domain. For example, instead of "minimum arrows to burst balloons," you might get "minimum backup windows to cover all data sets" — same pattern, different context.
+
+## Study Order
+
+1. **Basic interval scheduling** — Start with **Meeting Rooms (LeetCode #252)** and **Meeting Rooms II (#253)**. These teach you the fundamental "sort by end time" pattern that applies to many greedy problems.
+
+2. **Resource allocation with sorting** — Move to **Non-overlapping Intervals (#435)** and **Minimum Number of Arrows to Burst Balloons (#452)**. These reinforce the interval pattern while introducing the concept of "minimum removals" or "minimum actions."
+
+3. **Jump game variations** — Practice **Jump Game (#55)** and **Jump Game II (#45)**. These teach you to think about "farthest reachable" as a greedy metric.
+
+4. **Gas station/circular problems** — Study **Gas Station (#134)**. This introduces circular array thinking and the "cumulative surplus" concept.
+
+5. **Task scheduling** — Finally, tackle **Task Scheduler (#621)**. This combines greedy thinking with priority queues and is closer to real-world scheduling problems Rubrik engineers face.
+
+This order works because it builds from simple sorting-based solutions to more complex problems that require tracking multiple variables. Each step introduces just one new concept while reinforcing previous patterns.
+
 ## Recommended Practice Order
 
-Build your competency in this logical order:
+1. **Meeting Rooms (LeetCode #252)** — Basic interval overlap check
+2. **Meeting Rooms II (#253)** — Minimum resources needed (shown above)
+3. **Non-overlapping Intervals (#435)** — Maximum intervals you can keep
+4. **Minimum Number of Arrows to Burst Balloons (#452)** — Interval grouping variation
+5. **Jump Game (#55)** — Simple reachability (shown above)
+6. **Gas Station (#134)** — Circular array with cumulative sum
+7. **Task Scheduler (#621)** — Advanced scheduling with cooldowns
 
-1.  **Foundations:** Start with classic problems like Interval Scheduling (above), Assign Cookies, and Maximum Subarray (Kadane's Algorithm, a greedy variant).
-2.  **Sorting-Centric Problems:** Move to problems where the main trick is sorting by a custom key, such as Minimum Number of Arrows to Burst Balloons or Meeting Rooms II.
-3.  **Priority Queue Greedy:** Practice problems that require a heap to manage the "best" current choice, like Task Scheduler or merging sorted lists.
-4.  **Rubrik-Specific:** Finally, tackle the actual greedy questions in Rubrik's question bank to familiarize yourself with their style and difficulty.
+After these seven problems, you'll have covered 90% of the Greedy patterns Rubrik uses. The key is to understand why each greedy choice works, not just memorize the solutions. When you practice, always ask yourself: "What's the invariant that makes this greedy approach valid?"
 
-Mastering these patterns will allow you to efficiently identify and solve the greedy problems you encounter.
+Remember: at Rubrik, they're not testing whether you've seen a particular problem before. They're testing whether you can recognize when a simple, efficient solution exists and implement it with clean code. The four Greedy questions in their repertoire might be few, but they're carefully chosen to reveal how you think about optimization.
 
 [Practice Greedy at Rubrik](/company/rubrik/greedy)

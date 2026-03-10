@@ -1,108 +1,257 @@
 ---
 title: "Sorting Questions at Hashedin: What to Expect"
 description: "Prepare for Sorting interview questions at Hashedin — patterns, difficulty breakdown, and study tips."
-date: "2030-08-06"
+date: "2030-07-29"
 category: "dsa-patterns"
 tags: ["hashedin", "sorting", "interview prep"]
 ---
 
-Sorting questions appear in roughly 10% of Hashedin's technical interview problems. While this may seem like a small portion, their presence is significant. Hashedin, like many product-based companies, uses sorting problems to assess a candidate's grasp of fundamental algorithm efficiency and their ability to apply core computer science concepts to real-world data organization tasks. A strong performance here signals that you understand time/space complexity trade-offs and can choose the right tool for the job—skills critical for building scalable applications.
+## Why Sorting Matters at Hashedin
 
-## What to Expect — types of problems
+Hashedin (now part of Publicis Sapient) is a digital engineering firm that builds large-scale, data-intensive applications for enterprise clients. In this context, sorting isn't just an academic exercise—it's a fundamental operation that appears constantly in real-world scenarios like processing user activity logs, organizing financial transactions, or preparing datasets for analysis pipelines. With 3 out of 32 questions dedicated to sorting in their problem bank, it represents nearly 10% of their technical focus area. This tells us they consider sorting a core competency for any engineer working with data systems.
 
-You will rarely be asked to implement a basic sorting algorithm like Quicksort from scratch. Instead, Hashedin's problems typically use sorting as a _key step_ in an optimal solution. Expect these categories:
+In actual interviews, you're more likely to encounter sorting as a _component_ of a larger problem rather than a standalone "implement quicksort" question. Interviewers want to see if you recognize when sorting can transform an O(n²) brute force solution into an elegant O(n log n) approach. They're testing your ability to identify optimization opportunities and understand how data organization affects algorithm efficiency.
 
-1.  **Sorting as Pre-processing:** The problem's core logic becomes trivial if the input array is sorted first. Examples include finding minimum absolute differences between elements, merging overlapping intervals, or grouping anagrams.
-2.  **Custom Comparison Sorting:** You'll need to sort objects or data pairs based on a non-standard rule. This tests your ability to define a comparator function to sort in a specific order (e.g., sort events by end time, or sort numbers by digit sum).
-3.  **Hybrid Problems:** These combine sorting with another core pattern, like the two-pointer technique, binary search, or greedy algorithms. A classic example is the "Two Sum" problem, which can be solved efficiently by sorting and then using two pointers.
+## Specific Patterns Hashedin Favors
 
-The difficulty often lies in recognizing that sorting the data first unlocks the most efficient solution, which is typically O(n log n) time.
+Hashedin's sorting questions tend to fall into three distinct patterns:
 
-## How to Prepare — study tips with one code example
+1. **Sorting as Preprocessing for Greedy Algorithms**: Many problems become tractable once you sort the input. Hashedin frequently uses this pattern to test whether candidates can recognize that ordering data creates optimal substructure.
 
-Master the theory behind comparison-based sorts (Merge Sort, QuickSort) and their time/space complexities. Focus intensely on **applying sorting** to problems. For any array-related question, ask yourself: "Would sorting this input simplify the logic?"
+2. **Custom Comparator Sorting**: Instead of basic numeric sorting, they prefer problems where you need to define custom ordering rules—sorting strings by concatenated results, intervals by start times, or objects by multiple properties.
 
-Practice writing custom comparators in all three languages. This is a frequently tested skill. For example, a common problem is to sort an array to form the largest possible number by concatenating elements. This requires a custom comparator that compares `a+b` vs `b+a` as strings.
+3. **Sorting Hybrid Problems**: These combine sorting with another technique like two-pointer approach or binary search. The sorting step reduces complexity, then another algorithm solves the transformed problem efficiently.
+
+A classic example is the Meeting Rooms II problem (LeetCode #253), which appears in variations throughout Hashedin's question bank. The core insight is that sorting intervals by start time enables a greedy allocation of resources.
 
 <div class="code-group">
 
 ```python
-def largest_number(nums):
-    # Convert to strings for custom comparison
-    from functools import cmp_to_key
-    def compare(a, b):
-        # Compare concatenations
-        if a + b > b + a:
-            return -1  # a should come before b
+def minMeetingRooms(intervals):
+    """
+    LeetCode #253: Meeting Rooms II
+    Time: O(n log n) for sorting + O(n) for processing = O(n log n)
+    Space: O(n) for storing start and end arrays
+    """
+    if not intervals:
+        return 0
+
+    # Separate sorted arrays for start and end times
+    start_times = sorted([i[0] for i in intervals])
+    end_times = sorted([i[1] for i in intervals])
+
+    start_ptr, end_ptr = 0, 0
+    rooms_needed, max_rooms = 0, 0
+
+    # Two-pointer approach through sorted arrays
+    while start_ptr < len(intervals):
+        if start_times[start_ptr] < end_times[end_ptr]:
+            # New meeting starts before one ends
+            rooms_needed += 1
+            start_ptr += 1
+            max_rooms = max(max_rooms, rooms_needed)
         else:
-            return 1   # b should come before a
+            # A meeting ends before new one starts
+            rooms_needed -= 1
+            end_ptr += 1
 
-    nums_str = list(map(str, nums))
-    nums_str.sort(key=cmp_to_key(compare))
-
-    # Handle edge case where result is multiple zeros
-    result = ''.join(nums_str)
-    return '0' if result[0] == '0' else result
+    return max_rooms
 ```
 
 ```javascript
-function largestNumber(nums) {
-  // Convert to strings and sort with custom comparator
-  const numsStr = nums.map(String);
-  numsStr.sort((a, b) => {
-    const order1 = a + b;
-    const order2 = b + a;
-    return order2.localeCompare(order1); // Descending order
-  });
+function minMeetingRooms(intervals) {
+  /**
+   * LeetCode #253: Meeting Rooms II
+   * Time: O(n log n) for sorting + O(n) for processing = O(n log n)
+   * Space: O(n) for storing start and end arrays
+   */
+  if (!intervals.length) return 0;
 
-  // Handle leading zeros
-  const result = numsStr.join("");
-  return result[0] === "0" ? "0" : result;
+  const startTimes = intervals.map((i) => i[0]).sort((a, b) => a - b);
+  const endTimes = intervals.map((i) => i[1]).sort((a, b) => a - b);
+
+  let startPtr = 0,
+    endPtr = 0;
+  let roomsNeeded = 0,
+    maxRooms = 0;
+
+  while (startPtr < intervals.length) {
+    if (startTimes[startPtr] < endTimes[endPtr]) {
+      // New meeting starts before one ends
+      roomsNeeded++;
+      startPtr++;
+      maxRooms = Math.max(maxRooms, roomsNeeded);
+    } else {
+      // A meeting ends before new one starts
+      roomsNeeded--;
+      endPtr++;
+    }
+  }
+
+  return maxRooms;
 }
 ```
 
 ```java
-import java.util.*;
+public int minMeetingRooms(int[][] intervals) {
+    /**
+     * LeetCode #253: Meeting Rooms II
+     * Time: O(n log n) for sorting + O(n) for processing = O(n log n)
+     * Space: O(n) for storing start and end arrays
+     */
+    if (intervals.length == 0) return 0;
 
-public class LargestNumber {
-    public String largestNumber(int[] nums) {
-        // Convert to String array
-        String[] numsStr = new String[nums.length];
-        for (int i = 0; i < nums.length; i++) {
-            numsStr[i] = String.valueOf(nums[i]);
-        }
+    int[] startTimes = new int[intervals.length];
+    int[] endTimes = new int[intervals.length];
 
-        // Sort with custom comparator
-        Arrays.sort(numsStr, (a, b) -> {
-            String order1 = a + b;
-            String order2 = b + a;
-            return order2.compareTo(order1); // Descending order
-        });
-
-        // Handle leading zero case
-        if (numsStr[0].equals("0")) {
-            return "0";
-        }
-
-        StringBuilder result = new StringBuilder();
-        for (String num : numsStr) {
-            result.append(num);
-        }
-        return result.toString();
+    for (int i = 0; i < intervals.length; i++) {
+        startTimes[i] = intervals[i][0];
+        endTimes[i] = intervals[i][1];
     }
+
+    Arrays.sort(startTimes);
+    Arrays.sort(endTimes);
+
+    int startPtr = 0, endPtr = 0;
+    int roomsNeeded = 0, maxRooms = 0;
+
+    while (startPtr < intervals.length) {
+        if (startTimes[startPtr] < endTimes[endPtr]) {
+            // New meeting starts before one ends
+            roomsNeeded++;
+            startPtr++;
+            maxRooms = Math.max(maxRooms, roomsNeeded);
+        } else {
+            // A meeting ends before new one starts
+            roomsNeeded--;
+            endPtr++;
+        }
+    }
+
+    return maxRooms;
 }
 ```
 
 </div>
 
+## How to Prepare
+
+Master sorting for Hashedin interviews by focusing on pattern recognition rather than memorization. When you encounter a problem, ask yourself: "Would sorting this input reveal a structure I can exploit?" This is particularly valuable for problems involving intervals, minimum/maximum comparisons, or finding pairs meeting certain conditions.
+
+Practice implementing custom comparators until they become second nature. Hashedin interviewers often extend problems by adding constraints like "now sort by end time if start times are equal" to test your adaptability.
+
+<div class="code-group">
+
+```python
+def largestNumber(nums):
+    """
+    LeetCode #179: Largest Number
+    Time: O(n log n) for sorting (comparisons are O(k) where k is digit length)
+    Space: O(n) for string conversion and storage
+    """
+    # Convert to strings for lexicographic comparison
+    str_nums = list(map(str, nums))
+
+    # Custom comparator: which concatenation is larger?
+    # Compare b+a vs a+b to determine order
+    str_nums.sort(key=cmp_to_key(lambda a, b: 1 if a + b < b + a else -1))
+
+    # Handle edge case: all zeros
+    result = ''.join(str_nums)
+    return result if result[0] != '0' else '0'
+```
+
+```javascript
+function largestNumber(nums) {
+  /**
+   * LeetCode #179: Largest Number
+   * Time: O(n log n) for sorting
+   * Space: O(n) for string conversion and storage
+   */
+  const strNums = nums.map((num) => num.toString());
+
+  // Custom comparator: compare concatenations
+  strNums.sort((a, b) => {
+    const order1 = a + b;
+    const order2 = b + a;
+    return order2.localeCompare(order1);
+  });
+
+  // Handle edge case: all zeros
+  const result = strNums.join("");
+  return result[0] === "0" ? "0" : result;
+}
+```
+
+```java
+public String largestNumber(int[] nums) {
+    /**
+     * LeetCode #179: Largest Number
+     * Time: O(n log n) for sorting
+     * Space: O(n) for string conversion and storage
+     */
+    String[] strNums = new String[nums.length];
+    for (int i = 0; i < nums.length; i++) {
+        strNums[i] = String.valueOf(nums[i]);
+    }
+
+    // Custom comparator: compare concatenations
+    Arrays.sort(strNums, (a, b) -> {
+        String order1 = a + b;
+        String order2 = b + a;
+        return order2.compareTo(order1);
+    });
+
+    // Handle edge case: all zeros
+    if (strNums[0].equals("0")) {
+        return "0";
+    }
+
+    StringBuilder result = new StringBuilder();
+    for (String num : strNums) {
+        result.append(num);
+    }
+    return result.toString();
+}
+```
+
+</div>
+
+## How Hashedin Tests Sorting vs Other Companies
+
+Hashedin's sorting questions differ from FAANG companies in several key ways:
+
+**Compared to Google/Amazon**: While FAANG companies might ask you to implement merge sort from scratch or analyze its stability, Hashedin focuses on practical application. They're less interested in whether you can recite the quicksort partition algorithm and more interested in whether you recognize that sorting customer orders by delivery window before assigning them to drivers reduces total distance traveled.
+
+**Compared to FinTech companies**: Banks and trading firms often ask about sorting in the context of time series data or optimizing for cache locality. Hashedin's questions are more aligned with business logic—sorting user sessions, organizing document versions, or prioritizing tasks in a workflow system.
+
+**Unique Hashedin characteristic**: Their problems often include real-world constraints that mirror actual client requirements. You might encounter problems where you need to sort data that's partially pre-sorted (testing for adaptive sort knowledge) or where memory is limited (testing for in-place sort understanding).
+
+## Study Order
+
+1. **Basic Sorting Algorithms**: Understand how quicksort, mergesort, and heapsort work at a conceptual level. You don't need to implement them perfectly, but know their time/space complexities and when each is appropriate.
+
+2. **Built-in Sort with Custom Comparators**: Master your language's sorting library with custom comparison functions. This is what you'll actually use in interviews.
+
+3. **Sorting as Optimization**: Practice problems where sorting transforms an inefficient solution into an efficient one (like Two Sum II - Input Array Is Sorted, LeetCode #167).
+
+4. **Interval Problems**: These are Hashedin's bread and butter. Start with Merge Intervals (#56), then Non-overlapping Intervals (#435), then Meeting Rooms II (#253).
+
+5. **Greedy + Sorting Combinations**: Problems where sorting enables a greedy approach, like Maximum Units on a Truck (#1710) or Minimum Number of Arrows to Burst Balloons (#452).
+
+6. **Advanced Hybrids**: Finally, tackle problems that combine sorting with other patterns like two-pointer (3Sum, #15) or binary search (Find Right Interval, #436).
+
 ## Recommended Practice Order
 
-Build your skills progressively:
+1. **Merge Intervals (#56)** - Foundation for all interval problems
+2. **Non-overlapping Intervals (#435)** - Teaches greedy interval selection
+3. **Meeting Rooms II (#253)** - Classic Hashedin-style problem
+4. **Largest Number (#179)** - Master custom comparators
+5. **Sort Colors (#75)** - Dutch national flag problem (in-place sort)
+6. **K Closest Points to Origin (#973)** - Sorting with custom distance metric
+7. **Minimum Number of Arrows to Burst Balloons (#452)** - Advanced interval/greedy
+8. **Custom Sort String (#791)** - String-based custom ordering
 
-1.  Start with fundamental sorting algorithms (QuickSort, Merge Sort) to understand the O(n log n) baseline.
-2.  Solve easy LeetCode problems that use sorting as pre-processing (e.g., "Meeting Rooms", "Valid Anagram").
-3.  Practice custom comparator problems (like the "Largest Number" example above).
-4.  Tackle medium-level hybrid problems that combine sorting with two-pointers ("3Sum", "Merge Intervals") or greedy approaches ("Non-overlapping Intervals").
-5.  Finally, attempt Hashedin-specific or similar company problems to understand their style.
+This sequence builds from fundamental concepts to Hashedin's favorite patterns, ensuring you develop both the technical skills and the pattern recognition needed for their interviews.
 
 [Practice Sorting at Hashedin](/company/hashedin/sorting)

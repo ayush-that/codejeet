@@ -1,125 +1,175 @@
 ---
 title: "Expedia vs Coupang: Interview Question Comparison"
 description: "Compare coding interview questions at Expedia and Coupang — difficulty levels, topic focus, and preparation strategy."
-date: "2027-01-08"
+date: "2026-12-31"
 category: "tips"
 tags: ["expedia", "coupang", "comparison"]
 ---
 
-When preparing for technical interviews at major tech companies, understanding their specific question patterns and difficulty distributions is crucial for efficient study. Both Expedia and Coupang present significant coding challenges, but their profiles differ in notable ways. This comparison analyzes their question volume, difficulty breakdown, and core topics to help you tailor your preparation strategy.
+# Expedia vs Coupang: A Strategic Interview Question Comparison
+
+If you're preparing for interviews at both Expedia and Coupang, you're looking at two distinct technical cultures that happen to share a surprising amount of common ground in their coding assessments. The key insight isn't just that both companies test arrays and strings heavily—it's _how_ they test them. Expedia leans toward practical, business-logic problems you might encounter in travel tech, while Coupang pushes deeper into algorithmic optimization, reflecting its e-commerce and logistics DNA. Preparing for both simultaneously is actually quite efficient if you approach it strategically, focusing first on their significant overlap before branching into company-specific specialties.
 
 ## Question Volume and Difficulty
 
-The total number of cataloged questions is nearly identical: **54 for Expedia** and **53 for Coupang**. The major difference lies in their difficulty distributions.
+Let's decode what those numbers really mean for your preparation intensity.
 
-**Expedia** leans significantly toward easier problems: **54 questions (E13/M35/H6)**. This means roughly 70% of their questions are Medium difficulty, with a substantial portion (24%) being Easy. Only about 11% are Hard. This suggests Expedia's interviews may focus more on assessing solid foundational knowledge, clean code, and problem-solving approach rather than on solving extremely complex algorithmic puzzles.
+**Expedia (54 questions: Easy 13, Medium 35, Hard 6)**
+This distribution screams "medium-focused technical screen." With nearly 65% of questions at Medium difficulty, Expedia's interviews are designed to assess competent problem-solving within reasonable time constraints. The six Hard questions suggest you might encounter one challenging problem in later rounds, but the interview isn't primarily a gauntlet of optimization puzzles. The relatively high number of Easy questions (13) indicates they use simpler problems for initial screening or warm-up questions.
 
-**Coupang** has a much steeper curve: **53 questions (E3/M36/H14)**. Here, Easy questions are rare (less than 6%), while Mediums make up about 68%. The key differentiator is the **Hard** category, which comprises roughly 26% of questions—more than double Expedia's proportion. This indicates Coupang's process likely places a higher premium on advanced algorithmic mastery and the ability to handle optimization and edge cases under pressure.
+**Coupang (53 questions: Easy 3, Medium 36, Hard 14)**
+Notice the dramatic difference: only 3 Easy questions versus 14 Hard. Coupang's distribution reveals a company that pushes candidates harder on algorithmic complexity and optimization. With over 26% of questions at Hard difficulty, you should expect at least one genuinely challenging problem in your interview loop. This aligns with Coupang's reputation as a tech-forward e-commerce company where system efficiency directly impacts logistics and customer experience.
 
-## Topic Overlap
+**Implication:** If you're preparing for both, you should gear your practice toward Medium-Hard problems, knowing that Coupang will require more comfort with advanced optimization techniques, while Expedia will test broader implementation competence across more problems.
 
-Both companies heavily test three fundamental data structures: **Array, String, and Hash Table**. Mastery of these is non-negotiable for either interview.
+## Topic Overlap and Divergence
+
+Both companies test **Array, String, and Hash Table** problems extensively—this is your foundation. But their secondary focuses reveal different priorities.
+
+**Shared Foundation (Study These First):**
+
+- **Array Manipulation:** Both companies love array problems involving sliding windows, two pointers, and in-place modifications.
+- **String Operations:** Pattern matching, palindrome checks, and encoding/decoding problems appear frequently.
+- **Hash Table Applications:** From frequency counting to memoization, both expect fluent use of hash maps.
+
+**Expedia's Unique Emphasis: Greedy Algorithms**
+Expedia's 6% focus on Greedy algorithms (versus minimal mention for Coupang) suggests they favor problems with practical, step-by-step optimization—think "minimum number of flights to cover all destinations" or "optimal booking schedules." These often model real travel industry problems.
+
+**Coupang's Unique Emphasis: Dynamic Programming**
+Coupang's significant DP focus (explicitly mentioned in their topics) reveals their interest in optimization problems with overlapping subproblems—perfect for logistics, inventory management, and resource allocation. If you're interviewing at Coupang, you must prepare for medium-hard DP problems.
+
+## Preparation Priority Matrix
+
+Here's how to allocate your limited prep time for maximum ROI:
+
+1. **Overlap Topics (Highest Priority - 60% of prep time)**
+   - Arrays: Sliding window, two pointers, rotation/shuffling
+   - Strings: Palindrome variations, substring problems, encoding
+   - Hash Tables: Frequency counting, complement finding, caching
+
+   _Recommended problems useful for both:_ Two Sum (#1), Longest Substring Without Repeating Characters (#3), Group Anagrams (#49)
+
+2. **Expedia-Specific (20% of prep time)**
+   - Greedy algorithms: Scheduling, assignment, "minimum X to achieve Y" problems
+   - _Recommended:_ Merge Intervals (#56), Task Scheduler (#621), Jump Game (#55)
+
+3. **Coupang-Specific (20% of prep time)**
+   - Dynamic Programming: 1D and 2D DP, knapsack variations, string DP
+   - Graph algorithms (implied by their problem distribution)
+   - _Recommended:_ Coin Change (#322), Longest Increasing Subsequence (#300), Word Break (#139)
+
+## Interview Format Differences
+
+**Expedia's Process:**
+Typically 3-4 rounds including: initial phone screen (1 coding problem), virtual onsite (2-3 technical rounds with 1-2 problems each), and behavioral/System Design rounds. Problems tend to be 45-minute sessions with moderate difficulty. System design questions often relate to travel industry scenarios (booking systems, recommendation engines).
+
+**Coupang's Process:**
+Often begins with a more challenging online assessment, followed by 4-5 interview rounds. Coding sessions frequently involve 1-2 problems with deeper follow-up optimization questions ("now optimize it further"). System design heavily emphasizes scalability and logistics (inventory systems, delivery routing, real-time tracking).
+
+**Key Difference:** Coupang interviews generally have more "depth over breadth"—they'll dig deeper into one problem's optimization. Expedia tends toward "breadth over depth"—covering more problems with slightly less extreme optimization demands.
+
+## Specific Problem Recommendations for Both Companies
+
+These five problems provide exceptional cross-company preparation value:
+
+1. **Longest Substring Without Repeating Characters (#3)**
+   - Tests sliding window (crucial for both), hash table usage, and string manipulation
+   - Variations appear frequently in both companies' question banks
 
 <div class="code-group">
 
 ```python
-# Example: A common Hash Table problem (Two Sum)
-def two_sum(nums, target):
-    seen = {}
-    for i, num in enumerate(nums):
-        complement = target - num
-        if complement in seen:
-            return [seen[complement], i]
-        seen[num] = i
-    return []
+# Time: O(n) | Space: O(min(m, n)) where m is charset size
+def lengthOfLongestSubstring(s: str) -> int:
+    char_index = {}
+    left = 0
+    max_len = 0
+
+    for right, char in enumerate(s):
+        # If char seen and within current window, move left pointer
+        if char in char_index and char_index[char] >= left:
+            left = char_index[char] + 1
+        char_index[char] = right
+        max_len = max(max_len, right - left + 1)
+
+    return max_len
 ```
 
 ```javascript
-// Example: A common Hash Table problem (Two Sum)
-function twoSum(nums, target) {
-  const map = new Map();
-  for (let i = 0; i < nums.length; i++) {
-    const complement = target - nums[i];
-    if (map.has(complement)) {
-      return [map.get(complement), i];
+// Time: O(n) | Space: O(min(m, n))
+function lengthOfLongestSubstring(s) {
+  const charIndex = new Map();
+  let left = 0;
+  let maxLen = 0;
+
+  for (let right = 0; right < s.length; right++) {
+    const char = s[right];
+    if (charIndex.has(char) && charIndex.get(char) >= left) {
+      left = charIndex.get(char) + 1;
     }
-    map.set(nums[i], i);
+    charIndex.set(char, right);
+    maxLen = Math.max(maxLen, right - left + 1);
   }
-  return [];
+
+  return maxLen;
 }
 ```
 
 ```java
-// Example: A common Hash Table problem (Two Sum)
-public int[] twoSum(int[] nums, int target) {
-    Map<Integer, Integer> map = new HashMap<>();
-    for (int i = 0; i < nums.length; i++) {
-        int complement = target - nums[i];
-        if (map.containsKey(complement)) {
-            return new int[] { map.get(complement), i };
+// Time: O(n) | Space: O(min(m, n))
+public int lengthOfLongestSubstring(String s) {
+    Map<Character, Integer> charIndex = new HashMap<>();
+    int left = 0;
+    int maxLen = 0;
+
+    for (int right = 0; right < s.length(); right++) {
+        char c = s.charAt(right);
+        if (charIndex.containsKey(c) && charIndex.get(c) >= left) {
+            left = charIndex.get(c) + 1;
         }
-        map.put(nums[i], i);
+        charIndex.put(c, right);
+        maxLen = Math.max(maxLen, right - left + 1);
     }
-    return new int[0];
+
+    return maxLen;
 }
 ```
 
 </div>
 
-The critical divergence is in the fourth most frequent topic. **Expedia** shows a notable focus on **Greedy** algorithms. These problems test your ability to make locally optimal choices at each step to reach a global solution, often involving sorting and iteration.
+2. **Merge Intervals (#56)**
+   - Covers array sorting and greedy merging (Expedia's greedy focus)
+   - Practical for scheduling problems common in both travel and e-commerce
 
-**Coupang** emphasizes **Dynamic Programming (DP)**. This is a more advanced paradigm requiring the breakdown of problems into overlapping subproblems and storing their results. The high frequency of Hard questions at Coupang is often linked to complex DP scenarios like knapsack variations, string DP, or state machine DP.
+3. **Product of Array Except Self (#238)**
+   - Tests array manipulation and prefix/suffix thinking
+   - Optimization from O(n²) to O(n) demonstrates algorithmic maturity both companies value
 
-<div class="code-group">
+4. **Coin Change (#322)**
+   - Essential DP problem for Coupang preparation
+   - Also tests greedy thinking (though greedy doesn't always work—important nuance)
 
-```python
-# Example: A classic DP problem (Climbing Stairs)
-def climbStairs(n):
-    if n <= 2:
-        return n
-    dp = [0] * (n + 1)
-    dp[1], dp[2] = 1, 2
-    for i in range(3, n + 1):
-        dp[i] = dp[i-1] + dp[i-2]
-    return dp[n]
-```
+5. **Valid Parentheses (#20)**
+   - Fundamental stack problem that tests basic DS competency
+   - Frequently appears as a warm-up or part of more complex string problems
 
-```javascript
-// Example: A classic DP problem (Climbing Stairs)
-function climbStairs(n) {
-  if (n <= 2) return n;
-  const dp = new Array(n + 1).fill(0);
-  dp[1] = 1;
-  dp[2] = 2;
-  for (let i = 3; i <= n; i++) {
-    dp[i] = dp[i - 1] + dp[i - 2];
-  }
-  return dp[n];
-}
-```
+## Which to Prepare for First?
 
-```java
-// Example: A classic DP problem (Climbing Stairs)
-public int climbStairs(int n) {
-    if (n <= 2) return n;
-    int[] dp = new int[n + 1];
-    dp[1] = 1;
-    dp[2] = 2;
-    for (int i = 3; i <= n; i++) {
-        dp[i] = dp[i-1] + dp[i-2];
-    }
-    return dp[n];
-}
-```
+**Start with Expedia**, even if your Coupang interview comes first. Here's why:
 
-</div>
+1. **Foundation First:** Expedia's broader medium-difficulty coverage ensures you build comprehensive problem-solving skills. The jump from Expedia-level prep to Coupang's harder problems is easier than the reverse.
 
-## Which to Prepare for First
+2. **Efficiency:** Mastering the overlap topics (arrays, strings, hash tables) through Expedia's lens gives you 80% of what you need for both. You can then layer on Coupang's DP depth.
 
-If you are early in your interview preparation journey, **start with Expedia's profile**. The higher volume of Easy and Medium problems allows you to build confidence and reinforce core concepts in Arrays, Strings, and Hash Tables. Practicing Greedy algorithms is generally more approachable than diving deep into DP. Successfully tackling this set will create a strong foundation.
+3. **Confidence Building:** Solving more medium problems first builds pattern recognition and coding speed, which you'll need when tackling Coupang's harder problems under time pressure.
 
-You should **prioritize Coupang's profile** if you are already comfortable with Medium-level problems and need to level up. The preparation requires a dedicated deep dive into Dynamic Programming patterns and a willingness to grind through more Hard problems. Mastering Coupang's question set will inherently cover the core topics needed for Expedia, making you well-prepared for both, but the reverse is less true.
+**Preparation Timeline:**
 
-Ultimately, your choice should align with your current skill level and timeline. Solidify your basics first, then tackle advanced topics.
+- Weeks 1-2: Focus on overlap topics using Expedia's question distribution
+- Week 3: Add Expedia-specific greedy problems
+- Week 4: Layer in Coupang-specific DP and advanced optimization
+- Final days: Mixed practice with timing—simulate Coupang's depth and Expedia's breadth
 
-For more detailed question lists and patterns, visit the Expedia and Coupang question pages: [Expedia Interview Questions](/company/expedia) | [Coupang Interview Questions](/company/coupang)
+Remember: Both companies ultimately test clean, efficient, well-communicated code. The patterns matter, but so does your ability to explain trade-offs and think aloud. Practice solving problems from both companies' question banks, but prioritize understanding _why_ certain approaches work over memorizing solutions.
+
+For more company-specific insights, check out our detailed guides: [Expedia Interview Guide](/company/expedia) and [Coupang Interview Guide](/company/coupang).

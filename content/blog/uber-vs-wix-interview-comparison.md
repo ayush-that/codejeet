@@ -1,112 +1,236 @@
 ---
 title: "Uber vs Wix: Interview Question Comparison"
 description: "Compare coding interview questions at Uber and Wix — difficulty levels, topic focus, and preparation strategy."
-date: "2027-07-07"
+date: "2030-04-06"
 category: "tips"
 tags: ["uber", "wix", "comparison"]
 ---
 
-When preparing for technical interviews, company-specific question patterns reveal what each organization prioritizes in their hiring process. Uber and Wix, while both being prominent tech companies, present distinct interview landscapes in terms of scale, difficulty, and focus areas. Understanding these differences is crucial for efficient preparation.
+# Uber vs Wix: Interview Question Comparison
+
+If you're interviewing at both Uber and Wix, you're looking at two distinct engineering cultures with different technical assessment philosophies. Uber, with its massive scale and complex logistics systems, tests for algorithmic rigor and system design at FAANG-level intensity. Wix, while still demanding strong fundamentals, focuses more on practical web development patterns and data structure fluency at a slightly more approachable volume. The key insight: preparing for Uber will cover most of Wix's technical requirements, but not vice versa. Let's break down exactly what that means for your study plan.
 
 ## Question Volume and Difficulty
 
-The most immediate difference is the sheer volume of documented questions. Uber's repository of 381 questions is substantially larger than Wix's 56. This volume reflects Uber's longer history of intensive technical recruiting, its larger engineering organization, and the broader scope of its technical challenges, which span complex distributed systems, mapping algorithms, and real-time data processing.
+The numbers tell a clear story about interview intensity. According to LeetCode's company-tagged questions, Uber has **381 questions** (54 Easy, 224 Medium, 103 Hard), while Wix has **56 questions** (16 Easy, 31 Medium, 9 Hard).
 
-Analyzing the difficulty distribution is revealing:
+**Uber's volume** (nearly 7x Wix's) suggests two things. First, they've conducted significantly more interviews over time, giving you a larger pool of potential questions to study. Second, the high proportion of Medium and Hard problems (86% combined) indicates they consistently push candidates beyond basic algorithmic knowledge. You're expected to handle optimization challenges and edge cases under pressure.
 
-- **Uber (E54/M224/H103):** The distribution is heavily weighted toward Medium (59%) and Hard (27%) problems. This indicates that passing an Uber interview typically requires solving complex algorithmic challenges under pressure, often involving multi-step optimization.
-- **Wix (E16/M31/H9):** The distribution here is more balanced toward Medium (55%) and Easy (29%) problems, with a smaller proportion of Hard questions (16%). This suggests a strong focus on core competency and clean implementation, though advanced problems are still in the mix.
+**Wix's smaller pool** doesn't mean easier interviews—it means more focused preparation. With 56 questions, you can realistically review every tagged problem, but you should expect variations on these themes. The difficulty distribution (84% Medium or Hard) shows they still test substantial algorithmic competence, just with less breadth than Uber.
 
-This contrast means preparing for Uber requires deep drilling into challenging problems, while preparing for Wix can start with a stronger emphasis on mastering fundamentals before tackling advanced topics.
+The implication: For Uber, you need broad pattern recognition across hundreds of problems. For Wix, you need deep mastery of a few dozen core patterns.
 
 ## Topic Overlap
 
-Both companies emphasize core data structures. **Array, String, and Hash Table** problems form the essential backbone for interviews at both Uber and Wix. You must be proficient in manipulating these structures.
+Both companies heavily test **Array, Hash Table, and String** manipulation. These form the absolute core of your preparation.
 
-The key divergence lies in the next layer of focus:
+**Uber's unique emphasis** includes **Dynamic Programming** (appearing in their top 4 topics), which reflects their optimization-heavy domains like routing, pricing, and resource allocation. You'll also see more **Graph** problems (though not in the top 4) related to their mapping and network systems.
 
-- **Uber's Standout:** **Dynamic Programming (DP)** is a major topic. Uber's problems in logistics, routing, and optimization often translate into DP or memoized recursion challenges. Expect questions that require breaking down complex problems into overlapping subproblems.
-- **Wix's Standout:** **Depth-First Search (DFS)** is notably prominent. This aligns with Wix's domain of web development, site builders, and dealing with nested structures like the DOM tree, component hierarchies, or graph-based data. Traversal and recursive problem-solving are key.
+**Wix's distinctive topic** is **Depth-First Search**, which appears in their top 4. This aligns with web development scenarios involving tree traversal (DOM manipulation, component hierarchies, directory structures). While Uber certainly uses DFS, it's not among their most frequently tested topics.
+
+The overlap means studying arrays, hash maps, and strings gives you maximum return on investment for both companies.
+
+## Preparation Priority Matrix
+
+Here's how to allocate your study time strategically:
+
+**High Priority (Overlap Topics - Study First)**
+
+- **Arrays & Strings**: Sliding window, two pointers, prefix sums
+- **Hash Tables**: Frequency counting, complement finding, caching
+- **Recommended Problems**: Two Sum (#1), Longest Substring Without Repeating Characters (#3), Group Anagrams (#49)
+
+**Medium Priority (Uber-Specific)**
+
+- **Dynamic Programming**: Start with 1D DP (climbing stairs, coin change), then 2D (edit distance, knapsack)
+- **Graph Algorithms**: BFS/DFS, Dijkstra's for weighted paths
+- **Recommended Problems**: Word Break (#139), Number of Islands (#200)
+
+**Lower Priority (Wix-Specific)**
+
+- **Tree/DFS Patterns**: Path sum, subtree validation, serialization
+- **Recommended Problems**: Validate Binary Search Tree (#98), Binary Tree Right Side View (#199)
+
+## Interview Format Differences
+
+**Uber** typically follows the FAANG model: 1-2 phone screens (45-60 minutes each) focusing on coding, followed by a 4-5 hour on-site with 3-4 rounds. These include:
+
+- 2-3 coding rounds (medium-hard problems, often with follow-up optimization)
+- 1 system design round (scaling a real-world system like UberEats or driver dispatch)
+- 1 behavioral/experience round (leadership principles, conflict resolution)
+
+**Wix** often has a leaner process: 1 technical phone screen (60 minutes), then 3-4 hour final round with:
+
+- 2 coding rounds (medium difficulty, sometimes practical web-adjacent problems)
+- 1 system design round (less about massive scale, more about API design and component architecture)
+- Possible "pair programming" round building a small feature
+
+Time pressure is similar (45 minutes per coding problem), but Uber's problems tend to have more complex follow-ups.
+
+## Specific Problem Recommendations
+
+These 5 problems provide exceptional coverage for both companies:
+
+1. **LRU Cache (#146)** - Combines hash table and linked list, tests design thinking. Uber uses it for caching ride data; Wix for browser caching simulations.
 
 <div class="code-group">
 
 ```python
-# Example of a common DP pattern (Uber-relevant)
-def coin_change(coins, amount):
-    dp = [float('inf')] * (amount + 1)
-    dp[0] = 0
-    for i in range(1, amount + 1):
-        for coin in coins:
-            if i - coin >= 0:
-                dp[i] = min(dp[i], dp[i - coin] + 1)
-    return dp[amount] if dp[amount] != float('inf') else -1
+class LRUCache:
+    def __init__(self, capacity: int):
+        self.capacity = capacity
+        self.cache = {}  # key -> node
+        self.head = Node(0, 0)  # dummy head
+        self.tail = Node(0, 0)  # dummy tail
+        self.head.next = self.tail
+        self.tail.prev = self.head
 
-# Example of a DFS pattern (Wix-relevant)
-def dfs_tree(node, target):
-    if not node:
-        return False
-    if node.val == target:
-        return True
-    return dfs_tree(node.left, target) or dfs_tree(node.right, target)
+    def get(self, key: int) -> int:
+        if key in self.cache:
+            node = self.cache[key]
+            self._remove(node)
+            self._add(node)
+            return node.value
+        return -1
+
+    def put(self, key: int, value: int) -> None:
+        if key in self.cache:
+            self._remove(self.cache[key])
+        node = Node(key, value)
+        self._add(node)
+        self.cache[key] = node
+        if len(self.cache) > self.capacity:
+            lru = self.head.next
+            self._remove(lru)
+            del self.cache[lru.key]
+
+    def _add(self, node):
+        prev = self.tail.prev
+        prev.next = node
+        node.prev = prev
+        node.next = self.tail
+        self.tail.prev = node
+
+    def _remove(self, node):
+        prev, nxt = node.prev, node.next
+        prev.next = nxt
+        nxt.prev = prev
+
+# Time: O(1) for get/put | Space: O(capacity)
 ```
 
 ```javascript
-// Example of a common DP pattern (Uber-relevant)
-function coinChange(coins, amount) {
-  const dp = new Array(amount + 1).fill(Infinity);
-  dp[0] = 0;
-  for (let i = 1; i <= amount; i++) {
-    for (const coin of coins) {
-      if (i - coin >= 0) {
-        dp[i] = Math.min(dp[i], dp[i - coin] + 1);
-      }
-    }
+class LRUCache {
+  constructor(capacity) {
+    this.capacity = capacity;
+    this.cache = new Map();
   }
-  return dp[amount] === Infinity ? -1 : dp[amount];
+
+  get(key) {
+    if (!this.cache.has(key)) return -1;
+    const value = this.cache.get(key);
+    this.cache.delete(key);
+    this.cache.set(key, value);
+    return value;
+  }
+
+  put(key, value) {
+    if (this.cache.has(key)) {
+      this.cache.delete(key);
+    } else if (this.cache.size >= this.capacity) {
+      const firstKey = this.cache.keys().next().value;
+      this.cache.delete(firstKey);
+    }
+    this.cache.set(key, value);
+  }
 }
 
-// Example of a DFS pattern (Wix-relevant)
-function dfsTree(node, target) {
-  if (!node) return false;
-  if (node.val === target) return true;
-  return dfsTree(node.left, target) || dfsTree(node.right, target);
-}
+// Time: O(1) average for get/put | Space: O(capacity)
 ```
 
 ```java
-// Example of a common DP pattern (Uber-relevant)
-public int coinChange(int[] coins, int amount) {
-    int[] dp = new int[amount + 1];
-    Arrays.fill(dp, amount + 1);
-    dp[0] = 0;
-    for (int i = 1; i <= amount; i++) {
-        for (int coin : coins) {
-            if (i - coin >= 0) {
-                dp[i] = Math.min(dp[i], dp[i - coin] + 1);
-            }
+class LRUCache {
+    class Node {
+        int key, value;
+        Node prev, next;
+        Node(int k, int v) { key = k; value = v; }
+    }
+
+    private Map<Integer, Node> cache;
+    private Node head, tail;
+    private int capacity;
+
+    public LRUCache(int capacity) {
+        this.capacity = capacity;
+        cache = new HashMap<>();
+        head = new Node(0, 0);
+        tail = new Node(0, 0);
+        head.next = tail;
+        tail.prev = head;
+    }
+
+    public int get(int key) {
+        if (!cache.containsKey(key)) return -1;
+        Node node = cache.get(key);
+        remove(node);
+        add(node);
+        return node.value;
+    }
+
+    public void put(int key, int value) {
+        if (cache.containsKey(key)) {
+            remove(cache.get(key));
+        }
+        Node node = new Node(key, value);
+        add(node);
+        cache.put(key, node);
+        if (cache.size() > capacity) {
+            Node lru = head.next;
+            remove(lru);
+            cache.remove(lru.key);
         }
     }
-    return dp[amount] > amount ? -1 : dp[amount];
+
+    private void add(Node node) {
+        Node prev = tail.prev;
+        prev.next = node;
+        node.prev = prev;
+        node.next = tail;
+        tail.prev = node;
+    }
+
+    private void remove(Node node) {
+        Node prev = node.prev, next = node.next;
+        prev.next = next;
+        next.prev = prev;
+    }
 }
 
-// Example of a DFS pattern (Wix-relevant)
-public boolean dfsTree(TreeNode node, int target) {
-    if (node == null) return false;
-    if (node.val == target) return true;
-    return dfsTree(node.left, target) || dfsTree(node.right, target);
-}
+// Time: O(1) for get/put | Space: O(capacity)
 ```
 
 </div>
 
+2. **Merge Intervals (#56)** - Tests array sorting and edge case handling. Uber uses it for time-based scheduling; Wix for calendar or booking features.
+
+3. **Word Break (#139)** - Dynamic programming classic. Tests both memoization and tabulation approaches. Frequently appears at Uber.
+
+4. **Validate Binary Search Tree (#98)** - DFS/recursion with bounds checking. Common at Wix for tree structure validation.
+
+5. **Design Underground System (#1396)** - System design meets data structures. Tests real-time data aggregation—relevant to both companies' domains.
+
 ## Which to Prepare for First
 
-Your preparation strategy should be dictated by your interview timeline and the company's focus.
+**Prepare for Uber first, then adapt for Wix.** Here's why:
 
-**Prepare for Wix first if:** You are earlier in your interview preparation journey or have an interview scheduled sooner. The smaller question bank and stronger focus on foundational topics (Arrays, Strings, Hash Tables) make it a more manageable initial target. Solidifying these core skills will build a strong base that is 100% transferable to Uber and other companies. Mastering DFS and tree/graph traversal is a logical next step after the core.
+1. **Coverage**: Uber's broader topic range (including DP and advanced graphs) will force you to build comprehensive skills. Wix's focus areas are largely subsets of Uber's requirements.
 
-**Prepare for Uber first if:** You are already comfortable with medium-level problems and have an Uber interview on the calendar. The extensive question bank and high density of Hard problems demand dedicated, focused practice. Tackling Uber's challenges will force you to master advanced patterns like Dynamic Programming, which is a high-leverage skill. Successfully preparing for Uber's bar will likely make you over-prepared for the algorithmic portion of a Wix interview.
+2. **Difficulty**: If you can solve Uber's Medium-Hard problems, Wix's Medium problems will feel more manageable. The reverse isn't true.
 
-In summary, use Wix's pattern to solidify your foundation and Uber's pattern to stress-test and advance your algorithmic problem-solving to a top tier. The core topics overlap significantly, so proficiency gained for one company directly benefits the other.
+3. **Efficiency**: Study Uber's 381 questions using pattern-based approaches (don't memorize individual solutions). Then, review Wix's 56 questions specifically in your final week before their interview.
 
-For detailed question lists, visit the Uber and Wix company pages: [Uber Interview Questions](/company/uber) | [Wix Interview Questions](/company/wix)
+**Timeline suggestion**: If interviewing at both within a month, spend 70% of time on Uber patterns, 20% on Wix-specific problems, and 10% on behavioral preparation (more important for Uber's leadership principles).
+
+Remember: Both companies value clean, communicative code. Practice explaining your thought process aloud—this matters as much as the solution itself at Wix, and is absolutely critical at Uber.
+
+For more detailed breakdowns, see our [Uber interview guide](/company/uber) and [Wix interview guide](/company/wix).

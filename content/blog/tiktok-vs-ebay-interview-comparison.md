@@ -1,128 +1,182 @@
 ---
 title: "TikTok vs eBay: Interview Question Comparison"
 description: "Compare coding interview questions at TikTok and eBay — difficulty levels, topic focus, and preparation strategy."
-date: "2027-04-04"
+date: "2030-01-02"
 category: "tips"
 tags: ["tiktok", "ebay", "comparison"]
 ---
 
-When preparing for technical interviews, company-specific question banks provide targeted practice but vary significantly in scope and focus. TikTok and eBay represent two distinct ends of the spectrum in terms of volume, difficulty, and required preparation strategy.
+# TikTok vs eBay: Interview Question Comparison
+
+If you're interviewing at both TikTok and eBay, you're looking at two very different interview experiences that require distinct preparation strategies. The most important thing to know upfront: TikTok's interview process is significantly more algorithmically intensive, while eBay's is more focused on practical problem-solving with a narrower scope. Preparing for TikTok will give you strong coverage for eBay, but the reverse isn't true. Let's break down what this means for your preparation timeline and priorities.
 
 ## Question Volume and Difficulty
 
-The most immediate difference is scale. TikTok's list of 383 questions dwarfs eBay's 60. This reflects both the companies' current hiring intensity and the perceived difficulty of their processes.
+The numbers tell a clear story. TikTok has 383 tagged questions on LeetCode (42 Easy, 260 Medium, 81 Hard), while eBay has just 60 (12 Easy, 38 Medium, 10 Hard). This 6:1 ratio isn't just about quantity—it reflects fundamentally different approaches to technical assessment.
 
-TikTok's distribution (Easy 42, Medium 260, Hard 81) reveals a heavy emphasis on challenging problems. With nearly 90% of its questions rated Medium or Hard, success requires deep algorithmic fluency and the ability to solve complex problems under pressure. The high volume suggests a broad and unpredictable question pool, making pattern recognition across many problems essential.
+TikTok's massive question bank suggests they're pulling from a deep well of algorithmic problems, likely rotating questions frequently to prevent memorization. With 68% of their questions at Medium difficulty and 21% at Hard, they're testing candidates' ability to handle complex algorithmic thinking under pressure. The high Hard percentage is particularly telling—they expect senior candidates to solve challenging problems.
 
-eBay's list (Easy 12, Medium 38, Hard 10) is more moderate. While Mediums still dominate (63% of questions), the overall count is manageable, and the presence of several Easy questions indicates a process that may test fundamentals more directly before escalating. The lower volume allows for more focused, thorough preparation on a narrower set of concepts.
+eBay's smaller question bank indicates they're more likely to reuse established problems or focus on a core set of concepts. Their difficulty distribution (63% Medium, 17% Hard) is still challenging but less extreme than TikTok's. The smaller volume suggests you might encounter more predictable patterns if you study their tagged questions thoroughly.
 
 ## Topic Overlap
 
-Both companies emphasize core data structures. **Array, String, and Hash Table** problems form the essential foundation for interviews at both.
+Both companies heavily test **Array**, **String**, and **Hash Table** problems. This overlap represents your highest-return preparation area—mastering these topics will serve you well at both companies.
 
-- **TikTok** adds **Dynamic Programming (DP)** as a primary topic. This signals that advanced optimization problems, particularly those involving sequences, partitioning, or states, are frequent and must be mastered. The large question count in this area demands significant practice.
-- **eBay** lists **Sorting** as a key topic instead. This suggests a focus on problems involving rearrangement, comparison, and often, the application of two-pointer or greedy techniques alongside sorted data.
+However, the divergence is significant:
 
-A practical example of this difference can be seen in a common array problem:
+- **TikTok** adds **Dynamic Programming** as a major focus area (81 of their questions are DP-related)
+- **eBay** adds **Sorting** as a distinct focus area
+
+This difference reveals their engineering priorities. TikTok's DP emphasis suggests they're evaluating candidates' ability to solve optimization problems and think recursively—skills valuable for their recommendation algorithms and video processing pipelines. eBay's sorting focus aligns with their e-commerce roots, where efficiently organizing and retrieving product data is fundamental.
+
+## Preparation Priority Matrix
+
+Here's how to allocate your study time for maximum efficiency:
+
+**Study First (High ROI for Both):**
+
+- Array manipulation (sliding window, two pointers)
+- String operations (palindromes, subsequences)
+- Hash Table applications (frequency counting, caching)
+
+**TikTok-Specific Priority:**
+
+- Dynamic Programming (memoization, tabulation, state machines)
+- Graph algorithms (BFS/DFS variations)
+- Advanced tree traversals
+
+**eBay-Specific Priority:**
+
+- Sorting algorithms and their applications
+- Interval problems (merging, scheduling)
+- Matrix/2D array traversal
+
+For overlapping topics, these LeetCode problems provide excellent coverage:
+
+- **Two Sum (#1)** - Fundamental hash table application
+- **Longest Substring Without Repeating Characters (#3)** - Classic sliding window
+- **Merge Intervals (#56)** - Covers sorting and array manipulation
+- **Valid Parentheses (#20)** - Stack application with string parsing
+
+## Interview Format Differences
+
+TikTok typically follows the FAANG-style interview structure:
+
+- 4-5 rounds including coding, system design, and behavioral
+- 45-60 minutes per coding round, often with 2 problems
+- Heavy emphasis on optimal solutions with follow-up questions
+- System design expected for mid-level and above roles
+- Virtual or on-site formats with whiteboarding components
+
+eBay's process tends to be more streamlined:
+
+- 3-4 rounds total, with coding being the primary technical assessment
+- 45 minutes per coding round, usually 1 problem with extensions
+- More focus on clean, maintainable code than extreme optimization
+- Behavioral rounds often integrated with technical discussions
+- May include practical problem-solving related to e-commerce scenarios
+
+The key difference: TikTok interviews feel like an algorithm olympiad, while eBay interviews feel more like a collaborative coding session. At TikTok, you need to sprint to an optimal solution; at eBay, you need to communicate your thought process clearly while arriving at a working solution.
+
+## Specific Problem Recommendations
+
+These 5 problems will give you broad coverage for both companies:
+
+1. **Product of Array Except Self (#238)** - Tests array manipulation without division, a favorite at both companies. The follow-up about constant space (excluding output array) is commonly asked.
 
 <div class="code-group">
 
 ```python
-# eBay-style: Often involves sorting as a key step.
-def twoSumSorted(nums, target):
-    nums_sorted = sorted(nums) # Sorting is central
-    left, right = 0, len(nums_sorted) - 1
-    while left < right:
-        current_sum = nums_sorted[left] + nums_sorted[right]
-        if current_sum == target:
-            return [nums_sorted[left], nums_sorted[right]]
-        elif current_sum < target:
-            left += 1
-        else:
-            right -= 1
-    return []
+# Time: O(n) | Space: O(1) excluding output array
+def productExceptSelf(nums):
+    n = len(nums)
+    result = [1] * n
 
-# TikTok-style: Might evolve into a DP problem like "Number of ways to reach target".
-def combinationSumIV(nums, target):
-    # A classic Dynamic Programming problem.
-    dp = [0] * (target + 1)
-    dp[0] = 1
-    for i in range(1, target + 1):
-        for num in nums:
-            if i - num >= 0:
-                dp[i] += dp[i - num]
-    return dp[target]
+    # Left pass
+    left_product = 1
+    for i in range(n):
+        result[i] = left_product
+        left_product *= nums[i]
+
+    # Right pass
+    right_product = 1
+    for i in range(n-1, -1, -1):
+        result[i] *= right_product
+        right_product *= nums[i]
+
+    return result
 ```
 
 ```javascript
-// eBay-style
-function twoSumSorted(nums, target) {
-  const sorted = [...nums].sort((a, b) => a - b);
-  let left = 0,
-    right = sorted.length - 1;
-  while (left < right) {
-    const sum = sorted[left] + sorted[right];
-    if (sum === target) return [sorted[left], sorted[right]];
-    if (sum < target) left++;
-    else right--;
-  }
-  return [];
-}
+// Time: O(n) | Space: O(1) excluding output array
+function productExceptSelf(nums) {
+  const n = nums.length;
+  const result = new Array(n).fill(1);
 
-// TikTok-style
-function combinationSumIV(nums, target) {
-  const dp = new Array(target + 1).fill(0);
-  dp[0] = 1;
-  for (let i = 1; i <= target; i++) {
-    for (const num of nums) {
-      if (i - num >= 0) {
-        dp[i] += dp[i - num];
-      }
-    }
+  // Left pass
+  let leftProduct = 1;
+  for (let i = 0; i < n; i++) {
+    result[i] = leftProduct;
+    leftProduct *= nums[i];
   }
-  return dp[target];
+
+  // Right pass
+  let rightProduct = 1;
+  for (let i = n - 1; i >= 0; i--) {
+    result[i] *= rightProduct;
+    rightProduct *= nums[i];
+  }
+
+  return result;
 }
 ```
 
 ```java
-// eBay-style
-import java.util.Arrays;
-public int[] twoSumSorted(int[] nums, int target) {
-    int[] sorted = nums.clone();
-    Arrays.sort(sorted);
-    int left = 0, right = sorted.length - 1;
-    while (left < right) {
-        int sum = sorted[left] + sorted[right];
-        if (sum == target) return new int[]{sorted[left], sorted[right]};
-        if (sum < target) left++;
-        else right--;
-    }
-    return new int[]{};
-}
+// Time: O(n) | Space: O(1) excluding output array
+public int[] productExceptSelf(int[] nums) {
+    int n = nums.length;
+    int[] result = new int[n];
 
-// TikTok-style
-public int combinationSumIV(int[] nums, int target) {
-    int[] dp = new int[target + 1];
-    dp[0] = 1;
-    for (int i = 1; i <= target; i++) {
-        for (int num : nums) {
-            if (i - num >= 0) {
-                dp[i] += dp[i - num];
-            }
-        }
+    // Left pass
+    int leftProduct = 1;
+    for (int i = 0; i < n; i++) {
+        result[i] = leftProduct;
+        leftProduct *= nums[i];
     }
-    return dp[target];
+
+    // Right pass
+    int rightProduct = 1;
+    for (int i = n - 1; i >= 0; i--) {
+        result[i] *= rightProduct;
+        rightProduct *= nums[i];
+    }
+
+    return result;
 }
 ```
 
 </div>
 
+2. **Longest Palindromic Substring (#5)** - Covers string manipulation and dynamic programming thinking. The expand-around-center approach is efficient and teachable.
+
+3. **Merge k Sorted Lists (#23)** - Tests sorting concepts (eBay) and heap/divide-and-conquer thinking (TikTok). The priority queue solution is optimal and demonstrates knowledge of data structures.
+
+4. **Coin Change (#322)** - Essential Dynamic Programming problem for TikTok. The bottom-up tabulation approach is a pattern that applies to many DP problems.
+
+5. **Top K Frequent Elements (#347)** - Combines hash tables (both companies) with sorting/heaps. The bucket sort solution is particularly elegant for this problem.
+
 ## Which to Prepare for First
 
-Prepare for **eBay first** if you are early in your interview journey or have limited time. Its smaller, slightly less difficult question set allows you to build confidence by achieving mastery over a defined scope. Solidifying the core topics (Array, String, Hash Table, Sorting) here provides an excellent foundation for any interview.
+Prepare for **TikTok first**, even if your eBay interview comes sooner. Here's why: TikTok's broader and deeper question coverage means that preparing for their interviews will give you 90%+ coverage for eBay's technical rounds. The reverse isn't true—eBay's narrower focus leaves significant gaps for TikTok preparation.
 
-Prepare for **TikTok first** only if you are already comfortable with Medium-level problems and have ample time for dedicated study. Its vast question bank and emphasis on Hard problems and Dynamic Programming require a long, disciplined preparation period. Starting with TikTok's list will force you to level up quickly, making subsequent preparations for companies like eBay feel more manageable, but the initial hurdle is high.
+If you have limited time, follow this sequence:
 
-In summary, use eBay's list for efficient, foundational prep. Use TikTok's list for a comprehensive, high-difficulty training regimen. Master the shared core topics first, then branch into Sorting for eBay or Dynamic Programming for TikTok.
+1. Master the overlapping topics (Arrays, Strings, Hash Tables)
+2. Dive deep into Dynamic Programming for TikTok coverage
+3. Review sorting algorithms and their applications for eBay
+4. Practice TikTok's Hard problems to build stamina for complex thinking
+5. Do a final pass through eBay's tagged questions for company-specific patterns
 
-Practice questions for [TikTok](/company/tiktok) and [eBay](/company/ebay).
+Remember: TikTok's interview is the marathon; eBay's is the 5K. Train for the marathon, and the 5K will feel comfortable. The algorithmic rigor required for TikTok will make eBay's problems feel more approachable, while focusing only on eBay's scope might leave you unprepared for TikTok's depth.
+
+For more company-specific insights, check out our [TikTok interview guide](/company/tiktok) and [eBay interview guide](/company/ebay).

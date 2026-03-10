@@ -1,121 +1,149 @@
 ---
 title: "Atlassian vs Morgan Stanley: Interview Question Comparison"
 description: "Compare coding interview questions at Atlassian and Morgan Stanley — difficulty levels, topic focus, and preparation strategy."
-date: "2026-10-24"
+date: "2026-10-16"
 category: "tips"
 tags: ["atlassian", "morgan-stanley", "comparison"]
 ---
 
-When preparing for technical interviews at top companies, understanding their specific focus areas can dramatically improve your efficiency. Atlassian and Morgan Stanley represent two distinct industry domains—software development and financial services—yet their technical interviews share surprising common ground while maintaining key differences in emphasis and difficulty distribution.
+# Atlassian vs Morgan Stanley: Interview Question Comparison
+
+If you're preparing for interviews at both Atlassian and Morgan Stanley, you're facing two distinct engineering cultures with different technical priorities. Atlassian, a product-focused software company, emphasizes practical problem-solving for their collaboration tools. Morgan Stanley, a global financial institution, prioritizes algorithmic rigor and reliability for their trading systems and financial platforms. While both test core computer science fundamentals, their interview styles reflect their operational realities. Understanding these differences will help you allocate your preparation time strategically.
 
 ## Question Volume and Difficulty
 
-Atlassian’s question pool is slightly larger at 62 questions, with a difficulty distribution of 42 Easy, 43 Medium, and 12 Hard questions. This indicates a balanced emphasis on Medium-level problems, with a significant portion dedicated to fundamentals. The presence of 12 Hard questions suggests they expect candidates to handle complex algorithmic challenges, particularly for senior roles.
+The numbers tell an immediate story about each company's technical screening approach. Atlassian's 62 questions (12 Easy, 43 Medium, 12 Hard) suggest a broader but slightly shallower pool, with Medium questions dominating. This pattern indicates they're looking for competent problem-solvers who can handle typical engineering challenges efficiently. The 12 Hard questions likely appear in senior roles or final rounds.
 
-Morgan Stanley’s set contains 53 questions, distributed as 13 Easy, 34 Medium, and 6 Hard. The proportion of Medium questions is notably higher (64% vs. Atlassian’s 69% when considering Medium+Hard), but the absolute number of Hard questions is half that of Atlassian. This suggests Morgan Stanley’s technical screening may prioritize consistent performance on moderately challenging problems over solving extreme edge cases.
+Morgan Stanley's 53 questions (13 Easy, 34 Medium, 6 Hard) shows a similar Medium-heavy distribution but with fewer Hard questions and more Easy ones. This might reflect their focus on getting fundamentals absolutely right—financial systems can't afford subtle bugs. The lower Hard count doesn't mean easier interviews; it often means they expect flawless execution on Medium problems with optimal solutions and clean code.
+
+The key takeaway: Atlassian might throw more curveballs with varied Hard problems, while Morgan Stanley will expect perfection on core algorithms. Both require Medium-level mastery as your baseline.
 
 ## Topic Overlap
 
-Both companies heavily emphasize **Array**, **String**, and **Hash Table** problems. These form the core of their technical assessments, testing fundamental data manipulation and lookup efficiency.
+Both companies heavily test **Array**, **String**, and **Hash Table** problems. This isn't surprising—these are foundational data structures that appear in virtually all software engineering work. The overlap represents your highest-return preparation area.
 
-**Atlassian** includes **Sorting** as a distinct focus area, indicating they value algorithmic efficiency and the ability to organize data effectively. Many of their problems likely involve optimizing operations on sorted data or implementing custom comparison logic.
+The divergence comes in their secondary focuses. Atlassian includes **Sorting** as a top category, reflecting their product work with ordered data (Jira tickets, Confluence pages, user lists). Morgan Stanley emphasizes **Dynamic Programming**, crucial for optimization problems in finance (portfolio optimization, risk calculation, algorithmic trading).
 
-**Morgan Stanley** uniquely highlights **Dynamic Programming** in their top topics. This aligns with financial modeling and optimization problems common in quantitative finance. Expect problems involving optimization, sequence analysis, or resource allocation.
+Interestingly, both omit some common interview topics like Trees and Graphs from their top lists, though they certainly appear. This suggests both companies prioritize problems that map directly to their day-to-day work rather than abstract computer science puzzles.
 
-Here’s a typical problem that could appear at either company, solved using a hash table:
+## Preparation Priority Matrix
+
+Here's how to prioritize your study time when preparing for both:
+
+**High Priority (Overlap Topics - Study First)**
+
+- Array manipulation and traversal
+- String algorithms (especially pattern matching)
+- Hash Table implementation and applications
+- Two-pointer techniques (works on both arrays and strings)
+
+**Medium Priority (Atlassian-Specific)**
+
+- Sorting algorithms and their applications
+- Interval problems (common in scheduling features)
+- Design problems related to collaboration tools
+
+**Medium Priority (Morgan Stanley-Specific)**
+
+- Dynamic Programming (both 1D and 2D)
+- Mathematical/combinatorial problems
+- Problems involving financial concepts (though rare)
+
+**Specific LeetCode Problems Useful for Both:**
+
+- Two Sum (#1) - Tests Hash Table mastery
+- Merge Intervals (#56) - Combines sorting with array manipulation
+- Longest Substring Without Repeating Characters (#3) - String + Hash Table + sliding window
+- Best Time to Buy and Sell Stock (#121) - Simple DP that appeals to both companies
+
+## Interview Format Differences
+
+Atlassian typically follows the standard tech company pattern: 1-2 phone screens (often LeetCode-style), followed by a virtual or on-site loop with 4-5 rounds. These include coding (2-3 rounds), system design (for senior roles), and behavioral/cultural fit. Their coding rounds often involve real-world scenarios that could relate to their products. Time per problem is usually 45 minutes, and they value communication and collaboration highly.
+
+Morgan Stanley's process is more structured and traditional. They often begin with a HackerRank assessment, followed by technical phone screens. The on-site (or virtual equivalent) typically includes 3-4 technical rounds focusing heavily on algorithms and data structures. System design appears at senior levels but is less emphasized than at pure tech companies. They place significant weight on behavioral questions about handling pressure, attention to detail, and working in regulated environments. Coding problems are often classic algorithms executed flawlessly.
+
+The behavioral difference is key: Atlassian wants to know how you build products with teams; Morgan Stanley wants to know how you ensure reliability under constraints.
+
+## Specific Problem Recommendations
+
+Here are 5 problems that provide excellent coverage for both companies:
+
+1. **Group Anagrams (#49)** - Excellent for Hash Table practice with string manipulation. Both companies love this pattern.
 
 <div class="code-group">
 
 ```python
-def two_sum(nums, target):
-    seen = {}
-    for i, num in enumerate(nums):
-        complement = target - num
-        if complement in seen:
-            return [seen[complement], i]
-        seen[num] = i
-    return []
+# Time: O(n * k) where n = number of strings, k = max string length
+# Space: O(n * k) for the output structure
+def groupAnagrams(strs):
+    from collections import defaultdict
+    groups = defaultdict(list)
+
+    for s in strs:
+        # Create a character count key
+        count = [0] * 26
+        for char in s:
+            count[ord(char) - ord('a')] += 1
+        # Convert to tuple to use as dict key
+        groups[tuple(count)].append(s)
+
+    return list(groups.values())
 ```
 
 ```javascript
-function twoSum(nums, target) {
-  const map = new Map();
-  for (let i = 0; i < nums.length; i++) {
-    const complement = target - nums[i];
-    if (map.has(complement)) {
-      return [map.get(complement), i];
+// Time: O(n * k) | Space: O(n * k)
+function groupAnagrams(strs) {
+  const groups = new Map();
+
+  for (const s of strs) {
+    const count = new Array(26).fill(0);
+    for (const char of s) {
+      count[char.charCodeAt(0) - "a".charCodeAt(0)]++;
     }
-    map.set(nums[i], i);
+    const key = count.join("#");
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(s);
   }
-  return [];
+
+  return Array.from(groups.values());
 }
 ```
 
 ```java
-public int[] twoSum(int[] nums, int target) {
-    Map<Integer, Integer> map = new HashMap<>();
-    for (int i = 0; i < nums.length; i++) {
-        int complement = target - nums[i];
-        if (map.containsKey(complement)) {
-            return new int[]{map.get(complement), i};
+// Time: O(n * k) | Space: O(n * k)
+public List<List<String>> groupAnagrams(String[] strs) {
+    Map<String, List<String>> groups = new HashMap<>();
+
+    for (String s : strs) {
+        char[] count = new char[26];
+        for (char c : s.toCharArray()) {
+            count[c - 'a']++;
         }
-        map.put(nums[i], i);
+        String key = new String(count);
+        groups.putIfAbsent(key, new ArrayList<>());
+        groups.get(key).add(s);
     }
-    return new int[]{};
+
+    return new ArrayList<>(groups.values());
 }
 ```
 
 </div>
 
-A Dynamic Programming problem, more characteristic of Morgan Stanley:
+2. **Product of Array Except Self (#238)** - Tests array manipulation and optimization thinking. The follow-up about constant space (excluding output) is classic interview material.
 
-<div class="code-group">
+3. **Longest Palindromic Substring (#5)** - Covers string manipulation, dynamic programming, and two-pointer techniques. The DP solution appeals to Morgan Stanley, while the optimized expand-around-center approach shows algorithmic creativity for Atlassian.
 
-```python
-def climb_stairs(n):
-    if n <= 2:
-        return n
-    dp = [0] * (n + 1)
-    dp[1], dp[2] = 1, 2
-    for i in range(3, n + 1):
-        dp[i] = dp[i-1] + dp[i-2]
-    return dp[n]
-```
+4. **Meeting Rooms II (#253)** - Perfect for Atlassian's sorting focus and real-world scheduling scenarios. Also tests min-heap usage.
 
-```javascript
-function climbStairs(n) {
-  if (n <= 2) return n;
-  const dp = new Array(n + 1).fill(0);
-  dp[1] = 1;
-  dp[2] = 2;
-  for (let i = 3; i <= n; i++) {
-    dp[i] = dp[i - 1] + dp[i - 2];
-  }
-  return dp[n];
-}
-```
-
-```java
-public int climbStairs(int n) {
-    if (n <= 2) return n;
-    int[] dp = new int[n + 1];
-    dp[1] = 1;
-    dp[2] = 2;
-    for (int i = 3; i <= n; i++) {
-        dp[i] = dp[i-1] + dp[i-2];
-    }
-    return dp[n];
-}
-```
-
-</div>
+5. **Coin Change (#322)** - Classic DP problem that Morgan Stanley loves. Understanding both the DP solution and its optimization teaches fundamental algorithmic thinking.
 
 ## Which to Prepare for First
 
-Start with **Atlassian’s question set** if you are preparing for both. Its broader coverage, including more Hard problems and explicit Sorting focus, creates a stronger foundation. Mastering these will naturally cover the core topics (Array, String, Hash Table) that dominate Morgan Stanley’s list. The additional challenge of Hard problems builds resilience.
+Start with Morgan Stanley. Here's why: their focus on Dynamic Programming and algorithmic fundamentals creates a stronger foundation. If you can solve Medium DP problems optimally, you've already stretched your problem-solving muscles in ways that will help with Atlassian's challenges. The reverse isn't as true—being good at Atlassian's practical problems doesn't guarantee DP mastery.
 
-Once comfortable with Atlassian’s problems, shift focus to **Dynamic Programming** to address Morgan Stanley’s specific emphasis. Practice common DP patterns like Fibonacci-style sequences, knapsack problems, and grid traversal. Since Morgan Stanley has fewer Hard questions, solid performance on Medium problems with strong DP skills will cover most of their technical bar.
+Allocate 60% of your time to overlap topics and Morgan Stanley's DP focus, 25% to Atlassian-specific patterns (especially sorting applications), and 15% to mock interviews simulating each company's style. Practice explaining your reasoning clearly for Atlassian, and practice flawless implementation for Morgan Stanley.
 
-This sequential approach ensures you build from a wider, more challenging base to a more specialized one, maximizing preparation efficiency for both interview styles.
+Remember that both companies ultimately want engineers who can think clearly and write reliable code. The patterns may differ, but the core skills don't. Master the fundamentals, understand why each company emphasizes what they do, and tailor your communication accordingly.
 
-For targeted practice, visit the company pages: [Atlassian](/company/atlassian) and [Morgan Stanley](/company/morgan-stanley).
+For more detailed breakdowns of each company's interview process, see our guides for [Atlassian](/company/atlassian) and [Morgan Stanley](/company/morgan-stanley).

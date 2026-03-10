@@ -1,90 +1,156 @@
 ---
 title: "Amazon vs TikTok: Interview Question Comparison"
 description: "Compare coding interview questions at Amazon and TikTok — difficulty levels, topic focus, and preparation strategy."
-date: "2028-06-05"
+date: "2028-10-25"
 category: "tips"
 tags: ["amazon", "tiktok", "comparison"]
 ---
 
-When preparing for technical interviews, company-specific question patterns matter. Amazon and TikTok represent two distinct ends of the spectrum in terms of scale and focus, which is directly reflected in their interview question libraries. Amazon's list is massive and well-established, while TikTok's is smaller and more concentrated. Understanding the differences in volume, difficulty, and topic focus will help you allocate your study time effectively.
+If you're interviewing at both Amazon and TikTok, you're in a unique position. On the surface, their coding interviews test the same core topics. But the scale, intensity, and subtle focus of their question banks reveal two very different interview philosophies. Preparing for one isn't a perfect substitute for the other. This comparison will help you build a strategic, high-ROI study plan that leverages the overlap while targeting each company's specific demands.
 
-## Question Volume and Difficulty
+## Question Volume and Difficulty: A Tale of Two Scales
 
-The raw numbers tell a clear story. Amazon's list of **1,938 questions** dwarfs TikTok's **383**. This volume is a function of Amazon's longer history, larger number of interviews conducted, and vast array of teams and roles.
+The raw numbers tell a stark story. Amazon's tagged question bank on LeetCode is massive: **1,938 questions** (530 Easy, 1,057 Medium, 351 Hard). TikTok's is a fraction of that: **383 questions** (42 Easy, 260 Medium, 81 Hard).
 
-The difficulty distribution further highlights their different profiles:
+What does this imply?
 
-- **Amazon (E530/M1057/H351):** The difficulty is heavily weighted toward **Medium** questions, which make up over 54% of their list. This aligns with Amazon's well-known focus on practical, scalable problem-solving. The significant number of Hard questions (18%) often relates to system design principles or complex optimizations.
-- **TikTok (E42/M260/H81):** The distribution is even more skewed toward **Medium** difficulty, which constitutes nearly 68% of their list. The Hard questions are present but form a smaller proportion (21%). This suggests TikTok's technical screen heavily tests strong, applied coding skills on non-trivial problems, with a slightly narrower scope for extreme algorithmic complexity than Amazon's hardest questions.
+- **Amazon's Intensity:** Amazon's vast question bank, with over a thousand Medium problems, suggests a long-standing, highly standardized process. Interviewers have a deep, well-worn playbook. You're less likely to get a brand-new, obscure problem and more likely to get a classic Amazon variant of a common pattern. The sheer volume means you can't "grind" your way to knowing them all; you must master the underlying patterns.
+- **TikTok's Focus:** TikTok's smaller, Medium-heavy bank indicates a newer, more focused process. The high Medium-to-Easy ratio (over 6:1) suggests they skip the trivial warm-ups and dive straight into substantive problem-solving. The interview might feel more targeted and less predictable from a "known question" standpoint, placing a premium on strong fundamentals and adaptability.
 
-In short, Amazon's challenge is breadth within a vast pool, while TikTok's is depth within a more focused, medium-difficulty set.
+## Topic Overlap: Your Foundation
 
-## Topic Overlap
+Both companies heavily test the same four core topics, in nearly identical order of priority:
 
-Despite the volume difference, both companies concentrate on the same core data structures and algorithms. The top topics are identical: **Array, String, Hash Table, and Dynamic Programming**.
+1.  **Array**
+2.  **String**
+3.  **Hash Table**
+4.  **Dynamic Programming**
 
-This overlap means a strong foundation in these areas serves you for both interviews. You must be proficient in manipulating arrays and strings, using hash maps for efficient lookups, and applying dynamic programming to optimization problems. The coding patterns you learn for one company will directly apply to the other.
+This is your golden ticket. Mastering these four topics provides the maximum shared prep value. Depth in these areas—especially being able to manipulate arrays/strings efficiently, use hash maps for O(1) lookups, and reason about DP state—will serve you brilliantly in both interview loops.
 
-The primary difference lies in the _context and application_. Amazon questions frequently incorporate concepts related to scalability, data processing, and real-world system behavior (e.g., designing a parking lot, merging log files). TikTok, given its social media and video focus, may lean slightly more toward problems involving feeds, sequences, graphs (for social networks), and string processing, but the underlying algorithmic patterns remain from the core four topics.
+The uniqueness emerges in the secondary topics. Amazon has a pronounced emphasis on **Tree** and **Graph** problems, reflecting its vast distributed systems and hierarchical data (e.g., product categories, org structures). TikTok shows stronger relative weighting in **Linked List** and **Binary Search**, aligning with data stream processing and efficient search in feed algorithms.
 
-<div class="code-group">
+## Preparation Priority Matrix
 
-```python
-# Example: A Hash Table problem relevant to both companies
-def two_sum(nums, target):
-    seen = {}
-    for i, num in enumerate(nums):
-        complement = target - num
-        if complement in seen:
-            return [seen[complement], i]
-        seen[num] = i
-    return []
+Use this matrix to allocate your study time strategically.
 
-# This pattern is fundamental for both Amazon and TikTok interviews.
-```
+| Priority                     | Topics/Area                                            | Rationale & Action                                                                                                 |
+| :--------------------------- | :----------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------- |
+| **Tier 1 (Max ROI)**         | **Array, String, Hash Table, DP**                      | The core overlap. Solve high-frequency problems for both companies here first.                                     |
+| **Tier 2 (Amazon-Specific)** | **Tree (especially BST), Graph (BFS/DFS), Simulation** | Amazon loves tree traversals, level-order BFS, and graph connectivity. Practice iterative and recursive solutions. |
+| **Tier 2 (TikTok-Specific)** | **Linked List, Binary Search, Two Pointers**           | TikTok frequently tests cycle detection, list reversal, and optimized search. Master the pointer manipulation.     |
+| **Tier 3**                   | Stack, Queue, Heap, Trie                               | Important but less frequent. Review if you have time after mastering Tiers 1 & 2.                                  |
 
-```javascript
-// Example: A Hash Table problem relevant to both companies
-function twoSum(nums, target) {
-  const map = new Map();
-  for (let i = 0; i < nums.length; i++) {
-    const complement = target - nums[i];
-    if (map.has(complement)) {
-      return [map.get(complement), i];
+**Shared Prep Problems:** Start with these high-value problems that appear frequently for both companies:
+
+- **Two Sum (#1):** The quintessential hash map problem.
+- **Merge Intervals (#56):** Tests array sorting and merging logic.
+- **Longest Substring Without Repeating Characters (#3):** Classic sliding window + hash set.
+- **Best Time to Buy and Sell Stock (#121):** Foundational for DP/greedy thinking.
+
+## Interview Format Differences
+
+The structure of the interview day differs significantly.
+
+- **Amazon:**
+  - **The "Loop":** Typically 4-5 one-hour interviews back-to-back (now often virtual). Includes 2-3 coding rounds, 1 system design round (for SDE II+), and 1-2 behavioral/Leadership Principles rounds.
+  - **Coding Rounds:** Often one Medium problem with ample time for discussion, test cases, and optimization. May include a follow-up. Interviewers are trained to probe your thinking using the Leadership Principles (LP).
+  - **The LP is King:** Your code could be perfect, but if you didn't "Earn Trust" or show "Bias for Action" in how you explained your approach, you may not pass. Weave LP stories into your problem-solving narrative.
+
+- **TikTok:**
+  - **Leaner Process:** Often 2-3 technical phone screens followed by a virtual on-site with 3-4 rounds.
+  - **Coding Intensity:** Rounds are highly coding-centric. You may be expected to solve 2 Medium problems in 45-60 minutes, or 1 Hard problem. The pace is fast, and clean, bug-free implementation under time pressure is critical.
+  - **Less "Storytelling":** While behavioral fit matters, the interview is more directly focused on algorithmic proficiency and coding speed compared to Amazon's LP-focused narrative.
+
+## Specific Problem Recommendations for Dual Prep
+
+These problems reinforce the shared core topics in ways that build generally applicable skills.
+
+1.  **Product of Array Except Self (#238):** A masterclass in array traversal and prefix/suffix computation. It's a common Amazon question and teaches a pattern useful for many TikTok array problems.
+    <div class="code-group">
+
+    ```python
+    # Time: O(n) | Space: O(1) [output array not counted]
+    def productExceptSelf(self, nums: List[int]) -> List[int]:
+        n = len(nums)
+        answer = [1] * n
+
+        # First pass: prefix products stored in answer
+        prefix = 1
+        for i in range(n):
+            answer[i] = prefix
+            prefix *= nums[i]
+
+        # Second pass: multiply by suffix products
+        suffix = 1
+        for i in range(n-1, -1, -1):
+            answer[i] *= suffix
+            suffix *= nums[i]
+
+        return answer
+    ```
+
+    ```javascript
+    // Time: O(n) | Space: O(1)
+    function productExceptSelf(nums) {
+      const n = nums.length;
+      const answer = new Array(n).fill(1);
+
+      let prefix = 1;
+      for (let i = 0; i < n; i++) {
+        answer[i] = prefix;
+        prefix *= nums[i];
+      }
+
+      let suffix = 1;
+      for (let i = n - 1; i >= 0; i--) {
+        answer[i] *= suffix;
+        suffix *= nums[i];
+      }
+
+      return answer;
     }
-    map.set(nums[i], i);
-  }
-  return [];
-}
-```
+    ```
 
-```java
-// Example: A Hash Table problem relevant to both companies
-public int[] twoSum(int[] nums, int target) {
-    Map<Integer, Integer> map = new HashMap<>();
-    for (int i = 0; i < nums.length; i++) {
-        int complement = target - nums[i];
-        if (map.containsKey(complement)) {
-            return new int[] { map.get(complement), i };
+    ```java
+    // Time: O(n) | Space: O(1)
+    public int[] productExceptSelf(int[] nums) {
+        int n = nums.length;
+        int[] answer = new int[n];
+
+        // Prefix pass
+        answer[0] = 1;
+        for (int i = 1; i < n; i++) {
+            answer[i] = answer[i-1] * nums[i-1];
         }
-        map.put(nums[i], i);
+
+        // Suffix pass & multiply
+        int suffix = 1;
+        for (int i = n - 1; i >= 0; i--) {
+            answer[i] *= suffix;
+            suffix *= nums[i];
+        }
+        return answer;
     }
-    return new int[0];
-}
-```
+    ```
 
-</div>
+    </div>
 
-## Which to Prepare for First
+2.  **Longest Palindromic Substring (#5):** Covers string manipulation, two-pointer expansion, and DP thinking. It's a classic problem that tests your ability to optimize from O(n³) brute force to O(n²) with a clever technique.
+3.  **Word Break (#139):** A foundational DP problem that appears for both companies. It teaches how to define a subproblem (`dp[i] = can the first i chars be segmented?`) and is a gateway to more complex string/DP hybrids.
+4.  **Clone Graph (#133):** While graph-heavy (an Amazon favorite), its core mechanic is a hash map used for tracking visited nodes—a concept critical for both companies. It's perfect for practicing BFS/DFS with a twist.
 
-You should **prepare for Amazon first**. Here’s why: mastering Amazon's extensive question list will inherently cover the core topics and difficulty level required for TikTok. The vast pool of Amazon Medium questions will solidify your problem-solving skills on the exact patterns (Array, String, Hash Table, DP) that TikTok emphasizes. If you can handle the breadth and occasional depth of Amazon's list, transitioning to TikTok's more concentrated set will feel like focusing on a key subset.
+## Which to Prepare for First?
 
-A strategic plan is:
+**Prepare for TikTok first, then layer on Amazon-specific prep.**
 
-1.  Build a foundation using the core topics common to both.
-2.  Practice extensively from Amazon's Medium and common Hard questions. This builds stamina and pattern recognition.
-3.  Closer to a TikTok interview, target their specific question list to familiarize yourself with their problem style and common question variations.
+Here’s why: TikTok's interview is a **stress test on coding fundamentals and speed**. By preparing for it, you will drill the core algorithms (Array, String, Hash, DP) to a high level of fluency. You'll get fast at writing clean, correct code under time pressure.
 
-This approach maximizes efficiency, using the broader Amazon preparation as a comprehensive training ground that makes subsequent, more focused preparation easier.
+Once that foundation is solid, you can layer on **Amazon-specific preparation**. This involves:
 
-For targeted practice, visit the CodeJeet pages for [Amazon](/company/amazon) and [TikTok](/company/tiktok).
+1.  **Studying Trees & Graphs:** Adding these topics to your solid core.
+2.  **Practicing the "Amazon Narrative":** Learning to frame your problem-solving process within Leadership Principles stories. This is a separate, learnable skill that builds on top of technical competence.
+
+Trying to do it in reverse is harder. Mastering the Amazon LP narrative won't help you solve two TikTok Medium problems in 45 minutes. But being able to solve quickly will give you the mental bandwidth in an Amazon interview to focus on delivering that narrative well.
+
+For more detailed company-specific question lists and guides, visit our pages for [Amazon](/company/amazon) and [TikTok](/company/tiktok).

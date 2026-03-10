@@ -1,113 +1,209 @@
 ---
 title: "Dynamic Programming Questions at Tinkoff: What to Expect"
 description: "Prepare for Dynamic Programming interview questions at Tinkoff — patterns, difficulty breakdown, and study tips."
-date: "2030-12-24"
+date: "2030-12-16"
 category: "dsa-patterns"
 tags: ["tinkoff", "dynamic-programming", "interview prep"]
 ---
 
-Dynamic Programming (DP) is a core algorithmic technique tested in Tinkoff's coding interviews. With 3 out of their 27 typical problems dedicated to DP, it’s a significant area of focus. Success here demonstrates your ability to break down complex problems, optimize overlapping subproblems, and write efficient code—skills directly applicable to designing scalable financial systems and data processing pipelines at Tinkoff.
+Dynamic Programming at Tinkoff isn't just another topic on a checklist—it's a critical filter. With 3 out of their 27 core problem archetypes being DP-specific, you have an 11% chance of hitting one in any given interview round. In practice, this translates to a near-certainty you'll face at least one DP question in their multi-stage technical interview process. Why such emphasis? Tinkoff, as a fintech leader, deals heavily with optimization problems: maximizing portfolio returns, minimizing risk exposure, optimizing transaction routing. These are classic DP domains. The interviewers aren't just testing if you can memorize the "house robber" pattern; they're assessing if you can model a complex, constrained real-world problem into an optimal substructure and then implement it efficiently. Failing a DP question here isn't seen as a minor slip—it's often interpreted as a fundamental gap in problem-solving for the core business logic they build daily.
 
-## What to Expect — Types of Problems
+## Specific Patterns Tinkoff Favors
 
-Tinkoff’s DP problems often involve classic patterns with a practical twist. You won’t see purely academic exercises; problems are framed in contexts relevant to finance or logistics. Expect these categories:
+Tinkoff's DP questions tend to avoid overly abstract or purely combinatorial problems. They favor **1D and 2D iterative (bottom-up) DP** applied to concrete scenarios, often with a financial or sequential decision-making flavor. You'll rarely see matrix chain multiplication or obscure string alignment problems. Instead, expect variations on:
 
-1.  **Sequential Decision Problems:** These involve making optimal choices along a sequence, like maximizing profit from a series of transactions (a variant of the "Best Time to Buy and Sell Stock" problem) or finding the minimum cost path through a grid. The state usually represents your position in the sequence.
-2.  **Knapsack-Style Problems:** Given a resource constraint (like a budget, time, or weight limit), you must select items to maximize value or minimize cost. This directly models portfolio optimization or resource allocation tasks.
-3.  **String/Subsequence Problems:** Problems like finding the longest common subsequence or edit distance are common, as they underpin data comparison and reconciliation algorithms used in financial data processing.
+1.  **Classic 0/1 Knapsack & Unbounded Knapsack:** The foundational pattern for resource allocation. Think: "Given a capital of X rubles and a list of investment options with costs and expected profits, maximize total profit." This is directly analogous to LeetCode's "Partition Equal Subset Sum" (#416) or "Coin Change" (#322).
+2.  **State Machine DP:** Problems where you hold an asset (like a stock) and can be in different states (e.g., "holding," "not holding," "cooldown"). This tests your ability to manage multiple interdependent DP arrays. The quintessential problem is "Best Time to Buy and Sell Stock with Cooldown" (#309).
+3.  **Interval/Sequence DP:** Less frequent, but sometimes appears in the context of scheduling or segment optimization. "Palindromic Substrings" (#647) is a good representative of the 2D DP on a sequence they might use.
 
-The key is to recognize the underlying pattern (e.g., 1D/2D DP, prefix sums) within the business-oriented story.
+Recursive top-down with memoization is acceptable, but interviewers often push for the iterative, space-optimized bottom-up solution. They want to see you understand the _table-filling_ mechanics and can reason about space complexity optimization.
 
-## How to Prepare — Study Tips with One Code Example
+## How to Prepare
 
-Start by mastering the fundamentals before tackling Tinkoff-specific problems. Understand the two main approaches: **Top-Down with Memoization** (recursion + caching) and **Bottom-Up Tabulation** (iterative table building). For interviews, clearly articulate your thought process: 1) Define the DP state (`dp[i]` represents...), 2) Establish the recurrence relation, 3) Set base cases, and 4) Determine the final answer location.
+The key is to move from pattern recognition to _pattern derivation_. Don't just memorize that `dp[i] = max(dp[i-1], dp[i-2] + nums[i])` for House Robber. Understand _why_: at each house `i`, your optimal decision depends on the optimal solutions to the subproblems `i-1` and `i-2`. This "state transition" thinking is what they test.
 
-A fundamental pattern is the **1D DP for counting ways or min/max cost**. Let's look at the classic "Climbing Stairs" problem, which is the foundation for many sequence problems: Find the number of distinct ways to climb to the top of a staircase with `n` steps, taking either 1 or 2 steps at a time.
-
-The recurrence relation is: `dp[i] = dp[i-1] + dp[i-2]`, where `dp[i]` represents the number of ways to reach step `i`.
+Let's look at the **State Machine DP** pattern, common in their "trading" problems. The trick is to define `dp` arrays representing each state you can be in.
 
 <div class="code-group">
 
 ```python
-def climbStairs(n: int) -> int:
-    if n <= 2:
-        return n
-    dp = [0] * (n + 1)
-    dp[1], dp[2] = 1, 2
-    for i in range(3, n + 1):
-        dp[i] = dp[i-1] + dp[i-2]
-    return dp[n]
+# LeetCode #309: Best Time to Buy and Sell Stock with Cooldown
+# Time: O(n) | Space: O(n) (can be optimized to O(1))
+def maxProfit(prices):
+    if not prices:
+        return 0
 
-# Space-optimized version (often preferred)
-def climbStairsOpt(n: int) -> int:
-    if n <= 2:
-        return n
-    prev1, prev2 = 2, 1  # ways for i-1 and i-2
-    for _ in range(3, n + 1):
-        current = prev1 + prev2
-        prev2, prev1 = prev1, current
-    return prev1
+    n = len(prices)
+    # dp[i][0]: max profit on day i holding a stock
+    # dp[i][1]: max profit on day i not holding, in cooldown (sold yesterday)
+    # dp[i][2]: max profit on day i not holding, not in cooldown (can buy)
+    dp = [[0, 0, 0] for _ in range(n)]
+    dp[0][0] = -prices[0]  # Buy on day 0
+    dp[0][1] = 0
+    dp[0][2] = 0
+
+    for i in range(1, n):
+        # State 0 (Holding): Either held from i-1, or bought today from state 2 (not holding, not cooldown)
+        dp[i][0] = max(dp[i-1][0], dp[i-1][2] - prices[i])
+        # State 1 (Cooldown): Must have sold yesterday (transitioned from state 0)
+        dp[i][1] = dp[i-1][0] + prices[i]
+        # State 2 (Not holding, not cooldown): Either stayed in state 2, or came out of cooldown (state 1)
+        dp[i][2] = max(dp[i-1][2], dp[i-1][1])
+
+    # Max profit will be in a non-holding state
+    return max(dp[n-1][1], dp[n-1][2])
 ```
 
 ```javascript
-function climbStairs(n) {
-  if (n <= 2) return n;
-  let dp = new Array(n + 1).fill(0);
-  dp[1] = 1;
-  dp[2] = 2;
-  for (let i = 3; i <= n; i++) {
-    dp[i] = dp[i - 1] + dp[i - 2];
-  }
-  return dp[n];
-}
+// LeetCode #309: Best Time to Buy and Sell Stock with Cooldown
+// Time: O(n) | Space: O(n) (can be optimized to O(1))
+function maxProfit(prices) {
+  if (!prices.length) return 0;
 
-// Space-optimized version
-function climbStairsOpt(n) {
-  if (n <= 2) return n;
-  let prev1 = 2,
-    prev2 = 1;
-  for (let i = 3; i <= n; i++) {
-    let current = prev1 + prev2;
-    prev2 = prev1;
-    prev1 = current;
+  const n = prices.length;
+  // dp[i][0]: holding, dp[i][1]: cooldown, dp[i][2]: not holding (can buy)
+  const dp = Array.from({ length: n }, () => [0, 0, 0]);
+  dp[0][0] = -prices[0];
+
+  for (let i = 1; i < n; i++) {
+    dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][2] - prices[i]);
+    dp[i][1] = dp[i - 1][0] + prices[i];
+    dp[i][2] = Math.max(dp[i - 1][2], dp[i - 1][1]);
   }
-  return prev1;
+
+  return Math.max(dp[n - 1][1], dp[n - 1][2]);
 }
 ```
 
 ```java
-public int climbStairs(int n) {
-    if (n <= 2) return n;
-    int[] dp = new int[n + 1];
-    dp[1] = 1;
-    dp[2] = 2;
-    for (int i = 3; i <= n; i++) {
-        dp[i] = dp[i - 1] + dp[i - 2];
-    }
-    return dp[n];
-}
+// LeetCode #309: Best Time to Buy and Sell Stock with Cooldown
+// Time: O(n) | Space: O(n) (can be optimized to O(1))
+public int maxProfit(int[] prices) {
+    if (prices.length == 0) return 0;
 
-// Space-optimized version
-public int climbStairsOpt(int n) {
-    if (n <= 2) return n;
-    int prev1 = 2, prev2 = 1;
-    for (int i = 3; i <= n; i++) {
-        int current = prev1 + prev2;
-        prev2 = prev1;
-        prev1 = current;
+    int n = prices.length;
+    // dp[i][0]: holding, dp[i][1]: cooldown, dp[i][2]: not holding (can buy)
+    int[][] dp = new int[n][3];
+    dp[0][0] = -prices[0];
+
+    for (int i = 1; i < n; i++) {
+        dp[i][0] = Math.max(dp[i-1][0], dp[i-1][2] - prices[i]);
+        dp[i][1] = dp[i-1][0] + prices[i];
+        dp[i][2] = Math.max(dp[i-1][2], dp[i-1][1]);
     }
-    return prev1;
+
+    return Math.max(dp[n-1][1], dp[n-1][2]);
 }
 ```
 
 </div>
 
+For **Knapsack** problems, master the space-optimized 1D array version. It shows deeper understanding.
+
+<div class="code-group">
+
+```python
+# LeetCode #416: Partition Equal Subset Sum (0/1 Knapsack variant)
+# Time: O(n * target) | Space: O(target)
+def canPartition(nums):
+    total = sum(nums)
+    if total % 2 != 0:
+        return False
+    target = total // 2
+
+    # dp[j] = whether we can form sum j using processed numbers
+    dp = [False] * (target + 1)
+    dp[0] = True  # Base case: sum of 0 is always possible (choose nothing)
+
+    for num in nums:
+        # Iterate backwards to prevent re-using the same num (0/1 property)
+        for j in range(target, num - 1, -1):
+            if dp[j - num]:  # If we could form sum (j-num) before, we can form sum j by adding num
+                dp[j] = True
+        if dp[target]:  # Early exit
+            return True
+    return dp[target]
+```
+
+```javascript
+// LeetCode #416: Partition Equal Subset Sum (0/1 Knapsack variant)
+// Time: O(n * target) | Space: O(target)
+function canPartition(nums) {
+  const total = nums.reduce((a, b) => a + b, 0);
+  if (total % 2 !== 0) return false;
+  const target = total / 2;
+
+  const dp = new Array(target + 1).fill(false);
+  dp[0] = true;
+
+  for (const num of nums) {
+    for (let j = target; j >= num; j--) {
+      if (dp[j - num]) {
+        dp[j] = true;
+      }
+    }
+    if (dp[target]) return true;
+  }
+  return dp[target];
+}
+```
+
+```java
+// LeetCode #416: Partition Equal Subset Sum (0/1 Knapsack variant)
+// Time: O(n * target) | Space: O(target)
+public boolean canPartition(int[] nums) {
+    int total = 0;
+    for (int num : nums) total += num;
+    if (total % 2 != 0) return false;
+    int target = total / 2;
+
+    boolean[] dp = new boolean[target + 1];
+    dp[0] = true;
+
+    for (int num : nums) {
+        for (int j = target; j >= num; j--) {
+            if (dp[j - num]) {
+                dp[j] = true;
+            }
+        }
+        if (dp[target]) return true;
+    }
+    return dp[target];
+}
+```
+
+</div>
+
+## How Tinkoff Tests Dynamic Programming vs Other Companies
+
+Compared to FAANG companies, Tinkoff's DP questions are less about algorithmic trickery and more about **applied modeling**. At Google, you might get a DP problem disguised as a game on a bizarre tree structure. At Tinkoff, the problem statement will often sound like a simplified business case: "maximize profit given constraints," "minimize cost over a schedule." The difficulty is not in discovering the DP state (which is often fairly clear), but in correctly defining the transition rules and handling edge cases.
+
+Unlike some hedge funds that focus on extreme optimization (e.g., "solve it in O(n) time and O(1) space or fail"), Tinkoff interviewers prioritize **clarity and correctness**. They want to follow your thought process. You should articulate the definition of your `dp` array, the base cases, the recurrence relation, and then implement it cleanly. They will, however, expect you to discuss space optimization as a follow-up.
+
+## Study Order
+
+Tackle DP in this logical sequence to build a compounding understanding:
+
+1.  **1D Linear DP (Fibonacci-style):** Start with "Climbing Stairs" (#70) and "House Robber" (#198). This teaches the core concept: the solution to `dp[i]` depends on a few previous states. Master the iterative approach.
+2.  **Classic 0/1 Knapsack:** Move to "Partition Equal Subset Sum" (#416). This introduces the concept of a _capacity_ dimension in your DP state. Understand both the 2D and the space-optimized 1D solutions.
+3.  **Unbounded Knapsack & Coin Change:** Practice "Coin Change" (#322) and "Coin Change 2" (#518). This solidifies how the iteration order (forward vs. backward) changes based on whether you can reuse items.
+4.  **2D/Grid DP:** Solve "Unique Paths" (#62) and "Minimum Path Sum" (#64). This extends the state definition to two dimensions, a common theme.
+5.  **State Machine DP:** Tackle the stock problems: "Best Time to Buy and Sell Stock" (#121) first, then the one with cooldown (#309). This is where you learn to manage multiple concurrent states.
+6.  **Interval DP (Advanced):** Finally, look at "Longest Palindromic Subsequence" (#516) or "Burst Balloons" (#312) if you have time. These are less common but test deeper recursive thinking.
+
 ## Recommended Practice Order
 
-Do not jump directly to hard Tinkoff problems. Build competence systematically:
+Solve these problems in sequence. Each builds on the previous pattern.
 
-1.  **Foundation:** Solve classical problems: Fibonacci, Climbing Stairs, Min Cost Climbing Stairs, House Robber.
-2.  **Core Patterns:** Practice 1D Knapsack, Longest Increasing Subsequence, and Coin Change. Then move to 2D problems like Longest Common Subsequence and Edit Distance.
-3.  **Tinkoff-Specific:** Finally, apply your skills to actual Tinkoff DP problems. Analyze the problem story to map it to a pattern you've mastered.
+1.  Climbing Stairs (#70) - 1D Linear
+2.  House Robber (#198) - 1D Linear with a twist
+3.  Partition Equal Subset Sum (#416) - 0/1 Knapsack
+4.  Coin Change (#322) - Unbounded Knapsack (Minimization)
+5.  Unique Paths (#62) - 2D Grid DP
+6.  Best Time to Buy and Sell Stock (#121) - Simple State Machine
+7.  Best Time to Buy and Sell Stock with Cooldown (#309) - Full State Machine
+8.  Longest Palindromic Subsequence (#516) - Interval DP (Capstone)
+
+This progression takes you from the absolute fundamentals to the type of applied, state-driven DP Tinkoff favors. Remember, their goal is to see if you can translate a business constraint into a working algorithm. Practice by not just coding, but by writing out the `dp` definition and recurrence in plain English before you touch the keyboard.
 
 [Practice Dynamic Programming at Tinkoff](/company/tinkoff/dynamic-programming)

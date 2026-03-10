@@ -1,83 +1,239 @@
 ---
 title: "String Questions at Yelp: What to Expect"
 description: "Prepare for String interview questions at Yelp — patterns, difficulty breakdown, and study tips."
-date: "2031-01-07"
+date: "2030-12-30"
 category: "dsa-patterns"
 tags: ["yelp", "string", "interview prep"]
 ---
 
-String manipulation is a core skill for software engineers at Yelp. The platform relies heavily on processing and analyzing user-generated text—from reviews and business descriptions to search queries and location data. Efficiently parsing, validating, searching, and transforming these strings is critical for features like search relevance, spam detection, and data normalization. With 17 out of 27 of Yelp's tagged coding problems being String-based, mastering this domain is non-negotiable for your interview.
+If you're preparing for a Yelp interview, you've likely seen the statistic: **17 out of their 27 tagged LeetCode problems are String questions.** That's over 60%. This isn't a coincidence or a quirk of their LeetCode company tag—it's a direct reflection of their business. Yelp's core product revolves around parsing, searching, and manipulating textual data: reviews, business names, menus, user queries, and location strings. A candidate's ability to efficiently handle strings is a strong proxy for their ability to work on Yelp's fundamental data pipelines. In real interviews, you are almost guaranteed to encounter at least one string manipulation or parsing problem, often as the first or second technical question.
 
-## What to Expect — Types of Problems
+## Specific Patterns Yelp Favors
 
-Yelp's String questions typically focus on practical, real-world text processing. You won't find abstract, purely mathematical string puzzles. Instead, expect problems that mirror the company's engineering needs.
+Yelp's string problems aren't about obscure text algorithms. They focus on **applied, practical parsing and transformation.** You won't find many complex DP on strings or intricate suffix array problems here. Instead, expect problems that test:
 
-- **String Parsing and Validation:** Tasks like checking if a review meets formatting guidelines, validating phone numbers or addresses, or extracting specific information from a block of text.
-- **Pattern Matching and Searching:** Implementing or utilizing algorithms to find substrings, such as checking for keywords in a business description or detecting duplicate content. This often involves sliding window techniques or KMP (Knuth-Morris-Pratt) for efficiency.
-- **String Transformation and Encoding:** Problems like compressing strings, implementing a basic URL encoder, or reformatting text data from one standard to another.
-- **Hash Map and Frequency Analysis:** A very common pattern. Many problems reduce to counting character or word frequencies to determine anagrams, find the most common review word, or identify unique characters.
+1.  **Iterative Parsing with State:** Breaking down a string (like a file path, encoded string, or log line) into meaningful parts, often requiring you to track state (e.g., using a stack or pointer).
+2.  **Simulation with String Building:** Following a set of rules to transform an input string into an output, which involves careful index management and building a new result.
+3.  **Hash Map for Frequency/Cleaning:** Common for problems involving anagrams, comparing review texts, or cleaning punctuation from strings for comparison.
 
-## How to Prepare — Study Tips with One Code Example
+A quintessential Yelp problem is **LeetCode 71: Simplify Path**. It's pure iterative parsing using a stack to handle directory navigation. Another classic is **LeetCode 394: Decode String**, which combines stack-based state management with string building—a pattern that comes up frequently in variations.
 
-Focus on the fundamentals. Ensure you are fluent in your language's string API (methods for `split`, `join`, `substring`, `indexOf`, etc.). The most critical mental model is to treat strings as arrays of characters. This unlocks array-based techniques like two-pointers and sliding windows.
+## How to Prepare
 
-The single most important pattern is using a **Hash Map (Dictionary or Object) to track character frequencies**. This is the cornerstone for solving anagrams, palindromes, and substring problems.
+The most critical skill is clean, iterative string traversal. Let's look at the core pattern for iterative parsing and building, using a problem similar to decoding a simple run-length encoded string.
+
+**Problem:** Decode a string in the format `k[encoded_string]`, where `k` is a positive integer. Example: `"3[a]2[bc]"` -> `"aaabcbc"`.
+
+The pattern uses a stack to hold previous multipliers and string segments. The key is to distinguish between four types of characters: digits, letters, `[`, and `]`.
 
 <div class="code-group">
 
 ```python
-def is_anagram(s: str, t: str) -> bool:
-    if len(s) != len(t):
-        return False
-    char_count = {}
+def decodeString(s: str) -> str:
+    stack = []
+    current_num = 0
+    current_str = ''
+
     for char in s:
-        char_count[char] = char_count.get(char, 0) + 1
-    for char in t:
-        if char not in char_count or char_count[char] == 0:
-            return False
-        char_count[char] -= 1
-    return True
+        if char.isdigit():
+            # Build the multi-digit number
+            current_num = current_num * 10 + int(char)
+        elif char == '[':
+            # Push the current context (number and string) to the stack
+            stack.append((current_num, current_str))
+            # Reset for the new encoded segment inside the brackets
+            current_num = 0
+            current_str = ''
+        elif char == ']':
+            # Pop the context: this segment is complete
+            prev_num, prev_str = stack.pop()
+            # Decode: repeat current_str prev_num times and append to previous string
+            current_str = prev_str + (current_str * prev_num)
+        else:
+            # It's a letter, just append to the current string being built
+            current_str += char
+
+    return current_str
+
+# Time Complexity: O(n * maxK), where n is length of s and maxK is the max multiplier.
+# In the worst case (nested encodings), we might repeat strings multiple times.
+# Space Complexity: O(n) for the stack in the worst case.
 ```
 
 ```javascript
-function isAnagram(s, t) {
-  if (s.length !== t.length) return false;
-  const charCount = {};
+function decodeString(s) {
+  const stack = [];
+  let currentNum = 0;
+  let currentStr = "";
+
   for (let char of s) {
-    charCount[char] = (charCount[char] || 0) + 1;
+    if (!isNaN(char) && char !== " ") {
+      // Build number
+      currentNum = currentNum * 10 + parseInt(char);
+    } else if (char === "[") {
+      // Save state and reset
+      stack.push([currentNum, currentStr]);
+      currentNum = 0;
+      currentStr = "";
+    } else if (char === "]") {
+      // Decode the current segment
+      const [prevNum, prevStr] = stack.pop();
+      currentStr = prevStr + currentStr.repeat(prevNum);
+    } else {
+      // It's a letter
+      currentStr += char;
+    }
   }
-  for (let char of t) {
-    if (!charCount[char]) return false;
-    charCount[char]--;
-  }
-  return true;
+  return currentStr;
 }
+// Time: O(n * maxK) | Space: O(n)
 ```
 
 ```java
-public boolean isAnagram(String s, String t) {
-    if (s.length() != t.length()) return false;
-    Map<Character, Integer> charCount = new HashMap<>();
-    for (char c : s.toCharArray()) {
-        charCount.put(c, charCount.getOrDefault(c, 0) + 1);
-    }
-    for (char c : t.toCharArray()) {
-        if (!charCount.containsKey(c) || charCount.get(c) == 0) {
-            return false;
+public String decodeString(String s) {
+    Stack<Object> stack = new Stack<>();
+    int currentNum = 0;
+    StringBuilder currentStr = new StringBuilder();
+
+    for (char ch : s.toCharArray()) {
+        if (Character.isDigit(ch)) {
+            currentNum = currentNum * 10 + (ch - '0');
+        } else if (ch == '[') {
+            // Push the current context to the stack
+            stack.push(currentNum);
+            stack.push(currentStr.toString());
+            // Reset for the inner string
+            currentNum = 0;
+            currentStr = new StringBuilder();
+        } else if (ch == ']') {
+            // Pop the previous string and multiplier
+            String prevStr = (String) stack.pop();
+            int multiplier = (Integer) stack.pop();
+            // Build the decoded string
+            String repeated = currentStr.toString().repeat(multiplier);
+            currentStr = new StringBuilder(prevStr + repeated);
+        } else {
+            // Normal character
+            currentStr.append(ch);
         }
-        charCount.put(c, charCount.get(c) - 1);
     }
-    return true;
+    return currentStr.toString();
 }
+// Time: O(n * maxK) | Space: O(n)
 ```
 
 </div>
 
+The second key pattern is **simulation with direct string building**, often for problems like validating or reformatting strings. Here's a template for a common Yelp-style problem: normalizing a string by removing all non-alphanumeric characters and ignoring case for comparison (the core of a palindrome check after cleaning).
+
+<div class="code-group">
+
+```python
+def is_alphanumeric_palindrome(s: str) -> bool:
+    left, right = 0, len(s) - 1
+
+    while left < right:
+        # Move left pointer to next alphanumeric char
+        while left < right and not s[left].isalnum():
+            left += 1
+        # Move right pointer to previous alphanumeric char
+        while left < right and not s[right].isalnum():
+            right -= 1
+
+        # Compare characters, ignoring case
+        if s[left].lower() != s[right].lower():
+            return False
+
+        left += 1
+        right -= 1
+
+    return True
+
+# Time Complexity: O(n), each pointer traverses the string at most once.
+# Space Complexity: O(1), we only use pointers.
+```
+
+```javascript
+function isAlphanumericPalindrome(s) {
+  let left = 0,
+    right = s.length - 1;
+
+  while (left < right) {
+    // Move left pointer to next alphanumeric char
+    while (left < right && !/^[a-z0-9]$/i.test(s[left])) {
+      left++;
+    }
+    // Move right pointer to previous alphanumeric char
+    while (left < right && !/^[a-z0-9]$/i.test(s[right])) {
+      right--;
+    }
+
+    // Compare ignoring case
+    if (s[left].toLowerCase() !== s[right].toLowerCase()) {
+      return false;
+    }
+
+    left++;
+    right--;
+  }
+  return true;
+}
+// Time: O(n) | Space: O(1)
+```
+
+```java
+public boolean isAlphanumericPalindrome(String s) {
+    int left = 0, right = s.length() - 1;
+
+    while (left < right) {
+        // Move left to next alphanumeric
+        while (left < right && !Character.isLetterOrDigit(s.charAt(left))) {
+            left++;
+        }
+        // Move right to previous alphanumeric
+        while (left < right && !Character.isLetterOrDigit(s.charAt(right))) {
+            right--;
+        }
+
+        // Compare ignoring case
+        if (Character.toLowerCase(s.charAt(left)) != Character.toLowerCase(s.charAt(right))) {
+            return false;
+        }
+
+        left++;
+        right--;
+    }
+    return true;
+}
+// Time: O(n) | Space: O(1)
+```
+
+</div>
+
+## How Yelp Tests String vs Other Companies
+
+At companies like Google or Meta, string problems often serve as a gateway to more complex concepts—you might start with a string and quickly transition into graph search (word ladder) or advanced DP (regular expression matching). **Yelp's approach is different.** Their problems tend to be self-contained and focus on **correctness, edge-case handling, and clean implementation** of string operations you'd actually write on the job. The difficulty is usually in the "Medium" range, but the challenge comes from meticulous parsing logic rather than algorithmic cleverness. You're more likely to be judged on how you handle empty strings, nested structures, punctuation, and Unicode (basic awareness) than on optimizing from O(n²) to O(n log n).
+
+## Study Order
+
+1.  **Basic Traversal and Two-Pointers:** Master moving through a string with indices, reversing, and comparing. This is the foundation for everything else.
+2.  **Hash Maps for Frequency:** Learn to use a map/dictionary to count characters for anagram and substring problems. This is a common first step in many Yelp problems.
+3.  **Stack-Based Parsing:** This is Yelp's bread and butter. Practice problems where you need to track nested structures or previous states (like open/close brackets or directory levels).
+4.  **Simulation & Rule Application:** Practice problems where you directly translate a set of textual rules into code. This tests your ability to translate a product requirement into an algorithm.
+5.  **Basic String Building & Concatenation Optimization:** Understand why building a string with `+=` in a loop can be O(n²) and when to use a `StringBuilder` or list join. Yelp interviewers notice this.
+
 ## Recommended Practice Order
 
-1.  **Frequency & Hash Map:** Start with anagram and palindrome problems to internalize the frequency-counting pattern.
-2.  **Two-Pointers:** Practice in-place string reversal and checking for palindromes. This builds intuition for character-by-character processing.
-3.  **Sliding Window:** Move on to finding substrings with specific properties (e.g., longest substring without repeating characters). This is a natural extension of two-pointers and hash maps.
-4.  **Parsing & Simulation:** Finally, tackle multi-step parsing problems. These test your ability to break down a problem, handle edge cases, and write clean, bug-free code under time constraints.
+Solve these problems in sequence to build the skills Yelp tests:
+
+1.  **LeetCode 125: Valid Palindrome** - The classic two-pointer with cleaning. Do it with constant space.
+2.  **LeetCode 242: Valid Anagram** - Straightforward hash map warm-up.
+3.  **LeetCode 819: Most Common Word** - Excellent practice for parsing, cleaning punctuation, and using a hash map with bans. Very Yelp-like.
+4.  **LeetCode 71: Simplify Path** - Pure stack-based parsing. A must-do.
+5.  **LeetCode 394: Decode String** - The definitive stack + string building problem. Master this pattern.
+6.  **LeetCode 929: Unique Email Addresses** - Practical parsing and normalization. Another very applicable problem.
+7.  **LeetCode 227: Basic Calculator II** (or similar) - If you have time, this tests parsing and immediate evaluation without stack for order of operations, a step up in complexity.
+
+Focus on writing clean, readable code on your first pass. At Yelp, a correct, well-structured, and maintainable solution is often valued over a clever, optimized one that's hard to follow.
 
 [Practice String at Yelp](/company/yelp/string)

@@ -1,132 +1,316 @@
 ---
 title: "How to Crack Delhivery Coding Interviews in 2026"
 description: "Complete guide to Delhivery coding interviews — question patterns, difficulty breakdown, must-practice topics, and preparation strategy."
-date: "2027-06-17"
+date: "2027-09-07"
 category: "company-guide"
 company: "delhivery"
 tags: ["delhivery", "interview prep", "leetcode"]
 ---
 
-Delhivery’s coding interviews are designed to assess your problem-solving skills and your ability to write clean, efficient code under pressure. As a leading logistics and supply chain company, their technical interviews typically involve a mix of algorithmic problem-solving and system design, with a strong emphasis on practical, scalable solutions. For the coding round, you can expect a standard format of 4-5 problems to be solved within 60-90 minutes, often conducted on platforms like HackerRank or CodePair.
+Delhivery’s coding interviews are a unique blend of logistics logic and classic software engineering. As India’s largest integrated logistics services platform, their technical assessment isn't just about algorithms—it’s about finding engineers who can model real-world constraints efficiently. The process typically involves an initial online assessment (OA) followed by 2-3 technical rounds. The OA is often proctored and features a mix of coding, database, and problem-solving questions. What stands out is the final round, which frequently includes a **system design component focused on a logistics or e-commerce scenario**, even for mid-level roles. You’re not just solving abstract problems; you’re implicitly designing systems that can scale to handle millions of shipments.
 
-## By the Numbers — Difficulty Breakdown and What It Means
+## What Makes Delhivery Different
 
-Based on historical data, the typical Delhivery coding round consists of 4 questions with the following distribution:
+While FAANG interviews often prioritize algorithmic purity and theoretical computer science, Delhivery’s process is intensely **application-driven**. They care less about whether you can recite the proof for Dijkstra’s algorithm and more about whether you can adapt it to find the most cost-effective delivery route given variable fuel costs and hub delays. This practical bent shows up in three key ways:
 
-- **Easy:** 1 question (25%)
-- **Medium:** 2 questions (50%)
-- **Hard:** 1 question (25%)
+1.  **Database & SQL are Non-Negotiable:** Unlike many product-based companies that might only test DB in system design, Delhivery frequently includes medium-difficulty SQL problems in their OAs and technical discussions. You’re expected to write efficient joins, window functions, and handle date-time logic because their core business runs on data about packages, routes, and ETAs.
+2.  **Optimization is the Real Goal:** For their algorithmic questions, a brute-force solution that passes sample cases is rarely enough. Interviewers will push you to optimize for time _and_ space, often asking follow-ups like, “Can we do this in O(1) extra space?” or “How would this perform on a stream of incoming data?” They are looking for engineers who instinctively think about resource constraints.
+3.  **Pseudocode is a Starting Point, Not the Finish Line:** You might be allowed to start with pseudocode to explain your logic, but you will be asked to translate it into fully executable, clean code. Syntax matters. Handling edge cases (empty inputs, large numbers, single-element arrays) is explicitly evaluated.
 
-This breakdown is strategic. The easy problem is your warm-up and a check for basic coding competency—failing here is a major red flag. The two medium problems are the core of the interview; solving both optimally is often the minimum bar to pass. They test your grasp of fundamental data structures and common algorithms. The single hard problem is the differentiator. It’s used to separate good candidates from exceptional ones. You may not need a fully optimal solution, but you must demonstrate a clear, logical approach and communicate your thought process effectively. Your goal should be to flawlessly solve the easy, efficiently solve both mediums, and make significant progress on the hard problem.
+## By the Numbers
+
+Based on recent patterns, a standard 60-75 minute coding round breaks down roughly as follows:
+
+- **1 Easy Problem (25% weight):** A warm-up, often on strings or arrays, to check basic coding fluency. Example: A string parsing problem related to tracking IDs.
+- **2 Medium Problems (50% weight):** The core of the interview. These test your grasp of core data structures and algorithms. Expect problems on arrays (sorting, two-pointers) and recursion/backtracking.
+- **1 Hard Problem (25% weight):** This is the differentiator. It’s usually a complex DP, graph, or advanced recursion problem that models a non-trivial logistics constraint.
+
+This breakdown means your preparation cannot be surface-level. Solving 100 easy problems won't help. You need depth in mediums and exposure to hards. Specific problem patterns known to appear include variations of:
+
+- **Merge Intervals (#56):** For consolidating delivery windows or overlapping service routes.
+- **Two Sum (#1) & its variants:** For matching orders or resources.
+- **Database: Second Highest Salary (#176) or Department Top Three Salaries (#185):** For analytical queries on shipment or performance data.
 
 ## Top Topics to Focus On
 
-The most frequently tested topics are Array, Database, Math, String, and Recursion. Mastering these areas will cover the vast majority of problems you’ll encounter.
+**1. Array & String Manipulation**
 
-- **Array:** The cornerstone of algorithmic interviews. Expect problems involving traversal, two-pointer techniques, sliding windows, and prefix sums. You must be able to manipulate arrays in-place and handle edge cases.
-- **Database:** While less common in pure coding rounds, SQL questions can appear, testing your ability to write efficient queries involving joins, aggregation, and filtering. Be ready for questions on order logistics, inventory, or shipment tracking data.
-- **Math:** Problems often involve number theory (prime numbers, GCD), modular arithmetic, or combinatorial logic. These questions test your analytical thinking more than complex data structures.
-- **String:** Focus on pattern matching, anagrams, palindromes, and string transformation. These problems often overlap with array techniques and recursion.
-- **Recursion:** A fundamental concept for backtracking, divide-and-conquer, and tree/graph traversal. It’s crucial for solving the harder combinatorial or search-based problems.
-
-The **Sliding Window** pattern is arguably the most important array/string pattern for Delhivery's medium-difficulty problems, especially for scenarios involving contiguous subarrays or substrings, like finding the longest substring with K distinct characters or the maximum sum of a subarray of fixed size.
+- **Why Delhivery Favors It:** The fundamental data for any shipment—tracking numbers, PIN codes, hub lists—are arrays and strings. Efficient manipulation is critical for parsing, validating, and transforming this data at scale.
+- **Key Pattern: Two-Pointer Technique.** This is indispensable for in-place operations, finding pairs, or working with sorted data, all common in route optimization.
 
 <div class="code-group">
 
 ```python
-def max_sum_subarray(arr, k):
-    """Returns the maximum sum of any contiguous subarray of size k."""
-    if len(arr) < k:
-        return -1
+# Problem: Remove Duplicates from Sorted Array (LeetCode #26)
+# Time: O(n) | Space: O(1)
+def removeDuplicates(nums):
+    """
+    Uses the two-pointer technique to overwrite duplicates in-place.
+    `i` is the slow-runner, marking the position of the last unique element.
+    `j` is the fast-runner, scanning ahead.
+    """
+    if not nums:
+        return 0
 
-    window_sum = sum(arr[:k])
-    max_sum = window_sum
+    i = 0  # Pointer for the position of the last unique element
+    for j in range(1, len(nums)):  # Pointer scanning the array
+        if nums[j] != nums[i]:
+            i += 1
+            nums[i] = nums[j]  # Overwrite the next position with the new unique element
+    return i + 1  # Length of the subarray containing unique elements
 
-    for i in range(k, len(arr)):
-        # Slide the window: remove leftmost element, add new rightmost element
-        window_sum = window_sum - arr[i - k] + arr[i]
-        max_sum = max(max_sum, window_sum)
-
-    return max_sum
-
-# Example
-print(max_sum_subarray([2, 1, 5, 1, 3, 2], 3))  # Output: 9 (from subarray [5, 1, 3])
+# Example: nums = [1,1,2,2,3,4,4] -> function modifies nums to [1,2,3,4,...] and returns 4.
 ```
 
 ```javascript
-function maxSumSubarray(arr, k) {
-  if (arr.length < k) return -1;
+// Problem: Remove Duplicates from Sorted Array (LeetCode #26)
+// Time: O(n) | Space: O(1)
+function removeDuplicates(nums) {
+  if (nums.length === 0) return 0;
 
-  let windowSum = arr.slice(0, k).reduce((a, b) => a + b, 0);
-  let maxSum = windowSum;
-
-  for (let i = k; i < arr.length; i++) {
-    // Slide the window
-    windowSum = windowSum - arr[i - k] + arr[i];
-    maxSum = Math.max(maxSum, windowSum);
+  let i = 0; // Pointer for the position of the last unique element
+  for (let j = 1; j < nums.length; j++) {
+    // Pointer scanning the array
+    if (nums[j] !== nums[i]) {
+      i++;
+      nums[i] = nums[j]; // Overwrite the next position with the new unique element
+    }
   }
-  return maxSum;
+  return i + 1; // Length of the subarray containing unique elements
 }
-
-// Example
-console.log(maxSumSubarray([2, 1, 5, 1, 3, 2], 3)); // Output: 9
+// Example: nums = [1,1,2,2,3,4,4] -> function modifies nums to [1,2,3,4,...] and returns 4.
 ```
 
 ```java
-public class SlidingWindow {
-    public static int maxSumSubarray(int[] arr, int k) {
-        if (arr.length < k) return -1;
+// Problem: Remove Duplicates from Sorted Array (LeetCode #26)
+// Time: O(n) | Space: O(1)
+public int removeDuplicates(int[] nums) {
+    if (nums.length == 0) return 0;
 
-        int windowSum = 0;
-        for (int i = 0; i < k; i++) {
-            windowSum += arr[i];
+    int i = 0; // Pointer for the position of the last unique element
+    for (int j = 1; j < nums.length; j++) { // Pointer scanning the array
+        if (nums[j] != nums[i]) {
+            i++;
+            nums[i] = nums[j]; // Overwrite the next position with the new unique element
         }
-        int maxSum = windowSum;
-
-        for (int i = k; i < arr.length; i++) {
-            windowSum = windowSum - arr[i - k] + arr[i];
-            maxSum = Math.max(maxSum, windowSum);
-        }
-        return maxSum;
     }
-
-    public static void main(String[] args) {
-        int[] arr = {2, 1, 5, 1, 3, 2};
-        System.out.println(maxSumSubarray(arr, 3)); // Output: 9
-    }
+    return i + 1; // Length of the subarray containing unique elements
 }
+// Example: nums = [1,1,2,2,3,4,4] -> function modifies nums to [1,2,3,4,...] and returns 4.
 ```
 
 </div>
 
-## Preparation Strategy — A 4-6 Week Study Plan
+**2. Database (SQL)**
 
-A structured approach is key. Here is a focused 4-6 week plan.
+- **Why Delhivery Favors It:** Their business is data-rich. Interviewers test your ability to extract insights from relational schemas representing shipments, hubs, and customer data. You must be comfortable with aggregation, filtering, and joining.
+- **Key Pattern: Window Functions & Complex Joins.** These are used for ranking, running totals, and comparing rows within groups—essential for reports like "top-performing hubs" or "late shipments per route."
 
-**Weeks 1-2: Foundation & Core Topics**
+**3. Recursion & Backtracking**
 
-- Days 1-7: Deep dive into **Arrays** and **Strings**. Practice all major patterns: two-pointers, sliding window, prefix sum. Solve 15-20 problems.
-- Days 8-14: Master **Recursion** and Backtracking. Then, learn fundamental data structures: Hash Maps, Sets, Stacks, and Queues. Solve another 15-20 problems mixing these concepts.
+- **Why Delhivery Favors It:** Many logistics problems involve exploring a set of choices (e.g., assigning packages to routes, sequencing delivery stops) where recursion provides a natural model. It tests your ability to think in terms of states and transitions.
+- **Key Pattern: Decision Space Traversal.** Framing the problem as a series of choices and exploring all valid paths is crucial.
 
-**Weeks 3-4: Advanced Patterns & Topic Integration**
+<div class="code-group">
 
-- Days 15-21: Tackle **Math**-based problems and advanced algorithms: Binary Search, and basic Dynamic Programming (Fibonacci, Knapsack).
-- Days 22-28: Practice **Database** SQL problems. Focus on JOINs (INNER, LEFT), GROUP BY with HAVING, and subqueries. Spend the rest of the week on mixed-topic Medium problems, simulating the actual interview format.
+```python
+# Problem: Subsets (LeetCode #78)
+# Time: O(n * 2^n) | Space: O(n) for recursion call stack (excluding output)
+def subsets(nums):
+    """
+    Classic backtracking. At each index, we have a choice: include the element or skip it.
+    We explore both choices recursively to generate all possible subsets.
+    """
+    result = []
 
-**Weeks 5-6: Mock Interviews & Weakness Repair**
+    def backtrack(start, current_subset):
+        # Append a copy of the current path to the result
+        result.append(list(current_subset))
 
-- Schedule at least 6-8 mock interviews. Use platforms like CodeJeet's mock interview feature or practice with peers.
-- Identify your weak topics from the mocks. Dedicate entire days to drilling those specific areas (e.g., if recursion is weak, do 10 recursion-only problems).
-- In the final 3 days, stop learning new topics. Review your notes, re-solve key problems you've already done, and focus on rest.
+        # Explore further elements to add to the subset
+        for i in range(start, len(nums)):
+            current_subset.append(nums[i])  # Choose: include nums[i]
+            backtrack(i + 1, current_subset) # Explore with this choice
+            current_subset.pop()             # Unchoose: backtrack
+
+    backtrack(0, [])
+    return result
+
+# Example: nums = [1,2,3] -> result = [[],[1],[1,2],[1,2,3],[1,3],[2],[2,3],[3]]
+```
+
+```javascript
+// Problem: Subsets (LeetCode #78)
+// Time: O(n * 2^n) | Space: O(n) for recursion call stack (excluding output)
+function subsets(nums) {
+  const result = [];
+
+  function backtrack(start, currentSubset) {
+    // Push a copy of the current path to the result
+    result.push([...currentSubset]);
+
+    // Explore further elements to add to the subset
+    for (let i = start; i < nums.length; i++) {
+      currentSubset.push(nums[i]); // Choose: include nums[i]
+      backtrack(i + 1, currentSubset); // Explore with this choice
+      currentSubset.pop(); // Unchoose: backtrack
+    }
+  }
+
+  backtrack(0, []);
+  return result;
+}
+// Example: nums = [1,2,3] -> result = [[],[1],[1,2],[1,2,3],[1,3],[2],[2,3],[3]]
+```
+
+```java
+// Problem: Subsets (LeetCode #78)
+// Time: O(n * 2^n) | Space: O(n) for recursion call stack (excluding output)
+public List<List<Integer>> subsets(int[] nums) {
+    List<List<Integer>> result = new ArrayList<>();
+    backtrack(nums, 0, new ArrayList<>(), result);
+    return result;
+}
+
+private void backtrack(int[] nums, int start, List<Integer> current, List<List<Integer>> result) {
+    // Add a copy of the current path to the result
+    result.add(new ArrayList<>(current));
+
+    // Explore further elements to add to the subset
+    for (int i = start; i < nums.length; i++) {
+        current.add(nums[i]); // Choose: include nums[i]
+        backtrack(nums, i + 1, current, result); // Explore with this choice
+        current.remove(current.size() - 1); // Unchoose: backtrack
+    }
+}
+// Example: nums = [1,2,3] -> result = [[],[1],[1,2],[1,2,3],[1,3],[2],[2,3],[3]]
+```
+
+</div>
+
+**4. Math & Dynamic Programming**
+
+- **Why Delhivery Favors It:** Math underpins optimization—calculating costs, probabilities of delay, or combinatorial ways to load a truck. DP is the tool to solve these optimization problems with overlapping subproblems (e.g., minimizing delivery cost across multiple legs).
+- **Key Pattern: State Transition & Memoization.** Defining the state (e.g., `dp[i][j]` = min cost to reach hub `i` with `j` packages) and the recurrence relation is the core skill.
+
+<div class="code-group">
+
+```python
+# Problem: Coin Change (LeetCode #322) - A classic DP optimization problem.
+# Time: O(amount * n) | Space: O(amount)
+def coinChange(coins, amount):
+    """
+    DP array `dp` where dp[i] = min number of coins to make amount `i`.
+    We initialize dp[0] = 0 and the rest to infinity.
+    For each amount from 1 to target, we try every coin.
+    """
+    # Initialize DP array with a value larger than any possible answer (amount+1)
+    dp = [amount + 1] * (amount + 1)
+    dp[0] = 0  # Base case: 0 coins needed for amount 0
+
+    # For each amount from 1 to the target
+    for a in range(1, amount + 1):
+        # Try using each coin
+        for coin in coins:
+            if coin <= a:  # Coin can be used for this amount
+                # Transition: dp[current_amount] = 1 + dp[current_amount - coin_value]
+                dp[a] = min(dp[a], 1 + dp[a - coin])
+
+    # If dp[amount] is still the initial large value, it's impossible
+    return dp[amount] if dp[amount] != amount + 1 else -1
+
+# Example: coins = [1,2,5], amount = 11 -> returns 3 (5+5+1)
+```
+
+```javascript
+// Problem: Coin Change (LeetCode #322) - A classic DP optimization problem.
+// Time: O(amount * n) | Space: O(amount)
+function coinChange(coins, amount) {
+  // Initialize DP array with a value larger than any possible answer (amount+1)
+  const dp = new Array(amount + 1).fill(amount + 1);
+  dp[0] = 0; // Base case: 0 coins needed for amount 0
+
+  // For each amount from 1 to the target
+  for (let a = 1; a <= amount; a++) {
+    // Try using each coin
+    for (const coin of coins) {
+      if (coin <= a) {
+        // Coin can be used for this amount
+        // Transition: dp[current_amount] = 1 + dp[current_amount - coin_value]
+        dp[a] = Math.min(dp[a], 1 + dp[a - coin]);
+      }
+    }
+  }
+
+  // If dp[amount] is still the initial large value, it's impossible
+  return dp[amount] !== amount + 1 ? dp[amount] : -1;
+}
+// Example: coins = [1,2,5], amount = 11 -> returns 3 (5+5+1)
+```
+
+```java
+// Problem: Coin Change (LeetCode #322) - A classic DP optimization problem.
+// Time: O(amount * n) | Space: O(amount)
+public int coinChange(int[] coins, int amount) {
+    // Initialize DP array with a value larger than any possible answer (amount+1)
+    int[] dp = new int[amount + 1];
+    Arrays.fill(dp, amount + 1);
+    dp[0] = 0; // Base case: 0 coins needed for amount 0
+
+    // For each amount from 1 to the target
+    for (int a = 1; a <= amount; a++) {
+        // Try using each coin
+        for (int coin : coins) {
+            if (coin <= a) { // Coin can be used for this amount
+                // Transition: dp[current_amount] = 1 + dp[current_amount - coin_value]
+                dp[a] = Math.min(dp[a], 1 + dp[a - coin]);
+            }
+        }
+    }
+
+    // If dp[amount] is still the initial large value, it's impossible
+    return dp[amount] != amount + 1 ? dp[amount] : -1;
+}
+// Example: coins = [1,2,5], amount = 11 -> returns 3 (5+5+1)
+```
+
+</div>
+
+## Preparation Strategy
+
+**6-Week Plan (Assume 15-20 hours/week)**
+
+- **Weeks 1-2: Foundation & Core Topics**
+  - **Goal:** Achieve fluency in Arrays, Strings, and Recursion.
+  - **Action:** Solve 40-50 problems. Focus on patterns: Two-Pointers, Sliding Window, Binary Search for arrays; Backtracking for recursion. Complete all Easy and Medium problems for these topics on CodeJeet's Delhivery list.
+- **Week 3: Database & Math**
+  - **Goal:** Become proficient in SQL and number theory/combinatorics basics.
+  - **Action:** Solve 20-25 SQL problems (focus on joins, aggregation, window functions). Solve 15-20 Math/DP problems, starting with classic DP (Fibonacci, Coin Change, Knapsack).
+- **Week 4: Advanced Patterns & Integration**
+  - **Goal:** Tackle Hard problems and combine concepts.
+  - **Action:** Solve 15-20 problems, focusing on Hard Array/DP/Graph problems from the Delhivery list. Practice explaining your thought process out loud.
+- **Week 5: Mock Interviews & Weakness Attack**
+  - **Goal:** Simulate real interview conditions.
+  - **Action:** Do 4-5 timed mock interviews (mix of Delhivery-specific and general). Revisit all previously incorrect problems.
+- **Week 6: Final Review & System Design Prep**
+  - **Goal:** Polish and prepare for the system design round.
+  - **Action:** Review key problem solutions and complexity analyses. Study 1-2 logistics-adjacent system design topics (e.g., Design a Courier Tracking System, Design an E-commerce Order Fulfillment System).
+
+## Common Mistakes
+
+1.  **Ignoring SQL Prep:** Candidates focus solely on DSA and walk into a surprise SQL question. **Fix:** Dedicate at least one full week to SQL. Practice on platforms that support a real database environment.
+2.  **Stopping at a Brute-Force Solution:** Delhivery interviewers expect optimization. If you present an O(n²) solution first, immediately say, "This is a brute-force approach. I think we can optimize it using a hash map to achieve O(n)." **Fix:** Always verbalize the complexity of your first solution and state your intent to optimize.
+3.  **Neglecting Edge Cases in Logistics Context:** Forgetting that an array of delivery PIN codes could be empty, or that a distance could be zero, is a red flag. **Fix:** After writing your algorithm, explicitly walk through edge cases: empty input, single element, large values, duplicates, and sorted/unsorted states.
+4.  **Under-Communicating the "Why":** Silently coding a DP solution without explaining the state definition and transition will lose you points. **Fix:** Narrate your problem-solving. "I define `dp[i]` as the minimum cost to reach hub `i`. It can be derived from the minimum of `dp[i - distance] + cost` for all previous hubs within range."
 
 ## Key Tips
 
-1.  **Communicate Relentlessly:** Never go silent. Talk through your initial thoughts, discuss brute force, then optimize. Ask clarifying questions. This is as important as your code.
-2.  **Optimize Incrementally:** Always state the brute-force solution first (O(n²) is fine to mention), then explain how you can improve it. This shows structured thinking.
-3.  **Write Production-Ready Code:** Use meaningful variable names, add brief comments for complex logic, and handle edge cases explicitly (empty input, single element, large values). Write a few test cases verbally.
-4.  **Manage Your Time Rigorously:** Allocate time based on difficulty: 10 mins for Easy, 15-20 mins each for Medium, 25 mins for Hard. If stuck for more than 5 minutes on an approach, state you're pivoting and try another angle.
-5.  **Practice with Logistics Context:** While the core is algorithmic, mentally frame problems in Delhivery's domain—think about optimizing delivery routes (graph problems), sorting packages (sorting algorithms), or tracking shipments (hash maps for ID lookup).
+1.  **Start with a Concrete Example:** When given a problem like "optimize delivery routes," immediately frame it with a small, concrete example (e.g., 3 hubs, specific distances). Solve it manually, then generalize your steps into an algorithm. This shows structured thinking.
+2.  **Practice Writing SQL on a Plain Text Editor:** You won't have auto-complete in the interview. Get used to writing correct `JOIN`, `GROUP BY`, and `OVER(PARTITION BY...)` syntax from memory.
+3.  **For Recursion, Draw the Tree:** If you get stuck on a backtracking problem, ask the interviewer, "Can I draw the decision tree?" Visualizing the recursive calls makes it easier to debug and explain the state space.
+4.  **Ask Clarifying Questions About Constraints:** Before coding, always ask: "What is the expected size of the input?" or "Can the tracking ID string contain non-alphanumeric characters?" This demonstrates professional thoroughness.
+5.  **Connect Your Solution to Their Business:** In your closing questions or summary, you might note, "This two-pointer approach would be efficient for merging sorted lists of daily shipments from different hubs." It shows you think about application.
 
-Success in Delhivery's coding interview comes from consistent, pattern-focused practice and clear communication. Build the muscle memory for core algorithms so you can focus on problem-solving during the interview.
+Mastering Delhivery's interview is about combining algorithmic rigor with practical, scalable thinking. Focus on depth in their preferred topics, communicate your process clearly, and always drive toward the optimal solution.
 
 [Browse all Delhivery questions on CodeJeet](/company/delhivery)

@@ -1,106 +1,151 @@
 ---
 title: "Sorting Questions at Yelp: What to Expect"
 description: "Prepare for Sorting interview questions at Yelp — patterns, difficulty breakdown, and study tips."
-date: "2031-01-13"
+date: "2031-01-05"
 category: "dsa-patterns"
 tags: ["yelp", "sorting", "interview prep"]
 ---
 
-Sorting questions appear in roughly 25% of Yelp’s technical interviews (7 out of 27 total problems). This frequency isn’t accidental. Yelp’s core services—search, recommendations, and displaying business listings—are built on efficiently ordering massive datasets. Whether it’s ranking restaurants by proximity, sorting reviews by date or helpfulness, or filtering search results, the ability to quickly organize and retrieve ordered data is fundamental. Mastering sorting algorithms and, more importantly, the patterns that use sorting as a tool, is critical for passing their technical screens.
+If you're preparing for a Yelp software engineering interview, you'll quickly notice a significant pattern: **Sorting** is a major focus. With 7 out of their 27 tagged LeetCode problems being sorting-related, it's not just a topic—it's a core competency they actively test. This isn't an accident. Yelp's entire product revolves around ordering and ranking: search results by relevance and distance, businesses by rating, reviews by usefulness. The ability to efficiently sort, merge, and compare datasets is fundamental to their engineering work. In real interviews, you are very likely to encounter at least one problem where sorting is either the primary solution or a critical optimization step.
 
-## What to Expect — Types of Problems
+## Specific Patterns Yelp Favors
 
-You will rarely be asked to implement a raw sorting algorithm like quicksort from scratch. Instead, Yelp’s problems typically use sorting as a key step in the solution. Expect these categories:
+Yelp's sorting problems rarely ask you to implement a raw sorting algorithm like quicksort from scratch. Instead, they test your ability to _apply_ sorting as a tool to simplify more complex problems. The two most prevalent patterns are:
 
-1.  **Sorting as Pre-processing:** Many array or string problems become tractable once the data is sorted. Finding duplicates, meeting time overlaps, or the “K closest points” classic are solved by sorting first.
-2.  **Custom Comparison Sorting:** You’ll often need to sort objects based on complex rules—e.g., sort businesses by distance, then rating, then name. This tests your ability to write correct comparator functions.
-3.  **Interval Problems:** A Yelp staple. Think of merging business operating hours or scheduling events. Sorting intervals by their start time is almost always the first step.
-4.  **Two-Pointer Techniques on Sorted Data:** Once an array is sorted, two-pointer or sliding window techniques become powerful for solving problems like “two-sum” or finding pairs with a certain property efficiently.
+1.  **Sorting as a Preprocessing Step for Intervals:** Many Yelp problems involve merging, comparing, or finding gaps in sets of time slots, business hours, or geographical ranges. Sorting the data first by a start point transforms a messy comparison problem into a linear scan.
+2.  **Custom Comparator Sorting:** This is Yelp's bread and butter. You'll frequently need to sort objects (like businesses or reviews) based on multiple, sometimes competing, criteria (e.g., sort by highest rating, but break ties by proximity, then by number of reviews). Writing a clean, correct comparator is essential.
 
-## How to Prepare — Study Tips with One Code Example
+A classic example is **Merge Intervals (LeetCode #56)**, a direct analog to merging overlapping business hours or appointment slots. Another is **Meeting Rooms II (LeetCode #253)**, which uses sorting to efficiently find the maximum number of concurrent events—useful for modeling peak load on Yelp's reservation systems.
 
-Focus on the patterns, not the algorithms. Internalize that sorting an array of `n` elements often changes the time complexity baseline to `O(n log n)`. Your goal is to recognize when sorting unlocks a simpler or optimal solution.
+## How to Prepare
 
-A key pattern is **Sorting + Two-Pointer**. This is ideal for problems involving pairs in an array. The brute-force approach is `O(n²)`. By sorting first, we can use two pointers to find pairs in `O(n log n)` time.
+Mastering these patterns means moving beyond `array.sort()`. You need to understand how sorting changes the problem landscape. Let's look at the cornerstone pattern: using sorting to merge intervals.
 
-Consider the classic **Two Sum II** problem (input array is sorted), but a Yelp variant might involve finding pairs of business IDs that sum to a target value. Here’s the pattern:
+The trick is to sort all intervals by their start time. Once sorted, you can iterate through them. If the current interval starts _after_ the previous one ends, they don't overlap. If it starts _before or at_ the previous one ends, they do overlap, and you merge them by updating the ending to be the maximum of the two.
 
 <div class="code-group">
 
 ```python
-def find_pairs(nums, target):
-    nums.sort()  # Key pre-processing step
-    left, right = 0, len(nums) - 1
-    pairs = []
+def merge(intervals):
+    """
+    Merges all overlapping intervals.
+    :type intervals: List[List[int]]
+    :rtype: List[List[int]]
+    """
+    # 1. Sort by the start time
+    intervals.sort(key=lambda x: x[0])
 
-    while left < right:
-        current_sum = nums[left] + nums[right]
-        if current_sum == target:
-            pairs.append([nums[left], nums[right]])
-            left += 1
-            right -= 1
-        elif current_sum < target:
-            left += 1  # Need a larger sum
+    merged = []
+    for interval in intervals:
+        # If merged is empty or current interval does NOT overlap with the last merged interval
+        if not merged or merged[-1][1] < interval[0]:
+            merged.append(interval)
         else:
-            right -= 1  # Need a smaller sum
-    return pairs
+            # There is an overlap, so merge by updating the end time
+            merged[-1][1] = max(merged[-1][1], interval[1])
+    return merged
+
+# Time Complexity: O(n log n) due to sorting. The linear scan is O(n).
+# Space Complexity: O(log n) to O(n) depending on the sorting algorithm's space, plus O(n) for the output.
 ```
 
 ```javascript
-function findPairs(nums, target) {
-  nums.sort((a, b) => a - b); // Key pre-processing step
-  let left = 0;
-  let right = nums.length - 1;
-  const pairs = [];
+function merge(intervals) {
+  if (intervals.length === 0) return [];
 
-  while (left < right) {
-    const currentSum = nums[left] + nums[right];
-    if (currentSum === target) {
-      pairs.push([nums[left], nums[right]]);
-      left++;
-      right--;
-    } else if (currentSum < target) {
-      left++; // Need a larger sum
+  // 1. Sort by the start time
+  intervals.sort((a, b) => a[0] - b[0]);
+
+  const merged = [intervals[0]];
+
+  for (let i = 1; i < intervals.length; i++) {
+    const last = merged[merged.length - 1];
+    const current = intervals[i];
+
+    // If current interval does NOT overlap with the last merged interval
+    if (current[0] > last[1]) {
+      merged.push(current);
     } else {
-      right--; // Need a smaller sum
+      // Merge by updating the end time
+      last[1] = Math.max(last[1], current[1]);
     }
   }
-  return pairs;
+  return merged;
 }
+
+// Time Complexity: O(n log n) due to sorting.
+// Space Complexity: O(log n) for sort space in some JS engines, plus O(n) for output.
 ```
 
 ```java
 import java.util.*;
 
-public List<List<Integer>> findPairs(int[] nums, int target) {
-    Arrays.sort(nums); // Key pre-processing step
-    int left = 0;
-    int right = nums.length - 1;
-    List<List<Integer>> pairs = new ArrayList<>();
+public class Solution {
+    public int[][] merge(int[][] intervals) {
+        if (intervals.length <= 1) return intervals;
 
-    while (left < right) {
-        int currentSum = nums[left] + nums[right];
-        if (currentSum == target) {
-            pairs.add(Arrays.asList(nums[left], nums[right]));
-            left++;
-            right--;
-        } else if (currentSum < target) {
-            left++; // Need a larger sum
-        } else {
-            right--; // Need a smaller sum
+        // 1. Sort by the start time
+        Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
+
+        List<int[]> merged = new ArrayList<>();
+        int[] currentInterval = intervals[0];
+        merged.add(currentInterval);
+
+        for (int[] interval : intervals) {
+            int currentEnd = currentInterval[1];
+            int nextStart = interval[0];
+            int nextEnd = interval[1];
+
+            // If current interval overlaps with the next one
+            if (currentEnd >= nextStart) {
+                // Merge by updating the end time
+                currentInterval[1] = Math.max(currentEnd, nextEnd);
+            } else {
+                // No overlap, move to the next interval
+                currentInterval = interval;
+                merged.add(currentInterval);
+            }
         }
+        return merged.toArray(new int[merged.size()][]);
     }
-    return pairs;
 }
+
+// Time Complexity: O(n log n) due to sorting.
+// Space Complexity: O(log n) for sort space, plus O(n) for output.
 ```
 
 </div>
 
+The second critical skill is writing custom comparators. For example, sorting strings representing version numbers like "1.2.0" and "1.10.1" requires splitting and comparing integer parts numerically, not lexicographically.
+
+## How Yelp Tests Sorting vs Other Companies
+
+Compared to companies like Google or Meta, Yelp's sorting questions tend to be more _applied_ and less _theoretical_. You're less likely to get a puzzle that requires inventing a novel sorting algorithm and more likely to get a business logic problem where sorting is the cleanest path to a solution.
+
+The difficulty often lies in the problem description itself—it may be wrapped in a domain-specific scenario (e.g., "merge conflicting restaurant reservation slots"). Your first job is to recognize the underlying pattern (merge intervals, custom sort, etc.). The implementation, once the pattern is identified, is usually straightforward. This tests your ability to translate real-world Yelp problems into clean code.
+
+## Study Order
+
+Tackle sorting systematically. Don't jump into complex problems immediately.
+
+1.  **Fundamental Sorting Algorithms:** Understand how QuickSort and MergeSort work at a high level (partitioning, divide-and-conquer). You won't implement them, but you must know their O(n log n) average-case guarantee and stable/unstable properties.
+2.  **Basic Library Sorting:** Practice using your language's sort function with a simple key (e.g., `sort by x[0]`). Solve easy problems like **Kth Largest Element (LeetCode #215)**.
+3.  **Custom Comparators:** Learn to sort objects by multiple fields. Practice ascending/descending order and tie-breaking logic. This is a huge step.
+4.  **Sorting as a Tool:** Now apply sorting to more complex patterns: Merge Intervals, Meeting Rooms II, and Non-overlapping Intervals (LeetCode #435).
+5.  **Advanced Applications:** Finally, tackle problems where sorting is part of a larger solution, such as in two-pointer techniques (e.g., **3Sum, LeetCode #15**) or scheduling with heaps.
+
 ## Recommended Practice Order
 
-1.  **Fundamentals:** Ensure you understand how sorting affects time/space complexity. Practice writing custom comparators in your language of choice.
-2.  **Core Patterns:** Solve problems using Sorting + Two-Pointer and Sorting + Greedy approaches. Practice interval merging and insertion.
-3.  **Yelp Context:** Apply these patterns to business-oriented problems, like sorting reviews, merging business hours, or ranking search results.
-4.  **Optimization:** For each problem, ask: “Did sorting enable a better solution? What is the cost (`O(n log n)`) and benefit?”
+Build confidence with this sequence:
+
+1.  **Merge Intervals (LeetCode #56)** - The foundational pattern.
+2.  **Meeting Rooms II (LeetCode #253)** - Applies the same sorted `start` and `end` array technique.
+3.  **Sort Colors (LeetCode #75)** - Tests understanding of in-place partitioning (like in QuickSort).
+4.  **Largest Number (LeetCode #179)** - An excellent custom comparator challenge (sorting strings as numbers).
+5.  **Non-overlapping Intervals (LeetCode #435)** - A variation on the merge theme requiring greedy choice.
+6.  **Insert Interval (LeetCode #57)** - A more complex variant of merge intervals.
+7.  **Car Fleet (LeetCode #853)** - A great example of sorting to simplify a physics/position problem.
+
+By following this progression, you move from recognizing the pattern, to implementing it, to finally adapting it for trickier scenarios. This is exactly the skill progression a Yelp interviewer is looking for.
 
 [Practice Sorting at Yelp](/company/yelp/sorting)

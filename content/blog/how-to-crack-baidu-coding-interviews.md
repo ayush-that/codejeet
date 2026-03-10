@@ -1,117 +1,357 @@
 ---
 title: "How to Crack Baidu Coding Interviews in 2026"
 description: "Complete guide to Baidu coding interviews — question patterns, difficulty breakdown, must-practice topics, and preparation strategy."
-date: "2026-08-15"
+date: "2026-11-05"
 category: "company-guide"
 company: "baidu"
 tags: ["baidu", "interview prep", "leetcode"]
 ---
 
-Baidu’s coding interviews are a rigorous test of algorithmic problem-solving and system design, designed to identify engineers who can handle the scale and complexity of China’s leading search and AI company. The process typically involves multiple rounds, including phone screens, online coding assessments, and several on-site (or virtual) technical interviews focusing on data structures, algorithms, and real-world system implementation. Success requires targeted, efficient preparation.
+Baidu, often called "China's Google," maintains a rigorous technical interview process designed to identify engineers who can handle the scale and complexity of its search engine, AI platforms, and massive ecosystem services. While the structure mirrors other top tech firms—typically starting with an online assessment, followed by 3-5 rounds of technical and behavioral interviews—Baidu's process has distinct nuances. The technical rounds are notoriously algorithm-heavy, with a strong emphasis on deriving optimal solutions under pressure. You'll often face a 45-60 minute video call with a senior engineer where you'll be expected to solve one, sometimes two, challenging problems on a shared coding editor. What makes it unique is the depth of follow-up: interviewers frequently ask for multiple solutions, demand rigorous complexity analysis, and may probe edge cases and potential system-level implications of your algorithm. Success here requires more than just pattern recognition; it demands clear, logical communication of your thought process in a high-stakes environment.
 
-## By the Numbers — Difficulty Breakdown and What It Means
+## What Makes Baidu Different
 
-An analysis of recent Baidu interview questions reveals a clear, challenging trend: **0% Easy, 55% Medium, and 45% Hard problems**. This distribution is telling. Baidu does not waste time on trivial checks. The interview is a direct assessment of your ability to handle complex, non-obvious problems under pressure. The high percentage of Hard questions indicates they are probing for depth—candidates must not only implement standard algorithms but also optimize them and handle intricate edge cases. The Medium questions serve as a baseline; failing to solve these quickly and correctly is often an immediate disqualification. Your preparation must be calibrated for this high-difficulty environment from day one.
+While FAANG companies have increasingly integrated system design and behavioral components, Baidu's technical screens remain intensely focused on pure algorithmic problem-solving, often at a higher average difficulty. The key differentiators are:
+
+1.  **Optimization is Non-Negotiable:** At companies like Google or Meta, a working solution with suboptimal complexity might pass a first round if you can discuss improvements. At Baidu, for their medium and hard problems, you are often expected to derive the optimal (or near-optimal) solution within the interview timeframe. Mentioning a brute force approach is only acceptable as a stepping stone; you must quickly move to the optimized version.
+2.  **Follow-Up Questions are Algorithmic, Not Systemic:** Instead of asking, "How would you scale this?", Baidu interviewers are more likely to ask, "Now, what if the input array is streamed and you have limited memory?" or "Can you solve this with O(1) auxiliary space?" This tests your ability to adapt core algorithms under new constraints.
+3.  **Rigorous Mathematical Proof-of-Concept:** You might be asked to justify your time complexity with a brief mathematical reasoning or prove why a greedy approach is correct. Hand-wavy explanations are insufficient.
+4.  **Language Agnostic, but Precision Required:** While you can use any major language, your code must be clean, compilable, and handle all edge cases. Pseudocode is generally not accepted in the final answer.
+
+## By the Numbers
+
+An analysis of Baidu's recent question bank reveals a stark profile: **0% Easy, 55% Medium, 45% Hard.** This distribution is more skewed toward hard problems than most Western FAANG companies. It tells you two things immediately:
+
+1.  **You must be comfortable under pressure with complex problems.** You won't get a warm-up "Two Sum." The first question out of the gate will require substantial analysis.
+2.  **Mastery of Medium problems is the _bare minimum_.** Your baseline fluency must allow you to solve most Medium problems within 20-25 minutes, leaving ample time for the Hard problems that have a high probability of appearing.
+
+Specific problems known to appear or be analogous to Baidu's style include **"Median of Two Sorted Arrays" (LeetCode #4, Hard)**, a classic divide and conquer challenge, and **"Longest Increasing Path in a Matrix" (LeetCode #329, Hard)**, which combines DFS with memoization (Dynamic Programming). These aren't just random hards; they test fundamental, advanced patterns Baidu values.
 
 ## Top Topics to Focus On
 
-The data shows a concentrated set of core topics. Master these, as they form the backbone of Baidu’s technical screening.
+Your study must be strategic. Here’s why these topics dominate and how to tackle them.
 
-- **Dynamic Programming (DP):** The most frequent topic. You must be proficient in identifying overlapping subproblems and optimal substructure, especially for string and array manipulation. Key patterns include knapsack, LCS, and partition problems.
-- **Array:** Fundamental to almost all problems. Expect questions involving traversal, sorting, searching, and complex in-place manipulations. Master two-pointer and sliding window techniques.
-- **Hash Table:** The go-to tool for achieving O(1) lookups to optimize brute-force solutions. Crucial for problems involving frequency counting, deduplication, or mapping relationships.
-- **String:** Often intertwined with DP and array techniques. Focus on palindrome checks, subsequence problems, anagram matching, and string transformations.
-- **Divide and Conquer:** Appears in high-difficulty problems, such as optimized binary search variations, merge sort modifications, or complex tree operations.
+**Dynamic Programming (DP):** Baidu's problems in AI, search ranking, and optimization naturally map to DP. You must be able to identify overlapping subproblems and optimal substructure quickly. Focus on both 1D/2D DP and state machine DP.
+_Key Patterns:_ Knapsack variations, DP on strings (edit distance, LCS), DP on grids.
 
-Given DP's prominence, the most important pattern to master is the **"Longest Common Subsequence (LCS)"** framework. It's a classic DP problem that teaches state definition and transition, which applies to many other string and array problems.
+**Array:** The fundamental data structure. Baidu questions often involve complex array manipulations requiring in-place operations, careful index management, and multiple pointers.
+_Key Patterns:_ Sliding Window (variable & fixed), Two/Three Pointers, In-place transformations (like the Dutch National Flag problem).
+
+**Hash Table:** Essential for achieving O(1) lookups and optimizing solutions from O(n²) to O(n). Baidu uses it heavily in problems involving string patterns, array duplicates, and caching scenarios.
+_Key Patterns:_ Using hash maps to store indices, counts, or precomputed states.
+
+**String:** Core to search and text processing. Expect problems involving palindromes, subsequences, matching, and transformations, often combined with DP or two pointers.
+_Key Patterns:_ Longest Palindromic Substring, Edit Distance, Sliding Window for substrings.
+
+**Divide and Conquer:** Important for efficient search and sorting on large datasets, reflecting Baidu's big data reality. It's less frequent but appears in high-impact problems.
+_Key Pattern:_ Modified Binary Search, Merge Sort variations (e.g., counting inversions).
+
+Let's look at a critical pattern: **Sliding Window for a Dynamic Substring Problem**, akin to "Longest Substring Without Repeating Characters" (LeetCode #3), a common Baidu-style question.
 
 <div class="code-group">
 
 ```python
-def longest_common_subsequence(text1: str, text2: str) -> int:
-    m, n = len(text1), len(text2)
-    # dp[i][j] = LCS length for text1[:i], text2[:j]
-    dp = [[0] * (n + 1) for _ in range(m + 1)]
+def lengthOfLongestSubstring(s: str) -> int:
+    """
+    Finds the length of the longest substring without repeating characters.
+    Uses a sliding window with a hash set.
+    Time: O(n) - Each character is visited at most twice (by left and right pointers).
+    Space: O(min(m, n)) - For the hash set, where m is the charset size.
+    """
+    char_set = set()
+    left = 0
+    max_length = 0
 
-    for i in range(1, m + 1):
-        for j in range(1, n + 1):
-            if text1[i - 1] == text2[j - 1]:
-                dp[i][j] = dp[i - 1][j - 1] + 1
-            else:
-                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
-    return dp[m][n]
+    for right in range(len(s)):
+        # If duplicate found, shrink window from the left
+        while s[right] in char_set:
+            char_set.remove(s[left])
+            left += 1
+        # Add the new character and update max length
+        char_set.add(s[right])
+        max_length = max(max_length, right - left + 1)
+
+    return max_length
 ```
 
 ```javascript
-function longestCommonSubsequence(text1, text2) {
-  const m = text1.length,
-    n = text2.length;
-  const dp = Array.from({ length: m + 1 }, () => new Array(n + 1).fill(0));
+function lengthOfLongestSubstring(s) {
+  /**
+   * Finds the length of the longest substring without repeating characters.
+   * Uses a sliding window with a hash set.
+   * Time: O(n) - Each character is visited at most twice.
+   * Space: O(min(m, n)) - For the hash set, where m is the charset size.
+   */
+  const charSet = new Set();
+  let left = 0;
+  let maxLength = 0;
 
-  for (let i = 1; i <= m; i++) {
-    for (let j = 1; j <= n; j++) {
-      if (text1[i - 1] === text2[j - 1]) {
-        dp[i][j] = dp[i - 1][j - 1] + 1;
-      } else {
-        dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
-      }
+  for (let right = 0; right < s.length; right++) {
+    // If duplicate found, shrink window from the left
+    while (charSet.has(s[right])) {
+      charSet.delete(s[left]);
+      left++;
     }
+    // Add the new character and update max length
+    charSet.add(s[right]);
+    maxLength = Math.max(maxLength, right - left + 1);
   }
-  return dp[m][n];
+  return maxLength;
 }
 ```
 
 ```java
-public int longestCommonSubsequence(String text1, String text2) {
-    int m = text1.length(), n = text2.length();
-    int[][] dp = new int[m + 1][n + 1];
+public int lengthOfLongestSubstring(String s) {
+    /**
+     * Finds the length of the longest substring without repeating characters.
+     * Uses a sliding window with a hash set.
+     * Time: O(n) - Each character is visited at most twice.
+     * Space: O(min(m, n)) - For the hash set, where m is the charset size.
+     */
+    Set<Character> charSet = new HashSet<>();
+    int left = 0;
+    int maxLength = 0;
 
-    for (int i = 1; i <= m; i++) {
-        for (int j = 1; j <= n; j++) {
-            if (text1.charAt(i - 1) == text2.charAt(j - 1)) {
-                dp[i][j] = dp[i - 1][j - 1] + 1;
-            } else {
-                dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
-            }
+    for (int right = 0; right < s.length(); right++) {
+        char currentChar = s.charAt(right);
+        // If duplicate found, shrink window from the left
+        while (charSet.contains(currentChar)) {
+            charSet.remove(s.charAt(left));
+            left++;
         }
+        // Add the new character and update max length
+        charSet.add(currentChar);
+        maxLength = Math.max(maxLength, right - left + 1);
     }
-    return dp[m][n];
+    return maxLength;
 }
 ```
 
 </div>
 
-## Preparation Strategy — A 4-6 Week Study Plan
+Now, let's examine a **Dynamic Programming** example crucial for Baidu: **DP on a Grid**, similar to "Minimum Path Sum" (LeetCode #64).
 
-With the high difficulty bar, a structured, intensive plan is non-negotiable.
+<div class="code-group">
 
-**Weeks 1-2: Foundation & Topic Mastery**
+```python
+def minPathSum(grid: List[List[int]]) -> int:
+    """
+    Finds the minimum path sum from top-left to bottom-right of a grid.
+    Uses in-place DP to save space.
+    Time: O(m * n) - We traverse each cell once.
+    Space: O(1) - We modify the input grid in place. (Otherwise O(m*n) for a separate DP table).
+    """
+    m, n = len(grid), len(grid[0])
 
-- Days 1-3: Revisit core data structures (Arrays, Hash Maps, Trees, Graphs). Implement them from scratch.
-- For the next 10 days, dedicate each day to one of the top topics. For DP, spend at least 3 days. For each topic:
-  1.  Study the fundamental patterns (e.g., for DP: top-down memoization vs. bottom-up tabulation).
-  2.  Solve 5-8 curated Medium problems.
-  3.  Solve 2-4 Hard problems. Focus on understanding the solution derivation, not just memorization.
+    # Initialize first row (only way is from left)
+    for j in range(1, n):
+        grid[0][j] += grid[0][j-1]
 
-**Weeks 3-4: Problem Integration & Pattern Recognition**
+    # Initialize first column (only way is from top)
+    for i in range(1, m):
+        grid[i][0] += grid[i-1][0]
 
-- Stop solving by topic. Start doing mixed problem sets that mimic an actual interview.
-- Practice on platforms with timer settings. For every problem, enforce the 30-35 minute rule: 5-10 minutes to understand and plan, 15-20 minutes to code, 5 minutes to test and debug.
-- Begin each session with 1-2 Medium problems as a warm-up, then tackle 1-2 Hard problems.
+    # Fill the rest of the DP table
+    for i in range(1, m):
+        for j in range(1, n):
+            grid[i][j] += min(grid[i-1][j], grid[i][j-1])
 
-**Weeks 5-6: Mock Interviews & Weakness Attack**
+    return grid[m-1][n-1]
+```
 
-- Schedule at least 2-3 mock interviews per week with peers or using professional services. Simulate the exact format (video call, shared editor, no IDE).
-- Analyze every mistake from the previous weeks. Create a "mistake journal" categorizing errors: misreading the problem, missing edge cases, suboptimal complexity, or buggy implementation. Systematically eliminate these weaknesses.
-- In the final days, review your journal and re-solve your most-missed problems.
+```javascript
+function minPathSum(grid) {
+  /**
+   * Finds the minimum path sum from top-left to bottom-right of a grid.
+   * Uses in-place DP to save space.
+   * Time: O(m * n) - We traverse each cell once.
+   * Space: O(1) - We modify the input grid in place.
+   */
+  const m = grid.length,
+    n = grid[0].length;
+
+  // Initialize first row
+  for (let j = 1; j < n; j++) {
+    grid[0][j] += grid[0][j - 1];
+  }
+  // Initialize first column
+  for (let i = 1; i < m; i++) {
+    grid[i][0] += grid[i - 1][0];
+  }
+  // Fill the rest
+  for (let i = 1; i < m; i++) {
+    for (let j = 1; j < n; j++) {
+      grid[i][j] += Math.min(grid[i - 1][j], grid[i][j - 1]);
+    }
+  }
+  return grid[m - 1][n - 1];
+}
+```
+
+```java
+public int minPathSum(int[][] grid) {
+    /**
+     * Finds the minimum path sum from top-left to bottom-right of a grid.
+     * Uses in-place DP to save space.
+     * Time: O(m * n) - We traverse each cell once.
+     * Space: O(1) - We modify the input grid in place.
+     */
+    int m = grid.length, n = grid[0].length;
+
+    // Initialize first row
+    for (int j = 1; j < n; j++) {
+        grid[0][j] += grid[0][j-1];
+    }
+    // Initialize first column
+    for (int i = 1; i < m; i++) {
+        grid[i][0] += grid[i-1][0];
+    }
+    // Fill the rest
+    for (int i = 1; i < m; i++) {
+        for (int j = 1; j < n; j++) {
+            grid[i][j] += Math.min(grid[i-1][j], grid[i][j-1]);
+        }
+    }
+    return grid[m-1][n-1];
+}
+```
+
+</div>
+
+Finally, a **Divide and Conquer** classic: a modified **Binary Search** for a rotated array, as in "Search in Rotated Sorted Array" (LeetCode #33).
+
+<div class="code-group">
+
+```python
+def search(nums: List[int], target: int) -> int:
+    """
+    Searches for a target in a rotated sorted array.
+    Uses a modified binary search to find the sorted half.
+    Time: O(log n) - Standard binary search time.
+    Space: O(1) - Uses only pointers.
+    """
+    left, right = 0, len(nums) - 1
+
+    while left <= right:
+        mid = left + (right - left) // 2
+        if nums[mid] == target:
+            return mid
+
+        # Check if the left half [left..mid] is sorted
+        if nums[left] <= nums[mid]:
+            # Target is in the sorted left half
+            if nums[left] <= target < nums[mid]:
+                right = mid - 1
+            else:
+                left = mid + 1
+        else:  # Right half [mid..right] must be sorted
+            # Target is in the sorted right half
+            if nums[mid] < target <= nums[right]:
+                left = mid + 1
+            else:
+                right = mid - 1
+    return -1
+```
+
+```javascript
+function search(nums, target) {
+  /**
+   * Searches for a target in a rotated sorted array.
+   * Uses a modified binary search to find the sorted half.
+   * Time: O(log n)
+   * Space: O(1)
+   */
+  let left = 0,
+    right = nums.length - 1;
+
+  while (left <= right) {
+    let mid = Math.floor((left + right) / 2);
+    if (nums[mid] === target) return mid;
+
+    // Is left half sorted?
+    if (nums[left] <= nums[mid]) {
+      // Is target in this sorted left half?
+      if (nums[left] <= target && target < nums[mid]) {
+        right = mid - 1;
+      } else {
+        left = mid + 1;
+      }
+    } else {
+      // Right half is sorted
+      // Is target in this sorted right half?
+      if (nums[mid] < target && target <= nums[right]) {
+        left = mid + 1;
+      } else {
+        right = mid - 1;
+      }
+    }
+  }
+  return -1;
+}
+```
+
+```java
+public int search(int[] nums, int target) {
+    /**
+     * Searches for a target in a rotated sorted array.
+     * Uses a modified binary search to find the sorted half.
+     * Time: O(log n)
+     * Space: O(1)
+     */
+    int left = 0, right = nums.length - 1;
+
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+        if (nums[mid] == target) return mid;
+
+        // Check if left half is sorted
+        if (nums[left] <= nums[mid]) {
+            // Target is in the sorted left half
+            if (nums[left] <= target && target < nums[mid]) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        } else { // Right half is sorted
+            // Target is in the sorted right half
+            if (nums[mid] < target && target <= nums[right]) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+    }
+    return -1;
+}
+```
+
+</div>
+
+## Preparation Strategy
+
+A 6-week plan is ideal. The goal is depth over breadth.
+
+- **Weeks 1-2: Foundation & Core Patterns.** Solve 60-80 problems. Focus 70% on Medium, 30% on Hard from the top topics (DP, Array, Hash Table). Do not skip Easy problems on these topics if you're weak; use them for speed drills. Implement each pattern from scratch multiple times.
+- **Week 3: Deep Dive on Dynamic Programming.** This is your most important week. Solve 25-30 DP problems. Categorize them: 1D (Fibonacci, Knapsack), 2D (Grid, LCS), State Machine, etc. Write out the recurrence relation before coding.
+- **Week 4: Advanced Problem Integration.** Solve 40 problems that are exclusively Hard or high-frequency Baidu Mediums. Practice under timed conditions (30 mins per problem). Start analyzing time/space complexity out loud as you practice.
+- **Week 5: Mock Interviews & Weakness Attack.** Conduct 2-3 mock interviews per week with a peer or using a platform. Identify your weak spots (e.g., "I panic on graph DP") and solve 15-20 problems targeting only those areas.
+- **Week 6: Refinement & Speed.** Reduce new problems. Re-solve 50 of the most important problems from your history, aiming for bug-free, optimally-coded solutions in under 20 minutes. Focus on clear verbal explanation.
+
+## Common Mistakes
+
+1.  **Presenting a Suboptimal Solution as Final:** The biggest killer. Always state: "This is O(n²). I believe we can optimize to O(n log n) using a heap, let me explore that." Show your optimization mindset from the start.
+2.  **Silent Struggle:** Baidu interviewers assess your problem-solving process. If you're stuck for more than 60 seconds, start talking. Say, "I'm considering a sliding window approach, but the constraint X makes it tricky. An alternative might be a hash map to store Y..." They want to follow your logic.
+3.  **Sloppy Edge Case Handling:** Given the difficulty, edge cases are often the key to the problem. Failing to consider empty input, single element, large values, or duplicate entries will break your solution. Verbally list edge cases before you start coding.
+4.  **Incomplete Complexity Analysis:** Don't just state "O(n) time." Be prepared to justify it. "We have a single loop that runs n times, and the inner while loop's operations are amortized constant because each element is added and removed from the set at most once, leading to O(2n) which simplifies to O(n)."
 
 ## Key Tips
 
-1.  **Communicate Your DP State First.** When a DP problem appears, immediately articulate your `dp` array definition aloud. "I will define `dp[i][j]` as the optimal value for the subproblem up to index `i` in string A and index `j` in string B." This demonstrates structured thinking before you write a single line of code.
-2.  **Optimize Space After Correctness.** For DP and array problems, first write the correct solution with clear, readable logic—even if it uses O(n²) space. Once it's correct and explained, then propose and implement the space-optimized version (e.g., rolling array). This shows prioritization of correct, maintainable code over premature optimization.
-3.  **Practice Chinese-Language Problem Statements.** Many Baidu assessments and interviewers will use Chinese. Familiarize yourself with common technical terminology in Chinese (算法, 时间复杂度, 动态规划, 数组) to avoid misinterpreting a problem under stress.
-4.  **Test with Complex Edge Cases.** Before declaring a problem solved, verbally run through edge cases: empty input, single element, large duplicates, sorted/reverse-sorted arrays, and extreme values. Then, write a few test lines in the editor to prove it. This attention to robustness is expected.
+1.  **Master the "DP Spotting" Heuristic:** When you see "shortest/longest/maximum/minimum number of ways" and the problem has clear stages with dependent decisions, immediately write down `dp[i][j]` and try to define its meaning. This first step is critical.
+2.  **Practice with Chinese OJ Problems:** Some Baidu problems originate from or are similar to those on Chinese Online Judges like LintCode. Familiarize yourself with their problem style and constraints.
+3.  **Communicate in Layers:** First, restate the problem in your own words. Then, outline a brute force solution and its complexity. Next, propose the optimized approach and _why_ it's better. Only then begin coding. This structured communication is highly valued.
+4.  **Ask Clarifying Questions Proactively:** Before designing the algorithm, ask: "Can the input be empty?" "Are the numbers all integers?" "Is the array sorted?" This demonstrates thoroughness and often provides crucial hints.
+5.  **End with a Walkthrough:** After coding, don't just say "I'm done." Walk through a small test case with your code, including edge cases. This is your chance to catch bugs before the interviewer does.
 
-Cracking Baidu's interview is about demonstrating deep, flexible mastery of algorithmic fundamentals under high-stakes conditions. Target the hard problems, internalize the core patterns, and practice with relentless focus on quality and communication.
+Cracking Baidu's interview is a test of disciplined, advanced algorithmic preparation and precise communication. Focus on the hard patterns, drill your optimization skills, and practice articulating every step of your reasoning.
 
 [Browse all Baidu questions on CodeJeet](/company/baidu)

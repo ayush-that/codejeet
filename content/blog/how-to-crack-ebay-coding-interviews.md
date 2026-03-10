@@ -1,405 +1,350 @@
 ---
 title: "How to Crack eBay Coding Interviews in 2026"
 description: "Complete guide to eBay coding interviews — question patterns, difficulty breakdown, must-practice topics, and preparation strategy."
-date: "2026-02-14"
+date: "2026-03-26"
 category: "company-guide"
 company: "ebay"
 tags: ["ebay", "interview prep", "leetcode"]
 ---
 
-Getting an offer from eBay means proving you can solve the kind of algorithmic and system design problems they actually use. Their coding interview process typically involves one or two technical phone screens focusing on data structures and algorithms, followed by a virtual onsite with similar rounds, sometimes including a system design discussion for more senior roles. The questions are practical and test your fundamental problem-solving skills under pressure.
+# How to Crack eBay Coding Interviews in 2026
+
+eBay’s interview process is a blend of classic Silicon Valley rigor and a distinct focus on real-world, data-intensive problem solving. The typical loop for a software engineering role consists of a recruiter screen, a technical phone screen (often one 45-60 minute coding round), and a virtual onsite of 4-5 rounds. These onsite rounds usually break down into 2-3 coding sessions, 1 system design round, and 1 behavioral/cultural fit round. What makes eBay’s process unique is its tangible connection to their business: you’re less likely to get abstract graph theory puzzles and more likely to encounter problems involving transaction logs, user session analysis, inventory matching, or pricing data—all wrapped in standard algorithm clothing. They expect clean, production-quality code, clear communication of trade-offs, and a focus on scalability from the outset.
+
+## What Makes eBay Different
+
+While companies like Google might test for raw algorithmic cleverness and Meta for rapid implementation under pressure, eBay’s interviews skew heavily towards **practical data manipulation and optimization**. The problems often feel like they were pulled from a backend service’s TODO list. This has several implications:
+
+1.  **Optimization is Non-Negotiable:** For array and string problems, a brute-force O(n²) solution is rarely sufficient to pass. You must immediately think about hashing, sorting, or sliding windows to reach optimal O(n log n) or O(n) time. Interviewers will probe edge cases around large datasets.
+2.  **Clarity Over Cleverness:** They favor readable, maintainable code. A convoluted one-liner is worse than a slightly longer but well-structured solution. Comments on complex logic are appreciated.
+3.  **System Design Context:** Even in coding rounds, be prepared to briefly discuss how your solution would scale. For example, if you’re merging logs, how would your algorithm work if the logs didn’t fit in memory? This bridges the gap to their dedicated system design round, which often focuses on eBay-specific domains like bidding systems, recommendation feeds, or inventory search.
 
 ## By the Numbers
 
-Looking at the data from over 60 reported LeetCode questions, eBay's interview leans heavily toward medium difficulty. A full 63% (38 questions) are medium, with 20% easy (12 questions) and 17% hard (10 questions). This breakdown is crucial for your preparation strategy. It tells you that eBay is primarily testing for strong, all-around competency. You need to be highly proficient at solving medium problems within the interview timeframe. The hard questions are present, so you must be prepared to tackle complex challenges, but they are not the majority. The easy questions often serve as warm-ups or test your attention to detail on foundational concepts. Your goal is to master mediums so thoroughly that you can approach hards with a clear, structured methodology.
+An analysis of 60 recent eBay coding questions reveals a clear pattern:
+
+- **Easy: 12 (20%)** – These are warm-ups or phone screen starters. Don’t ignore them; they test fundamental correctness and communication.
+- **Medium: 38 (63%)** – **This is the battleground.** If you can reliably solve Medium problems within 25-30 minutes, you’re in a strong position. These problems dominate the onsite coding rounds.
+- **Hard: 10 (17%)** – Usually reserved for senior roles or the final "bar raiser" round. They often involve complex dynamic programming or intricate graph traversals.
+
+This breakdown tells you to build a rock-solid foundation in Medium problems. Specific LeetCode problems that frequently appear in spirit (or sometimes in name) include variations of:
+
+- **Merge Intervals (#56):** For merging user session data or auction time windows.
+- **Two Sum (#1) & its variants:** The cornerstone of many "find matching pairs" problems (e.g., matching buyers and sellers within a price range).
+- **Longest Substring Without Repeating Characters (#3):** Applied to analyzing user clickstreams.
+- **Product of Array Except Self (#238):** Common in data transformation tasks.
 
 ## Top Topics to Focus On
 
-The data shows a clear set of five core areas. You should prioritize these in your study plan.
+**1. Array & Sorting**
+eBay’s platform is built on listings, transactions, and logs—all fundamentally arrays of data. Sorting is the first step to taming chaos. Mastering in-place sorts, custom comparators, and the two-pointer technique is crucial.
 
-- **Array:** This is the most frequent topic. Expect problems involving traversal, in-place manipulation, and subarray calculations. Practice techniques like two-pointers and sliding window until they are second nature.
-- **String:** Often intertwined with array problems, string-specific manipulations, parsing, and comparison algorithms are common. Be comfortable with encoding, palindromes, and string builders.
-- **Hash Table:** The go-to tool for achieving O(1) lookups to optimize your solutions. You will use it constantly for frequency counting, memoization, and tracking seen elements. Know its implementations inside and out.
-- **Sorting:** Rarely the final answer but often a critical preprocessing step. Understand the trade-offs of different sorting algorithms and recognize when sorting can simplify a problem, especially in combination with two-pointers.
-- **Dynamic Programming:** This appears consistently as a higher-order challenge. Focus on the core patterns—1D/2D DP, knapsack variants, and subsequence problems. Being able to derive the recurrence relation is more important than memorizing solutions.
+_Why eBay favors it:_ Daily operations involve sorting listings by price/date, merging overlapping auction times, or finding pairs in transaction data. An efficient sort transforms an O(n²) search into O(n log n).
 
-### Deep Dive: Array and Two-Pointers
-
-Array problems often require efficient traversal without nested loops. The two-pointer technique is essential for this. One common pattern involves having one pointer at the start and another at the end, moving them inward based on a condition (e.g., finding a pair sum in a sorted array). Another pattern is the fast-slow pointer for detecting cycles or finding midpoints. The sliding window is a variant for contiguous subarrays with a condition on sum or unique characters.
+**Example Pattern: Merge Intervals (LeetCode #56)**
+This pattern is ubiquitous for time-based data. The core strategy is to sort by the start time, then iterate and merge overlapping intervals.
 
 <div class="code-group">
 
 ```python
-# Two-Pointers: Find two numbers in a sorted array that sum to a target.
-def two_sum_sorted(numbers, target):
-    left, right = 0, len(numbers) - 1
-    while left < right:
-        current_sum = numbers[left] + numbers[right]
-        if current_sum == target:
-            return [left + 1, right + 1]  # 1-indexed
-        elif current_sum < target:
-            left += 1
+def merge(intervals):
+    """
+    Merge overlapping intervals.
+    Time: O(n log n) for sorting + O(n) for merging = O(n log n)
+    Space: O(n) for the output list (or O(1) if ignoring output space)
+    """
+    if not intervals:
+        return []
+
+    # Sort by the start time
+    intervals.sort(key=lambda x: x[0])
+    merged = [intervals[0]]
+
+    for current_start, current_end in intervals[1:]:
+        last_start, last_end = merged[-1]
+
+        # If current interval overlaps with the last merged interval
+        if current_start <= last_end:
+            # Merge them by updating the end of the last interval
+            merged[-1][1] = max(last_end, current_end)
         else:
-            right -= 1
-    return []
+            # No overlap, add the current interval as a new entry
+            merged.append([current_start, current_end])
 
-# Sliding Window: Maximum sum of any contiguous subarray of size k.
-def max_sum_subarray(arr, k):
-    if len(arr) < k:
-        return 0
-    window_sum = sum(arr[:k])
-    max_sum = window_sum
-    for i in range(k, len(arr)):
-        window_sum = window_sum - arr[i - k] + arr[i]
-        max_sum = max(max_sum, window_sum)
-    return max_sum
+    return merged
+
+# Example: Merging auction time windows
+# intervals = [[1,3],[2,6],[8,10],[15,18]]
+# print(merge(intervals)) # Output: [[1,6],[8,10],[15,18]]
 ```
 
 ```javascript
-// Two-Pointers: Find two numbers in a sorted array that sum to a target.
-function twoSumSorted(numbers, target) {
-  let left = 0,
-    right = numbers.length - 1;
-  while (left < right) {
-    const currentSum = numbers[left] + numbers[right];
-    if (currentSum === target) {
-      return [left + 1, right + 1]; // 1-indexed
-    } else if (currentSum < target) {
-      left++;
+function merge(intervals) {
+  if (intervals.length === 0) return [];
+
+  // Sort by start time
+  intervals.sort((a, b) => a[0] - b[0]);
+  const merged = [intervals[0]];
+
+  for (let i = 1; i < intervals.length; i++) {
+    const [currStart, currEnd] = intervals[i];
+    const [lastStart, lastEnd] = merged[merged.length - 1];
+
+    if (currStart <= lastEnd) {
+      // Overlap, merge by updating the end
+      merged[merged.length - 1][1] = Math.max(lastEnd, currEnd);
     } else {
-      right--;
+      // No overlap, push new interval
+      merged.push([currStart, currEnd]);
     }
   }
-  return [];
+  return merged;
 }
-
-// Sliding Window: Maximum sum of any contiguous subarray of size k.
-function maxSumSubarray(arr, k) {
-  if (arr.length < k) return 0;
-  let windowSum = arr.slice(0, k).reduce((a, b) => a + b, 0);
-  let maxSum = windowSum;
-  for (let i = k; i < arr.length; i++) {
-    windowSum = windowSum - arr[i - k] + arr[i];
-    maxSum = Math.max(maxSum, windowSum);
-  }
-  return maxSum;
-}
+// Time: O(n log n) | Space: O(n)
 ```
 
 ```java
-// Two-Pointers: Find two numbers in a sorted array that sum to a target.
-public int[] twoSumSorted(int[] numbers, int target) {
-    int left = 0, right = numbers.length - 1;
-    while (left < right) {
-        int currentSum = numbers[left] + numbers[right];
-        if (currentSum == target) {
-            return new int[]{left + 1, right + 1}; // 1-indexed
-        } else if (currentSum < target) {
-            left++;
-        } else {
-            right--;
-        }
-    }
-    return new int[]{};
-}
+import java.util.*;
 
-// Sliding Window: Maximum sum of any contiguous subarray of size k.
-public int maxSumSubarray(int[] arr, int k) {
-    if (arr.length < k) return 0;
-    int windowSum = 0;
-    for (int i = 0; i < k; i++) {
-        windowSum += arr[i];
-    }
-    int maxSum = windowSum;
-    for (int i = k; i < arr.length; i++) {
-        windowSum = windowSum - arr[i - k] + arr[i];
-        maxSum = Math.max(maxSum, windowSum);
-    }
-    return maxSum;
-}
-```
+public class Solution {
+    public int[][] merge(int[][] intervals) {
+        if (intervals.length == 0) return new int[0][];
 
-</div>
+        // Sort by start time
+        Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
+        List<int[]> merged = new ArrayList<>();
+        merged.add(intervals[0]);
 
-### Deep Dive: Hash Table Applications
+        for (int i = 1; i < intervals.length; i++) {
+            int[] current = intervals[i];
+            int[] last = merged.get(merged.size() - 1);
 
-Hash tables (dictionaries, maps) are used for O(1) average-time lookups. Beyond simple frequency counting, they are crucial for memoization in recursion (caching results of expensive function calls) and for implementing O(n) solutions to problems that would otherwise be O(n²), like the classic Two Sum problem. Understanding how to use a hash table to store "complements" or to act as a cache for previously seen states is key.
-
-<div class="code-group">
-
-```python
-# Hash Table: Two Sum (unsorted array) - find indices of two numbers that add to target.
-def two_sum(nums, target):
-    seen = {}
-    for i, num in enumerate(nums):
-        complement = target - num
-        if complement in seen:
-            return [seen[complement], i]
-        seen[num] = i
-    return []
-
-# Hash Table: Frequency counter for anagrams.
-def is_anagram(s, t):
-    if len(s) != len(t):
-        return False
-    freq = {}
-    for ch in s:
-        freq[ch] = freq.get(ch, 0) + 1
-    for ch in t:
-        if ch not in freq or freq[ch] == 0:
-            return False
-        freq[ch] -= 1
-    return True
-```
-
-```javascript
-// Hash Table: Two Sum (unsorted array) - find indices of two numbers that add to target.
-function twoSum(nums, target) {
-  const seen = new Map();
-  for (let i = 0; i < nums.length; i++) {
-    const complement = target - nums[i];
-    if (seen.has(complement)) {
-      return [seen.get(complement), i];
-    }
-    seen.set(nums[i], i);
-  }
-  return [];
-}
-
-// Hash Table: Frequency counter for anagrams.
-function isAnagram(s, t) {
-  if (s.length !== t.length) return false;
-  const freq = new Map();
-  for (const ch of s) {
-    freq.set(ch, (freq.get(ch) || 0) + 1);
-  }
-  for (const ch of t) {
-    if (!freq.has(ch) || freq.get(ch) === 0) return false;
-    freq.set(ch, freq.get(ch) - 1);
-  }
-  return true;
-}
-```
-
-```java
-// Hash Table: Two Sum (unsorted array) - find indices of two numbers that add to target.
-public int[] twoSum(int[] nums, int target) {
-    Map<Integer, Integer> seen = new HashMap<>();
-    for (int i = 0; i < nums.length; i++) {
-        int complement = target - nums[i];
-        if (seen.containsKey(complement)) {
-            return new int[]{seen.get(complement), i};
-        }
-        seen.put(nums[i], i);
-    }
-    return new int[]{};
-}
-
-// Hash Table: Frequency counter for anagrams.
-public boolean isAnagram(String s, String t) {
-    if (s.length() != t.length()) return false;
-    Map<Character, Integer> freq = new HashMap<>();
-    for (char ch : s.toCharArray()) {
-        freq.put(ch, freq.getOrDefault(ch, 0) + 1);
-    }
-    for (char ch : t.toCharArray()) {
-        if (!freq.containsKey(ch) || freq.get(ch) == 0) return false;
-        freq.put(ch, freq.get(ch) - 1);
-    }
-    return true;
-}
-```
-
-</div>
-
-### Deep Dive: Dynamic Programming Patterns
-
-Dynamic Programming problems at eBay often involve optimization or counting. The key is to identify the subproblem and the recurrence relation. For 1D DP, think of problems like climbing stairs or house robber. For 2D DP, think of edit distance or longest common subsequence. The knapsack pattern (0/1 or unbounded) is also common for problems involving selection with constraints. Always start by defining `dp[i]` or `dp[i][j]` and then determine how to build the solution from smaller subproblems.
-
-<div class="code-group">
-
-```python
-# 1D DP: Climbing Stairs - number of ways to reach the top (1 or 2 steps at a time).
-def climb_stairs(n):
-    if n <= 2:
-        return n
-    dp = [0] * (n + 1)
-    dp[1], dp[2] = 1, 2
-    for i in range(3, n + 1):
-        dp[i] = dp[i - 1] + dp[i - 2]
-    return dp[n]
-# Space-optimized version:
-def climb_stairs_opt(n):
-    if n <= 2:
-        return n
-    a, b = 1, 2
-    for _ in range(3, n + 1):
-        a, b = b, a + b
-    return b
-
-# 2D DP: Longest Common Subsequence (LCS).
-def longest_common_subsequence(text1, text2):
-    m, n = len(text1), len(text2)
-    dp = [[0] * (n + 1) for _ in range(m + 1)]
-    for i in range(1, m + 1):
-        for j in range(1, n + 1):
-            if text1[i - 1] == text2[j - 1]:
-                dp[i][j] = dp[i - 1][j - 1] + 1
-            else:
-                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
-    return dp[m][n]
-```
-
-```javascript
-// 1D DP: Climbing Stairs - number of ways to reach the top (1 or 2 steps at a time).
-function climbStairs(n) {
-  if (n <= 2) return n;
-  const dp = new Array(n + 1).fill(0);
-  dp[1] = 1;
-  dp[2] = 2;
-  for (let i = 3; i <= n; i++) {
-    dp[i] = dp[i - 1] + dp[i - 2];
-  }
-  return dp[n];
-}
-// Space-optimized version:
-function climbStairsOpt(n) {
-  if (n <= 2) return n;
-  let a = 1,
-    b = 2;
-  for (let i = 3; i <= n; i++) {
-    [a, b] = [b, a + b];
-  }
-  return b;
-}
-
-// 2D DP: Longest Common Subsequence (LCS).
-function longestCommonSubsequence(text1, text2) {
-  const m = text1.length,
-    n = text2.length;
-  const dp = Array.from({ length: m + 1 }, () => new Array(n + 1).fill(0));
-  for (let i = 1; i <= m; i++) {
-    for (let j = 1; j <= n; j++) {
-      if (text1[i - 1] === text2[j - 1]) {
-        dp[i][j] = dp[i - 1][j - 1] + 1;
-      } else {
-        dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
-      }
-    }
-  }
-  return dp[m][n];
-}
-```
-
-```java
-// 1D DP: Climbing Stairs - number of ways to reach the top (1 or 2 steps at a time).
-public int climbStairs(int n) {
-    if (n <= 2) return n;
-    int[] dp = new int[n + 1];
-    dp[1] = 1;
-    dp[2] = 2;
-    for (int i = 3; i <= n; i++) {
-        dp[i] = dp[i - 1] + dp[i - 2];
-    }
-    return dp[n];
-}
-// Space-optimized version:
-public int climbStairsOpt(int n) {
-    if (n <= 2) return n;
-    int a = 1, b = 2;
-    for (int i = 3; i <= n; i++) {
-        int temp = b;
-        b = a + b;
-        a = temp;
-    }
-    return b;
-}
-
-// 2D DP: Longest Common Subsequence (LCS).
-public int longestCommonSubsequence(String text1, String text2) {
-    int m = text1.length(), n = text2.length();
-    int[][] dp = new int[m + 1][n + 1];
-    for (int i = 1; i <= m; i++) {
-        for (int j = 1; j <= n; j++) {
-            if (text1.charAt(i - 1) == text2.charAt(j - 1)) {
-                dp[i][j] = dp[i - 1][j - 1] + 1;
+            if (current[0] <= last[1]) {
+                // Overlap, merge
+                last[1] = Math.max(last[1], current[1]);
             } else {
-                dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+                // No overlap
+                merged.add(current);
             }
         }
+        return merged.toArray(new int[merged.size()][]);
     }
-    return dp[m][n];
 }
+// Time: O(n log n) | Space: O(n) for the output list
+```
+
+</div>
+
+**2. String & Hash Table**
+User-generated content—item titles, descriptions, search queries—is string data. Hash tables (dictionaries) are your primary tool for instant O(1) lookups, enabling solutions for anagrams, substring searches, and frequency analysis.
+
+_Why eBay favors it:_ Detecting duplicate listings, auto-categorizing items based on keywords, or validating user input all rely on efficient string manipulation and lookup.
+
+**Example Pattern: Sliding Window with Hash Map (LeetCode #3)**
+This pattern solves "longest substring without repeating characters," a proxy for analyzing unique user sessions in a clickstream.
+
+<div class="code-group">
+
+```python
+def lengthOfLongestSubstring(s: str) -> int:
+    """
+    Find the length of the longest substring without repeating characters.
+    Time: O(n) - Each character is visited at most twice.
+    Space: O(min(m, n)) - For the char_index_map. m is size of charset.
+    """
+    char_index_map = {}  # Stores the most recent index of each character
+    left = 0
+    max_length = 0
+
+    for right, char in enumerate(s):
+        # If char is in map and its index is within the current window
+        if char in char_index_map and char_index_map[char] >= left:
+            # Shrink the window from the left
+            left = char_index_map[char] + 1
+        # Update the character's latest index
+        char_index_map[char] = right
+        # Calculate current window length
+        max_length = max(max_length, right - left + 1)
+
+    return max_length
+```
+
+```javascript
+function lengthOfLongestSubstring(s) {
+  const charIndexMap = new Map();
+  let left = 0;
+  let maxLength = 0;
+
+  for (let right = 0; right < s.length; right++) {
+    const char = s[right];
+    if (charIndexMap.has(char) && charIndexMap.get(char) >= left) {
+      left = charIndexMap.get(char) + 1;
+    }
+    charIndexMap.set(char, right);
+    maxLength = Math.max(maxLength, right - left + 1);
+  }
+  return maxLength;
+}
+// Time: O(n) | Space: O(min(m, n))
+```
+
+```java
+import java.util.*;
+
+public class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        Map<Character, Integer> charIndexMap = new HashMap<>();
+        int left = 0;
+        int maxLength = 0;
+
+        for (int right = 0; right < s.length(); right++) {
+            char c = s.charAt(right);
+            if (charIndexMap.containsKey(c) && charIndexMap.get(c) >= left) {
+                left = charIndexMap.get(c) + 1;
+            }
+            charIndexMap.put(c, right);
+            maxLength = Math.max(maxLength, right - left + 1);
+        }
+        return maxLength;
+    }
+}
+// Time: O(n) | Space: O(min(m, n))
+```
+
+</div>
+
+**3. Dynamic Programming**
+For optimization problems—maximizing profit from sales, minimizing shipping costs, or finding the most relevant item sequences—DP is key. eBay problems often involve 1D or 2D DP where the state relates to items, prices, or time.
+
+_Why eBay favors it:_ E-commerce is full of optimization challenges: best time to list an item, optimal bundling for promotions, or inventory allocation. DP provides a structured way to solve these.
+
+**Example Pattern: 0/1 Knapsack Style (LeetCode #416 - Partition Equal Subset Sum as a conceptual relative)**
+While not always the exact problem, the _pattern_ of deciding to include/exclude an element to reach a target sum is common.
+
+<div class="code-group">
+
+```python
+def can_partition(nums):
+    """
+    Can the array be partitioned into two subsets with equal sum?
+    This is a classic 0/1 knapsack DP problem.
+    Time: O(n * target_sum)
+    Space: O(target_sum) with optimized 1D DP array.
+    """
+    total = sum(nums)
+    if total % 2 != 0:
+        return False
+    target = total // 2
+
+    # dp[j] means whether sum 'j' can be formed with processed numbers
+    dp = [False] * (target + 1)
+    dp[0] = True  # Base case: sum of 0 is always possible (empty set)
+
+    for num in nums:
+        # Iterate backwards to avoid re-using the same element
+        for j in range(target, num - 1, -1):
+            if dp[j - num]:
+                dp[j] = True
+        if dp[target]:  # Early exit
+            return True
+    return dp[target]
+```
+
+```javascript
+function canPartition(nums) {
+  const total = nums.reduce((a, b) => a + b, 0);
+  if (total % 2 !== 0) return false;
+  const target = total / 2;
+
+  const dp = new Array(target + 1).fill(false);
+  dp[0] = true;
+
+  for (const num of nums) {
+    for (let j = target; j >= num; j--) {
+      if (dp[j - num]) {
+        dp[j] = true;
+      }
+    }
+    if (dp[target]) return true;
+  }
+  return dp[target];
+}
+// Time: O(n * target) | Space: O(target)
+```
+
+```java
+public class Solution {
+    public boolean canPartition(int[] nums) {
+        int total = 0;
+        for (int num : nums) total += num;
+        if (total % 2 != 0) return false;
+        int target = total / 2;
+
+        boolean[] dp = new boolean[target + 1];
+        dp[0] = true;
+
+        for (int num : nums) {
+            for (int j = target; j >= num; j--) {
+                if (dp[j - num]) {
+                    dp[j] = true;
+                }
+            }
+            if (dp[target]) return true;
+        }
+        return dp[target];
+    }
+}
+// Time: O(n * target) | Space: O(target)
 ```
 
 </div>
 
 ## Preparation Strategy
 
-A focused 6-week plan is effective. This assumes you have a baseline knowledge of data structures.
+**The 6-Week eBay-Focused Plan**
 
-- **Weeks 1-2: Foundation & Core Topics.** Dedicate this time exclusively to **Array, String, and Hash Table**. Solve 15-20 problems on each topic, mixing easy and medium. Do not just solve—analyze time/space complexity and practice verbalizing your thought process aloud.
-- **Weeks 3-4: Advanced Patterns & Practice.** Move to **Sorting-based problems and Dynamic Programming**. For DP, start with classical problems (Fibonacci, coin change, longest common subsequence) before tackling variations. Begin mixing topics in your practice sessions.
-- **Week 5: Company-Specific & Mock Interviews.** Solve all the **easy and medium eBay-tagged questions** on platforms like CodeJeet. Time yourself strictly. Schedule at least 3-4 mock interviews with a peer or mentor, simulating the real environment with video and a shared editor.
-- **Week 6: Review & Polish.** Revisit problems you found difficult. Focus on your weak spots. Practice a few hard problems from the top topics to build stamina. In the final days, shift to conceptual review and rest.
+- **Weeks 1-2: Foundation & Patterns**
+  - **Goal:** Master the top 5 topics (Array, String, Hash Table, Sorting, DP). Solve 60 problems (30 Easy, 30 Medium).
+  - **Daily:** 3 problems. Focus on pattern recognition. Use a whiteboard or coding site without autocomplete.
+  - **Key Action:** For each problem, write down the pattern name (e.g., "Sliding Window") and time/space complexity before coding.
 
-### Implementing the Strategy: A Sample Practice Problem
+- **Weeks 3-4: Depth & eBay Context**
+  - **Goal:** Deep dive into Medium-Hard problems with an eBay lens. Solve 50 Medium problems.
+  - **Daily:** 2-3 problems, but spend 15 minutes after each asking: "How would this apply to eBay's domain?" (e.g., "This interval problem could merge auction times.").
+  - **Key Action:** Practice explaining your solution to a rubber duck, focusing on trade-offs and scalability.
 
-Let's apply the strategy to a classic eBay-style problem: **"Find the maximum profit you can achieve from stock prices given an array where prices[i] is the price on day i. You may complete as many transactions as you like (buy one and sell one share multiple times)."** This is a greedy/array problem.
+- **Week 5: Integration & Mock Interviews**
+  - **Goal:** Simulate the real interview. Do 10-15 mock interviews (use platforms like CodeJeet or with a friend).
+  - **Daily:** 1-2 mocks, plus review. Timebox yourself strictly to 45 minutes per session (30 min coding, 10 min discussion, 5 min feedback).
+  - **Key Action:** Record one mock per week. Watch it to critique your communication and thought process.
 
-**Step 1: Understand and Communicate.** The key is realizing that you can capture every upward slope (price increase from one day to the next). You don't need to find peaks and valleys separately.
+- **Week 6: Taper & Refinement**
+  - **Goal:** Polish, not learn new things. Revisit 20-30 previously solved Medium problems. Focus on speed and bug-free code.
+  - **Daily:** 2 problems, but aim for 20-25 minute solutions. Review system design fundamentals (especially data-intensive systems).
+  - **Key Action:** Prepare 3-4 stories for the behavioral round using the STAR method, highlighting collaboration and data-driven decisions.
 
-**Step 2: Discuss Trade-offs.** A brute-force approach would try every combination of buy/sell days, leading to O(n²) or exponential time. The optimal greedy approach is O(n) time and O(1) space.
+## Common Mistakes
 
-**Step 3: Code the Solution.**
+1.  **Ignoring Data Scale:** Providing an O(n²) solution for a problem clearly about log files. **Fix:** Always state the brute force complexity first, then immediately say, "This won't scale for large datasets, so we need to optimize. Let's consider a hash map/sort/two-pointer approach."
 
-<div class="code-group">
+2.  **Silent Coding:** Jumping into code without outlining your approach. eBay interviewers value collaborative problem-solving. **Fix:** Spend the first 2-3 minutes verbally walking through 2-3 examples, explaining your planned algorithm and complexity. Ask, "Does this direction make sense?"
 
-```python
-def max_profit(prices):
-    total_profit = 0
-    for i in range(1, len(prices)):
-        if prices[i] > prices[i - 1]:
-            total_profit += prices[i] - prices[i - 1]
-    return total_profit
-```
+3.  **Overlooking Edge Cases in "Real" Data:** Forgetting that user data can be messy—empty strings, negative prices, duplicate entries. **Fix:** After writing your core algorithm, explicitly state, "Now let me think about edge cases: empty input, single element, large values, duplicates..." and then add handling code.
 
-```javascript
-function maxProfit(prices) {
-  let totalProfit = 0;
-  for (let i = 1; i < prices.length; i++) {
-    if (prices[i] > prices[i - 1]) {
-      totalProfit += prices[i] - prices[i - 1];
-    }
-  }
-  return totalProfit;
-}
-```
-
-```java
-public int maxProfit(int[] prices) {
-    int totalProfit = 0;
-    for (int i = 1; i < prices.length; i++) {
-        if (prices[i] > prices[i - 1]) {
-            totalProfit += prices[i] - prices[i - 1];
-        }
-    }
-    return totalProfit;
-}
-```
-
-</div>
-
-**Step 4: Test Your Code.** Walk through an example: `prices = [7,1,5,3,6,4]`. The profit is `(5-1) + (6-3) = 4 + 3 = 7`. Edge cases: empty array (return 0), descending prices (return 0), single price (return 0).
+4.  **No Post-Solution Discussion:** When you finish coding, stopping completely. **Fix:** Always reserve 5 minutes. Walk through a test case with your code, discuss scalability ("If this were a stream of data, we might use a distributed cache..."), and mention alternative approaches briefly.
 
 ## Key Tips
 
-1.  **Optimize Your Medium-Solving Speed.** Your primary benchmark is the ability to correctly solve a medium problem in 25-30 minutes, including explanation and complexity analysis. Practice under this constraint daily. Use a timer for every practice problem.
-2.  **Communicate Before You Code.** eBay values collaborative engineers. Narrate your thought process, discuss trade-offs between approaches, and confirm your understanding of the problem before writing a single line of code. Silence is your enemy. Start by restating the problem in your own words and asking clarifying questions about input constraints and edge cases.
-3.  **Consider Trade-Offs Explicitly.** When presenting your solution, explicitly state, "This approach uses O(n) extra space for the hash map to achieve O(n) time complexity. The alternative would be O(n^2) time with constant space." This shows depth of understanding. Be prepared to discuss when you might choose one trade-off over another (e.g., memory constraints).
-4.  **Test Your Own Code.** After writing your solution, don't wait for the interviewer to ask. Walk through a small test case, including edge cases (empty input, single element, large values, negative numbers if applicable). Verbally step through the logic to prove it works. Mention how you would write unit tests.
-5.  **Prepare a Strong "Tell Me About Yourself."** The interview often starts with this. Craft a concise, 60-90 second narrative that connects your background directly to the role and eBay's marketplace or payments domains. For example, "I'm a backend engineer with five years of experience building scalable data pipelines. At my last company, I optimized a recommendation system, which directly relates to eBay's challenge of personalizing the marketplace for millions of users. I'm excited to apply my problem-solving skills to eBay's unique technical challenges."
+1.  **Start with a Hash Map:** When you get a new problem, your first thought should be: "Can a hash map reduce the lookup time?" This instinct solves a huge percentage of eBay's array and string problems.
 
-Success in an eBay interview comes from methodical preparation on their favored topics and consistent practice communicating your solutions. Focus on the medium-difficulty core, and you'll be well-positioned to handle the challenges they present.
+2.  **Practice the "eBay Translate":** When you practice on LeetCode, mentally reframe the problem. "Find the maximum sum subarray" becomes "Find the most profitable consecutive days for a featured listing." This builds domain-specific intuition.
+
+3.  **Communicate the "Why":** Don't just say you're sorting. Say, "I'm sorting by start time because it allows us to linearly scan and merge overlapping intervals, which is efficient for processing time-ordered logs."
+
+4.  **Ask a Clarifying Question:** Before you solve, ask one meaningful question that shows business acumen. For a problem about finding pairs, ask, "Should we consider pairs where the values are identical? In a transaction context, that might represent a duplicate we want to filter out." This sets you apart.
+
+5.  **Write Self-Documenting Code:** Use descriptive variable names like `auction_end_times` instead of `arr`. Write a brief one-line comment for each logical block. This signals you write code for others, not just for the compiler.
+
+Mastering eBay's interviews is about demonstrating you can think both like an algorithmist and a practical engineer building data-heavy systems. Focus on the patterns above, practice with their domain in mind, and communicate your reasoning clearly.
 
 [Browse all eBay questions on CodeJeet](/company/ebay)

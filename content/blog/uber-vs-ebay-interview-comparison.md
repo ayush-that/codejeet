@@ -1,129 +1,124 @@
 ---
 title: "Uber vs eBay: Interview Question Comparison"
 description: "Compare coding interview questions at Uber and eBay — difficulty levels, topic focus, and preparation strategy."
-date: "2027-06-29"
+date: "2030-03-29"
 category: "tips"
 tags: ["uber", "ebay", "comparison"]
 ---
 
-When preparing for technical interviews, the sheer volume and nature of questions can define your study strategy. Comparing Uber and eBay's interview landscapes reveals two distinct profiles: one representing a high-volume, high-stakes Big Tech environment, and the other a more focused, mid-tier tech company scope. Understanding their differences in question volume, difficulty distribution, and core topics is crucial for efficient preparation.
+# Uber vs eBay: Interview Question Comparison
+
+If you're interviewing at both Uber and eBay, or trying to decide where to focus your preparation, you're facing two very different interview landscapes. Uber's technical interviews are notoriously comprehensive and algorithm-heavy, reflecting their scale and complex real-time systems. eBay's interviews, while still rigorous, tend to be more focused and practical. The key insight: preparing for Uber will cover most of what you need for eBay, but not vice versa. Let's break down exactly what that means for your study strategy.
 
 ## Question Volume and Difficulty
 
-The most striking difference is scale. Uber's listed repository of **381 questions** dwarfs eBay's **60**. This volume reflects Uber's status as a larger, more algorithmically intensive company with a highly competitive interview process.
+The numbers tell a clear story. Uber has 381 tagged questions on LeetCode (54 Easy, 224 Medium, 103 Hard), making it one of the most question-dense company tags. This volume suggests two things: first, Uber interviews pull from a massive problem bank, making pure memorization ineffective. Second, they heavily favor Medium and Hard problems, indicating they're testing for strong algorithmic fundamentals under pressure.
 
-The difficulty breakdown further highlights their contrasting demands:
+eBay's tag shows 60 questions (12 Easy, 38 Medium, 10 Hard). This smaller pool suggests more predictable patterns and a focus on practical, clean solutions over extreme optimization. The Medium-heavy distribution is standard for senior engineer roles, but the relative lack of Hard problems means you're less likely to encounter obscure dynamic programming or complex graph theory.
 
-- **Uber (E54/M224/H103)**: The distribution is heavily weighted toward medium and hard problems. With **224 medium** and **103 hard** questions, Uber's interview process is designed to rigorously test problem-solving under pressure, often involving complex optimizations and nuanced edge cases. The high number of hard questions suggests you can expect at least one deeply challenging problem in a typical loop.
-- **eBay (E12/M38/H10)**: The profile is more moderate. The majority of questions are **38 medium** difficulty, with a smaller set of easy and hard problems. This indicates a strong focus on foundational competency and practical problem-solving, with less emphasis on extreme algorithmic optimization compared to Uber.
+**Implication:** Uber preparation is marathon training; eBay preparation is a 10K. If you have time for only one study plan, make it Uber's—it will over-prepare you for eBay. If you're short on time and only interviewing at eBay, you can focus more narrowly.
 
 ## Topic Overlap
 
-Both companies emphasize a core set of fundamental data structures, creating a significant overlap you can leverage.
+Both companies test core computer science fundamentals heavily:
 
-**Shared Core Topics:** Array, String, and Hash Table problems form the backbone of interviews at both companies. Mastering these is non-negotiable.
+- **Array, String, Hash Table:** These are the bread and butter for both. You will 100% encounter problems involving manipulation and analysis of these data structures.
+- **Sorting:** While listed for eBay, sorting algorithms (or, more commonly, using sorting as a step in a solution) appear frequently at Uber too, especially in two-pointer or interval problems.
 
-- **Array/String Manipulation:** Sliding window, two-pointer techniques, and in-place modifications are key.
-- **Hash Table Usage:** For frequency counting, memoization, and providing O(1) lookups to optimize solutions.
+**Uber-Intensive Topics:**
 
-**Diverging Emphasis:**
+- **Dynamic Programming:** Uber loves DP. Their systems deal with optimization problems (route efficiency, pricing, matching) where DP patterns naturally appear. Expect at least one DP problem in the process.
+- **Graph/Tree Algorithms:** Not explicitly in the listed topics but pervasive in Uber questions due to their mapping and network focus. DFS, BFS, and shortest path algorithms are essential.
 
-- **Uber's Distinct Edge:** **Dynamic Programming (DP)** is a explicitly noted major topic for Uber. Given their focus on complex optimization (matching drivers to riders, calculating routes, pricing), DP questions on topics like knapsack, longest common subsequence, or state machine DP are common and must be prepared thoroughly.
-- **eBay's Additional Focus:** **Sorting** is explicitly highlighted. This suggests a focus on problems involving ordering data, merging intervals, or using sorting as a pre-processing step for more efficient algorithms, which is a very practical and common need in e-commerce systems.
+**eBay-Intensive Topics:**
+
+- **Design/System Design:** While both test this for senior roles, eBay's e-commerce and marketplace focus means design questions often revolve around scalable web services, database design for product catalogs, and consistency models—slightly more traditional than Uber's real-time, event-driven system design.
+
+## Preparation Priority Matrix
+
+Maximize your return on study time with this priority list:
+
+1.  **High-ROI Overlap (Study First):** Array, String, Hash Table. Master two-pointer techniques, sliding windows, and prefix sums for arrays. For strings, know pattern matching and palindrome checks. For hash tables, practice using them for O(1) lookups to reduce time complexity.
+2.  **Uber-Specific Priority:** Dynamic Programming. Start with the fundamental patterns: 1D DP (Fibonacci, climbing stairs), 0/1 Knapsack, and longest common subsequence. Then move to 2D DP and state machines.
+3.  **eBay-Specific Priority:** Sorting-based solutions and clean, object-oriented design in your code. eBay interviewers often appreciate readable, maintainable code as much as raw performance.
+
+**Shared-Prep Problem Example:** The classic "Two Sum" (#1) is foundational for both because it teaches the core hash table trade-off: using space (O(n)) to drastically reduce time from O(n²) to O(n). It's a pattern reused in dozens of variations.
 
 <div class="code-group">
 
 ```python
-# Example of a Hash Table + Array problem common to both:
+# Time: O(n) | Space: O(n)
 def twoSum(nums, target):
-    seen = {}
+    """
+    Uber/eBay Core Pattern: Hash Table for instant lookups.
+    """
+    seen = {}  # value -> index
     for i, num in enumerate(nums):
         complement = target - num
         if complement in seen:
             return [seen[complement], i]
         seen[num] = i
-    return []
-
-# Example of a Dynamic Programming problem more specific to Uber:
-def coinChange(coins, amount):
-    dp = [float('inf')] * (amount + 1)
-    dp[0] = 0
-    for i in range(1, amount + 1):
-        for coin in coins:
-            if i - coin >= 0:
-                dp[i] = min(dp[i], dp[i - coin] + 1)
-    return dp[amount] if dp[amount] != float('inf') else -1
+    return []  # Problem guarantees a solution exists
 ```
 
 ```javascript
-// Example of a Hash Table + Array problem common to both:
+// Time: O(n) | Space: O(n)
 function twoSum(nums, target) {
-  const map = new Map();
+  const seen = new Map(); // value -> index
   for (let i = 0; i < nums.length; i++) {
     const complement = target - nums[i];
-    if (map.has(complement)) {
-      return [map.get(complement), i];
+    if (seen.has(complement)) {
+      return [seen.get(complement), i];
     }
-    map.set(nums[i], i);
+    seen.set(nums[i], i);
   }
   return [];
-}
-
-// Example of a Dynamic Programming problem more specific to Uber:
-function coinChange(coins, amount) {
-  const dp = new Array(amount + 1).fill(Infinity);
-  dp[0] = 0;
-  for (let i = 1; i <= amount; i++) {
-    for (const coin of coins) {
-      if (i - coin >= 0) {
-        dp[i] = Math.min(dp[i], dp[i - coin] + 1);
-      }
-    }
-  }
-  return dp[amount] === Infinity ? -1 : dp[amount];
 }
 ```
 
 ```java
-// Example of a Hash Table + Array problem common to both:
+// Time: O(n) | Space: O(n)
 public int[] twoSum(int[] nums, int target) {
-    Map<Integer, Integer> map = new HashMap<>();
+    Map<Integer, Integer> seen = new HashMap<>(); // value -> index
     for (int i = 0; i < nums.length; i++) {
         int complement = target - nums[i];
-        if (map.containsKey(complement)) {
-            return new int[] { map.get(complement), i };
+        if (seen.containsKey(complement)) {
+            return new int[]{seen.get(complement), i};
         }
-        map.put(nums[i], i);
+        seen.put(nums[i], i);
     }
-    return new int[0];
-}
-
-// Example of a Dynamic Programming problem more specific to Uber:
-public int coinChange(int[] coins, int amount) {
-    int[] dp = new int[amount + 1];
-    Arrays.fill(dp, amount + 1);
-    dp[0] = 0;
-    for (int i = 1; i <= amount; i++) {
-        for (int coin : coins) {
-            if (i - coin >= 0) {
-                dp[i] = Math.min(dp[i], dp[i - coin] + 1);
-            }
-        }
-    }
-    return dp[amount] > amount ? -1 : dp[amount];
+    return new int[]{};
 }
 ```
 
 </div>
 
-## Which to Prepare for First
+## Interview Format Differences
 
-Your preparation order should be dictated by your goals and timeline.
+**Uber:** Typically 4-5 rounds onsite/virtual: 2-3 coding, 1 system design, 1 behavioral (Leadership Principles). Coding rounds are 45-60 minutes, often with one medium-hard problem or two medium problems. Interviewers expect optimal solutions (correct time/space complexity) and clean, bug-free code. They dive deep on follow-ups: "How would this scale?" "What if the data is streamed?"
 
-**Prepare for eBay first if:** You are newer to technical interviews or are on a tighter timeline. The smaller, more focused question set allows you to build core competency efficiently. Mastering the shared topics (Array, String, Hash Table) and sorting algorithms will give you strong coverage for eBay and simultaneously lay a solid foundation for Uber. It's a practical stepping stone.
+**eBay:** Often 3-4 rounds: 1-2 coding, 1 system design (for senior+), 1 behavioral/experience deep-dive. Coding rounds are 45 minutes, usually one problem with multiple parts. They value clarity and communication. You might be asked to walk through trade-offs between different approaches rather than just producing the most optimal one.
 
-**Prepare for Uber first if:** You are targeting Big Tech roles generally, have more time, or are already comfortable with medium-difficulty problems. The Uber question list is a superset in terms of depth and difficulty. Conquering its medium and hard problems, especially in Dynamic Programming, will make you over-prepared for eBay's typical questions. This is the more comprehensive, high-effort path.
+**Key Difference:** Uber's process feels more like a "coding olympiad" — can you solve this hard problem optimally? eBay's feels more like a "collaborative work session" — can you reason about this practical problem and write solid code?
 
-Ultimately, start with the shared core. Then, branch based on your target: add deep Sorting practice for eBay, and intensive Dynamic Programming drill-down for Uber.
+## Specific Problem Recommendations for Dual Preparation
 
-For further study, visit the Uber and eBay question lists: [Uber Interview Questions](/company/uber) | [eBay Interview Questions](/company/ebay)
+These problems teach patterns applicable to both companies:
+
+1.  **Merge Intervals (#56):** Uber uses it for time-based scheduling (driver availability); eBay uses it for auction or sale periods. Teaches sorting and greedy merging.
+2.  **Longest Substring Without Repeating Characters (#3):** The quintessential sliding window problem. Essential for string manipulation questions at both companies.
+3.  **Word Break (#139):** A perfect introduction to Dynamic Programming (useful for Uber) that also involves string searching (useful for eBay). It bridges the priority areas.
+4.  **LRU Cache (#146):** Combines hash table and linked list design. Tests fundamental data structure knowledge and is a common system design component for both.
+5.  **Find All Anagrams in a String (#438):** Another excellent sliding window problem, but with a hash map to track character counts. This pattern appears in many "find permutation/subset in larger set" questions.
+
+## Which to Prepare for First?
+
+**Strategy: Prepare for Uber first, then adapt for eBay.**
+
+1.  **Spend 70% of your time** on the Uber-focused plan: grind Medium/Hard problems, especially in DP, graphs, and arrays/strings.
+2.  **One week before your eBay interview**, shift focus. Re-practice the core overlap topics (arrays, strings, hash tables). Practice _explaining_ your reasoning clearly out loud. Write code with excellent variable names and comments, as readability might be weighted more heavily.
+3.  **Mental shift:** For Uber, think "optimal and scalable." For eBay, think "clean, correct, and well-communicated."
+
+By mastering the broader, deeper Uber question set, you'll build the algorithmic muscle to handle eBay's challenges. The final step is adjusting your communication style to match each company's interview culture.
+
+For more detailed breakdowns, visit the CodeJeet pages for [Uber](/company/uber) and [eBay](/company/ebay).

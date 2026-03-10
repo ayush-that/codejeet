@@ -1,163 +1,196 @@
 ---
 title: "Google vs eBay: Interview Question Comparison"
 description: "Compare coding interview questions at Google and eBay — difficulty levels, topic focus, and preparation strategy."
-date: "2026-02-14"
+date: "2028-09-29"
 category: "tips"
 tags: ["google", "ebay", "comparison"]
 ---
 
-When preparing for technical interviews, understanding company-specific patterns is crucial. Google and eBay, while both tech giants, present distinct interview landscapes in terms of scale, difficulty, and focus. Google's process is famously comprehensive and algorithm-heavy, while eBay's tends to be more focused on practical, data-centric problems. This comparison breaks down the key differences to help you strategize your preparation.
+# Google vs eBay: Interview Question Comparison
+
+If you're interviewing at both Google and eBay, you're facing two very different beasts. One is a FAANG giant with a legendary interview process, the other a major e-commerce platform with a more focused technical screen. The key insight? Preparing for Google will cover about 90% of what eBay tests, but not vice versa. Let me explain why, and give you a strategic roadmap for tackling both.
 
 ## Question Volume and Difficulty
 
-The most striking difference is sheer volume. On CodeJeet, Google's tagged question bank is vastly larger (**2217 questions**) compared to eBay's (**60 questions**). This reflects Google's broader range of products, larger hiring scale, and the extensive historical data available from candidates.
+The numbers tell a clear story. Google has **2,217 tagged questions** on LeetCode (588 Easy, 1,153 Medium, 476 Hard), while eBay has just **60** (12 Easy, 38 Medium, 10 Hard). This isn't just about quantity—it's about what these numbers imply.
 
-The difficulty distribution also highlights different hiring bars:
+Google's massive question bank means they can afford to be unpredictable. You might get a brand new problem that hasn't leaked online yet. Their interviewers have deep benches of questions to draw from, and they often modify existing problems slightly to test your adaptability. The difficulty distribution (roughly 25% Easy, 50% Medium, 25% Hard) suggests you should expect at least one Medium-Hard problem per round.
 
-- **Google (E588/M1153/H476)**: The difficulty spread is a classic bell curve centered on **Medium**. This is the core of a Google interview—complex problems requiring optimal solutions under pressure. The significant number of Hard questions (476) means you must be prepared for multi-layered algorithmic challenges.
-- **eBay (E12/M38/H10)**: The distribution is also Medium-weighted, but the total count is low. The emphasis is strongly on **Medium** difficulty. The small number of Hard questions (10) suggests that while challenging problems can appear, the interview is less likely to delve into the most extreme algorithmic puzzles compared to Google.
+eBay's smaller question bank means there's more predictability. You're more likely to encounter problems that have appeared before in their interviews. The 63% Medium, 17% Hard split tells you that mastering Medium problems is your ticket through their technical screens. Don't neglect Easy problems though—they often appear in phone screens.
 
-<div class="code-group">
-
-```python
-# Example of a classic Medium-difficulty problem: Group Anagrams
-# Common at both companies, but a staple in Google's vast Medium set.
-def groupAnagrams(strs):
-    from collections import defaultdict
-    anagram_map = defaultdict(list)
-    for s in strs:
-        key = ''.join(sorted(s))
-        anagram_map[key].append(s)
-    return list(anagram_map.values())
-```
-
-```javascript
-// Example of a classic Medium-difficulty problem: Group Anagrams
-function groupAnagrams(strs) {
-  const map = new Map();
-  for (const s of strs) {
-    const key = s.split("").sort().join("");
-    if (!map.has(key)) map.set(key, []);
-    map.get(key).push(s);
-  }
-  return Array.from(map.values());
-}
-```
-
-```java
-// Example of a classic Medium-difficulty problem: Group Anagrams
-public List<List<String>> groupAnagrams(String[] strs) {
-    Map<String, List<String>> map = new HashMap<>();
-    for (String s : strs) {
-        char[] chars = s.toCharArray();
-        Arrays.sort(chars);
-        String key = new String(chars);
-        map.putIfAbsent(key, new ArrayList<>());
-        map.get(key).add(s);
-    }
-    return new ArrayList<>(map.values());
-}
-```
-
-</div>
+**Practical implication:** For Google, you need robust pattern recognition skills. For eBay, thorough practice of their tagged questions has higher ROI.
 
 ## Topic Overlap
 
-Both companies heavily test **Array, String, and Hash Table** problems. This is the foundational toolkit for data manipulation and is non-negotiable for either interview.
+Both companies heavily test:
 
-The key differentiator is the fourth most frequent topic:
+- **Arrays** (manipulation, searching, sorting)
+- **Strings** (palindromes, transformations, parsing)
+- **Hash Tables** (frequency counting, lookups)
 
-- **Google: Dynamic Programming (DP)**. The high frequency of DP questions aligns with Google's emphasis on advanced algorithmic optimization and recursive problem-solving. Mastering DP patterns (knapsack, LCS, state machines) is critical.
-- **eBay: Sorting**. eBay's focus on Sorting over DP points to a more practical, data-processing oriented interview. Expect problems involving merging, searching, and organizing datasets efficiently. While DP may appear, it's less of a core requirement.
+This overlap is your preparation sweet spot. Master these three topics and you'll be well-prepared for the core of both companies' interviews.
+
+Where they diverge:
+
+- **Google uniquely emphasizes Dynamic Programming** (476 DP-related questions!). This isn't surprising—DP tests both algorithmic thinking and optimization skills, which Google values highly for their scale problems.
+- **eBay adds Sorting** as a distinct focus area. While sorting is often a component of other problems, eBay explicitly tests it, likely because efficient sorting relates to their e-commerce operations (ranking products, organizing data).
+
+**Key insight:** If you're short on time, focus on Array, String, and Hash Table problems with Medium difficulty. These will serve you for both companies.
+
+## Preparation Priority Matrix
+
+Here's how to allocate your study time strategically:
+
+**Tier 1: Overlap Topics (Highest ROI)**
+
+- Array manipulation (sliding window, two pointers)
+- String operations (reversal, comparison, parsing)
+- Hash Table applications (frequency counting, caching)
+
+**Tier 2: Google-Specific Focus**
+
+- Dynamic Programming (memoization, tabulation, state machines)
+- Graph algorithms (BFS/DFS, especially for their infrastructure roles)
+- System design fundamentals (even for coding-focused roles)
+
+**Tier 3: eBay-Specific Focus**
+
+- Sorting algorithms and their applications
+- Database/SQL questions (more common at eBay for backend roles)
+- Practical string parsing (relevant to their data processing needs)
+
+**Specific crossover problems to study:**
+
+1. **Two Sum (#1)** - Tests hash table usage, appears at both companies
+2. **Valid Parentheses (#20)** - Tests stack usage, common warm-up problem
+3. **Merge Intervals (#56)** - Tests array sorting and merging, appears in both question banks
+
+## Interview Format Differences
+
+**Google's Process:**
+
+- Typically 4-5 rounds of 45-minute interviews
+- Mix of coding, system design, and behavioral (though coding dominates for junior roles)
+- Expect 1-2 problems per coding round, often with follow-ups
+- Whiteboard or Google Docs coding (no IDE assistance)
+- Heavy emphasis on optimal solutions and clean code
+
+**eBay's Process:**
+
+- Usually 2-3 technical rounds
+- More likely to use coding platforms with compiler access
+- Often includes a practical component (e.g., "how would you design this feature for eBay?")
+- Behavioral questions tend to be more product-focused
+- May include take-home assignments for some roles
+
+**Critical difference:** Google interviewers are trained to provide minimal hints and watch your problem-solving process. eBay interviewers often engage more collaboratively, treating it as a pairing session.
+
+## Specific Problem Recommendations
+
+Here are 5 problems that provide excellent crossover value:
+
+1. **Longest Substring Without Repeating Characters (#3)**
+   - Tests sliding window + hash table
+   - Medium difficulty, appears in both companies' question banks
+   - Teaches you to track character positions efficiently
 
 <div class="code-group">
 
 ```python
-# Google-favored: DP (Climbing Stairs - a foundational pattern)
-def climbStairs(n):
-    if n <= 2:
-        return n
-    dp = [0] * (n + 1)
-    dp[1], dp[2] = 1, 2
-    for i in range(3, n + 1):
-        dp[i] = dp[i-1] + dp[i-2]
-    return dp[n]
+# Time: O(n) | Space: O(min(m, n)) where m is character set size
+def lengthOfLongestSubstring(s: str) -> int:
+    char_index = {}  # stores most recent index of each character
+    left = max_length = 0
 
-# eBay-favored: Sorting (Merge Intervals - organizing data)
-def merge(intervals):
-    intervals.sort(key=lambda x: x[0])
-    merged = []
-    for interval in intervals:
-        if not merged or merged[-1][1] < interval[0]:
-            merged.append(interval)
-        else:
-            merged[-1][1] = max(merged[-1][1], interval[1])
-    return merged
+    for right, char in enumerate(s):
+        # If char seen before and within current window, move left pointer
+        if char in char_index and char_index[char] >= left:
+            left = char_index[char] + 1
+
+        char_index[char] = right
+        max_length = max(max_length, right - left + 1)
+
+    return max_length
 ```
 
 ```javascript
-// Google-favored: DP (Climbing Stairs)
-function climbStairs(n) {
-  if (n <= 2) return n;
-  let dp = new Array(n + 1).fill(0);
-  dp[1] = 1;
-  dp[2] = 2;
-  for (let i = 3; i <= n; i++) {
-    dp[i] = dp[i - 1] + dp[i - 2];
-  }
-  return dp[n];
-}
+// Time: O(n) | Space: O(min(m, n))
+function lengthOfLongestSubstring(s) {
+  const charIndex = new Map();
+  let left = 0;
+  let maxLength = 0;
 
-// eBay-favored: Sorting (Merge Intervals)
-function merge(intervals) {
-  intervals.sort((a, b) => a[0] - b[0]);
-  const merged = [];
-  for (let interval of intervals) {
-    if (!merged.length || merged[merged.length - 1][1] < interval[0]) {
-      merged.push(interval);
-    } else {
-      merged[merged.length - 1][1] = Math.max(merged[merged.length - 1][1], interval[1]);
+  for (let right = 0; right < s.length; right++) {
+    const char = s[right];
+    if (charIndex.has(char) && charIndex.get(char) >= left) {
+      left = charIndex.get(char) + 1;
     }
+    charIndex.set(char, right);
+    maxLength = Math.max(maxLength, right - left + 1);
   }
-  return merged;
+
+  return maxLength;
 }
 ```
 
 ```java
-// Google-favored: DP (Climbing Stairs)
-public int climbStairs(int n) {
-    if (n <= 2) return n;
-    int[] dp = new int[n+1];
-    dp[1] = 1; dp[2] = 2;
-    for (int i = 3; i <= n; i++) {
-        dp[i] = dp[i-1] + dp[i-2];
-    }
-    return dp[n];
-}
+// Time: O(n) | Space: O(min(m, n))
+public int lengthOfLongestSubstring(String s) {
+    Map<Character, Integer> charIndex = new HashMap<>();
+    int left = 0;
+    int maxLength = 0;
 
-// eBay-favored: Sorting (Merge Intervals)
-public int[][] merge(int[][] intervals) {
-    Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
-    List<int[]> merged = new ArrayList<>();
-    for (int[] interval : intervals) {
-        if (merged.isEmpty() || merged.get(merged.size()-1)[1] < interval[0]) {
-            merged.add(interval);
-        } else {
-            merged.get(merged.size()-1)[1] = Math.max(merged.get(merged.size()-1)[1], interval[1]);
+    for (int right = 0; right < s.length(); right++) {
+        char c = s.charAt(right);
+        if (charIndex.containsKey(c) && charIndex.get(c) >= left) {
+            left = charIndex.get(c) + 1;
         }
+        charIndex.put(c, right);
+        maxLength = Math.max(maxLength, right - left + 1);
     }
-    return merged.toArray(new int[merged.size()][]);
+
+    return maxLength;
 }
 ```
 
 </div>
 
+2. **Product of Array Except Self (#238)**
+   - Tests array manipulation and prefix/suffix thinking
+   - Medium difficulty, common at Google
+   - Teaches space optimization (O(1) extra space version)
+
+3. **Merge k Sorted Lists (#23)**
+   - Tests heap/priority queue usage
+   - Hard difficulty, appears at Google
+   - Excellent for learning divide-and-conquer approaches
+
+4. **Group Anagrams (#49)**
+   - Tests hash table + string manipulation
+   - Medium difficulty, appears at both
+   - Teaches creative key generation for grouping
+
+5. **Coin Change (#322)**
+   - Classic DP problem, highly relevant for Google
+   - Medium difficulty but teaches fundamental DP patterns
+   - The unbounded knapsack pattern appears in many variations
+
 ## Which to Prepare for First
 
-Prepare for **eBay first**. Its focused question bank (60 questions) and strong emphasis on core data structures (Array, String, Hash Table, Sorting) make it an excellent training ground. You can build a solid foundation and practice the most common patterns without being overwhelmed. Success here validates your core algorithmic skills.
+**Prepare for Google first.** Here's why:
 
-Once that foundation is strong, transition to **Google**. Treat it as an advanced extension. You will need to drill deeply into Dynamic Programming, graph algorithms, and system design, while also practicing the sheer volume and complexity of problems. Google preparation will cover all the fundamentals tested at eBay and then push far beyond them.
+1. **Coverage:** Google's preparation will naturally cover eBay's core topics (arrays, strings, hash tables) plus add DP and graph practice.
+2. **Difficulty ramp:** If you can handle Google-style interviews, eBay's will feel more manageable.
+3. **Timing:** Google's process is typically longer (4-6 weeks from phone screen to offer), while eBay often moves faster (2-4 weeks).
 
-In short: Use eBay's scope to build your core competency. Use Google's depth to achieve mastery.
+**Strategic schedule:**
 
-For specific question lists and patterns, visit the company pages: [Google Interview Questions](/company/google) and [eBay Interview Questions](/company/ebay).
+- Weeks 1-4: Focus on Google patterns (DP, graphs, arrays, strings)
+- Week 5: Review eBay-specific tagged questions (do all 60)
+- Week 6: Mock interviews focusing on each company's style
+
+**One exception:** If your eBay interview is scheduled first, reverse the order. But still prioritize learning DP—it's the highest-leverage topic for Google and appears in eBay's Hard questions.
+
+Remember: Both companies value clean, readable code and clear communication. Practice explaining your thought process out loud. The technical patterns matter, but so does showing how you think through problems.
+
+For more company-specific insights, check out our guides: [/company/google](/company/google) and [/company/ebay](/company/ebay).

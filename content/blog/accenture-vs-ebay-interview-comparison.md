@@ -1,92 +1,182 @@
 ---
 title: "Accenture vs eBay: Interview Question Comparison"
 description: "Compare coding interview questions at Accenture and eBay — difficulty levels, topic focus, and preparation strategy."
-date: "2026-05-01"
+date: "2032-08-21"
 category: "tips"
 tags: ["accenture", "ebay", "comparison"]
 ---
 
-When preparing for technical interviews at large tech companies, understanding the specific focus areas and difficulty distribution of their questions can significantly streamline your study process. Both Accenture and eBay draw from similar core data structures, but their interview styles and emphasis differ in meaningful ways. This comparison breaks down their question volume, difficulty distribution, and topic overlap to help you prioritize your preparation effectively.
+If you're preparing for interviews at both Accenture and eBay, you're looking at two distinct beasts in the tech landscape. Accenture is a global consulting and IT services giant, where software engineering often intersects with business transformation and large-scale system implementation. eBay is a classic, mature e-commerce tech company focused on marketplace reliability, data at scale, and payment systems. While both will test your fundamental coding skills, the context, expectations, and specific focus of their technical interviews differ meaningfully. Preparing for one is not a perfect substitute for the other, but with a smart strategy, you can maximize your overlap and efficiently tackle both.
 
 ## Question Volume and Difficulty
 
-The most immediate difference is the sheer number of questions in their respective pools. Accenture's list is substantially larger, with **144 questions** compared to eBay's **60 questions**. This suggests that Accenture's technical screening may cast a wider net or pull from a more varied set of problems.
+The raw numbers from their tagged LeetCode questions tell an immediate story about breadth versus depth.
 
-The difficulty distribution also reveals distinct profiles:
+**Accenture (144 questions: Easy 65, Medium 68, Hard 11):** With 144 questions, Accenture's listed scope is broad. The near-even split between Easy and Medium (65 vs 68) suggests a strong emphasis on foundational competency and problem-solving clarity. The interview process likely uses coding as a filter for logical thinking and clean implementation, not just algorithmic wizardry. The presence of 11 Hards indicates that for some senior or specialized roles, they will probe deeper algorithmic knowledge. The high volume implies you might encounter a wider variety of problem _types_ during your prep and in early screening rounds.
 
-- **Accenture (144q):** Easy: 65 (45%), Medium: 68 (47%), Hard: 11 (8%)
-- **eBay (60q):** Easy: 12 (20%), Medium: 38 (63%), Hard: 10 (17%)
+**eBay (60 questions: Easy 12, Medium 38, Hard 10):** eBay's list is more curated and significantly more weighted toward Medium and Hard problems (38 Medium, 10 Hard). This 4:1 ratio of Medium-to-Easy questions, compared to Accenture's 1:1 ratio, signals a different emphasis. eBay interviews likely prioritize assessing your ability to handle nuanced, non-trivial algorithmic challenges under pressure—the kind that more closely mirrors complex real-world coding tasks. The smaller total number suggests their question bank might be more focused and potentially more predictable, but the problems within it are generally tougher.
 
-Accenture's questions are heavily weighted towards **Easy and Medium** levels, with nearly equal distribution. This indicates a strong focus on foundational problem-solving. In contrast, eBay's list has a pronounced skew towards **Medium-difficulty** problems, which make up nearly two-thirds of their questions. eBay also has a higher proportion of Hard questions. This suggests that while both test core competencies, eBay's process may place a greater emphasis on complex, single-problem solving within an interview round.
+**Implication:** Preparing for eBay will force you to grind more Medium problems, which is excellent preparation for Accenture's Mediums as well. However, you cannot neglect the volume of Easy problems for Accenture; failing a simple array manipulation question would be a critical mistake there.
 
 ## Topic Overlap
 
-Both companies heavily test the same fundamental data structures: **Array, String, and Hash Table** problems form the backbone of their question banks. This strong overlap means mastering these topics is efficient preparation for interviews at either company.
+The core overlap is significant and forms your study foundation:
 
-The key difference lies in their secondary focus:
+- **Array, String, Hash Table:** These are the absolute fundamentals for both companies. Mastering these means mastering 80% of the data structures you'll directly use in coding interviews.
+- **Math:** Listed for Accenture; while not explicitly listed for eBay, mathematical reasoning (modulo, bit manipulation, combinatorics in probability questions) is often embedded in array and string problems.
 
-- **Accenture** includes **Math** as a primary topic. This often involves problems related to number properties, basic arithmetic, or mathematical logic.
-- **eBay** lists **Sorting** as a primary topic. This implies a greater emphasis on algorithms that involve ordering data, and by extension, algorithmic thinking about time/space complexity.
+**Unique to Accenture:** The listed "Math" category is more prominent. You might see more explicit number theory, probability, or calculation-based problems.
+**Unique to eBay:** **Sorting** is explicitly called out. This is crucial. It doesn't just mean knowing `array.sort()`. It means deeply understanding _when_ to sort (a common pre-processing step), and algorithms built _around_ sorting like Merge Intervals, Two Pointer techniques on sorted arrays, and Top K elements. This is a key differentiator in focus.
 
-Here is a typical pattern for a problem common to both companies:
+## Preparation Priority Matrix
+
+Use this to allocate your study time efficiently.
+
+1.  **Maximum ROI (Study First):** Array, String, and Hash Table manipulation. These are the verbs of coding interviews. For eBay, integrate **Sorting** deeply into this core. Practice problems where sorting is the key insight.
+2.  **Accenture-Specific Priority:** Dedicate time to **Math**-tagged problems. Ensure you're comfortable with base conversion, GCD/LCM, prime numbers, and handling overflows.
+3.  **eBay-Specific Priority:** Dive into **Sorting-based algorithm patterns**. This is non-negotiable for eBay prep and highly beneficial overall.
+
+**Specific Overlap Problems:**
+
+- **Two Sum (#1):** The quintessential Hash Table problem.
+- **Valid Anagram (#242):** Covers String, Hash Table, and Sorting (if you sort and compare).
+- **Merge Intervals (#56):** A classic Sorting application valuable for both, but _critical_ for eBay.
+- **Group Anagrams (#49):** Excellent for Hash Table of complex keys.
+
+## Interview Format Differences
+
+This is where the company cultures diverge most.
+
+**Accenture:**
+
+- **Rounds:** May include more preliminary screening (aptitude tests, basic coding challenges) before live technical interviews.
+- **Focus:** The coding interview is often one component of a broader assessment. You can expect significant **behavioral and situational questions** related to consulting, client interaction, and working on large teams. For senior roles, **system design** might focus on enterprise integration, scalable service architecture for business processes, or data flow rather than web-scale systems.
+- **Pacing:** Problems may be slightly less algorithmically complex, but clarity of communication and thought process is paramount.
+
+**eBay:**
+
+- **Rounds:** Typically follows a standard tech pipeline: recruiter screen, 1-2 technical phone screens (coding), virtual or on-site loop (3-5 rounds mixing coding and system design).
+- **Focus:** The **coding rounds are central and rigorous**. You'll be expected to produce optimal or near-optimal code for Medium/Hard problems. **System design** for mid-level+ roles will likely focus on classic e-commerce domains: designing a product catalog service, a bidding system, a notification service, or discussing scalability and consistency trade-offs.
+- **Pacing:** The expectation is to code efficiently, handle edge cases, and discuss trade-offs.
+
+## Specific Problem Recommendations for Both
+
+Here are 5 problems that provide exceptional cross-company value.
+
+1.  **Top K Frequent Elements (#347):** Covers Hash Table (frequency map) and Sorting (via heap or bucket sort). It's a Medium that tests your ability to combine fundamental concepts optimally. eBay loves this pattern; Accenture gets the hash map practice.
+2.  **Product of Array Except Self (#238):** A superb Medium problem that looks like it needs division, but the optimal solution uses pure array traversal and prefix/suffix logic. It tests fundamental array manipulation and problem-solving insight without complex data structures. Great for both.
+3.  **Merge Intervals (#56):** As mentioned, this is a sorting paradigm problem. The pattern of sorting by a start time and then merging is reusable. High probability for eBay, excellent algorithmic practice for Accenture.
+4.  **Valid Sudoku (#36):** A step up in complexity for Hash Table usage. It teaches you to use hash sets for rows, columns, and sub-boxes efficiently. It's a concrete problem that feels real-world adjacent, which both companies appreciate.
+5.  **Find All Anagrams in a String (#438):** A harder String/Hash Table/Sliding Window problem. This is excellent prep for eBay's tougher Mediums and would be a strong differentiator in an Accenture interview if you can nail the sliding window optimization.
 
 <div class="code-group">
 
 ```python
-# Example: Two Sum (Hash Table problem)
-def two_sum(nums, target):
-    seen = {}
-    for i, num in enumerate(nums):
-        complement = target - num
-        if complement in seen:
-            return [seen[complement], i]
-        seen[num] = i
-    return []
+# Problem #347: Top K Frequent Elements - Solution using Bucket Sort
+# Time: O(n) | Space: O(n)
+from collections import Counter, defaultdict
+
+def topKFrequent(nums, k):
+    # 1. Count frequencies: O(n) time, O(n) space
+    count = Counter(nums)
+
+    # 2. Create bucket where index = frequency: O(n) space
+    bucket = defaultdict(list)
+    for num, freq in count.items():
+        bucket[freq].append(num)
+
+    # 3. Gather top k from highest frequency bucket down: O(n) time
+    result = []
+    for freq in range(len(nums), 0, -1):
+        if freq in bucket:
+            result.extend(bucket[freq])
+        if len(result) >= k:
+            break
+    return result[:k]
 ```
 
 ```javascript
-// Example: Two Sum (Hash Table problem)
-function twoSum(nums, target) {
-  const map = new Map();
-  for (let i = 0; i < nums.length; i++) {
-    const complement = target - nums[i];
-    if (map.has(complement)) {
-      return [map.get(complement), i];
-    }
-    map.set(nums[i], i);
+// Problem #347: Top K Frequent Elements - Solution using Min Heap
+// Time: O(n log k) | Space: O(n)
+function topKFrequent(nums, k) {
+  const freqMap = new Map();
+  // Build frequency map
+  for (const num of nums) {
+    freqMap.set(num, (freqMap.get(num) || 0) + 1);
   }
-  return [];
+
+  // Min heap (priority queue) of size k
+  const minHeap = new MinPriorityQueue({ priority: (entry) => entry[1] });
+
+  for (const [num, freq] of freqMap) {
+    minHeap.enqueue([num, freq]);
+    if (minHeap.size() > k) {
+      minHeap.dequeue(); // Remove the least frequent
+    }
+  }
+
+  // Extract results from heap
+  const result = [];
+  while (minHeap.size() > 0) {
+    result.push(minHeap.dequeue().element[0]);
+  }
+  return result;
 }
 ```
 
 ```java
-// Example: Two Sum (Hash Table problem)
-public int[] twoSum(int[] nums, int target) {
-    Map<Integer, Integer> map = new HashMap<>();
-    for (int i = 0; i < nums.length; i++) {
-        int complement = target - nums[i];
-        if (map.containsKey(complement)) {
-            return new int[] { map.get(complement), i };
+// Problem #347: Top K Frequent Elements - Solution using Bucket Sort
+// Time: O(n) | Space: O(n)
+import java.util.*;
+
+public class Solution {
+    public int[] topKFrequent(int[] nums, int k) {
+        // Frequency map
+        Map<Integer, Integer> count = new HashMap<>();
+        for (int num : nums) {
+            count.put(num, count.getOrDefault(num, 0) + 1);
         }
-        map.put(nums[i], i);
+
+        // Bucket: List of numbers at each frequency index
+        List<Integer>[] bucket = new List[nums.length + 1];
+        for (int num : count.keySet()) {
+            int freq = count.get(num);
+            if (bucket[freq] == null) {
+                bucket[freq] = new ArrayList<>();
+            }
+            bucket[freq].add(num);
+        }
+
+        // Gather top k
+        int[] result = new int[k];
+        int idx = 0;
+        for (int freq = bucket.length - 1; freq >= 0 && idx < k; freq--) {
+            if (bucket[freq] != null) {
+                for (int num : bucket[freq]) {
+                    result[idx++] = num;
+                    if (idx == k) break;
+                }
+            }
+        }
+        return result;
     }
-    return new int[0];
 }
 ```
 
 </div>
 
-## Which to Prepare for First
+## Which to Prepare for First?
 
-Given the analysis, your preparation priority should be guided by your interview timeline and the company's focus.
+**Prepare for eBay first.**
 
-**Prepare for Accenture first if:** You are early in your interview practice or want to build a strong foundation. The larger volume of questions, dominated by Easy and Medium difficulty, provides broad exposure to common patterns. Mastering Accenture's list will solidify your skills with Arrays, Strings, Hash Tables, and basic Math problems, creating an excellent base for any technical interview.
+Here’s the strategic reasoning: eBay’s question set is more algorithmically demanding. If you build a study plan that conquers eBay’s Medium and Hard problems, you will automatically cover the vast majority of Accenture’s Mediums and all of its Easies. The reverse is not true. Focusing only on Accenture’s broader, slightly easier set could leave you underprepared for the depth required in an eBay interview.
 
-**Prepare for eBay first if:** You are already comfortable with fundamentals and need to ramp up for medium-complexity problem solving. eBay's concentrated list of mostly Medium problems is efficient for targeted practice. Focusing here will sharpen your ability to handle more intricate single-stage problems, which is crucial given eBay's higher density of challenging questions.
+Your study flow should be:
 
-Ultimately, the significant topic overlap makes studying for one beneficial for the other. Start with the company whose difficulty profile best matches your current skill level. Ensure you are fluent in the core topics (Array, String, Hash Table) before diving into each company's specialty: Math for Accenture and Sorting algorithms for eBay.
+1.  **Phase 1 (Core):** Master Array, String, Hash Table, and Sorting patterns. Use the eBay-focused problem list.
+2.  **Phase 2 (Accenture-Tailored):** Add a dedicated block to practice Math-tagged Easy/Medium problems and ensure you can breeze through fundamental Easy problems quickly and cleanly.
+3.  **Phase 3 (Integration):** Mix practice problems from both company tags, simulating the different interview paces. For eBay, time yourself on Mediums in 30 minutes. For Accenture, practice explaining your thought process clearly on Easies and Mediums.
 
-For specific question lists and further details, visit the Accenture and eBay company pages.
+By front-loading the harder material, you make your overall preparation more efficient and robust, ensuring you’re not just prepared for both interviews, but over-prepared for one—which is exactly where you want to be.
 
-- [Accenture Interview Questions](/company/accenture)
-- [eBay Interview Questions](/company/ebay)
+For more detailed company-specific question lists and reported interview experiences, check out the Accenture and eBay pages on CodeJeet: [/company/accenture](/company/accenture) and [/company/ebay](/company/ebay).

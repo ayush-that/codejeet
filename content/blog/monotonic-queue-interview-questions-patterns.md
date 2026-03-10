@@ -1,168 +1,369 @@
 ---
 title: "Monotonic Queue Interview Questions: Patterns and Strategies"
 description: "Master Monotonic Queue problems for coding interviews — common patterns, difficulty breakdown, which companies ask them, and study tips."
-date: "2028-03-13"
+date: "2028-06-03"
 category: "dsa-patterns"
 tags: ["monotonic-queue", "dsa", "interview prep"]
 ---
 
 # Monotonic Queue Interview Questions: Patterns and Strategies
 
-Monotonic queues are a specialized data structure that maintains elements in strictly increasing or decreasing order while supporting efficient addition and removal from both ends. In coding interviews, they are a secret weapon for solving sliding window problems requiring O(n) time—where a naive approach might be O(n²). Mastering this pattern can turn a hard dynamic programming or array problem into a manageable one, especially at top tech companies where algorithmic efficiency is non-negotiable.
+You're solving a sliding window problem, tracking the maximum in each window. You implement a brute force O(nk) solution, then optimize with a heap to O(n log k). The interviewer nods, then asks: "Can you do it in O(n)?" This is where monotonic queues enter the conversation. The problem is **Sliding Window Maximum (#239)**, and it's the classic gateway to understanding why this data structure matters.
+
+Monotonic queues are deceptively simple yet incredibly powerful. They maintain elements in either strictly increasing or decreasing order while supporting efficient insertion and deletion from both ends. What makes them interview gold is their ability to solve problems that seem to require more complex data structures in optimal O(n) time. The 17 LeetCode problems tagged with monotonic queue tell a story: 65% are Hard, 35% Medium, and 0% Easy. This isn't beginner material—it's advanced pattern recognition that separates strong candidates from exceptional ones.
 
 ## Common Patterns
 
-Monotonic queues typically solve problems involving finding maximum/minimum values in a sliding window or maintaining a monotonic sequence for next-greater-element calculations. Here are the core patterns.
+### Pattern 1: Sliding Window Maximum/Minimum
 
-### 1. Sliding Window Maximum/Minimum
+This is the most fundamental pattern. When you need to track the extreme value in a sliding window, a monotonic queue lets you do it in amortized O(1) per operation.
 
-This is the most frequent application. You maintain a deque where elements are stored in decreasing order for maximum (or increasing for minimum). As the window slides, you remove elements outside the window from the front and maintain monotonicity by popping from the back when adding new elements.
+**Intuition**: Instead of storing all window elements, maintain a queue where elements are in decreasing order (for maximum) or increasing order (for minimum). When a new element arrives, remove all smaller elements from the back—they can never be the maximum once this larger element enters. Remove from the front when elements leave the window.
+
+**Problems**: Sliding Window Maximum (#239), Shortest Subarray with Sum at Least K (#862), Constrained Subsequence Sum (#1425).
 
 <div class="code-group">
 
 ```python
 def maxSlidingWindow(nums, k):
+    """
+    Time: O(n) - Each element enters and leaves the deque at most once
+    Space: O(k) - Deque stores at most k elements
+    """
     from collections import deque
-    dq = deque()
-    res = []
+
+    result = []
+    dq = deque()  # stores indices, values decreasing
+
     for i, num in enumerate(nums):
         # Remove indices outside the window
-        if dq and dq[0] == i - k:
+        if dq and dq[0] <= i - k:
             dq.popleft()
+
         # Maintain decreasing order
         while dq and nums[dq[-1]] <= num:
             dq.pop()
+
         dq.append(i)
-        # Record max once window is fully formed
+
+        # Window is fully formed
         if i >= k - 1:
-            res.append(nums[dq[0]])
-    return res
+            result.append(nums[dq[0]])
+
+    return result
 ```
 
 ```javascript
 function maxSlidingWindow(nums, k) {
-  const dq = [];
-  const res = [];
+  // Time: O(n) - Each element enters and leaves the deque at most once
+  // Space: O(k) - Deque stores at most k elements
+  const result = [];
+  const deque = []; // stores indices, values decreasing
+
   for (let i = 0; i < nums.length; i++) {
     // Remove indices outside the window
-    if (dq.length && dq[0] === i - k) dq.shift();
+    if (deque.length > 0 && deque[0] <= i - k) {
+      deque.shift();
+    }
+
     // Maintain decreasing order
-    while (dq.length && nums[dq[dq.length - 1]] <= nums[i]) dq.pop();
-    dq.push(i);
-    // Record max once window is fully formed
-    if (i >= k - 1) res.push(nums[dq[0]]);
+    while (deque.length > 0 && nums[deque[deque.length - 1]] <= nums[i]) {
+      deque.pop();
+    }
+
+    deque.push(i);
+
+    // Window is fully formed
+    if (i >= k - 1) {
+      result.push(nums[deque[0]]);
+    }
   }
-  return res;
+
+  return result;
 }
 ```
 
 ```java
 public int[] maxSlidingWindow(int[] nums, int k) {
-    Deque<Integer> dq = new ArrayDeque<>();
-    int[] res = new int[nums.length - k + 1];
-    int idx = 0;
+    // Time: O(n) - Each element enters and leaves the deque at most once
+    // Space: O(k) - Deque stores at most k elements
+    if (nums.length == 0 || k == 0) return new int[0];
+
+    int[] result = new int[nums.length - k + 1];
+    Deque<Integer> deque = new ArrayDeque<>();
+
     for (int i = 0; i < nums.length; i++) {
         // Remove indices outside the window
-        if (!dq.isEmpty() && dq.peekFirst() == i - k) dq.pollFirst();
+        if (!deque.isEmpty() && deque.peekFirst() <= i - k) {
+            deque.pollFirst();
+        }
+
         // Maintain decreasing order
-        while (!dq.isEmpty() && nums[dq.peekLast()] <= nums[i]) dq.pollLast();
-        dq.offerLast(i);
-        // Record max once window is fully formed
-        if (i >= k - 1) res[idx++] = nums[dq.peekFirst()];
+        while (!deque.isEmpty() && nums[deque.peekLast()] <= nums[i]) {
+            deque.pollLast();
+        }
+
+        deque.offerLast(i);
+
+        // Window is fully formed
+        if (i >= k - 1) {
+            result[i - k + 1] = nums[deque.peekFirst()];
+        }
     }
-    return res;
+
+    return result;
 }
 ```
 
 </div>
 
-### 2. Next Greater Element
+### Pattern 2: Next Greater/Smaller Element
 
-For each element, find the next element in the array that is greater. A monotonic decreasing stack (which behaves like a queue in this traversal) efficiently tracks candidates.
+When you need to find the next element satisfying a condition for each element in an array, monotonic stacks (which are essentially one-ended monotonic queues) provide an elegant solution.
 
-### 3. Constrained Subsequence Sum or Dynamic Programming Optimization
+**Intuition**: Process elements from right to left for "next greater" or left to right for "previous greater." Maintain a monotonic structure where you pop elements that can't be the answer for current or future elements.
 
-Monotonic queues can optimize DP transitions where you take the best previous result within a sliding window constraint, commonly seen in problems like "Constrained Subsequence Sum."
+**Problems**: Next Greater Element II (#503), Daily Temperatures (#739), Online Stock Span (#901).
 
 <div class="code-group">
 
 ```python
-def constrainedSubsetSum(nums, k):
-    from collections import deque
-    dq = deque()
-    dp = [0] * len(nums)
-    for i in range(len(nums)):
-        # Remove best index if it's outside the window of size k
-        if dq and dq[0] < i - k:
-            dq.popleft()
-        # dp[i] is current max (take previous best + nums[i] or start fresh)
-        dp[i] = nums[i] + (dp[dq[0]] if dq else 0)
-        # Maintain decreasing order of dp values
-        while dq and dp[dq[-1]] <= dp[i]:
-            dq.pop()
-        # Only add to deque if dp[i] is positive (optional optimization)
-        if dp[i] > 0:
-            dq.append(i)
-    return max(dp)
+def nextGreaterElements(nums):
+    """
+    Time: O(n) - Each element pushed and popped at most once
+    Space: O(n) - Stack stores up to n elements
+    """
+    n = len(nums)
+    result = [-1] * n
+    stack = []  # stores indices, values decreasing
+
+    # Process circular array by iterating twice
+    for i in range(2 * n):
+        idx = i % n
+        while stack and nums[stack[-1]] < nums[idx]:
+            popped = stack.pop()
+            result[popped] = nums[idx]
+        stack.append(idx)
+
+    return result
 ```
 
 ```javascript
-function constrainedSubsetSum(nums, k) {
-  const dq = [];
-  const dp = new Array(nums.length);
-  let maxSum = -Infinity;
-  for (let i = 0; i < nums.length; i++) {
-    if (dq.length && dq[0] < i - k) dq.shift();
-    dp[i] = nums[i] + (dq.length ? dp[dq[0]] : 0);
-    maxSum = Math.max(maxSum, dp[i]);
-    while (dq.length && dp[dq[dq.length - 1]] <= dp[i]) dq.pop();
-    if (dp[i] > 0) dq.push(i);
+function nextGreaterElements(nums) {
+  // Time: O(n) - Each element pushed and popped at most once
+  // Space: O(n) - Stack stores up to n elements
+  const n = nums.length;
+  const result = new Array(n).fill(-1);
+  const stack = []; // stores indices, values decreasing
+
+  // Process circular array by iterating twice
+  for (let i = 0; i < 2 * n; i++) {
+    const idx = i % n;
+    while (stack.length > 0 && nums[stack[stack.length - 1]] < nums[idx]) {
+      const popped = stack.pop();
+      result[popped] = nums[idx];
+    }
+    stack.push(idx);
   }
-  return maxSum;
+
+  return result;
 }
 ```
 
 ```java
-public int constrainedSubsetSum(int[] nums, int k) {
-    Deque<Integer> dq = new ArrayDeque<>();
-    int[] dp = new int[nums.length];
-    int maxSum = Integer.MIN_VALUE;
-    for (int i = 0; i < nums.length; i++) {
-        if (!dq.isEmpty() && dq.peekFirst() < i - k) dq.pollFirst();
-        dp[i] = nums[i] + (!dq.isEmpty() ? dp[dq.peekFirst()] : 0);
-        maxSum = Math.max(maxSum, dp[i]);
-        while (!dq.isEmpty() && dp[dq.peekLast()] <= dp[i]) dq.pollLast();
-        if (dp[i] > 0) dq.offerLast(i);
+public int[] nextGreaterElements(int[] nums) {
+    // Time: O(n) - Each element pushed and popped at most once
+    // Space: O(n) - Stack stores up to n elements
+    int n = nums.length;
+    int[] result = new int[n];
+    Arrays.fill(result, -1);
+    Deque<Integer> stack = new ArrayDeque<>();  // stores indices, values decreasing
+
+    // Process circular array by iterating twice
+    for (int i = 0; i < 2 * n; i++) {
+        int idx = i % n;
+        while (!stack.isEmpty() && nums[stack.peek()] < nums[idx]) {
+            int popped = stack.pop();
+            result[popped] = nums[idx];
+        }
+        stack.push(idx);
     }
-    return maxSum;
+
+    return result;
 }
 ```
 
 </div>
 
+### Pattern 3: Monotonic Queue with Prefix Sum
+
+This advanced pattern combines monotonic queues with prefix sums to solve problems about subarrays with constraints.
+
+**Intuition**: When you need to find subarrays satisfying sum constraints, compute prefix sums first. Then use a monotonic queue to efficiently find valid pairs of indices. The queue maintains a useful property (like increasing prefix sums) that lets you quickly determine if constraints are met.
+
+**Problems**: Shortest Subarray with Sum at Least K (#862), Longest Continuous Subarray With Absolute Diff Less Than or Equal to Limit (#1438).
+
+<div class="code-group">
+
+```python
+def shortestSubarray(nums, k):
+    """
+    Time: O(n) - Each element enters and leaves deque at most once
+    Space: O(n) - Prefix sum array and deque
+    """
+    n = len(nums)
+    prefix = [0] * (n + 1)
+    for i in range(n):
+        prefix[i + 1] = prefix[i] + nums[i]
+
+    dq = deque()  # stores indices, prefix sums increasing
+    result = float('inf')
+
+    for i in range(n + 1):
+        # Check if we found a valid subarray
+        while dq and prefix[i] - prefix[dq[0]] >= k:
+            result = min(result, i - dq.popleft())
+
+        # Maintain increasing order of prefix sums
+        while dq and prefix[i] <= prefix[dq[-1]]:
+            dq.pop()
+
+        dq.append(i)
+
+    return result if result != float('inf') else -1
+```
+
+```javascript
+function shortestSubarray(nums, k) {
+  // Time: O(n) - Each element enters and leaves deque at most once
+  // Space: O(n) - Prefix sum array and deque
+  const n = nums.length;
+  const prefix = new Array(n + 1).fill(0);
+  for (let i = 0; i < n; i++) {
+    prefix[i + 1] = prefix[i] + nums[i];
+  }
+
+  const deque = []; // stores indices, prefix sums increasing
+  let result = Infinity;
+
+  for (let i = 0; i <= n; i++) {
+    // Check if we found a valid subarray
+    while (deque.length > 0 && prefix[i] - prefix[deque[0]] >= k) {
+      result = Math.min(result, i - deque.shift());
+    }
+
+    // Maintain increasing order of prefix sums
+    while (deque.length > 0 && prefix[i] <= prefix[deque[deque.length - 1]]) {
+      deque.pop();
+    }
+
+    deque.push(i);
+  }
+
+  return result !== Infinity ? result : -1;
+}
+```
+
+```java
+public int shortestSubarray(int[] nums, int k) {
+    // Time: O(n) - Each element enters and leaves deque at most once
+    // Space: O(n) - Prefix sum array and deque
+    int n = nums.length;
+    long[] prefix = new long[n + 1];
+    for (int i = 0; i < n; i++) {
+        prefix[i + 1] = prefix[i] + nums[i];
+    }
+
+    Deque<Integer> deque = new ArrayDeque<>();  // stores indices, prefix sums increasing
+    int result = Integer.MAX_VALUE;
+
+    for (int i = 0; i <= n; i++) {
+        // Check if we found a valid subarray
+        while (!deque.isEmpty() && prefix[i] - prefix[deque.peekFirst()] >= k) {
+            result = Math.min(result, i - deque.pollFirst());
+        }
+
+        // Maintain increasing order of prefix sums
+        while (!deque.isEmpty() && prefix[i] <= prefix[deque.peekLast()]) {
+            deque.pollLast();
+        }
+
+        deque.offerLast(i);
+    }
+
+    return result != Integer.MAX_VALUE ? result : -1;
+}
+```
+
+</div>
+
+## When to Use Monotonic Queue vs Alternatives
+
+Recognizing when to reach for a monotonic queue is half the battle. Here's how to distinguish it from similar techniques:
+
+**Monotonic Queue vs Heap**: Both can track maximum/minimum in a sliding window. Use a heap (priority queue) when you need random removals or multiple orderings. Use a monotonic queue when you only need to maintain one ordering and removals follow FIFO order (oldest elements leave first). The monotonic queue gives you O(1) amortized operations vs O(log n) for heap.
+
+**Monotonic Queue vs Two Pointers**: Both work on sliding windows. Use two pointers when the window condition is simple (like sum < threshold). Use monotonic queue when you need to track more complex window properties (like maximum - minimum ≤ limit).
+
+**Monotonic Queue vs Segment Tree**: Both can answer range queries. Use segment tree when you need arbitrary range queries and updates. Use monotonic queue when queries are sequential and follow sliding window pattern.
+
+**Decision Criteria**:
+
+1. Are you processing elements in order with a sliding window?
+2. Do you need to maintain maximum/minimum or next greater/smaller relationships?
+3. Can older elements become irrelevant when newer, better candidates arrive?
+4. Do you need O(n) time complexity where O(n log n) seems natural?
+
+If you answer yes to most of these, think monotonic queue.
+
+## Edge Cases and Gotchas
+
+### 1. Empty Input and Single Element Windows
+
+Always check for empty arrays and window size of 1. In **Sliding Window Maximum (#239)**, if k = 1, you should return the array itself. If nums is empty, return an empty array.
+
+### 2. Integer Overflow with Prefix Sums
+
+When combining with prefix sums (like in **Shortest Subarray with Sum at Least K (#862)**), use 64-bit integers. The sum can exceed 32-bit limits even if individual elements don't.
+
+### 3. Strict vs Non-strict Monotonicity
+
+Some problems require strictly increasing/decreasing queues, others allow equal elements. In **Daily Temperatures (#739)**, you pop equal temperatures because you want strictly warmer days. In other problems, you might keep equal elements. Read the problem statement carefully.
+
+### 4. Circular Array Handling
+
+For problems like **Next Greater Element II (#503)**, you need to handle circular arrays. The standard trick: iterate through 2n elements and use modulo indexing. Don't forget to initialize results with -1 for elements with no next greater.
+
 ## Difficulty Breakdown
 
-Our dataset of 17 questions shows a clear skew: **0% Easy, 35% Medium (6 questions), 65% Hard (11 questions)**. This distribution is telling.
+The distribution (0% Easy, 35% Medium, 65% Hard) tells a clear story: monotonic queue is an advanced technique. This doesn't mean you should avoid it—it means mastery here pays disproportionate dividends. Hard problems that use monotonic queues often become medium-difficulty once you recognize the pattern.
 
-Monotonic queue problems are rarely introductory. They typically appear as optimized solutions to problems that can initially be approached with slower algorithms (like brute-force sliding window or naive DP). Interviewers use them to separate candidates who know pattern recognition from those who don't. The high percentage of Hard problems indicates this topic is often reserved for senior-level interviews or as a follow-up optimization challenge after discussing simpler solutions.
+Prioritize Medium problems first to build intuition, then tackle Hards. The Hard problems often combine monotonic queues with other concepts (like DP in **Constrained Subsequence Sum (#1425)**), so you're getting compound learning value.
 
 ## Which Companies Ask Monotonic Queue
 
-This pattern is a favorite at companies that emphasize algorithmic rigor and large-scale data processing. The top askers are:
+**Google** (/company/google) loves algorithmic elegance, and monotonic queue problems appear frequently. They particularly enjoy variations on sliding window maximum and next greater element problems.
 
-- [Google](/company/google) – Frequently asks sliding window maximum and DP optimization problems.
-- [Amazon](/company/amazon) – Common in online assessment rounds for array/window challenges.
-- [Meta](/company/meta) – Appears in problems related to feed ranking or time-series data.
-- [Microsoft](/company/microsoft) – Known for next-greater-element and constrained subsequence problems.
-- [Bloomberg](/company/bloomberg) – Uses them in financial data stream analysis (e.g., stock price windows).
+**Amazon** (/company/amazon) asks monotonic queue questions in their onsite interviews, often as the second or third question in a coding round. They favor practical applications like stock span problems.
+
+**Meta** (/company/meta) includes these in their phone screens and onsites. They prefer problems that combine monotonic queues with other patterns.
+
+**Microsoft** (/company/microsoft) and **Bloomberg** (/company/bloomberg) use these questions to test optimization skills. Bloomberg in particular likes the prefix sum + monotonic queue combination for financial data analysis scenarios.
 
 ## Study Tips
 
-1.  **Start with the Deque Abstraction:** Understand how a double-ended queue works in your language of choice (`collections.deque` in Python, `ArrayDeque` in Java, array simulation in JavaScript). The core operations are `popleft`/`pop` (Python), `pollFirst`/`pollLast` (Java), and `shift`/`pop` (JavaScript).
-2.  **Practice the Two-Step Maintenance:** For every new element, always: 1) remove out-of-window indices from the front, and 2) maintain monotonicity by popping from the back. This invariant is universal.
-3.  **Map Problems to Known Patterns:** If a problem asks for extreme values (max/min) in a subarray or window, or optimizes a DP transition with a range constraint, immediately consider a monotonic queue.
-4.  **Implement from Scratch:** Don't rely on libraries. Practice writing the deque logic manually to build muscle memory for the index management and comparison logic.
+1. **Start with the Classics**: Begin with **Sliding Window Maximum (#239)** and **Daily Temperatures (#739)**. These are the most fundamental patterns. Implement them until the deque operations feel natural.
 
-Mastering monotonic queues requires recognizing the pattern and executing the maintenance steps flawlessly. The investment pays off disproportionately in tackling high-difficulty array and dynamic programming questions.
+2. **Visualize the Process**: Draw the array and deque. Track which elements are in the deque at each step. This builds intuition for why smaller elements get popped when larger ones arrive.
+
+3. **Practice in Order of Complexity**:
+   - First: Pure monotonic queue (Sliding Window Maximum #239)
+   - Second: Monotonic stack (Daily Temperatures #739, Next Greater Element II #503)
+   - Third: Combined patterns (Shortest Subarray with Sum at Least K #862)
+   - Fourth: Advanced combinations (Constrained Subsequence Sum #1425)
+
+4. **Time Yourself**: Once you understand a pattern, solve similar problems under interview conditions. The goal is pattern recognition, not just implementation.
+
+Monotonic queues transform O(n log n) solutions into O(n) solutions. They're not just another data structure—they're a way of thinking about how to maintain relevant information while discarding what's no longer useful. This mirrors how we optimize real-world systems: keep what matters, efficiently discard what doesn't.
 
 [Practice all Monotonic Queue questions on CodeJeet](/topic/monotonic-queue)

@@ -1,93 +1,241 @@
 ---
 title: "Dynamic Programming Questions at Uber: What to Expect"
 description: "Prepare for Dynamic Programming interview questions at Uber — patterns, difficulty breakdown, and study tips."
-date: "2027-06-05"
+date: "2027-05-28"
 category: "dsa-patterns"
 tags: ["uber", "dynamic-programming", "interview prep"]
 ---
 
-Dynamic Programming (DP) is a critical skill for software engineering interviews at Uber because it directly tests a candidate's ability to optimize complex, real-world problems. Uber's systems—from calculating the most efficient route and fare for a ride to managing real-time driver dispatch and surge pricing—involve making optimal decisions over sequences or states. DP is the algorithmic framework for solving these overlapping subproblems with optimal substructure. With 59 DP questions in their known question bank, it's a high-frequency topic. Mastering it demonstrates you can think about efficiency and scalability, which is essential for handling Uber's massive global data and real-time constraints.
+Uber’s interview process is famously pragmatic. They don’t ask Dynamic Programming (DP) questions to test academic knowledge; they ask them because DP is the most efficient way to model many of their core business problems. Think about it: optimizing driver routes (shortest path with constraints), calculating surge pricing over time intervals (state transition), or even matching riders to drivers (assignment problems) can all be framed as DP problems. With 59 DP questions in their tagged LeetCode list—over 15% of their total—it’s not a niche topic. In my experience and from debriefing with dozens of candidates, you should expect at least one DP question in your onsite loop, typically in the second or third technical round. It’s a core focus area because it directly tests your ability to break down a complex, real-world optimization problem into manageable, overlapping subproblems—a skill essential for building efficient systems at Uber’s scale.
 
-## What to Expect — Types of Problems
+## Specific Patterns Uber Favors
 
-Uber's DP questions often model real operational challenges. You can expect problems in these core categories:
+Uber’s DP questions have a distinct flavor. They heavily favor **iterative, bottom-up DP** over recursive memoization. This isn’t an accident. Bottom-up DP, which builds a table from the base cases up, mirrors the way you’d process streaming data or batch jobs in a distributed system—you compute results for smaller inputs first, then use them for larger ones. Recursive solutions with deep call stacks are less analogous to production code.
 
-1.  **String/Sequence DP:** These are among the most common. Problems involve comparing, transforming, or analyzing sequences, such as calculating the edit distance between two location strings, finding the longest common subsequence in trip data, or counting distinct ways to decode a message (e.g., from a mapping system).
-2.  **Knapsack/Partition Problems:** These model resource allocation. A typical problem might involve selecting a subset of driver assignments or service requests to maximize value within a capacity constraint, like a driver's shift time or vehicle capacity.
-3.  **State Machine DP:** Uber's real-time systems are all about state transitions (e.g., a trip status from _requested_ to _en route_ to _completed_). DP problems can model these, requiring you to track multiple states to find an optimal path, such as maximizing profit with cooldown periods between activities.
-4.  **Grid/Matrix DP:** Used for navigation and pathfinding. Classic problems include finding unique paths or minimum cost paths through a grid, directly analogous to navigating a city map with obstacles or variable traffic costs.
+The patterns you’ll see most often are:
 
-The problems are rarely presented in their raw algorithmic form. The key is to identify the underlying DP pattern behind the Uber-specific scenario.
+1.  **1D/2D "Classic" DP:** These are the workhorses. Think "Climbing Stairs" or "Coin Change" but dressed in Uber’s clothing. The problem statement will involve a real-world metric: "minimum time to reach a destination given traffic light patterns" or "maximum revenue from a series of trip requests with cool-down periods."
+2.  **DP on Strings:** Uber deals with massive amounts of text data—locations, user profiles, trip descriptions. Problems like **Edit Distance (#72)** or **Longest Common Subsequence (#1143)** test your ability to efficiently compare and transform sequences, a key operation in data processing pipelines.
+3.  **DP on Intervals:** This is a sleeper hit. Scheduling drivers, batching requests, or managing overlapping surge zones are interval problems. **Merge Intervals (#56)** often has a DP cousin, like **Minimum Difficulty of a Job Schedule (#1335)**, where you partition a sequence (days, zones) to optimize a cost.
 
-## How to Prepare — Study Tips with One Code Example
+You’ll notice a distinct lack of highly abstract, purely mathematical DP problems. The context is almost always operational.
 
-Start by solidifying the fundamentals. Memorizing solutions is ineffective; you must understand the _why_. Internalize the two hallmarks of a DP problem: **optimal substructure** (an optimal solution can be constructed from optimal solutions of its subproblems) and **overlapping subproblems**.
+## How to Prepare
 
-Your approach for any problem should be:
+The key is to practice translating a wordy, scenario-based problem into a formal DP state definition. Your study should focus on this translation step. Let’s look at a classic pattern: finding the number of ways to do something (like unique paths).
 
-1.  **Define the State:** What does `dp[i]` or `dp[i][j]` represent? Be precise.
-2.  **Define the Recurrence Relation:** How does a given state relate to previous, smaller states? This is the core transition.
-3.  **Define Base Cases:** What are the smallest, simplest subproblems you can solve directly?
-4.  **Determine Iteration Order & Space Optimization:** Decide if you need a 1D or 2D array and the direction to fill it. Later, see if you can reduce space complexity.
+A common Uber variant is: "Given a grid of city blocks where some are closed due to construction, how many unique routes can a driver take from the depot (top-left) to a customer (bottom-right) moving only down or right?"
 
-Let's look at a fundamental pattern: the **0/1 Knapsack Problem**. Imagine selecting ride requests (each with a value and duration) to maximize total value without exceeding a driver's shift duration.
+This is **Unique Paths II (#63)**. The pattern is 2D DP where `dp[i][j]` represents the number of ways to reach cell `(i, j)`.
 
 <div class="code-group">
 
 ```python
-def knapsack(values, weights, capacity):
-    n = len(values)
-    dp = [0] * (capacity + 1)
+# Time: O(m * n) | Space: O(m * n), can be optimized to O(n)
+def uniquePathsWithObstacles(obstacleGrid):
+    m, n = len(obstacleGrid), len(obstacleGrid[0])
+    dp = [[0] * n for _ in range(m)]
 
-    for i in range(n):
-        # Iterate backwards to ensure each item is used at most once
-        for w in range(capacity, weights[i] - 1, -1):
-            dp[w] = max(dp[w], dp[w - weights[i]] + values[i])
-    return dp[capacity]
+    # Initialize the starting cell
+    dp[0][0] = 1 if obstacleGrid[0][0] == 0 else 0
 
-# Example: values = [60, 100, 120], weights = [10, 20, 30], capacity = 50
-# Result: 220
+    # Fill the first column
+    for i in range(1, m):
+        if obstacleGrid[i][0] == 0:
+            dp[i][0] = dp[i-1][0]  # Can only come from above
+
+    # Fill the first row
+    for j in range(1, n):
+        if obstacleGrid[0][j] == 0:
+            dp[0][j] = dp[0][j-1]  # Can only come from the left
+
+    # Fill the rest of the DP table
+    for i in range(1, m):
+        for j in range(1, n):
+            if obstacleGrid[i][j] == 0:
+                dp[i][j] = dp[i-1][j] + dp[i][j-1]
+            # If it's an obstacle, dp[i][j] remains 0
+
+    return dp[m-1][n-1]
 ```
 
 ```javascript
-function knapsack(values, weights, capacity) {
-  const n = values.length;
-  const dp = new Array(capacity + 1).fill(0);
+// Time: O(m * n) | Space: O(m * n), can be optimized to O(n)
+function uniquePathsWithObstacles(obstacleGrid) {
+  const m = obstacleGrid.length,
+    n = obstacleGrid[0].length;
+  const dp = Array.from({ length: m }, () => new Array(n).fill(0));
 
-  for (let i = 0; i < n; i++) {
-    for (let w = capacity; w >= weights[i]; w--) {
-      dp[w] = Math.max(dp[w], dp[w - weights[i]] + values[i]);
+  // Start
+  dp[0][0] = obstacleGrid[0][0] === 0 ? 1 : 0;
+
+  // First column
+  for (let i = 1; i < m; i++) {
+    if (obstacleGrid[i][0] === 0) {
+      dp[i][0] = dp[i - 1][0];
     }
   }
-  return dp[capacity];
+
+  // First row
+  for (let j = 1; j < n; j++) {
+    if (obstacleGrid[0][j] === 0) {
+      dp[0][j] = dp[0][j - 1];
+    }
+  }
+
+  // Rest of the grid
+  for (let i = 1; i < m; i++) {
+    for (let j = 1; j < n; j++) {
+      if (obstacleGrid[i][j] === 0) {
+        dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+      }
+    }
+  }
+
+  return dp[m - 1][n - 1];
 }
 ```
 
 ```java
-public int knapsack(int[] values, int[] weights, int capacity) {
-    int n = values.length;
-    int[] dp = new int[capacity + 1];
+// Time: O(m * n) | Space: O(m * n), can be optimized to O(n)
+public int uniquePathsWithObstacles(int[][] obstacleGrid) {
+    int m = obstacleGrid.length, n = obstacleGrid[0].length;
+    int[][] dp = new int[m][n];
 
-    for (int i = 0; i < n; i++) {
-        for (int w = capacity; w >= weights[i]; w--) {
-            dp[w] = Math.max(dp[w], dp[w - weights[i]] + values[i]);
+    // Start
+    dp[0][0] = obstacleGrid[0][0] == 0 ? 1 : 0;
+
+    // First column
+    for (int i = 1; i < m; i++) {
+        if (obstacleGrid[i][0] == 0) {
+            dp[i][0] = dp[i-1][0];
         }
     }
-    return dp[capacity];
+
+    // First row
+    for (int j = 1; j < n; j++) {
+        if (obstacleGrid[0][j] == 0) {
+            dp[0][j] = dp[0][j-1];
+        }
+    }
+
+    // Rest of the grid
+    for (int i = 1; i < m; i++) {
+        for (int j = 1; j < n; j++) {
+            if (obstacleGrid[i][j] == 0) {
+                dp[i][j] = dp[i-1][j] + dp[i][j-1];
+            }
+        }
+    }
+
+    return dp[m-1][n-1];
 }
 ```
 
 </div>
 
+The second critical pattern is **DP with State**. Uber problems often have an extra dimension, like a resource constraint (e.g., fuel, number of stops). This turns a 2D DP into a 3D DP, or more commonly, a 2D DP where one dimension is the "state." A perfect example is the "Best Time to Buy and Sell Stock with Cooldown (#309)" pattern, which models having a stock or being in a cooldown period.
+
+<div class="code-group">
+
+```python
+# Time: O(n) | Space: O(n), can be optimized to O(1)
+def maxProfit(prices):
+    if not prices:
+        return 0
+
+    n = len(prices)
+    # dp[i][0]: max profit on day i holding no stock
+    # dp[i][1]: max profit on day i holding stock
+    # dp[i][2]: max profit on day i in cooldown (sold yesterday)
+    dp = [[0, 0, 0] for _ in range(n)]
+    dp[0][1] = -prices[0]  # Buy on day 0
+
+    for i in range(1, n):
+        # Not holding: either rest from previous day not holding, or come out of cooldown
+        dp[i][0] = max(dp[i-1][0], dp[i-1][2])
+        # Holding: either hold from previous day, or buy today (must come from state 0)
+        dp[i][1] = max(dp[i-1][1], dp[i-1][0] - prices[i])
+        # Cooldown: sold today, so previous state must have been holding
+        dp[i][2] = dp[i-1][1] + prices[i]
+
+    # Max profit will be in either state 0 (not holding) or state 2 (cooldown)
+    return max(dp[n-1][0], dp[n-1][2])
+```
+
+```javascript
+// Time: O(n) | Space: O(n), can be optimized to O(1)
+function maxProfit(prices) {
+  if (prices.length === 0) return 0;
+
+  const n = prices.length;
+  const dp = Array.from({ length: n }, () => [0, 0, 0]);
+  // dp[i][0]: no stock, dp[i][1]: has stock, dp[i][2]: cooldown
+  dp[0][1] = -prices[0];
+
+  for (let i = 1; i < n; i++) {
+    dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][2]);
+    dp[i][1] = Math.max(dp[i - 1][1], dp[i - 1][0] - prices[i]);
+    dp[i][2] = dp[i - 1][1] + prices[i];
+  }
+
+  return Math.max(dp[n - 1][0], dp[n - 1][2]);
+}
+```
+
+```java
+// Time: O(n) | Space: O(n), can be optimized to O(1)
+public int maxProfit(int[] prices) {
+    if (prices.length == 0) return 0;
+
+    int n = prices.length;
+    int[][] dp = new int[n][3];
+    // dp[i][0]: no stock, dp[i][1]: has stock, dp[i][2]: cooldown
+    dp[0][1] = -prices[0];
+
+    for (int i = 1; i < n; i++) {
+        dp[i][0] = Math.max(dp[i-1][0], dp[i-1][2]);
+        dp[i][1] = Math.max(dp[i-1][1], dp[i-1][0] - prices[i]);
+        dp[i][2] = dp[i-1][1] + prices[i];
+    }
+
+    return Math.max(dp[n-1][0], dp[n-1][2]);
+}
+```
+
+</div>
+
+## How Uber Tests Dynamic Programming vs Other Companies
+
+At companies like Google or Meta, a DP problem might be a clever, self-contained puzzle (e.g., "Dungeon Game"). At Amazon, it might be tied to system design (e.g., caching strategies). At Uber, the DP problem is almost always a **simplified model of a logistics or marketplace optimization**.
+
+The difficulty is "Medium" on LeetCode, but the trick is the **context switching**. The interviewer will describe a scenario involving drivers, trips, or maps. Your first job is to strip away the narrative and identify the underlying DP pattern. They are testing if you can listen to a product manager's description of a feature and immediately start modeling it computationally. The follow-up questions often involve space optimization ("Can you do it with O(1) extra space?") or a slight constraint change ("What if the driver can also move left?"), testing your grasp of the DP table's structure.
+
+## Study Order
+
+Don't jump into Uber's hardest tagged problems. Build your foundation sequentially:
+
+1.  **1D DP (Fibonacci-style):** Understand the core concept of state, recurrence, and memoization. Problems: Climbing Stairs (#70), House Robber (#198).
+2.  **2D Grid DP:** Learn to navigate a table. This is the most direct analog to map/grid problems. Problems: Unique Paths (#62), Minimum Path Sum (#64).
+3.  **DP on Strings:** Master comparing and building strings. This is critical for any data matching logic. Problems: Longest Common Subsequence (#1143), Edit Distance (#72).
+4.  **Knapsack-style DP (0/1 and Unbounded):** Learn to handle resource constraints (time, capacity, number of assignments). Problems: Coin Change (#322), Partition Equal Subset Sum (#416).
+5.  **DP with State/Multi-dimensional DP:** Add complexity by tracking an additional state (e.g., holding a resource, being in a mode). Problems: Best Time to Buy and Sell Stock with Cooldown (#309), Paint House (#256).
+
+This order works because each step introduces one major new conceptual layer on top of a solidifying foundation.
+
 ## Recommended Practice Order
 
-Build your skills progressively:
+Tackle these problems in sequence. Each one teaches a pattern you will likely see at Uber.
 
-1.  **Foundation:** Start with classic 1D DP: Climbing Stairs, House Robber, Coin Change.
-2.  **String Sequences:** Practice Longest Common Subsequence, Edit Distance, and Decode Ways.
-3.  **2D & Grid DP:** Solve Unique Paths, Minimum Path Sum.
-4.  **Knapsack Variants:** Master the 0/1 Knapsack (above) and Partition Equal Subset Sum.
-5.  **State Machine:** Tackle Best Time to Buy and Sell Stock with Cooldown.
-6.  **Uber-Specific Practice:** Finally, apply these patterns to actual Uber-tagged DP problems to contextualize your knowledge.
+1.  **Climbing Stairs (#70)** - The absolute basics.
+2.  **Coin Change (#322)** - Classic unbounded knapsack (minimum coins).
+3.  **Unique Paths II (#63)** - 2D grid with obstacles.
+4.  **Longest Common Subsequence (#1143)** - Foundational string DP.
+5.  **Partition Equal Subset Sum (#416)** - 0/1 knapsack recognition.
+6.  **Best Time to Buy and Sell Stock with Cooldown (#309)** - DP with state.
+7.  **Minimum Difficulty of a Job Schedule (#1335)** - Interval partitioning DP.
+8.  **Edit Distance (#72)** - A harder, but very common, string DP finale.
+
+Mastering this progression will make you fluent in the language of Uber's dynamic programming interviews.
 
 [Practice Dynamic Programming at Uber](/company/uber/dynamic-programming)

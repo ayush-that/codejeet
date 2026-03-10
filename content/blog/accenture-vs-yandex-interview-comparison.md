@@ -1,131 +1,176 @@
 ---
 title: "Accenture vs Yandex: Interview Question Comparison"
 description: "Compare coding interview questions at Accenture and Yandex — difficulty levels, topic focus, and preparation strategy."
-date: "2026-03-22"
+date: "2032-07-12"
 category: "tips"
 tags: ["accenture", "yandex", "comparison"]
 ---
 
-When preparing for technical interviews, understanding company-specific patterns is crucial for efficient study. Accenture and Yandex, while both global technology firms, present distinct interview landscapes rooted in their different business models and engineering cultures. Accenture, a multinational professional services and consulting giant, focuses on enterprise solutions, system integration, and broad tech consulting. Yandex, often called "Russia's Google," is a core technology product company specializing in search, ride-hailing, maps, and machine learning. This difference fundamentally shapes their technical interviews, making a direct comparison valuable for targeted preparation.
+If you're preparing for interviews at both Accenture and Yandex, you're looking at two distinct beasts in the tech landscape. Accenture, a global consulting and IT services giant, evaluates candidates through a lens of broad technical competency and client-project readiness. Yandex, often called "Russia's Google," is a product-driven tech powerhouse with a strong algorithmic and systems focus, similar to FAANG companies. The good news? Their coding interview question banks reveal significant overlap, meaning you can prepare strategically for both simultaneously. The key is understanding where their priorities diverge so you can allocate your study time effectively.
 
 ## Question Volume and Difficulty
 
-Accenture's interview question pool is slightly larger at approximately 144 questions, compared to Yandex's 134. The difficulty distribution reveals more about their respective focuses.
+Let's break down the numbers. Accenture's tagged question pool on popular platforms is slightly larger at 144 questions, compared to Yandex's 134. This doesn't necessarily mean Accenture's interviews are harder; it often reflects a broader range of problem sources or a longer history of being tracked.
 
-- **Accenture (E65/M68/H11):** The spread shows a strong emphasis on **Easy** and **Medium** problems, which constitute the vast majority. The low proportion of Hard questions suggests their interviews prioritize foundational coding competency, clear logic, and the ability to implement working solutions under typical constraints. The bar is set at reliable, maintainable code rather than highly optimized algorithms for extreme edge cases.
-- **Yandex (E52/M72/H10):** Yandex shifts the weight significantly toward **Medium** difficulty. While still not heavily focused on Hard problems, the higher concentration on Medium-tier challenges indicates an expectation for stronger algorithmic thinking and familiarity with more complex patterns. This aligns with a product-based company that needs engineers to write efficient, scalable code for its core services.
+The real story is in the difficulty distribution:
 
-In essence, Accenture tests for solid fundamentals applicable to a wide range of business tech problems, while Yandex assesses deeper algorithmic proficiency relevant to building high-performance applications.
+- **Accenture:** Easy (65), Medium (68), Hard (11)
+- **Yandex:** Easy (52), Medium (72), Hard (10)
+
+Both companies heavily weight **Medium-difficulty** problems, which is the industry standard for assessing core problem-solving skills. Yandex has a slightly higher concentration of Mediums (72 vs. 68), suggesting their technical screens might be a touch more rigorous on average. The near-identical number of Hard problems (11 vs. 10) indicates that for senior or specialized roles, both can ask challenging questions, but they are not the primary focus.
+
+**Implication:** Your preparation should be centered on mastering Medium problems. If you can reliably solve most Mediums within 25-30 minutes, you'll be in a strong position for both companies. Don't neglect Easy problems for speed and accuracy practice, and tackle a handful of Hards to stretch your thinking.
 
 ## Topic Overlap
 
-Both companies heavily test core data structures, but with subtle differences in priority.
+This is where your study efficiency gets a major boost. The top four topics for both companies are nearly identical:
 
-**Shared Core (Both Companies):**
+1.  **Array:** The undisputed king. Expect manipulations, searching, sorting, and subarray problems.
+2.  **Hash Table:** The essential tool for achieving O(1) lookups and solving countless problems involving counts, mappings, and existence checks.
+3.  **String:** Closely tied to Array problems, with additional twists like palindromes, parsing, and encoding.
+4.  **Math/Two Pointers:** Here's the first divergence. Accenture lists **Math** (number theory, simulation) as its #4, while Yandex lists **Two Pointers**. This is a critical insight: Yandex values efficient in-place array/string algorithms more highly.
 
-- **Array & String:** These are fundamental building blocks for virtually all coding problems.
-- **Hash Table:** Essential for efficient lookups and frequency counting, a cornerstone technique.
+**Shared Prep Value:** Focusing on **Array, Hash Table, and String** problems gives you the highest return on investment (ROI) for both interviews. A problem like "Two Sum" (#1) is foundational for both.
 
-**Key Differentiator:**
+**Unique Flavors:**
 
-- **Accenture's #4 Topic: Math.** This includes number manipulation, basic arithmetic problems, and mathematical logic. It reflects the practical, business-logic-oriented problems common in consulting and systems development.
-- **Yandex's #4 Topic: Two Pointers.** This is a fundamental algorithm pattern for solving problems involving sorted arrays, palindromes, or sliding windows. Its prominence signals Yandex's greater emphasis on classical algorithm techniques and optimizing time/space complexity.
+- **Accenture's "Math" focus** might lead to more problems about simulation, basic arithmetic on strings (e.g., "Add Strings" #415), or numerical properties.
+- **Yandex's "Two Pointers" focus** signals a stronger emphasis on optimized, in-place solutions. Think "Remove Duplicates from Sorted Array" (#26), "Container With Most Water" (#11), or "3Sum" (#15).
 
-This divergence is telling. Preparing for Accenture requires comfort with numerical and logical puzzles, while Yandex preparation demands mastery of specific algorithmic patterns like two pointers.
+## Preparation Priority Matrix
 
-**Example: A Problem Approach**
-Consider a problem like "Find two numbers in a sorted array that sum to a target."
+Use this matrix to triage your study topics. Spend your time in this order:
+
+1.  **High Priority (Overlap Topics):** Array, Hash Table, String. Master these first.
+2.  **Medium Priority (Company-Specific):**
+    - For **Accenture:** Dedicate time to **Math** and **Simulation** problems.
+    - For **Yandex:** Deep dive into **Two Pointers**, **Binary Search**, and **Greedy** algorithms.
+3.  **Lower Priority:** Topics that appear less frequently for both, like Dynamic Programming (though still important for Yandex) or Tree/Graph problems for Accenture's more generalist roles.
+
+**Specific Overlap Problems to Master:**
+
+- **Two Sum (#1):** Hash Table 101.
+- **Valid Anagram (#242):** Hash Table / String counting.
+- **Best Time to Buy and Sell Stock (#121):** Array traversal with a min-tracker (a form of greedy/DP).
+- **Contains Duplicate (#217):** Hash Table basic.
+- **Merge Intervals (#56):** A classic Array/Sorting pattern useful in many domains.
+
+## Interview Format Differences
+
+The _how_ is as important as the _what_.
+
+**Accenture:**
+
+- **Structure:** Often includes an initial online assessment (OA) with multiple-choice and 1-2 coding questions. Subsequent technical rounds (1-2) are more conversational and may involve discussing past projects or designing a solution for a business scenario.
+- **Focus:** Code correctness, clarity, and maintainability are key. You may be asked to explain your thought process in a way a client might understand. System design questions, if any, tend to be high-level rather than deep dive.
+- **Behavioral Weight:** Significant. They are assessing your communication and teamwork skills for client-facing roles.
+
+**Yandex:**
+
+- **Structure:** Typically a more classic tech interview pipeline: a rigorous OA followed by 2-4 technical onsite/virtual rounds, each with 1-2 coding problems. The bar for algorithmic efficiency is high.
+- **Focus:** Optimal time/space complexity is critical. You must justify your choices and discuss trade-offs. Expect follow-ups like "how would you scale this?" System design is common for mid-level and above roles and will be detailed.
+- **Behavioral Weight:** Present, but often woven into technical discussions ("Tell me about a time you debugged a complex issue" rather than standalone questions).
+
+## Specific Problem Recommendations for Dual Preparation
+
+Here are 5 problems that efficiently cover patterns relevant to both companies:
+
+1.  **3Sum (#15):** Covers Array, Two Pointers (for Yandex), and Hash Table logic. A quintessential Medium problem.
+2.  **Group Anagrams (#49):** Excellent for mastering Hash Table with String keys. Tests categorization logic.
+3.  **Product of Array Except Self (#238):** A brilliant Array problem that tests your ability to derive an O(n) solution with prefix/suffix logic. It feels like a "Math" trick (good for Accenture) but is fundamentally about array traversal.
+4.  **Longest Substring Without Repeating Characters (#3):** A must-know for Hash Table (as a character map) and the sliding window technique, which is a close cousin of Two Pointers.
+5.  **Merge Sorted Array (#88):** A fundamental Two Pointers operation from the end, simple to state but easy to get wrong. Tests careful iteration.
 
 <div class="code-group">
 
 ```python
-# Two Pointers approach (emphasized by Yandex)
-def two_sum_sorted(nums, target):
-    left, right = 0, len(nums) - 1
-    while left < right:
-        current_sum = nums[left] + nums[right]
-        if current_sum == target:
-            return [left, right]
-        elif current_sum < target:
-            left += 1
-        else:
-            right -= 1
-    return []
+# Problem #88: Merge Sorted Array
+# Time: O(m + n) | Space: O(1)
+def merge(nums1, m, nums2, n):
+    """
+    Merges nums2 into nums1 in-place. nums1 has enough space (m + n).
+    """
+    # Start from the end of the final array
+    p1, p2, p = m - 1, n - 1, m + n - 1
 
-# Hash Table approach (also valid, uses core structure)
-def two_sum_sorted_hash(nums, target):
-    seen = {}
-    for i, num in enumerate(nums):
-        complement = target - num
-        if complement in seen:
-            return [seen[complement], i]
-        seen[num] = i
-    return []
+    # While there are elements in both arrays
+    while p1 >= 0 and p2 >= 0:
+        if nums1[p1] > nums2[p2]:
+            nums1[p] = nums1[p1]
+            p1 -= 1
+        else:
+            nums1[p] = nums2[p2]
+            p2 -= 1
+        p -= 1
+
+    # If nums2 has remaining elements, copy them over
+    # (No need to check nums1, as they are already in place)
+    while p2 >= 0:
+        nums1[p] = nums2[p2]
+        p2 -= 1
+        p -= 1
 ```
 
 ```javascript
-// Two Pointers approach (emphasized by Yandex)
-function twoSumSorted(nums, target) {
-  let left = 0,
-    right = nums.length - 1;
-  while (left < right) {
-    const sum = nums[left] + nums[right];
-    if (sum === target) return [left, right];
-    if (sum < target) left++;
-    else right--;
-  }
-  return [];
-}
+// Problem #88: Merge Sorted Array
+// Time: O(m + n) | Space: O(1)
+function merge(nums1, m, nums2, n) {
+  let p1 = m - 1;
+  let p2 = n - 1;
+  let p = m + n - 1;
 
-// Hash Table approach (also valid, uses core structure)
-function twoSumSortedHash(nums, target) {
-  const map = new Map();
-  for (let i = 0; i < nums.length; i++) {
-    const complement = target - nums[i];
-    if (map.has(complement)) return [map.get(complement), i];
-    map.set(nums[i], i);
+  while (p1 >= 0 && p2 >= 0) {
+    if (nums1[p1] > nums2[p2]) {
+      nums1[p] = nums1[p1];
+      p1--;
+    } else {
+      nums1[p] = nums2[p2];
+      p2--;
+    }
+    p--;
   }
-  return [];
+
+  // Copy remaining elements from nums2
+  while (p2 >= 0) {
+    nums1[p] = nums2[p2];
+    p2--;
+    p--;
+  }
 }
 ```
 
 ```java
-// Two Pointers approach (emphasized by Yandex)
-public int[] twoSumSorted(int[] nums, int target) {
-    int left = 0, right = nums.length - 1;
-    while (left < right) {
-        int sum = nums[left] + nums[right];
-        if (sum == target) return new int[]{left, right};
-        if (sum < target) left++;
-        else right--;
-    }
-    return new int[]{};
-}
+// Problem #88: Merge Sorted Array
+// Time: O(m + n) | Space: O(1)
+public void merge(int[] nums1, int m, int[] nums2, int n) {
+    int p1 = m - 1;
+    int p2 = n - 1;
+    int p = m + n - 1;
 
-// Hash Table approach (also valid, uses core structure)
-public int[] twoSumSortedHash(int[] nums, int target) {
-    Map<Integer, Integer> map = new HashMap<>();
-    for (int i = 0; i < nums.length; i++) {
-        int complement = target - nums[i];
-        if (map.containsKey(complement)) {
-            return new int[]{map.get(complement), i};
+    while (p1 >= 0 && p2 >= 0) {
+        if (nums1[p1] > nums2[p2]) {
+            nums1[p] = nums1[p1];
+            p1--;
+        } else {
+            nums1[p] = nums2[p2];
+            p2--;
         }
-        map.put(nums[i], i);
+        p--;
     }
-    return new int[]{};
+
+    // Copy remaining elements from nums2
+    while (p2 >= 0) {
+        nums1[p] = nums2[p2];
+        p2--;
+        p--;
+    }
 }
 ```
 
 </div>
 
-## Which to Prepare for First
+## Which to Prepare for First?
 
-Your preparation priority should align with your interview timeline and career focus.
+**Prepare for Yandex first.** Here’s the strategic reasoning: Yandex’s interview, with its emphasis on algorithmic rigor and optimal solutions, is the more technically demanding of the two. If you build a study plan that succeeds for Yandex—mastering Arrays, Hash Tables, Strings, Two Pointers, and efficient problem-solving—you will have over-prepared for the core coding portion of Accenture’s interview. You can then layer on Accenture-specific preparation: practicing explaining your code in simple terms, reviewing basic system design principles for scalability, and preparing behavioral stories. This approach gives you the strongest technical foundation and maximizes your chances at both.
 
-**Prepare for Accenture first if:** You are newer to coding interviews or your primary goal is to enter the consulting/broad tech services sector. The higher volume of Easy problems provides a gentler on-ramp to build confidence with core data structures (Array, String, Hash Table) and mathematical logic. Success here establishes a strong baseline for many other company interviews.
-
-**Prepare for Yandex first if:** You are aiming for product-based or core software engineering roles and already have a firm grasp on fundamentals. Diving into their Medium-heavy question set with a focus on patterns like **Two Pointers** will efficiently push your algorithmic skills to the level required by many top tech firms. The skills built here will make Accenture's problem set feel more approachable.
-
-Ultimately, the shared foundation in Array, String, and Hash Table problems means preparation for one company significantly benefits the other. The strategic choice lies in which specialization—Math or Two Pointers—you need to drill into first based on your target role.
-
-For detailed question lists, visit the [Accenture interview page](/company/accenture) and the [Yandex interview page](/company/yandex).
+For more company-specific details, visit the CodeJeet pages for [Accenture](/company/accenture) and [Yandex](/company/yandex).

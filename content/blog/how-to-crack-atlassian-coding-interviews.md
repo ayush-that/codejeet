@@ -1,280 +1,249 @@
 ---
 title: "How to Crack Atlassian Coding Interviews in 2026"
 description: "Complete guide to Atlassian coding interviews — question patterns, difficulty breakdown, must-practice topics, and preparation strategy."
-date: "2026-02-12"
+date: "2026-03-24"
 category: "company-guide"
 company: "atlassian"
 tags: ["atlassian", "interview prep", "leetcode"]
 ---
 
-Landing a software engineering role at Atlassian means proving you can solve the kind of complex, product-adjacent problems the company tackles daily. Their coding interview process is rigorous, typically involving multiple rounds focused on algorithmic problem-solving, system design, and behavioral questions. Success hinges on targeted preparation that aligns with their specific technical focus.
+# How to Crack Atlassian Coding Interviews in 2026
+
+Atlassian’s interview process is a marathon, not a sprint. While many companies have streamlined their technical screens, Atlassian maintains a rigorous, multi-stage process designed to assess not just raw coding ability, but also system design, collaboration, and product sense. The typical process for a software engineering role includes an initial recruiter screen, a technical phone screen (often one or two coding problems), a virtual onsite consisting of 4-5 rounds, and a final team matching or hiring manager conversation. The onsite usually breaks down into: 1-2 coding rounds, 1 system design round, 1 behavioral/collaboration round (heavily focused on their values), and sometimes a domain-specific deep dive.
+
+What makes their process unique is the intense focus on **collaboration and clarity**. You’re not just solving a problem in isolation; you’re expected to think aloud, discuss trade-offs, and treat the interviewer as a teammate. They also have a strong bias towards problems that can be tied back to real-world product scenarios, especially around data organization, permissions, and workflow automation.
+
+## What Makes Atlassian Different
+
+Atlassian’s interview style diverges from the pure-algorithm grind of some other top tech companies in three key ways.
+
+First, **the behavioral round is a heavyweight**. It’s not a casual chat. They will probe deeply into your past experiences using the STAR method, but with a laser focus on Atlassian’s core values: “Open Company, No Bullshit,” “Build with Heart and Balance,” “Don’t #@!% the Customer,” and “Play, as a Team.” You need concrete stories that demonstrate these values in action. A candidate who aces the coding but seems culturally misaligned will likely be rejected.
+
+Second, **coding problems often have a “producty” flavor**. You’re less likely to get abstract graph theory puzzles and more likely to get problems involving parsing, string manipulation, state machines, or designing data structures for specific access patterns—things that mirror building features for Jira, Confluence, or Bitbucket. For example, implementing a simplified version of a markdown parser or a ticket dependency resolver.
+
+Third, **communication is part of the score**. In coding rounds, writing perfect, silent code is not enough. Interviewers are instructed to evaluate your collaboration skills. This means you should verbalize your thought process, ask clarifying questions, and be prepared to iterate on your solution based on hypothetical new requirements from your “teammate” (the interviewer). Pseudocode and whiteboard sketching are often encouraged before diving into implementation.
 
 ## By the Numbers
 
-Understanding the statistical landscape of Atlassian's coding questions is your first strategic advantage. Based on reported data, the difficulty breakdown is 11% Easy, 69% Medium, and 19% Hard. This distribution is telling.
+An analysis of Atlassian’s known coding questions reveals a clear strategy: they filter for strong fundamentals applied to realistic scenarios.
 
-The overwhelming majority of questions are Medium difficulty. This means Atlassian is primarily testing for strong, reliable fundamentals and the ability to navigate common algorithmic patterns under pressure. You are expected to cleanly solve these problems. The significant Hard component (nearly 1 in 5 questions) serves as a differentiator. These questions are designed to separate very good candidates from exceptional ones, often testing advanced optimization or less common paradigms. The low number of Easy questions indicates they assume a baseline competency; you won't spend interview time on trivial problems.
+- **Total Questions:** 62
+- **Easy:** 7 (11%)
+- **Medium:** 43 (69%)
+- **Hard:** 12 (19%)
+
+The 69% concentration on Medium problems is telling. They are the workhorses of the interview process, designed to separate competent candidates from exceptional ones. An “Easy” problem might appear in a phone screen, but the onsite coding rounds will almost certainly be Medium or Hard. The Hard problems often involve Dynamic Programming or complex graph traversals.
+
+The difficulty breakdown means your preparation must be efficient. You cannot afford to get stuck on esoteric Hard problems if your Medium problem-solving isn’t flawless. Focus on achieving high speed and clarity on Medium problems across their top topics. For example, mastering variations of **Merge Intervals (#56)**, **Two Sum (#1)**, and **Top K Frequent Elements (#347)** is more valuable than solving a handful of obscure Hard DP problems.
 
 ## Top Topics to Focus On
 
-Your study time should be heavily weighted toward the most frequently tested areas. For Atlassian, these are:
+The data shows a clear set of fundamental topics. Here’s why Atlassian favors each and the key pattern to master.
 
-- **Array:** Master in-place operations, sliding window techniques, and two-pointer approaches. Many problems involve manipulating or analyzing data sequences.
-- **Hash Table:** This is your go-to tool for achieving O(1) lookups. Be prepared to use maps for frequency counting, memoization, or as a supporting data structure to optimize array/string traversals.
-- **String:** Focus on manipulation, pattern matching, and anagrams. Interleaving, transformation, and palindrome problems are common. Strong string skills often combine with array and hash table techniques.
-- **Sorting:** Don't just know how to call a sort function. Understand when sorting can be a pre-processing step to simplify a problem (e.g., two-sum variants, meeting intervals). Be ready to implement custom comparators.
-- **Dynamic Programming:** A critical area for Hard problems. Start with classic patterns (knapsack, LCS, LIS) and practice identifying overlapping subproblems and optimal substructure in word break, pathfinding, or partition scenarios.
+**1. Array & Hash Table**
+These are the bedrock of data manipulation. Atlassian problems frequently involve organizing, querying, or transforming lists of items (e.g., user stories, issues, comments). The Hash Table is your go-to tool for achieving O(1) lookups, which is critical in systems dealing with large datasets. The most important pattern is using a hash map to store precomputed information (like indices or counts) to avoid nested loops.
 
-### Deep Dive: Code Examples for Core Topics
-
-Let's explore practical implementations for the key patterns mentioned above.
-
-**1. Array - Two-Pointer Technique**
-A classic pattern for in-place operations or finding pairs in a sorted array. The following example finds two numbers in a sorted array that add up to a target.
+A classic problem is **Two Sum (#1)**. The optimal solution uses a hash map to remember numbers we’ve seen.
 
 <div class="code-group">
 
 ```python
-def two_sum_sorted(numbers, target):
+# Time: O(n) | Space: O(n)
+def twoSum(nums, target):
     """
-    Uses two pointers to find two indices (1-indexed) where their values sum to target.
-    Assumes the input array is sorted in non-decreasing order.
+    Atlassian-relevant: Finding user IDs that sum to a target value, etc.
     """
-    left, right = 0, len(numbers) - 1
-    while left < right:
-        current_sum = numbers[left] + numbers[right]
-        if current_sum == target:
-            # Problem often expects 1-indexed indices
-            return [left + 1, right + 1]
-        elif current_sum < target:
-            left += 1  # Need a larger sum, move left pointer right
+    seen = {}  # Hash map: value -> index
+    for i, num in enumerate(nums):
+        complement = target - num
+        if complement in seen:
+            return [seen[complement], i]
+        seen[num] = i
+    return []  # Problem guarantees a solution, but safe return
+```
+
+```javascript
+// Time: O(n) | Space: O(n)
+function twoSum(nums, target) {
+  const seen = new Map(); // Hash map: value -> index
+  for (let i = 0; i < nums.length; i++) {
+    const complement = target - nums[i];
+    if (seen.has(complement)) {
+      return [seen.get(complement), i];
+    }
+    seen.set(nums[i], i);
+  }
+  return [];
+}
+```
+
+```java
+// Time: O(n) | Space: O(n)
+public int[] twoSum(int[] nums, int target) {
+    Map<Integer, Integer> seen = new HashMap<>(); // Hash map: value -> index
+    for (int i = 0; i < nums.length; i++) {
+        int complement = target - nums[i];
+        if (seen.containsKey(complement)) {
+            return new int[]{seen.get(complement), i};
+        }
+        seen.put(nums[i], i);
+    }
+    return new int[]{};
+}
+```
+
+</div>
+
+**2. String & Sorting**
+Building tools for developers and teams involves heavy text processing (think commit messages, JQL queries, Confluence page content). String manipulation is paramount. Sorting is often a prerequisite step to enable efficient pair-wise comparisons or windowing logic, a common pattern in scheduling or conflict detection features.
+
+A quintessential problem is **Merge Intervals (#56)**. It combines sorting (to arrange intervals) with array traversal and merging logic—perfect for modeling overlapping time periods, like meeting schedules or ticket due dates.
+
+<div class="code-group">
+
+```python
+# Time: O(n log n) | Space: O(n) [for output]
+def merge(intervals):
+    """
+    Atlassian-relevant: Merging overlapping time periods, project timelines.
+    """
+    if not intervals:
+        return []
+
+    # 1. Sort by start time: O(n log n)
+    intervals.sort(key=lambda x: x[0])
+
+    merged = []
+    for interval in intervals:
+        # 2. If no overlap, append new interval
+        if not merged or merged[-1][1] < interval[0]:
+            merged.append(interval)
         else:
-            right -= 1  # Need a smaller sum, move right pointer left
-    return [-1, -1]  # No solution found
-
-# Example usage
-nums = [2, 7, 11, 15]
-target = 9
-print(two_sum_sorted(nums, target))  # Output: [1, 2]
+            # 3. There is overlap, merge by updating the end time
+            merged[-1][1] = max(merged[-1][1], interval[1])
+    return merged
 ```
 
 ```javascript
-function twoSumSorted(numbers, target) {
-  let left = 0;
-  let right = numbers.length - 1;
-  while (left < right) {
-    const currentSum = numbers[left] + numbers[right];
-    if (currentSum === target) {
-      // Return 1-indexed indices
-      return [left + 1, right + 1];
-    } else if (currentSum < target) {
-      left++; // Need a larger sum
+// Time: O(n log n) | Space: O(n) [for output]
+function merge(intervals) {
+  if (intervals.length === 0) return [];
+
+  // 1. Sort by start time: O(n log n)
+  intervals.sort((a, b) => a[0] - b[0]);
+
+  const merged = [];
+  for (const interval of intervals) {
+    // 2. If no overlap, push new interval
+    if (merged.length === 0 || merged[merged.length - 1][1] < interval[0]) {
+      merged.push(interval);
     } else {
-      right--; // Need a smaller sum
+      // 3. There is overlap, merge by updating the end time
+      merged[merged.length - 1][1] = Math.max(merged[merged.length - 1][1], interval[1]);
     }
   }
-  return [-1, -1]; // No solution
+  return merged;
 }
-
-// Example usage
-const nums = [2, 7, 11, 15];
-const target = 9;
-console.log(twoSumSorted(nums, target)); // Output: [1, 2]
 ```
 
 ```java
-import java.util.Arrays;
+// Time: O(n log n) | Space: O(n) [for output]
+public int[][] merge(int[][] intervals) {
+    if (intervals.length == 0) return new int[0][];
 
-public class TwoPointerExample {
-    public static int[] twoSumSorted(int[] numbers, int target) {
-        int left = 0;
-        int right = numbers.length - 1;
-        while (left < right) {
-            int currentSum = numbers[left] + numbers[right];
-            if (currentSum == target) {
-                // Return 1-indexed indices
-                return new int[]{left + 1, right + 1};
-            } else if (currentSum < target) {
-                left++; // Need a larger sum
-            } else {
-                right--; // Need a smaller sum
-            }
+    // 1. Sort by start time: O(n log n)
+    Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
+
+    List<int[]> merged = new ArrayList<>();
+    for (int[] interval : intervals) {
+        // 2. If no overlap, add new interval
+        if (merged.isEmpty() || merged.get(merged.size() - 1)[1] < interval[0]) {
+            merged.add(interval);
+        } else {
+            // 3. There is overlap, merge by updating the end time
+            merged.get(merged.size() - 1)[1] = Math.max(merged.get(merged.size() - 1)[1], interval[1]);
         }
-        return new int[]{-1, -1}; // No solution
     }
-
-    public static void main(String[] args) {
-        int[] nums = {2, 7, 11, 15};
-        int target = 9;
-        System.out.println(Arrays.toString(twoSumSorted(nums, target))); // Output: [1, 2]
-    }
+    return merged.toArray(new int[merged.size()][]);
 }
 ```
 
 </div>
 
-**2. Hash Table - Frequency Counting**
-Hash tables (dictionaries, maps) are indispensable for problems involving counts or lookups. Here's an example finding the first non-repeating character in a string.
+**3. Dynamic Programming**
+The presence of DP as a top topic, especially with a significant number of Hard problems, indicates they test for advanced problem decomposition. This is crucial for optimizing resource allocation, finding minimal/maximal paths in workflows, or calculating efficient batch operations—core to building scalable backend services.
+
+A must-know pattern is the **0/1 Knapsack** logic, which appears in problems like **Partition Equal Subset Sum (#416)**. This tests your ability to model a constraint optimization problem.
 
 <div class="code-group">
 
 ```python
-def first_unique_char(s: str) -> int:
+# Time: O(n * sum) | Space: O(sum)
+def canPartition(nums):
     """
-    Returns the index of the first non-repeating character in a string.
-    Returns -1 if no such character exists.
+    Atlassian-relevant: Can workload be split evenly between two teams?
     """
-    char_count = {}
-    # First pass: count frequencies
-    for ch in s:
-        char_count[ch] = char_count.get(ch, 0) + 1
-    # Second pass: find the first character with count 1
-    for i, ch in enumerate(s):
-        if char_count[ch] == 1:
-            return i
-    return -1
+    total = sum(nums)
+    if total % 2 != 0:
+        return False
+    target = total // 2
 
-# Example usage
-print(first_unique_char("leetcode"))      # Output: 0 ('l')
-print(first_unique_char("loveleetcode"))  # Output: 2 ('v')
+    # DP array: dp[s] = True if sum 's' can be formed
+    dp = [False] * (target + 1)
+    dp[0] = True  # Base case: sum of 0 is always possible
+
+    for num in nums:
+        # Iterate backwards to avoid re-using the same num multiple times (0/1)
+        for s in range(target, num - 1, -1):
+            if dp[s - num]:
+                dp[s] = True
+    return dp[target]
 ```
 
 ```javascript
-function firstUniqueChar(s) {
-  const charCount = new Map();
-  // First pass: count frequencies
-  for (const ch of s) {
-    charCount.set(ch, (charCount.get(ch) || 0) + 1);
-  }
-  // Second pass: find the first character with count 1
-  for (let i = 0; i < s.length; i++) {
-    if (charCount.get(s[i]) === 1) {
-      return i;
+// Time: O(n * sum) | Space: O(sum)
+function canPartition(nums) {
+  const total = nums.reduce((a, b) => a + b, 0);
+  if (total % 2 !== 0) return false;
+  const target = total / 2;
+
+  // DP array: dp[s] = true if sum 's' can be formed
+  const dp = new Array(target + 1).fill(false);
+  dp[0] = true; // Base case
+
+  for (const num of nums) {
+    // Iterate backwards for 0/1 knapsack logic
+    for (let s = target; s >= num; s--) {
+      if (dp[s - num]) {
+        dp[s] = true;
+      }
     }
   }
-  return -1;
+  return dp[target];
 }
-
-// Example usage
-console.log(firstUniqueChar("leetcode")); // Output: 0
-console.log(firstUniqueChar("loveleetcode")); // Output: 2
 ```
 
 ```java
-import java.util.HashMap;
+// Time: O(n * sum) | Space: O(sum)
+public boolean canPartition(int[] nums) {
+    int total = 0;
+    for (int num : nums) total += num;
+    if (total % 2 != 0) return false;
+    int target = total / 2;
 
-public class HashTableExample {
-    public static int firstUniqueChar(String s) {
-        HashMap<Character, Integer> charCount = new HashMap<>();
-        // First pass: count frequencies
-        for (int i = 0; i < s.length(); i++) {
-            char ch = s.charAt(i);
-            charCount.put(ch, charCount.getOrDefault(ch, 0) + 1);
-        }
-        // Second pass: find the first character with count 1
-        for (int i = 0; i < s.length(); i++) {
-            if (charCount.get(s.charAt(i)) == 1) {
-                return i;
+    // DP array: dp[s] = true if sum 's' can be formed
+    boolean[] dp = new boolean[target + 1];
+    dp[0] = true; // Base case
+
+    for (int num : nums) {
+        // Iterate backwards for 0/1 knapsack logic
+        for (int s = target; s >= num; s--) {
+            if (dp[s - num]) {
+                dp[s] = true;
             }
         }
-        return -1;
     }
-
-    public static void main(String[] args) {
-        System.out.println(firstUniqueChar("leetcode"));      // Output: 0
-        System.out.println(firstUniqueChar("loveleetcode"));  // Output: 2
-    }
-}
-```
-
-</div>
-
-**3. Dynamic Programming - Classic Fibonacci with Memoization**
-DP problems require breaking down a problem into overlapping subproblems. Let's implement Fibonacci, the classic introduction to DP concepts, using memoization (top-down) and tabulation (bottom-up).
-
-<div class="code-group">
-
-```python
-def fib_memoization(n, memo={}):
-    """
-    Top-down DP approach using memoization.
-    """
-    if n <= 1:
-        return n
-    if n not in memo:
-        memo[n] = fib_memoization(n-1, memo) + fib_memoization(n-2, memo)
-    return memo[n]
-
-def fib_tabulation(n):
-    """
-    Bottom-up DP approach using tabulation.
-    """
-    if n <= 1:
-        return n
-    dp = [0] * (n + 1)
-    dp[1] = 1
-    for i in range(2, n + 1):
-        dp[i] = dp[i-1] + dp[i-2]
-    return dp[n]
-
-# Example usage
-print(fib_memoization(10))  # Output: 55
-print(fib_tabulation(10))   # Output: 55
-```
-
-```javascript
-function fibMemoization(n, memo = {}) {
-  // Top-down DP approach using memoization
-  if (n <= 1) return n;
-  if (memo[n] !== undefined) return memo[n];
-  memo[n] = fibMemoization(n - 1, memo) + fibMemoization(n - 2, memo);
-  return memo[n];
-}
-
-function fibTabulation(n) {
-  // Bottom-up DP approach using tabulation
-  if (n <= 1) return n;
-  const dp = new Array(n + 1).fill(0);
-  dp[1] = 1;
-  for (let i = 2; i <= n; i++) {
-    dp[i] = dp[i - 1] + dp[i - 2];
-  }
-  return dp[n];
-}
-
-// Example usage
-console.log(fibMemoization(10)); // Output: 55
-console.log(fibTabulation(10)); // Output: 55
-```
-
-```java
-import java.util.HashMap;
-
-public class DynamicProgrammingExample {
-    // Top-down DP with memoization
-    public static int fibMemoization(int n, HashMap<Integer, Integer> memo) {
-        if (n <= 1) return n;
-        if (memo.containsKey(n)) return memo.get(n);
-        int result = fibMemoization(n - 1, memo) + fibMemoization(n - 2, memo);
-        memo.put(n, result);
-        return result;
-    }
-
-    // Bottom-up DP with tabulation
-    public static int fibTabulation(int n) {
-        if (n <= 1) return n;
-        int[] dp = new int[n + 1];
-        dp[1] = 1;
-        for (int i = 2; i <= n; i++) {
-            dp[i] = dp[i - 1] + dp[i - 2];
-        }
-        return dp[n];
-    }
-
-    public static void main(String[] args) {
-        System.out.println(fibMemoization(10, new HashMap<>())); // Output: 55
-        System.out.println(fibTabulation(10));                    // Output: 55
-    }
+    return dp[target];
 }
 ```
 
@@ -282,215 +251,48 @@ public class DynamicProgrammingExample {
 
 ## Preparation Strategy
 
-A focused 6-week plan is effective. Prioritize quality of practice over quantity.
+Here is a focused 5-week plan. Adjust based on your starting point.
 
-**Weeks 1-2: Foundation & Core Topics.** Build depth in the top five topics. Dedicate days to Array/Hash Table combos, then String manipulation, then Sorting applications. Solve 2-3 Medium problems daily, ensuring you can explain your approach and walk through test cases. Re-solve problems the next day from scratch to build muscle memory.
+**Week 1-2: Foundation & Patterns**
 
-**Weeks 3-4: Pattern Recognition & Difficulty Ramp.** Shift to mixed-topic practice. Use the "Atlassian" tagged problems on platforms. Your goal is to correctly identify which pattern (e.g., sliding window, DFS/BFS, DP) applies to a new problem statement. Introduce 1-2 Hard problems per week, focusing on understanding the solution approach even if you can't code it fully initially.
+- **Goal:** Achieve fluency in top topics.
+- **Action:** Solve 40-50 problems. Focus 70% on Mediums from Array, Hash Table, String, and Sorting. Do not skip Easy problems on these topics—they build muscle memory. Practice each pattern until you can derive the optimal approach in <2 minutes. Use LeetCode’s Atlassian tagged list.
 
-**Weeks 5-6: Mock Interviews & Gaps.** Simulate the real environment with timed mock interviews (45-60 minutes). Always verbalize your thought process. Analyze your weaknesses—did you miss a DP state definition? Fail to optimize with a hash map? Dedicate the final week to drilling these specific gaps. Revisit all previously solved problems to ensure retention.
+**Week 3: Depth & Integration**
 
-### Implementing a Mock Interview Problem
+- **Goal:** Tackle harder problems and combine patterns.
+- **Action:** Solve 20-25 problems. Focus on Dynamic Programming (start with Mediums like Coin Change #322) and problems that mix topics (e.g., String + Hash Table like Group Anagrams #49). Begin timing yourself: 25 minutes for a Medium, including explanation.
 
-Let's simulate solving a common Atlassian-style problem: **"Maximum Subarray" (Kadane's Algorithm)**. This is a classic array problem that tests your ability to optimize a brute-force solution.
+**Week 4: Simulation & Communication**
 
-**Problem:** Given an integer array `nums`, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.
+- **Goal:** Mimic the interview environment.
+- **Action:** Solve 15-20 problems, but now do them out loud. Use a whiteboard or blank text editor (no autocomplete). For each problem, verbally state the brute force, optimize, discuss trade-offs, then code. Record yourself to check clarity. Do 2-3 mock interviews with a peer.
 
-**Brute-force Approach:** Check every possible subarray. This is O(n²) and not acceptable for large inputs.
-**Optimal Approach (Kadane's Algorithm):** Traverse the array once, maintaining the maximum sum ending at the current position and the overall maximum sum.
+**Week 5: Polishing & Behavioral**
 
-<div class="code-group">
+- **Goal:** Final review and non-coding prep.
+- **Action:** Re-solve 10-15 of your previously toughest problems. Dedicate at least 3 hours to crafting and rehearsing 5-6 behavioral stories aligned with Atlassian values. Research recent Atlassian blog posts or product launches to have informed questions ready.
 
-```python
-def max_subarray_bruteforce(nums):
-    """Brute-force O(n^2) solution for understanding."""
-    max_sum = float('-inf')
-    n = len(nums)
-    for i in range(n):
-        current_sum = 0
-        for j in range(i, n):
-            current_sum += nums[j]
-            max_sum = max(max_sum, current_sum)
-    return max_sum
+## Common Mistakes
 
-def max_subarray_kadane(nums):
-    """Optimal O(n) solution using Kadane's Algorithm."""
-    current_max = nums[0]
-    global_max = nums[0]
-    for num in nums[1:]:
-        # Should we start a new subarray at `num` or extend the previous one?
-        current_max = max(num, current_max + num)
-        # Update the global maximum if needed
-        global_max = max(global_max, current_max)
-    return global_max
+1.  **Treating the Interviewer as a Judge:** This creates a tense, one-way dynamic. Atlassian evaluates collaboration. **Fix:** From the first minute, use “we” language. “What if we tried a hash map here?” “Should we consider an edge case where the input list is empty?”
 
-# Example usage
-nums = [-2, 1, -3, 4, -1, 2, 1, -5, 4]
-print("Brute-force result:", max_subarray_bruteforce(nums))  # Output: 6
-print("Kadane's result:", max_subarray_kadane(nums))         # Output: 6 (subarray [4,-1,2,1])
-```
+2.  **Jumping to Code Without a Clear Plan:** Medium problems can have subtle complexities. Diving in leads to messy code and backtracking. **Fix:** Spend the first 3-5 minutes on examples, edge cases, and explaining at least two approaches (brute force & optimal) before writing a single line of code.
 
-```javascript
-function maxSubarrayBruteforce(nums) {
-  // Brute-force O(n^2) solution
-  let maxSum = -Infinity;
-  const n = nums.length;
-  for (let i = 0; i < n; i++) {
-    let currentSum = 0;
-    for (let j = i; j < n; j++) {
-      currentSum += nums[j];
-      maxSum = Math.max(maxSum, currentSum);
-    }
-  }
-  return maxSum;
-}
+3.  **Neglecting the Behavioral Round:** Candidates often wing it, giving vague answers. **Fix:** Prepare specific stories using the STAR framework. For each story, identify which Atlassian value it demonstrates (e.g., a time you delivered hard feedback tactfully shows “Open Company, No Bullshit”).
 
-function maxSubarrayKadane(nums) {
-  // Optimal O(n) solution using Kadane's Algorithm
-  let currentMax = nums[0];
-  let globalMax = nums[0];
-  for (let i = 1; i < nums.length; i++) {
-    // Decide: start new subarray at nums[i] or extend previous?
-    currentMax = Math.max(nums[i], currentMax + nums[i]);
-    // Update global maximum
-    globalMax = Math.max(globalMax, currentMax);
-  }
-  return globalMax;
-}
-
-// Example usage
-const nums = [-2, 1, -3, 4, -1, 2, 1, -5, 4];
-console.log("Brute-force result:", maxSubarrayBruteforce(nums)); // Output: 6
-console.log("Kadane's result:", maxSubarrayKadane(nums)); // Output: 6
-```
-
-```java
-public class MockInterviewProblem {
-    // Brute-force O(n^2) solution
-    public static int maxSubarrayBruteforce(int[] nums) {
-        int maxSum = Integer.MIN_VALUE;
-        int n = nums.length;
-        for (int i = 0; i < n; i++) {
-            int currentSum = 0;
-            for (int j = i; j < n; j++) {
-                currentSum += nums[j];
-                maxSum = Math.max(maxSum, currentSum);
-            }
-        }
-        return maxSum;
-    }
-
-    // Optimal O(n) solution using Kadane's Algorithm
-    public static int maxSubarrayKadane(int[] nums) {
-        int currentMax = nums[0];
-        int globalMax = nums[0];
-        for (int i = 1; i < nums.length; i++) {
-            // Choose: start new subarray at nums[i] or extend previous?
-            currentMax = Math.max(nums[i], currentMax + nums[i]);
-            // Update global maximum
-            globalMax = Math.max(globalMax, currentMax);
-        }
-        return globalMax;
-    }
-
-    public static void main(String[] args) {
-        int[] nums = {-2, 1, -3, 4, -1, 2, 1, -5, 4};
-        System.out.println("Brute-force result: " + maxSubarrayBruteforce(nums)); // Output: 6
-        System.out.println("Kadane's result: " + maxSubarrayKadane(nums));        // Output: 6
-    }
-}
-```
-
-</div>
-
-**Interview Thought Process:**
-
-1.  **Clarify:** "So I need to find the sum of the contiguous subarray with the largest sum. The array can contain negative numbers. I should return just the sum, not the subarray indices, correct?"
-2.  **Brute-force:** "A naive approach would be to check every possible start and end index for subarrays. That's O(n²) time. For large inputs, that's inefficient."
-3.  **Optimize:** "I recall a pattern called Kadane's Algorithm for this problem. We can traverse the array once. At each element, we decide: does this element start a new subarray, or is it better to add it to the subarray ending at the previous element? We keep track of the maximum sum found so far."
-4.  **Walkthrough:** "Let's test with the example `[-2,1,-3,4,-1,2,1,-5,4]`. Starting at -2, current and global max are -2. Next element 1: `current_max = max(1, -2+1= -1) = 1`. Global max becomes 1. Next -3: `current_max = max(-3, 1 + -3 = -2) = -2`. Global stays 1. Next 4: `current_max = max(4, -2+4=2) = 4`. Global becomes 4... and so on. The final global max is 6."
-5.  **Edge Cases:** "What if the array has all negative numbers? The algorithm should still work, returning the least negative number (largest sum). An empty array? Let's assume input is non-empty as per the problem."
+4.  **Over-Optimizing Prematurely:** Mentioning time/space complexity is good, but getting bogged down in micro-optimizations before a working solution is bad. **Fix:** Always get a clean, correct, brute-force or naive solution _working_ first. Then, and only then, discuss and implement optimizations. This shows pragmatic engineering sense.
 
 ## Key Tips
 
-1.  **Communicate Relentlessly.** Atlassian values collaboration. Narrate your thinking, discuss trade-offs between approaches, and ask clarifying questions before you code. Silence is your enemy.
-2.  **Optimize for Medium, Then Attempt Hard.** Your primary goal is to flawlessly solve the Medium-difficulty questions you encounter. If presented with a Hard problem, demonstrate a clear, logical brute-force solution first, then methodically work towards optimization. A working sub-optimal solution is better than an incomplete optimal one.
-3.  **Consider Real-World Context.** While solving an algorithmic problem, briefly mention how it might relate to a real-world system (e.g., "This rate-limiting algorithm could be applied to an API gateway"). It shows product-aware thinking. For the Maximum Subarray problem, you could mention: "This algorithm is foundational for analyzing trends in time-series data, like finding the most profitable period in stock prices."
-4.  **Test Your Own Code.** Before declaring "done," walk through your code with a small but interesting edge case. Correctly handling null inputs, empty arrays, or single-element cases demonstrates thoroughness. For example, always test with a single element array `[5]`, an array with all negatives `[-3, -1, -2]`, and a mixed array.
+1.  **Practice “Productizing” Your Solutions:** When you solve a problem, ask yourself, “What Atlassian feature could this be part of?” Mentioning this insight during the interview (“This reminds me of how you might implement a cache for frequently accessed project settings…”) creates a powerful connection.
 
-### Final Practice Problem: Group Anagrams
+2.  **Master the “Sort and Iterate” Pattern:** A huge number of Atlassian Medium problems (Merge Intervals, Non-overlapping Intervals #435, Insert Interval #57) are solved by sorting an array of objects by one property, then making a single pass to compare adjacent items. Have this pattern on instant recall.
 
-This combines Strings, Hash Tables, and Sorting—a quintessential Atlassian topic.
+3.  **Clarify Constraints Verbally:** Before solving, always ask: “What’s the approximate size of the input?” and “Are there any constraints on the data values?” This demonstrates professional, production-level thinking and will guide your choice of algorithm.
 
-<div class="code-group">
+4.  **End Your Coding Round with a Walkthrough:** After writing code, don’t just say “I’m done.” Proactively say, “Let me walk through an example to verify.” Trace through a small case with your code, including edge cases. This catches bugs and showcases thoroughness.
 
-```python
-def group_anagrams(strs):
-    """
-    Groups anagrams together from a list of strings.
-    An Anagram is a word formed by rearranging the letters of another.
-    """
-    from collections import defaultdict
-    anagram_map = defaultdict(list)
-    for s in strs:
-        # Use sorted string as the key
-        key = ''.join(sorted(s))
-        anagram_map[key].append(s)
-    return list(anagram_map.values())
-
-# Example usage
-input_strs = ["eat", "tea", "tan", "ate", "nat", "bat"]
-print(group_anagrams(input_strs))
-# Output: [['eat', 'tea', 'ate'], ['tan', 'nat'], ['bat']]
-```
-
-```javascript
-function groupAnagrams(strs) {
-  const anagramMap = new Map();
-  for (const s of strs) {
-    // Create a key by sorting the string's characters
-    const key = s.split("").sort().join("");
-    if (!anagramMap.has(key)) {
-      anagramMap.set(key, []);
-    }
-    anagramMap.get(key).push(s);
-  }
-  return Array.from(anagramMap.values());
-}
-
-// Example usage
-const inputStrs = ["eat", "tea", "tan", "ate", "nat", "bat"];
-console.log(groupAnagrams(inputStrs));
-// Output: [['eat', 'tea', 'ate'], ['tan', 'nat'], ['bat']]
-```
-
-```java
-import java.util.*;
-
-public class FinalExample {
-    public static List<List<String>> groupAnagrams(String[] strs) {
-        Map<String, List<String>> anagramMap = new HashMap<>();
-        for (String s : strs) {
-            // Convert string to char array, sort it, and use as key
-            char[] charArray = s.toCharArray();
-            Arrays.sort(charArray);
-            String key = new String(charArray);
-            // Add the original string to the corresponding list
-            anagramMap.computeIfAbsent(key, k -> new ArrayList<>()).add(s);
-        }
-        return new ArrayList<>(anagramMap.values());
-    }
-
-    public static void main(String[] args) {
-        String[] inputStrs = {"eat", "tea", "tan", "ate", "nat", "bat"};
-        System.out.println(groupAnagrams(inputStrs));
-        // Output: [[eat, tea, ate], [tan, nat], [bat]]
-    }
-}
-```
-
-</div>
-
-Targeted, consistent practice on these core areas will build the proficiency and confidence needed to succeed. Start with the fundamentals, pressure-test your skills, and refine your communication.
+Your journey to cracking Atlassian is about demonstrating you’re not just a great coder, but a great _Atlassian_ coder—one who builds with heart, clarity, and a team-first mindset. Now, go build.
 
 [Browse all Atlassian questions on CodeJeet](/company/atlassian)

@@ -1,576 +1,235 @@
 ---
 title: "How to Crack Airbnb Coding Interviews in 2026"
 description: "Complete guide to Airbnb coding interviews — question patterns, difficulty breakdown, must-practice topics, and preparation strategy."
-date: "2026-02-06"
+date: "2026-03-18"
 category: "company-guide"
 company: "airbnb"
 tags: ["airbnb", "interview prep", "leetcode"]
 ---
 
-Airbnb's coding interview is a direct test of your problem-solving skills under pressure. You'll typically face 1-2 rounds of live coding, often using a collaborative editor, focusing on clean code, correct logic, and clear communication. The problems are designed to reflect real-world engineering challenges at scale.
+# How to Crack Airbnb Coding Interviews in 2026
+
+Airbnb’s interview process is a unique blend of technical rigor and product‑sense evaluation. You’ll typically face a recruiter screen, a technical phone screen (or online assessment), and then a virtual or on‑site loop of 4–5 interviews. The loop usually includes 2–3 coding rounds, a system design round, and a behavioral/cultural round focused on Airbnb’s core values (like “Be a Host” and “Champion the Mission”). What sets Airbnb apart is the strong emphasis on problems that mirror real‑world travel, booking, and mapping scenarios—you’re not just solving abstract algorithms, you’re often modeling reservations, calendar conflicts, or location‑based searches. Interviews are conversational; interviewers expect you to think aloud, discuss trade‑offs, and write clean, production‑ready code. Pseudocode is generally discouraged—they want runnable, well‑structured code in your language of choice.
+
+## What Makes Airbnb Different
+
+While FAANG companies often prioritize raw algorithmic speed and obscure optimizations, Airbnb leans toward practical, business‑relevant problems. You’ll notice a few distinct traits:
+
+1. **Heavy on real‑world simulation**: Many problems are essentially simplified versions of Airbnb’s own features—calendar availability, pricing algorithms, search ranking, and geo‑spatial queries. This means you’ll see a lot of interval‑merging, date‑time manipulation, and graph traversal that mimics a host‑guest network.
+2. **Production‑ready code over clever tricks**: Airbnb engineers maintain a massive codebase for a two‑sided marketplace. They value readable, maintainable code with clear variable names and modular functions. A working, well‑structured solution often beats a slightly faster but hacky one.
+3. **Integrated problem‑solving**: It’s common for a coding question to have multiple follow‑ups that evolve the problem—e.g., first you solve for one hotel room, then for multiple rooms with different prices, then add cancellation policies. This tests your ability to extend a design under new constraints, much like real feature development.
+4. **Moderate emphasis on system design**: The system design round is weighted similarly to coding, but the problems are often grounded in Airbnb’s domain—think “design a booking system” or “design a review system.” You’re expected to discuss trade‑offs around scalability, consistency, and user experience.
 
 ## By the Numbers
 
-Airbnb's reported question pool shows a clear emphasis on depth over breadth. With 53% Medium and 30% Hard questions, the interview is statistically more likely to present a complex challenge than a simple one. The 17% Easy questions often serve as warm-ups or parts of a larger problem. This breakdown means you must be comfortable with problems that have non-obvious solutions and require optimizing for time or space. Expect to discuss trade-offs. The high percentage of Hard questions indicates that mastering advanced algorithms is not optional; it's a prerequisite to pass.
+Airbnb’s question bank (based on 64 frequently asked problems) breaks down as: Easy 11 (17%), Medium 34 (53%), Hard 19 (30%). This distribution tells a clear story: **you must be comfortable with Medium problems, but Hard problems are not rare.** In fact, nearly one‑third of their questions are Hard, often involving dynamic programming or complex graph traversals. The high Hard percentage reflects Airbnb’s tendency to give multi‑part problems that start simple but escalate in difficulty.
+
+You should treat Mediums as your baseline—if you can’t solve most Mediums within 25 minutes, you’re not ready. For Hards, focus on pattern recognition rather than memorization. Known Airbnb problems include:
+
+- **Two Sum (#1)** – but often extended to pairs of dates or prices.
+- **Merge Intervals (#56)** – foundational for calendar/booking problems.
+- **Word Break (#139)** – appears in search/autocomplete contexts.
+- **Course Schedule (#207)** – models dependency graphs for trips or bookings.
+- **Alien Dictionary (#269)** – a Hard that tests topological sort in a novel setting.
 
 ## Top Topics to Focus On
 
-Your study time should be heavily weighted toward these five areas, which form the core of Airbnb's technical interviews.
+### Array
 
-- **Array:** Manipulation, sorting, and searching within arrays are fundamental. Many problems involve finding subarrays, merging intervals, or applying two-pointer techniques. Practice questions that require in-place operations.
-- **Hash Table:** This is your primary tool for achieving O(1) lookups to optimize brute-force solutions. Be ready to use maps for frequency counting, memoization, or storing relationships between data points. It's often the key to turning an O(n²) solution into O(n).
-- **String:** String processing is common, from parsing and validation to more complex pattern matching. Practice sliding window techniques for substrings and be fluent in common operations like reversal, comparison, and encoding.
-- **Dynamic Programming:** The high frequency of DP questions, including many Hard ones, makes this a critical area. Focus on identifying overlapping subproblems and optimal substructure. Start with classic problems (knapsack, longest common subsequence) before tackling more abstract ones.
-- **Breadth-First Search:** Applied to both tree and graph traversal, BFS is essential for problems involving "shortest path" or "minimum steps" in unweighted scenarios. Be prepared to implement level-order traversal and handle visited states to avoid cycles.
-
-Let's explore each of these key topics with practical code examples.
-
-### Array: Two-Pointer Technique
-
-A classic array technique is the two-pointer method, used for tasks like finding a pair with a target sum in a sorted array. This approach achieves O(n) time complexity with O(1) extra space.
+Arrays appear in nearly every Airbnb problem, often representing dates, prices, or locations. The key pattern is **two‑pointer and sliding window** for searching or comparing sequences, and **sorting** to enable greedy solutions. Many calendar problems are essentially array problems with custom comparators.
 
 <div class="code-group">
 
 ```python
-def two_sum_sorted(numbers, target):
-    """Return the 1-based indices of two numbers that add to target."""
-    left, right = 0, len(numbers) - 1
-    while left < right:
-        current_sum = numbers[left] + numbers[right]
-        if current_sum == target:
-            return [left + 1, right + 1]  # 1-based indices
-        elif current_sum < target:
-            left += 1
-        else:
-            right -= 1
-    return []  # No solution found
-
-# Example usage
-print(two_sum_sorted([2, 7, 11, 15], 9))  # Output: [1, 2]
-```
-
-```javascript
-function twoSumSorted(numbers, target) {
-  let left = 0;
-  let right = numbers.length - 1;
-  while (left < right) {
-    const currentSum = numbers[left] + numbers[right];
-    if (currentSum === target) {
-      return [left + 1, right + 1]; // 1-based indices
-    } else if (currentSum < target) {
-      left++;
-    } else {
-      right--;
-    }
-  }
-  return []; // No solution found
-}
-
-// Example usage
-console.log(twoSumSorted([2, 7, 11, 15], 9)); // Output: [1, 2]
-```
-
-```java
-import java.util.Arrays;
-
-public class ArrayExamples {
-    public static int[] twoSumSorted(int[] numbers, int target) {
-        int left = 0;
-        int right = numbers.length - 1;
-        while (left < right) {
-            int currentSum = numbers[left] + numbers[right];
-            if (currentSum == target) {
-                return new int[]{left + 1, right + 1}; // 1-based indices
-            } else if (currentSum < target) {
-                left++;
-            } else {
-                right--;
-            }
-        }
-        return new int[]{}; // No solution found
-    }
-
-    public static void main(String[] args) {
-        System.out.println(Arrays.toString(
-            twoSumSorted(new int[]{2, 7, 11, 15}, 9)
-        )); // Output: [1, 2]
-    }
-}
-```
-
-</div>
-
-### Hash Table: Frequency Counter
-
-Hash tables are indispensable for counting frequencies. This example finds the first non-repeating character in a string in O(n) time.
-
-<div class="code-group">
-
-```python
-def first_uniq_char(s: str) -> int:
-    """Return index of first non-repeating character, or -1."""
-    freq = {}
-    # First pass: count frequencies
-    for ch in s:
-        freq[ch] = freq.get(ch, 0) + 1
-    # Second pass: find first unique
-    for i, ch in enumerate(s):
-        if freq[ch] == 1:
-            return i
-    return -1
-
-# Example usage
-print(first_uniq_char("loveleetcode"))  # Output: 2 ('v')
-```
-
-```javascript
-function firstUniqChar(s) {
-  const freq = new Map();
-  // First pass: count frequencies
-  for (const ch of s) {
-    freq.set(ch, (freq.get(ch) || 0) + 1);
-  }
-  // Second pass: find first unique
-  for (let i = 0; i < s.length; i++) {
-    if (freq.get(s[i]) === 1) {
-      return i;
-    }
-  }
-  return -1;
-}
-
-// Example usage
-console.log(firstUniqChar("loveleetcode")); // Output: 2
-```
-
-```java
-import java.util.HashMap;
-
-public class HashTableExamples {
-    public static int firstUniqChar(String s) {
-        HashMap<Character, Integer> freq = new HashMap<>();
-        // First pass: count frequencies
-        for (int i = 0; i < s.length(); i++) {
-            char ch = s.charAt(i);
-            freq.put(ch, freq.getOrDefault(ch, 0) + 1);
-        }
-        // Second pass: find first unique
-        for (int i = 0; i < s.length(); i++) {
-            if (freq.get(s.charAt(i)) == 1) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    public static void main(String[] args) {
-        System.out.println(firstUniqChar("loveleetcode")); // Output: 2
-    }
-}
-```
-
-</div>
-
-### String: Sliding Window
-
-The sliding window technique is perfect for finding the longest substring without repeating characters. This algorithm maintains a window `[left, right]` and a hash set for O(1) lookups.
-
-<div class="code-group">
-
-```python
-def length_of_longest_substring(s: str) -> int:
-    """Return length of longest substring without repeating chars."""
-    char_set = set()
-    left = 0
-    max_length = 0
-
-    for right in range(len(s)):
-        # Shrink window from left if duplicate found
-        while s[right] in char_set:
-            char_set.remove(s[left])
-            left += 1
-        # Add current char and update max length
-        char_set.add(s[right])
-        max_length = max(max_length, right - left + 1)
-
-    return max_length
-
-# Example usage
-print(length_of_longest_substring("abcabcbb"))  # Output: 3 ("abc")
-```
-
-```javascript
-function lengthOfLongestSubstring(s) {
-  const charSet = new Set();
-  let left = 0;
-  let maxLength = 0;
-
-  for (let right = 0; right < s.length; right++) {
-    // Shrink window from left if duplicate found
-    while (charSet.has(s[right])) {
-      charSet.delete(s[left]);
-      left++;
-    }
-    // Add current char and update max length
-    charSet.add(s[right]);
-    maxLength = Math.max(maxLength, right - left + 1);
-  }
-
-  return maxLength;
-}
-
-// Example usage
-console.log(lengthOfLongestSubstring("abcabcbb")); // Output: 3
-```
-
-```java
-import java.util.HashSet;
-
-public class StringExamples {
-    public static int lengthOfLongestSubstring(String s) {
-        HashSet<Character> charSet = new HashSet<>();
-        int left = 0;
-        int maxLength = 0;
-
-        for (int right = 0; right < s.length(); right++) {
-            // Shrink window from left if duplicate found
-            while (charSet.contains(s.charAt(right))) {
-                charSet.remove(s.charAt(left));
-                left++;
-            }
-            // Add current char and update max length
-            charSet.add(s.charAt(right));
-            maxLength = Math.max(maxLength, right - left + 1);
-        }
-
-        return maxLength;
-    }
-
-    public static void main(String[] args) {
-        System.out.println(lengthOfLongestSubstring("abcabcbb")); // Output: 3
-    }
-}
-```
-
-</div>
-
-### Dynamic Programming: Fibonacci Sequence
-
-Dynamic Programming solves problems by breaking them into overlapping subproblems. The Fibonacci sequence is the classic introduction, demonstrating both memoization (top-down) and tabulation (bottom-up) approaches.
-
-**Memoization (Top-Down):** Store results of subproblems to avoid redundant calculations.
-
-<div class="code-group">
-
-```python
-def fib_memo(n, memo=None):
-    """Fibonacci using memoization (top-down DP)."""
-    if memo is None:
-        memo = {}
-    if n in memo:
-        return memo[n]
-    if n <= 1:
-        return n
-    memo[n] = fib_memo(n-1, memo) + fib_memo(n-2, memo)
-    return memo[n]
-
-# Example usage
-print(fib_memo(10))  # Output: 55
-```
-
-```javascript
-function fibMemo(n, memo = {}) {
-  // Fibonacci using memoization (top-down DP)
-  if (n in memo) return memo[n];
-  if (n <= 1) return n;
-  memo[n] = fibMemo(n - 1, memo) + fibMemo(n - 2, memo);
-  return memo[n];
-}
-
-// Example usage
-console.log(fibMemo(10)); // Output: 55
-```
-
-```java
-import java.util.HashMap;
-
-public class DPExamples {
-    // Fibonacci using memoization (top-down DP)
-    public static int fibMemo(int n, HashMap<Integer, Integer> memo) {
-        if (memo.containsKey(n)) return memo.get(n);
-        if (n <= 1) return n;
-        int result = fibMemo(n - 1, memo) + fibMemo(n - 2, memo);
-        memo.put(n, result);
-        return result;
-    }
-
-    public static void main(String[] args) {
-        HashMap<Integer, Integer> memo = new HashMap<>();
-        System.out.println(fibMemo(10, memo)); // Output: 55
-    }
-}
-```
-
-</div>
-
-**Tabulation (Bottom-Up):** Build the solution iteratively from the base cases.
-
-<div class="code-group">
-
-```python
-def fib_tab(n):
-    """Fibonacci using tabulation (bottom-up DP)."""
-    if n <= 1:
-        return n
-    dp = [0] * (n + 1)
-    dp[1] = 1
-    for i in range(2, n + 1):
-        dp[i] = dp[i-1] + dp[i-2]
-    return dp[n]
-
-# Example usage
-print(fib_tab(10))  # Output: 55
-```
-
-```javascript
-function fibTab(n) {
-  // Fibonacci using tabulation (bottom-up DP)
-  if (n <= 1) return n;
-  const dp = new Array(n + 1).fill(0);
-  dp[1] = 1;
-  for (let i = 2; i <= n; i++) {
-    dp[i] = dp[i - 1] + dp[i - 2];
-  }
-  return dp[n];
-}
-
-// Example usage
-console.log(fibTab(10)); // Output: 55
-```
-
-```java
-public class DPExamplesTab {
-    // Fibonacci using tabulation (bottom-up DP)
-    public static int fibTab(int n) {
-        if (n <= 1) return n;
-        int[] dp = new int[n + 1];
-        dp[1] = 1;
-        for (int i = 2; i <= n; i++) {
-            dp[i] = dp[i - 1] + dp[i - 2];
-        }
-        return dp[n];
-    }
-
-    public static void main(String[] args) {
-        System.out.println(fibTab(10)); // Output: 55
-    }
-}
-```
-
-</div>
-
-### Breadth-First Search: Level Order Traversal
-
-BFS explores a graph or tree level by level. For trees, it's used for level-order traversal. For graphs (like a 2D grid), it finds the shortest path in unweighted scenarios.
-
-**Tree BFS (Level Order):**
-
-<div class="code-group">
-
-```python
-from collections import deque
-
-class TreeNode:
-    def __init__(self, val=0, left=None, right=None):
-        self.val = val
-        self.left = left
-        self.right = right
-
-def level_order(root):
-    """Return level order traversal as a list of lists."""
-    if not root:
+# Problem: Merge Intervals (#56) – core pattern for Airbnb calendar questions
+# Time: O(n log n) | Space: O(n) (or O(1) if sorting in-place)
+def merge(intervals):
+    if not intervals:
         return []
 
-    result = []
-    queue = deque([root])
+    # Sort by start time
+    intervals.sort(key=lambda x: x[0])
+    merged = [intervals[0]]
 
-    while queue:
-        level_size = len(queue)
-        current_level = []
+    for current in intervals[1:]:
+        last = merged[-1]
+        # If overlapping, merge by updating the end time
+        if current[0] <= last[1]:
+            last[1] = max(last[1], current[1])
+        else:
+            merged.append(current)
 
-        for _ in range(level_size):
-            node = queue.popleft()
-            current_level.append(node.val)
-            if node.left:
-                queue.append(node.left)
-            if node.right:
-                queue.append(node.right)
-
-        result.append(current_level)
-
-    return result
-
-# Example usage
-# Construct tree:    3
-#                   / \
-#                  9  20
-#                     / \
-#                    15  7
-root = TreeNode(3)
-root.left = TreeNode(9)
-root.right = TreeNode(20)
-root.right.left = TreeNode(15)
-root.right.right = TreeNode(7)
-print(level_order(root))  # Output: [[3], [9, 20], [15, 7]]
+    return merged
 ```
 
 ```javascript
-class TreeNode {
-  constructor(val = 0, left = null, right = null) {
-    this.val = val;
-    this.left = left;
-    this.right = right;
-  }
-}
+// Problem: Merge Intervals (#56)
+// Time: O(n log n) | Space: O(n)
+function merge(intervals) {
+  if (intervals.length === 0) return [];
 
-function levelOrder(root) {
-  // Return level order traversal as an array of arrays
-  if (!root) return [];
+  intervals.sort((a, b) => a[0] - b[0]);
+  const merged = [intervals[0]];
 
-  const result = [];
-  const queue = [root];
+  for (let i = 1; i < intervals.length; i++) {
+    const current = intervals[i];
+    const last = merged[merged.length - 1];
 
-  while (queue.length > 0) {
-    const levelSize = queue.length;
-    const currentLevel = [];
-
-    for (let i = 0; i < levelSize; i++) {
-      const node = queue.shift();
-      currentLevel.push(node.val);
-      if (node.left) queue.push(node.left);
-      if (node.right) queue.push(node.right);
+    if (current[0] <= last[1]) {
+      last[1] = Math.max(last[1], current[1]);
+    } else {
+      merged.push(current);
     }
-
-    result.push(currentLevel);
   }
 
-  return result;
+  return merged;
 }
-
-// Example usage
-// Construct tree:    3
-//                   / \
-//                  9  20
-//                     / \
-//                    15  7
-const root = new TreeNode(3);
-root.left = new TreeNode(9);
-root.right = new TreeNode(20);
-root.right.left = new TreeNode(15);
-root.right.right = new TreeNode(7);
-console.log(levelOrder(root)); // Output: [[3], [9, 20], [15, 7]]
 ```
 
 ```java
-import java.util.*;
+// Problem: Merge Intervals (#56)
+// Time: O(n log n) | Space: O(n)
+public int[][] merge(int[][] intervals) {
+    if (intervals.length == 0) return new int[0][];
 
-class TreeNode {
-    int val;
-    TreeNode left;
-    TreeNode right;
-    TreeNode(int x) { val = x; }
-}
+    Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
+    List<int[]> merged = new ArrayList<>();
+    merged.add(intervals[0]);
 
-public class BFSExamples {
-    public static List<List<Integer>> levelOrder(TreeNode root) {
-        // Return level order traversal as a list of lists
-        List<List<Integer>> result = new ArrayList<>();
-        if (root == null) return result;
+    for (int i = 1; i < intervals.length; i++) {
+        int[] current = intervals[i];
+        int[] last = merged.get(merged.size() - 1);
 
-        Queue<TreeNode> queue = new LinkedList<>();
-        queue.offer(root);
-
-        while (!queue.isEmpty()) {
-            int levelSize = queue.size();
-            List<Integer> currentLevel = new ArrayList<>();
-
-            for (int i = 0; i < levelSize; i++) {
-                TreeNode node = queue.poll();
-                currentLevel.add(node.val);
-                if (node.left != null) queue.offer(node.left);
-                if (node.right != null) queue.offer(node.right);
-            }
-
-            result.add(currentLevel);
+        if (current[0] <= last[1]) {
+            last[1] = Math.max(last[1], current[1]);
+        } else {
+            merged.add(current);
         }
-
-        return result;
     }
 
-    public static void main(String[] args) {
-        // Construct tree:    3
-        //                   / \
-        //                  9  20
-        //                     / \
-        //                    15  7
-        TreeNode root = new TreeNode(3);
-        root.left = new TreeNode(9);
-        root.right = new TreeNode(20);
-        root.right.left = new TreeNode(15);
-        root.right.right = new TreeNode(7);
-        System.out.println(levelOrder(root)); // Output: [[3], [9, 20], [15, 7]]
-    }
+    return merged.toArray(new int[merged.size()][]);
 }
 ```
 
 </div>
 
-**Graph BFS (Shortest Path in Grid):** BFS on a 2D grid is common for problems like "Number of Islands" or finding the shortest path through obstacles. The key is to track visited cells and explore all four directions.
+### Hash Table
+
+Hash tables are ubiquitous for lookups—storing guest IDs, reservation hashes, or price mappings. Airbnb problems often use them to achieve O(1) lookups while tracking state, like seen/unseen items or counts of occurrences. The pattern is **frequency counting** and **memoization** for dynamic programming.
+
+### String
+
+String manipulation appears in search, parsing, and validation (e.g., parsing date strings, validating input formats). Key patterns are **sliding window for substrings** and **backtracking for generation** (like itinerary reconstruction). Many Hard problems involve string DP.
+
+### Dynamic Programming
+
+DP is critical for Airbnb’s Hard problems, especially those involving optimization—minimum cost to book, maximum profit from pricing, or ways to arrange trips. The most common patterns are **knapsack‑style DP** (for choices with costs/values) and **interval DP** (for partitioning problems).
 
 <div class="code-group">
 
 ```python
+# Problem: Word Break (#139) – DP pattern for segmentation/validation
+# Time: O(n^3) worst case, but typically O(n^2) | Space: O(n)
+def wordBreak(s, wordDict):
+    word_set = set(wordDict)
+    dp = [False] * (len(s) + 1)
+    dp[0] = True  # empty string can be segmented
+
+    for i in range(1, len(s) + 1):
+        for j in range(i):
+            # Check if s[0:j] can be segmented and s[j:i] is in dict
+            if dp[j] and s[j:i] in word_set:
+                dp[i] = True
+                break
+
+    return dp[len(s)]
+```
+
+```javascript
+// Problem: Word Break (#139)
+// Time: O(n^3) worst case | Space: O(n)
+function wordBreak(s, wordDict) {
+  const wordSet = new Set(wordDict);
+  const dp = new Array(s.length + 1).fill(false);
+  dp[0] = true;
+
+  for (let i = 1; i <= s.length; i++) {
+    for (let j = 0; j < i; j++) {
+      if (dp[j] && wordSet.has(s.substring(j, i))) {
+        dp[i] = true;
+        break;
+      }
+    }
+  }
+
+  return dp[s.length];
+}
+```
+
+```java
+// Problem: Word Break (#139)
+// Time: O(n^3) worst case | Space: O(n)
+public boolean wordBreak(String s, List<String> wordDict) {
+    Set<String> wordSet = new HashSet<>(wordDict);
+    boolean[] dp = new boolean[s.length() + 1];
+    dp[0] = true;
+
+    for (int i = 1; i <= s.length(); i++) {
+        for (int j = 0; j < i; j++) {
+            if (dp[j] && wordSet.contains(s.substring(j, i))) {
+                dp[i] = true;
+                break;
+            }
+        }
+    }
+
+    return dp[s.length()];
+}
+```
+
+</div>
+
+### Breadth‑First Search
+
+BFS is favored for shortest‑path problems in grids (like mapping) and level‑order traversal in trees (like hierarchical data). Airbnb uses it for problems involving “minimum steps” — e.g., finding the shortest route between locations or the fewest clicks to book.
+
+<div class="code-group">
+
+```python
+# Problem: Shortest Path in Binary Matrix (#1091) – BFS in grid
+# Time: O(n^2) | Space: O(n^2) for queue in worst case
 from collections import deque
 
-def shortest_path_binary_matrix(grid):
-    """Return shortest path length in binary matrix from (0,0) to (n-1,n-1)."""
-    if not grid or grid[0][0] == 1:
+def shortestPathBinaryMatrix(grid):
+    n = len(grid)
+    if grid[0][0] == 1 or grid[n-1][n-1] == 1:
         return -1
 
-    n = len(grid)
     directions = [(-1,-1), (-1,0), (-1,1), (0,-1), (0,1), (1,-1), (1,0), (1,1)]
-
     queue = deque([(0, 0, 1)])  # (row, col, distance)
-    grid[0][0] = 1  # Mark as visited
+    grid[0][0] = 1  # mark visited
 
     while queue:
-        row, col, dist = queue.popleft()
-        if row == n-1 and col == n-1:
+        r, c, dist = queue.popleft()
+        if r == n-1 and c == n-1:
             return dist
 
         for dr, dc in directions:
-            nr, nc = row + dr, col + dc
+            nr, nc = r + dr, c + dc
             if 0 <= nr < n and 0 <= nc < n and grid[nr][nc] == 0:
                 queue.append((nr, nc, dist + 1))
-                grid[nr][nc] = 1  # Mark as visited
+                grid[nr][nc] = 1  # mark visited
 
     return -1
-
-# Example usage
-matrix = [
-    [0,0,0],
-    [1,1,0],
-    [1,1,0]
-]
-print(shortest_path_binary_matrix(matrix))  # Output: 4
 ```
 
 ```javascript
+// Problem: Shortest Path in Binary Matrix (#1091)
+// Time: O(n^2) | Space: O(n^2)
 function shortestPathBinaryMatrix(grid) {
-  // Return shortest path length in binary matrix from (0,0) to (n-1,n-1)
-  if (!grid || grid[0][0] === 1) return -1;
-
   const n = grid.length;
+  if (grid[0][0] === 1 || grid[n - 1][n - 1] === 1) return -1;
+
   const directions = [
     [-1, -1],
     [-1, 0],
@@ -581,81 +240,54 @@ function shortestPathBinaryMatrix(grid) {
     [1, 0],
     [1, 1],
   ];
-
   const queue = [[0, 0, 1]]; // [row, col, distance]
-  grid[0][0] = 1; // Mark as visited
+  grid[0][0] = 1;
 
   while (queue.length > 0) {
-    const [row, col, dist] = queue.shift();
-    if (row === n - 1 && col === n - 1) return dist;
+    const [r, c, dist] = queue.shift();
+    if (r === n - 1 && c === n - 1) return dist;
 
     for (const [dr, dc] of directions) {
-      const nr = row + dr;
-      const nc = col + dc;
+      const nr = r + dr,
+        nc = c + dc;
       if (nr >= 0 && nr < n && nc >= 0 && nc < n && grid[nr][nc] === 0) {
         queue.push([nr, nc, dist + 1]);
-        grid[nr][nc] = 1; // Mark as visited
+        grid[nr][nc] = 1;
       }
     }
   }
 
   return -1;
 }
-
-// Example usage
-const matrix = [
-  [0, 0, 0],
-  [1, 1, 0],
-  [1, 1, 0],
-];
-console.log(shortestPathBinaryMatrix(matrix)); // Output: 4
 ```
 
 ```java
-import java.util.*;
+// Problem: Shortest Path in Binary Matrix (#1091)
+// Time: O(n^2) | Space: O(n^2)
+public int shortestPathBinaryMatrix(int[][] grid) {
+    int n = grid.length;
+    if (grid[0][0] == 1 || grid[n-1][n-1] == 1) return -1;
 
-public class BFSGridExamples {
-    public static int shortestPathBinaryMatrix(int[][] grid) {
-        // Return shortest path length in binary matrix from (0,0) to (n-1,n-1)
-        if (grid == null || grid[0][0] == 1) return -1;
+    int[][] directions = {{-1,-1},{-1,0},{-1,1},{0,-1},{0,1},{1,-1},{1,0},{1,1}};
+    Queue<int[]> queue = new LinkedList<>();
+    queue.offer(new int[]{0, 0, 1}); // row, col, distance
+    grid[0][0] = 1;
 
-        int n = grid.length;
-        int[][] directions = {
-            {-1,-1}, {-1,0}, {-1,1},
-            {0,-1},          {0,1},
-            {1,-1},  {1,0}, {1,1}
-        };
+    while (!queue.isEmpty()) {
+        int[] curr = queue.poll();
+        int r = curr[0], c = curr[1], dist = curr[2];
+        if (r == n-1 && c == n-1) return dist;
 
-        Queue<int[]> queue = new LinkedList<>();
-        queue.offer(new int[]{0, 0, 1});  // {row, col, distance}
-        grid[0][0] = 1;  // Mark as visited
-
-        while (!queue.isEmpty()) {
-            int[] current = queue.poll();
-            int row = current[0], col = current[1], dist = current[2];
-            if (row == n-1 && col == n-1) return dist;
-
-            for (int[] dir : directions) {
-                int nr = row + dir[0];
-                int nc = col + dir[1];
-                if (nr >= 0 && nr < n && nc >= 0 && nc < n && grid[nr][nc] == 0) {
-                    queue.offer(new int[]{nr, nc, dist + 1});
-                    grid[nr][nc] = 1;  // Mark as visited
-                }
+        for (int[] dir : directions) {
+            int nr = r + dir[0], nc = c + dir[1];
+            if (nr >= 0 && nr < n && nc >= 0 && nc < n && grid[nr][nc] == 0) {
+                queue.offer(new int[]{nr, nc, dist + 1});
+                grid[nr][nc] = 1;
             }
         }
-
-        return -1;
     }
 
-    public static void main(String[] args) {
-        int[][] matrix = {
-            {0,0,0},
-            {1,1,0},
-            {1,1,0}
-        };
-        System.out.println(shortestPathBinaryMatrix(matrix)); // Output: 4
-    }
+    return -1;
 }
 ```
 
@@ -663,20 +295,36 @@ public class BFSGridExamples {
 
 ## Preparation Strategy
 
-A targeted 6-week plan is effective. Assume you have a baseline knowledge of data structures.
+**Weeks 1–2: Foundation**
 
-- **Weeks 1-2: Foundation & Core Topics.** Dedicate this phase to Arrays, Hash Tables, and Strings. Solve 15-20 problems for each topic, mixing Easy and Medium. Focus on writing bug-free, efficient code. Understand every variant of the two-pointer and sliding window patterns.
-- **Weeks 3-4: Advanced Algorithms.** Dive deep into Dynamic Programming and Breadth-First Search/Graph traversal. For DP, start with top-down memoization before moving to bottom-up tabulation. For BFS, practice on matrix grids and implicit graphs. This is where you tackle most Hard problems.
-- **Week 5: Company-Specific Practice.** Solve all available Airbnb-tagged questions on platforms like CodeJeet. Time yourself. The goal is not to memorize answers, but to recognize the company's problem style—often involving real-world scenarios like booking systems, matching, or scheduling.
-- **Week 6: Mock Interviews & Review.** Conduct at least 3-5 mock interviews with peers or using online platforms. Simulate the real environment: state your approach aloud, code, and test. Revisit your weakest topics and re-solve problems you initially struggled with.
+- Master the top five topics (Array, Hash Table, String, DP, BFS) by solving 40 problems: 15 Easy, 20 Medium, 5 Hard. Use LeetCode’s company tag for Airbnb to find relevant problems.
+- Focus on pattern recognition: for each problem, write down the core pattern (e.g., “sliding window with hash map”) and time/space complexity.
+
+**Weeks 3–4: Depth**
+
+- Tackle 30 Medium/Hard problems, emphasizing multi‑step Airbnb‑style questions (like “Palindrome Pairs” or “Meeting Rooms II” variants).
+- Practice extending solutions: after solving a problem, ask yourself, “How would I modify this if we added a new constraint?” Simulate the follow‑up questions.
+
+**Weeks 5–6: Simulation**
+
+- Do 4–5 mock interviews focusing on Airbnb problems. Time yourself: 30 minutes per problem, including discussion and edge cases.
+- Review system design fundamentals, especially scalable storage, caching, and API design for booking/listing services.
+
+## Common Mistakes
+
+1. **Over‑optimizing too early**: Candidates jump into complex optimizations before having a working solution. Airbnb values clarity first. Fix: Always start with a brute‑force or straightforward approach, then optimize only if needed.
+2. **Ignoring real‑world context**: Treating a calendar problem as a pure interval merge without considering business rules (e.g., check‑in/check‑out times). Fix: Ask clarifying questions: “Are the intervals inclusive? What happens on boundary days?”
+3. **Sloppy code structure**: Writing monolithic functions with poor variable names. Airbnb engineers read lots of code. Fix: Write modular code—extract helper functions, use descriptive names, and add brief comments for complex logic.
+4. **Rushing through follow‑ups**: When the interviewer adds a twist, candidates sometimes try to rewrite everything from scratch. Fix: Build your initial solution extensibly. Use parameters and data structures that can accommodate new requirements.
 
 ## Key Tips
 
-1.  **Communicate Your Process, Not Just Your Code.** From the moment you see the problem, think out loud. Explain your initial thoughts, consider edge cases verbally, and discuss time/space complexity before you write the first line of code. Interviewers assess how you think.
-2.  **Optimize Iteratively.** First, make it work. Provide a brute-force solution if necessary, but immediately follow with "Now, let me think about how to optimize this." This shows structured problem-solving. The path from a working solution to an optimal one is often what they want to see.
-3.  **Test with Edge Cases.** Before declaring your solution complete, verbally run through small inputs, empty inputs, large values, and negative scenarios. Then, walk through your code's logic with a standard case. This demonstrates thoroughness and often catches hidden bugs.
-4.  **Ask Clarifying Questions.** Never assume. If the problem involves dates, ask about format and validity. If it's about users, ask about uniqueness. Defining the scope shows you're a careful engineer and prevents you from solving the wrong problem.
+1. **Practice calendar/interval problems daily**: At least one every other day. Merge Intervals (#56), Meeting Rooms II (#253), and Insert Interval (#57) are mandatory.
+2. **Memorize DP patterns, not problems**: Know how to implement knapsack, LCS, and word‑break DP from first principles. When you see a Hard, ask: “Can this be broken into overlapping subproblems?”
+3. **Always discuss trade‑offs**: When presenting a solution, mention time vs. space, readability vs. performance, and scalability limits. Airbnb interviewers love this.
+4. **Use the first 2 minutes to clarify**: Before coding, restate the problem in your own words and confirm edge cases (empty input, duplicates, large values). This prevents missteps.
+5. **Test with a custom example**: After coding, walk through a small test case that you design—preferably one that mimics a real Airbnb scenario (e.g., overlapping bookings for the same property).
 
-Success in Airbnb's coding interview comes from targeted practice on their preferred topics and honing your ability to solve challenging problems clearly and collaboratively. Start with the fundamentals, pressure-test your skills with their specific question set, and practice articulating your reasoning.
+Airbnb’s interview is challenging but predictable. If you master intervals, DP, and BFS, and you practice thinking in product terms, you’ll be in a strong position. Remember: they’re evaluating how you’ll build features, not just solve puzzles.
 
 [Browse all Airbnb questions on CodeJeet](/company/airbnb)

@@ -1,115 +1,178 @@
 ---
 title: "Roblox vs Morgan Stanley: Interview Question Comparison"
 description: "Compare coding interview questions at Roblox and Morgan Stanley — difficulty levels, topic focus, and preparation strategy."
-date: "2026-12-23"
+date: "2026-12-15"
 category: "tips"
 tags: ["roblox", "morgan-stanley", "comparison"]
 ---
 
-When preparing for technical interviews at top companies, understanding their specific question patterns is crucial for efficient study. Roblox and Morgan Stanley, while operating in vastly different industries (gaming/fintech vs. investment banking), both assess core algorithmic and data structure proficiency. A direct comparison of their question banks reveals distinct priorities in difficulty and topic focus, guiding how you should allocate your preparation time.
+# Roblox vs Morgan Stanley: Interview Question Comparison
+
+If you're interviewing at both Roblox and Morgan Stanley, you're looking at two very different tech cultures with surprisingly similar technical screening. Roblox represents modern gaming/tech, while Morgan Stanley embodies finance tech. The good news? There's significant overlap in what they test, meaning you can prepare efficiently for both. The key difference lies in difficulty distribution and the specific flavor of problems you'll encounter.
 
 ## Question Volume and Difficulty
 
-Roblox's question set is slightly larger at 56 questions, with a notable emphasis on harder problems: 12 Hard (H) questions compared to 8 Easy (E) and 36 Medium (M). This distribution suggests Roblox interviews frequently push into complex problem-solving, testing not just correctness but optimal, elegant solutions under pressure.
+Roblox's 56 questions break down as 8 Easy, 36 Medium, and 12 Hard. This distribution tells us something important: Roblox heavily emphasizes Medium problems, which typically require combining multiple concepts or implementing non-trivial algorithms. The 12 Hard questions suggest they're willing to push candidates on complex problem-solving, likely for senior roles or particularly challenging rounds.
 
-Morgan Stanley's set contains 53 questions, but with a dramatically different difficulty spread: 13 Easy, 34 Medium, and only 6 Hard. This indicates Morgan Stanley's technical screens often focus on foundational competency and reliable implementation of standard patterns, with less frequent deep dives into the most challenging algorithmic territory.
+Morgan Stanley's 53 questions show a different pattern: 13 Easy, 34 Medium, and only 6 Hard. This indicates a more approachable interview process overall, with fewer "gotcha" problems. The higher Easy count suggests they might include more straightforward warm-up questions or focus on fundamentals.
 
-**Key Takeaway:** Roblox's interview is likely more demanding from a pure algorithmic difficulty standpoint. Morgan Stanley's process may place greater weight on other factors (e.g., system design, financial knowledge, or behavioral fit) once core coding competency is established.
+Both companies have similar total question counts, meaning you'll need comparable breadth of preparation. However, Roblox's heavier Hard weighting means you should allocate extra time to challenging problems if interviewing there.
 
 ## Topic Overlap
 
-Both companies heavily test the fundamental trio: **Array, String, and Hash Table** operations. Mastery here is non-negotiable for either interview.
+Both companies test **Array**, **String**, and **Hash Table** problems extensively. This isn't surprising—these are foundational data structures that appear in virtually all technical interviews. The overlap here is your biggest preparation advantage.
 
-The critical divergence is in the fourth-most frequent topic. Roblox lists **Math**, which often encompasses number theory, combinatorics, or simulation problems. Morgan Stanley lists **Dynamic Programming (DP)**, a classic topic for assessing optimization and problem decomposition skills.
+The key difference: **Dynamic Programming** appears in Morgan Stanley's top topics but not Roblox's. Meanwhile, **Math** problems feature prominently for Roblox but not as a top category for Morgan Stanley. This reflects their different domains: finance tech often involves optimization problems (DP), while gaming platforms deal with coordinate systems, probabilities, and geometric calculations.
 
-This difference is telling. Roblox's "Math" focus aligns with game development logic, physics, or procedural generation-adjacent problems. Morgan Stanley's DP focus is common in finance-adjacent tech roles for solving optimization and recursive calculation problems.
+Here's what this means practically:
 
-**Example: A Topical Problem**
-A Roblox "Math" problem might involve calculating trajectories or scoring systems:
+- If you master array/string manipulation with hash tables, you're covering about 60-70% of what both companies test
+- Morgan Stanley candidates should prioritize DP patterns (knapsack, LCS, edit distance)
+- Roblox candidates should brush up on modulo arithmetic, prime numbers, and coordinate geometry
+
+## Preparation Priority Matrix
+
+**Study First (Maximum ROI):**
+
+1. **Array + Hash Table combos** - Two Sum pattern, subarray problems
+2. **String manipulation** - palindrome checks, anagrams, sliding window
+3. **Basic graph traversal** - BFS/DFS (implied in many array problems)
+
+**Roblox-Specific Priority:**
+
+1. **Math problems** - especially modulo, GCD/LCM, prime-related
+2. **Matrix/2D array traversal** - common in game board problems
+3. **Simulation problems** - Roblox often tests your ability to implement game-like logic
+
+**Morgan Stanley-Specific Priority:**
+
+1. **Dynamic Programming** - start with 1D then move to 2D DP
+2. **Linked Lists** - finance systems often model chains of transactions
+3. **Sorting + searching combos** - optimized lookup patterns
+
+For overlapping preparation, these LeetCode problems are particularly valuable:
+
+- **#1 Two Sum** (covers hash table fundamentals)
+- **#49 Group Anagrams** (string manipulation + hashing)
+- **#56 Merge Intervals** (array sorting + merging logic)
+- **#238 Product of Array Except Self** (array manipulation without division)
+
+## Interview Format Differences
+
+**Roblox** typically follows the Silicon Valley model:
+
+- 4-5 rounds including coding, system design (for experienced candidates), and behavioral
+- 45-60 minutes per coding round, usually 1-2 problems
+- Virtual or on-site with whiteboarding
+- Heavy emphasis on clean code and optimization
+- May include game-related system design (scaling game servers, real-time updates)
+
+**Morgan Stanley** often uses a more structured approach:
+
+- 3-4 technical rounds, sometimes with a HackerRank screen first
+- 30-45 minutes per round, often one problem per round
+- More likely to include financial context in problems (though still standard algorithms)
+- Behavioral rounds are more formal and structured
+- System design may focus on financial systems (trading platforms, data pipelines)
+
+Both companies value communication, but Roblox tends to prefer more collaborative discussion while Morgan Stanley often looks for precise, methodical problem-solving.
+
+## Specific Problem Recommendations
+
+Here are 5 problems that provide excellent coverage for both companies:
+
+1. **LeetCode #3 Longest Substring Without Repeating Characters**
+   - Tests sliding window + hash table, fundamental pattern for both companies
+   - Variations appear frequently in interviews
 
 <div class="code-group">
 
 ```python
-# Python: Simulate a circular game elimination (Josephus problem)
-def find_winner(n, k):
-    pos = 0
-    for i in range(2, n + 1):
-        pos = (pos + k) % i
-    return pos + 1
+# Time: O(n) | Space: O(min(m, n)) where m is charset size
+def lengthOfLongestSubstring(s: str) -> int:
+    char_index = {}
+    left = 0
+    max_len = 0
+
+    for right, char in enumerate(s):
+        # If char seen and within current window, move left
+        if char in char_index and char_index[char] >= left:
+            left = char_index[char] + 1
+        char_index[char] = right
+        max_len = max(max_len, right - left + 1)
+
+    return max_len
 ```
 
 ```javascript
-// JavaScript: Simulate a circular game elimination
-function findWinner(n, k) {
-  let pos = 0;
-  for (let i = 2; i <= n; i++) {
-    pos = (pos + k) % i;
+// Time: O(n) | Space: O(min(m, n))
+function lengthOfLongestSubstring(s) {
+  const charIndex = new Map();
+  let left = 0;
+  let maxLen = 0;
+
+  for (let right = 0; right < s.length; right++) {
+    const char = s[right];
+    if (charIndex.has(char) && charIndex.get(char) >= left) {
+      left = charIndex.get(char) + 1;
+    }
+    charIndex.set(char, right);
+    maxLen = Math.max(maxLen, right - left + 1);
   }
-  return pos + 1;
+
+  return maxLen;
 }
 ```
 
 ```java
-// Java: Simulate a circular game elimination
-public int findWinner(int n, int k) {
-    int pos = 0;
-    for (int i = 2; i <= n; i++) {
-        pos = (pos + k) % i;
+// Time: O(n) | Space: O(min(m, n))
+public int lengthOfLongestSubstring(String s) {
+    Map<Character, Integer> charIndex = new HashMap<>();
+    int left = 0;
+    int maxLen = 0;
+
+    for (int right = 0; right < s.length(); right++) {
+        char c = s.charAt(right);
+        if (charIndex.containsKey(c) && charIndex.get(c) >= left) {
+            left = charIndex.get(c) + 1;
+        }
+        charIndex.put(c, right);
+        maxLen = Math.max(maxLen, right - left + 1);
     }
-    return pos + 1;
+
+    return maxLen;
 }
 ```
 
 </div>
 
-A Morgan Stanley DP problem might focus on maximizing profit or minimizing cost:
+2. **LeetCode #15 3Sum**
+   - Tests array sorting + two-pointer technique
+   - Pattern appears in both companies' question banks
 
-<div class="code-group">
+3. **LeetCode #53 Maximum Subarray (Kadane's Algorithm)**
+   - Fundamental DP-like pattern useful for both
+   - Simple yet tests optimization thinking
 
-```python
-# Python: Classic DP - House Robber (maximizing sum without adjacent elements)
-def rob(nums):
-    prev1, prev2 = 0, 0
-    for num in nums:
-        prev1, prev2 = max(prev2 + num, prev1), prev1
-    return prev1
-```
+4. **LeetCode #146 LRU Cache**
+   - Combines hash table + linked list
+   - Tests system design thinking within an algorithm problem
 
-```javascript
-// JavaScript: House Robber DP
-function rob(nums) {
-  let prev1 = 0,
-    prev2 = 0;
-  for (const num of nums) {
-    [prev1, prev2] = [Math.max(prev2 + num, prev1), prev1];
-  }
-  return prev1;
-}
-```
-
-```java
-// Java: House Robber DP
-public int rob(int[] nums) {
-    int prev1 = 0, prev2 = 0;
-    for (int num : nums) {
-        int temp = prev1;
-        prev1 = Math.max(prev2 + num, prev1);
-        prev2 = temp;
-    }
-    return prev1;
-}
-```
-
-</div>
+5. **LeetCode #200 Number of Islands**
+   - Graph traversal (BFS/DFS) on a grid
+   - Relevant to Roblox's game boards and Morgan Stanley's grid-like data
 
 ## Which to Prepare for First
 
-Your preparation priority should be guided by your target role and timeline.
+Start with **Morgan Stanley** if you're interviewing at both. Here's why:
 
-If you are aiming for a **generalist software engineering role** and have interviews with both, start with **Morgan Stanley's question bank**. Its lower proportion of Hard questions and strong focus on Array, String, Hash Table, and DP provides a solid, high-yield foundation. Conquering these will build confidence and cover the bulk of what Roblox also tests. Once comfortable, you can layer on Roblox's more challenging Hard problems and Math-specific practice.
+1. **Lower ceiling**: With fewer Hard problems, you can reach "interview ready" faster
+2. **Foundation building**: Morgan Stanley's emphasis on arrays, strings, and DP creates a solid base
+3. **Transferable skills**: What you learn for Morgan Stanley directly applies to 70% of Roblox's problems
+4. **Confidence boost**: Getting a finance tech offer can reduce pressure during gaming company interviews
 
-If you are specifically targeting a **gameplay, engine, or tools engineer role at Roblox**, reverse the order. Begin with Roblox's problems to acclimate to the higher difficulty ceiling and mathematical reasoning. This will inherently cover the Morgan Stanley fundamentals, leaving you to simply polish DP patterns afterward.
+Allocate your time as: 60% on overlapping topics, 25% on Morgan Stanley specifics (mainly DP), and 15% on Roblox specifics (math problems). As your Morgan Stanley interview approaches, shift to 80% Morgan Stanley focus. After that interview, pivot to Roblox-specific math and game-related problems.
 
-Regardless of order, drill the shared core topics (Array, String, Hash Table) until solutions are instinctive. Then branch into the company-specific specialty: Math and complex optimization for Roblox, Dynamic Programming and clean, robust code for Morgan Stanley.
+Remember: Both companies ultimately test problem-solving fundamentals. If you can efficiently manipulate data structures and communicate your thinking, you'll be well-prepared for either.
 
-For targeted practice, visit the company pages: [Roblox Interview Questions](/company/roblox) and [Morgan Stanley Interview Questions](/company/morgan-stanley).
+For more company-specific insights, check out our [Roblox interview guide](/company/roblox) and [Morgan Stanley interview guide](/company/morgan-stanley).

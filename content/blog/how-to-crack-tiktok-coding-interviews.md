@@ -1,353 +1,291 @@
 ---
 title: "How to Crack TikTok Coding Interviews in 2026"
 description: "Complete guide to TikTok coding interviews — question patterns, difficulty breakdown, must-practice topics, and preparation strategy."
-date: "2026-06-16"
+date: "2026-01-15"
 category: "company-guide"
 company: "tiktok"
 tags: ["tiktok", "interview prep", "leetcode"]
 ---
 
-TikTok (ByteDance) has rapidly emerged as one of the most competitive employers in tech, and its interview process reflects that ambition. The typical loop includes a recruiter screen, two to three technical phone interviews, and a virtual on-site of three to four coding rounds. Each coding round lasts about 50 to 60 minutes, and you are usually expected to solve one to two problems per round. TikTok's interview style leans toward the harder side of the spectrum — the company has a reputation for asking challenging algorithmic problems, and its interviewers are often less forgiving with hints compared to some other companies.
+# How to Crack TikTok Coding Interviews in 2026
 
-One distinctive aspect of TikTok interviews is the influence of competitive programming culture from ByteDance's Chinese engineering roots. Problems can feel more algorithmic and less "practical" than what you would see at Amazon or Bloomberg. If you are comfortable with contest-style problems, you have an advantage here.
+TikTok’s engineering interviews are a unique blend of speed, creativity, and precision. Unlike the more predictable loops at established giants, TikTok’s process—often 3-4 rounds of technical screening—moves fast and emphasizes practical, scalable problem-solving. You’ll typically face a recruiter screen, a technical phone screen (1-2 coding problems), and a virtual onsite with 3-4 back-to-back sessions mixing coding, system design, and behavioral questions. What makes TikTok stand out is its product-driven mindset; interviewers often frame algorithmic questions within the context of real-world features like video feed ranking, comment threading, or real-time effects. They expect not just a correct solution, but an optimized one that can handle the scale of billions of daily active users. Pseudocode is rarely sufficient—you need to produce clean, runnable code, usually in Python, Java, or JavaScript.
+
+## What Makes TikTok Different
+
+While FAANG companies have largely standardized their interviews, TikTok’s approach is distinctly shaped by its hyper-growth and product velocity. Three key differences stand out.
+
+First, **optimization is non-negotiable**. At Meta or Google, you might pass with a brute-force solution followed by an optimized one. At TikTok, interviewers often skip the “naive approach” discussion entirely and push immediately for the most efficient solution. They’re evaluating whether you can build for their scale from the first line of code.
+
+Second, **problems are frequently “disguised.”** You might get a classic LeetCode problem, but reframed as a TikTok feature. For example, “Merge Intervals” could become “merge overlapping viewer watch sessions,” or “LRU Cache” might be presented as “cache trending hashtags.” This tests your ability to map abstract requirements to known patterns.
+
+Third, **system design and coding are deeply intertwined**. Even in a dedicated coding round, expect follow-ups like, “How would this scale to global traffic?” or “What if the data doesn’t fit in memory?” This reflects TikTok’s engineering culture, where algorithms are never divorced from infrastructure.
 
 ## By the Numbers
 
-TikTok's question pool is smaller but much more concentrated than the big four, with **383 questions** reported. The difficulty distribution immediately stands out:
+TikTok’s question bank reveals a clear focus on intermediate to advanced problem-solving. Of 383 cataloged questions:
 
-- **Easy: 42 questions (11%)**
-- **Medium: 260 questions (68%)**
-- **Hard: 81 questions (21%)**
+- **Easy:** 42 (11%)
+- **Medium:** 260 (68%)
+- **Hard:** 81 (21%)
 
-Only 11% easy — the lowest among all major tech companies. A staggering 68% medium and 21% hard means that nearly 9 out of 10 problems you will face are medium or hard. This is not a company where you can coast on easy fundamentals. You need to be genuinely comfortable with medium-to-hard problems to succeed at TikTok.
+This 68% Medium majority is telling. TikTok isn’t screening you out with obscure puzzles; they’re testing mastery of core data structures and algorithms under time pressure. The Hard problems often appear in later rounds or for senior roles, focusing on dynamic programming and graph traversal.
+
+Specific problems known to recur include:
+
+- **Two Sum (#1)** – Often the warm-up in phone screens.
+- **Merge Intervals (#56)** – Common for data processing scenarios.
+- **LRU Cache (#146)** – A favorite for system design hybrids.
+- **Course Schedule (#207)** – For dependency resolution problems.
+- **Word Break (#139)** – Tests DP intuition.
+
+Your preparation should mirror this distribution: spend 70% of your time on Medium problems, ensuring you can solve them flawlessly in 20-25 minutes.
 
 ## Top Topics to Focus On
 
-**Arrays** — As with most companies, arrays are the foundation. TikTok array problems tend to be on the harder side, often requiring advanced techniques like binary search on answer, prefix sums combined with other data structures, or multi-pass approaches.
+### Array & String Manipulation
 
-A classic example is finding the minimum size subarray sum that meets or exceeds a target. This uses the sliding window technique, a fundamental pattern for array problems.
+Why TikTok cares: Core user data—video IDs, captions, comments, tags—are fundamentally arrays and strings. Efficient manipulation is critical for features like search, feed generation, and duet stitching. Sliding window and two-pointer techniques are especially relevant for real-time stream processing.
 
 <div class="code-group">
 
 ```python
-def min_subarray_len(target, nums):
+# Problem: Longest Substring Without Repeating Characters (#3)
+# Time: O(n) | Space: O(min(m, n)) where m is charset size
+def length_of_longest_substring(s: str) -> int:
+    """
+    Sliding window with a hash map to track the last seen index.
+    When a duplicate is found, jump the left pointer past it.
+    """
+    char_index = {}  # maps character to its last seen index
     left = 0
-    current_sum = 0
-    min_length = float('inf')
+    max_len = 0
 
-    for right in range(len(nums)):
-        current_sum += nums[right]
-        while current_sum >= target:
-            min_length = min(min_length, right - left + 1)
-            current_sum -= nums[left]
-            left += 1
+    for right, ch in enumerate(s):
+        # If duplicate found within current window, move left
+        if ch in char_index and char_index[ch] >= left:
+            left = char_index[ch] + 1
+        # Update last seen index
+        char_index[ch] = right
+        # Update max length
+        max_len = max(max_len, right - left + 1)
 
-    return min_length if min_length != float('inf') else 0
+    return max_len
 ```
 
 ```javascript
-function minSubArrayLen(target, nums) {
-  let left = 0;
-  let currentSum = 0;
-  let minLength = Infinity;
-
-  for (let right = 0; right < nums.length; right++) {
-    currentSum += nums[right];
-    while (currentSum >= target) {
-      minLength = Math.min(minLength, right - left + 1);
-      currentSum -= nums[left];
-      left++;
-    }
-  }
-
-  return minLength === Infinity ? 0 : minLength;
-}
-```
-
-```java
-public int minSubArrayLen(int target, int[] nums) {
-    int left = 0;
-    int currentSum = 0;
-    int minLength = Integer.MAX_VALUE;
-
-    for (int right = 0; right < nums.length; right++) {
-        currentSum += nums[right];
-        while (currentSum >= target) {
-            minLength = Math.min(minLength, right - left + 1);
-            currentSum -= nums[left];
-            left++;
-        }
-    }
-
-    return minLength == Integer.MAX_VALUE ? 0 : minLength;
-}
-```
-
-</div>
-
-**Strings** — String problems at TikTok go beyond basic manipulation. Expect problems involving complex pattern matching, string-based DP, and parsing challenges. These often require combining string techniques with other algorithmic concepts.
-
-A common medium-hard string problem is checking if a string can be segmented into words from a given dictionary. This is typically solved with dynamic programming or memoized DFS.
-
-<div class="code-group">
-
-```python
-def word_break(s, word_dict):
-    word_set = set(word_dict)
-    dp = [False] * (len(s) + 1)
-    dp[0] = True  # empty string can be segmented
-
-    for i in range(1, len(s) + 1):
-        for j in range(i):
-            if dp[j] and s[j:i] in word_set:
-                dp[i] = True
-                break
-
-    return dp[len(s)]
-```
-
-```javascript
-function wordBreak(s, wordDict) {
-  const wordSet = new Set(wordDict);
-  const dp = new Array(s.length + 1).fill(false);
-  dp[0] = true;
-
-  for (let i = 1; i <= s.length; i++) {
-    for (let j = 0; j < i; j++) {
-      if (dp[j] && wordSet.has(s.substring(j, i))) {
-        dp[i] = true;
-        break;
-      }
-    }
-  }
-
-  return dp[s.length];
-}
-```
-
-```java
-public boolean wordBreak(String s, List<String> wordDict) {
-    Set<String> wordSet = new HashSet<>(wordDict);
-    boolean[] dp = new boolean[s.length() + 1];
-    dp[0] = true;
-
-    for (int i = 1; i <= s.length(); i++) {
-        for (int j = 0; j < i; j++) {
-            if (dp[j] && wordSet.contains(s.substring(j, i))) {
-                dp[i] = true;
-                break;
-            }
-        }
-    }
-
-    return dp[s.length()];
-}
-```
-
-</div>
-
-**Hash Tables** — Hash-based solutions are critical for achieving the time complexity that TikTok problems demand. Many of TikTok's medium and hard problems have solutions that hinge on clever use of hash maps for state tracking or memoization.
-
-A classic problem that demonstrates the power of hash tables is finding the longest substring without repeating characters. The optimal solution uses a hash map to track the last seen index of each character.
-
-<div class="code-group">
-
-```python
-def length_of_longest_substring(s):
-    char_index = {}
-    left = 0
-    max_length = 0
-
-    for right, char in enumerate(s):
-        if char in char_index and char_index[char] >= left:
-            left = char_index[char] + 1
-        char_index[char] = right
-        max_length = max(max_length, right - left + 1)
-
-    return max_length
-```
-
-```javascript
+// Problem: Longest Substring Without Repeating Characters (#3)
+// Time: O(n) | Space: O(min(m, n)) where m is charset size
 function lengthOfLongestSubstring(s) {
-  const charIndex = new Map();
+  const charIndex = new Map(); // char -> last seen index
   let left = 0;
-  let maxLength = 0;
+  let maxLen = 0;
 
   for (let right = 0; right < s.length; right++) {
-    const char = s[right];
-    if (charIndex.has(char) && charIndex.get(char) >= left) {
-      left = charIndex.get(char) + 1;
+    const ch = s[right];
+    // If duplicate found within window, move left past it
+    if (charIndex.has(ch) && charIndex.get(ch) >= left) {
+      left = charIndex.get(ch) + 1;
     }
-    charIndex.set(char, right);
-    maxLength = Math.max(maxLength, right - left + 1);
+    charIndex.set(ch, right);
+    maxLen = Math.max(maxLen, right - left + 1);
   }
-
-  return maxLength;
+  return maxLen;
 }
 ```
 
 ```java
+// Problem: Longest Substring Without Repeating Characters (#3)
+// Time: O(n) | Space: O(min(m, n)) where m is charset size
 public int lengthOfLongestSubstring(String s) {
     Map<Character, Integer> charIndex = new HashMap<>();
     int left = 0;
-    int maxLength = 0;
+    int maxLen = 0;
 
     for (int right = 0; right < s.length(); right++) {
-        char c = s.charAt(right);
-        if (charIndex.containsKey(c) && charIndex.get(c) >= left) {
-            left = charIndex.get(c) + 1;
+        char ch = s.charAt(right);
+        // If duplicate found within window, move left past it
+        if (charIndex.containsKey(ch) && charIndex.get(ch) >= left) {
+            left = charIndex.get(ch) + 1;
         }
-        charIndex.put(c, right);
-        maxLength = Math.max(maxLength, right - left + 1);
+        charIndex.put(ch, right);
+        maxLen = Math.max(maxLen, right - left + 1);
     }
-
-    return maxLength;
+    return maxLen;
 }
 ```
 
 </div>
 
-**Dynamic Programming** — DP is a major focus at TikTok, consistent with ByteDance's competitive programming DNA. Expect problems that go beyond textbook patterns — interval DP, bitmask DP, DP on trees, and problems where identifying the correct state and transition requires real insight. If you are weak in DP, TikTok interviews will expose that quickly.
+### Hash Table
 
-The classic 0/1 knapsack problem is fundamental to understanding DP. Here's the bottom-up implementation:
+Why TikTok cares: Hash tables power nearly every real-time feature—user session lookups, video metadata caching, duplicate detection for uploaded content, and counting likes/shares. Expect problems that combine hash maps with other structures for O(1) lookups.
+
+### Dynamic Programming
+
+Why TikTok cares: DP is essential for optimization problems at scale: maximizing ad revenue placement, minimizing server costs for video transcoding, or finding the best sequence for recommended videos. TikTok problems often involve 1D or 2D DP with clever state definitions.
 
 <div class="code-group">
 
 ```python
-def knapsack(weights, values, capacity):
-    n = len(weights)
-    dp = [[0] * (capacity + 1) for _ in range(n + 1)]
+# Problem: Coin Change (#322)
+# Time: O(amount * n) | Space: O(amount)
+def coinChange(coins: List[int], amount: int) -> int:
+    """
+    DP bottom-up: dp[i] = min coins to make amount i.
+    Initialize with inf, dp[0] = 0.
+    For each coin, update dp for all amounts >= coin.
+    """
+    dp = [float('inf')] * (amount + 1)
+    dp[0] = 0
 
-    for i in range(1, n + 1):
-        for w in range(1, capacity + 1):
-            if weights[i-1] <= w:
-                dp[i][w] = max(dp[i-1][w],
-                              dp[i-1][w-weights[i-1]] + values[i-1])
-            else:
-                dp[i][w] = dp[i-1][w]
+    for coin in coins:
+        for i in range(coin, amount + 1):
+            dp[i] = min(dp[i], dp[i - coin] + 1)
 
-    return dp[n][capacity]
+    return dp[amount] if dp[amount] != float('inf') else -1
 ```
 
 ```javascript
-function knapsack(weights, values, capacity) {
-  const n = weights.length;
-  const dp = Array(n + 1)
-    .fill()
-    .map(() => Array(capacity + 1).fill(0));
+// Problem: Coin Change (#322)
+// Time: O(amount * n) | Space: O(amount)
+function coinChange(coins, amount) {
+  const dp = new Array(amount + 1).fill(Infinity);
+  dp[0] = 0;
 
-  for (let i = 1; i <= n; i++) {
-    for (let w = 1; w <= capacity; w++) {
-      if (weights[i - 1] <= w) {
-        dp[i][w] = Math.max(dp[i - 1][w], dp[i - 1][w - weights[i - 1]] + values[i - 1]);
-      } else {
-        dp[i][w] = dp[i - 1][w];
-      }
+  for (const coin of coins) {
+    for (let i = coin; i <= amount; i++) {
+      dp[i] = Math.min(dp[i], dp[i - coin] + 1);
     }
   }
 
-  return dp[n][capacity];
+  return dp[amount] === Infinity ? -1 : dp[amount];
 }
 ```
 
 ```java
-public int knapsack(int[] weights, int[] values, int capacity) {
-    int n = weights.length;
-    int[][] dp = new int[n + 1][capacity + 1];
+// Problem: Coin Change (#322)
+// Time: O(amount * n) | Space: O(amount)
+public int coinChange(int[] coins, int amount) {
+    int[] dp = new int[amount + 1];
+    Arrays.fill(dp, amount + 1); // Use amount+1 as "infinity"
+    dp[0] = 0;
 
-    for (int i = 1; i <= n; i++) {
-        for (int w = 1; w <= capacity; w++) {
-            if (weights[i-1] <= w) {
-                dp[i][w] = Math.max(dp[i-1][w],
-                                   dp[i-1][w-weights[i-1]] + values[i-1]);
-            } else {
-                dp[i][w] = dp[i-1][w];
+    for (int coin : coins) {
+        for (int i = coin; i <= amount; i++) {
+            dp[i] = Math.min(dp[i], dp[i - coin] + 1);
+        }
+    }
+
+    return dp[amount] > amount ? -1 : dp[amount];
+}
+```
+
+</div>
+
+### Depth-First Search (DFS)
+
+Why TikTok cares: DFS is crucial for traversing user social graphs (friends, followers), exploring nested comment threads, and navigating directory structures for content storage. Recursive and iterative implementations are both fair game.
+
+<div class="code-group">
+
+```python
+# Problem: Number of Islands (#200)
+# Time: O(m * n) | Space: O(m * n) in worst-case recursion
+def numIslands(grid: List[List[str]]) -> int:
+    """
+    DFS to sink islands. Iterate through grid, when '1' found,
+    increment count and DFS to mark all connected '1's as visited.
+    """
+    if not grid:
+        return 0
+
+    rows, cols = len(grid), len(grid[0])
+    count = 0
+
+    def dfs(r, c):
+        # Base case: out of bounds or water
+        if r < 0 or r >= rows or c < 0 or c >= cols or grid[r][c] != '1':
+            return
+        # Mark as visited
+        grid[r][c] = '0'
+        # Explore neighbors
+        dfs(r + 1, c)
+        dfs(r - 1, c)
+        dfs(r, c + 1)
+        dfs(r, c - 1)
+
+    for r in range(rows):
+        for c in range(cols):
+            if grid[r][c] == '1':
+                count += 1
+                dfs(r, c)
+
+    return count
+```
+
+```javascript
+// Problem: Number of Islands (#200)
+// Time: O(m * n) | Space: O(m * n) in worst-case recursion
+function numIslands(grid) {
+  if (!grid.length) return 0;
+
+  const rows = grid.length,
+    cols = grid[0].length;
+  let count = 0;
+
+  function dfs(r, c) {
+    if (r < 0 || r >= rows || c < 0 || c >= cols || grid[r][c] !== "1") {
+      return;
+    }
+    grid[r][c] = "0"; // Mark visited
+    dfs(r + 1, c);
+    dfs(r - 1, c);
+    dfs(r, c + 1);
+    dfs(r, c - 1);
+  }
+
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      if (grid[r][c] === "1") {
+        count++;
+        dfs(r, c);
+      }
+    }
+  }
+  return count;
+}
+```
+
+```java
+// Problem: Number of Islands (#200)
+// Time: O(m * n) | Space: O(m * n) in worst-case recursion
+public int numIslands(char[][] grid) {
+    if (grid.length == 0) return 0;
+
+    int rows = grid.length, cols = grid[0].length;
+    int count = 0;
+
+    for (int r = 0; r < rows; r++) {
+        for (int c = 0; c < cols; c++) {
+            if (grid[r][c] == '1') {
+                count++;
+                dfs(grid, r, c);
             }
         }
     }
-
-    return dp[n][capacity];
-}
-```
-
-</div>
-
-**Depth-First Search** — DFS and recursion-based problems appear with notable frequency. Graph traversal, backtracking, tree DFS variants, and problems requiring exhaustive search with pruning are all fair game. TikTok sometimes combines DFS with memoization, blurring the line between recursion and DP.
-
-A classic DFS problem is finding all permutations of an array. This demonstrates backtracking, which is essential for many TikTok problems.
-
-<div class="code-group">
-
-```python
-def permute(nums):
-    def backtrack(path, used):
-        if len(path) == len(nums):
-            result.append(path[:])
-            return
-
-        for i in range(len(nums)):
-            if not used[i]:
-                used[i] = True
-                path.append(nums[i])
-                backtrack(path, used)
-                path.pop()
-                used[i] = False
-
-    result = []
-    backtrack([], [False] * len(nums))
-    return result
-```
-
-```javascript
-function permute(nums) {
-  const result = [];
-
-  function backtrack(path, used) {
-    if (path.length === nums.length) {
-      result.push([...path]);
-      return;
-    }
-
-    for (let i = 0; i < nums.length; i++) {
-      if (!used[i]) {
-        used[i] = true;
-        path.push(nums[i]);
-        backtrack(path, used);
-        path.pop();
-        used[i] = false;
-      }
-    }
-  }
-
-  backtrack([], new Array(nums.length).fill(false));
-  return result;
-}
-```
-
-```java
-public List<List<Integer>> permute(int[] nums) {
-    List<List<Integer>> result = new ArrayList<>();
-    boolean[] used = new boolean[nums.length];
-    backtrack(nums, new ArrayList<>(), used, result);
-    return result;
+    return count;
 }
 
-private void backtrack(int[] nums, List<Integer> path,
-                      boolean[] used, List<List<Integer>> result) {
-    if (path.size() == nums.length) {
-        result.add(new ArrayList<>(path));
+private void dfs(char[][] grid, int r, int c) {
+    if (r < 0 || r >= grid.length || c < 0 || c >= grid[0].length || grid[r][c] != '1') {
         return;
     }
-
-    for (int i = 0; i < nums.length; i++) {
-        if (!used[i]) {
-            used[i] = true;
-            path.add(nums[i]);
-            backtrack(nums, path, used, result);
-            path.remove(path.size() - 1);
-            used[i] = false;
-        }
-    }
+    grid[r][c] = '0'; // Mark visited
+    dfs(grid, r + 1, c);
+    dfs(grid, r - 1, c);
+    dfs(grid, r, c + 1);
+    dfs(grid, r, c - 1);
 }
 ```
 
@@ -355,237 +293,58 @@ private void backtrack(int[] nums, List<Integer> path,
 
 ## Preparation Strategy
 
-**Weeks 1-2: Strengthen the Fundamentals at Medium Level.** Because TikTok skews hard, your baseline needs to be solid. Solve 8-10 medium problems per day across arrays, strings, and hash tables. Time yourself strictly — under 20 minutes per medium. If you are spending more than that, you need to drill more before moving on. Skip easy problems entirely in your practice; they will not prepare you for what TikTok asks.
+A focused 5-week plan is optimal for TikTok’s intensity.
 
-**Week 3: Dynamic Programming Intensive.** Dedicate a full week to DP. Start with standard patterns (1D, 2D, knapsack), but quickly move to advanced variants: interval DP, DP with bitmasks, DP on strings, and tree DP. Solve at least 35 DP problems this week, including 10 hard-level ones. For each problem, write out the state definition and recurrence relation before coding.
+**Week 1-2: Foundation & Patterns**
 
-Here's an example of a more advanced DP problem: counting the number of unique binary search trees given n nodes (Catalan numbers).
+- Goal: Master the top 5 topics (Array, String, Hash Table, DP, DFS).
+- Daily: 3-4 Medium problems, timed (25 minutes each).
+- Focus: Recognize patterns, not memorizing solutions. For each problem, articulate the pattern aloud.
+- Target: 50 problems solved.
 
-<div class="code-group">
+**Week 3: Integration & Speed**
 
-```python
-def num_trees(n):
-    dp = [0] * (n + 1)
-    dp[0] = dp[1] = 1
+- Goal: Solve problems that mix topics (e.g., Hash Table + Sliding Window).
+- Daily: 2 Medium, 1 Hard problem. Practice explaining while coding.
+- Use a whiteboard or online editor—no IDE autocomplete.
+- Target: 30 problems solved.
 
-    for i in range(2, n + 1):
-        for j in range(1, i + 1):
-            dp[i] += dp[j-1] * dp[i-j]
+**Week 4: Mock Interviews & TikTok-Specifics**
 
-    return dp[n]
-```
+- Goal: Simulate actual interviews.
+- Schedule 3-5 mock interviews with peers. Use TikTok’s known problems.
+- Practice the “TikTok twist”: for every problem, ask, “How does this relate to a product feature?”
+- Target: 20 problems solved, all under time pressure.
 
-```javascript
-function numTrees(n) {
-  const dp = new Array(n + 1).fill(0);
-  dp[0] = dp[1] = 1;
+**Week 5: Review & System Design Prep**
 
-  for (let i = 2; i <= n; i++) {
-    for (let j = 1; j <= i; j++) {
-      dp[i] += dp[j - 1] * dp[i - j];
-    }
-  }
+- Goal: Polish weak spots and integrate system thinking.
+- Revisit incorrect problems. Explain solutions to a rubber duck.
+- For each algorithm, draft a one-sentence scaling consideration.
+- Light practice: 1-2 problems daily to stay sharp.
 
-  return dp[n];
-}
-```
+## Common Mistakes
 
-```java
-public int numTrees(int n) {
-    int[] dp = new int[n + 1];
-    dp[0] = dp[1] = 1;
+1. **Optimizing too late:** Candidates waste minutes discussing naive approaches. Fix: Start with, “At TikTok’s scale, we’d need O(n) time and O(1) extra space. Here’s how I’d achieve that…” Lead with the optimal approach.
 
-    for (int i = 2; i <= n; i++) {
-        for (int j = 1; j <= i; j++) {
-            dp[i] += dp[j-1] * dp[i-j];
-        }
-    }
+2. **Ignoring the product context:** When given a disguised problem, they solve the abstract version without connecting it back. Fix: Explicitly map elements—e.g., “So here, each interval represents a viewer session, and merging them helps us analyze watch time.”
 
-    return dp[n];
-}
-```
+3. **Silent struggling:** TikTok interviewers value collaboration. Fix: Verbalize your thought process continuously. If stuck, say, “I’m considering two approaches: X and Y. X seems better because…” This turns the interview into a pairing session.
 
-</div>
-
-**Week 4: DFS, BFS, and Graph Algorithms.** Cover all major graph algorithms: DFS, BFS, topological sort, shortest paths (Dijkstra, Bellman-Ford), union-find, and connected components. TikTok frequently combines graph traversal with other concepts, so practice hybrid problems — for example, BFS with DP or DFS with binary search.
-
-Here's an implementation of Dijkstra's algorithm for finding the shortest path in a weighted graph:
-
-<div class="code-group">
-
-```python
-import heapq
-
-def dijkstra(graph, start):
-    distances = {node: float('inf') for node in graph}
-    distances[start] = 0
-    pq = [(0, start)]
-
-    while pq:
-        current_dist, current_node = heapq.heappop(pq)
-
-        if current_dist > distances[current_node]:
-            continue
-
-        for neighbor, weight in graph[current_node].items():
-            distance = current_dist + weight
-            if distance < distances[neighbor]:
-                distances[neighbor] = distance
-                heapq.heappush(pq, (distance, neighbor))
-
-    return distances
-```
-
-```javascript
-function dijkstra(graph, start) {
-  const distances = {};
-  const pq = new MinPriorityQueue({ priority: (x) => x.distance });
-
-  for (const node in graph) {
-    distances[node] = Infinity;
-  }
-  distances[start] = 0;
-  pq.enqueue({ node: start, distance: 0 });
-
-  while (!pq.isEmpty()) {
-    const { node: current, distance: currentDist } = pq.dequeue().element;
-
-    if (currentDist > distances[current]) continue;
-
-    for (const [neighbor, weight] of Object.entries(graph[current])) {
-      const distance = currentDist + weight;
-      if (distance < distances[neighbor]) {
-        distances[neighbor] = distance;
-        pq.enqueue({ node: neighbor, distance });
-      }
-    }
-  }
-
-  return distances;
-}
-```
-
-```java
-public Map<Integer, Integer> dijkstra(Map<Integer, Map<Integer, Integer>> graph, int start) {
-    Map<Integer, Integer> distances = new HashMap<>();
-    PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[1] - b[1]);
-
-    for (int node : graph.keySet()) {
-        distances.put(node, Integer.MAX_VALUE);
-    }
-    distances.put(start, 0);
-    pq.offer(new int[]{start, 0});
-
-    while (!pq.isEmpty()) {
-        int[] current = pq.poll();
-        int currentNode = current[0];
-        int currentDist = current[1];
-
-        if (currentDist > distances.get(currentNode)) continue;
-
-        for (Map.Entry<Integer, Integer> neighbor : graph.get(currentNode).entrySet()) {
-            int nextNode = neighbor.getKey();
-            int weight = neighbor.getValue();
-            int distance = currentDist + weight;
-
-            if (distance < distances.get(nextNode)) {
-                distances.put(nextNode, distance);
-                pq.offer(new int[]{nextNode, distance});
-            }
-        }
-    }
-
-    return distances;
-}
-```
-
-</div>
-
-**Week 5: Advanced Topics and Hard Problems.** This week is about pushing your ceiling. Practice segment trees, binary indexed trees, monotonic stacks and queues, and advanced string algorithms (KMP, Rabin-Karp). Solve 5 hard problems per day from random topics. The goal is to build comfort with problems that do not fit neatly into a single category.
-
-Here's an implementation of a monotonic stack to find the next greater element for each element in an array:
-
-<div class="code-group">
-
-```python
-def next_greater_elements(nums):
-    n = len(nums)
-    result = [-1] * n
-    stack = []  # stores indices
-
-    for i in range(n * 2):
-        idx = i % n
-        while stack and nums[stack[-1]] < nums[idx]:
-            result[stack.pop()] = nums[idx]
-        if i < n:
-            stack.append(idx)
-
-    return result
-```
-
-```javascript
-function nextGreaterElements(nums) {
-  const n = nums.length;
-  const result = new Array(n).fill(-1);
-  const stack = []; // stores indices
-
-  for (let i = 0; i < n * 2; i++) {
-    const idx = i % n;
-    while (stack.length > 0 && nums[stack[stack.length - 1]] < nums[idx]) {
-      result[stack.pop()] = nums[idx];
-    }
-    if (i < n) {
-      stack.push(idx);
-    }
-  }
-
-  return result;
-}
-```
-
-```java
-public int[] nextGreaterElements(int[] nums) {
-    int n = nums.length;
-    int[] result = new int[n];
-    Arrays.fill(result, -1);
-    Stack<Integer> stack = new Stack<>();
-
-    for (int i = 0; i < n * 2; i++) {
-        int idx = i % n;
-        while (!stack.isEmpty() && nums[stack.peek()] < nums[idx]) {
-            result[stack.pop()] = nums[idx];
-        }
-        if (i < n) {
-            stack.push(idx);
-        }
-    }
-
-    return result;
-}
-```
-
-</div>
-
-**Week 6: Mock Interviews Under Pressure.** Run 5-6 full mock interviews simulating TikTok's format: 50-60 minutes, two problems, no hints. If possible, find practice partners who are also preparing for competitive-style interviews. Review every problem you failed or solved slowly, and identify the conceptual gap.
+4. **Overlooking edge cases at scale:** Providing a solution that works for 1000 elements but fails for 10 billion. Fix: Always mention scale: “This works in-memory, but if data exceeded RAM, we’d need a distributed sort-merge.”
 
 ## Key Tips
 
-1. **Do not rely on pattern matching alone.** TikTok problems often combine multiple techniques in ways that resist simple pattern recognition. You need to understand the underlying principles, not just memorize solutions. For example, a problem might require using binary search on the answer combined with a greedy validation function, or DFS with memoization that's essentially DP.
+1. **Practice with a timer, not just completion.** TikTok’s rounds are 45-50 minutes. Train to solve a Medium in 20 minutes, leaving ample time for discussion and optimization. Use a physical timer.
 
-2. **Master DP or expect to struggle.** With DP being a top topic and the overall difficulty skewing hard, weak DP skills are a deal-breaker at TikTok. Invest disproportionate time in this area. Practice not just implementing DP solutions but also deriving the recurrence relation from scratch. Common DP patterns at TikTok include:
-   - Longest Increasing Subsequence variants
-   - Edit distance and string alignment problems
-   - Partition problems (like palindrome partitioning)
-   - Bitmask DP for subset problems
+2. **Memorize the top 10 problem patterns, not problems.** Know that “minimum/maximum subarray” often means sliding window or Kadane’s algorithm; “dependency resolution” means topological sort. This lets you decode disguised problems instantly.
 
-3. **Practice writing optimal solutions from the start.** TikTok interviewers are less likely to accept a brute force solution and then help you optimize. Come in with the optimal approach, or at least a clear path to get there. This means you need to quickly analyze time and space complexity during your thinking process.
+3. **Always code as if it’s production-ready.** Use meaningful variable names, add brief comments for complex logic, and handle edge cases explicitly. Interviewers evaluate your code quality, not just correctness.
 
-4. **Be prepared for the time pressure.** Two problems in 50-60 minutes with harder-than-average difficulty means you cannot afford to get stuck. If you are not making progress on a problem within 5-7 minutes, step back, reconsider your approach, and try a different angle. Develop a systematic approach: understand the problem, devise a plan, implement, then test with edge cases.
+4. **Prepare a “scaling snippet” for each data structure.** For example, when using a hash map, be ready to say, “This assumes all data fits on one machine. For global scale, we’d shard by user ID and use a distributed cache like Redis.”
 
-5. **Study competitive programming resources.** Because TikTok's problems lean toward the competitive programming style, resources like Codeforces editorials and competitive programming handbooks can supplement your LeetCode practice effectively. Pay special attention to:
-   - Number theory and combinatorics
-   - Graph theory algorithms beyond basic BFS/DFS
-   - Advanced data structures (segment trees, Fenwick trees)
-   - Two-pointer and sliding window variations
+5. **Ask a clarifying question about constraints first.** Before writing code, ask: “What’s the expected input size? Are there memory limits?” This shows foresight and often gives you hints about the expected time complexity.
+
+TikTok’s interviews are a test of both algorithmic agility and practical engineering sense. By focusing on pattern recognition, optimal solutions, and product-aware communication, you’ll demonstrate the exact blend of skills they need to build for billions.
 
 [Browse all TikTok questions on CodeJeet](/company/tiktok)

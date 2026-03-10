@@ -1,101 +1,162 @@
 ---
 title: "Coupang vs Twitter: Interview Question Comparison"
 description: "Compare coding interview questions at Coupang and Twitter — difficulty levels, topic focus, and preparation strategy."
-date: "2027-01-18"
+date: "2027-01-10"
 category: "tips"
 tags: ["coupang", "twitter", "comparison"]
 ---
 
-Both Coupang and Twitter present significant technical interview challenges, but their focus areas differ in ways that can shape your preparation strategy. Analyzing their question profiles reveals distinct priorities: Coupang emphasizes algorithmic rigor, particularly in dynamic problem-solving, while Twitter balances algorithmic skill with practical system design. Understanding these differences is key to efficient study.
+# Coupang vs Twitter: Interview Question Comparison
+
+If you're interviewing at both Coupang and Twitter, you're looking at two distinct tech cultures with surprisingly similar technical screening patterns. Coupang, often called the "Amazon of South Korea," focuses intensely on e-commerce optimization problems, while Twitter (now X) deals with real-time data streams and social graph complexities. Yet when you analyze their coding interview question banks—both sitting at 53 questions in LeetCode's company-tagged collection—you'll find significant overlap that makes dual preparation efficient. The key difference isn't in what they ask, but in _why_ they ask it and how they evaluate your solutions.
 
 ## Question Volume and Difficulty
 
-The total question volume is identical at 53 questions each, but the distribution by difficulty tells a different story.
+Both companies have exactly 53 tagged questions, but their difficulty distributions reveal different evaluation philosophies:
 
-**Coupang (E3/M36/H14)** shows a pronounced skew toward medium and hard problems. With 36 medium and 14 hard questions, it accounts for a staggering 94% of its question bank in these upper tiers. The minimal easy questions (only 3) signal that interviews are designed to quickly filter for strong algorithmic thinkers. You must be prepared for complex optimization and edge cases from the outset.
+**Coupang (E3/M36/H14):**
 
-**Twitter (E8/M33/H12)** also focuses on medium and hard problems (45 total), but offers a more graduated ramp with 8 easy questions. This suggests early interview rounds might include more foundational checks, though the core assessment remains challenging. The slightly lower proportion of hard questions (12 vs. Coupang's 14) may indicate a marginally broader, but still deep, focus across problem types.
+- Only 3 easy questions (5.7%)
+- 36 medium questions (67.9%)
+- 14 hard questions (26.4%)
+
+**Twitter (E8/M33/H12):**
+
+- 8 easy questions (15.1%)
+- 33 medium questions (62.3%)
+- 12 hard questions (22.6%)
+
+Coupang's distribution is noticeably more challenging—they test fewer easy warm-ups and more hard problems. This aligns with their reputation for rigorous technical screening, especially for senior roles. Twitter maintains a more traditional distribution, but don't be fooled: their "medium" questions often involve clever twists on standard patterns that require deeper insight.
+
+The takeaway: If you can handle Coupang's question bank, you're likely prepared for Twitter's technical rounds. But the reverse isn't necessarily true—Twitter's questions might feel deceptively approachable until you hit implementation nuances.
 
 ## Topic Overlap
 
-Both companies heavily test core data structures. Array, String, and Hash Table problems form a common, critical foundation.
+Both companies heavily test **Array, String, and Hash Table** problems, which form the foundation of 60-70% of their questions. This isn't surprising—these data structures are the workhorses of real-world systems.
 
-**Coupang's** standout unique requirement is **Dynamic Programming (DP)**. Its inclusion as a top-4 topic means you are highly likely to encounter problems involving optimization, memoization, or tabulation. Think knapsack, longest common subsequence, or unique paths problems. Mastery here is non-negotiable.
+**Shared emphasis:**
 
-**Twitter's** distinctive focus is **Design**. This encompasses both object-oriented design (like designing a parking lot or a deck of cards) and potentially early-stage system design concepts (like designing a URL shortener). This tests your ability to translate requirements into clean, maintainable code structures and discuss trade-offs.
+- **Array manipulation:** Both love problems involving sliding windows, two pointers, and prefix sums
+- **String algorithms:** Pattern matching, palindrome variations, and encoding/decoding problems appear frequently
+- **Hash Table applications:** From frequency counting to clever memoization approaches
+
+**Unique flavors:**
+
+- **Coupang** emphasizes **Dynamic Programming** more heavily (14% of questions vs Twitter's 8%). Their DP problems often relate to optimization—think inventory management, delivery routing, or pricing algorithms.
+- **Twitter** includes **Design** problems in their core topics (12% vs Coupang's 5%). These aren't full system design questions but algorithmic design challenges like designing data structures with specific constraints.
+
+The overlap means you get excellent preparation synergy: mastering arrays and hash tables benefits both interviews simultaneously.
+
+## Preparation Priority Matrix
+
+Here's how to allocate your study time for maximum return:
+
+**High Priority (Study First - 60% of prep time):**
+
+- **Array manipulation:** Two Sum variations, sliding window problems, subarray sums
+- **Hash Table applications:** Frequency counting, caching patterns, two-sum style lookups
+- **String algorithms:** Palindrome checks, substring searches, encoding problems
+
+**Medium Priority (Company-Specific - 30% of prep time):**
+
+- **For Coupang:** Dynamic Programming, especially knapsack variations, sequence alignment, and optimization DP
+- **For Twitter:** Design-oriented algorithm problems and graph/tree problems with real-time constraints
+
+**Low Priority (Remaining 10%):**
+
+- Company-specific edge cases and less frequent topics (geometry for Coupang, bit manipulation for Twitter)
+
+## Interview Format Differences
+
+**Coupang's process** typically involves:
+
+- 4-5 rounds including coding, system design, and behavioral
+- Coding rounds are algorithm-heavy with emphasis on optimal solutions
+- They often include "practical" algorithm problems related to logistics or inventory
+- System design rounds might focus on e-commerce systems (shopping carts, recommendation engines)
+
+**Twitter's process** generally includes:
+
+- 3-4 technical rounds with mixed algorithm and design
+- Algorithms rounds often include follow-up questions about scalability
+- They value clean, maintainable code and test case consideration
+- System design focuses on real-time systems (timelines, trending topics, notification systems)
+
+Both companies use virtual whiteboards (CoderPad, HackerRank) for initial screens and may use collaborative editors for on-sites. Twitter tends to be slightly more conversational during coding—they want to see your thought process unfold. Coupang often expects you to arrive at the optimal solution more independently.
+
+## Specific Problem Recommendations
+
+These five problems provide exceptional coverage for both companies:
+
+1. **Two Sum (#1)** - The foundational hash table problem that appears in variations at both companies. Master all variations (sorted/unsorted, multiple solutions, follow-ups).
 
 <div class="code-group">
 
 ```python
-# Example of a DP problem common at Coupang: Coin Change
-def coinChange(coins, amount):
-    dp = [float('inf')] * (amount + 1)
-    dp[0] = 0
-    for i in range(1, amount + 1):
-        for coin in coins:
-            if i - coin >= 0:
-                dp[i] = min(dp[i], dp[i - coin] + 1)
-    return dp[amount] if dp[amount] != float('inf') else -1
+# Time: O(n) | Space: O(n)
+def twoSum(nums, target):
+    seen = {}
+    for i, num in enumerate(nums):
+        complement = target - num
+        if complement in seen:
+            return [seen[complement], i]
+        seen[num] = i
+    return []
 ```
 
 ```javascript
-// Example of a Design problem common at Twitter: Shuffle an Array (Mini-Design)
-class Solution {
-  constructor(nums) {
-    this.original = [...nums];
-    this.array = nums;
-  }
-  reset() {
-    this.array = [...this.original];
-    return this.array;
-  }
-  shuffle() {
-    for (let i = this.array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [this.array[i], this.array[j]] = [this.array[j], this.array[i]];
+// Time: O(n) | Space: O(n)
+function twoSum(nums, target) {
+  const seen = new Map();
+  for (let i = 0; i < nums.length; i++) {
+    const complement = target - nums[i];
+    if (seen.has(complement)) {
+      return [seen.get(complement), i];
     }
-    return this.array;
+    seen.set(nums[i], i);
   }
+  return [];
 }
 ```
 
 ```java
-// Example of a Design problem common at Twitter: Min Stack
-class MinStack {
-    private Stack<Integer> stack;
-    private Stack<Integer> minStack;
-
-    public MinStack() {
-        stack = new Stack<>();
-        minStack = new Stack<>();
+// Time: O(n) | Space: O(n)
+public int[] twoSum(int[] nums, int target) {
+    Map<Integer, Integer> seen = new HashMap<>();
+    for (int i = 0; i < nums.length; i++) {
+        int complement = target - nums[i];
+        if (seen.containsKey(complement)) {
+            return new int[]{seen.get(complement), i};
+        }
+        seen.put(nums[i], i);
     }
-    public void push(int val) {
-        stack.push(val);
-        minStack.push(Math.min(val, minStack.isEmpty() ? val : minStack.peek()));
-    }
-    public void pop() {
-        stack.pop();
-        minStack.pop();
-    }
-    public int top() {
-        return stack.peek();
-    }
-    public int getMin() {
-        return minStack.peek();
-    }
+    return new int[]{};
 }
 ```
 
 </div>
 
+2. **Longest Substring Without Repeating Characters (#3)** - Excellent sliding window practice that tests both string manipulation and hash table usage.
+
+3. **Merge Intervals (#56)** - Appears at both companies with different contexts (scheduling deliveries at Coupang, merging tweet timelines at Twitter).
+
+4. **Design Twitter (#355)** - Actually a Twitter question that bridges algorithm and design thinking. The "design a data structure" format appears frequently.
+
+5. **Best Time to Buy and Sell Stock (#121)** - The DP/array hybrid that tests optimization thinking crucial for both companies.
+
 ## Which to Prepare for First
 
-Start with the **common foundation**. Grind problems on Arrays, Strings, and Hash Tables until solving medium-difficulty variations is routine. This core competency serves both companies equally.
+**Prepare for Coupang first if:** You have both interviews scheduled close together. Their questions are generally more difficult, so conquering their question bank will give you confidence for Twitter. The dynamic programming emphasis also forces deeper algorithmic thinking that benefits all interviews.
 
-If your immediate target is **Coupang**, pivot next to **Dynamic Programming**. Dedicate significant time to pattern recognition—solving problems by category (e.g., 0/1 knapsack, LCS, DP on strings). Their high concentration of medium/hard problems means you need speed and accuracy under pressure.
+**Prepare for Twitter first if:** Your Twitter interview comes significantly earlier, or if you need to build confidence with more conversational coding interviews. Twitter's slightly easier distribution can serve as good warm-up before tackling Coupang's challenges.
 
-If your immediate target is **Twitter**, after the core, shift to **Design problems**. Practice translating vague requirements into class diagrams with clear APIs, and be ready to discuss time/space complexity trade-offs for your design choices. While still sharp on algorithms, this practical design skill is a key differentiator.
+**The optimal dual-prep strategy:**
 
-For generalists, mastering the common core first provides the most flexible base. You can then branch into DP for Coupang's depth or Design for Twitter's breadth, depending on which interview comes first.
+1. Week 1-2: Master the shared core topics (arrays, strings, hash tables)
+2. Week 3: Tackle Coupang's DP emphasis
+3. Week 4: Practice Twitter's design-algorithm hybrids
+4. Final days: Company-specific mock interviews focusing on their respective formats
 
-Explore specific questions for [Coupang](/company/coupang) and [Twitter](/company/twitter).
+Remember: Both companies ultimately test problem-solving fundamentals. The patterns you master for one directly apply to the other. The difference is in presentation—Coupang wants the mathematically optimal solution, while Twitter wants the scalable, maintainable one.
+
+For more company-specific insights, check out our [Coupang interview guide](/company/coupang) and [Twitter interview guide](/company/twitter).

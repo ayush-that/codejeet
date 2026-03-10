@@ -1,233 +1,230 @@
 ---
 title: "How to Crack LinkedIn Coding Interviews in 2026"
 description: "Complete guide to LinkedIn coding interviews — question patterns, difficulty breakdown, must-practice topics, and preparation strategy."
-date: "2026-07-10"
+date: "2026-01-31"
 category: "company-guide"
 company: "linkedin"
 tags: ["linkedin", "interview prep", "leetcode"]
 ---
 
-LinkedIn, now under the Microsoft umbrella, maintains its own distinct engineering culture and interview process. The platform serves over 900 million professionals, and the engineering challenges — real-time feed ranking, graph-based recommendations, messaging at scale — are reflected in the types of problems interviewers ask. LinkedIn coding interviews are rigorous and lean toward graph and search-based thinking, which makes sense given the company's core product is essentially a massive social graph.
+# How to Crack LinkedIn Coding Interviews in 2026
 
-The interview process typically includes a recruiter screen, a phone screen with one coding problem, and a virtual on-site consisting of four rounds: two coding, one system design (for senior+), and one behavioral. LinkedIn places a strong emphasis on "InDay" culture and collaboration, so expect behavioral questions to probe how you work with cross-functional teams.
+LinkedIn’s interview process is a unique blend of technical rigor and cultural alignment. While the company is now part of Microsoft, it retains its own distinct hiring bar and process. You’ll typically face a recruiter screen, followed by 4-5 onsite (or virtual) rounds. These include 2-3 coding rounds, 1 system design round, and 1 behavioral/cultural fit round focused on LinkedIn’s leadership principles like “Members First” and “Relationships Matter.” What makes LinkedIn stand out is its emphasis on **clean, production-quality code** and **communication**. Interviewers aren’t just looking for a brute-force solution; they want to see you think through edge cases, write readable code, and explain your trade-offs as if you were collaborating with a teammate. The coding problems often have a real-world flavor, mirroring data processing, member connections, or feed ranking scenarios.
+
+## What Makes LinkedIn Different
+
+Unlike some FAANG companies that prioritize raw algorithmic speed or tricky brain-teasers, LinkedIn’s coding interviews feel more like a **code review**. Here’s what sets them apart:
+
+1.  **Production Readiness Over Cleverness:** A working, optimal solution is the baseline. Beyond that, interviewers evaluate how maintainable your code is. They favor clear variable names, proper modularization, and thoughtful error handling. Writing a one-line Python list comprehension that’s impossible to debug will count against you.
+2.  **Heavy Emphasis on Communication:** You’re expected to talk through your process from the moment you see the problem. Silence is a red flag. Interviewers will probe your assumptions and ask how you’d test the code. They want to assess if you’d be a good partner in a pair-programming session.
+3.  **Follow-ups are The Real Test:** It’s very common to solve the initial problem with time to spare. The true differentiator is how you handle the follow-up. This could be scaling the solution (e.g., “What if the data doesn’t fit in memory?”), modifying the problem (e.g., “Now handle duplicates”), or discussing how you’d deploy and monitor the service. This is where senior candidates separate themselves.
+4.  **“Psuedocode” is a Trap:** While some companies allow you to sketch logic in pseudocode, LinkedIn expects syntactically correct, runnable code in your chosen language. Sloppy syntax or frequent corrections will be noted.
 
 ## By the Numbers
 
-LinkedIn's CodeJeet question bank has **180 questions**. The difficulty distribution is demanding:
+An analysis of LinkedIn’s tagged LeetCode questions reveals a clear pattern:
 
-- **Easy: 26 questions (14%)** — A thin layer. LinkedIn does not spend much interview time on easy problems.
-- **Medium: 117 questions (65%)** — Two-thirds of the pool. This is where you will spend most of your time, both in prep and in the actual interview.
-- **Hard: 37 questions (21%)** — One in five questions is Hard. Senior candidates should expect at least one Hard-level question in their loop.
+- **Total Questions:** ~180
+- **Easy:** 26 (14%)
+- **Medium:** 117 (65%)
+- **Hard:** 37 (21%)
 
-The 14/65/21 split is characteristic of a company that expects strong algorithmic fundamentals. If you are targeting LinkedIn, you need to be very comfortable solving Medium problems quickly and have a strategy for approaching Hards.
+**What this means for your prep:** The 65% Medium questions are your core battlefield. You must be exceptionally fluent and fast with Medium-tier problems across core data structures. The 21% Hard questions are typically reserved for senior-level positions or appear as the challenging follow-up in a Medium problem. You should not spend the majority of your time on Hard problems. Instead, master Mediums to the point where you can solve them reliably in 20-25 minutes, leaving ample time for discussion and follow-ups.
+
+**Known Recurring Problems:** While question pools rotate, certain patterns and specific problems have historical frequency. Be intimately familiar with variations of:
+
+- **Merge Intervals (#56):** Fundamental for many data aggregation tasks.
+- **Two Sum (#1) & Variants:** The cornerstone of hash table usage.
+- **LRU Cache (#146):** A classic test of designing a data structure.
+- **Serialize and Deserialize Binary Tree (#297):** Tests tree traversal and data formatting.
+- **Word Break (#139):** A quintessential Dynamic Programming problem.
 
 ## Top Topics to Focus On
 
-**Array** — The most common topic across all difficulty levels. Expect subarray problems, prefix sums, sliding windows, and array-based simulation problems. LinkedIn array questions tend to be well-defined but require careful implementation. For example, a classic problem is finding the maximum sum of a contiguous subarray (Kadane's Algorithm) or finding all subarrays that sum to a target value using a prefix sum hash map.
+The data shows a clear set of high-priority topics. Here’s why LinkedIn favors each and the key pattern to master.
 
-**String** — String manipulation, parsing, and pattern matching. LinkedIn's string problems often involve real-world scenarios like text processing, URL parsing, or search query handling, which aligns with the platform's product surface. Common patterns include checking for palindromes, string compression, and implementing basic parsers.
+**1. Array & String Manipulation**
+Why: This is the bedrock of data processing. LinkedIn deals with member profiles, posts, and jobs—all represented as sequences of data. Mastery here is non-negotiable.
+Key Pattern: **Two Pointers / Sliding Window.** Essential for problems involving subarrays, palindromes, or minimizing/maximizing a condition within a contiguous block.
 
-**Hash Table** — Critical for optimizing solutions. LinkedIn interviewers expect you to reach for hash maps when appropriate, and they will push back if you present an O(n^2) solution that has an obvious O(n) hash-based alternative. Hash tables are frequently used for frequency counting, memoization, and storing previously seen elements to achieve constant-time lookups.
-
-**Depth-First Search** — This is LinkedIn's signature topic. Given that the platform is fundamentally a graph of professional connections, DFS and graph traversal problems appear more frequently here than at most other companies. Practice DFS on trees, graphs, and matrices. Know how to detect cycles, find connected components, and traverse in multiple directions. You must be able to implement both recursive and iterative (using a stack) versions.
-
-**Dynamic Programming** — With 21% Hard questions, DP shows up regularly at the senior level. Focus on sequence-based DP, string DP, and decision-making problems. LinkedIn DP questions are rarely straightforward — they often require you to define the state carefully. Classic problems include the Longest Increasing Subsequence, Edit Distance, and various knapsack problems.
-
-## Preparation Strategy
-
-**Weeks 1-2: Fundamentals and Graph Basics**
-
-Spend the first week on Easy and low-Medium problems in arrays, strings, and hash tables. In week two, shift focus to graph fundamentals: adjacency list representation, BFS, DFS, and topological sort. Solve 3 to 4 problems per day. Since LinkedIn emphasizes DFS, build a strong mental model of recursive traversal early.
-
-Let's look at a fundamental DFS implementation for traversing an undirected graph represented as an adjacency list.
+**Problem Example: Minimum Window Substring (#76 - Hard)**
+This is a classic Sliding Window problem that tests your ability to manage a dynamic window and a frequency map.
 
 <div class="code-group">
 
 ```python
-def dfs_iterative(graph, start):
-    """Iterative DFS using a stack."""
-    visited = set()
-    stack = [start]
-    traversal_order = []
+# Time: O(|S| + |T|) | Space: O(1) - The hash maps have at most 26/52 keys.
+def minWindow(s: str, t: str) -> str:
+    from collections import Counter
+    if not s or not t:
+        return ""
 
-    while stack:
-        node = stack.pop()
-        if node not in visited:
-            visited.add(node)
-            traversal_order.append(node)
-            # Add neighbors to stack. Extend in reverse for consistent order.
-            for neighbor in reversed(graph[node]):
-                if neighbor not in visited:
-                    stack.append(neighbor)
-    return traversal_order
+    dict_t = Counter(t)
+    required = len(dict_t)
 
-def dfs_recursive(graph, node, visited=None, traversal_order=None):
-    """Recursive DFS."""
-    if visited is None:
-        visited = set()
-    if traversal_order is None:
-        traversal_order = []
-    if node in visited:
-        return traversal_order
-    visited.add(node)
-    traversal_order.append(node)
-    for neighbor in graph[node]:
-        dfs_recursive(graph, neighbor, visited, traversal_order)
-    return traversal_order
+    l, r = 0, 0
+    formed = 0
+    window_counts = {}
 
-# Example usage
-if __name__ == "__main__":
-    # Graph: 0 - 1 - 2
-    #         \   /
-    #           3
-    graph = {
-        0: [1, 3],
-        1: [0, 2, 3],
-        2: [1, 3],
-        3: [0, 1, 2]
-    }
-    print("Iterative DFS:", dfs_iterative(graph, 0))
-    print("Recursive DFS:", dfs_recursive(graph, 0))
+    # ans tuple: (window length, left index, right index)
+    ans = float("inf"), None, None
+
+    while r < len(s):
+        char = s[r]
+        window_counts[char] = window_counts.get(char, 0) + 1
+
+        if char in dict_t and window_counts[char] == dict_t[char]:
+            formed += 1
+
+        # Try to contract the window from the left
+        while l <= r and formed == required:
+            char = s[l]
+
+            # Save the smallest window so far
+            if r - l + 1 < ans[0]:
+                ans = (r - l + 1, l, r)
+
+            # The character at 'l' is being removed
+            window_counts[char] -= 1
+            if char in dict_t and window_counts[char] < dict_t[char]:
+                formed -= 1
+
+            l += 1
+
+        r += 1
+
+    return "" if ans[0] == float("inf") else s[ans[1]: ans[2] + 1]
 ```
 
 ```javascript
-function dfsIterative(graph, start) {
-  // Iterative DFS using a stack
-  const visited = new Set();
-  const stack = [start];
-  const traversalOrder = [];
+// Time: O(|S| + |T|) | Space: O(1)
+function minWindow(s, t) {
+  if (s.length === 0 || t.length === 0) return "";
 
-  while (stack.length > 0) {
-    const node = stack.pop();
-    if (!visited.has(node)) {
-      visited.add(node);
-      traversalOrder.push(node);
-      // Add neighbors to stack. Reverse for consistent order.
-      const neighbors = graph[node];
-      for (let i = neighbors.length - 1; i >= 0; i--) {
-        const neighbor = neighbors[i];
-        if (!visited.has(neighbor)) {
-          stack.push(neighbor);
-        }
-      }
+  const dictT = new Map();
+  for (const ch of t) {
+    dictT.set(ch, (dictT.get(ch) || 0) + 1);
+  }
+  const required = dictT.size;
+
+  let l = 0,
+    r = 0;
+  let formed = 0;
+  const windowCounts = new Map();
+
+  let ans = [-1, 0, 0]; // (length, left, right)
+
+  while (r < s.length) {
+    const char = s[r];
+    windowCounts.set(char, (windowCounts.get(char) || 0) + 1);
+
+    if (dictT.has(char) && windowCounts.get(char) === dictT.get(char)) {
+      formed++;
     }
-  }
-  return traversalOrder;
-}
 
-function dfsRecursive(graph, node, visited = new Set(), traversalOrder = []) {
-  // Recursive DFS
-  if (visited.has(node)) {
-    return traversalOrder;
-  }
-  visited.add(node);
-  traversalOrder.push(node);
-  const neighbors = graph[node];
-  for (const neighbor of neighbors) {
-    dfsRecursive(graph, neighbor, visited, traversalOrder);
-  }
-  return traversalOrder;
-}
+    // Contract the window from the left
+    while (l <= r && formed === required) {
+      const char = s[l];
 
-// Example usage
-const graph = {
-  0: [1, 3],
-  1: [0, 2, 3],
-  2: [1, 3],
-  3: [0, 1, 2],
-};
-console.log("Iterative DFS:", dfsIterative(graph, 0));
-console.log("Recursive DFS:", dfsRecursive(graph, 0));
+      // Update answer if this window is smaller
+      if (ans[0] === -1 || r - l + 1 < ans[0]) {
+        ans = [r - l + 1, l, r];
+      }
+
+      windowCounts.set(char, windowCounts.get(char) - 1);
+      if (dictT.has(char) && windowCounts.get(char) < dictT.get(char)) {
+        formed--;
+      }
+      l++;
+    }
+    r++;
+  }
+
+  return ans[0] === -1 ? "" : s.substring(ans[1], ans[2] + 1);
+}
 ```
 
 ```java
-import java.util.*;
+// Time: O(|S| + |T|) | Space: O(1)
+public String minWindow(String s, String t) {
+    if (s.length() == 0 || t.length() == 0) return "";
 
-public class GraphDFS {
-    public static List<Integer> dfsIterative(Map<Integer, List<Integer>> graph, int start) {
-        // Iterative DFS using a stack
-        Set<Integer> visited = new HashSet<>();
-        Deque<Integer> stack = new ArrayDeque<>();
-        List<Integer> traversalOrder = new ArrayList<>();
+    Map<Character, Integer> dictT = new HashMap<>();
+    for (char c : t.toCharArray()) {
+        dictT.put(c, dictT.getOrDefault(c, 0) + 1);
+    }
+    int required = dictT.size();
 
-        stack.push(start);
-        while (!stack.isEmpty()) {
-            int node = stack.pop();
-            if (!visited.contains(node)) {
-                visited.add(node);
-                traversalOrder.add(node);
-                // Add neighbors to stack. Reverse for consistent order.
-                List<Integer> neighbors = graph.get(node);
-                for (int i = neighbors.size() - 1; i >= 0; i--) {
-                    int neighbor = neighbors.get(i);
-                    if (!visited.contains(neighbor)) {
-                        stack.push(neighbor);
-                    }
-                }
+    int l = 0, r = 0;
+    int formed = 0;
+    Map<Character, Integer> windowCounts = new HashMap<>();
+
+    // ans[0] = length, ans[1] = left, ans[2] = right
+    int[] ans = {-1, 0, 0};
+
+    while (r < s.length()) {
+        char c = s.charAt(r);
+        windowCounts.put(c, windowCounts.getOrDefault(c, 0) + 1);
+
+        if (dictT.containsKey(c) && windowCounts.get(c).intValue() == dictT.get(c).intValue()) {
+            formed++;
+        }
+
+        // Contract the window
+        while (l <= r && formed == required) {
+            c = s.charAt(l);
+
+            // Save the smallest window
+            if (ans[0] == -1 || r - l + 1 < ans[0]) {
+                ans[0] = r - l + 1;
+                ans[1] = l;
+                ans[2] = r;
             }
+
+            windowCounts.put(c, windowCounts.get(c) - 1);
+            if (dictT.containsKey(c) && windowCounts.get(c) < dictT.get(c)) {
+                formed--;
+            }
+            l++;
         }
-        return traversalOrder;
+        r++;
     }
 
-    public static List<Integer> dfsRecursive(Map<Integer, List<Integer>> graph, int node,
-                                             Set<Integer> visited, List<Integer> traversalOrder) {
-        // Recursive DFS
-        if (visited.contains(node)) {
-            return traversalOrder;
-        }
-        visited.add(node);
-        traversalOrder.add(node);
-        for (int neighbor : graph.get(node)) {
-            dfsRecursive(graph, neighbor, visited, traversalOrder);
-        }
-        return traversalOrder;
-    }
-
-    public static void main(String[] args) {
-        // Graph: 0 - 1 - 2
-        //         \   /
-        //           3
-        Map<Integer, List<Integer>> graph = new HashMap<>();
-        graph.put(0, Arrays.asList(1, 3));
-        graph.put(1, Arrays.asList(0, 2, 3));
-        graph.put(2, Arrays.asList(1, 3));
-        graph.put(3, Arrays.asList(0, 1, 2));
-
-        System.out.println("Iterative DFS: " + dfsIterative(graph, 0));
-
-        Set<Integer> visited = new HashSet<>();
-        List<Integer> traversalOrder = new ArrayList<>();
-        System.out.println("Recursive DFS: " + dfsRecursive(graph, 0, visited, traversalOrder));
-    }
+    return ans[0] == -1 ? "" : s.substring(ans[1], ans[2] + 1);
 }
 ```
 
 </div>
 
-**Weeks 3-4: Medium Problems and DFS Depth**
+**2. Hash Table**
+Why: This is the workhorse for efficient lookups, which are ubiquitous in social graphs (member connections, skills, companies). Expect problems that require mapping, counting, or deduplication.
+Key Pattern: **Using a hash map to store precomputed information (like indices or counts)** to achieve O(1) lookups and transform O(n²) brute force into O(n).
 
-Dedicate these two weeks to Medium-difficulty problems. Alternate between array/string problems and graph/DFS problems. For DFS, practice on trees (path sum, diameter, lowest common ancestor) and graphs (number of islands, course schedule, clone graph). Aim for 2 to 3 problems per day under a 30-minute timer.
+**3. Depth-First Search (DFS)**
+Why: LinkedIn’s core product is a graph (the social network). DFS is fundamental for traversing member connections, organizational hierarchies, or dependency graphs.
+Key Pattern: **Recursive traversal with cycle detection or path recording.** You must be comfortable with both recursive and iterative (stack) implementations.
 
-A quintessential Medium problem is "Number of Islands," which uses DFS on a grid. This pattern is directly applicable to LinkedIn's graph-based data.
+**Problem Example: Number of Islands (#200 - Medium)**
+A grid-based DFS problem that tests your ability to traverse and mark connected components—a direct analog for finding connected members or groups.
 
 <div class="code-group">
 
 ```python
-def num_islands(grid):
-    """Count the number of islands using DFS."""
+# Time: O(M * N) | Space: O(M * N) in worst-case (when grid is all land and recursion stack goes M*N deep)
+def numIslands(grid: List[List[str]]) -> int:
     if not grid:
         return 0
 
     rows, cols = len(grid), len(grid[0])
-    count = 0
+    island_count = 0
 
     def dfs(r, c):
-        # Base cases: out of bounds or not land
-        if r < 0 or r >= rows or c < 0 or c >= cols or grid[r][c] != '1':
+        # Base case: out of bounds or not land
+        if r < 0 or c < 0 or r >= rows or c >= cols or grid[r][c] != '1':
             return
         # Mark as visited by setting to '0'
         grid[r][c] = '0'
-        # Explore all four directions
+        # Explore all 4 directions
         dfs(r + 1, c)
         dfs(r - 1, c)
         dfs(r, c + 1)
@@ -236,283 +233,159 @@ def num_islands(grid):
     for r in range(rows):
         for c in range(cols):
             if grid[r][c] == '1':
-                count += 1
+                island_count += 1
                 dfs(r, c)
-    return count
 
-# Example usage
-if __name__ == "__main__":
-    grid = [
-        ["1", "1", "0", "0", "0"],
-        ["1", "1", "0", "0", "0"],
-        ["0", "0", "1", "0", "0"],
-        ["0", "0", "0", "1", "1"]
-    ]
-    print("Number of islands:", num_islands(grid))  # Output: 3
+    return island_count
 ```
 
 ```javascript
+// Time: O(M * N) | Space: O(M * N)
 function numIslands(grid) {
-  // Count the number of islands using DFS
-  if (!grid || grid.length === 0) {
-    return 0;
-  }
+  if (!grid || grid.length === 0) return 0;
 
   const rows = grid.length;
   const cols = grid[0].length;
-  let count = 0;
+  let islandCount = 0;
 
-  function dfs(r, c) {
-    // Base cases: out of bounds or not land
-    if (r < 0 || r >= rows || c < 0 || c >= cols || grid[r][c] !== "1") {
+  const dfs = (r, c) => {
+    if (r < 0 || c < 0 || r >= rows || c >= cols || grid[r][c] !== "1") {
       return;
     }
-    // Mark as visited by setting to '0'
-    grid[r][c] = "0";
-    // Explore all four directions
+    grid[r][c] = "0"; // Mark as visited
     dfs(r + 1, c);
     dfs(r - 1, c);
     dfs(r, c + 1);
     dfs(r, c - 1);
-  }
+  };
 
   for (let r = 0; r < rows; r++) {
     for (let c = 0; c < cols; c++) {
       if (grid[r][c] === "1") {
-        count++;
+        islandCount++;
         dfs(r, c);
       }
     }
   }
-  return count;
+  return islandCount;
 }
-
-// Example usage
-const grid = [
-  ["1", "1", "0", "0", "0"],
-  ["1", "1", "0", "0", "0"],
-  ["0", "0", "1", "0", "0"],
-  ["0", "0", "0", "1", "1"],
-];
-console.log("Number of islands:", numIslands(grid)); // Output: 3
 ```
 
 ```java
-public class NumberOfIslands {
-    public static int numIslands(char[][] grid) {
-        // Count the number of islands using DFS
-        if (grid == null || grid.length == 0) {
-            return 0;
-        }
+// Time: O(M * N) | Space: O(M * N)
+public int numIslands(char[][] grid) {
+    if (grid == null || grid.length == 0) return 0;
 
-        int rows = grid.length;
-        int cols = grid[0].length;
-        int count = 0;
+    int rows = grid.length;
+    int cols = grid[0].length;
+    int islandCount = 0;
 
-        for (int r = 0; r < rows; r++) {
-            for (int c = 0; c < cols; c++) {
-                if (grid[r][c] == '1') {
-                    count++;
-                    dfs(grid, r, c, rows, cols);
-                }
+    for (int r = 0; r < rows; r++) {
+        for (int c = 0; c < cols; c++) {
+            if (grid[r][c] == '1') {
+                islandCount++;
+                dfs(grid, r, c);
             }
         }
-        return count;
     }
+    return islandCount;
+}
 
-    private static void dfs(char[][] grid, int r, int c, int rows, int cols) {
-        // Base cases: out of bounds or not land
-        if (r < 0 || r >= rows || c < 0 || c >= cols || grid[r][c] != '1') {
-            return;
-        }
-        // Mark as visited by setting to '0'
-        grid[r][c] = '0';
-        // Explore all four directions
-        dfs(grid, r + 1, c, rows, cols);
-        dfs(grid, r - 1, c, rows, cols);
-        dfs(grid, r, c + 1, rows, cols);
-        dfs(grid, r, c - 1, rows, cols);
-    }
+private void dfs(char[][] grid, int r, int c) {
+    int rows = grid.length;
+    int cols = grid[0].length;
 
-    public static void main(String[] args) {
-        char[][] grid = {
-            {'1', '1', '0', '0', '0'},
-            {'1', '1', '0', '0', '0'},
-            {'0', '0', '1', '0', '0'},
-            {'0', '0', '0', '1', '1'}
-        };
-        System.out.println("Number of islands: " + numIslands(grid)); // Output: 3
+    if (r < 0 || c < 0 || r >= rows || c >= cols || grid[r][c] != '1') {
+        return;
     }
+    grid[r][c] = '0'; // Mark as visited
+    dfs(grid, r + 1, c);
+    dfs(grid, r - 1, c);
+    dfs(grid, r, c + 1);
+    dfs(grid, r, c - 1);
 }
 ```
 
 </div>
 
-**Week 5: Hard Problems and System Design**
+**4. Dynamic Programming**
+Why: Optimization problems are everywhere—maximizing engagement, minimizing latency, optimal resource allocation. DP tests your ability to break down complex problems and build optimal solutions incrementally.
+Key Pattern: **1D or 2D DP array where `dp[i]` represents the optimal solution for the subproblem ending at `i`.** Start by clearly defining your state.
 
-Tackle 8 to 10 Hard problems with a focus on DP and graph-based questions. For system design, study LinkedIn-relevant systems: design a social feed, a connection recommendation engine, a messaging system, or a notification service. Understand how LinkedIn handles their social graph at scale — their engineering blog is an excellent resource.
-
-A classic Hard DP problem is the "Longest Increasing Subsequence" (LIS). This demonstrates the need to carefully define the DP state and transition.
+**Problem Example: Maximum Subarray (#53 - Medium)**
+Kadane’s Algorithm is a foundational DP pattern that you must be able to derive and explain. It’s the basis for many more complex problems.
 
 <div class="code-group">
 
 ```python
-def length_of_lis(nums):
-    """Find the length of the longest strictly increasing subsequence using DP."""
-    if not nums:
-        return 0
-
-    n = len(nums)
-    # dp[i] represents the length of the LIS ending at index i
-    dp = [1] * n
-
-    for i in range(n):
-        for j in range(i):
-            if nums[i] > nums[j]:
-                dp[i] = max(dp[i], dp[j] + 1)
-
-    return max(dp)
-
-# Optimized O(n log n) version using patience sorting
-import bisect
-
-def length_of_lis_optimized(nums):
-    tails = []
-    for num in nums:
-        # Find the position to replace or append
-        idx = bisect.bisect_left(tails, num)
-        if idx == len(tails):
-            tails.append(num)
-        else:
-            tails[idx] = num
-    return len(tails)
-
-# Example usage
-if __name__ == "__main__":
-    nums = [10, 9, 2, 5, 3, 7, 101, 18]
-    print("DP O(n^2) LIS length:", length_of_lis(nums))  # Output: 4
-    print("Optimized O(n log n) LIS length:", length_of_lis_optimized(nums))  # Output: 4
+# Time: O(n) | Space: O(1)
+def maxSubArray(nums: List[int]) -> int:
+    # Kadane's Algorithm
+    current_max = global_max = nums[0]
+    for num in nums[1:]:
+        # At each step, decide: start a new subarray here, or extend the previous best?
+        current_max = max(num, current_max + num)
+        global_max = max(global_max, current_max)
+    return global_max
 ```
 
 ```javascript
-function lengthOfLIS(nums) {
-  // Find the length of the longest strictly increasing subsequence using DP O(n^2)
-  if (!nums || nums.length === 0) {
-    return 0;
+// Time: O(n) | Space: O(1)
+function maxSubArray(nums) {
+  let currentMax = nums[0];
+  let globalMax = nums[0];
+
+  for (let i = 1; i < nums.length; i++) {
+    // The core DP decision
+    currentMax = Math.max(nums[i], currentMax + nums[i]);
+    globalMax = Math.max(globalMax, currentMax);
   }
-
-  const n = nums.length;
-  // dp[i] represents the length of the LIS ending at index i
-  const dp = new Array(n).fill(1);
-
-  for (let i = 0; i < n; i++) {
-    for (let j = 0; j < i; j++) {
-      if (nums[i] > nums[j]) {
-        dp[i] = Math.max(dp[i], dp[j] + 1);
-      }
-    }
-  }
-
-  return Math.max(...dp);
+  return globalMax;
 }
-
-// Optimized O(n log n) version using patience sorting
-function lengthOfLISOptimized(nums) {
-  const tails = [];
-  for (const num of nums) {
-    // Find the position to replace or append using binary search
-    let left = 0;
-    let right = tails.length;
-    while (left < right) {
-      const mid = Math.floor((left + right) / 2);
-      if (tails[mid] < num) {
-        left = mid + 1;
-      } else {
-        right = mid;
-      }
-    }
-    if (left === tails.length) {
-      tails.push(num);
-    } else {
-      tails[left] = num;
-    }
-  }
-  return tails.length;
-}
-
-// Example usage
-const nums = [10, 9, 2, 5, 3, 7, 101, 18];
-console.log("DP O(n^2) LIS length:", lengthOfLIS(nums)); // Output: 4
-console.log("Optimized O(n log n) LIS length:", lengthOfLISOptimized(nums)); // Output: 4
 ```
 
 ```java
-import java.util.*;
+// Time: O(n) | Space: O(1)
+public int maxSubArray(int[] nums) {
+    int currentMax = nums[0];
+    int globalMax = nums[0];
 
-public class LongestIncreasingSubsequence {
-    public static int lengthOfLIS(int[] nums) {
-        // DP O(n^2) solution
-        if (nums == null || nums.length == 0) {
-            return 0;
-        }
-        int n = nums.length;
-        // dp[i] represents the length of the LIS ending at index i
-        int[] dp = new int[n];
-        Arrays.fill(dp, 1);
-        int maxLen = 1;
-
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < i; j++) {
-                if (nums[i] > nums[j]) {
-                    dp[i] = Math.max(dp[i], dp[j] + 1);
-                }
-            }
-            maxLen = Math.max(maxLen, dp[i]);
-        }
-        return maxLen;
+    for (int i = 1; i < nums.length; i++) {
+        // DP transition: extend or restart?
+        currentMax = Math.max(nums[i], currentMax + nums[i]);
+        globalMax = Math.max(globalMax, currentMax);
     }
-
-    public static int lengthOfLISOptimized(int[] nums) {
-        // Optimized O(n log n) solution using patience sorting
-        List<Integer> tails = new ArrayList<>();
-        for (int num : nums) {
-            int idx = Collections.binarySearch(tails, num);
-            if (idx < 0) {
-                idx = -(idx + 1); // insertion point
-            }
-            if (idx == tails.size()) {
-                tails.add(num);
-            } else {
-                tails.set(idx, num);
-            }
-        }
-        return tails.size();
-    }
-
-    public static void main(String[] args) {
-        int[] nums = {10, 9, 2, 5, 3, 7, 101, 18};
-        System.out.println("DP O(n^2) LIS length: " + lengthOfLIS(nums)); // Output: 4
-        System.out.println("Optimized O(n log n) LIS length: " + lengthOfLISOptimized(nums)); // Output: 4
-    }
+    return globalMax;
 }
 ```
 
 </div>
 
-**Week 6: Mock Interviews and Refinement**
+## Preparation Strategy
 
-Conduct three to four mock interviews. Structure each with one Medium and one Medium-to-Hard problem over 50 minutes. Practice thinking aloud — LinkedIn interviewers evaluate your communication as much as your code. Revisit any DFS or DP problems you struggled with and make sure you can solve them cleanly.
+**The 6-Week Plan for LinkedIn**
+
+- **Weeks 1-2: Foundation & Patterns.** Don’t touch LinkedIn questions yet. Use a platform like CodeJeet to solve 60-80 core problems covering the top 10 patterns (Sliding Window, Two Pointers, DFS/BFS, DP, etc.). Goal: Recognize patterns instantly.
+- **Week 3: Topic Deep Dive.** Focus exclusively on LinkedIn’s top topics: Array, String, Hash Table, DFS, DP. Solve 30-40 problems, mixing Easy and Medium. For each problem, write clean, commented code and verbalize your reasoning.
+- **Week 4: LinkedIn-Specific Practice.** Now, tackle 40-50 Medium-difficulty problems from LinkedIn’s tagged list. Time yourself: 25 minutes to solve and 5 minutes to discuss edge cases and a follow-up. This simulates the real interview pace.
+- **Week 5: Mock Interviews & Hard Problems.** Do at least 4 mock interviews with a peer or on a platform like Pramp. Focus on communication. Also, solve 15-20 Hard problems from LinkedIn’s list, not to memorize, but to stretch your problem-solving muscles for those senior-level follow-ups.
+- **Week 6: Polish & Review.** Re-solve 20-30 of the most frequent LinkedIn Medium problems (like #56, #146, #297). Ensure you can code them flawlessly in under 20 minutes. Practice explaining your code line-by-line to an imaginary interviewer. Review system design fundamentals.
+
+## Common Mistakes
+
+1.  **Solving Silently:** The biggest failure mode is diving into code without a shared understanding. **Fix:** Before writing a single line, restate the problem in your own words, give 1-2 concrete examples, and outline your high-level approach. Ask, “Does this direction make sense?”
+2.  **Ignoring Code Quality:** Writing messy, uncommented code that “just works.” **Fix:** Write code as if you’re submitting a PR. Use descriptive variable names (`slow_pointer`, `window_freq`). Add brief inline comments for complex logic. Group code into logical blocks.
+3.  **Being Unprepared for Follow-ups:** Solving the initial problem and then having nothing to say. **Fix:** Always leave 10-15 minutes. After your solution, proactively discuss: time/space complexity, edge cases (empty input, duplicates, large numbers), and how you’d scale it. Think out loud about a potential follow-up.
+4.  **Not Knowing Your Chosen Language Deeply:** Fumbling with syntax for basic operations like sorting a list of objects or using a priority queue. **Fix:** Pick one language (Python, Java, or JavaScript) and know its standard library cold. Practice writing common idioms from memory.
 
 ## Key Tips
 
-1.  **Master DFS and graph traversal.** This is non-negotiable for LinkedIn. If you cannot confidently write DFS from scratch — both recursive and iterative versions — you are leaving points on the table. Practice on trees and graphs until traversal is automatic. Understand the trade-offs: recursion is elegant but risks stack overflow on deep graphs; iteration with an explicit stack gives you more control.
+1.  **The 5-Minute Rule:** If you’re stuck on an approach after 5 minutes of thinking, don’t spiral. Tell the interviewer, “I’m considering approaches X and Y. X seems simpler but might be O(n²). Y uses more space but could be O(n). I’m leaning towards Y to explore first.” This shows structured thinking.
+2.  **Validate with Examples, Not Just Theory:** After writing your algorithm, don’t just state it’s correct. Walk through a non-trivial example, including a potential edge case, using your code’s logic. This often catches bugs before you run “mental execution.”
+3.  **Ask Clarifying Questions:** Is the input sorted? Can it contain negatives or nulls? What’s the expected behavior for an empty list? These questions show you think about real-world data and constraints.
+4.  **Practice Writing on a Whiteboard (or Virtual Equivalent):** The physical act of writing code without an IDE’s autocomplete is a skill. Practice it weekly to build muscle memory and neatness.
+5.  **End with a Summary:** When time is called, briefly summarize what you accomplished: “We identified the problem could be solved with a sliding window and hash map, implemented it in O(n) time, and discussed how it could be modified to handle Unicode characters.” This leaves a strong, structured final impression.
 
-2.  **Think about the product.** LinkedIn interviewers appreciate candidates who can connect algorithmic problems to real-world product scenarios. When solving a graph problem, it is worth noting how it relates to connection recommendations or feed ranking. For example, a problem about finding the shortest path in an unweighted graph (BFS) could be related to finding the degree of connection between two members.
+Mastering LinkedIn’s interview requires a shift from just solving problems to demonstrating you can engineer solutions collaboratively. Focus on clean code, clear communication, and thoughtful discussion. The technical bar is high, but the process is designed to find great builders, not just great solvers.
 
-3.  **Handle follow-ups gracefully.** LinkedIn interviewers often extend the initial problem with a twist: "Now what if the graph has cycles?" or "What if we need the k shortest paths?" Practice thinking about generalizations while you solve the base problem. For instance, after solving "Number of Islands," a common follow-up is "What if the grid is too large to fit in memory?" This tests your ability to think about distributed processing or streaming algorithms.
-
-4.  **Prepare for the behavioral round seriously.** LinkedIn's culture emphasizes collaboration, integrity, and member-first thinking. Prepare specific stories about teamwork, conflict resolution, and times you prioritized the user experience over technical convenience. Use the STAR method (Situation, Task, Action, Result) to structure your answers.
-
-5.  **Study LinkedIn's engineering blog.** The company publishes detailed technical posts about their infrastructure, data pipelines, and ML systems. Familiarity with their tech stack (Kafka, Samza, Venice, Espresso) shows genuine interest and helps in system design rounds. For example, knowing that they use Kafka for real-time data streaming can inform your design for a notification system.
-
-[Browse all LinkedIn questions on CodeJeet](/company/linkedin)
+Ready to practice with the most relevant problems? [Browse all LinkedIn questions on CodeJeet](/company/linkedin)

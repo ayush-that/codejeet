@@ -1,74 +1,122 @@
 ---
 title: "eBay vs Expedia: Interview Question Comparison"
 description: "Compare coding interview questions at eBay and Expedia — difficulty levels, topic focus, and preparation strategy."
-date: "2026-11-07"
+date: "2026-10-30"
 category: "tips"
 tags: ["ebay", "expedia", "comparison"]
 ---
 
-When preparing for technical interviews at major tech companies, understanding the specific patterns and expectations of each employer is crucial. Both eBay and Expedia ask a high volume of coding questions focused on core data structures, but their difficulty distributions and emphasis on certain problem-solving approaches differ significantly. This comparison breaks down their question profiles to help you prioritize your study.
+# eBay vs Expedia: Interview Question Comparison
+
+If you're interviewing at both eBay and Expedia, you're looking at two companies with surprisingly similar technical interview profiles at first glance, but with subtle differences that matter for preparation. Both are established tech companies with mature engineering cultures, but eBay leans slightly more toward algorithmic rigor while Expedia emphasizes practical problem-solving with a touch of greediness. The good news: there's significant overlap in what they test, meaning you can prepare efficiently for both simultaneously if you prioritize correctly.
 
 ## Question Volume and Difficulty
 
-eBay's list contains **60 questions**, categorized as 12 Easy, 38 Medium, and 10 Hard. This distribution highlights a strong focus on Medium-difficulty problems, which are typical for assessing a candidate's core problem-solving and implementation skills under interview conditions. The presence of 10 Hard questions indicates you must also be prepared for complex scenarios involving optimization or advanced data structure manipulation.
+Looking at the numbers: eBay has 60 tagged questions (12 Easy, 38 Medium, 10 Hard) while Expedia has 54 (13 Easy, 35 Medium, 6 Hard).
 
-Expedia's list is slightly smaller at **54 questions**, with 13 Easy, 35 Medium, and only 6 Hard. This profile suggests a marginally more accessible difficulty curve, with a heavier concentration on Medium problems and a smaller hurdle of highly complex questions. The overall volume for both companies is substantial, requiring dedicated, problem-focused practice rather than last-minute cramming.
+The first insight: **both companies heavily favor Medium difficulty problems**. eBay's 38 Medium questions represent 63% of their tagged problems, while Expedia's 35 Mediums are 65% of theirs. This tells you that interviewers at both companies expect you to handle non-trivial algorithmic challenges, but they're not trying to stump you with obscure graph theory or advanced dynamic programming.
+
+The key difference is in Hard problems: eBay has nearly twice as many (10 vs 6). This doesn't necessarily mean eBay interviews are harder—it could reflect that eBay's question bank includes more challenging follow-ups or that they're more willing to push candidates who ace the Medium questions. In practice, you should be prepared to handle at least one Medium-to-Hard problem in eBay's later rounds.
 
 ## Topic Overlap
 
-The core technical overlap between eBay and Expedia is considerable, making preparation for one highly beneficial for the other.
+Both companies test **Array, String, and Hash Table** problems extensively. This is the core of their technical interviews:
 
-- **Array, String, and Hash Table** problems form the backbone of both question sets. Mastery here is non-negotiable. You must be fluent in techniques like two-pointers, sliding window, and prefix sums for arrays and strings, and in using hash maps for efficient lookups and frequency counting.
+- **Arrays**: Everything from two-pointer techniques to sliding windows to prefix sums
+- **Strings**: Manipulation, palindrome checks, anagram problems, and parsing
+- **Hash Tables**: The go-to data structure for O(1) lookups and frequency counting
+
+Where they diverge: eBay includes **Sorting** as a top topic, while Expedia lists **Greedy** algorithms. This is telling:
+
+- eBay's sorting focus suggests they care about fundamental algorithmic knowledge and optimization. Sorting problems often test your ability to recognize when ordering matters and how to efficiently rearrange data.
+- Expedia's greedy focus aligns with their travel business—many scheduling, resource allocation, and optimization problems in travel lend themselves to greedy approaches.
+
+## Preparation Priority Matrix
+
+Here's how to prioritize your study time for maximum ROI:
+
+**High Priority (Study First - Overlap Topics):**
+
+- Array manipulation (two-pointer, sliding window)
+- String operations and pattern matching
+- Hash table applications (frequency counting, caching)
+- _Recommended problems_: Two Sum (#1), Valid Anagram (#242), Group Anagrams (#49), Contains Duplicate (#217)
+
+**Medium Priority (eBay-Specific):**
+
+- Sorting algorithms and their applications
+- Problems where sorting enables optimal solutions
+- _Recommended problems_: Merge Intervals (#56), Non-overlapping Intervals (#435), Meeting Rooms II (#253)
+
+**Medium Priority (Expedia-Specific):**
+
+- Greedy algorithm patterns
+- Problems about optimization with local choices
+- _Recommended problems_: Maximum Subarray (#53), Jump Game (#55), Task Scheduler (#621)
+
+## Interview Format Differences
+
+**eBay** typically follows a more traditional tech interview structure:
+
+- 4-5 rounds including coding, system design, and behavioral
+- Coding rounds often include 2 problems in 45-60 minutes
+- System design is expected for senior roles (E4/E5 and above)
+- Virtual interviews are common, but some positions may require on-site final rounds
+
+**Expedia** tends to be slightly more practical:
+
+- 3-4 rounds with heavier emphasis on real-world problem solving
+- Coding problems often have a business context (scheduling, pricing, inventory)
+- Behavioral questions may be integrated with technical discussions
+- System design questions may focus more on API design and scalability than deep infrastructure
+
+Both companies use LeetCode-style problems, but Expedia's problems more frequently have a thin veneer of travel industry context (flights, hotels, bookings).
+
+## Specific Problem Recommendations
+
+Here are 5 problems that provide excellent preparation value for both companies:
+
+1. **Two Sum (#1)** - The classic hash table problem that tests basic data structure knowledge. If you can't solve this optimally, you're not ready for either company.
 
 <div class="code-group">
 
 ```python
-# Example: Two-pointer for a sorted array (common pattern)
-def two_sum_sorted(numbers, target):
-    left, right = 0, len(numbers) - 1
-    while left < right:
-        current_sum = numbers[left] + numbers[right]
-        if current_sum == target:
-            return [left + 1, right + 1]
-        elif current_sum < target:
-            left += 1
-        else:
-            right -= 1
+# Time: O(n) | Space: O(n)
+def twoSum(nums, target):
+    seen = {}
+    for i, num in enumerate(nums):
+        complement = target - num
+        if complement in seen:
+            return [seen[complement], i]
+        seen[num] = i
     return []
 ```
 
 ```javascript
-// Example: Two-pointer for a sorted array (common pattern)
-function twoSumSorted(numbers, target) {
-  let left = 0,
-    right = numbers.length - 1;
-  while (left < right) {
-    const currentSum = numbers[left] + numbers[right];
-    if (currentSum === target) {
-      return [left + 1, right + 1];
-    } else if (currentSum < target) {
-      left++;
-    } else {
-      right--;
+// Time: O(n) | Space: O(n)
+function twoSum(nums, target) {
+  const seen = new Map();
+  for (let i = 0; i < nums.length; i++) {
+    const complement = target - nums[i];
+    if (seen.has(complement)) {
+      return [seen.get(complement), i];
     }
+    seen.set(nums[i], i);
   }
   return [];
 }
 ```
 
 ```java
-// Example: Two-pointer for a sorted array (common pattern)
-public int[] twoSumSorted(int[] numbers, int target) {
-    int left = 0, right = numbers.length - 1;
-    while (left < right) {
-        int currentSum = numbers[left] + numbers[right];
-        if (currentSum == target) {
-            return new int[]{left + 1, right + 1};
-        } else if (currentSum < target) {
-            left++;
-        } else {
-            right--;
+// Time: O(n) | Space: O(n)
+public int[] twoSum(int[] nums, int target) {
+    Map<Integer, Integer> seen = new HashMap<>();
+    for (int i = 0; i < nums.length; i++) {
+        int complement = target - nums[i];
+        if (seen.containsKey(complement)) {
+            return new int[]{seen.get(complement), i};
         }
+        seen.put(nums[i], i);
     }
     return new int[]{};
 }
@@ -76,21 +124,24 @@ public int[] twoSumSorted(int[] numbers, int target) {
 
 </div>
 
-- **Sorting** is explicitly listed for eBay, implying questions may involve custom comparators or algorithms where sorting is a key preprocessing step.
-- **Greedy** algorithms are explicitly listed for Expedia. This signals you should practice problems where a locally optimal choice leads to a global solution, such as activity selection or interval scheduling problems.
+2. **Merge Intervals (#56)** - Tests sorting and array manipulation, valuable for both companies but especially eBay.
 
-The main difference is one of emphasis: eBay's list suggests a slightly broader algorithmic scope with Sorting, while Expedia's points toward a specific need to review Greedy strategies.
+3. **Maximum Subarray (#53)** - A perfect greedy/dynamic programming hybrid that's highly relevant to Expedia's focus and tests important algorithmic thinking for eBay.
+
+4. **Valid Parentheses (#20)** - String manipulation with stack usage—tests fundamental data structure knowledge that both companies expect.
+
+5. **Group Anagrams (#49)** - Excellent hash table and string problem that tests your ability to use data structures creatively.
 
 ## Which to Prepare for First
 
-Start with **eBay**. Its larger number of Hard questions (10 vs. 6) and inclusion of Sorting means your study plan will naturally cover a wider and slightly more challenging range of problems. If you can comfortably solve eBay's Medium and Hard questions, you will have effectively covered the core of Expedia's list (Array, String, Hash Table) and will only need to supplement your knowledge with focused practice on **Greedy algorithms**.
+Prepare for **eBay first**, then adapt for Expedia. Here's why:
 
-A practical strategy is to:
+1. eBay's broader difficulty range (more Hards) means if you're ready for eBay, you're over-prepared for Expedia's coding rounds
+2. Sorting algorithms (eBay focus) are fundamental—mastering them improves your problem-solving generally
+3. Greedy algorithms (Expedia focus) are often easier to pick up once you have strong algorithmic fundamentals
 
-1.  Work through the core topics (Array, String, Hash Table) using eBay's problem list.
-2.  Integrate Sorting problems and ensure you can tackle several Hard-level questions.
-3.  Shift to Expedia's list, using it for additional practice on the core topics and specifically targeting any questions tagged with Greedy.
+Spend 70% of your time on the overlapping topics (Arrays, Strings, Hash Tables), 20% on eBay-specific sorting problems, and 10% on Expedia's greedy problems. This gives you the best coverage for both interviews.
 
-This approach builds a stronger foundation first, making subsequent preparation more efficient.
+Remember: both companies value clean, maintainable code and clear communication. Practice explaining your thought process as you solve problems, and be prepared to discuss trade-offs between different approaches.
 
-For the full question lists and company-specific insights, visit the CodeJeet pages for [eBay](/company/ebay) and [Expedia](/company/expedia).
+For more company-specific insights, check out our [eBay interview guide](/company/ebay) and [Expedia interview guide](/company/expedia).

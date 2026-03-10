@@ -284,9 +284,10 @@ async function main() {
   sitemapUrls.push({ path: "/companies", priority: 0.9, changeFrequency: "weekly" });
   sitemapUrls.push({ path: "/podcast", priority: 0.6, changeFrequency: "monthly" });
 
-  // Company pages
+  // Company pages (skip companies with <3 questions — they are noindexed)
   for (const slug of Object.keys(companyProfiles)) {
     const profile = companyProfiles[slug];
+    if (profile.questionCount < 3) continue;
     sitemapUrls.push({
       path: `/company/${slug}`,
       priority: profile.questionCount >= 50 ? 0.8 : 0.7,
@@ -471,38 +472,9 @@ async function main() {
     JSON.stringify(filterTypeLookup)
   );
 
-  // 9. Expand sitemap with cross-product URLs
-  for (const p of companyFilterParams) {
-    sitemapUrls.push({
-      path: `/company/${p.slug}/${p.filter}`,
-      priority: p.type === "topic" ? 0.6 : p.type === "difficulty" ? 0.5 : 0.5,
-      changeFrequency: "monthly",
-    });
-  }
-  for (const p of comparisonPairs) {
-    sitemapUrls.push({ path: `/compare/${p.pair}`, priority: 0.6, changeFrequency: "monthly" });
-  }
-
-  // Blog pages
-  const blogDir = path.join(process.cwd(), "content", "blog");
-  try {
-    const blogFiles = await fs.readdir(blogDir);
-    const blogSlugs = blogFiles.filter((f) => f.endsWith(".md")).map((f) => f.replace(/\.md$/, ""));
-    sitemapUrls.push({ path: "/blog", priority: 0.7, changeFrequency: "weekly" });
-    for (const slug of blogSlugs) {
-      sitemapUrls.push({ path: `/blog/${slug}`, priority: 0.7, changeFrequency: "monthly" });
-    }
-    console.log(`Added ${blogSlugs.length} blog URLs to sitemap`);
-  } catch {
-    console.log("No blog directory found, skipping blog URLs");
-  }
-
-  // Re-write sitemap with expanded URLs
-  await fs.writeFile(path.join(outDir, "sitemap-urls.json"), JSON.stringify(sitemapUrls));
-  console.log(`Updated sitemap to ${sitemapUrls.length} total URLs`);
-
   // === Blog Index Generation ===
   console.log("\nGenerating blog index...");
+  const blogDir = path.join(process.cwd(), "content", "blog");
   try {
     const blogFiles = await fs.readdir(blogDir);
     const mdFiles = blogFiles.filter((f) => f.endsWith(".md"));

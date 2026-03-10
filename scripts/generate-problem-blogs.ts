@@ -6,7 +6,7 @@ const API_URL = "https://api.deepseek.com/chat/completions";
 const BLOG_DIR = path.join(process.cwd(), "content", "blog");
 const PROBLEMS_DIR = path.join(process.cwd(), "public", "data", "problems");
 const CONCURRENCY = 500;
-const BUDGET = 1.32;
+const BUDGET = 100;
 
 interface Problem {
   id: string;
@@ -41,7 +41,7 @@ async function callDeepSeek(prompt: string, systemPrompt: string): Promise<strin
         { role: "user", content: prompt },
       ],
       temperature: 0.7,
-      max_tokens: 4096,
+      max_tokens: 8192,
     }),
   });
 
@@ -69,23 +69,40 @@ interface BlogTask {
   prompt: string;
 }
 
-const SYSTEM_PROMPT = `You are an expert technical writer for CodeJeet, a coding interview prep website. Write solution guides that are direct and practical. No fluff, no emojis. Every sentence should be useful. Use markdown formatting with ## headings.
+const SYSTEM_PROMPT = `You are a senior software engineer who has solved 500+ LeetCode problems and conducted hundreds of coding interviews. You write solution guides for CodeJeet, a coding interview prep website.
 
-IMPORTANT: Include complete, working code solutions in Python, JavaScript, and Java. Wrap multi-language code examples in <div class="code-group"> tags like this:
+Quality requirements:
+- Emphasize step-by-step reasoning. Walk through WHY each approach works, not just WHAT the code does. Explain the thought process an interviewer expects to see.
+- When a problem has multiple approaches, always show the brute force solution first, then optimize. Explain what makes the brute force insufficient and how the optimal solution addresses it.
+- Include line-by-line explanation of key parts of the solution — especially tricky index manipulations, boundary conditions, and non-obvious logic.
+- Dedicate space to common mistakes and edge cases. These are what separate passing candidates from failing ones.
+- Write as if helping a friend who understands programming but struggles with interview-style problem solving. Be conversational but precise. No fluff, no emojis.
+
+Use markdown formatting with ## headings.
+
+IMPORTANT: Include complete, working, well-commented code solutions in Python, JavaScript, and Java. Every function should have comments explaining each significant step. Wrap multi-language code examples in <div class="code-group"> tags like this:
 
 <div class="code-group">
 
 \`\`\`python
+# Time: O(n) | Space: O(n)
 def example():
+    # Step 1: Initialize data structure
     pass
 \`\`\`
 
 \`\`\`javascript
-function example() {}
+// Time: O(n) | Space: O(n)
+function example() {
+    // Step 1: Initialize data structure
+}
 \`\`\`
 
 \`\`\`java
-public void example() {}
+// Time: O(n) | Space: O(n)
+public void example() {
+    // Step 1: Initialize data structure
+}
 \`\`\`
 
 </div>
@@ -169,7 +186,7 @@ date: "${date}"
 category: "dsa-patterns"
 tags: ${JSON.stringify([p.slug, ...p.topics.slice(0, 3).map((t) => t.toLowerCase().replace(/ /g, "-")), p.difficulty.toLowerCase()])}
 ---`,
-      prompt: `Write a 500-800 word solution guide: "How to Solve ${p.title}"
+      prompt: `Write a 800-1200 word solution guide: "How to Solve ${p.title}"
 
 Problem: ${questionSnippet}
 Difficulty: ${p.difficulty}
@@ -178,21 +195,30 @@ Acceptance: ${p.acceptance_rate}
 ${similar ? `Similar problems: ${similar}` : ""}
 
 Structure:
-1. Brief problem restatement (1-2 sentences, don't copy the full problem)
-2. ## Approach — explain the intuition and algorithm step by step
-3. ## Solution — complete working code in Python, JavaScript, and Java wrapped in <div class="code-group">
-4. ## Complexity Analysis — time and space complexity with explanation
-5. ## Key Takeaways — 2-3 bullet points about what pattern this teaches
+1. Brief problem restatement (1-2 sentences, don't copy the full problem). State what makes this problem tricky or interesting.
+2. ## Visual Walkthrough — trace through a small example step by step (e.g., "Given input [2,7,11,15] with target 9: first we check 2..."). Use a concrete example to build intuition before showing code.
+3. ## Brute Force Approach — explain the naive solution, show the code, and analyze why it's too slow. If the problem only has one reasonable approach, explain what a naive candidate might try and why it fails.${
+        p.difficulty !== "Easy"
+          ? `
+4. ## Optimized Approach — explain the key insight that leads to the better solution. What data structure or technique makes this faster? Walk through the reasoning step by step.
+5. ## Optimal Solution — complete working, heavily-commented code in Python, JavaScript, and Java wrapped in <div class="code-group">. Each significant line or block should have a comment explaining what it does and why.`
+          : `
+4. ## Optimal Solution — complete working, heavily-commented code in Python, JavaScript, and Java wrapped in <div class="code-group">. Each significant line or block should have a comment explaining what it does and why.`
+      }
+6. ## Complexity Analysis — time and space complexity with clear explanation of where each factor comes from
+7. ## Common Mistakes — 3-4 specific mistakes candidates make on this problem (e.g., off-by-one errors, forgetting to handle empty input, using the wrong data structure). Explain how to avoid each one.
+8. ## When You'll See This Pattern — explain what other problems use the same core technique. Name 2-3 specific LeetCode problems and explain why they're related. This helps the reader recognize the pattern in future problems.
+9. ## Key Takeaways — 2-3 bullet points about what pattern this teaches and how to recognize it in new problems
 ${
   similar
-    ? `6. End with: Related problems: ${(p.similar_questions || [])
+    ? `10. End with: Related problems: ${(p.similar_questions || [])
         .slice(0, 3)
         .map((s) => `[${s.title}](/problem/${s.slug})`)
         .join(", ")}`
-    : `6. End with: [Practice this problem on CodeJeet](/problem/${p.slug})`
+    : `10. End with: [Practice this problem on CodeJeet](/problem/${p.slug})`
 }
 
-Include the complete solution code in a <div class="code-group"> with Python/JavaScript/Java.`,
+Include complete solution code in <div class="code-group"> blocks with Python/JavaScript/Java. Code must have detailed comments explaining each step. Include time and space complexity as comments at the top of each solution.`,
     });
   }
 

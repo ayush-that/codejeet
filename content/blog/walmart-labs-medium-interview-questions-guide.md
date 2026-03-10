@@ -1,121 +1,200 @@
 ---
 title: "Medium Walmart Labs Interview Questions: Strategy Guide"
 description: "How to tackle 105 medium difficulty questions from Walmart Labs — patterns, time targets, and practice tips."
-date: "2032-03-26"
+date: "2032-03-18"
 category: "tips"
 tags: ["walmart-labs", "medium", "interview prep"]
 ---
 
-Medium questions at Walmart Labs form the core of their technical interviews, with 105 out of their 152 total tagged problems falling into this category. These problems are designed to assess not just your ability to find a solution, but to implement an optimal one under pressure. They typically involve applying a known algorithm or data structure pattern to a slightly novel scenario, requiring clean code and clear communication.
+Walmart Labs interviews have a distinct flavor. Their Medium questions aren't just about algorithmic complexity; they're often practical, data-heavy problems that test your ability to model real-world systems and manipulate complex data structures efficiently. While Easy problems might ask you to traverse a tree, Medium problems will ask you to design a system to track inventory across warehouses (modeled as a graph) and find the optimal restocking path. The jump in difficulty isn't just about a more complex algorithm—it's about integrating multiple concepts under time pressure.
 
-## Common Patterns
+## Common Patterns and Templates
 
-Walmart Labs' Medium problems heavily favor a few key algorithmic domains. Recognizing these patterns is half the battle.
+Walmart Labs Medium problems heavily favor **Graphs** (especially BFS/DFS for traversal and shortest path), **Dynamic Programming** for optimization (like inventory cost minimization), and **Design problems** that mimic backend systems (e.g., designing a parking lot or order tracker). A recurring theme is transforming a word problem into a known graph or DP pattern.
 
-**Graph Algorithms** are extremely prevalent, especially Breadth-First Search (BFS) for shortest path problems and Union-Find for connectivity. Many problems disguise grid-based challenges as graph traversals.
+The most common template you'll need is **Breadth-First Search on a grid or implicit graph**. Many problems about "minimum steps," "shortest path," or "spread" in a 2D matrix (representing a warehouse map, pixel grid, or game board) boil down to this.
 
 <div class="code-group">
 
 ```python
-# BFS for shortest path in binary matrix
 from collections import deque
-def shortestPathBinaryMatrix(grid):
-    if grid[0][0]: return -1
-    n = len(grid)
-    q = deque([(0, 0, 1)])  # (r, c, dist)
-    grid[0][0] = 1
-    dirs = [(1,0),(-1,0),(0,1),(0,-1),(1,1),(-1,-1),(1,-1),(-1,1)]
-    while q:
-        r, c, d = q.popleft()
-        if r == n-1 and c == n-1: return d
-        for dr, dc in dirs:
-            nr, nc = r+dr, c+dc
-            if 0 <= nr < n and 0 <= nc < n and grid[nr][nc] == 0:
-                q.append((nr, nc, d+1))
-                grid[nr][nc] = 1
-    return -1
+from typing import List
+
+def bfs_grid_template(grid: List[List[int]], start: tuple) -> int:
+    """
+    Template for BFS on a 2D grid to find shortest path/level.
+    Assumes grid contains obstacles (e.g., 1 = blocked, 0 = free).
+    Returns -1 if target unreachable.
+    """
+    if not grid or not grid[0]:
+        return -1
+
+    rows, cols = len(grid), len(grid[0])
+    # Directions: up, down, left, right
+    directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+
+    # Queue holds (row, col, distance)
+    queue = deque([(start[0], start[1], 0)])
+    # Visited set to avoid cycles
+    visited = set([(start[0], start[1])])
+
+    while queue:
+        r, c, dist = queue.popleft()
+
+        # Check if we reached a target condition (problem-specific)
+        # Example: if grid[r][c] == TARGET: return dist
+
+        # Explore neighbors
+        for dr, dc in directions:
+            nr, nc = r + dr, c + dc
+            # Check bounds, passability, and visited status
+            if (0 <= nr < rows and 0 <= nc < cols and
+                grid[nr][nc] != 1 and
+                (nr, nc) not in visited):
+                visited.add((nr, nc))
+                queue.append((nr, nc, dist + 1))
+
+    return -1  # Target not found
+
+# Time: O(R * C) | Space: O(R * C) in worst case for visited/queue.
 ```
 
 ```javascript
-// BFS for shortest path in binary matrix
-function shortestPathBinaryMatrix(grid) {
-  if (grid[0][0]) return -1;
-  const n = grid.length;
-  const queue = [[0, 0, 1]]; // [r, c, dist]
-  grid[0][0] = 1;
-  const dirs = [
+function bfsGridTemplate(grid, start) {
+  // Template for BFS on a 2D grid to find shortest path/level.
+  if (!grid || grid.length === 0 || grid[0].length === 0) return -1;
+
+  const rows = grid.length,
+    cols = grid[0].length;
+  // Directions: down, up, right, left
+  const directions = [
     [1, 0],
     [-1, 0],
     [0, 1],
     [0, -1],
-    [1, 1],
-    [-1, -1],
-    [1, -1],
-    [-1, 1],
   ];
-  while (queue.length) {
-    const [r, c, d] = queue.shift();
-    if (r === n - 1 && c === n - 1) return d;
-    for (const [dr, dc] of dirs) {
+
+  const queue = [[start[0], start[1], 0]];
+  const visited = new Set();
+  visited.add(`${start[0]},${start[1]}`);
+
+  while (queue.length > 0) {
+    const [r, c, dist] = queue.shift();
+
+    // Check target condition (problem-specific)
+    // if (grid[r][c] === TARGET) return dist;
+
+    for (const [dr, dc] of directions) {
       const nr = r + dr,
         nc = c + dc;
-      if (nr >= 0 && nr < n && nc >= 0 && nc < n && grid[nr][nc] === 0) {
-        queue.push([nr, nc, d + 1]);
-        grid[nr][nc] = 1;
+      const key = `${nr},${nc}`;
+      if (nr >= 0 && nr < rows && nc >= 0 && nc < cols && grid[nr][nc] !== 1 && !visited.has(key)) {
+        visited.add(key);
+        queue.push([nr, nc, dist + 1]);
       }
     }
   }
   return -1;
 }
+// Time: O(R * C) | Space: O(R * C)
 ```
 
 ```java
-// BFS for shortest path in binary matrix
-public int shortestPathBinaryMatrix(int[][] grid) {
-    if (grid[0][0] == 1) return -1;
-    int n = grid.length;
-    Queue<int[]> queue = new LinkedList<>();
-    queue.offer(new int[]{0, 0, 1}); // {r, c, dist}
-    grid[0][0] = 1;
-    int[][] dirs = {{1,0},{-1,0},{0,1},{0,-1},{1,1},{-1,-1},{1,-1},{-1,1}};
-    while (!queue.isEmpty()) {
-        int[] curr = queue.poll();
-        int r = curr[0], c = curr[1], d = curr[2];
-        if (r == n-1 && c == n-1) return d;
-        for (int[] dir : dirs) {
-            int nr = r + dir[0], nc = c + dir[1];
-            if (nr >= 0 && nr < n && nc >=0 && nc < n && grid[nr][nc] == 0) {
-                queue.offer(new int[]{nr, nc, d+1});
-                grid[nr][nc] = 1;
+import java.util.*;
+
+public class BfsGridTemplate {
+    public int bfsGridTemplate(int[][] grid, int[] start) {
+        // Template for BFS on a 2D grid to find shortest path/level.
+        if (grid == null || grid.length == 0 || grid[0].length == 0) return -1;
+
+        int rows = grid.length, cols = grid[0].length;
+        int[][] directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+
+        Queue<int[]> queue = new LinkedList<>();
+        queue.offer(new int[]{start[0], start[1], 0});
+        boolean[][] visited = new boolean[rows][cols];
+        visited[start[0]][start[1]] = true;
+
+        while (!queue.isEmpty()) {
+            int[] current = queue.poll();
+            int r = current[0], c = current[1], dist = current[2];
+
+            // Check target condition (problem-specific)
+            // if (grid[r][c] == TARGET) return dist;
+
+            for (int[] dir : directions) {
+                int nr = r + dir[0], nc = c + dir[1];
+                if (nr >= 0 && nr < rows && nc >= 0 && nc < cols &&
+                    grid[nr][nc] != 1 && !visited[nr][nc]) {
+                    visited[nr][nc] = true;
+                    queue.offer(new int[]{nr, nc, dist + 1});
+                }
             }
         }
+        return -1;
     }
-    return -1;
 }
+// Time: O(R * C) | Space: O(R * C)
 ```
 
 </div>
 
-**Dynamic Programming** questions often involve classic knapsack or sequence problems. **String Manipulation** and **Array/Two Pointer** techniques are also common for problems involving parsing, searching, or matching data.
+## Time Benchmarks and What Interviewers Look For
 
-## Time Targets
+For a 45-minute interview slot, you have about 30-35 minutes for the coding portion. A Medium problem should be **solved and fully discussed within 25 minutes**. This breaks down to: 5 minutes for clarifying questions and edge cases, 15 minutes for coding and explaining your approach, and 5 minutes for testing with examples and discussing optimizations.
 
-In a 45-60 minute interview slot, you will typically be expected to solve one, or sometimes two, Medium problems. Your target breakdown should be:
+Beyond a correct answer, Walmart Labs interviewers are watching for:
 
-- **First 5-10 minutes:** Understand the problem, ask clarifying questions, and discuss your initial approach.
-- **Next 15-20 minutes:** Develop the optimal solution, explain the time/space complexity, and begin coding.
-- **Final 10-15 minutes:** Write clean, functional code, walk through a test case, and discuss potential edge cases or optimizations.
-  If you haven't started coding by the 20-minute mark, you risk running out of time. Practice is essential to hit this pace consistently.
+1.  **Problem Translation:** Can you map their business scenario (e.g., "finding the closest fulfillment center") to a computer science concept (BFS on a graph)? Verbally narrate this mapping.
+2.  **Trade-off Awareness:** When you choose a data structure, be prepared to justify it. "I'm using a HashSet for O(1) lookups, accepting O(N) space to reduce time complexity."
+3.  **Production-Ready Code:** Use descriptive variable names (`neighborRow` not `nr`), handle edge cases (empty input, null values), and write modular, readable code. They're evaluating you as a future colleague who will write maintainable systems code.
+
+## Key Differences from Easy Problems
+
+Easy problems test a single concept in isolation. A Medium problem requires you to **chain concepts together**. The core skill shift is from _recognition_ to _integration_.
+
+- **New Techniques:** You must now combine BFS with a visited set that tracks additional state (e.g., keys collected in "Shortest Path to Get All Keys" #864). You'll use a **priority queue (heap)** for Dijkstra's algorithm instead of a simple queue for BFS when edge weights vary (e.g., path cost based on terrain).
+- **Mindset Shift:** You can no longer jump straight into code. You must spend 2-3 minutes designing. Ask: "Is this a graph? What are the nodes and edges? Is this an optimization problem that suggests DP? What is the state?" The initial design phase is non-negotiable for Medium.
+
+## Specific Patterns for Medium
+
+1.  **Multi-Source BFS:** Instead of one starting point, you initialize the queue with multiple sources. This is perfect for problems like "rotting oranges" or calculating distance from multiple servers. The template change is simple: initialize `queue` and `visited` with all starting points at distance 0.
+
+2.  **Topological Sort for Task Scheduling:** Many design problems involve ordering tasks with dependencies. This is a direct application of Kahn's Algorithm (BFS on a DAG).
+
+    ```python
+    # Kahn's Algorithm Skeleton
+    from collections import deque, defaultdict
+    def findOrder(numTasks, prerequisites):
+        graph = defaultdict(list)
+        indegree = [0] * numTasks
+        for course, pre in prerequisites:
+            graph[pre].append(course)
+            indegree[course] += 1
+
+        queue = deque([i for i in range(numTasks) if indegree[i] == 0])
+        order = []
+        while queue:
+            node = queue.popleft()
+            order.append(node)
+            for neighbor in graph[node]:
+                indegree[neighbor] -= 1
+                if indegree[neighbor] == 0:
+                    queue.append(neighbor)
+        return order if len(order) == numTasks else []
+    # Time: O(V + E) | Space: O(V + E)
+    ```
+
+3.  **DP with Memoization (Top-Down):** For problems like "Number of Dice Rolls With Target Sum" (#1155), the recursive relation is easier to derive, but you must add memoization to avoid exponential time. The pattern is: 1) Define state (e.g., `(dice_remaining, target_remaining)`), 2) Write base cases, 3) Check memo, 4) Recurse and store result.
 
 ## Practice Strategy
 
-Do not just solve problems sequentially. Use a targeted approach:
+Don't just solve problems; solve them under interview conditions. Here’s a 3-week plan:
 
-1.  **Sort by Frequency:** Start with the most frequently asked questions to learn the patterns Walmart Labs favors.
-2.  **Pattern-Based Practice:** Group problems by the patterns identified above (Graphs, DP, etc.). Solve 3-5 of each type in a row to build pattern recognition muscle memory.
-3.  **Simulate the Interview:** Use a timer. For each problem, enforce the time targets: 10 minutes for planning, 20 minutes for coding, and 5 minutes for testing. Verbalize your thought process as you go.
-4.  **Review and Refactor:** After solving, review the most efficient solution. Could your code be cleaner or more readable? Refactor it.
+- **Week 1 (Pattern Recognition):** Group problems by the patterns above. Solve 2 Graph/BFS, 1 DP, and 1 Design problem daily. Don't time yourself yet. Focus on deeply understanding why the pattern fits. Recommended starters: "Number of Islands" (#200), "Course Schedule" (#207), "Coin Change" (#322).
+- **Week 2 (Timed Integration):** Set a 25-minute timer. Mix problems from different categories. After solving, analyze: Where did you lose time? Was it in design, coding, or debugging? Practice verbalizing your thought process out loud.
+- **Week 3 (Walmart Specifics):** Focus on the 105 Medium problems in their tagged list. These often have a "data processing" twist. Pay special attention to problems involving strings, hash maps, and custom comparators for sorting—these simulate real data manipulation tasks.
 
-Focus on mastering the common patterns within their problem set to turn novel questions into familiar exercises.
+Aim for consistency over volume. Solving 15 problems thoroughly with the patterns internalized is far better than skimming 50. Always analyze time and space complexity for every solution you write or read.
 
 [Practice Medium Walmart Labs questions](/company/walmart-labs/medium)

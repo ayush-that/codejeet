@@ -1,120 +1,147 @@
 ---
 title: "Depth-First Search Questions at Airbnb: What to Expect"
 description: "Prepare for Depth-First Search interview questions at Airbnb — patterns, difficulty breakdown, and study tips."
-date: "2029-01-03"
+date: "2028-12-26"
 category: "dsa-patterns"
 tags: ["airbnb", "depth-first-search", "interview prep"]
 ---
 
-Depth-First Search (DFS) is a fundamental algorithm for traversing trees and graphs, and its prevalence at Airbnb signals the types of technical problems you'll face. With 6 out of their 64 total coding questions tagged with DFS, it's a pattern you cannot ignore. This frequency indicates Airbnb's focus on problems involving hierarchical data (like directory structures or nested menus), pathfinding (like travel itineraries or connection searches), and combinatorial exploration (like feature configurations or availability searches). Mastering DFS demonstrates your ability to handle recursion, backtracking, and systematic exploration—skills critical for building and optimizing the complex, nested data models common in a global travel platform.
+## Why Depth-First Search Matters at Airbnb
 
-## What to Expect — Types of Problems
+Airbnb’s engineering problems often model real‑world relationships: hosts and guests, listings and neighborhoods, calendars and availability windows. These relationships naturally form trees or graphs—exactly the domain where Depth‑First Search (DFS) shines. With 6 out of their 64 tagged LeetCode questions being DFS‑specific, it’s not their most frequent topic, but it’s a high‑signal one. When DFS appears in an Airbnb interview, it’s rarely a simple traversal; it’s almost always coupled with a secondary constraint—path counting, memoization, or backtracking—that tests whether you understand state management within the recursion. In my experience, an Airbnb interviewer who asks a DFS question is checking two things: can you cleanly navigate a recursive structure, and can you track the right information along the way to solve a business‑logic problem (like finding available booking windows or validating a listing hierarchy).
 
-Airbnb's DFS questions typically fall into three categories. First, **tree and graph traversal** problems, where you must search nodes, find paths, or compute properties. Second, **backtracking problems**, which involve generating all possible combinations or permutations, such as constructing travel itineraries from a list of flights. Third, **problems on implicit graphs**, where you perform DFS on a 2D grid (like a map layout) or a state space. Expect the problems to be framed within real-world contexts relevant to Airbnb's domain, such as navigating property listings, user connections, or calendar availability. The key is recognizing when a problem requires exploring all possible "branches" of a decision tree or all paths in a network.
+## Specific Patterns Airbnb Favors
 
-## How to Prepare — Study Tips with One Code Example
+Airbnb’s DFS questions lean heavily on **tree and graph traversal where you need to carry and return accumulated state**. You won’t see much pure graph theory (like network flow); instead, expect problems where the graph is implicit (like a word‑search board) or where the tree represents a hierarchical rule set. Two patterns stand out:
 
-Start by solidifying the core recursive and iterative implementations of DFS. Practice identifying the base case, the recursive case, and what state needs to be passed down or backtracked. For graph problems, always clarify if cycles are possible; if they are, you must track visited nodes. A critical pattern is using DFS to clone or serialize complex nested structures, which is highly relevant for distributed systems.
+1. **Backtracking with pruning** – Problems where you explore all possible configurations but can cut off branches early. Airbnb likes to attach this to realistic scenarios, e.g., generating all possible itinerary arrangements given flight tickets.
+2. **DFS with memoization** – Often appears in problems that could be solved with dynamic programming but are more intuitively expressed via DFS + memo. This tests your ability to recognize overlapping subproblems within a recursive exploration.
 
-Here is the essential recursive DFS pattern for a graph, applicable to tree problems as well. The core idea is to explore as far as possible along each branch before backtracking.
+A classic example is **LeetCode 332 “Reconstruct Itinerary”** (which actually appears in Airbnb’s list). It’s a graph traversal where you must visit every edge exactly once, but the need to return the lexicographically smallest valid itinerary forces you to manage sorting and backtracking. Another is **LeetCode 124 “Binary Tree Maximum Path Sum”**, a tree DFS where each recursive call returns one piece of information (the maximum single‑branch sum) while a global variable tracks the best overall path—a pattern of splitting “local” vs. “global” state that Airbnb interviewers often probe.
+
+## How to Prepare
+
+Master the two key variations: **return‑carrying DFS** and **state‑tracking DFS**. Below are code templates for each. Notice how the function signature changes based on what you need to propagate.
 
 <div class="code-group">
 
 ```python
-def dfs_iterative(graph, start):
-    visited = set()
-    stack = [start]
-    while stack:
-        node = stack.pop()
-        if node not in visited:
-            visited.add(node)
-            # Process node here
-            for neighbor in graph[node]:
-                if neighbor not in visited:
-                    stack.append(neighbor)
-    return visited
+# Pattern 1: DFS that returns a value (e.g., max depth, sum)
+# Example: Find maximum depth of a binary tree (LeetCode 104)
+# Time: O(n) | Space: O(h) for recursion stack, where h is tree height
+def maxDepth(root):
+    if not root:
+        return 0
+    left_depth = maxDepth(root.left)
+    right_depth = maxDepth(root.right)
+    return max(left_depth, right_depth) + 1
 
-def dfs_recursive(graph, node, visited=None):
-    if visited is None:
-        visited = set()
-    visited.add(node)
-    # Process node here
-    for neighbor in graph[node]:
-        if neighbor not in visited:
-            dfs_recursive(graph, neighbor, visited)
-    return visited
+# Pattern 2: DFS that carries path state and possibly backtracks
+# Example: Path Sum II (LeetCode 113) – find all root-to-leaf paths summing to target
+# Time: O(n^2) in worst case due to path copying | Space: O(h) for recursion, O(n) for paths
+def pathSum(root, targetSum):
+    def dfs(node, current_sum, path, result):
+        if not node:
+            return
+        current_sum += node.val
+        path.append(node.val)
+        if not node.left and not node.right and current_sum == targetSum:
+            result.append(list(path))  # copy the path
+        dfs(node.left, current_sum, path, result)
+        dfs(node.right, current_sum, path, result)
+        path.pop()  # backtrack
+
+    result = []
+    dfs(root, 0, [], result)
+    return result
 ```
 
 ```javascript
-function dfsIterative(graph, start) {
-  const visited = new Set();
-  const stack = [start];
-  while (stack.length > 0) {
-    const node = stack.pop();
-    if (!visited.has(node)) {
-      visited.add(node);
-      // Process node here
-      for (const neighbor of graph[node] || []) {
-        if (!visited.has(neighbor)) {
-          stack.push(neighbor);
-        }
-      }
-    }
-  }
-  return visited;
+// Pattern 1: Return-carrying DFS
+// Time: O(n) | Space: O(h)
+function maxDepth(root) {
+  if (!root) return 0;
+  const leftDepth = maxDepth(root.left);
+  const rightDepth = maxDepth(root.right);
+  return Math.max(leftDepth, rightDepth) + 1;
 }
 
-function dfsRecursive(graph, node, visited = new Set()) {
-  visited.add(node);
-  // Process node here
-  for (const neighbor of graph[node] || []) {
-    if (!visited.has(neighbor)) {
-      dfsRecursive(graph, neighbor, visited);
+// Pattern 2: State-tracking DFS with backtracking
+// Time: O(n^2) | Space: O(h) recursion, O(n) for paths
+function pathSum(root, targetSum) {
+  const result = [];
+  function dfs(node, currentSum, path) {
+    if (!node) return;
+    currentSum += node.val;
+    path.push(node.val);
+    if (!node.left && !node.right && currentSum === targetSum) {
+      result.push([...path]); // copy
     }
+    dfs(node.left, currentSum, path);
+    dfs(node.right, currentSum, path);
+    path.pop(); // backtrack
   }
-  return visited;
+  dfs(root, 0, []);
+  return result;
 }
 ```
 
 ```java
-import java.util.*;
+// Pattern 1: Return-carrying DFS
+// Time: O(n) | Space: O(h)
+public int maxDepth(TreeNode root) {
+    if (root == null) return 0;
+    int leftDepth = maxDepth(root.left);
+    int rightDepth = maxDepth(root.right);
+    return Math.max(leftDepth, rightDepth) + 1;
+}
 
-public class DFSExample {
-    public Set<Integer> dfsIterative(Map<Integer, List<Integer>> graph, int start) {
-        Set<Integer> visited = new HashSet<>();
-        Deque<Integer> stack = new ArrayDeque<>();
-        stack.push(start);
-        while (!stack.isEmpty()) {
-            int node = stack.pop();
-            if (!visited.contains(node)) {
-                visited.add(node);
-                // Process node here
-                for (int neighbor : graph.getOrDefault(node, new ArrayList<>())) {
-                    if (!visited.contains(neighbor)) {
-                        stack.push(neighbor);
-                    }
-                }
-            }
-        }
-        return visited;
-    }
+// Pattern 2: State-tracking DFS with backtracking
+// Time: O(n^2) | Space: O(h) recursion, O(n) for paths
+public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
+    List<List<Integer>> result = new ArrayList<>();
+    dfs(root, targetSum, new ArrayList<>(), result);
+    return result;
+}
 
-    public void dfsRecursive(Map<Integer, List<Integer>> graph, int node, Set<Integer> visited) {
-        visited.add(node);
-        // Process node here
-        for (int neighbor : graph.getOrDefault(node, new ArrayList<>())) {
-            if (!visited.contains(neighbor)) {
-                dfsRecursive(graph, neighbor, visited);
-            }
-        }
+private void dfs(TreeNode node, int currentSum, List<Integer> path, List<List<Integer>> result) {
+    if (node == null) return;
+    currentSum -= node.val;  // subtract as we go
+    path.add(node.val);
+    if (node.left == null && node.right == null && currentSum == 0) {
+        result.add(new ArrayList<>(path)); // copy
     }
+    dfs(node.left, currentSum, path, result);
+    dfs(node.right, currentSum, path, result);
+    path.remove(path.size() - 1); // backtrack
 }
 ```
 
 </div>
 
+## How Airbnb Tests Depth-First Search vs Other Companies
+
+At companies like Google or Meta, DFS questions often test raw algorithmic prowess—think complex cycle detection or topological sorting in large graphs. Airbnb’s DFS problems feel more _applied_. The graph is usually smaller (a tree of listings, a 4x4 word board), but the complexity comes from the business rules layered on top. For example, you might traverse a calendar graph but need to enforce minimum‑stay policies or cleaning‑day constraints. This means Airbnb interviews test **DFS + constraint checking** more than pure algorithmic speed. Another differentiator: Airbnb often expects you to discuss trade‑offs between recursive and iterative (stack‑based) DFS implementations, because in their codebase both appear depending on context (deep recursion might blow the stack in some environments). Be ready to justify your choice.
+
+## Study Order
+
+1. **Basic Tree Traversals (Pre‑order, In‑order, Post‑order)** – Understand the recursion stack; this is the foundation. Without this, you can’t track state properly.
+2. **Path‑Based Problems (e.g., Path Sum, All Paths)** – Learn to carry a mutable path and backtrack. This introduces the idea of propagating information downward and collecting results upward.
+3. **DFS on Implicit Graphs (Word Search, Islands)** – Practice converting a 2D grid into an adjacency‑list‑like traversal. Airbnb often uses grids to represent maps or calendars.
+4. **DFS with Memoization (e.g., Unique Paths, Word Break)** – Recognize when subproblems repeat. This bridges DFS to DP and is common in Airbnb problems where you explore states (like “remaining days” or “remaining budget”).
+5. **Backtracking with Pruning (N‑Queens, Permutations with constraints)** – Master cutting off invalid branches early. Airbnb uses this for itinerary‑style problems where you sort candidates to ensure lexicographic order.
+
+This order works because each step adds one new conceptual layer: first you learn to walk, then to carry a backpack, then to navigate a maze, then to remember where you’ve been, and finally to avoid dead ends intelligently.
+
 ## Recommended Practice Order
 
-Build your skills progressively. First, master basic tree traversals (pre-order, in-order, post-order). Second, solve classic graph DFS problems like number of islands or clone graph. Third, tackle backtracking puzzles, such as generating parentheses or subsets. Finally, apply these patterns to Airbnb's specific problems. This layered approach ensures you understand the pattern's mechanics before applying it to complex, domain-specific scenarios.
+1. **Maximum Depth of Binary Tree (LeetCode 104)** – Pure return‑carrying DFS.
+2. **Path Sum II (LeetCode 113)** – State‑tracking with backtracking.
+3. **Number of Islands (LeetCode 200)** – DFS on an implicit graph.
+4. **Word Search (LeetCode 79)** – DFS with early exit (pruning).
+5. **Reconstruct Itinerary (LeetCode 332)** – DFS on a directed graph with lexical ordering and backtracking—this is the closest to a classic Airbnb problem.
+6. **Unique Paths (LeetCode 62)** – Solve it first with DFS + memoization to understand the pattern, then with DP.
+
+After these six, you’ll have covered the core patterns Airbnb tests. The key is to practice explaining _why_ you’re using DFS instead of BFS (usually you need to explore all the way to a leaf/end state before considering siblings) and how you manage state without creating subtle bugs.
 
 [Practice Depth-First Search at Airbnb](/company/airbnb/depth-first-search)

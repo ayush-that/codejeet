@@ -77,6 +77,7 @@ export async function generateMetadata({
         `Practice ${count} ${topicLabel} problems asked at ${displayName}. ` +
         `Filter by difficulty and frequency. Sorted by interview frequency.`,
       alternates: { canonical: `https://codejeet.com/company/${slug}/${filter}` },
+      robots: { index: false, follow: true },
       openGraph: {
         title: `${displayName} ${topicLabel} Interview Questions | CodeJeet`,
         description: `Browse ${count} ${topicLabel} LeetCode problems asked at ${displayName}.`,
@@ -97,6 +98,7 @@ export async function generateMetadata({
         `Practice ${count} ${diffLabel.toLowerCase()} difficulty problems asked at ${displayName}. ` +
         `Sorted by interview frequency.`,
       alternates: { canonical: `https://codejeet.com/company/${slug}/${filter}` },
+      robots: { index: false, follow: true },
       openGraph: {
         title: `${displayName} ${diffLabel} Interview Questions | CodeJeet`,
         description: `Browse ${count} ${diffLabel.toLowerCase()} LeetCode problems asked at ${displayName}.`,
@@ -116,6 +118,7 @@ export async function generateMetadata({
       `${problem.title} is a ${problem.difficulty.toLowerCase()} LeetCode problem asked at ${displayName}. ` +
       `${problem.acceptance_rate} acceptance rate. Topics: ${problem.topics.slice(0, 4).join(", ")}.`,
     alternates: { canonical: `https://codejeet.com/company/${slug}/${filter}` },
+    robots: { index: false, follow: true },
     openGraph: {
       title: `${problem.title} \u2014 ${displayName} Interview Question | CodeJeet`,
       description: `${problem.title} at ${displayName}. ${problem.difficulty}, ${problem.acceptance_rate} acceptance.`,

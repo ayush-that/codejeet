@@ -1,90 +1,130 @@
 ---
 title: "Meta vs TikTok: Interview Question Comparison"
 description: "Compare coding interview questions at Meta and TikTok — difficulty levels, topic focus, and preparation strategy."
-date: "2028-07-09"
+date: "2029-01-27"
 category: "tips"
 tags: ["meta", "tiktok", "comparison"]
 ---
 
-When preparing for technical interviews at top tech companies, understanding the specific focus and patterns of each company's question bank can dramatically increase your efficiency. Meta and TikTok, while both leaders in social technology, present distinct interview landscapes in terms of volume, difficulty distribution, and topical emphasis. A targeted approach, informed by their question statistics, is crucial for effective preparation.
+# Meta vs TikTok: Interview Question Comparison
+
+If you're interviewing at both Meta and TikTok, you're facing two of the most sought-after tech opportunities today. While both test core algorithmic skills, their approaches differ significantly in volume, focus, and format. Preparing for both simultaneously is possible, but requires a strategic approach that maximizes overlap while respecting their unique demands. Think of it this way: Meta's interview is a marathon with a well-charted course, while TikTok's is a sprint through a more selective, intense obstacle course. Your preparation should reflect that difference.
 
 ## Question Volume and Difficulty
 
-The sheer scale of Meta's question bank is its most defining feature. With **1,387** cataloged questions, it dwarfs TikTok's **383**. This volume reflects Meta's longer history of standardized technical interviews and its vast engineering organization.
+The raw numbers tell a clear story. Meta's tagged question pool on LeetCode is **1,387** (414 Easy, 762 Medium, 211 Hard). TikTok's is **383** (42 Easy, 260 Medium, 81 Hard).
 
-The difficulty distribution further highlights their different approaches:
+**Meta's** massive pool suggests a few things. First, they have a longer, more established interview history, leading to a wider variety of documented questions. Second, the high Medium count (55% of their pool) indicates their interview sweet spot: complex problems that require clean, optimal solutions under pressure. The significant Hard count (15%) means you must be ready for at least one truly challenging problem, especially for senior roles.
 
-- **Meta (E414/M762/H211):** The majority of questions are Medium difficulty (55%), with a significant number of Easy (30%) and a solid block of Hard (15%). This suggests a well-rounded interview that tests fundamentals thoroughly before escalating to complex problem-solving.
-- **TikTok (E42/M260/H81):** The distribution is heavily skewed toward Medium difficulty (68%), with fewer Easy (11%) and Hard (21%) questions. This indicates a laser focus on core algorithmic competency and the ability to handle non-trivial problems under pressure. The higher _proportion_ of Hard questions, despite the smaller total, can make the interview feel intensely challenging.
+**TikTok's** smaller, denser pool is more revealing. Notice the distribution: a mere 11% Easy, but a whopping **68% Medium** and 21% Hard. This isn't a gentle ramp-up. TikTok's interviews are notoriously intense, favoring complex problem-solving from the get-go. The smaller overall pool means you have a higher chance of encountering a question you've seen before if you study strategically, but it also means they expect deep mastery of core patterns.
 
-In short, Meta tests breadth and depth across a wide spectrum, while TikTok concentrates its evaluation on a narrower, more intense band of medium-to-hard problems.
+The implication: For Meta, breadth of pattern recognition is crucial. For TikTok, depth of problem-solving under time pressure is paramount.
 
 ## Topic Overlap
 
-Both companies heavily prioritize foundational data structures. **Array, String, and Hash Table** problems form the essential core for both. Mastering these is non-negotiable.
+Both companies heavily test the fundamental building blocks:
 
-The key differentiator lies in their secondary focus:
+- **Array & String:** The bread and butter for both. Expect manipulations, sliding windows, two-pointer techniques, and matrix traversals.
+- **Hash Table:** Essential for efficient lookups and frequency counting. A go-to tool for optimizing solutions.
 
-- **Meta** shows a strong emphasis on **Math** problems. This includes number theory, probability, and other mathematical reasoning challenges that appear in system design and optimization contexts.
-- **TikTok** places a much higher relative weight on **Dynamic Programming (DP)**. Given its smaller question pool, the presence of DP as a top-tier topic means you are significantly more likely to encounter a DP problem in a TikTok interview.
+**Meta's Unique Emphasis:** **Math** appears as a top topic. This often translates to number theory problems (prime, GCD, modulo), bit manipulation, and probability. They love problems that combine logical reasoning with coding.
+**TikTok's Unique Emphasis:** **Dynamic Programming (DP)** is a top-tier topic. This signals a strong focus on optimization problems, recursion with memoization, and complex state transitions. Be prepared to derive and code a DP solution in 30-45 minutes.
 
-<div class="code-group">
+Other notable topics for Meta include Depth-First Search, Tree, and Graph (reflecting their social network domain). TikTok also emphasizes Binary Search and Greedy algorithms.
 
-```python
-# Example of a common DP pattern (Coin Change) more emphasized at TikTok
-def coinChange(coins, amount):
-    dp = [float('inf')] * (amount + 1)
-    dp[0] = 0
-    for i in range(1, amount + 1):
-        for coin in coins:
-            if i - coin >= 0:
-                dp[i] = min(dp[i], dp[i - coin] + 1)
-    return dp[amount] if dp[amount] != float('inf') else -1
-```
+## Preparation Priority Matrix
 
-```javascript
-// Example of a common DP pattern (Coin Change) more emphasized at TikTok
-function coinChange(coins, amount) {
-  const dp = new Array(amount + 1).fill(Infinity);
-  dp[0] = 0;
-  for (let i = 1; i <= amount; i++) {
-    for (const coin of coins) {
-      if (i - coin >= 0) {
-        dp[i] = Math.min(dp[i], dp[i - coin] + 1);
+Maximize your return on investment by studying in this order:
+
+1.  **Overlap First (Highest ROI):** Array, String, Hash Table. Mastery here serves both companies.
+    - **Key Patterns:** Sliding Window (Fixed & Variable), Two Pointers (opposite-direction and fast-slow), Prefix Sum, Frequency Maps.
+    - **Meta-TikTok Shared Problem Example:** **3Sum (#15)**. Tests array sorting, two-pointer technique, and duplicate avoidance—a classic for both.
+
+2.  **TikTok-Specific Priority:** Dynamic Programming. This is likely your biggest gap if you're a generalist. Start with 1D and 2D DP classics.
+    - **Key Patterns:** 0/1 Knapsack, Longest Common Subsequence, Fibonacci-style, Partition problems.
+    - **TikTok Problem Example:** **Longest Increasing Subsequence (#300)**. A fundamental DP pattern that appears in many guises.
+
+3.  **Meta-Specific Priority:** Math & Bit Manipulation. Dedicate time to number puzzles and bitwise operations.
+    - **Key Patterns:** Modulo arithmetic, GCD/LCM, checking powers, using bits for sets.
+    - **Meta Problem Example:** **Single Number (#136)**. A simple entry point into the world of bitwise XOR.
+
+## Interview Format Differences
+
+**Meta's Format:** Typically 2 coding rounds (phone screen/virtual onsite) + 1 system design (for E5+) + 1 behavioral ("Meta Leadership Principles"). Coding rounds are 45 minutes, often with 2 questions (one Medium, one Medium-Hard) or one large, multi-part problem. Interviewers use a collaborative online editor and expect discussion. The behavioral round is weighted heavily for cultural fit.
+
+**TikTok's Format:** Known for a fast-paced, intense process. Often 3-4 technical rounds back-to-back in a "virtual onsite." Coding rounds are 60 minutes, usually with **1-2 very complex Medium or Hard problems**. The expectation is for a complete, optimal, bug-free solution with rigorous analysis. System design may be integrated earlier (even for mid-level roles). The behavioral aspect is often lighter and woven into technical discussions.
+
+The core difference: **Meta allocates ~22 minutes per question; TikTok allocates ~30-45 minutes for a single, harder problem.** This changes your pacing strategy entirely.
+
+## Specific Problem Recommendations for Dual Preparation
+
+These problems train patterns highly relevant to both companies:
+
+1.  **Merge Intervals (#56):** Covers array sorting, greedy merging logic, and handling edge cases. A fundamental pattern for any data consolidation problem.
+    <div class="code-group">
+
+    ```python
+    # Time: O(n log n) | Space: O(n) (or O(1) if sorted in-place)
+    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+        intervals.sort(key=lambda x: x[0])
+        merged = []
+        for interval in intervals:
+            # If merged is empty or no overlap, append
+            if not merged or merged[-1][1] < interval[0]:
+                merged.append(interval)
+            else:
+                # There is overlap, merge by updating the end
+                merged[-1][1] = max(merged[-1][1], interval[1])
+        return merged
+    ```
+
+    ```javascript
+    // Time: O(n log n) | Space: O(n)
+    function merge(intervals) {
+      intervals.sort((a, b) => a[0] - b[0]);
+      const merged = [];
+      for (let interval of intervals) {
+        if (merged.length === 0 || merged[merged.length - 1][1] < interval[0]) {
+          merged.push(interval);
+        } else {
+          merged[merged.length - 1][1] = Math.max(merged[merged.length - 1][1], interval[1]);
+        }
       }
+      return merged;
     }
-  }
-  return dp[amount] === Infinity ? -1 : dp[amount];
-}
-```
+    ```
 
-```java
-// Example of a common DP pattern (Coin Change) more emphasized at TikTok
-public int coinChange(int[] coins, int amount) {
-    int[] dp = new int[amount + 1];
-    Arrays.fill(dp, amount + 1);
-    dp[0] = 0;
-    for (int i = 1; i <= amount; i++) {
-        for (int coin : coins) {
-            if (i - coin >= 0) {
-                dp[i] = Math.min(dp[i], dp[i - coin] + 1);
+    ```java
+    // Time: O(n log n) | Space: O(n) (or O(log n) for sorting space)
+    public int[][] merge(int[][] intervals) {
+        Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
+        LinkedList<int[]> merged = new LinkedList<>();
+        for (int[] interval : intervals) {
+            if (merged.isEmpty() || merged.getLast()[1] < interval[0]) {
+                merged.add(interval);
+            } else {
+                merged.getLast()[1] = Math.max(merged.getLast()[1], interval[1]);
             }
         }
+        return merged.toArray(new int[merged.size()][]);
     }
-    return dp[amount] > amount ? -1 : dp[amount];
-}
-```
+    ```
 
-</div>
+    </div>
 
-## Which to Prepare for First
+2.  **Longest Substring Without Repeating Characters (#3):** The quintessential sliding window problem with a hash map. Tests your ability to maintain a dynamic window invariant.
+3.  **Word Break (#139):** A perfect bridge problem. For TikTok, it's a core DP problem (can you segment the string?). For Meta, it's a great hash table (dictionary) and recursion/memoization problem. Understanding both the DP and BFS/DFS approaches is valuable.
+4.  **Find All Anagrams in a String (#438):** Tests sliding window with a fixed size and efficient frequency comparison using arrays or hash maps. A common pattern for both.
+5.  **Number of Islands (#200):** Covers DFS/BFS graph traversal on a matrix. Extremely common at Meta (social networks) and useful at TikTok for any grid-based problem.
 
-Your preparation priority should be guided by the breadth of the target company's question bank.
+## Which to Prepare for First?
 
-**Prepare for TikTok first if you are interviewing at both.** TikTok's focused question set (383 questions) with its concentration on Arrays, Strings, Hash Tables, and Dynamic Programming allows for a deep, targeted study session. Achieving high proficiency in this narrower scope is a manageable medium-term goal. Success here builds a strong core competency that is directly transferable.
+**Prepare for TikTok first.** Here's the strategic reasoning:
 
-**Then, expand your study for Meta.** Use the foundation built for TikTok and expand outward. Meta's vast question bank (1,387 questions) requires covering more ground, particularly in Math and other secondary topics. The strategy here is not to memorize every question but to achieve broad exposure to many problem patterns and variations, solidifying the fundamentals you already mastered.
+TikTok's focus on fewer, harder problems under high time pressure will force you to a higher standard of coding fluency and optimal solution design. Mastering complex Medium and Hard problems for TikTok will make Meta's typical Medium-focused questions feel more manageable. The intense DP practice for TikTok will give you a significant edge, as DP is less emphasized (though still present) at Meta.
 
-Ultimately, a tiered approach is most efficient: master the intense focus of TikTok's core, then scale up to cover the extensive landscape of Meta's challenges.
+The reverse is not as true. Preparing for Meta's broader, slightly less intense pool might leave you under-prepared for the depth and speed required by TikTok. Think of it as training for a sprint first (TikTok), which naturally improves your endurance for the marathon (Meta).
 
-For specific question lists and patterns, visit the CodeJeet pages for [Meta](/company/meta) and [TikTok](/company/tiktok).
+Once you've built that core problem-solving muscle with TikTok-focused prep, shift to broadening your pattern recognition with Meta's larger question pool, and don't forget to drill their math/bit manipulation favorites.
+
+For more company-specific details, visit the CodeJeet guides for [Meta](/company/meta) and [TikTok](/company/tiktok).
