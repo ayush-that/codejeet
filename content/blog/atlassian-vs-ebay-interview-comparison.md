@@ -1,93 +1,222 @@
 ---
 title: "Atlassian vs eBay: Interview Question Comparison"
 description: "Compare coding interview questions at Atlassian and eBay — difficulty levels, topic focus, and preparation strategy."
-date: "2026-10-10"
+date: "2026-10-02"
 category: "tips"
 tags: ["atlassian", "ebay", "comparison"]
 ---
 
-When preparing for technical interviews, understanding a company's specific focus areas can dramatically increase your efficiency. Atlassian and eBay, while both major tech firms, show distinct patterns in their interview question banks. Atlassian's list comprises 62 questions, categorized as 7 Easy, 43 Medium, and 12 Hard. eBay's is very similar in volume at 60 questions, but with a slightly different difficulty spread: 12 Easy, 38 Medium, and 10 Hard. Both heavily emphasize four core data structure topics: Array, String, Hash Table, and Sorting. This comparison breaks down the nuances to help you strategize your preparation.
+# Atlassian vs eBay: Interview Question Comparison
+
+If you're interviewing at both Atlassian and eBay, or trying to decide where to focus your preparation, you're in a good position. Both companies ask similar volumes of questions with comparable difficulty distributions, but there are subtle differences in emphasis and format that can significantly impact your preparation strategy. The key insight is that while both test core data structures heavily, Atlassian tends to favor problems that test system thinking within algorithmic constraints, while eBay leans toward practical data manipulation problems that mirror e-commerce scenarios.
 
 ## Question Volume and Difficulty
 
-The total question counts are nearly identical, making the overall preparation load comparable. The primary difference lies in the difficulty distribution.
+Atlassian's 62 questions break down as 7 Easy, 43 Medium, and 12 Hard. eBay's 60 questions distribute as 12 Easy, 38 Medium, and 10 Hard.
 
-**Atlassian** has a steeper curve, with fewer Easy questions (7) and more Hard questions (12). This suggests their interviews may place a greater emphasis on complex problem-solving and algorithmic optimization from the outset. You are expected to handle Medium-difficulty problems reliably, as they form the bulk (43) of the question bank.
+These numbers tell a clear story: **both companies are Medium-heavy**, with approximately 70% of questions falling in the Medium difficulty range. However, eBay has nearly twice as many Easy questions (12 vs 7), suggesting they might include more warm-up problems or simpler initial screening questions. Atlassian's slightly higher Hard count (12 vs 10) indicates they may push candidates more on complex optimization problems, particularly for senior roles.
 
-**eBay** presents a gentler initial slope, with almost double the number of Easy questions (12) and slightly fewer Hard ones (10). This could indicate that their process might include more foundational questions to warm up or assess baseline competency before diving into more challenging scenarios. However, Medium problems remain the central pillar (38), as with Atlassian.
-
-In practice, this means for Atlassian, you should prioritize achieving high proficiency with Medium problems and ensure you are comfortable tackling a significant number of Hards. For eBay, while you must still master Mediums, a strong, error-free command of Easy and common Medium problems might be weighted more heavily.
+The total volume is essentially identical, meaning you should expect similar interview intensity in terms of raw problem count. The real difference lies in _what_ they're testing with those problems, not how many.
 
 ## Topic Overlap
 
-The core topic overlap is significant and should be the foundation of your study for either company. The combination of **Array, String, Hash Table, and Sorting** points to a heavy focus on linear data structures, efficient lookup, and data organization.
+Both companies heavily emphasize the same four core topics in this exact order of frequency:
 
-- **Array/String** problems often involve two-pointers, sliding window, or prefix-sum techniques.
-- **Hash Table** is frequently the key to optimizing lookups from O(n) to O(1), used in problems involving counts, existence checks, or mapping relationships.
-- **Sorting** is both a direct operation and a preparatory step for other algorithms like two-pointers or greedy approaches.
+1. **Array** (most frequent for both)
+2. **String**
+3. **Hash Table**
+4. **Sorting**
 
-A problem exemplifying this overlap is checking if two strings are anagrams. The optimal solution uses a Hash Table for counting, which inherently involves String and Array (for character access) concepts.
+This overlap is excellent news for your preparation efficiency. If you master these four topics, you'll be well-prepared for 80-90% of the coding questions at both companies. The shared emphasis suggests both companies value candidates who can manipulate and transform data efficiently—a fundamental skill for any software engineer.
+
+Where they diverge is in secondary topics. Atlassian shows more emphasis on **Dynamic Programming** and **Tree** problems, particularly binary trees and their variations. eBay includes more **Matrix** and **Two Pointer** problems, which often relate to grid-based data or efficient searching through sorted data.
+
+## Preparation Priority Matrix
+
+Here's how to prioritize your study time for maximum ROI:
+
+**High Priority (Study First - Works for Both Companies)**
+
+- **Array manipulation**: Sliding window, prefix sums, in-place operations
+- **String algorithms**: Pattern matching, palindrome problems, string transformation
+- **Hash Table applications**: Frequency counting, two-sum variations, caching patterns
+- **Sorting applications**: Merge intervals, k-th element problems, custom comparators
+
+**Medium Priority (Atlassian-Specific)**
+
+- **Dynamic Programming**: Particularly knapsack variations and string DP
+- **Tree traversals**: BST operations, LCA problems, serialization
+- **Graph algorithms**: BFS/DFS variations (though less frequent than trees)
+
+**Medium Priority (eBay-Specific)**
+
+- **Matrix traversal**: Spiral order, search in sorted matrix, island problems
+- **Two Pointer techniques**: For sorted arrays and linked lists
+- **Stack applications**: Next greater element, valid parentheses variations
+
+**Specific LeetCode problems valuable for both:**
+
+- **Two Sum (#1)** - The quintessential hash table problem
+- **Merge Intervals (#56)** - Tests sorting with interval logic
+- **Valid Parentheses (#20)** - String/stack combination
+- **Product of Array Except Self (#238)** - Array manipulation classic
+- **Group Anagrams (#49)** - String sorting and hashing
+
+## Interview Format Differences
+
+**Atlassian** typically follows a more traditional tech interview structure:
+
+- 4-5 rounds including coding, system design, and behavioral
+- Coding rounds often include 2 problems in 45-60 minutes
+- Strong emphasis on code quality, readability, and testability
+- System design expectations are high even for mid-level roles
+- Virtual interviews are standard, but some teams prefer on-site final rounds
+
+**eBay** has a slightly more practical orientation:
+
+- 3-4 rounds with heavier weight on coding
+- Often 1-2 problems per round with more time for discussion
+- They appreciate solutions that consider real-world data characteristics (e.g., "What if this user data is sparse?")
+- Behavioral questions often tie directly to e-commerce scenarios
+- Virtual interviews are well-established and standardized
+
+Both companies use collaborative IDEs (CoderPad, HackerRank) and expect you to talk through your thought process. Atlassian interviewers are more likely to ask follow-up optimization questions, while eBay interviewers might ask about edge cases specific to large-scale user data.
+
+## Specific Problem Recommendations
+
+Here are 5 problems that provide excellent preparation value for both companies:
+
+1. **3Sum (#15)** - Covers array manipulation, sorting, and two-pointer technique in one problem. The pattern appears frequently in variations at both companies.
 
 <div class="code-group">
 
 ```python
-def isAnagram(s: str, t: str) -> bool:
-    if len(s) != len(t):
-        return False
-    count = {}
-    for char in s:
-        count[char] = count.get(char, 0) + 1
-    for char in t:
-        if char not in count or count[char] == 0:
-            return False
-        count[char] -= 1
-    return True
+# Time: O(n²) | Space: O(1) ignoring output storage
+def threeSum(nums):
+    nums.sort()
+    result = []
+
+    for i in range(len(nums) - 2):
+        # Skip duplicates for the first element
+        if i > 0 and nums[i] == nums[i - 1]:
+            continue
+
+        left, right = i + 1, len(nums) - 1
+
+        while left < right:
+            total = nums[i] + nums[left] + nums[right]
+
+            if total < 0:
+                left += 1
+            elif total > 0:
+                right -= 1
+            else:
+                result.append([nums[i], nums[left], nums[right]])
+
+                # Skip duplicates for the second and third elements
+                while left < right and nums[left] == nums[left + 1]:
+                    left += 1
+                while left < right and nums[right] == nums[right - 1]:
+                    right -= 1
+
+                left += 1
+                right -= 1
+
+    return result
 ```
 
 ```javascript
-function isAnagram(s, t) {
-  if (s.length !== t.length) return false;
-  const count = new Map();
-  for (let char of s) {
-    count.set(char, (count.get(char) || 0) + 1);
+// Time: O(n²) | Space: O(1) ignoring output storage
+function threeSum(nums) {
+  nums.sort((a, b) => a - b);
+  const result = [];
+
+  for (let i = 0; i < nums.length - 2; i++) {
+    // Skip duplicates for the first element
+    if (i > 0 && nums[i] === nums[i - 1]) continue;
+
+    let left = i + 1;
+    let right = nums.length - 1;
+
+    while (left < right) {
+      const sum = nums[i] + nums[left] + nums[right];
+
+      if (sum < 0) {
+        left++;
+      } else if (sum > 0) {
+        right--;
+      } else {
+        result.push([nums[i], nums[left], nums[right]]);
+
+        // Skip duplicates for the second and third elements
+        while (left < right && nums[left] === nums[left + 1]) left++;
+        while (left < right && nums[right] === nums[right - 1]) right--;
+
+        left++;
+        right--;
+      }
+    }
   }
-  for (let char of t) {
-    if (!count.has(char) || count.get(char) === 0) return false;
-    count.set(char, count.get(char) - 1);
-  }
-  return true;
+
+  return result;
 }
 ```
 
 ```java
-public boolean isAnagram(String s, String t) {
-    if (s.length() != t.length()) return false;
-    int[] count = new int[26]; // Assuming lowercase English letters
-    for (char c : s.toCharArray()) {
-        count[c - 'a']++;
+// Time: O(n²) | Space: O(1) ignoring output storage
+public List<List<Integer>> threeSum(int[] nums) {
+    Arrays.sort(nums);
+    List<List<Integer>> result = new ArrayList<>();
+
+    for (int i = 0; i < nums.length - 2; i++) {
+        // Skip duplicates for the first element
+        if (i > 0 && nums[i] == nums[i - 1]) continue;
+
+        int left = i + 1;
+        int right = nums.length - 1;
+
+        while (left < right) {
+            int sum = nums[i] + nums[left] + nums[right];
+
+            if (sum < 0) {
+                left++;
+            } else if (sum > 0) {
+                right--;
+            } else {
+                result.add(Arrays.asList(nums[i], nums[left], nums[right]));
+
+                // Skip duplicates for the second and third elements
+                while (left < right && nums[left] == nums[left + 1]) left++;
+                while (left < right && nums[right] == nums[right - 1]) right--;
+
+                left++;
+                right--;
+            }
+        }
     }
-    for (char c : t.toCharArray()) {
-        if (--count[c - 'a'] < 0) return false;
-    }
-    return true;
+
+    return result;
 }
 ```
 
 </div>
 
-Given the near-identical topic lists, deep mastery of these four areas will serve you for interviews at both companies.
+2. **Longest Substring Without Repeating Characters (#3)** - Excellent for practicing sliding window with hash maps. Both companies ask string manipulation questions frequently.
+
+3. **Merge k Sorted Lists (#23)** - Tests your understanding of priority queues/heaps and merging patterns. Useful for both companies' distributed systems thinking.
+
+4. **Word Break (#139)** - A classic DP problem that appears at Atlassian more frequently but is good general practice. The memoization pattern is widely applicable.
+
+5. **Rotate Image (#48)** - Matrix manipulation that's particularly relevant for eBay but also tests in-place algorithm skills valued by Atlassian.
 
 ## Which to Prepare for First
 
-If you are targeting both companies, **start with Atlassian's question list**. The reasoning is tactical: preparing for its slightly higher difficulty curve will inherently cover eBay's requirements. By solving Atlassian's 12 Hard and 43 Medium problems, you will be more than prepared for eBay's 10 Hard and 38 Medium problems. The core topics are the same, so you are not learning different material—you are training at a higher intensity.
+**Prepare for Atlassian first if:** You're stronger at algorithmic thinking and optimization problems. Atlassian's slightly harder question distribution will push you to a higher level, making eBay's questions feel more manageable afterward. The DP and tree problems that Atlassian favors are generally harder to master than eBay's matrix problems.
 
-Focus your study in this order:
+**Prepare for eBay first if:** You want to build confidence with practical problems first. eBay's questions often have clearer real-world analogs, which can be easier to reason about. Mastering their preferred patterns (matrix traversal, two pointers) will give you a solid foundation before tackling Atlassian's more abstract optimization problems.
 
-1.  **Master the shared fundamentals:** Ensure you can solve Easy/Medium problems on Arrays, Strings, Hash Tables, and Sorting without hesitation.
-2.  **Tackle Atlassian's Mediums:** This is the largest common block. Use these problems to build speed and pattern recognition.
-3.  **Conquer the Hards:** Primarily from Atlassian's list. This will build the problem-solving stamina and optimization skills needed for both interviews.
-4.  **Review eBay's Easy/Mediums:** Use eBay's specific list for final review and to identify any subtle gaps in your foundational knowledge.
+**Strategic recommendation:** Since the core topics overlap so heavily, start with the shared fundamentals (arrays, strings, hash tables, sorting). Complete 20-30 problems covering these topics from LeetCode's top interview questions list. Then, if you have Atlassian interviews first, add 10-15 DP and tree problems. If eBay comes first, add matrix and two-pointer problems instead.
 
-This approach maximizes your readiness for the more challenging interview (Atlassian) while ensuring comprehensive coverage for the other (eBay).
+The most efficient approach is to schedule the company with slightly harder questions (Atlassian) later in your interview timeline, giving you more time to level up after practicing with eBay-style questions.
 
-For the complete question lists, visit the [Atlassian interview questions](/company/atlassian) and [eBay interview questions](/company/ebay) pages on CodeJeet.
+For more company-specific insights, check out our [Atlassian interview guide](/company/atlassian) and [eBay interview guide](/company/ebay).

@@ -1,93 +1,157 @@
 ---
 title: "Samsung vs eBay: Interview Question Comparison"
 description: "Compare coding interview questions at Samsung and eBay — difficulty levels, topic focus, and preparation strategy."
-date: "2026-06-12"
+date: "2026-06-04"
 category: "tips"
 tags: ["samsung", "ebay", "comparison"]
 ---
 
-When preparing for technical interviews at major tech companies, understanding their specific question patterns and focus areas can significantly increase your efficiency. Samsung and eBay, while both prominent, have distinct technical interview profiles. This comparison analyzes their question volume, difficulty distribution, and core topics to help you tailor your preparation strategy.
+# Samsung vs eBay: Interview Question Comparison
+
+If you're interviewing at both Samsung and eBay, you're facing two distinct interview cultures with surprisingly different technical priorities. Samsung, as a hardware-first tech giant, and eBay, as a pure-play e-commerce platform, approach coding interviews with different lenses. The good news? You can prepare strategically for both simultaneously by understanding their overlap and unique demands. The key insight: Samsung leans harder on algorithmic optimization and complex data manipulation, while eBay emphasizes practical, string-heavy problems that mirror their domain.
 
 ## Question Volume and Difficulty
 
-The data shows a clear difference in the scale and challenge of their respective question banks.
+Let's decode the numbers. Samsung's 69 questions (15 Easy, 37 Medium, 17 Hard) versus eBay's 60 questions (12 Easy, 38 Medium, 10 Hard) tells a clear story.
 
-**Samsung** presents a larger pool with **69 questions**, categorized as 15 Easy, 37 Medium, and 17 Hard. This distribution indicates a strong emphasis on Medium-difficulty problems, which form the bulk of the assessment. The significant number of Hard questions (nearly 25% of the total) suggests that Samsung's interviews are designed to rigorously test advanced problem-solving and algorithmic optimization, likely for roles involving complex system design or low-level performance considerations.
+Samsung's distribution (22% Easy, 54% Medium, 25% Hard) shows they're willing to push candidates with challenging problems. That 25% Hard rate is significant—it means one in four questions you encounter could be genuinely difficult, requiring optimal solutions and careful edge-case handling. This reflects Samsung's engineering culture: they build complex systems (from phones to semiconductors) where performance matters.
 
-**eBay** has a slightly smaller set of **60 questions**, with a breakdown of 12 Easy, 38 Medium, and 10 Hard. The focus here is overwhelmingly on Medium-difficulty problems, which constitute almost two-thirds of the question bank. The proportion of Hard questions is lower than Samsung's, indicating that while eBay's interviews are still challenging, they may place a relatively stronger emphasis on robust implementation and correctness under standard constraints rather than extreme optimization for edge cases.
+eBay's distribution (20% Easy, 63% Medium, 17% Hard) is more Medium-heavy. They're testing for solid, reliable problem-solving rather than algorithmic brilliance. The lower Hard percentage suggests they prioritize clean, maintainable code over clever optimizations. This makes sense for an e-commerce platform where reliability and clarity often trump micro-optimizations.
+
+Implication: If you're strong on Medium problems but shaky on Hards, eBay might feel more comfortable. But if you want to tackle Samsung, you need dedicated Hard problem practice.
 
 ## Topic Overlap
 
-Both companies heavily test foundational data structures, but with different secondary priorities.
+Both companies love **Arrays** and **Hash Tables**—these are your highest-ROI topics. Arrays appear because they're fundamental to everything; hash tables because they're the workhorse of efficient lookups.
 
-The universal core topic is the **Array**, a fundamental structure for both. **Hash Table** is also critical for both, essential for solving problems involving fast lookups, frequency counting, and deduplication.
+The interesting divergence:
 
-The key differences lie in their secondary focuses:
+- **Samsung's unique emphasis**: Dynamic Programming (DP) and Two Pointers. Samsung's DP focus suggests they value candidates who can break down complex optimization problems—think resource allocation in hardware or scheduling tasks. Two Pointers indicates they like problems with sorted data or clever in-place manipulation.
+- **eBay's unique emphasis**: String and Sorting. eBay deals with product titles, descriptions, search queries, and user data—all string-heavy domains. Sorting appears because organizing and ranking data (products, search results, bids) is core to their business.
 
-- **Samsung** prominently features **Dynamic Programming (DP)** and **Two Pointers**. DP questions test the ability to break down complex problems into overlapping subproblems, a skill vital for algorithm optimization. Two Pointers is often used for efficient searching and manipulation in sorted arrays or linked lists. This combination points to an interview style that values algorithmic efficiency and sophisticated pattern application.
-- **eBay** shows a high frequency of **String** and **Sorting** problems. String manipulation tests careful indexing, parsing, and sometimes knowledge of language-specific APIs. Sorting is often a prerequisite step or the core of a solution. This focus suggests interviews that assess clean code, attention to detail, and the ability to handle common data processing tasks effectively.
+Notice what's _not_ heavily emphasized by either: Graph problems, Trees (beyond basics), or advanced data structures like Tries or Segment Trees. This is good news—your preparation can be more focused.
 
-Here is a typical problem that could appear at either company, solved using a Hash Table:
+## Preparation Priority Matrix
+
+Here's how to allocate your study time:
+
+**Tier 1: Overlap Topics (Study First)**
+
+- **Arrays**: Master sliding window, prefix sums, and in-place modifications
+- **Hash Tables**: Know when to use them for O(1) lookups vs. frequency counting
+
+**Tier 2: Samsung-Specific**
+
+- **Dynamic Programming**: Start with 1D DP (Fibonacci-style), then 2D (grid problems)
+- **Two Pointers**: Especially for sorted arrays or linked lists
+
+**Tier 3: eBay-Specific**
+
+- **String Manipulation**: Anagrams, palindromes, parsing, encoding
+- **Sorting**: Not just calling `.sort()`—understand comparator functions and when custom sorting solves problems
+
+For maximum overlap value, practice problems that combine these patterns. For example, a hash table with array iteration, or two pointers on strings.
+
+## Interview Format Differences
+
+**Samsung** typically has:
+
+- 2-3 technical rounds, sometimes including an "algorithm design" round
+- Problems tend to be more mathematical or optimization-focused
+- They may ask about memory constraints or performance trade-offs explicitly
+- Less emphasis on system design for entry-level, more on pure algorithms
+- Often includes a "puzzle" or brainteaser component
+
+**eBay** typically has:
+
+- 2 technical rounds focused on practical coding
+- Problems often relate to real-world scenarios (parsing logs, processing transactions)
+- More emphasis on code clarity, test cases, and edge cases
+- Behavioral questions are integrated throughout, not just in a separate round
+- May include a lightweight system design question even for mid-level roles
+
+Time per problem is similar (45-60 minutes), but Samsung problems often require more setup time to understand the complex requirements.
+
+## Specific Problem Recommendations
+
+These 5 problems give you coverage for both companies:
+
+1. **Two Sum (#1)** - The ultimate hash table problem. Teaches you to trade space for time, which is fundamental for both companies.
+2. **Longest Substring Without Repeating Characters (#3)** - Covers hash tables (for tracking characters), arrays/strings, and the sliding window pattern. This is particularly valuable for eBay's string focus while being generally useful.
 
 <div class="code-group">
 
 ```python
-def two_sum(nums, target):
-    seen = {}
-    for i, num in enumerate(nums):
-        complement = target - num
-        if complement in seen:
-            return [seen[complement], i]
-        seen[num] = i
-    return []
+# Time: O(n) | Space: O(min(m, n)) where m is charset size
+def lengthOfLongestSubstring(s: str) -> int:
+    char_index = {}  # Hash table: character -> last seen index
+    left = 0
+    max_len = 0
 
-# Example usage:
-# print(two_sum([2, 7, 11, 15], 9))  # Output: [0, 1]
+    for right, char in enumerate(s):
+        # If char seen before and within current window
+        if char in char_index and char_index[char] >= left:
+            left = char_index[char] + 1  # Move left past duplicate
+        char_index[char] = right  # Update last seen index
+        max_len = max(max_len, right - left + 1)
+
+    return max_len
 ```
 
 ```javascript
-function twoSum(nums, target) {
-  const map = new Map();
-  for (let i = 0; i < nums.length; i++) {
-    const complement = target - nums[i];
-    if (map.has(complement)) {
-      return [map.get(complement), i];
-    }
-    map.set(nums[i], i);
-  }
-  return [];
-}
+// Time: O(n) | Space: O(min(m, n))
+function lengthOfLongestSubstring(s) {
+  const charIndex = new Map();
+  let left = 0;
+  let maxLen = 0;
 
-// Example usage:
-// console.log(twoSum([2, 7, 11, 15], 9)); // Output: [0, 1]
+  for (let right = 0; right < s.length; right++) {
+    const char = s[right];
+    if (charIndex.has(char) && charIndex.get(char) >= left) {
+      left = charIndex.get(char) + 1;
+    }
+    charIndex.set(char, right);
+    maxLen = Math.max(maxLen, right - left + 1);
+  }
+
+  return maxLen;
+}
 ```
 
 ```java
-public int[] twoSum(int[] nums, int target) {
-    Map<Integer, Integer> map = new HashMap<>();
-    for (int i = 0; i < nums.length; i++) {
-        int complement = target - nums[i];
-        if (map.containsKey(complement)) {
-            return new int[] { map.get(complement), i };
-        }
-        map.put(nums[i], i);
-    }
-    return new int[0];
-}
+// Time: O(n) | Space: O(min(m, n))
+public int lengthOfLongestSubstring(String s) {
+    Map<Character, Integer> charIndex = new HashMap<>();
+    int left = 0;
+    int maxLen = 0;
 
-// Example usage:
-// int[] result = twoSum(new int[]{2, 7, 11, 15}, 9);
-// System.out.println(Arrays.toString(result)); // Output: [0, 1]
+    for (int right = 0; right < s.length(); right++) {
+        char c = s.charAt(right);
+        if (charIndex.containsKey(c) && charIndex.get(c) >= left) {
+            left = charIndex.get(c) + 1;
+        }
+        charIndex.put(c, right);
+        maxLen = Math.max(maxLen, right - left + 1);
+    }
+
+    return maxLen;
+}
 ```
 
 </div>
 
+3. **Container With Most Water (#11)** - Perfect two-pointer problem that's deceptively simple. Teaches you how to move pointers based on conditions, which is crucial for Samsung.
+
+4. **Merge Intervals (#56)** - Combines sorting (for eBay) with array manipulation (for both). The pattern of sorting then processing appears in many variations.
+
+5. **Best Time to Buy and Sell Stock (#121)** - Simple DP that introduces the concept of tracking minimum/maximum through an array. The DP aspect helps Samsung prep, while the practical scenario resonates with eBay's domain.
+
 ## Which to Prepare for First
 
-Your preparation order should be guided by your target companies and the breadth of your foundational knowledge.
+Prepare for **Samsung first**, even if your eBay interview comes sooner. Here's why: Samsung's problems are generally harder and cover a superset of eBay's requirements. If you can solve Samsung-level DP and two-pointer problems, eBay's string and sorting problems will feel more manageable.
 
-If your goal is to build strong, transferable algorithmic skills that will benefit you in interviews at many top-tier companies (including Samsung), **prioritize Samsung's profile**. Mastering its emphasis on Dynamic Programming and Two Pointers, on top of the shared Array and Hash Table fundamentals, will make eBay's focus on Strings and Sorting feel like a manageable subset. This path is more demanding but offers greater overall technical depth.
+Start with the overlap topics (arrays, hash tables), then add Samsung's DP and two pointers. Finally, polish with eBay's string problems. This way, you're building from foundational to specialized, rather than the reverse.
 
-If you are newer to technical interviews or are specifically targeting eBay, **starting with eBay's pattern is a practical choice**. The slightly lower volume of Hard problems allows you to solidify core competencies in Array, String, and Hash Table manipulation—skills that are universally important. Once confident with these and the included Sorting problems, you can then layer on the more advanced DP and Two Pointer patterns needed for Samsung or similar companies.
+Remember: Both companies value clean, readable code with good variable names. But Samsung might care more about the optimal Big O, while eBay might care more about handling edge cases gracefully.
 
-Ultimately, a combined strategy is effective: use the common Array and Hash Table problems as your warm-up, then branch out based on your primary target. For dedicated question lists, visit the [Samsung](/company/samsung) and [eBay](/company/ebay) pages on CodeJeet.
+For more company-specific insights, check out our [Samsung interview guide](/company/samsung) and [eBay interview guide](/company/ebay).

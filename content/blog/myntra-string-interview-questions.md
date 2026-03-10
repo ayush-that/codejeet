@@ -1,104 +1,242 @@
 ---
 title: "String Questions at Myntra: What to Expect"
 description: "Prepare for String interview questions at Myntra — patterns, difficulty breakdown, and study tips."
-date: "2031-04-29"
+date: "2031-04-21"
 category: "dsa-patterns"
 tags: ["myntra", "string", "interview prep"]
 ---
 
-String manipulation is a core skill for software engineers at Myntra, a leading e-commerce platform. With 5 out of 24 total coding questions typically focused on strings, this domain is heavily weighted for a reason. Product titles, user searches, order IDs, discount codes, and URL routing all involve string processing. Efficient handling of these operations directly impacts search performance, data validation, and the overall user experience. Mastering string algorithms demonstrates your ability to work with fundamental data types in performance-critical, real-world scenarios.
+String questions at Myntra aren't just a random topic check—they're a deliberate filter. With 5 out of 24 total questions in their tagged problem set, strings represent roughly 20% of their technical focus. This is significant. Myntra, as a fashion e-commerce platform, deals heavily with product titles, descriptions, search queries, user reviews, and catalog management. Efficient text processing, search relevance, and data parsing are not abstract concepts here; they're daily engineering tasks. In real interviews, you can expect at least one, often two, string manipulation or pattern matching problems in a coding round. They use strings to test a candidate's ability to write clean, efficient, and bug-free code with careful edge-case handling—skills directly applicable to their backend and data systems.
 
-## What to Expect — Types of Problems
+## Specific Patterns Myntra Favors
 
-Myntra's string questions generally test practical application over obscure theory. Expect problems centered on these categories:
+Myntra's string problems tend to avoid esoteric, purely academic challenges. They favor **practical patterns** that mirror real-world data processing. The dominant themes are:
 
-- **Pattern Matching & Searching:** Implementing or using algorithms to find substrings, validate formats (like promo codes), or parse structured text.
-- **String Transformation & Encoding:** Tasks involving compression, rearrangement, or applying specific rules to modify strings, relevant for data processing pipelines.
-- **Validation & Parsing:** Checking for palindromes, anagrams, or valid sequences (e.g., balanced brackets in a generated text), crucial for data integrity.
-- **Two-Pointer & Sliding Window Techniques:** Optimally solving problems related to substrings, comparisons, or filtering without extra space, which is key for scalable operations on large text data like product descriptions.
+1.  **Two-Pointer / Sliding Window:** This is the undisputed king for Myntra. Think problems involving substrings, palindromes, or finding a window with certain properties. It tests optimization and the ability to reduce brute-force O(n²) or O(n³) solutions to O(n).
+2.  **String Parsing & Simulation:** Problems that require you to process a string according to specific rules, often involving iteration, state tracking, and validation. This directly relates to parsing product SKUs, user input, or log data.
+3.  **Hash Map for Frequency & Anagrams:** A classic and essential pattern. Myntra uses this to test basic data structure competency in a string context.
 
-The difficulty often lies in combining basic operations into an optimal O(n) solution, requiring clean, efficient code.
+You will notice a distinct _lack_ of heavily recursive string problems (like wildcard matching with complex backtracking) or advanced automata (Aho-Corasick). Their problems are more iterative and simulation-based.
 
-## How to Prepare — Study Tips with One Code Example
+For example, **Sliding Window** appears in problems like "Longest Substring Without Repeating Characters" (LeetCode #3) or "Minimum Window Substring" (LeetCode #76). **String Parsing** is tested in problems like "String to Integer (atoi)" (LeetCode #8) or "Decode String" (LeetCode #394). **Frequency Maps** are core to "Valid Anagram" (LeetCode #242) and "Group Anagrams" (LeetCode #49).
 
-Focus on mastering a few core patterns rather than memorizing countless problems. The **Sliding Window** pattern is essential for substring problems. Understand how to expand and contract a window to track characters and meet conditions.
+## How to Prepare
 
-Here is a classic example: finding the length of the longest substring without repeating characters.
+Master the sliding window pattern in its two main variants: the **fixed-size window** and the **dynamic/variable-size window**. The mental model is key: maintain a window `[left, right]` that satisfies the problem constraint, and slide it across the string, updating your state efficiently.
+
+Let's look at the dynamic window pattern to find the longest substring with at most K distinct characters.
 
 <div class="code-group">
 
 ```python
-def length_of_longest_substring(s: str) -> int:
-    char_index = {}
+def longest_substring_k_distinct(s: str, k: int) -> int:
+    """
+    Finds the length of the longest substring with at most k distinct characters.
+    Time: O(n) - Each character is processed at most twice (by `right` and `left`).
+    Space: O(k) - For the frequency hash map, which holds at most k+1 characters.
+    """
+    char_count = {}
     left = 0
-    max_len = 0
+    max_length = 0
 
-    for right, ch in enumerate(s):
-        # If char is seen and is inside the current window, move left
-        if ch in char_index and char_index[ch] >= left:
-            left = char_index[ch] + 1
-        # Update the character's latest index
-        char_index[ch] = right
-        # Update max length
-        max_len = max(max_len, right - left + 1)
+    for right in range(len(s)):
+        # Expand the window by adding the character at `right`
+        char = s[right]
+        char_count[char] = char_count.get(char, 0) + 1
 
-    return max_len
+        # Shrink the window from the left if we exceed k distinct chars
+        while len(char_count) > k:
+            left_char = s[left]
+            char_count[left_char] -= 1
+            if char_count[left_char] == 0:
+                del char_count[left_char]
+            left += 1
+
+        # Update the answer. Window [left, right] is now valid.
+        max_length = max(max_length, right - left + 1)
+
+    return max_length
 ```
 
 ```javascript
-function lengthOfLongestSubstring(s) {
-  const charIndex = new Map();
+function longestSubstringKDistinct(s, k) {
+  /**
+   * Finds the length of the longest substring with at most k distinct characters.
+   * Time: O(n) - Each character is processed at most twice.
+   * Space: O(k) - For the frequency map.
+   */
+  const charCount = new Map();
   let left = 0;
-  let maxLen = 0;
+  let maxLength = 0;
 
   for (let right = 0; right < s.length; right++) {
-    const ch = s[right];
-    if (charIndex.has(ch) && charIndex.get(ch) >= left) {
-      left = charIndex.get(ch) + 1;
+    // Expand window
+    const char = s[right];
+    charCount.set(char, (charCount.get(char) || 0) + 1);
+
+    // Shrink window if condition violated
+    while (charCount.size > k) {
+      const leftChar = s[left];
+      charCount.set(leftChar, charCount.get(leftChar) - 1);
+      if (charCount.get(leftChar) === 0) {
+        charCount.delete(leftChar);
+      }
+      left++;
     }
-    charIndex.set(ch, right);
-    maxLen = Math.max(maxLen, right - left + 1);
+
+    // Update answer
+    maxLength = Math.max(maxLength, right - left + 1);
   }
-  return maxLen;
+  return maxLength;
 }
 ```
 
 ```java
-public int lengthOfLongestSubstring(String s) {
-    Map<Character, Integer> charIndex = new HashMap<>();
+public int longestSubstringKDistinct(String s, int k) {
+    /**
+     * Finds the length of the longest substring with at most k distinct characters.
+     * Time: O(n) - Each character is processed at most twice.
+     * Space: O(k) - For the frequency map.
+     */
+    Map<Character, Integer> charCount = new HashMap<>();
     int left = 0;
-    int maxLen = 0;
+    int maxLength = 0;
 
     for (int right = 0; right < s.length(); right++) {
-        char ch = s.charAt(right);
-        if (charIndex.containsKey(ch) && charIndex.get(ch) >= left) {
-            left = charIndex.get(ch) + 1;
+        // Expand window
+        char rightChar = s.charAt(right);
+        charCount.put(rightChar, charCount.getOrDefault(rightChar, 0) + 1);
+
+        // Shrink window if condition violated
+        while (charCount.size() > k) {
+            char leftChar = s.charAt(left);
+            charCount.put(leftChar, charCount.get(leftChar) - 1);
+            if (charCount.get(leftChar) == 0) {
+                charCount.remove(leftChar);
+            }
+            left++;
         }
-        charIndex.put(ch, right);
-        maxLen = Math.max(maxLen, right - left + 1);
+
+        // Update answer
+        maxLength = Math.max(maxLength, right - left + 1);
     }
-    return maxLen;
+    return maxLength;
 }
 ```
 
 </div>
 
-**Key Study Tips:**
+For parsing problems, practice clean, stateful iteration. Here's a template for a simple parser that sums numbers in a string separated by non-digit characters.
 
-1.  Internalize patterns like Sliding Window, Two-Pointers, and Hash Map tracking.
-2.  Practice writing code for all basic operations (reversal, splitting, comparison) from scratch.
-3.  Always analyze time/space complexity. Aim for O(n) time and minimal extra space.
-4.  Test edge cases: empty strings, single characters, all repeating characters.
+<div class="code-group">
+
+```python
+def sum_numbers_in_string(s: str) -> int:
+    """
+    Parses and sums all consecutive sequences of digits in a string.
+    Example: "a123bc34d8" -> 123 + 34 + 8 = 165
+    Time: O(n) - Single pass.
+    Space: O(1) - Only a few variables.
+    """
+    total = 0
+    current_num = 0
+
+    for ch in s:
+        if ch.isdigit():
+            # Build the current number digit by digit
+            current_num = current_num * 10 + int(ch)
+        else:
+            # A non-digit signals the end of the current number
+            total += current_num
+            current_num = 0
+    # Add the last number if the string ends with digits
+    total += current_num
+    return total
+```
+
+```javascript
+function sumNumbersInString(s) {
+  /**
+   * Parses and sums all consecutive sequences of digits in a string.
+   * Time: O(n) - Single pass.
+   * Space: O(1) - Only a few variables.
+   */
+  let total = 0;
+  let currentNum = 0;
+
+  for (let ch of s) {
+    if (ch >= "0" && ch <= "9") {
+      currentNum = currentNum * 10 + (ch.charCodeAt(0) - "0".charCodeAt(0));
+    } else {
+      total += currentNum;
+      currentNum = 0;
+    }
+  }
+  total += currentNum; // Add the last number
+  return total;
+}
+```
+
+```java
+public int sumNumbersInString(String s) {
+    /**
+     * Parses and sums all consecutive sequences of digits in a string.
+     * Time: O(n) - Single pass.
+     * Space: O(1) - Only a few variables.
+     */
+    int total = 0;
+    int currentNum = 0;
+
+    for (char ch : s.toCharArray()) {
+        if (Character.isDigit(ch)) {
+            currentNum = currentNum * 10 + (ch - '0');
+        } else {
+            total += currentNum;
+            currentNum = 0;
+        }
+    }
+    total += currentNum; // Add the last number
+    return total;
+}
+```
+
+</div>
+
+## How Myntra Tests String vs Other Companies
+
+Compared to other companies, Myntra's string questions are **pragmatic and of medium difficulty**. They are less about clever algorithmic tricks (like some of Google's hardest suffix array problems) and more about robust implementation.
+
+- **vs. Google/FAANG:** Google might ask a string problem that requires knowing the KMP algorithm or building a suffix tree. Myntra is more likely to ask a problem where you can arrive at an optimal solution using fundamental patterns like sliding window or hashing.
+- **vs. Startups (early-stage):** Startups might ask more open-ended, design-heavy string problems ("design a regex parser"). Myntra's problems are well-defined, with clear input/output specifications.
+- **vs. FinTech:** FinTech string problems often involve complex number/currency parsing with many edge cases. Myntra's problems are more about general text manipulation and search optimization.
+
+The unique aspect is the **context**. While the problem might be a standard LeetCode medium, interviewers at Myntra appreciate if you can briefly relate your solution to a real-use case like "this sliding window approach could help optimize search suggestions by finding relevant product title fragments." It shows system thinking.
+
+## Study Order
+
+Tackle string topics in this order to build a solid foundation:
+
+1.  **Basic Operations & Two-Pointers:** Start with reversing strings, checking palindromes, and basic two-pointer techniques (e.g., reversing vowels). This builds comfort with string immutability/indexing.
+2.  **Hash Maps for Frequency:** Learn to use maps/dictionaries to count characters. This is the gateway to anagram and permutation problems.
+3.  **Sliding Window (Fixed then Dynamic):** Master the fixed-size window first (e.g., max average subarray). Then graduate to dynamic windows for problems like longest substring with unique characters. This is the most critical pattern for Myntra.
+4.  **String Parsing & Simulation:** Practice iterating through strings, building tokens, and handling state. This improves your ability to translate problem statements into clean code.
+5.  **Basic Dynamic Programming on Strings:** Only after the above, tackle foundational string DP like longest common subsequence (#1143) or edit distance (#72). Myntra occasionally asks one of these as a harder problem.
+
+This order works because it progresses from simple manipulation to controlled iteration (two-pointer), then to optimized iteration (sliding window), then to complex iteration with state (parsing), and finally to more abstract optimization (DP). Each step uses skills from the previous one.
 
 ## Recommended Practice Order
 
-Build competence progressively:
+Solve these problems in sequence. Each introduces a slight twist on the core patterns.
 
-1.  Start with fundamentals: reversal, anagrams, palindromes.
-2.  Move to core patterns: two-pointer (valid palindrome II), sliding window (above example).
-3.  Tackle parsing/validation: string to integer (atoi), valid parentheses.
-4.  Combine patterns for harder problems: substring with concatenation of all words, minimum window substring.
+1.  **Valid Anagram (LeetCode #242)** - Warm-up with frequency maps.
+2.  **Longest Substring Without Repeating Characters (LeetCode #3)** - The classic dynamic sliding window.
+3.  **Minimum Window Substring (LeetCode #76)** - A harder dynamic window, excellent for Myntra-style search relevance problems.
+4.  **String to Integer (atoi) (LeetCode #8)** - A pure parsing/simulation problem with many edge cases.
+5.  **Decode String (LeetCode #394)** - Combines parsing with stack usage, a common pattern.
+6.  **Group Anagrams (LeetCode #49)** - Applies frequency maps to a grouping problem.
+7.  **Longest Palindromic Substring (LeetCode #5)** - Can be solved with an expansion technique that feels like a sliding window.
+8.  **Edit Distance (LeetCode #72)** - The quintessential string DP problem to round out your prep.
 
-This structured approach ensures you build the necessary foundation to efficiently solve Myntra's string problems.
+Focus on writing clean, first-principles solutions. At Myntra, a correct, well-structured, and communicative solution beats a clever but opaque one every time.
 
 [Practice String at Myntra](/company/myntra/string)

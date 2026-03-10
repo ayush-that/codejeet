@@ -1,121 +1,170 @@
 ---
 title: "Matrix Questions at Tinkoff: What to Expect"
 description: "Prepare for Matrix interview questions at Tinkoff — patterns, difficulty breakdown, and study tips."
-date: "2030-12-30"
+date: "2030-12-22"
 category: "dsa-patterns"
 tags: ["tinkoff", "matrix", "interview prep"]
 ---
 
-Matrix questions appear in nearly 20% of Tinkoff's technical interview problem set (5 out of 27 total). For a financial technology company that handles massive volumes of transactional and grid-based data, matrices are not an academic exercise—they are a direct reflection of real-world systems. Success here demonstrates you can manipulate structured data efficiently, a core skill for backend, data, and quantitative engineering roles at Tinkoff.
+If you're preparing for Tinkoff's technical interviews, you've likely seen the data: **5 out of their 27 most frequent coding questions involve matrices.** That's nearly 20% of their problem pool. This isn't a coincidence or a quirk of their question bank—it's a deliberate signal. Tinkoff, as a major fintech and tech player in Russia and Eastern Europe, deals heavily with data grids, financial modeling grids, risk assessment tables, and image processing (for document scanning and verification). The matrix is a direct analog for these real-world data structures. When they ask a matrix question, they're not just testing an algorithm; they're testing your ability to navigate and transform structured, two-dimensional data, a skill their engineers use daily. Expect at least one matrix problem in any on-site or final-round interview loop.
 
-## What to Expect — Types of Problems
+## Specific Patterns Tinkoff Favors
 
-Tinkoff's matrix problems typically focus on practical applications over obscure mathematical tricks. Expect these core patterns:
+Tinkoff's matrix problems aren't about obscure linear algebra. They are almost exclusively applied **graph traversal in disguise**. The matrix is treated as an implicit graph where each cell is a node, and edges exist between adjacent cells (typically 4-directionally: up, down, left, right). This pattern is powerful and appears in three main flavors:
 
-1.  **Traversal & Pathfinding:** Modifying standard BFS/DFS to navigate a 2D grid, often with constraints (obstacles, cost limits). Problems may involve finding the shortest path or counting unique paths.
-2.  **Dynamic Programming on Grids:** Using a 2D DP table to solve problems like minimum path sum, maximal square, or unique paths with obstacles.
-3.  **In-place Modification:** Rotating or transposing a matrix without using extra space, reflecting Tinkoff's focus on memory-efficient solutions for large datasets.
-4.  **Search in Sorted Matrix:** Searching for a target value in a matrix where rows and columns are sorted, testing your ability to optimize beyond a brute-force O(m\*n) check.
-5.  **Simulation & State Change:** Modeling processes that evolve over discrete steps across a grid, such as game-of-life scenarios or infection spread models.
+1.  **Connected Components / Flood Fill:** Finding islands of '1's in a sea of '0's (LeetCode #200 "Number of Islands"), or similarly, marking reachable regions. This tests DFS/BFS fundamentals.
+2.  **Shortest Path in an Unweighted Grid:** Finding the minimum steps from a start cell to a target, often with obstacles. This is a classic BFS application (LeetCode #1091 "Shortest Path in Binary Matrix").
+3.  **Dynamic Programming on Grids:** Less frequent than traversal, but appears for problems like unique paths (LeetCode #62 "Unique Paths") or minimum path sum (LeetCode #64 "Minimum Path Sum"). Tinkoff's DP problems tend to be iterative 2D DP, not recursive memoization.
 
-## How to Prepare — Study Tips with One Code Example
+They heavily favor **iterative solutions using queues (BFS) or stacks (DFS)**. Recursive DFS is acceptable for problems like "Number of Islands," but interviewers will often probe for the iterative version to ensure you understand stack management and can avoid stack overflow on large grids.
 
-Master a systematic traversal approach first. For any matrix problem, immediately clarify: the dimensions (rows `m`, columns `n`), the movement directions (usually 4-directional or 8-directional), and what constitutes a valid cell. Practice writing clean, bug-free loops for iteration.
+## How to Prepare
 
-A fundamental pattern is **Depth-First Search (DFS) for island counting** or region exploration. The key is to mark visited cells _in-place_ to avoid using a separate visited matrix.
+The core skill is instantly recognizing the matrix-as-graph and knowing which traversal to apply. Let's solidify the most common pattern: **BFS for shortest path in an unweighted grid.**
+
+The template involves using a queue, a `visited` set (or modifying the grid in-place), and processing cells level-by-level. Here's the blueprint:
 
 <div class="code-group">
 
 ```python
-def num_islands(grid):
-    if not grid:
-        return 0
-    count = 0
-    rows, cols = len(grid), len(grid[0])
+from collections import deque
+from typing import List
 
-    def dfs(r, c):
-        if r < 0 or c < 0 or r >= rows or c >= cols or grid[r][c] != '1':
-            return
-        grid[r][c] = '#'  # Mark as visited
-        dfs(r+1, c)
-        dfs(r-1, c)
-        dfs(r, c+1)
-        dfs(r, c-1)
+def shortestPathBinaryMatrix(grid: List[List[int]]) -> int:
+    if not grid or grid[0][0] == 1:
+        return -1
 
-    for r in range(rows):
-        for c in range(cols):
-            if grid[r][c] == '1':
-                count += 1
-                dfs(r, c)
-    return count
+    n = len(grid)
+    # Directions: 8 adjacent cells. For 4-directional, use [(1,0),(-1,0),(0,1),(0,-1)]
+    directions = [(-1,-1), (-1,0), (-1,1), (0,-1), (0,1), (1,-1), (1,0), (1,1)]
+
+    queue = deque()
+    queue.append((0, 0, 1))  # (row, col, distance)
+    grid[0][0] = 1  # Mark as visited by setting to 1 (obstacle)
+
+    while queue:
+        r, c, dist = queue.popleft()
+        if r == n-1 and c == n-1:
+            return dist
+
+        for dr, dc in directions:
+            nr, nc = r + dr, c + dc
+            if 0 <= nr < n and 0 <= nc < n and grid[nr][nc] == 0:
+                queue.append((nr, nc, dist + 1))
+                grid[nr][nc] = 1  # Mark visited
+    return -1
+
+# Time: O(N^2) — we visit each cell at most once.
+# Space: O(N^2) — for the queue in the worst case (e.g., an open grid).
 ```
 
 ```javascript
-function numIslands(grid) {
-  if (!grid || grid.length === 0) return 0;
-  let count = 0;
-  const rows = grid.length,
-    cols = grid[0].length;
+/**
+ * @param {number[][]} grid
+ * @return {number}
+ */
+function shortestPathBinaryMatrix(grid) {
+  if (!grid || grid[0][0] === 1) return -1;
 
-  function dfs(r, c) {
-    if (r < 0 || c < 0 || r >= rows || c >= cols || grid[r][c] !== "1") return;
-    grid[r][c] = "#"; // Mark as visited
-    dfs(r + 1, c);
-    dfs(r - 1, c);
-    dfs(r, c + 1);
-    dfs(r, c - 1);
-  }
+  const n = grid.length;
+  const directions = [
+    [-1, -1],
+    [-1, 0],
+    [-1, 1],
+    [0, -1],
+    [0, 1],
+    [1, -1],
+    [1, 0],
+    [1, 1],
+  ];
+  const queue = [[0, 0, 1]]; // [row, col, distance]
+  grid[0][0] = 1;
 
-  for (let r = 0; r < rows; r++) {
-    for (let c = 0; c < cols; c++) {
-      if (grid[r][c] === "1") {
-        count++;
-        dfs(r, c);
+  while (queue.length > 0) {
+    const [r, c, dist] = queue.shift(); // For efficiency, use an index pointer.
+    if (r === n - 1 && c === n - 1) return dist;
+
+    for (const [dr, dc] of directions) {
+      const nr = r + dr,
+        nc = c + dc;
+      if (nr >= 0 && nr < n && nc >= 0 && nc < n && grid[nr][nc] === 0) {
+        queue.push([nr, nc, dist + 1]);
+        grid[nr][nc] = 1;
       }
     }
   }
-  return count;
+  return -1;
 }
+// Time: O(N^2) | Space: O(N^2)
 ```
 
 ```java
-public int numIslands(char[][] grid) {
-    if (grid == null || grid.length == 0) return 0;
-    int count = 0;
-    int rows = grid.length, cols = grid[0].length;
+import java.util.LinkedList;
+import java.util.Queue;
 
-    for (int r = 0; r < rows; r++) {
-        for (int c = 0; c < cols; c++) {
-            if (grid[r][c] == '1') {
-                count++;
-                dfs(grid, r, c);
+public class Solution {
+    public int shortestPathBinaryMatrix(int[][] grid) {
+        if (grid == null || grid[0][0] == 1) return -1;
+
+        int n = grid.length;
+        int[][] directions = {{-1,-1},{-1,0},{-1,1},{0,-1},{0,1},{1,-1},{1,0},{1,1}};
+        Queue<int[]> queue = new LinkedList<>();
+        queue.offer(new int[]{0, 0, 1}); // {row, col, distance}
+        grid[0][0] = 1;
+
+        while (!queue.isEmpty()) {
+            int[] cell = queue.poll();
+            int r = cell[0], c = cell[1], dist = cell[2];
+            if (r == n-1 && c == n-1) return dist;
+
+            for (int[] dir : directions) {
+                int nr = r + dir[0], nc = c + dir[1];
+                if (nr >= 0 && nr < n && nc >= 0 && nc < n && grid[nr][nc] == 0) {
+                    queue.offer(new int[]{nr, nc, dist + 1});
+                    grid[nr][nc] = 1;
+                }
             }
         }
+        return -1;
     }
-    return count;
 }
-
-private void dfs(char[][] grid, int r, int c) {
-    int rows = grid.length, cols = grid[0].length;
-    if (r < 0 || c < 0 || r >= rows || c >= cols || grid[r][c] != '1') return;
-    grid[r][c] = '#'; // Mark as visited
-    dfs(grid, r+1, c);
-    dfs(grid, r-1, c);
-    dfs(grid, r, c+1);
-    dfs(grid, r, c-1);
-}
+// Time: O(N^2) | Space: O(N^2)
 ```
 
 </div>
 
+For **connected components**, you swap the queue for a stack (DFS) and remove the distance tracking. The core neighbor-checking logic remains identical.
+
+## How Tinkoff Tests Matrix vs Other Companies
+
+Compared to FAANG companies, Tinkoff's matrix problems are more "pure" in their application. At Google or Meta, a matrix might be a small part of a larger system design or a complex DP problem with multiple states. At Tinkoff, the matrix _is_ the problem. They focus on clean, efficient implementation of fundamental graph algorithms applied to the grid.
+
+Difficulty-wise, they sit at a **solid LeetCode Medium**. You won't see esoteric matrix rotations or advanced linear algebra. You will see problems that require you to adapt a standard BFS/DFS/DP template with one clever twist—for example, a multi-source BFS (starting from multiple points simultaneously) or a conditional move (like only moving in certain directions based on cell value). The twist is usually the key to the problem and what they use to separate candidates.
+
+## Study Order
+
+Don't jump straight into complex variations. Build your understanding sequentially:
+
+1.  **Basic Traversal:** Master iterating through a matrix, understanding row/column indices, and checking 4-directional neighbors. This is your foundation.
+2.  **Depth-First Search (DFS):** Learn to use DFS (both recursive and iterative) to explore connected regions. Start with "Number of Islands" (#200). This teaches you component counting.
+3.  **Breadth-First Search (BFS):** Learn BFS for shortest path guarantees in an unweighted grid. Practice "Shortest Path in Binary Matrix" (#1091). Understand why DFS fails for shortest path here.
+4.  **Dynamic Programming on Grids:** Learn to build a 2D DP table where `dp[i][j]` depends on `dp[i-1][j]` and `dp[i][j-1]`. Practice "Unique Paths" (#62) and "Minimum Path Sum" (#64).
+5.  **Advanced Variations:** Finally, tackle multi-source BFS, BFS with constraints (like keys and doors), or DP with more complex state (like "Cherry Pickup"). This is where you solve Tinkoff's harder problems.
+
+This order works because each step provides the prerequisite knowledge for the next. You can't reason about shortest path (BFS) without understanding neighbor traversal. You can't optimize path counting (DP) without understanding the basic movement through the grid.
+
 ## Recommended Practice Order
 
-1.  Start with basic traversal and modification (rotate image, set matrix zeroes).
-2.  Move to DFS/BFS applications (number of islands, flood fill).
-3.  Tackle dynamic programming on grids (minimum path sum, unique paths).
-4.  Practice search in sorted matrices.
-5.  Finally, combine patterns in simulation problems.
+Solve these problems in sequence. Each introduces a new concept while reinforcing the last.
 
-Build fluency by timing yourself and explaining your solution aloud as you would in an interview.
+1.  **LeetCode #200 "Number of Islands"** (DFS/BFS components)
+2.  **LeetCode #733 "Flood Fill"** (Simple DFS/BFS application)
+3.  **LeetCode #1091 "Shortest Path in Binary Matrix"** (Standard BFS template)
+4.  **LeetCode #994 "Rotting Oranges"** (Multi-source BFS—a key Tinkoff variation)
+5.  **LeetCode #62 "Unique Paths"** (Intro to 2D DP)
+6.  **LeetCode #64 "Minimum Path Sum"** (DP with minimization)
+7.  **LeetCode #542 "01 Matrix"** (Another excellent multi-source BFS problem)
+
+After this sequence, you will have covered 90% of the patterns Tinkoff uses. The final step is to practice their specific company-tagged problems to adapt your templates to their preferred twists.
 
 [Practice Matrix at Tinkoff](/company/tinkoff/matrix)

@@ -1,83 +1,189 @@
 ---
 title: "Array Questions at Grammarly: What to Expect"
 description: "Prepare for Array interview questions at Grammarly — patterns, difficulty breakdown, and study tips."
-date: "2031-01-21"
+date: "2031-01-13"
 category: "dsa-patterns"
 tags: ["grammarly", "array", "interview prep"]
 ---
 
-Array questions make up nearly half of Grammarly’s technical interview problem set—11 out of 26 total questions. This heavy emphasis isn’t arbitrary. Grammarly’s core product, a real-time writing assistant, processes vast streams of text data. Under the hood, this involves analyzing sequences: characters in words, tokens in sentences, and operations in editing buffers. Arrays (and their close relatives, strings) are the fundamental data structures for modeling these sequences. Mastering array manipulation is essential for any engineer working on Grammarly’s text analysis, suggestion algorithms, or performance-critical editing features. If you can’t efficiently traverse, transform, and analyze ordered data, you’ll struggle with the domain’s core challenges.
+Grammarly’s technical interviews are known for being practical, product‑focused, and heavily weighted toward data manipulation and string processing. But don’t let that fool you—arrays are the silent workhorse behind many of their problems. With 11 out of 26 total questions tagged as Array on their company‑focused lists, that’s over 40% of their technical question pool. This isn’t because they’re obsessed with arrays for their own sake; it’s because arrays (and lists) are the fundamental structure for handling text, user edits, document state, and real‑time suggestions. If you’re interviewing at Grammarly, you’re almost guaranteed to face at least one array‑based problem, often disguised as a string or system‑design scenario.
 
-## What to Expect — Types of Problems
+## Specific Patterns Grammarly Favors
 
-Grammarly’s array questions tend to focus on practical application over abstract puzzle-solving. You can expect problems that test your ability to implement clean, efficient solutions to common sequence-manipulation tasks. Key categories include:
+Grammarly’s array problems tend to cluster around a few practical themes. You won’t see many abstract mathematical puzzles or heavy graph theory. Instead, expect problems that mirror real‑world text processing:
 
-- **In-Place Operations:** Modifying an array without allocating significant extra space. This is crucial for memory efficiency in high-performance contexts.
-- **Two-Pointer Techniques:** Using multiple indices to traverse an array in a single pass, often for tasks like partitioning, searching for pairs, or removing duplicates.
-- **Sliding Window:** Tracking a subset (window) of elements as it moves across the array, ideal for problems involving contiguous subarrays, such as finding a maximum sum or a substring with certain properties.
-- **String Manipulation:** Since strings are character arrays, many problems will present as text processing challenges, testing your comfort with array methods and indexing on string data.
+1. **In‑place array manipulation** – Think about applying grammar rules or corrections directly to a data stream. Problems often involve removing duplicates, shifting elements, or partitioning arrays without extra space. This pattern appears in questions like removing all instances of a value in‑place (similar to LeetCode #27 Remove Element) or moving zeroes to the end (LeetCode #283 Move Zeroes).
 
-The problems are designed to assess not just if you get the correct answer, but how you reason about edge cases, time/space complexity, and code clarity.
+2. **Sliding window with hash maps** – This is huge for any company dealing with text analysis. Grammarly uses it for problems like finding the longest substring without repeating characters (LeetCode #3) or subarrays with at most K distinct elements. The core idea is maintaining a dynamic window of valid content while tracking character or word frequencies.
 
-## How to Prepare — Study Tips with One Code Example
+3. **Two‑pointer techniques** – Both opposite‑end and fast‑slow pointers show up frequently. Opposite‑end pointers are used for problems like two‑sum in a sorted array (LeetCode #167) or reversing parts of an array. Fast‑slow pointers appear in cycle detection or in‑place removal scenarios.
 
-Focus on mastering a few core patterns rather than memorizing hundreds of problems. Understand the _when_ and _why_ behind techniques like two-pointers or sliding windows. Practice implementing them from scratch until they become muscle memory. Always analyze the time and space complexity (Big O) of your solution and discuss trade-offs.
+4. **Prefix sums and cumulative operations** – When you need to answer range queries quickly or compute running totals (think checking document metrics or suggestion coverage), prefix sums are your friend. This pattern underlies problems like subarray sum equals K (LeetCode #560) or product of array except self (LeetCode #238).
 
-A fundamental pattern you must know is the **Two-Pointer technique for in-place element removal**. A common problem is: "Given a sorted array, remove duplicates in-place such that each unique element appears only once. Return the new length."
-
-The efficient approach uses a slow pointer (`i`) to track the position of the last unique element and a fast pointer (`j`) to scan ahead.
+Here’s a classic sliding window example that captures the essence of analyzing a sequence (like a sentence) for a constrained property:
 
 <div class="code-group">
 
 ```python
-def removeDuplicates(nums):
-    if not nums:
-        return 0
-    i = 0  # slow pointer for unique elements
-    for j in range(1, len(nums)):  # fast pointer
-        if nums[j] != nums[i]:
-            i += 1
-            nums[i] = nums[j]
-    return i + 1  # length of unique segment
+# Time: O(n) | Space: O(k) where k is number of distinct characters
+def length_of_longest_substring(s: str) -> int:
+    """LeetCode #3: Longest Substring Without Repeating Characters."""
+    char_index = {}  # maps character to its most recent index
+    left = 0
+    max_len = 0
+
+    for right, ch in enumerate(s):
+        # If character is in window, shrink window from left
+        if ch in char_index and char_index[ch] >= left:
+            left = char_index[ch] + 1
+        # Update character's latest index
+        char_index[ch] = right
+        # Update max length
+        max_len = max(max_len, right - left + 1)
+
+    return max_len
 ```
 
 ```javascript
-function removeDuplicates(nums) {
-  if (nums.length === 0) return 0;
-  let i = 0; // slow pointer for unique elements
-  for (let j = 1; j < nums.length; j++) {
-    // fast pointer
-    if (nums[j] !== nums[i]) {
-      i++;
-      nums[i] = nums[j];
+// Time: O(n) | Space: O(min(n, alphabetSize))
+function lengthOfLongestSubstring(s) {
+  const charIndex = new Map();
+  let left = 0;
+  let maxLen = 0;
+
+  for (let right = 0; right < s.length; right++) {
+    const ch = s[right];
+    if (charIndex.has(ch) && charIndex.get(ch) >= left) {
+      left = charIndex.get(ch) + 1;
     }
+    charIndex.set(ch, right);
+    maxLen = Math.max(maxLen, right - left + 1);
   }
-  return i + 1; // length of unique segment
+
+  return maxLen;
 }
 ```
 
 ```java
-public int removeDuplicates(int[] nums) {
-    if (nums.length == 0) return 0;
-    int i = 0; // slow pointer for unique elements
-    for (int j = 1; j < nums.length; j++) { // fast pointer
-        if (nums[j] != nums[i]) {
-            i++;
-            nums[i] = nums[j];
+// Time: O(n) | Space: O(min(n, 128)) for ASCII
+public int lengthOfLongestSubstring(String s) {
+    Map<Character, Integer> charIndex = new HashMap<>();
+    int left = 0;
+    int maxLen = 0;
+
+    for (int right = 0; right < s.length(); right++) {
+        char ch = s.charAt(right);
+        if (charIndex.containsKey(ch) && charIndex.get(ch) >= left) {
+            left = charIndex.get(ch) + 1;
         }
+        charIndex.put(ch, right);
+        maxLen = Math.max(maxLen, right - left + 1);
     }
-    return i + 1; // length of unique segment
+
+    return maxLen;
 }
 ```
 
 </div>
 
+## How to Prepare
+
+Start by mastering the four patterns above. For each pattern, practice both the basic template and common variations. For sliding window, know how to handle:
+
+- Fixed‑size windows (simple iteration)
+- Variable‑size windows with a condition (like “sum less than K”)
+- Windows that need a hash map for frequency counts
+
+When practicing in‑place manipulation, always ask: “Can I do this with O(1) extra space?” Grammarly engineers appreciate candidates who optimize for memory, as their product handles large documents and real‑time updates.
+
+Here’s an example of an in‑place two‑pointer removal that’s more subtle than it looks:
+
+<div class="code-group">
+
+```python
+# Time: O(n) | Space: O(1)
+def remove_duplicates_in_place(nums):
+    """Remove duplicates such that each element appears at most twice.
+    Similar to LeetCode #80: Remove Duplicates from Sorted Array II."""
+    if len(nums) <= 2:
+        return len(nums)
+
+    # slow pointer points to the next position to write a valid element
+    slow = 2
+    for fast in range(2, len(nums)):
+        # Allow at most two duplicates: compare current with element two positions behind slow
+        if nums[fast] != nums[slow - 2]:
+            nums[slow] = nums[fast]
+            slow += 1
+    return slow  # new length
+```
+
+```javascript
+// Time: O(n) | Space: O(1)
+function removeDuplicatesInPlace(nums) {
+  if (nums.length <= 2) return nums.length;
+
+  let slow = 2;
+  for (let fast = 2; fast < nums.length; fast++) {
+    if (nums[fast] !== nums[slow - 2]) {
+      nums[slow] = nums[fast];
+      slow++;
+    }
+  }
+  return slow;
+}
+```
+
+```java
+// Time: O(n) | Space: O(1)
+public int removeDuplicatesInPlace(int[] nums) {
+    if (nums.length <= 2) return nums.length;
+
+    int slow = 2;
+    for (int fast = 2; fast < nums.length; fast++) {
+        if (nums[fast] != nums[slow - 2]) {
+            nums[slow] = nums[fast];
+            slow++;
+        }
+    }
+    return slow;
+}
+```
+
+</div>
+
+## How Grammarly Tests Array vs Other Companies
+
+At large FAANG‑style companies, array problems often test raw algorithmic cleverness—think dynamic programming on 2D arrays or complex binary search variations. At Grammarly, array problems are more likely to be **applied and contextual**. You might be given a scenario like “tracking user edits in a document” or “highlighting repeated phrases” that boils down to a sliding window or two‑pointer problem.
+
+Difficulty tends to be in the medium range, with a focus on clean, efficient, and readable code. They care about edge cases (empty inputs, large inputs, Unicode characters) because their product must handle them. You’re also more likely to be asked to extend the solution—for example, after solving the core algorithm, you might discuss how to make it work for a streaming input or how to persist the state.
+
+## Study Order
+
+Tackle array patterns in this order to build a logical progression:
+
+1. **Basic iteration and counting** – Get comfortable with simple loops, aggregations, and conditionals. This builds fluency.
+2. **Two‑pointer techniques** – Start with opposite‑end pointers (easy to visualize), then move to fast‑slow pointers. This teaches in‑place manipulation.
+3. **Sliding window** – Begin with fixed‑size windows, then move to variable‑size with a condition. This is essential for sequence analysis.
+4. **Prefix sums** – Learn how to pre‑compute running totals to answer range queries in O(1) time. This is a powerful optimization pattern.
+5. **In‑place operations** – Practice removing, shifting, and swapping elements without extra arrays. This is where you solidify space optimization.
+6. **Integration with strings** – Finally, practice array problems that use strings as input (character arrays). This directly mirrors Grammarly’s domain.
+
 ## Recommended Practice Order
 
-1.  Start with foundational in-place operations (e.g., removing elements, moving zeros).
-2.  Master the two-pointer technique in its various forms (converging pointers, slow/fast pointers).
-3.  Practice sliding window problems to get comfortable with dynamic subarray calculations.
-4.  Apply these patterns to string-specific problems, as they are highly relevant to Grammarly's domain.
-5.  Finally, tackle a few of Grammarly’s actual array problems to synthesize these skills in a context similar to the interview.
+Solve these problems in sequence. Each introduces a slight twist that builds on the previous pattern:
+
+1. **Two Sum (LeetCode #1)** – Basic hash map use.
+2. **Move Zeroes (LeetCode #283)** – Simple two‑pointer in‑place operation.
+3. **Remove Duplicates from Sorted Array (LeetCode #26)** – Fast‑slow pointer for in‑place removal.
+4. **Remove Duplicates from Sorted Array II (LeetCode #80)** – Extension allowing two duplicates (as coded above).
+5. **Longest Substring Without Repeating Characters (LeetCode #3)** – Sliding window with hash map.
+6. **Subarray Sum Equals K (LeetCode #560)** – Prefix sum with hash map.
+7. **Product of Array Except Self (LeetCode #238)** – Prefix‑style computation with O(1) extra space.
+8. **Merge Intervals (LeetCode #56)** – Sorting and merging, common in document range processing.
+9. **Insert Interval (LeetCode #57)** – Slightly harder variation of merge intervals.
+10. **Find All Anagrams in a String (LeetCode #438)** – Fixed‑size sliding window with frequency count.
+
+This sequence moves from foundational to more integrated problems, ensuring you’re ready for the practical, text‑aware array challenges Grammarly favors.
 
 [Practice Array at Grammarly](/company/grammarly/array)

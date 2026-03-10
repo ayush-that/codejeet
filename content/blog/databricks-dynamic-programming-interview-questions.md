@@ -1,98 +1,267 @@
 ---
 title: "Dynamic Programming Questions at Databricks: What to Expect"
 description: "Prepare for Dynamic Programming interview questions at Databricks — patterns, difficulty breakdown, and study tips."
-date: "2030-09-11"
+date: "2030-09-03"
 category: "dsa-patterns"
 tags: ["databricks", "dynamic-programming", "interview prep"]
 ---
 
-Dynamic Programming (DP) is a core algorithmic paradigm tested at Databricks because it mirrors the company's engineering reality. Databricks builds and operates complex distributed data systems like Apache Spark and Delta Lake. These systems require optimizing for performance and resource efficiency across massive scales—whether it's minimizing data shuffling, optimizing query execution plans, or managing cluster memory. DP's essence—breaking down a complex problem into overlapping subproblems and caching their results—is directly analogous to optimizing computational workflows. Solving a DP question demonstrates you can think about optimal substructure and state transitions, which is crucial for designing efficient data pipelines and algorithms. In short, they test DP to see if you have the systematic, optimization-focused mindset needed to tackle their large-scale data engineering challenges.
+If you're preparing for Databricks interviews, you've probably noticed their problem list includes a significant number of dynamic programming (DP) questions. With 4 out of 31 total tagged problems being DP, it represents about 13% of their curated list—a meaningful but not overwhelming slice. In practice, DP questions appear in roughly 1 in 4 onsite interviews, often in the second or third technical round. They're not a universal requirement, but they're a reliable differentiator. Databricks, dealing with massive-scale data processing and optimization problems, values engineers who can recognize when a brute-force solution is insufficient and can systematically build optimal solutions from overlapping subproblems. If you can't spot a DP pattern, you'll likely hit time limit exceeded on their platform or fail to optimize a real-world resource allocation problem.
 
-## What to Expect — Types of Problems
+## Specific Patterns Databricks Favors
 
-Databricks' DP questions tend to focus on practical, medium-to-hard difficulty patterns rather than obscure puzzles. You can expect two main categories:
+Databricks' DP questions tend to cluster around three practical domains: **string transformation**, **constrained pathfinding**, and **resource allocation**. You won't often see purely mathematical DP puzzles. Instead, they prefer problems with clear real-world analogs: editing data streams (string DP), navigating dependency graphs with costs (path DP), or allocating compute resources (knapsack-like DP).
 
-1.  **Classic 1D/2D Sequence & State Problems:** These are foundational. Think longest increasing subsequence, edit distance, or knapsack variations. They often model real-world scenarios like string/text processing (relevant for data parsing or schema matching) or resource allocation (relevant for cluster scheduling).
-2.  **Matrix/Grid Path Problems:** Given a grid (representing a data layout, cost map, or game board), find a path with minimum cost, maximum reward, or count possible paths. These test your ability to define state (row, column) and transition logic, which translates to navigating state spaces in distributed systems.
+Their string problems frequently involve **edit distance** variations. The classic "Edit Distance" (#72) is foundational, but they might ask you to minimize cost with custom operations or work with DNA sequences. Their pathfinding problems often involve **grid traversal with constraints**, like "Minimum Path Sum" (#64) or "Dungeon Game" (#174). For resource allocation, think "Partition Equal Subset Sum" (#416) or bounded knapsack scenarios.
 
-You are unlikely to see highly abstract, purely mathematical DP. The problems will have a clear computational or data-oriented flavor.
-
-## How to Prepare — Study Tips with One Code Example
-
-Start by internalizing the core DP patterns, not just memorizing solutions. Follow this process: 1) Identify if the problem has overlapping subproblems and optimal substructure. 2) Define the _state_ (what parameters uniquely identify a subproblem). 3) Define the _recurrence relation_ (how a state relates to smaller states). 4) Implement it, first via a top-down memoized recursion for clarity, then often as a bottom-up tabulation for efficiency.
-
-A key pattern is the "0/1 Knapsack" family, which models selecting items with constraints. Here is a bottom-up implementation for the classic problem: given item weights and values, maximize total value without exceeding capacity `W`.
+A key observation: Databricks heavily favors **iterative, bottom-up tabulation** over recursive memoization. Their engineering culture emphasizes performance and clarity—iterative DP has less overhead and clearly shows state progression. You'll almost always be asked for space-optimized versions.
 
 <div class="code-group">
 
 ```python
-def knapsack(values, weights, capacity):
-    n = len(values)
-    # dp[i][w] = max value using first i items with capacity w
-    dp = [[0] * (capacity + 1) for _ in range(n + 1)]
+# Classic bottom-up DP for Minimum Path Sum (LeetCode #64)
+# Time: O(m*n) | Space: O(n) - optimized from O(m*n)
+def minPathSum(grid):
+    if not grid:
+        return 0
 
-    for i in range(1, n + 1):
-        for w in range(1, capacity + 1):
-            if weights[i-1] <= w:
-                dp[i][w] = max(
-                    dp[i-1][w],  # skip item i-1
-                    values[i-1] + dp[i-1][w - weights[i-1]]  # take item i-1
-                )
-            else:
-                dp[i][w] = dp[i-1][w]
-    return dp[n][capacity]
+    m, n = len(grid), len(grid[0])
+    # Use single array for DP, representing previous row's minimum paths
+    dp = [0] * n
+    dp[0] = grid[0][0]
+
+    # Initialize first row (only horizontal movement possible)
+    for j in range(1, n):
+        dp[j] = dp[j-1] + grid[0][j]
+
+    # Fill the rest of the grid
+    for i in range(1, m):
+        # First column in current row (only vertical movement)
+        dp[0] = dp[0] + grid[i][0]
+        for j in range(1, n):
+            # Minimum of coming from left or above
+            dp[j] = min(dp[j-1], dp[j]) + grid[i][j]
+
+    return dp[n-1]
 ```
 
 ```javascript
-function knapsack(values, weights, capacity) {
-  const n = values.length;
-  const dp = Array(n + 1)
-    .fill()
-    .map(() => Array(capacity + 1).fill(0));
+// Bottom-up DP for Minimum Path Sum (LeetCode #64)
+// Time: O(m*n) | Space: O(n) - optimized from O(m*n)
+function minPathSum(grid) {
+  if (!grid.length) return 0;
 
-  for (let i = 1; i <= n; i++) {
-    for (let w = 1; w <= capacity; w++) {
-      if (weights[i - 1] <= w) {
-        dp[i][w] = Math.max(dp[i - 1][w], values[i - 1] + dp[i - 1][w - weights[i - 1]]);
-      } else {
-        dp[i][w] = dp[i - 1][w];
-      }
+  const m = grid.length,
+    n = grid[0].length;
+  // Single array for DP, representing previous row
+  const dp = new Array(n).fill(0);
+  dp[0] = grid[0][0];
+
+  // Initialize first row
+  for (let j = 1; j < n; j++) {
+    dp[j] = dp[j - 1] + grid[0][j];
+  }
+
+  // Fill remaining rows
+  for (let i = 1; i < m; i++) {
+    // First column in current row
+    dp[0] = dp[0] + grid[i][0];
+    for (let j = 1; j < n; j++) {
+      dp[j] = Math.min(dp[j - 1], dp[j]) + grid[i][j];
     }
   }
-  return dp[n][capacity];
+
+  return dp[n - 1];
 }
 ```
 
 ```java
-public int knapsack(int[] values, int[] weights, int capacity) {
-    int n = values.length;
-    int[][] dp = new int[n + 1][capacity + 1];
+// Bottom-up DP for Minimum Path Sum (LeetCode #64)
+// Time: O(m*n) | Space: O(n) - optimized from O(m*n)
+public int minPathSum(int[][] grid) {
+    if (grid == null || grid.length == 0) return 0;
 
-    for (int i = 1; i <= n; i++) {
-        for (int w = 1; w <= capacity; w++) {
-            if (weights[i-1] <= w) {
-                dp[i][w] = Math.max(
-                    dp[i-1][w],
-                    values[i-1] + dp[i-1][w - weights[i-1]]
-                );
-            } else {
-                dp[i][w] = dp[i-1][w];
-            }
+    int m = grid.length, n = grid[0].length;
+    // Single array for DP
+    int[] dp = new int[n];
+    dp[0] = grid[0][0];
+
+    // Initialize first row
+    for (int j = 1; j < n; j++) {
+        dp[j] = dp[j-1] + grid[0][j];
+    }
+
+    // Fill remaining rows
+    for (int i = 1; i < m; i++) {
+        // First column in current row
+        dp[0] = dp[0] + grid[i][0];
+        for (int j = 1; j < n; j++) {
+            dp[j] = Math.min(dp[j-1], dp[j]) + grid[i][j];
         }
     }
-    return dp[n][capacity];
+
+    return dp[n-1];
 }
 ```
 
 </div>
 
+## How to Prepare
+
+Start by internalizing the DP decision framework: 1) Is the problem asking for an optimal value (min/max) or counting possibilities? 2) Can decisions be made step-by-step? 3) Do later decisions depend on earlier ones? If yes to all three, DP is likely.
+
+For Databricks specifically, practice deriving the **state transition equation** verbally before coding. Interviewers want to hear your reasoning: "If we define dp[i][j] as the minimum cost to reach cell (i,j), then we can only come from left or up, so dp[i][j] = min(dp[i-1][j], dp[i][j-1]) + grid[i][j]."
+
+Always implement the brute-force recursive solution first to demonstrate understanding, then identify overlapping subproblems, then convert to DP. This shows systematic thinking. For space optimization, ask: "Can we use rolling array or single array?" This demonstrates performance awareness.
+
+<div class="code-group">
+
+```python
+# Edit Distance (LeetCode #72) - Space optimized bottom-up
+# Time: O(m*n) | Space: O(min(m, n))
+def minDistance(word1, word2):
+    # Ensure word1 is the shorter string for space optimization
+    if len(word1) > len(word2):
+        word1, word2 = word2, word1
+
+    m, n = len(word1), len(word2)
+    # Previous row in DP matrix
+    prev = list(range(m + 1))
+
+    for j in range(1, n + 1):
+        # Current row
+        curr = [j] + [0] * m
+        for i in range(1, m + 1):
+            if word1[i-1] == word2[j-1]:
+                curr[i] = prev[i-1]  # Characters match, no operation needed
+            else:
+                # Minimum of insert, delete, or replace
+                curr[i] = 1 + min(curr[i-1],    # Insert
+                                  prev[i],      # Delete
+                                  prev[i-1])    # Replace
+        prev = curr
+
+    return prev[m]
+```
+
+```javascript
+// Edit Distance (LeetCode #72) - Space optimized
+// Time: O(m*n) | Space: O(min(m, n))
+function minDistance(word1, word2) {
+  // Ensure word1 is shorter for space optimization
+  if (word1.length > word2.length) {
+    [word1, word2] = [word2, word1];
+  }
+
+  const m = word1.length,
+    n = word2.length;
+  // Previous row in DP
+  let prev = Array.from({ length: m + 1 }, (_, i) => i);
+
+  for (let j = 1; j <= n; j++) {
+    // Current row
+    const curr = [j];
+    for (let i = 1; i <= m; i++) {
+      curr[i] = 0;
+    }
+
+    for (let i = 1; i <= m; i++) {
+      if (word1[i - 1] === word2[j - 1]) {
+        curr[i] = prev[i - 1];
+      } else {
+        curr[i] =
+          1 +
+          Math.min(
+            curr[i - 1], // Insert
+            prev[i], // Delete
+            prev[i - 1] // Replace
+          );
+      }
+    }
+    prev = curr;
+  }
+
+  return prev[m];
+}
+```
+
+```java
+// Edit Distance (LeetCode #72) - Space optimized
+// Time: O(m*n) | Space: O(min(m, n))
+public int minDistance(String word1, String word2) {
+    // Ensure word1 is shorter
+    if (word1.length() > word2.length()) {
+        String temp = word1;
+        word1 = word2;
+        word2 = temp;
+    }
+
+    int m = word1.length(), n = word2.length();
+    // Previous row
+    int[] prev = new int[m + 1];
+    for (int i = 0; i <= m; i++) {
+        prev[i] = i;
+    }
+
+    for (int j = 1; j <= n; j++) {
+        // Current row
+        int[] curr = new int[m + 1];
+        curr[0] = j;
+
+        for (int i = 1; i <= m; i++) {
+            if (word1.charAt(i-1) == word2.charAt(j-1)) {
+                curr[i] = prev[i-1];
+            } else {
+                curr[i] = 1 + Math.min(
+                    Math.min(curr[i-1],  // Insert
+                            prev[i]),    // Delete
+                    prev[i-1]            // Replace
+                );
+            }
+        }
+        prev = curr;
+    }
+
+    return prev[m];
+}
+```
+
+</div>
+
+## How Databricks Tests Dynamic Programming vs Other Companies
+
+Compared to FAANG companies, Databricks DP questions are more **applied and less abstract**. Google might ask "Dungeon Game" (#174) as a pure algorithm challenge; Databricks might frame it as "minimum initial health for a data pipeline with error nodes." The difficulty is similar to Amazon's (medium-hard), but with less emphasis on memoization tricks and more on clean, efficient iteration.
+
+Unlike finance companies (like Jane Street) that love optimization puzzles, Databricks stays closer to software engineering realities. Their DP problems often have **clear business logic layers**—you might need to modify a standard DP to incorporate constraints like "skip days" or "resource limits."
+
+What's unique: Databricks interviewers frequently ask **follow-up optimization questions**. After solving the DP, expect: "What if the grid is 10,000 by 10,000?" or "How would this work with streaming input?" They're testing whether you think about scale—a core company value.
+
+## Study Order
+
+1. **1D DP (Fibonacci style)** - Understand state definition and transition. Problems: Climbing Stairs (#70), House Robber (#198). Reason: Simplest form builds intuition.
+2. **2D Grid DP** - Minimum Path Sum (#64), Unique Paths (#62). Reason: Visualizable, introduces 2D state.
+3. **String DP** - Edit Distance (#72), Longest Common Subsequence (#1143). Reason: Common at Databricks, teaches character matching logic.
+4. **Knapsack DP** - Partition Equal Subset Sum (#416), Coin Change (#322). Reason: Introduces "include/exclude" decision pattern.
+5. **Interval DP** - Longest Palindromic Substring (#5), Burst Balloons (#312). Reason: Advanced but testable; shows mastery.
+6. **DP with Bitmasking** (only if time permits) - Reason: Rare at Databricks, but shows depth.
+
 ## Recommended Practice Order
 
-Build competence sequentially. Do not jump to hard problems.
+Solve these in sequence:
 
-1.  **Foundations:** Master Fibonacci, Climbing Stairs, and Coin Change (minimum coins). These teach state definition and recurrence.
-2.  **Core 1D/2D Patterns:** Practice Longest Increasing Subsequence, 0/1 Knapsack, and Edit Distance. Understand the state transition deeply.
-3.  **Matrix Paths:** Solve Minimum Path Sum, Unique Paths II, and Dungeon Game.
-4.  **Databricks-Specific Practice:** Finally, work on actual DP problems from Databricks' interview question bank. This acclimates you to their problem style and constraints.
+1. Climbing Stairs (#70) - 1D foundation
+2. House Robber (#198) - 1D with simple constraint
+3. Minimum Path Sum (#64) - 2D grid, space optimization
+4. Edit Distance (#72) - String operations, space optimized
+5. Longest Common Subsequence (#1143) - String comparison
+6. Partition Equal Subset Sum (#416) - Knapsack variant
+7. Coin Change (#322) - Unbounded knapsack
+8. Dungeon Game (#174) - Applied grid DP with reverse logic
+9. Word Break (#139) - String + decision DP
+10. Decode Ways (#91) - 1D with complex transitions
+
+This progression moves from simple state transitions to complex decisions, ensuring each new problem introduces exactly one major new concept.
+
+Remember: At Databricks, communicating your DP thought process matters as much as the code. Define your state clearly, explain the transition, then optimize. They're evaluating how you'd break down a real optimization problem in their distributed systems.
 
 [Practice Dynamic Programming at Databricks](/company/databricks/dynamic-programming)

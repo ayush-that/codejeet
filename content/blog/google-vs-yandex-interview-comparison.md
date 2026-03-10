@@ -1,134 +1,178 @@
 ---
 title: "Google vs Yandex: Interview Question Comparison"
 description: "Compare coding interview questions at Google and Yandex — difficulty levels, topic focus, and preparation strategy."
-date: "2026-01-05"
+date: "2028-08-20"
 category: "tips"
 tags: ["google", "yandex", "comparison"]
 ---
 
-When preparing for technical interviews, understanding how companies differ in their question selection can help you allocate study time effectively. Google and Yandex, while both testing core computer science fundamentals, show distinct patterns in volume, difficulty, and focus. This comparison breaks down their interview question profiles to guide your preparation strategy.
+# Google vs Yandex: Interview Question Comparison
+
+If you're interviewing at both Google and Yandex, you're looking at two tech giants with distinct engineering cultures and interview approaches. While both test fundamental algorithmic skills, their question banks reveal different priorities and intensities. Preparing for both simultaneously is possible with smart strategy—this isn't about studying twice as much, but about studying smarter where the overlap exists. Here's what you need to know about their coding interview landscapes.
 
 ## Question Volume and Difficulty
 
-Google’s question bank is substantially larger and more heavily weighted toward harder problems. With 2,217 cataloged questions, it dwarfs Yandex’s 134. The difficulty distribution is telling:
+The numbers tell a clear story: Google's question bank (2,217 questions) dwarfs Yandex's (134 questions). This doesn't mean Google interviews are 16x harder, but it reveals important differences in approach.
 
-- **Google:** 588 Easy (27%), 1153 Medium (52%), 476 Hard (21%). Over half are Medium, and a significant portion are Hard, indicating a strong emphasis on complex problem-solving and optimization.
-- **Yandex:** 52 Easy (39%), 72 Medium (54%), 10 Hard (7%). The focus is overwhelmingly on Medium-difficulty questions, with very few Hard problems.
+Google's distribution (Easy: 588, Medium: 1,153, Hard: 476) shows they heavily favor Medium problems—these are the bread and butter of their interviews. The significant Hard count indicates you might encounter at least one challenging problem in later rounds. The sheer volume means Google problems are highly curated and recycled; you're more likely to encounter a known problem, making platform practice valuable.
 
-This suggests a Google interview is more likely to push into advanced algorithmic territory, requiring deeper mastery and faster, optimal solutions. Yandex interviews, while still challenging, appear more centered on solid application of standard patterns.
+Yandex's distribution (Easy: 52, Medium: 72, Hard: 10) reveals a different philosophy. With only 10 Hard problems in their bank, they clearly prioritize fundamentals over extreme optimization. The Medium-heavy focus (72 out of 134) aligns with Google, but the smaller pool means each question is more likely to appear in interviews. Yandex's questions feel less "gamed"—they're testing whether you can solve problems, not whether you've memorized their catalog.
+
+**Implication**: For Google, breadth matters—you need exposure to many patterns. For Yandex, depth on core topics matters more—mastering fewer problems thoroughly will serve you better.
 
 ## Topic Overlap
 
-Both companies prioritize the most fundamental data structures. The top topics are nearly identical:
+Both companies test **Array**, **Hash Table**, and **String** problems heavily—these form the foundation of their interviews. The overlap is your preparation sweet spot.
 
-1.  **Array**
-2.  **Hash Table**
-3.  **String**
+**Google's unique emphasis**: Dynamic Programming appears in their top four topics, while it's absent from Yandex's top list. Google loves DP problems that test both recursion-to-iteration transformation and state optimization. You'll need to prepare for this separately.
 
-This core trio forms the backbone of most coding interviews. Success with these topics is non-negotiable for both companies. The primary difference lies in the next tier of focus:
+**Yandex's unique emphasis**: Two Pointers makes their top four, while it doesn't appear in Google's top topics (though Google certainly uses it). Yandex seems to particularly favor this pattern for array and string manipulation.
 
-- **Google** prominently features **Dynamic Programming (DP)**. The high volume of Medium and Hard questions makes this a critical area. Expect problems involving optimization, memoization, and state transition.
-- **Yandex** highlights **Two Pointers**. This indicates a preference for problems involving sorted data, sliding windows, or in-place array/string manipulation.
+Interestingly, both companies de-emphasize advanced graph algorithms and complex data structures in their most frequent questions. The focus is on practical problem-solving with fundamental building blocks.
 
-Here’s a practical example of a Two Pointers problem, common for Yandex, and a DP problem, key for Google:
+## Preparation Priority Matrix
+
+Here's how to allocate your study time efficiently:
+
+**High Priority (Overlap Topics - Study First)**
+
+- **Arrays**: Sliding window, prefix sums, in-place operations
+- **Hash Tables**: Frequency counting, complement finding, caching
+- **Strings**: Palindrome checks, anagram detection, substring problems
+
+**Medium Priority (Google-Specific)**
+
+- **Dynamic Programming**: Start with 1D (Fibonacci-style) and 2D (grid) problems
+- **Trees and Graphs**: Though not in top topics, appear frequently enough
+
+**Low Priority (Yandex-Specific)**
+
+- **Two Pointers**: Already covered in array/string prep, but emphasize sorted array applications
+
+**Recommended overlap problems**:
+
+- Two Sum (#1) - Tests hash table fundamentals
+- Valid Palindrome (#125) - Tests two pointers and string manipulation
+- Contains Duplicate (#217) - Multiple approaches (hash table, sorting)
+- Best Time to Buy and Sell Stock (#121) - Simple DP/array problem
+
+## Interview Format Differences
+
+**Google** typically follows: 1-2 phone screens (45-60 minutes each) → 4-5 on-site interviews (45 minutes each). Each coding round usually features 1-2 problems. They emphasize clean code, optimal solutions, and testing edge cases. Behavioral questions are separate (often with a dedicated round). System design appears for senior roles (E5+).
+
+**Yandex** structure varies more: Often 2-3 technical interviews (60-90 minutes each) → possibly an on-site. Problems tend to be fewer but more involved—you might spend 30+ minutes discussing and optimizing a single problem. They value algorithmic thinking and communication more than perfect syntax. System design may be integrated into coding rounds even for mid-level positions.
+
+**Key difference**: Google interviews feel more structured and predictable; Yandex interviews feel more conversational and adaptive. At Google, you're often expected to arrive at the optimal solution quickly; at Yandex, showing your thought process as you improve a solution can be equally valuable.
+
+## Specific Problem Recommendations
+
+These problems provide maximum overlap value:
+
+1. **3Sum (#15)** - Covers arrays, two pointers, and hash tables. The two-pointer approach teaches sorted array manipulation valuable for both companies.
 
 <div class="code-group">
 
 ```python
-# Two Pointers: Remove Duplicates from Sorted Array
-def removeDuplicates(nums):
-    if not nums:
-        return 0
-    write = 1
-    for read in range(1, len(nums)):
-        if nums[read] != nums[read-1]:
-            nums[write] = nums[read]
-            write += 1
-    return write
+# Time: O(n²) | Space: O(1) ignoring output storage
+def threeSum(nums):
+    nums.sort()
+    result = []
+    for i in range(len(nums)-2):
+        if i > 0 and nums[i] == nums[i-1]:
+            continue
+        left, right = i+1, len(nums)-1
+        while left < right:
+            total = nums[i] + nums[left] + nums[right]
+            if total < 0:
+                left += 1
+            elif total > 0:
+                right -= 1
+            else:
+                result.append([nums[i], nums[left], nums[right]])
+                while left < right and nums[left] == nums[left+1]:
+                    left += 1
+                while left < right and nums[right] == nums[right-1]:
+                    right -= 1
+                left += 1
+                right -= 1
+    return result
 ```
 
 ```javascript
-// Two Pointers: Remove Duplicates from Sorted Array
-function removeDuplicates(nums) {
-  if (nums.length === 0) return 0;
-  let write = 1;
-  for (let read = 1; read < nums.length; read++) {
-    if (nums[read] !== nums[read - 1]) {
-      nums[write] = nums[read];
-      write++;
+// Time: O(n²) | Space: O(1) ignoring output storage
+function threeSum(nums) {
+  nums.sort((a, b) => a - b);
+  const result = [];
+  for (let i = 0; i < nums.length - 2; i++) {
+    if (i > 0 && nums[i] === nums[i - 1]) continue;
+    let left = i + 1,
+      right = nums.length - 1;
+    while (left < right) {
+      const sum = nums[i] + nums[left] + nums[right];
+      if (sum < 0) left++;
+      else if (sum > 0) right--;
+      else {
+        result.push([nums[i], nums[left], nums[right]]);
+        while (left < right && nums[left] === nums[left + 1]) left++;
+        while (left < right && nums[right] === nums[right - 1]) right--;
+        left++;
+        right--;
+      }
     }
   }
-  return write;
+  return result;
 }
 ```
 
 ```java
-// Two Pointers: Remove Duplicates from Sorted Array
-public int removeDuplicates(int[] nums) {
-    if (nums.length == 0) return 0;
-    int write = 1;
-    for (int read = 1; read < nums.length; read++) {
-        if (nums[read] != nums[read - 1]) {
-            nums[write] = nums[read];
-            write++;
+// Time: O(n²) | Space: O(1) ignoring output storage
+public List<List<Integer>> threeSum(int[] nums) {
+    Arrays.sort(nums);
+    List<List<Integer>> result = new ArrayList<>();
+    for (int i = 0; i < nums.length - 2; i++) {
+        if (i > 0 && nums[i] == nums[i-1]) continue;
+        int left = i + 1, right = nums.length - 1;
+        while (left < right) {
+            int sum = nums[i] + nums[left] + nums[right];
+            if (sum < 0) left++;
+            else if (sum > 0) right--;
+            else {
+                result.add(Arrays.asList(nums[i], nums[left], nums[right]));
+                while (left < right && nums[left] == nums[left+1]) left++;
+                while (left < right && nums[right] == nums[right-1]) right--;
+                left++;
+                right--;
+            }
         }
     }
-    return write;
+    return result;
 }
 ```
 
 </div>
 
-<div class="code-group">
+2. **Longest Substring Without Repeating Characters (#3)** - Tests sliding window and hash tables. The optimization from O(n²) to O(n) demonstrates algorithmic thinking both companies value.
 
-```python
-# Dynamic Programming: Climbing Stairs
-def climbStairs(n):
-    if n <= 2:
-        return n
-    dp = [0] * (n + 1)
-    dp[1], dp[2] = 1, 2
-    for i in range(3, n + 1):
-        dp[i] = dp[i-1] + dp[i-2]
-    return dp[n]
-```
+3. **Merge Intervals (#56)** - Covers array sorting and merging logic. Teaches interval manipulation common in real-world problems at both companies.
 
-```javascript
-// Dynamic Programming: Climbing Stairs
-function climbStairs(n) {
-  if (n <= 2) return n;
-  const dp = new Array(n + 1).fill(0);
-  dp[1] = 1;
-  dp[2] = 2;
-  for (let i = 3; i <= n; i++) {
-    dp[i] = dp[i - 1] + dp[i - 2];
-  }
-  return dp[n];
-}
-```
+4. **Climbing Stairs (#70)** - Simple DP introduction. Essential for Google, and the recursive-to-iterative thinking helps for Yandex's optimization discussions.
 
-```java
-// Dynamic Programming: Climbing Stairs
-public int climbStairs(int n) {
-    if (n <= 2) return n;
-    int[] dp = new int[n + 1];
-    dp[1] = 1;
-    dp[2] = 2;
-    for (int i = 3; i <= n; i++) {
-        dp[i] = dp[i - 1] + dp[i - 2];
-    }
-    return dp[n];
-}
-```
-
-</div>
+5. **Valid Anagram (#242)** - Fundamental hash table/frequency counting problem. Quick to solve but reveals attention to unicode/edge cases.
 
 ## Which to Prepare for First
 
-Prepare for **Yandex first**. Its smaller, more concentrated question set focused on Medium problems allows you to build a robust foundation in the core topics (Array, Hash Table, String) and the Two Pointers technique efficiently. Achieving proficiency here creates a strong platform for tackling more difficult problems.
+**Prepare for Google first, then adapt for Yandex.** Here's why:
 
-Once comfortable with Yandex-level questions, shift focus to **Google**. This requires expanding your study to cover the much larger question bank, drilling down on Dynamic Programming, and practicing under higher difficulty and time constraints. The skills built for Yandex are directly transferable and necessary, but Google demands more breadth, depth, and optimization.
+Google's broader question bank forces you to learn more patterns. Once you've covered Google's topics, you're 80% prepared for Yandex. The reverse isn't true—Yandex's focused topics leave gaps for Google.
 
-In short, use Yandex's profile to build core competency, then use Google's profile to scale up to elite problem-solving.
+**Week 1-3**: Focus on overlap topics (arrays, hash tables, strings) using medium-difficulty problems. Add basic dynamic programming.
 
-For detailed question lists and patterns, visit the company pages: [Google](/company/google) and [Yandex](/company/yandex).
+**Week 4**: Practice Google-specific patterns with emphasis on clean code and optimal solutions.
+
+**Week 5**: Shift to Yandex-style practice—take fewer problems but spend more time discussing approaches, trade-offs, and incremental optimizations.
+
+**Final week**: Mix company-specific problems—Google one day, Yandex the next—to adapt to different interview rhythms.
+
+Remember: Both companies ultimately test problem-solving, not trivia. If you understand why a solution works and can communicate your thinking, you'll do well at either. The patterns are just vocabulary; the thinking is the language.
+
+For more company-specific insights: [/company/google](/company/google) | [/company/yandex](/company/yandex)

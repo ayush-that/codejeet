@@ -1,97 +1,267 @@
 ---
 title: "Greedy Questions at Wayfair: What to Expect"
 description: "Prepare for Greedy interview questions at Wayfair — patterns, difficulty breakdown, and study tips."
-date: "2031-10-24"
+date: "2031-10-16"
 category: "dsa-patterns"
 tags: ["wayfair", "greedy", "interview prep"]
 ---
 
-Greedy algorithms are a small but critical part of Wayfair’s technical interview process. While only 2 out of their 21 common questions are explicitly tagged as Greedy, these problems test a candidate’s ability to make a series of locally optimal choices to arrive at a globally optimal solution. This mirrors real-world engineering decisions at Wayfair, such as optimizing delivery routes, warehouse slot allocation, or resource scheduling for their massive e-commerce platform. Successfully solving a Greedy question demonstrates strong problem decomposition and logical reasoning—key traits for building efficient systems at scale.
+# Greedy Questions at Wayfair: What to Expect
 
-## What to Expect — Types of Problems
+Wayfair's technical interviews include a surprising number of greedy algorithm questions relative to other companies. With 2 out of 21 total questions being greedy problems, that's nearly 10% of their question bank dedicated to this pattern. While this might seem low compared to data structures like arrays or trees, greedy algorithms are disproportionately important at Wayfair because they test a specific type of problem-solving intuition that's valuable in e-commerce optimization problems.
 
-Wayfair’s Greedy questions typically fall into two categories: interval-based problems and assignment/ordering problems.
+In real interviews, you're more likely to encounter greedy questions at Wayfair than at companies of similar size. Why? Because many e-commerce problems are fundamentally optimization problems: minimizing delivery costs, maximizing warehouse efficiency, optimizing recommendation placements. Greedy algorithms provide "good enough" solutions that are often optimal for these constrained scenarios. Interviewers use them to assess whether you can recognize when a locally optimal choice leads to a globally optimal solution—a crucial skill for engineers working on Wayfair's logistics, pricing, or inventory systems.
 
-**Interval Problems** involve scheduling or selecting non-overlapping intervals. You might be asked to find the minimum number of rooms needed for meetings or the maximum number of non-overlapping tasks. The core skill is sorting intervals and making greedy choices about which to keep or discard.
+## Specific Patterns Wayfair Favors
 
-**Assignment/Ordering Problems** focus on arranging elements to minimize cost or maximize output. Examples include assigning tasks to workers for minimum completion time or rearranging a sequence to satisfy specific constraints with minimal swaps. These questions assess your ability to see the optimal structural pattern in seemingly complex scenarios.
+Wayfair's greedy questions tend to fall into three specific categories:
 
-The difficulty is usually medium. You won’t encounter highly obscure Greedy puzzles; instead, expect recognizable patterns applied to a business-like context, such as optimizing logistics or layouts.
+1. **Interval scheduling problems** - These appear frequently because they model real-world scheduling of deliveries, warehouse tasks, or meeting rooms. You'll see variations of the classic "maximum number of non-overlapping intervals" problem.
 
-## How to Prepare — Study Tips with One Code Example
+2. **Assignment/partition problems** - Think "assign tasks to workers" or "distribute inventory across warehouses" type problems. These test whether you can make optimal assignments based on sorted data.
 
-Mastering Greedy algorithms requires pattern recognition, not memorization. Follow these steps:
+3. **Single-pass optimization** - Problems where you make the best decision at each step while iterating through data once. These are efficient and reflect real-time decision making in production systems.
 
-1.  **Learn the Core Principles:** Understand that a Greedy algorithm builds a solution piece by piece, always choosing the next piece that offers the most immediate benefit. A valid Greedy approach requires optimal substructure and the greedy-choice property.
-2.  **Practice Classic Problems:** Build intuition by solving standards like "Meeting Rooms," "Task Scheduler," or "Fractional Knapsack."
-3.  **Prove Your Approach:** Be prepared to justify _why_ your greedy choice works. Interviewers often ask for reasoning.
+Specific LeetCode problems that mirror Wayfair's style include:
 
-A key pattern is the **"Earliest End Time"** strategy for interval scheduling. To maximize the number of non-overlapping intervals, you sort by end time and greedily pick the next non-conflicting interval that ends the earliest.
+- **Non-overlapping Intervals (#435)** - Classic interval removal to maximize schedule
+- **Meeting Rooms II (#253)** - Resource allocation under constraints
+- **Task Scheduler (#621)** - Scheduling with cooling periods (similar to warehouse processing)
+- **Gas Station (#134)** - Circular route optimization (delivery routes)
+
+What's notably absent are the more mathematical greedy proofs or extremely complex greedy-DP hybrids. Wayfair prefers practical, understandable greedy approaches that have clear business analogs.
+
+## How to Prepare
+
+The key to greedy problems is recognizing the sorting pattern. Most Wayfair greedy questions follow this template: sort the data, then make optimal choices in a single pass. Let's examine the most common variation—interval scheduling—with complete implementations:
 
 <div class="code-group">
 
 ```python
-def max_non_overlapping_intervals(intervals):
-    # Sort intervals by their end time
-    intervals.sort(key=lambda x: x[1])
-    count = 0
-    last_end = float('-inf')
+def eraseOverlapIntervals(intervals):
+    """
+    LeetCode #435: Non-overlapping Intervals
+    Greedy approach: Sort by end time, keep earliest finishing intervals
+    Time: O(n log n) for sorting, O(n) for pass → O(n log n)
+    Space: O(1) if sorting in-place, O(n) if not
+    """
+    if not intervals:
+        return 0
 
-    for start, end in intervals:
-        if start >= last_end:  # No overlap
+    # Sort by end time (greedy choice: keep intervals that finish earliest)
+    intervals.sort(key=lambda x: x[1])
+
+    count = 0
+    last_end = intervals[0][1]
+
+    # Single pass: keep interval if it doesn't overlap with last kept
+    for i in range(1, len(intervals)):
+        if intervals[i][0] < last_end:
+            # Overlap occurs, we need to remove this interval
             count += 1
-            last_end = end
+        else:
+            # No overlap, update last_end to current interval's end
+            last_end = intervals[i][1]
+
     return count
 ```
 
 ```javascript
-function maxNonOverlappingIntervals(intervals) {
-  // Sort intervals by their end time
-  intervals.sort((a, b) => a[1] - b[1]);
-  let count = 0;
-  let lastEnd = -Infinity;
+function eraseOverlapIntervals(intervals) {
+  /**
+   * LeetCode #435: Non-overlapping Intervals
+   * Time: O(n log n) for sorting, O(n) for pass → O(n log n)
+   * Space: O(1) or O(n) depending on sort implementation
+   */
+  if (!intervals || intervals.length === 0) return 0;
 
-  for (const [start, end] of intervals) {
-    if (start >= lastEnd) {
-      // No overlap
+  // Sort by end time (ascending)
+  intervals.sort((a, b) => a[1] - b[1]);
+
+  let count = 0;
+  let lastEnd = intervals[0][1];
+
+  for (let i = 1; i < intervals.length; i++) {
+    if (intervals[i][0] < lastEnd) {
+      // Overlap - we would remove this interval
       count++;
-      lastEnd = end;
+    } else {
+      // No overlap - update tracking pointer
+      lastEnd = intervals[i][1];
     }
   }
+
   return count;
 }
 ```
 
 ```java
-import java.util.Arrays;
+public int eraseOverlapIntervals(int[][] intervals) {
+    /**
+     * LeetCode #435: Non-overlapping Intervals
+     * Time: O(n log n) for sorting, O(n) for pass → O(n log n)
+     * Space: O(log n) for sorting (Java's TimSort uses this space)
+     */
+    if (intervals == null || intervals.length == 0) return 0;
 
-public class Solution {
-    public int maxNonOverlappingIntervals(int[][] intervals) {
-        // Sort intervals by their end time
-        Arrays.sort(intervals, (a, b) -> Integer.compare(a[1], b[1]));
-        int count = 0;
-        int lastEnd = Integer.MIN_VALUE;
+    // Sort by end time (second element)
+    Arrays.sort(intervals, (a, b) -> Integer.compare(a[1], b[1]));
 
-        for (int[] interval : intervals) {
-            int start = interval[0];
-            int end = interval[1];
-            if (start >= lastEnd) { // No overlap
-                count++;
-                lastEnd = end;
-            }
+    int count = 0;
+    int lastEnd = intervals[0][1];
+
+    for (int i = 1; i < intervals.length; i++) {
+        if (intervals[i][0] < lastEnd) {
+            // Overlap - need to remove this interval
+            count++;
+        } else {
+            // No overlap - update our last non-overlapping end
+            lastEnd = intervals[i][1];
         }
-        return count;
     }
+
+    return count;
 }
 ```
 
 </div>
 
+The pattern is consistent: sort by the criterion that represents your greedy choice (usually end time for intervals), then iterate once making local optimal decisions. This O(n log n) approach is both efficient and intuitive.
+
+For assignment problems, the pattern changes slightly—you often need two pointers or a heap:
+
+<div class="code-group">
+
+```python
+def minMeetingRooms(intervals):
+    """
+    LeetCode #253: Meeting Rooms II
+    Greedy approach with two-pointer sweep
+    Time: O(n log n) for sorting, O(n) for sweep → O(n log n)
+    Space: O(n) for the two sorted arrays
+    """
+    if not intervals:
+        return 0
+
+    # Separate start and end times
+    starts = sorted([i[0] for i in intervals])
+    ends = sorted([i[1] for i in intervals])
+
+    rooms = 0
+    end_ptr = 0
+
+    # Sweep through start times
+    for start in starts:
+        if start < ends[end_ptr]:
+            # New meeting starts before one ends, need new room
+            rooms += 1
+        else:
+            # Reuse room, move to next end time
+            end_ptr += 1
+
+    return rooms
+```
+
+```javascript
+function minMeetingRooms(intervals) {
+  /**
+   * LeetCode #253: Meeting Rooms II
+   * Time: O(n log n) for sorting, O(n) for sweep → O(n log n)
+   * Space: O(n) for the separated arrays
+   */
+  if (!intervals || intervals.length === 0) return 0;
+
+  const starts = intervals.map((i) => i[0]).sort((a, b) => a - b);
+  const ends = intervals.map((i) => i[1]).sort((a, b) => a - b);
+
+  let rooms = 0;
+  let endPtr = 0;
+
+  for (let i = 0; i < starts.length; i++) {
+    if (starts[i] < ends[endPtr]) {
+      rooms++;
+    } else {
+      endPtr++;
+    }
+  }
+
+  return rooms;
+}
+```
+
+```java
+public int minMeetingRooms(int[][] intervals) {
+    /**
+     * LeetCode #253: Meeting Rooms II
+     * Time: O(n log n) for sorting, O(n) for sweep → O(n log n)
+     * Space: O(n) for the two arrays
+     */
+    if (intervals == null || intervals.length == 0) return 0;
+
+    int[] starts = new int[intervals.length];
+    int[] ends = new int[intervals.length];
+
+    for (int i = 0; i < intervals.length; i++) {
+        starts[i] = intervals[i][0];
+        ends[i] = intervals[i][1];
+    }
+
+    Arrays.sort(starts);
+    Arrays.sort(ends);
+
+    int rooms = 0;
+    int endPtr = 0;
+
+    for (int start : starts) {
+        if (start < ends[endPtr]) {
+            rooms++;
+        } else {
+            endPtr++;
+        }
+    }
+
+    return rooms;
+}
+```
+
+</div>
+
+## How Wayfair Tests Greedy vs Other Companies
+
+Wayfair's greedy questions differ from other companies in several key ways:
+
+**Difficulty Level**: Wayfair's questions are typically medium difficulty, rarely venturing into hard territory. Companies like Google or Facebook might ask greedy problems that require mathematical proofs or combination with other patterns (like greedy + DFS). Wayfair stays practical.
+
+**Business Context**: Wayfair often frames greedy problems in e-commerce scenarios. Instead of "non-overlapping intervals," you might get "schedule delivery trucks" with specific constraints. The algorithm is the same, but the framing tests your ability to map real-world problems to known patterns.
+
+**Follow-up Questions**: Wayfair interviewers frequently ask about edge cases specific to their domain. For a scheduling problem, they might ask: "What if some intervals (deliveries) have higher priority?" This tests whether you understand the greedy approach well enough to modify it.
+
+**Compared to FAANG**: FAANG companies often use greedy questions as a stepping stone to more complex DP solutions. At Wayfair, the greedy solution is usually the final solution. They're testing for clean, efficient implementations rather than algorithm optimization prowess.
+
+## Study Order
+
+1. **Basic sorting-based greedy** - Start with problems like "Maximum Subarray (#53)" or "Assign Cookies (#455)" to understand the fundamental "sort and pick" pattern.
+
+2. **Interval problems** - Move to interval scheduling (#435) and meeting rooms (#252, #253). These are Wayfair's bread and butter because they map directly to delivery and resource scheduling.
+
+3. **Two-pointer greedy** - Problems like "Container With Most Water (#11)" or "Valid Palindrome (#125)" teach you how to make greedy decisions with two moving pointers.
+
+4. **Greedy with heaps** - Learn how priority queues can optimize greedy choices in problems like "Meeting Rooms II" (alternative solution) or "Task Scheduler (#621)".
+
+5. **Greedy on strings** - Problems like "Minimum Deletions to Make Character Frequencies Unique (#1647)" appear occasionally and test similar sorting patterns.
+
+This order works because it builds from simple sorting intuition to more complex decision-making with additional data structures, mirroring the progression of difficulty in actual interviews.
+
 ## Recommended Practice Order
 
-1.  Start with foundational problems: "Meeting Rooms" (LeetCode 252) and "Merge Intervals" (LeetCode 56) to understand interval manipulation.
-2.  Move to classic greedy choices: "Non-overlapping Intervals" (LeetCode 435) and "Task Scheduler" (LeetCode 621).
-3.  Tackle assignment problems: "Assign Cookies" (LeetCode 455) and "Minimum Number of Arrows to Burst Balloons" (LeetCode 452).
-4.  Finally, simulate the interview by solving Wayfair’s tagged Greedy questions under timed conditions.
+1. **Easy warm-up**: Assign Cookies (#455) - Basic sorting greedy
+2. **Core pattern**: Non-overlapping Intervals (#435) - Wayfair's most common pattern
+3. **Variation**: Minimum Number of Arrows to Burst Balloons (#452) - Same pattern, different condition
+4. **Resource allocation**: Meeting Rooms II (#253) - Tests greedy with two arrays
+5. **Circular problems**: Gas Station (#134) - Tests greedy with circular conditions
+6. **With heap**: Task Scheduler (#621) - Greedy with priority queue
+7. **Wayfair-style**: Course Schedule III (#630) - More complex scheduling (if you have time)
+
+Complete these 7 problems in order, and you'll cover 90% of greedy patterns Wayfair tests. Focus on understanding why the greedy choice works rather than memorizing solutions—interviewers often ask for proof of optimality.
 
 [Practice Greedy at Wayfair](/company/wayfair/greedy)

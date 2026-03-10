@@ -1,119 +1,181 @@
 ---
 title: "Microsoft vs Expedia: Interview Question Comparison"
 description: "Compare coding interview questions at Microsoft and Expedia — difficulty levels, topic focus, and preparation strategy."
-date: "2026-10-18"
+date: "2029-07-18"
 category: "tips"
 tags: ["microsoft", "expedia", "comparison"]
 ---
 
-When preparing for technical interviews, understanding company-specific patterns is crucial. Microsoft and Expedia represent two ends of the spectrum in terms of scale and question focus, requiring different preparation strategies. This comparison breaks down their key differences in question volume, difficulty, and topic emphasis to help you plan your study.
+# Microsoft vs Expedia: Interview Question Comparison
+
+If you're interviewing at both Microsoft and Expedia, you're looking at two distinct interview cultures with surprisingly similar technical foundations. Microsoft's process is a marathon of breadth and depth, while Expedia's is a focused sprint on practical problem-solving. The key insight? Preparing for Microsoft will cover about 90% of what Expedia tests, but the reverse isn't true. Let me break down exactly how to optimize your limited prep time between these two tech giants.
 
 ## Question Volume and Difficulty
 
-The sheer volume of questions is the most striking difference. Microsoft's tagged question bank is vast, with **1,352 questions** categorized by difficulty (379 Easy, 762 Medium, 211 Hard). This reflects its long history of rigorous technical interviews and the wide variety of teams and roles. You must be prepared for a broad, deep assessment of fundamentals, with a significant portion of challenging problems.
+The numbers tell a clear story about interview intensity:
 
-In stark contrast, Expedia's tagged question pool is much smaller, with **54 questions** (13 Easy, 35 Medium, 6 Hard). This suggests a more focused interview process. The difficulty distribution is heavily skewed toward Medium, which are the most common for on-site rounds. The low number of Hard questions indicates that while problem-solving is tested, extremely complex algorithmic puzzles are less frequent.
+**Microsoft (1352 questions):** With 379 Easy, 762 Medium, and 211 Hard problems tagged, Microsoft has one of the largest question banks in the industry. This doesn't mean they ask harder questions than Google or Meta, but it does mean their interviewers have an enormous playbook. You're less likely to get a problem you've seen before, and more likely to face a variation that tests your adaptability. The Medium-heavy distribution (56% of questions) suggests they value clean, optimal solutions over brute force or overly clever approaches.
 
-**Preparation Implication:** For Microsoft, breadth and endurance are key. For Expedia, depth on core, medium-difficulty patterns is more critical.
+**Expedia (54 questions):** With just 54 questions total (13 Easy, 35 Medium, 6 Hard), Expedia's question bank is 25 times smaller. This isn't because their interviews are easier—it's because they focus on a narrower set of practical problems. The 65% Medium distribution aligns with Microsoft, but the tiny Hard count (just 6 problems) suggests they rarely go into advanced graph theory or complex dynamic programming.
+
+The implication: For Microsoft, you need broad pattern recognition. For Expedia, you need mastery of core data structures applied to business-relevant scenarios.
 
 ## Topic Overlap
 
-Both companies strongly emphasize **Array, String, and Hash Table** problems. These form the bedrock of data manipulation and are essential for both.
+Both companies heavily test **Arrays, Strings, and Hash Tables**—the holy trinity of coding interviews. This overlap is your preparation sweet spot.
 
-- **Microsoft** adds a major emphasis on **Dynamic Programming (DP)**. This is a classic topic for assessing advanced problem decomposition and optimization skills. Expect problems involving sequences, paths, or resource allocation.
+**Microsoft's unique emphasis:** Dynamic Programming appears prominently in their tagged questions. They love testing recursive thinking and optimization problems, especially in later rounds. You'll also see more Graph problems (though still less than at pure tech companies like Google).
+
+**Expedia's unique emphasis:** Greedy algorithms stand out in their topic list. This makes sense for a travel company—many optimization problems in routing, scheduling, and resource allocation have greedy solutions. They also tend toward problems with clear real-world analogs.
+
+The shared foundation means studying Arrays, Strings, and Hash Tables gives you maximum return on investment for both companies.
+
+## Preparation Priority Matrix
+
+Here's how to allocate your study time strategically:
+
+**High Priority (Study First - Works for Both):**
+
+- Array manipulation (two pointers, sliding window)
+- String operations (palindromes, anagrams, parsing)
+- Hash Table applications (frequency counting, caching)
+- Basic tree traversals (BFS/DFS)
+
+**Medium Priority (Microsoft-Specific):**
+
+- Dynamic Programming (start with 1D then 2D)
+- Graph algorithms (especially BFS/DFS variations)
+- Bit manipulation (less common but appears)
+
+**Lower Priority (Expedia-Specific):**
+
+- Advanced Greedy algorithms (beyond the obvious)
+- Complex system design (Expedia's system design rounds are less algorithm-intensive)
+
+**Recommended crossover problems:**
+
+- Two Sum (#1) - Tests hash table fundamentals
+- Merge Intervals (#56) - Appears in scheduling contexts
+- Valid Parentheses (#20) - Tests stack usage and edge cases
+- Longest Substring Without Repeating Characters (#3) - Classic sliding window
+
+## Interview Format Differences
+
+**Microsoft** typically uses a 4-5 round onsite (or virtual equivalent) with:
+
+- 2-3 coding rounds (45-60 minutes each, often 2 problems per round)
+- 1 system design round (for senior roles)
+- 1 behavioral/cultural fit round (the famous "as appropriate" questions)
+- Possible design/architecture discussion even for mid-level roles
+- Whiteboarding or collaborative editor (like Codility)
+
+**Expedia** tends toward:
+
+- 3-4 technical rounds (often 1 problem per 45-minute round)
+- More emphasis on real-world problem adaptation
+- Behavioral questions woven into technical rounds
+- Less rigorous system design for non-senior roles
+- Usually virtual interviews even pre-pandemic
+
+Microsoft interviewers often probe edge cases more deeply and expect you to discuss tradeoffs between approaches. Expedia interviewers care more about arriving at a working solution and explaining your thought process in business terms.
+
+## Specific Problem Recommendations
+
+Here are 5 problems that provide exceptional crossover value:
+
+1. **Product of Array Except Self (#238)** - Tests array manipulation, prefix/suffix thinking, and optimization. Both companies love this pattern.
 
 <div class="code-group">
 
 ```python
-# Example DP (Climbing Stairs)
-def climbStairs(n: int) -> int:
-    if n <= 2:
-        return n
-    dp = [0] * (n + 1)
-    dp[1], dp[2] = 1, 2
-    for i in range(3, n + 1):
-        dp[i] = dp[i-1] + dp[i-2]
-    return dp[n]
+# Time: O(n) | Space: O(1) excluding output array
+def productExceptSelf(nums):
+    n = len(nums)
+    result = [1] * n
+
+    # Left pass: accumulate products from left
+    left_product = 1
+    for i in range(n):
+        result[i] = left_product
+        left_product *= nums[i]
+
+    # Right pass: multiply by accumulated products from right
+    right_product = 1
+    for i in range(n-1, -1, -1):
+        result[i] *= right_product
+        right_product *= nums[i]
+
+    return result
 ```
 
 ```javascript
-// Example DP (Climbing Stairs)
-function climbStairs(n) {
-  if (n <= 2) return n;
-  let dp = new Array(n + 1).fill(0);
-  dp[1] = 1;
-  dp[2] = 2;
-  for (let i = 3; i <= n; i++) {
-    dp[i] = dp[i - 1] + dp[i - 2];
+// Time: O(n) | Space: O(1) excluding output array
+function productExceptSelf(nums) {
+  const n = nums.length;
+  const result = new Array(n).fill(1);
+
+  // Left pass
+  let leftProduct = 1;
+  for (let i = 0; i < n; i++) {
+    result[i] = leftProduct;
+    leftProduct *= nums[i];
   }
-  return dp[n];
+
+  // Right pass
+  let rightProduct = 1;
+  for (let i = n - 1; i >= 0; i--) {
+    result[i] *= rightProduct;
+    rightProduct *= nums[i];
+  }
+
+  return result;
 }
 ```
 
 ```java
-// Example DP (Climbing Stairs)
-public int climbStairs(int n) {
-    if (n <= 2) return n;
-    int[] dp = new int[n + 1];
-    dp[1] = 1;
-    dp[2] = 2;
-    for (int i = 3; i <= n; i++) {
-        dp[i] = dp[i - 1] + dp[i - 2];
+// Time: O(n) | Space: O(1) excluding output array
+public int[] productExceptSelf(int[] nums) {
+    int n = nums.length;
+    int[] result = new int[n];
+
+    // Left pass
+    int leftProduct = 1;
+    for (int i = 0; i < n; i++) {
+        result[i] = leftProduct;
+        leftProduct *= nums[i];
     }
-    return dp[n];
+
+    // Right pass
+    int rightProduct = 1;
+    for (int i = n - 1; i >= 0; i--) {
+        result[i] *= rightProduct;
+        rightProduct *= nums[i];
+    }
+
+    return result;
 }
 ```
 
 </div>
 
-- **Expedia** highlights **Greedy** algorithms. This aligns with solving optimization problems common in travel and logistics (e.g., scheduling, resource assignment). Greedy problems test your ability to find efficient, step-by-step solutions.
+2. **Merge Intervals (#56)** - Essential for both companies. Microsoft tests it as pure algorithm, Expedia loves it for scheduling scenarios.
 
-<div class="code-group">
+3. **Longest Palindromic Substring (#5)** - Covers string manipulation, dynamic programming (expand around center approach), and has appeared at both companies.
 
-```python
-# Example Greedy (Maximum Subarray - Kadane's)
-def maxSubArray(nums):
-    current_max = global_max = nums[0]
-    for num in nums[1:]:
-        current_max = max(num, current_max + num)
-        global_max = max(global_max, current_max)
-    return global_max
-```
+4. **Course Schedule (#207)** - Graph problem that's common at Microsoft and relevant to Expedia's dependency resolution scenarios.
 
-```javascript
-// Example Greedy (Maximum Subarray - Kadane's)
-function maxSubArray(nums) {
-  let currentMax = nums[0];
-  let globalMax = nums[0];
-  for (let i = 1; i < nums.length; i++) {
-    currentMax = Math.max(nums[i], currentMax + nums[i]);
-    globalMax = Math.max(globalMax, currentMax);
-  }
-  return globalMax;
-}
-```
-
-```java
-// Example Greedy (Maximum Subarray - Kadane's)
-public int maxSubArray(int[] nums) {
-    int currentMax = nums[0];
-    int globalMax = nums[0];
-    for (int i = 1; i < nums.length; i++) {
-        currentMax = Math.max(nums[i], currentMax + nums[i]);
-        globalMax = Math.max(globalMax, currentMax);
-    }
-    return globalMax;
-}
-```
-
-</div>
+5. **Meeting Rooms II (#253)** - Perfect for Expedia's domain, tests min-heap usage, and appears at Microsoft in variations.
 
 ## Which to Prepare for First
 
-Prepare for **Microsoft first** if you are interviewing with both. The reasoning is foundational: mastering the breadth and depth required for Microsoft will inherently cover the core of Expedia's requirements. Solving a large number of Array, String, Hash Table, and DP problems will solidify your algorithmic thinking, making you well-prepared for Expedia's focused set of Medium-difficulty questions on those same core topics plus Greedy.
+**Prepare for Microsoft first, then adapt for Expedia.** Here's why:
 
-If you are only targeting Expedia, you can take a more targeted approach. Drill deeply into **Array, String, Hash Table, and Greedy** problems at the Medium level. Ensure you can cleanly implement and reason about these patterns, as the interview will likely test fewer but more in-depth problems.
+1. **Coverage:** Microsoft's broader question bank ensures you'll encounter most patterns Expedia tests
+2. **Difficulty buffer:** If you can handle Microsoft's Medium-Hard problems, Expedia's Mediums will feel comfortable
+3. **Time efficiency:** You can dedicate the last week before Expedia to reviewing greedy algorithms and practicing explaining solutions in business contexts
 
-Regardless of target, always practice communicating your thought process clearly. For Microsoft, be ready to handle follow-ups and optimize complex solutions. For Expedia, be prepared to discuss real-world applications of your algorithm, especially for Greedy approaches.
+**Schedule strategy:** If interviews are close together, do 70% of your prep focused on Microsoft patterns, 20% on Expedia-specific topics (greedy, practical adaptations), and 10% on behavioral preparation for each company's culture.
 
-For detailed question lists and patterns, visit the company pages: [Microsoft](/company/microsoft) and [Expedia](/company/expedia).
+**Final tip:** Microsoft cares more about optimal solutions; Expedia cares more about working solutions with clear reasoning. Adjust your communication style accordingly—be more analytical at Microsoft, more practical at Expedia.
+
+For more detailed breakdowns, check out our company-specific guides: [/company/microsoft](/company/microsoft) and [/company/expedia](/company/expedia).

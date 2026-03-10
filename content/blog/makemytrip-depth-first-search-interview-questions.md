@@ -1,80 +1,147 @@
 ---
 title: "Depth-First Search Questions at MakeMyTrip: What to Expect"
 description: "Prepare for Depth-First Search interview questions at MakeMyTrip — patterns, difficulty breakdown, and study tips."
-date: "2031-04-17"
+date: "2031-04-09"
 category: "dsa-patterns"
 tags: ["makemytrip", "depth-first-search", "interview prep"]
 ---
 
-Depth-First Search (DFS) is a core algorithmic technique for navigating graphs and trees, and its prevalence in MakeMyTrip's technical interviews signals what the company values. As a leading online travel platform, MakeMyTrip's systems handle complex, interconnected data: flight route networks, hotel and destination hierarchies, and user relationship graphs. DFS provides the fundamental logic for exploring these structures—whether finding available travel paths, validating itinerary sequences, or searching through categorical menus. Mastering DFS demonstrates you can think recursively and handle the nested, branching problems inherent in travel logistics and platform architecture.
+If you're preparing for a software engineering interview at MakeMyTrip, you might have noticed a specific pattern in their question bank: **Depth-First Search (DFS)** appears in roughly 1 out of every 6 problems. With 4 dedicated DFS questions out of 24 total, it's not their absolute top focus (like arrays or strings), but it's a consistent, high-signal secondary topic. In real interviews, this translates to a strong likelihood you'll encounter at least one medium-difficulty DFS problem, often in the second technical round. The reason is practical: MakeMyTrip's core business—travel itineraries, flight/hotel/route mapping, and package bundling—inherently involves navigating hierarchical data (like category trees for destinations) and exploring state spaces (like finding all possible trip combinations within a budget). DFS is the natural tool for these "find all possibilities" or "explore all paths" scenarios.
 
-## What to Expect — Types of Problems
+## Specific Patterns MakeMyTrip Favors
 
-MakeMyTrip's DFS questions typically fall into two categories. First are **tree-based problems**, often involving binary trees. You might be asked to find paths, calculate sums along specific branches, or validate properties. These questions test your understanding of recursion and tree traversal. The second category involves **graph traversal and pathfinding**. This is more directly applicable to travel systems, such as checking connectivity between cities (nodes) via flights (edges), finding all possible routes within a certain stop limit, or detecting cycles in dependency graphs. Expect the problems to have a slight twist that requires careful state management during the DFS, rather than just a standard traversal.
+MakeMyTrip's DFS questions rarely test simple binary tree traversal. Instead, they focus on **applied DFS on implicit graphs** and **backtracking with pruning**. You can expect problems where the graph isn't given to you with an adjacency list; you have to deduce it from the problem statement and build the traversal logic yourself.
 
-## How to Prepare — Study Tips with One Code Example
+Two patterns dominate:
 
-Focus on the recursive template for DFS and understand how to manage visited state to avoid infinite loops in graphs. Practice converting recursive solutions to iterative ones using a stack. Always articulate the time and space complexity of your solution, as interviewers will expect that analysis.
+1.  **Backtracking for Combinatorial Search:** Problems where you must generate all valid combinations or permutations, often with constraints. Think "find all unique travel packages under $X" or "list all possible flight sequences between cities." This is classic DFS with state maintenance and undo steps.
+2.  **DFS on Grids (Matrix Traversal):** Given a 2D matrix representing something like a map, seating chart, or connectivity grid, you use DFS to explore regions. MakeMyTrip often adds a twist, like you can only move in certain directions (simulating travel routes) or must track a secondary condition (like a budget or time limit).
 
-A key pattern is **Path Sum in a Binary Tree**, where you check for a root-to-leaf path that sums to a target. This combines traversal with state accumulation.
+For example, a problem like **"Number of Islands" (LeetCode #200)** is a foundational grid DFS they might use as a warm-up. But more representative would be **"Word Search" (LeetCode #79)**, which combines grid DFS with backtracking (you must mark cells as used and then unmark them). Another telling example is **"Combination Sum" (LeetCode #39)**, a pure backtracking problem about finding all unique combinations that sum to a target—directly analogous to finding trip bundles within a budget.
+
+## How to Prepare
+
+The key is to internalize the backtracking template. It has four parts: a goal/base case, a loop over candidates, a choice, the recursive call, and an undo step. Let's look at the core pattern for a combinatorial problem like "find all combinations of `k` numbers from `1..n`" (LeetCode #77).
 
 <div class="code-group">
 
 ```python
-class TreeNode:
-    def __init__(self, val=0, left=None, right=None):
-        self.val = val
-        self.left = left
-        self.right = right
+def combine(n: int, k: int) -> List[List[int]]:
+    result = []
 
-def hasPathSum(root, targetSum):
-    if not root:
-        return False
-    # If at a leaf node, check if the remaining sum equals the node's value.
-    if not root.left and not root.right:
-        return targetSum == root.val
-    # Otherwise, recursively check left and right subtrees with the updated target.
-    remaining = targetSum - root.val
-    return (hasPathSum(root.left, remaining) or
-            hasPathSum(root.right, remaining))
+    def backtrack(start: int, current: List[int]):
+        # 1. Goal/Base Case: We have a complete combination
+        if len(current) == k:
+            result.append(current.copy())  # Append a copy
+            return
+
+        # 2. Iterate over candidate choices (from start to n)
+        for i in range(start, n + 1):
+            # 3. Make a choice
+            current.append(i)
+            # 4. Explore recursively with updated state (i+1 avoids reuse)
+            backtrack(i + 1, current)
+            # 5. Undo the choice (backtrack)
+            current.pop()
+
+    backtrack(1, [])
+    return result
+
+# Time Complexity: O(C(n, k) * k). We explore each valid combination, and copying a combo takes O(k).
+# Space Complexity: O(k) for the recursion call stack and current path, excluding output storage.
 ```
 
 ```javascript
-function hasPathSum(root, targetSum) {
-  if (root === null) return false;
-  // Leaf node check
-  if (root.left === null && root.right === null) {
-    return targetSum === root.val;
+function combine(n, k) {
+  const result = [];
+
+  function backtrack(start, current) {
+    // 1. Goal/Base Case
+    if (current.length === k) {
+      result.push([...current]); // Append a copy
+      return;
+    }
+
+    // 2. Iterate over candidates
+    for (let i = start; i <= n; i++) {
+      // 3. Make a choice
+      current.push(i);
+      // 4. Explore recursively
+      backtrack(i + 1, current);
+      // 5. Undo the choice
+      current.pop();
+    }
   }
-  const remaining = targetSum - root.val;
-  return hasPathSum(root.left, remaining) || hasPathSum(root.right, remaining);
+
+  backtrack(1, []);
+  return result;
 }
+
+// Time: O(C(n, k) * k) | Space: O(k) for recursion depth and current path.
 ```
 
 ```java
-public class TreeNode {
-    int val;
-    TreeNode left;
-    TreeNode right;
-    TreeNode() {}
-    TreeNode(int val) { this.val = val; }
+public List<List<Integer>> combine(int n, int k) {
+    List<List<Integer>> result = new ArrayList<>();
+    backtrack(1, n, k, new ArrayList<>(), result);
+    return result;
 }
 
-public boolean hasPathSum(TreeNode root, int targetSum) {
-    if (root == null) return false;
-    // Check if it's a leaf node
-    if (root.left == null && root.right == null) {
-        return targetSum == root.val;
+private void backtrack(int start, int n, int k,
+                       List<Integer> current,
+                       List<List<Integer>> result) {
+    // 1. Goal/Base Case
+    if (current.size() == k) {
+        result.add(new ArrayList<>(current)); // Crucial: copy the list
+        return;
     }
-    int remaining = targetSum - root.val;
-    return hasPathSum(root.left, remaining) || hasPathSum(root.right, remaining);
+
+    // 2. Iterate over candidates
+    for (int i = start; i <= n; i++) {
+        // 3. Make a choice
+        current.add(i);
+        // 4. Explore recursively
+        backtrack(i + 1, n, k, current, result);
+        // 5. Undo the choice
+        current.remove(current.size() - 1);
+    }
 }
+
+// Time: O(C(n, k) * k) | Space: O(k) for recursion depth and current list.
 ```
 
 </div>
 
+For grid DFS, the pattern changes slightly: your "candidates" are the four (or eight) directions, and you must check bounds and conditions.
+
+## How MakeMyTrip Tests Depth-First Search vs Other Companies
+
+Compared to FAANG companies, MakeMyTrip's DFS questions are less about algorithmic novelty and more about **clean implementation of applied logic**. At Google, you might get a DFS problem disguised as a complex graph theory puzzle (e.g., finding Eulerian paths). At Amazon, DFS often appears in object-oriented design contexts (like serializing a tree). At MakeMyTrip, the scenario is more direct: "Here is a grid of seats/flights/cities; find all connected components or possible paths." The difficulty is usually medium, not hard. They care that you can translate a business constraint (e.g., "a customer can't take two overnight buses in a row") into a pruning condition in your backtracking code. The evaluation focuses on correctness, handling edge cases, and code clarity over extreme optimization.
+
+## Study Order
+
+Tackle DFS in this logical sequence to build competence without getting overwhelmed:
+
+1.  **Basic Tree Traversal:** Understand pre-order, in-order, and post-order DFS on a binary tree. This teaches the fundamental recursive call structure.
+2.  **DFS on Adjacency Lists:** Practice traversing explicit graphs (like from "Clone Graph", LeetCode #133) to get comfortable with visited sets and handling cycles.
+3.  **DFS on Grids (Matrix):** Learn to navigate 2D arrays. Start with "Number of Islands" (#200), then move to "Word Search" (#79). This introduces movement in directions and in-place marking.
+4.  **Backtracking (Combinatorial DFS):** This is the core for MakeMyTrip. Start with simple combination generation ("Combinations", #77), then progress to problems with constraints ("Combination Sum", #39, "Subsets", #78).
+5.  **Backtracking on Grids:** Combine the last two concepts. Solve problems like "Unique Paths III" (#980) or "Sudoku Solver" (#37), where you explore all paths in a grid with undo steps.
+6.  **Memoization + DFS (DFS with DP):** Finally, learn to optimize repeated subproblems using memoization, as seen in "Word Break II" (#140) or "Longest Increasing Path in a Matrix" (#329). This is less common at MakeMyTrip but good for completeness.
+
 ## Recommended Practice Order
 
-Build your competency systematically. Start with **basic tree traversals** (pre-order, in-order, post-order) to internalize the recursive flow. Move to **fundamental tree problems** like finding maximum depth, checking for symmetry, and the path sum example above. Next, tackle **graph DFS** on adjacency lists, practicing cycle detection and counting connected components. Finally, solve **applied MakeMyTrip-style problems**, such as finding all itineraries from a source city or navigating a grid representing a destination map. This progression solidifies the pattern before you handle the nuanced versions likely in the interview.
+Solve these problems in sequence. Each builds on the previous pattern.
+
+1.  **Binary Tree Inorder Traversal (LeetCode #94)** - Pure recursive DFS.
+2.  **Number of Islands (#200)** - Foundational grid DFS.
+3.  **Combinations (#77)** - Foundational backtracking template.
+4.  **Combination Sum (#39)** - Backtracking with a reuse twist.
+5.  **Word Search (#79)** - Backtracking on a grid.
+6.  **Subsets (#78)** - Backtracking to generate all subsets.
+7.  **Target Sum (#494)** - Backtracking that feels like a puzzle (can be optimized with memoization).
+8.  **Unique Paths III (#980)** - A harder grid backtracking problem that tests state management.
+
+Mastering this progression will make you confident for any DFS question MakeMyTrip throws your way. Remember, their goal is to see if you can model a real-world travel or booking scenario as a graph traversal problem and implement it correctly. Focus on writing clean, bug-free backtracking code with clear base cases and pruning.
 
 [Practice Depth-First Search at MakeMyTrip](/company/makemytrip/depth-first-search)

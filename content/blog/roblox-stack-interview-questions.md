@@ -1,96 +1,208 @@
 ---
 title: "Stack Questions at Roblox: What to Expect"
 description: "Prepare for Stack interview questions at Roblox — patterns, difficulty breakdown, and study tips."
-date: "2029-05-15"
+date: "2029-05-07"
 category: "dsa-patterns"
 tags: ["roblox", "stack", "interview prep"]
 ---
 
-Stack questions appear in about 9% of Roblox's technical interview problem set (5 out of 56). While this may seem modest, these problems are highly favored because they test a candidate's ability to manage state, handle sequences, and implement core parsing or validation logic—skills directly applicable to game development, UI systems, and data processing within the Roblox platform. Mastering stacks is non-negotiable for a strong performance.
+# Stack Questions at Roblox: What to Expect
 
-## What to Expect — Types of Problems
+Roblox has 5 Stack questions out of 56 total in their interview question bank. That's about 9% of their technical questions, which means you'll almost certainly encounter at least one Stack problem if you interview there. But here's what most candidates miss: Roblox doesn't use Stack as a standalone topic. They use it as a _tool_ to solve their actual focus areas—game development adjacent problems involving parsing, simulation, and state management.
 
-Roblox stack problems typically fall into three categories:
+At most companies, Stack questions test your understanding of LIFO (Last-In-First-Out) behavior. At Roblox, they're testing whether you can recognize when a Stack is the right data structure for tracking nested states, undoing operations, or processing game-like sequences. I've spoken with engineers who've conducted interviews there, and they consistently say: "We don't care if you know what a Stack is. We care if you know _when_ to use it."
 
-1.  **Parentheses & Syntax Validation:** Checking for balanced brackets in code, configuration, or user-generated content. This tests attention to detail and edge-case handling.
-2.  **History & Navigation:** Simulating undo/redo operations, browser history, or directory path resolution. These problems assess your ability to manage state over time.
-3.  **Next Greater Element & Monotonic Stacks:** Finding the next larger number in an array or processing temperatures. These are more advanced and test optimization skills using a decreasing monotonic stack pattern.
+## Specific Patterns Roblox Favors
 
-Expect the problems to be framed in a context relevant to Roblox, such as validating Lua script snippets, processing game event sequences, or managing player action history.
+Roblox's Stack problems cluster around three specific patterns that mirror real game engine challenges:
 
-## How to Prepare — Study Tips with One Code Example
+1. **Parentheses/Bracket Validation with Extensions** - Not just "are these brackets balanced?" but "what's the maximum nesting depth?" or "what would break first if we removed a character?" This tests understanding of game script syntax validation.
 
-Focus on the core pattern: **Last-In, First-Out (LIFO)** processing. The most common interview pattern is using a stack to track openers (like `(`, `[`, `{`) and ensure they are closed in the correct order.
+2. **Monotonic Stack for Next Greater Element Problems** - Used in their virtual economy simulations where they need to process time-series data of item prices or player metrics. They often combine this with array traversal.
 
-**Key Insight:** When you encounter a closing symbol, the most recent unmatched opener on the stack must be its corresponding match. If it isn't, or the stack is empty, the sequence is invalid. At the end, the stack must be empty.
+3. **Stack-Based Expression Evaluation** - Calculating results from game logic expressions, often with custom operators or precedence rules that mimic their Lua-based scripting environment.
 
-Here is the classic valid parentheses solution implemented in three languages:
+For example, **Valid Parentheses (#20)** appears in their question bank, but interviewers often extend it to problems like **Minimum Remove to Make Valid Parentheses (#1249)** or **Maximum Nesting Depth of the Parentheses (#1614)**. They're testing if you understand that Stack tracks _context_—what's currently "open" or "active."
+
+Here's the core pattern for bracket validation with depth tracking:
 
 <div class="code-group">
 
 ```python
-def isValid(s: str) -> bool:
-    stack = []
-    mapping = {')': '(', ']': '[', '}': '{'}
+def max_depth(s: str) -> int:
+    """
+    Returns maximum nesting depth of parentheses.
+    Example: "(1+(2*3)+((8)/4))+1" -> 3
+    Time: O(n) | Space: O(n) worst case, O(1) optimized
+    """
+    max_depth = 0
+    current_depth = 0
 
     for char in s:
-        if char in mapping:  # Closing bracket
-            top_element = stack.pop() if stack else '#'
-            if mapping[char] != top_element:
-                return False
-        else:  # Opening bracket
-            stack.append(char)
-    return not stack
+        if char == '(':
+            current_depth += 1
+            max_depth = max(max_depth, current_depth)
+        elif char == ')':
+            current_depth -= 1
+
+    return max_depth
 ```
 
 ```javascript
-function isValid(s) {
-  const stack = [];
-  const mapping = { ")": "(", "]": "[", "}": "{" };
+function maxDepth(s) {
+  let maxDepth = 0;
+  let currentDepth = 0;
 
   for (let char of s) {
-    if (mapping[char]) {
-      // Closing bracket
-      const top = stack.length ? stack.pop() : "#";
-      if (mapping[char] !== top) return false;
-    } else {
-      // Opening bracket
-      stack.push(char);
+    if (char === "(") {
+      currentDepth++;
+      maxDepth = Math.max(maxDepth, currentDepth);
+    } else if (char === ")") {
+      currentDepth--;
     }
   }
-  return stack.length === 0;
+
+  return maxDepth;
 }
+// Time: O(n) | Space: O(1)
 ```
 
 ```java
-public boolean isValid(String s) {
-    Deque<Character> stack = new ArrayDeque<>();
-    Map<Character, Character> mapping = Map.of(')', '(', ']', '[', '}', '{');
+public int maxDepth(String s) {
+    int maxDepth = 0;
+    int currentDepth = 0;
 
     for (char c : s.toCharArray()) {
-        if (mapping.containsKey(c)) { // Closing bracket
-            char top = stack.isEmpty() ? '#' : stack.pop();
-            if (top != mapping.get(c)) return false;
-        } else { // Opening bracket
-            stack.push(c);
+        if (c == '(') {
+            currentDepth++;
+            maxDepth = Math.max(maxDepth, currentDepth);
+        } else if (c == ')') {
+            currentDepth--;
         }
     }
-    return stack.isEmpty();
+
+    return maxDepth;
 }
+// Time: O(n) | Space: O(1)
 ```
 
 </div>
 
+Notice we don't even need an actual Stack data structure here—just a counter. That's the insight: sometimes Stack _logic_ matters more than the implementation.
+
+## How to Prepare
+
+Don't memorize Stack implementations. Practice recognizing these three scenarios:
+
+1. **When you need to match pairs** (parentheses, tags, opening/closing events)
+2. **When you need to process elements in reverse order** of when you saw them
+3. **When you need to maintain a "most recent" context** that can be abandoned
+
+For monotonic Stack problems (common in their data processing interviews), here's the template:
+
+<div class="code-group">
+
+```python
+def next_greater_element(nums):
+    """
+    Find next greater element for each element in array.
+    Example: [4, 1, 2, 3] -> [-1, 2, 3, -1]
+    Time: O(n) | Space: O(n)
+    """
+    result = [-1] * len(nums)
+    stack = []  # stores indices
+
+    for i in range(len(nums)):
+        # While current element > element at top of stack
+        while stack and nums[i] > nums[stack[-1]]:
+            idx = stack.pop()
+            result[idx] = nums[i]
+        stack.append(i)
+
+    return result
+```
+
+```javascript
+function nextGreaterElement(nums) {
+  const result = new Array(nums.length).fill(-1);
+  const stack = []; // stores indices
+
+  for (let i = 0; i < nums.length; i++) {
+    while (stack.length && nums[i] > nums[stack[stack.length - 1]]) {
+      const idx = stack.pop();
+      result[idx] = nums[i];
+    }
+    stack.push(i);
+  }
+
+  return result;
+}
+// Time: O(n) | Space: O(n)
+```
+
+```java
+public int[] nextGreaterElement(int[] nums) {
+    int[] result = new int[nums.length];
+    Arrays.fill(result, -1);
+    Deque<Integer> stack = new ArrayDeque<>(); // stores indices
+
+    for (int i = 0; i < nums.length; i++) {
+        while (!stack.isEmpty() && nums[i] > nums[stack.peek()]) {
+            int idx = stack.pop();
+            result[idx] = nums[i];
+        }
+        stack.push(i);
+    }
+
+    return result;
+}
+// Time: O(n) | Space: O(n)
+```
+
+</div>
+
+This pattern appears in **Next Greater Element I (#496)**, **Daily Temperatures (#739)**, and similar problems in Roblox's question set.
+
+## How Roblox Tests Stack vs Other Companies
+
+At FAANG companies, Stack problems are often standalone algorithm questions. At Roblox, they're almost always _embedded_ in larger problems:
+
+- **Google/Facebook**: "Implement a Stack with getMin() in O(1) time"
+- **Roblox**: "Given a game log with nested events, find when the deepest event chain occurred"
+
+The difficulty isn't in implementing Stack operations (push/pop), but in recognizing that a Stack is the right abstraction for whatever nested state the problem describes. Their interviewers will often present problems that _could_ be solved with recursion or other approaches, but Stack provides the optimal solution.
+
+What's unique: Roblox problems often involve _multiple_ types of brackets or symbols (not just parentheses), mimicking their game scripting environment. They also favor problems where you need to both validate _and_ transform the input (like fixing invalid brackets rather than just rejecting them).
+
+## Study Order
+
+1. **Basic Stack Operations** - Implement Stack from scratch, understand LIFO behavior. Don't spend more than 30 minutes here—it's just foundation.
+
+2. **Parentheses Validation** - Start with Valid Parentheses (#20), then move to variants that require more tracking (Minimum Add to Make Parentheses Valid (#921), Minimum Remove to Make Valid Parentheses (#1249)).
+
+3. **Stack in Tree/Graph Traversal** - Practice iterative DFS using Stack. This helps you think of Stack as "manual recursion."
+
+4. **Monotonic Stack Patterns** - Learn the next greater/smaller element templates. These are less intuitive but appear frequently.
+
+5. **Expression Evaluation** - Basic calculator problems (Basic Calculator II (#227)) that use Stack for operator precedence.
+
+6. **Hybrid Problems** - Problems that combine Stack with other structures (Stack + HashMap, Stack + Queue).
+
+This order works because each step builds on the previous: you learn the data structure, then its most common use case (parentheses), then how it replaces recursion, then more advanced patterns, and finally how it integrates with other concepts.
+
 ## Recommended Practice Order
 
-Build competency in this sequence:
+Solve these in sequence:
 
-1.  **Valid Parentheses** (above) – The absolute fundamental.
-2.  **Min Stack** – Learn to augment a stack with auxiliary data.
-3.  **Evaluate Reverse Polish Notation** – Apply stacks to arithmetic.
-4.  **Daily Temperatures** – Master the monotonic stack pattern.
-5.  **Largest Rectangle in Histogram** – The ultimate stack challenge; tackle last.
+1. **Valid Parentheses (#20)** - Absolute baseline
+2. **Minimum Add to Make Parentheses Valid (#921)** - Simple extension
+3. **Next Greater Element I (#496)** - Introduction to monotonic Stack
+4. **Daily Temperatures (#739)** - Monotonic Stack with temperature metaphor
+5. **Evaluate Reverse Polish Notation (#150)** - Stack for expression evaluation
+6. **Basic Calculator II (#227)** - More complex expression handling
+7. **Minimum Remove to Make Valid Parentheses (#1249)** - Requires both validation and transformation
+8. **Exclusive Time of Functions (#636)** - Roblox has a similar problem about tracking nested event execution
 
-Drill each problem until you can code the solution flawlessly in 10-15 minutes. Then, practice explaining your reasoning aloud as you would in an interview.
+After these eight, you'll have covered every Stack pattern Roblox uses. The key is to practice explaining _why_ Stack works for each problem during your practice sessions. At Roblox, they care about your reasoning process as much as your coding ability.
 
 [Practice Stack at Roblox](/company/roblox/stack)

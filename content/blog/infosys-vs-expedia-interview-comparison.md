@@ -1,79 +1,130 @@
 ---
 title: "Infosys vs Expedia: Interview Question Comparison"
 description: "Compare coding interview questions at Infosys and Expedia — difficulty levels, topic focus, and preparation strategy."
-date: "2026-01-05"
+date: "2032-04-27"
 category: "tips"
 tags: ["infosys", "expedia", "comparison"]
 ---
 
-When preparing for technical interviews, understanding company-specific patterns is crucial for efficient study. Infosys and Expedia represent two distinct ends of the software engineering interview spectrum: one a global IT services and consulting giant, the other a leading online travel technology company. Their technical assessments reflect their different business models and engineering needs. A direct comparison of their question banks reveals clear strategic differences in volume, difficulty, and focus.
+# Infosys vs Expedia: A Strategic Interview Question Comparison
 
-## Question Volume and Difficulty
+If you're interviewing at both Infosys and Expedia, you're looking at two fundamentally different interview experiences. Infosys, as a global IT services giant, focuses on foundational algorithmic competence across a broad spectrum. Expedia, as a travel technology leader, emphasizes practical problem-solving with a lean toward real-world data manipulation. The smart approach isn't to prepare twice as hard, but to prepare strategically—identifying the overlap to maximize your return on study time, then efficiently filling in the gaps for each company's unique focus.
 
-The most immediate difference is the sheer scale of the question pool. Infosys's catalog is significantly larger, with **158 questions** compared to Expedia's **54**. This suggests that Infosys, which hires at a massive scale for diverse roles and projects, draws from a broader, more generalized set of problems. The difficulty distribution also tells a story.
+## Question Volume and Difficulty: What the Numbers Tell You
 
-- **Infosys (E42/M82/H34):** The majority of questions are Medium (82), with a substantial number of Easy (42) and Hard (34) problems. This wide distribution indicates a screening process that tests fundamental coding ability, solid problem-solving, and the capacity to tackle complex challenges, likely catering to a wide variance in role seniority and specialization.
-- **Expedia (E13/M35/H6):** The focus is overwhelmingly on Medium-difficulty questions (35), with a modest number of Easy (13) and very few Hard (6) problems. This points to an interview process designed to assess strong, practical coding and problem-solving skills for building and maintaining large-scale consumer applications, with less emphasis on extreme algorithmic optimization.
+The data reveals a clear story. Infosys has a massive question bank of **158 problems** (42 Easy, 82 Medium, 34 Hard), indicating a well-established, standardized technical screening process. The high volume suggests they pull from a large, rotating pool, making rote memorization of specific problems a poor strategy. The heavy skew toward Medium difficulty (52% of their questions) means you must be comfortable with core algorithmic patterns under moderate time pressure.
 
-## Topic Overlap
+Expedia's list is more curated at **54 problems** (13 Easy, 35 Medium, 6 Hard). This smaller, Medium-heavy (65%) set implies a more focused interview. They're not testing your ability to grind through every known algorithm; they're testing your ability to cleanly solve the kinds of problems their engineers actually face. The minimal Hard problems suggest they value correct, well-structured solutions over obscure algorithmic wizardry.
 
-Both companies heavily test core computer science fundamentals, but with different secondary emphases.
+**Implication:** For Infosys, breadth and pattern recognition are key. For Expedia, depth and clean implementation on their favored topics will serve you better.
 
-**Shared Core Topics:** **Array** and **String** manipulation are critical for both. These form the bedrock of data handling and are essential for any software role.
+## Topic Overlap: Your High-Value Study Areas
 
-**Diverging Specializations:**
+Both companies heavily test **Array** and **String** manipulation. This is your golden overlap. Mastery here pays dividends for both interviews.
 
-- **Infosys** places a strong additional emphasis on **Dynamic Programming** and **Math**. DP questions test advanced problem decomposition and optimization, valuable for complex system design and algorithmic solutions in consulting projects. Math problems assess logical and analytical reasoning.
-- **Expedia** frequently tests **Hash Table** and **Greedy** algorithms. Hash tables are fundamental for efficient data lookup and are ubiquitous in high-performance web services (e.g., caching user sessions, quick searches). Greedy algorithms are practical for optimization problems common in travel tech, like resource allocation or scheduling.
+- **Shared Priority:** Array, String
+- **Infosys-Specific Emphasis:** Dynamic Programming, Math. Infosys loves DP—it's a classic filter for algorithmic thinking.
+- **Expedia-Specific Emphasis:** Hash Table, Greedy. Hash Tables are the workhorse for data association (think user IDs, booking references). Greedy algorithms often model optimization problems (like scheduling or resource allocation).
 
-**Example: A Common Array Problem**
-A typical question might be "Find the maximum sum of a contiguous subarray."
+Notice the thematic difference: Infosys topics are academically foundational (DP, Math), while Expedia's are practically oriented (Hash Table for lookups, Greedy for optimizations).
+
+## Preparation Priority Matrix
+
+Use this to triage your study time efficiently.
+
+| Priority                   | Topics                           | Reasoning                                                | Sample LeetCode Problems                                                                                                   |
+| :------------------------- | :------------------------------- | :------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------- |
+| **Tier 1 (Do First)**      | **Array, String**                | Maximum ROI. Core to both companies.                     | #56 Merge Intervals, #238 Product of Array Except Self, #3 Longest Substring Without Repeating Characters                  |
+| **Tier 2 (Infosys Focus)** | **Dynamic Programming, Math**    | Critical for Infosys, less so for Expedia.               | #70 Climbing Stairs (DP intro), #322 Coin Change (classic DP), #48 Rotate Image (matrix math)                              |
+| **Tier 2 (Expedia Focus)** | **Hash Table, Greedy**           | Critical for Expedia, less so for Infosys.               | #1 Two Sum (Hash Table 101), #763 Partition Labels (Greedy + Hash Table), #122 Best Time to Buy and Sell Stock II (Greedy) |
+| **Tier 3**                 | Other Topics (Graph, Tree, etc.) | Lower frequency. Cover only after mastering Tiers 1 & 2. |                                                                                                                            |
+
+## Interview Format Differences
+
+The _how_ is as important as the _what_.
+
+**Infosys** typically follows a more traditional tech interview pipeline:
+
+1.  **Online Assessment:** Often the first filter, featuring 2-3 coding problems from their large pool within 60-90 minutes.
+2.  **Technical Rounds (1-2):** May involve solving problems on a whiteboard or shared editor. Interviewers often dig into time/space complexity and ask for multiple approaches.
+3.  **Behavioral/HR Round:** Focuses on communication, past projects, and cultural fit. **System Design** is generally _not_ expected for standard software engineer roles, but may appear for senior positions.
+
+**Expedia's** process tends to be more integrated:
+
+1.  **Technical Phone Screen:** Usually one Medium-level problem focusing on data structures (Arrays, Strings, Hash Tables).
+2.  **Virtual On-site (3-4 rounds):** These often blend coding with behavioral and design discussion. You might have: a) A pure coding round (2 problems), b) A problem-solving round that might involve data modeling or a slightly open-ended question, and c) A behavioral round with leadership principles. **System Design** concepts can surface even for mid-level roles, often framed around scalable data handling or API design—think "how would you store and search millions of hotel listings?"
+
+The key distinction: Infosys rounds are often more compartmentalized (coding, then behavioral). Expedia rounds are more likely to be hybrid.
+
+## Specific Problem Recommendations for Dual Preparation
+
+These problems train patterns useful for both companies.
+
+1.  **LeetCode #49: Group Anagrams**
+    - **Why:** Perfectly combines String manipulation (sorting, hashing) and Hash Table usage. It's a classic Expedia-style "categorize data" problem and tests fundamental coding skill for Infosys.
 
 <div class="code-group">
 
 ```python
-def max_subarray(nums):
-    max_current = max_global = nums[0]
-    for num in nums[1:]:
-        max_current = max(num, max_current + num)
-        max_global = max(max_global, max_current)
-    return max_global
+# Time: O(n * k log k) where n is strs length, k is max string length | Space: O(n*k)
+class Solution:
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        anagram_map = {}
+        for s in strs:
+            # Use sorted string as canonical key
+            key = ''.join(sorted(s))
+            # Group anagrams together in the map
+            anagram_map.setdefault(key, []).append(s)
+        return list(anagram_map.values())
 ```
 
 ```javascript
-function maxSubarray(nums) {
-  let maxCurrent = nums[0];
-  let maxGlobal = nums[0];
-  for (let i = 1; i < nums.length; i++) {
-    maxCurrent = Math.max(nums[i], maxCurrent + nums[i]);
-    maxGlobal = Math.max(maxGlobal, maxCurrent);
+// Time: O(n * k log k) | Space: O(n*k)
+function groupAnagrams(strs) {
+  const map = new Map();
+  for (const s of strs) {
+    const key = s.split("").sort().join("");
+    if (!map.has(key)) map.set(key, []);
+    map.get(key).push(s);
   }
-  return maxGlobal;
+  return Array.from(map.values());
 }
 ```
 
 ```java
-public int maxSubArray(int[] nums) {
-    int maxCurrent = nums[0];
-    int maxGlobal = nums[0];
-    for (int i = 1; i < nums.length; i++) {
-        maxCurrent = Math.max(nums[i], maxCurrent + nums[i]);
-        maxGlobal = Math.max(maxGlobal, maxCurrent);
+// Time: O(n * k log k) | Space: O(n*k)
+public List<List<String>> groupAnagrams(String[] strs) {
+    Map<String, List<String>> map = new HashMap<>();
+    for (String s : strs) {
+        char[] chars = s.toCharArray();
+        Arrays.sort(chars);
+        String key = new String(chars);
+        map.computeIfAbsent(key, k -> new ArrayList<>()).add(s);
     }
-    return maxGlobal;
+    return new ArrayList<>(map.values());
 }
 ```
 
 </div>
 
-## Which to Prepare for First
+2.  **LeetCode #56: Merge Intervals**
+    - **Why:** A quintessential Array problem requiring sorting and greedy merging logic. It's high-frequency for Infosys and teaches the "sort and process sequentially" pattern valuable for Expedia's optimization-style questions.
 
-Your preparation priority should align with your target role and the foundational breadth of the interview content.
+3.  **LeetCode #122: Best Time to Buy and Sell Stock II**
+    - **Why:** A brilliant, simple Greedy algorithm. Mastering this teaches you to recognize "profit from every rising edge," a pattern that applies to many problems. It covers Expedia's Greedy focus and is excellent Array practice for Infosys.
 
-**Prepare for Infosys first if:** You are early in your interview preparation cycle or targeting a role that requires broad algorithmic knowledge. The larger, more varied question bank with a significant number of Dynamic Programming and Math problems will force you to build a wide and deep foundation. Mastering this scope will make transitioning to other company patterns, including Expedia's, more manageable.
+4.  **LeetCode #238: Product of Array Except Self**
+    - **Why:** An excellent Medium-difficulty Array problem that forces you to think about prefix and suffix products. It's common in interviews because it has a clever O(n) time, O(1) extra space solution (excluding output array), testing your ability to optimize.
 
-**Prepare for Expedia first if:** You are specifically targeting product-based tech companies or roles focused on building scalable web applications. The concentrated set of Medium-difficulty problems on Arrays, Strings, and Hash Tables is an excellent target for efficient, focused practice. It allows you to drill deeply into the most common, practical problems without initially getting bogged down in the more esoteric Hard or DP problems prevalent in other question banks.
+5.  **LeetCode #70: Climbing Stairs**
+    - **Why:** The gateway to Dynamic Programming. If Infosys is on your list, you must be fluent in transforming this recursion -> memoization -> tabulation thought process. It's the foundational pattern for all DP.
 
-In summary, Infosys offers a comprehensive, foundational grind, while Expedia provides a focused, practical filter. Starting with Infosys builds general strength; starting with Expedia hones a specific, high-demand skillset.
+## Which to Prepare for First?
 
-For detailed question lists, visit the Infosys and Expedia question banks on CodeJeet: [/company/infosys](/company/infosys) and [/company/expedia](/company/expedia).
+**Prepare for Expedia first.**
+
+Here's the strategic reasoning: Expedia's focused topic list (Array, String, Hash Table, Greedy) forms a perfect, manageable core. Mastering these will make you exceptionally strong for 60-70% of their questions and, crucially, will also cover the absolute essentials for Infosys (Array, String). Once this core is solid, you can then **layer on** Infosys's additional requirements: dive deep into Dynamic Programming and Math problems. This approach is more efficient than starting with Infosys's broad syllabus and trying to narrow down later.
+
+In short, build a strong, practical core for Expedia, then expand your algorithmic breadth for Infosys. You'll find the expansion phase quicker because many DP problems (like coin change) build upon the array and greedy patterns you already know.
+
+For more detailed company-specific question lists and trends, visit the CodeJeet pages for [Infosys](/company/infosys) and [Expedia](/company/expedia).

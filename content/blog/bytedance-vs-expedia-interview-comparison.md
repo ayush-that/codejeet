@@ -1,108 +1,178 @@
 ---
 title: "ByteDance vs Expedia: Interview Question Comparison"
 description: "Compare coding interview questions at ByteDance and Expedia — difficulty levels, topic focus, and preparation strategy."
-date: "2026-09-08"
+date: "2026-08-31"
 category: "tips"
 tags: ["bytedance", "expedia", "comparison"]
 ---
 
-When preparing for technical interviews, understanding company-specific patterns is crucial for efficient study. ByteDance and Expedia represent two distinct profiles in terms of interview focus, volume, and difficulty. ByteDance, a tech-first product company, emphasizes algorithmic depth, while Expedia, a large-scale travel platform, leans toward practical problem-solving. This comparison breaks down their question data to guide your preparation strategy.
+# ByteDance vs Expedia: Interview Question Comparison
+
+If you're interviewing at both ByteDance and Expedia, you're looking at two distinct tech cultures with different interview philosophies. ByteDance operates at the cutting edge of social media and AI, with a reputation for rigorous technical screening. Expedia, while still technical, comes from the travel industry where practical problem-solving often takes precedence over algorithmic gymnastics. The good news? There's significant overlap in their question patterns, meaning you can prepare efficiently for both. The key is understanding where they diverge so you can allocate your limited prep time wisely.
 
 ## Question Volume and Difficulty
 
-The raw numbers reveal a clear difference in intensity. ByteDance's dataset shows **64 questions**, categorized as 6 Easy, 49 Medium, and 9 Hard. This distribution highlights a heavy emphasis on Medium-difficulty problems, which often require a strong grasp of core algorithms and clean implementation. The presence of 9 Hard questions signals that candidates for more senior or specialized roles should be ready for complex optimization challenges.
+Let's decode those numbers: ByteDance's 64 questions break down to 46 easy/medium and 9 hard problems, while Expedia's 54 questions include 48 easy/medium and just 6 hard. This tells a clear story about interview intensity.
 
-Expedia's dataset is slightly smaller at **54 questions**, with a significantly different breakdown: 13 Easy, 35 Medium, and only 6 Hard. The higher proportion of Easy questions and lower count of Hard ones suggests Expedia's interviews may have a broader scope that includes more foundational checks or system design components, with the coding portion being moderately challenging but less extreme. The focus is likely on reliable, correct solutions over highly optimized, obscure algorithms.
+ByteDance's higher hard count (14% of questions vs. Expedia's 11%) suggests they're more willing to push candidates to their algorithmic limits. When ByteDance asks a hard problem, it's often a multi-step dynamic programming challenge or a complex graph traversal with multiple constraints. Their interviews feel like an intellectual marathon—they want to see how you perform under sustained pressure.
+
+Expedia's distribution leans toward practical problem-solving. Their "hard" questions often resemble medium-difficulty problems at ByteDance. This doesn't mean Expedia interviews are easy—they're just testing different skills. Expedia wants to see clean, maintainable code that solves real-world travel industry problems, not necessarily the most optimized mathematical solution.
 
 ## Topic Overlap
 
-Both companies heavily test **Array, String, and Hash Table** problems. These are fundamental data structures for handling and manipulating data, which is core to software development at any company. Mastery here is non-negotiable for both interview loops.
+Both companies heavily test **Array**, **String**, and **Hash Table** problems. This is your foundation—master these and you'll handle 60-70% of questions at both companies.
 
-The key divergence is in the next layer of topics.
+The divergence comes in their secondary focuses:
 
-- **ByteDance** prominently features **Dynamic Programming (DP)**. This aligns with its focus on algorithmic rigor and optimization, especially for problems involving sequences, strings, or combinatorial choices.
-- **Expedia** lists **Greedy** algorithms as a primary topic. Greedy problems often involve finding feasible, optimal solutions for scheduling, partitioning, or resource allocation—scenarios highly relevant to travel itineraries, bookings, and pricing.
+- **ByteDance**: Dynamic Programming appears in 9 of their questions. They love DP variations—knapsack problems, string DP, and DP on trees.
+- **Expedia**: Greedy algorithms appear in 6 questions. They favor problems where a locally optimal choice leads to a globally optimal solution, which mirrors real-world travel optimization (flight scheduling, hotel bookings).
 
-This means while your foundation (Arrays, Strings, Hash Tables) prepares you for both, your advanced practice should diverge. For ByteDance, deep dive into DP patterns. For Expedia, prioritize recognizing and proving greedy-choice properties.
+Interestingly, both test **Graph** problems (implied in their broader question sets), but ByteDance tends toward complex graph algorithms while Expedia prefers straightforward BFS/DFS applications.
+
+## Preparation Priority Matrix
+
+Here's how to allocate your study time for maximum ROI:
+
+**Study First (High ROI for Both):**
+
+- Array manipulation (sliding window, two pointers)
+- String operations (palindromes, subsequences)
+- Hash Table applications (frequency counting, caching)
+- _Recommended problems_: Two Sum (#1), Longest Substring Without Repeating Characters (#3), Valid Parentheses (#20)
+
+**ByteDance-Specific Priority:**
+
+- Dynamic Programming (memoization, tabulation, state machines)
+- Advanced graph algorithms (Dijkstra, topological sort)
+- _Recommended problems_: Longest Increasing Subsequence (#300), Coin Change (#322), Course Schedule (#207)
+
+**Expedia-Specific Priority:**
+
+- Greedy algorithms (interval scheduling, task assignment)
+- Basic graph traversal (BFS/DFS applications)
+- _Recommended problems_: Merge Intervals (#56), Task Scheduler (#621), Number of Islands (#200)
+
+## Interview Format Differences
+
+ByteDance typically conducts 4-5 technical rounds, including:
+
+1. Phone screen (1-2 coding problems, 45 minutes)
+2. Virtual onsite (3-4 rounds, each with 1-2 problems)
+3. System design round (for senior roles)
+4. Behavioral/cultural fit (relatively light weight)
+
+Their coding rounds are intense—you might get 30 minutes for a medium-hard problem where they expect optimal solutions with clean code. They often ask follow-up questions about edge cases and scalability.
+
+Expedia's process is more streamlined:
+
+1. Technical phone screen (1-2 problems, 60 minutes)
+2. Virtual onsite (2-3 technical rounds)
+3. Behavioral interview (significant weight—they care about collaboration)
+4. System design (only for senior engineering roles)
+
+Expedia gives you more time per problem (45-60 minutes) and values communication as much as correctness. They want to see how you think through problems aloud and collaborate with the interviewer.
+
+## Specific Problem Recommendations
+
+These 5 problems provide excellent coverage for both companies:
+
+1. **3Sum (#15)** - Tests array manipulation, two pointers, and duplicate handling. ByteDance might ask for the k-sum generalization; Expedia might ask for a travel-related variation (finding triple flights under budget).
 
 <div class="code-group">
 
 ```python
-# Example DP problem (ByteDance-relevant): Climbing Stairs
-def climbStairs(n: int) -> int:
-    if n <= 2:
-        return n
-    dp = [0] * (n + 1)
-    dp[1], dp[2] = 1, 2
-    for i in range(3, n + 1):
-        dp[i] = dp[i-1] + dp[i-2]
-    return dp[n]
-
-# Example Greedy problem (Expedia-relevant): Maximum Subarray (Kadane's)
-def maxSubArray(nums: list[int]) -> int:
-    current_max = global_max = nums[0]
-    for num in nums[1:]:
-        current_max = max(num, current_max + num)
-        global_max = max(global_max, current_max)
-    return global_max
+# Time: O(n²) | Space: O(1) ignoring output storage
+def threeSum(nums):
+    nums.sort()
+    result = []
+    for i in range(len(nums)-2):
+        if i > 0 and nums[i] == nums[i-1]:
+            continue  # Skip duplicates
+        left, right = i+1, len(nums)-1
+        while left < right:
+            total = nums[i] + nums[left] + nums[right]
+            if total < 0:
+                left += 1
+            elif total > 0:
+                right -= 1
+            else:
+                result.append([nums[i], nums[left], nums[right]])
+                while left < right and nums[left] == nums[left+1]:
+                    left += 1
+                while left < right and nums[right] == nums[right-1]:
+                    right -= 1
+                left += 1
+                right -= 1
+    return result
 ```
 
 ```javascript
-// Example DP problem (ByteDance-relevant): Climbing Stairs
-function climbStairs(n) {
-  if (n <= 2) return n;
-  let dp = new Array(n + 1).fill(0);
-  dp[1] = 1;
-  dp[2] = 2;
-  for (let i = 3; i <= n; i++) {
-    dp[i] = dp[i - 1] + dp[i - 2];
+// Time: O(n²) | Space: O(1) ignoring output storage
+function threeSum(nums) {
+  nums.sort((a, b) => a - b);
+  const result = [];
+  for (let i = 0; i < nums.length - 2; i++) {
+    if (i > 0 && nums[i] === nums[i - 1]) continue;
+    let left = i + 1,
+      right = nums.length - 1;
+    while (left < right) {
+      const sum = nums[i] + nums[left] + nums[right];
+      if (sum < 0) left++;
+      else if (sum > 0) right--;
+      else {
+        result.push([nums[i], nums[left], nums[right]]);
+        while (left < right && nums[left] === nums[left + 1]) left++;
+        while (left < right && nums[right] === nums[right - 1]) right--;
+        left++;
+        right--;
+      }
+    }
   }
-  return dp[n];
-}
-
-// Example Greedy problem (Expedia-relevant): Maximum Subarray (Kadane's)
-function maxSubArray(nums) {
-  let currentMax = nums[0];
-  let globalMax = nums[0];
-  for (let i = 1; i < nums.length; i++) {
-    currentMax = Math.max(nums[i], currentMax + nums[i]);
-    globalMax = Math.max(globalMax, currentMax);
-  }
-  return globalMax;
+  return result;
 }
 ```
 
 ```java
-// Example DP problem (ByteDance-relevant): Climbing Stairs
-public int climbStairs(int n) {
-    if (n <= 2) return n;
-    int[] dp = new int[n + 1];
-    dp[1] = 1;
-    dp[2] = 2;
-    for (int i = 3; i <= n; i++) {
-        dp[i] = dp[i-1] + dp[i-2];
+// Time: O(n²) | Space: O(1) ignoring output storage
+public List<List<Integer>> threeSum(int[] nums) {
+    Arrays.sort(nums);
+    List<List<Integer>> result = new ArrayList<>();
+    for (int i = 0; i < nums.length - 2; i++) {
+        if (i > 0 && nums[i] == nums[i-1]) continue;
+        int left = i + 1, right = nums.length - 1;
+        while (left < right) {
+            int sum = nums[i] + nums[left] + nums[right];
+            if (sum < 0) left++;
+            else if (sum > 0) right--;
+            else {
+                result.add(Arrays.asList(nums[i], nums[left], nums[right]));
+                while (left < right && nums[left] == nums[left+1]) left++;
+                while (left < right && nums[right] == nums[right-1]) right--;
+                left++;
+                right--;
+            }
+        }
     }
-    return dp[n];
-}
-
-// Example Greedy problem (Expedia-relevant): Maximum Subarray (Kadane's)
-public int maxSubArray(int[] nums) {
-    int currentMax = nums[0];
-    int globalMax = nums[0];
-    for (int i = 1; i < nums.length; i++) {
-        currentMax = Math.max(nums[i], currentMax + nums[i]);
-        globalMax = Math.max(globalMax, currentMax);
-    }
-    return globalMax;
+    return result;
 }
 ```
 
 </div>
 
+2. **Longest Palindromic Substring (#5)** - Covers string manipulation, dynamic programming (ByteDance focus), and expansion techniques (Expedia-friendly).
+
+3. **Merge Intervals (#56)** - Tests array sorting and greedy merging. Expedia loves this for travel scheduling; ByteDance might ask for the meeting rooms variation.
+
+4. **Coin Change (#322)** - Dynamic programming classic that ByteDance frequently asks. Understanding both the memoization and tabulation approaches is crucial.
+
+5. **Valid Sudoku (#36)** - Excellent hash table application problem that both companies use to test 2D array traversal and validation logic.
+
 ## Which to Prepare for First
 
-Prepare for **Expedia first** if you are earlier in your interview preparation journey. The lower volume of Hard questions and the inclusion of Greedy algorithms, which are often more intuitive than DP, make it a less steep climb. Solidifying the shared foundational topics (Array, String, Hash Table) while building competency in Greedy patterns will create a strong base.
+Start with **ByteDance preparation**, even if your Expedia interview comes first. Here's why: ByteDance's questions are generally more challenging across all difficulty levels. If you can solve ByteDance's medium problems, Expedia's mediums will feel straightforward. The reverse isn't true—acing Expedia questions won't fully prepare you for ByteDance's harder problems.
 
-Transition to **ByteDance preparation** after that foundation is secure. This requires layering on the significant additional challenge of Dynamic Programming. ByteDance's higher concentration of Medium and Hard problems demands greater problem-solving speed, deeper pattern recognition, and the ability to handle optimization constraints. Use your Expedia prep as the core, then intensify with DP drills and more complex problem variations.
+Allocate 70% of your time to ByteDance-focused prep (DP, advanced graphs) and 30% to Expedia-specific topics (greedy, behavioral). One week before your Expedia interview, shift to practicing their favorite patterns and rehearse your behavioral stories.
 
-For targeted practice, explore the company-specific question lists: [ByteDance Interview Questions](/company/bytedance) and [Expedia Interview Questions](/company/expedia).
+Remember: ByteDance tests how deep you can dive; Expedia tests how broadly you can apply. Prepare for depth first, then adapt to breadth.
+
+For more company-specific insights, check out our [ByteDance interview guide](/company/bytedance) and [Expedia interview guide](/company/expedia).

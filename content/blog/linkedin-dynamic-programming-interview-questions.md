@@ -1,86 +1,114 @@
 ---
 title: "Dynamic Programming Questions at LinkedIn: What to Expect"
 description: "Prepare for Dynamic Programming interview questions at LinkedIn — patterns, difficulty breakdown, and study tips."
-date: "2027-10-19"
+date: "2027-10-11"
 category: "dsa-patterns"
 tags: ["linkedin", "dynamic-programming", "interview prep"]
 ---
 
-Dynamic Programming (DP) is a critical skill for LinkedIn interviews because it directly tests a candidate's ability to optimize complex, overlapping problems—a core requirement for building scalable systems that handle massive data and network graphs. LinkedIn's platform, with its feed ranking, connection algorithms, and large-scale data processing, often involves problems where optimal substructure and overlapping subproblems are key. Mastering DP demonstrates you can move beyond brute-force solutions to write efficient, performant code, which is essential for a company operating at LinkedIn's scale.
+Dynamic Programming at LinkedIn isn't just another algorithm topic—it's a specific signal. With 24 DP problems in their tagged list (over 13% of their total), it sits as a significant but not overwhelming portion of their technical assessment. In real interviews, you're more likely to encounter a DP problem in a final-round, system design-heavy, or senior engineering loop than in an initial phone screen. The presence of a DP question often serves as a filter for candidates applying for roles dealing with optimization, scalability, or complex data processing—think feed ranking, connection path algorithms, or resource allocation systems. They use it to see if you can break down a nebulous, high-impact problem into optimal, overlapping subproblems, which is a core skill for architecting efficient features at their scale.
 
-## What to Expect — Types of Problems
+## Specific Patterns LinkedIn Favors
 
-LinkedIn's DP questions tend to focus on practical applications rather than purely mathematical puzzles. You can expect problems in these categories:
+LinkedIn's DP problems have a distinct flavor. They heavily favor **iterative, bottom-up tabulation** over recursive memoization. This aligns with engineering best practices—iterative solutions are generally easier to reason about in terms of space optimization and avoid recursion depth limits. The patterns you'll see most are:
 
-- **String/Sequence Manipulation:** These are very common. Expect problems involving longest common subsequence, edit distance, palindromic substrings, or ways to decode/encode strings. These model real-world tasks like data comparison, diff algorithms, or input validation.
-- **Knapsack & Partition Problems:** Questions about dividing a set into subsets with specific sums (e.g., "Partition Equal Subset Sum") or resource allocation. These test your ability to handle constraints and optimization.
-- **Grid & Path Finding:** Problems involving moving through a grid (often representing a data structure or state machine) to find minimal cost, count unique paths with obstacles, or maximize profit. These relate to routing and traversal logic.
-- **State Machine DP:** More advanced problems where you track multiple states (e.g., stock trading with cooldown, house robbery variations). These assess your ability to model complex decision trees.
+1.  **1D/2D "Classic" DP:** Straightforward applications of classic patterns. Think Fibonacci variations, coin change, or longest increasing subsequence. These test your fundamental understanding.
+2.  **String/Sequence DP:** This is a major theme. Problems involving edit distance, longest common subsequence, or palindrome partitioning are common because they model real-world tasks like profile matching, content deduplication, or text processing.
+3.  **DP on Intervals or Sequences:** Problems where the subproblem is defined on a contiguous subsequence or interval, like burst balloons or matrix chain multiplication. This tests your ability to define state for a range.
+4.  **DP with a "Choice" or "State Machine":** Problems where at each step you have a finite set of choices (buy/sell/cooldown) or states. LinkedIn likes these as they model user state transitions (e.g., "viewed," "applied," "hired").
 
-The difficulty often lies in recognizing the DP pattern within a wordy, real-world scenario.
+You'll rarely see highly esoteric DP (like digit DP or DP on trees) in a standard interview. The focus is on clean, correct implementation of a well-identified pattern.
 
-## How to Prepare — Study Tips with One Code Example
+## How to Prepare
 
-Start by internalizing the core principle: **DP is optimized recursion using memoization (top-down) or tabulation (bottom-up).** For LinkedIn, you must be fluent in both the reasoning and the implementation.
-
-1.  **Pattern First:** Don't memorize problems. Memorize patterns: 1D DP (Fibonacci, climbing stairs), 2D DP (LCS, edit distance), 0/1 Knapsack, and Unbounded Knapsack.
-2.  **State Definition is Key:** Before writing code, clearly define `dp[i]` or `dp[i][j]`. What does it represent? The answer to this _is_ the solution.
-3.  **Practice Derivation:** Always solve a problem by first finding the recursive brute-force relation, then add memoization, then (if possible) convert to an iterative tabulated version. This shows deep understanding.
-
-A fundamental pattern is the "1D Sequence DP," like the classic "Climbing Stairs" (or "Decode Ways"). The state `dp[i]` represents the number of ways to reach position `i`.
+The key is to move from recognizing the pattern to implementing the space-optimized version quickly. Let's take the most common pattern: **1D DP where `dp[i]` represents the optimal solution up to index `i`**. The classic example is House Robber (#198). The pattern is: `dp[i] = max(dp[i-1], dp[i-2] + nums[i])`. The preparation trick is to immediately see how to reduce the O(n) space to O(1).
 
 <div class="code-group">
 
 ```python
-def climbStairs(n: int) -> int:
-    if n <= 2:
-        return n
-    dp = [0] * (n + 1)
-    dp[1] = 1
-    dp[2] = 2
-    for i in range(3, n + 1):
-        dp[i] = dp[i - 1] + dp[i - 2]  # Recurrence relation
-    return dp[n]
+# House Robber - Space-Optimized Bottom-Up
+# Time: O(n) | Space: O(1)
+def rob(nums):
+    """
+    dp[i] = max money robbed up to house i.
+    At house i, we choose: rob it (nums[i] + dp[i-2]) or skip it (dp[i-1]).
+    We only need to track dp[i-1] and dp[i-2].
+    """
+    prev2, prev1 = 0, 0  # dp[i-2], dp[i-1]
+    for num in nums:
+        # current = max(skip current house, rob current house)
+        current = max(prev1, prev2 + num)
+        prev2, prev1 = prev1, current  # shift window
+    return prev1  # prev1 holds the last computed value
 ```
 
 ```javascript
-function climbStairs(n) {
-  if (n <= 2) return n;
-  const dp = new Array(n + 1).fill(0);
-  dp[1] = 1;
-  dp[2] = 2;
-  for (let i = 3; i <= n; i++) {
-    dp[i] = dp[i - 1] + dp[i - 2];
+// House Robber - Space-Optimized Bottom-Up
+// Time: O(n) | Space: O(1)
+function rob(nums) {
+  // prev2 represents dp[i-2], prev1 represents dp[i-1]
+  let prev2 = 0,
+    prev1 = 0;
+  for (const num of nums) {
+    // current = max(skip house, rob house)
+    const current = Math.max(prev1, prev2 + num);
+    prev2 = prev1;
+    prev1 = current;
   }
-  return dp[n];
+  return prev1;
 }
 ```
 
 ```java
-public int climbStairs(int n) {
-    if (n <= 2) return n;
-    int[] dp = new int[n + 1];
-    dp[1] = 1;
-    dp[2] = 2;
-    for (int i = 3; i <= n; i++) {
-        dp[i] = dp[i - 1] + dp[i - 2];
+// House Robber - Space-Optimized Bottom-Up
+// Time: O(n) | Space: O(1)
+public int rob(int[] nums) {
+    // dp[i-2], dp[i-1]
+    int prev2 = 0, prev1 = 0;
+    for (int num : nums) {
+        int current = Math.max(prev1, prev2 + num);
+        prev2 = prev1;
+        prev1 = current;
     }
-    return dp[n];
+    return prev1;
 }
 ```
 
 </div>
 
+For **2D String DP**, like Longest Common Subsequence (#1143), the pattern is `dp[i][j] = dp[i-1][j-1] + 1 if chars match else max(dp[i-1][j], dp[i][j-1])`. The preparation trick is to draw the 2D matrix for small examples and then implement the space-optimized version using two rows or one row.
+
+## How LinkedIn Tests Dynamic Programming vs Other Companies
+
+Compared to other companies, LinkedIn's DP questions tend to be **"medium" with a clean pattern**, not "hard" with multiple twisted insights. At companies like Google or Meta, a DP problem might be disguised within a complex graph or geometry problem. At LinkedIn, the DP nature is usually more apparent, but they expect a polished, optimal solution.
+
+The unique aspect is the **emphasis on the "why."** You might be asked: "How would this solution perform with 10 million user profiles?" or "What if the input streamed in?" This connects the algorithm to their engineering reality. They care less about you knowing every DP trick and more about you cleanly deriving a working, efficient solution and being able to discuss its trade-offs in a system's context.
+
+## Study Order
+
+Tackle DP in this order to build intuition without getting overwhelmed:
+
+1.  **Foundation (1D, "Choice" DP):** Start with problems where the state is a single integer (e.g., index). This teaches you to define `dp[i]`. Practice: Climbing Stairs (#70), House Robber (#198), Decode Ways (#91).
+2.  **Classic 2D (String/Sequence):** Move to two sequences. This teaches you to define `dp[i][j]`. Practice: Longest Common Subsequence (#1143), Edit Distance (#72).
+3.  **DP on Intervals:** Learn to define state as `dp[left][right]`. This is harder but builds on 2D intuition. Practice: Matrix Chain Multiplication concepts (not necessarily the exact problem), Burst Balloons (#312) for the pattern.
+4.  **DP with Additional State (State Machine):** Add a small third dimension (like `k` transactions or a `hold` state). Practice: Best Time to Buy/Sell Stock with Cooldown (#309), Best Time to Buy/Sell Stock IV (#188).
+5.  **Review & Optimization:** Go back to problems from steps 1-4 and implement the space-optimized versions. This is where you solidify the patterns for interview speed.
+
 ## Recommended Practice Order
 
-Tackle problems in increasing conceptual difficulty:
+Solve these LinkedIn-tagged problems in sequence:
 
-1.  **Foundation:** Climbing Stairs, Fibonacci, Min Cost Climbing Stairs.
-2.  **1D Classic:** House Robber, Coin Change (unbounded knapsack), Partition Equal Subset Sum (0/1 knapsack).
-3.  **2D String DP:** Longest Common Subsequence, Edit Distance, Longest Palindromic Substring.
-4.  **Advanced State:** Best Time to Buy/Sell Stock with Cooldown, Decode Ways II.
-5.  **LinkedIn-Specific:** Finally, work through the actual DP problems from LinkedIn's tagged list. This applies the patterns in their context.
+1.  **Climbing Stairs (#70)** – The absolute simplest 1D DP. Builds the "number of ways" intuition.
+2.  **House Robber (#198)** – Teaches the "take or skip" choice with O(1) space optimization.
+3.  **Longest Common Subsequence (#1143)** – Master the core 2D string DP pattern.
+4.  **Edit Distance (#72)** – A vital 2D DP with clear real-world application (profile matching, spell check).
+5.  **Coin Change (#322)** – Introduces the "minimum number of coins" (infinity initialization) pattern.
+6.  **Word Break (#139)** – A great problem combining sequence DP with set lookup.
+7.  **Best Time to Buy/Sell Stock with Cooldown (#309)** – A perfect example of DP with a state machine, highly relevant to user activity modeling.
+8.  **Maximum Product Subarray (#152)** – Teaches that `dp` state might need to track both max and min.
+9.  **Decode Ways (#91)** – A classic LinkedIn 1D DP that requires careful edge case handling (the '0').
+10. **Burst Balloons (#312)** – A challenging but excellent capstone problem for DP on intervals.
 
-Focus on deriving the recurrence relation. If you can define the state and transition, writing the code is straightforward.
+Remember, at LinkedIn, the goal isn't to recite a memorized solution. It's to demonstrate you can see a complex product or data problem, identify the optimal substructure within it, and implement a robust, efficient solution. Practice deriving the recurrence relation on a whiteboard before you code.
 
 [Practice Dynamic Programming at LinkedIn](/company/linkedin/dynamic-programming)

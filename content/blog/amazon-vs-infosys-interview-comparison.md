@@ -1,82 +1,79 @@
 ---
 title: "Amazon vs Infosys: Interview Question Comparison"
 description: "Compare coding interview questions at Amazon and Infosys — difficulty levels, topic focus, and preparation strategy."
-date: "2028-06-27"
+date: "2028-11-16"
 category: "tips"
 tags: ["amazon", "infosys", "comparison"]
 ---
 
-When preparing for technical interviews, understanding the specific focus and expectations of each company is crucial. Amazon and Infosys, while both major tech employers, have distinctly different interview processes reflected in their question banks. Amazon's process is notoriously rigorous and algorithm-heavy, designed to assess problem-solving under pressure for roles often involving scalable systems. Infosys, a global consulting and IT services firm, tends to focus on foundational coding skills, logical reasoning, and problem-solving applicable to a wide range of client projects. This comparison breaks down the key differences in question volume, difficulty, and topics to help you strategize your preparation.
+If you're preparing for interviews at both Amazon and Infosys, you're looking at two fundamentally different experiences in the tech industry. One is a FAANG giant where the coding interview is a legendary gatekeeper; the other is a global IT services leader where the process, while still technical, often serves a different business purpose. The data from CodeJeet's question banks—1,938 tagged questions for Amazon versus 158 for Infosys—isn't just a difference in quantity; it's a direct reflection of their distinct hiring philosophies, role expectations, and the intensity of their technical screens. Preparing for both requires a strategic, ROI-focused approach, not just doubling your study time.
 
-## Question Volume and Difficulty
+## Question Volume and Difficulty: A Tale of Two Intensities
 
-The sheer volume of questions is the most immediate difference. Amazon's curated list of approximately **1,938 questions** dwarfs Infosys's **158 questions**. This doesn't mean you must master all 1,938, but it indicates a vast problem space and a deep, well-established interview culture focused on algorithmic depth.
+The raw numbers tell a clear story. Amazon's massive question bank (1938 questions, split roughly 27%/55%/18% across Easy, Medium, and Hard) indicates a highly mature, constantly evolving, and deeply competitive interview process. The sheer volume means you cannot "grind" your way to memorizing patterns; you must internalize fundamental concepts. The heavy skew toward Medium difficulty (1057 questions) is the key insight: Amazon's standard is to ask complex problems that require optimal solutions under pressure. You're expected to not only solve a Hard problem but to articulate your reasoning, handle edge cases, and discuss trade-offs.
 
-The difficulty distribution reveals their core priorities:
+Infosys's question bank (158 questions, split 27%/52%/21%) is significantly smaller but maintains a similar difficulty distribution. This suggests a more curated, predictable, and role-specific question set. The interview intensity is generally lower. While you'll still face Medium-difficulty problems, the scope and required optimization are often less extreme than at Amazon. The smaller bank implies that thorough preparation on core patterns can give you high coverage.
 
-- **Amazon (E530 / M1057 / H351):** The curve is weighted toward **Medium and Hard** problems. Medium questions (1,057) form the bulk, testing a strong grasp of data structures and algorithms under typical interview constraints. The significant number of Hard problems (351) signals that for many roles, especially at senior levels or within specific teams, you must be prepared for complex optimization challenges.
-- **Infosys (E42 / M82 / H34):** The distribution is more balanced relative to its size, but still leans toward Medium difficulty. The emphasis is likely on **solid foundational competency**. The lower total and relatively fewer Hard questions suggest the interview is designed to filter for core programming logic and problem-solving ability rather than advanced algorithmic mastery.
+**Implication for Prep:** For Amazon, build depth and flexibility. For Infosys, build breadth and reliability on fundamentals.
 
-<div class="code-group">
+## Topic Overlap: Your High-Value Study Areas
 
-```python
-# Example of a common 'Medium' difficulty pattern: Fast & Slow Pointer
-def hasCycle(head):
-    slow = fast = head
-    while fast and fast.next:
-        slow = slow.next
-        fast = fast.next.next
-        if slow == fast:
-            return True
-    return False
-```
+Both companies heavily test **Array**, **String**, and **Dynamic Programming (DP)**. This overlap is your preparation goldmine. Mastering these topics gives you the highest return on investment for dual-company prep.
 
-```javascript
-// Example of a common 'Medium' difficulty pattern: Fast & Slow Pointer
-function hasCycle(head) {
-  let slow = head,
-    fast = head;
-  while (fast && fast.next) {
-    slow = slow.next;
-    fast = fast.next.next;
-    if (slow === fast) return true;
-  }
-  return false;
-}
-```
+- **Array & String:** These are the bedrock. For both companies, expect manipulations, two-pointer techniques, sliding windows, and prefix sums. An Amazon question might layer a hash map on top for O(1) lookups in a complex scenario, while an Infosys question might focus on the core array logic itself.
+- **Dynamic Programming:** This is a critical shared focus. The complexity difference is pronounced. Amazon is famous for DP questions that require non-intuitive state definitions (e.g., stock problems with cooldowns, DP on trees). Infosys DP questions are more likely to be classic formulations (0/1 knapsack, longest common subsequence).
 
-```java
-// Example of a common 'Medium' difficulty pattern: Fast & Slow Pointer
-public boolean hasCycle(ListNode head) {
-    ListNode slow = head, fast = head;
-    while (fast != null && fast.next != null) {
-        slow = slow.next;
-        fast = fast.next.next;
-        if (slow == fast) return true;
-    }
-    return false;
-}
-```
+**Unique Focuses:**
 
-</div>
+- **Amazon** uniquely emphasizes **Hash Table**. It's not just for Two Sum; it's the workhorse for caching intermediate results (memoization), counting frequencies for sliding windows, and building adjacency lists for graph problems. If you see a Hash Table tag on an Amazon question, pay attention.
+- **Infosys** shows a stronger relative emphasis on **Math** (number theory, combinatorics, basic geometry). This aligns with roles that may involve algorithmic thinking for business logic or foundational coding assessments.
 
-## Topic Overlap
+## Preparation Priority Matrix
 
-Both companies emphasize **Array, String, and Dynamic Programming**, confirming these as universal pillars of coding interviews.
+Use this to triage your study time effectively.
 
-- **Amazon's Focus:** The prominent inclusion of **Hash Table** as a top topic is telling. It underscores Amazon's emphasis on **optimal time complexity** (often O(1) or O(n) lookups) for problems involving counting, frequency, or matching. Questions often involve combining hash maps with other techniques to solve problems efficiently, a key skill for working with large-scale data.
-- **Infosys's Focus:** The prominence of **Math** as a top category points toward a focus on **logical reasoning, numerical puzzles, and basic algorithmic number theory**. This aligns with a broader IT services context where clean, logical solutions to well-defined problems are highly valued.
+| Priority                     | Topics                                               | Rationale & Example Problems                                                                                                                                                                                                                                                                                                                                                                                                    |
+| :--------------------------- | :--------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Tier 1 (Max ROI)**         | **Array, String, Dynamic Programming**               | Core to both. Solve foundational problems, then progress to company-specific twists. **Problems:** [Two Sum (Amazon #1, Infosys staple)](https://leetcode.com/problems/two-sum/), [Longest Substring Without Repeating Characters (Amazon #3)](https://leetcode.com/problems/longest-substring-without-repeating-characters/), [Climbing Stairs (Infosys #70, Amazon warm-up)](https://leetcode.com/problems/climbing-stairs/). |
+| **Tier 2 (Amazon-Depth)**    | **Hash Table, Trees (Binary/BST), Graphs (BFS/DFS)** | Essential for Amazon's system design and object-oriented questions. Infosys may touch these, but less deeply. **Problems:** [LRU Cache (Amazon #146)](https://leetcode.com/problems/lru-cache/) (Hash Table + Linked List), [Course Schedule (Amazon #207)](https://leetcode.com/problems/course-schedule/) (Graph DFS).                                                                                                        |
+| **Tier 3 (Infosys-Breadth)** | **Math, Greedy, Basic Sorting & Search**             | Lock down these fundamentals for Infosys. They're good review for Amazon but less likely to be the _core_ of a challenging Amazon question. **Problems:** [Reverse Integer (Infosys #7)](https://leetcode.com/problems/reverse-integer/), [Meeting Rooms (Infosys-style #252)](https://leetcode.com/problems/meeting-rooms/).                                                                                                   |
 
-In essence, Amazon's topics lean toward building efficient, scalable systems, while Infosys's topics lean toward applied problem-solving and logical deduction.
+## Interview Format Differences
 
-## Which to Prepare for First
+This is where the experiences truly diverge.
 
-Your preparation order should be dictated by your target role and the transferability of skills.
+**Amazon:**
 
-**Prepare for Infosys First if:** You are early in your coding interview journey. The smaller, more foundational question bank provides a manageable scope. Mastering the core topics here—especially Array, String, and basic Dynamic Programming—builds a solid platform. The skills are **100% transferable** to Amazon's easier problems and form the baseline for tackling more complex challenges.
+- **Process:** Typically 3-4 rounds: 1-2 online assessments (OAs) with 2-3 coding problems, followed by a 4-5 hour "on-site" (virtual or in-person) consisting of 3-4 1-hour interviews.
+- **Coding Rounds:** 45-60 minutes. Often 1 medium-hard problem or 2 medium problems. You are graded on the **Leadership Principles** _through_ your code. ("Are you right a lot?" – Did you consider edge cases? "Bias for Action" – Did you start coding a viable approach quickly?)
+- **Behavioral & System Design:** Dedicated behavioral rounds based on Leadership Principles. For SDE II and above, a full system design round is standard. The coding interview itself is holistic.
 
-**Prepare for Amazon First if:** Your primary goal is to pass Amazon's interview, or you are already comfortable with core data structures. Amazon's preparation is more intensive and comprehensive. Successfully practicing for its Medium and Hard problems will make Infosys's question bank feel like a subset, effectively covering its entire spectrum of difficulty. The depth required for Amazon naturally encompasses the breadth needed for Infosys.
+**Infosys:**
 
-**Strategic Recommendation:** Start with a **strong foundation** using the Infosys topic list. Ensure you are proficient in solving Easy and Medium problems on Arrays, Strings, and DP. Then, **transition to Amazon-focused practice** to ramp up difficulty, deeply integrate hash table techniques, and build the stamina for longer, more complex problem-solving sessions. This approach ensures no gaps in your fundamental knowledge while systematically raising your ceiling.
+- **Process:** Often more streamlined: an initial coding test (HackerRank/Codility style) followed by 2-3 technical/HR interviews.
+- **Coding Rounds:** Problems may be somewhat simpler or more focused on clean, working code under time constraints. The discussion may lean more toward practical application and less on algorithmic optimality extremes.
+- **Behavioral & System Design:** Behavioral questions are present but usually not as rigorously framework-driven as Amazon's. System design is less common for early-career roles and more focused on OO design or scalability basics for senior positions.
 
-For detailed company-specific question lists and guides, visit the CodeJeet pages for [Amazon](/company/amazon) and [Infosys](/company/infosys).
+## Specific Problem Recommendations for Dual Prep
+
+Here are 5 problems that efficiently cover patterns relevant to both companies.
+
+1.  **Merge Intervals (LeetCode #56):** Covers array sorting, overlapping logic, and edge-case handling. The pattern is ubiquitous. Amazon might ask you to design a calendar system around it; Infosys might ask it directly.
+2.  **Valid Parentheses (LeetCode #20):** A perfect string + stack problem. It's a fundamental concept that appears in parsing, compiler design, and syntax validation—relevant for many roles.
+3.  **Best Time to Buy and Sell Stock (LeetCode #121):** The gateway to DP and greedy algorithms. Mastering this and its variants (especially #122 for simple greedy and #123 for harder DP) prepares you for a huge class of optimization problems at both companies.
+4.  **Group Anagrams (LeetCode #49):** Excellent for combining string manipulation, sorting (or character counting), and hash table usage. It tests your ability to choose an efficient key for grouping.
+5.  **House Robber (LeetCode #198):** A classic, approachable DP problem. It teaches state definition (`dp[i] = max profit up to house i`) and recurrence relation formulation, which is essential for tackling more complex DP questions at Amazon.
+
+## Which to Prepare for First? The Amazon-First Strategy
+
+**Prepare for Amazon first.** Here’s why: The depth, breadth, and rigor required for Amazon interviews will inherently cover 90%+ of what you'll see in an Infosys technical screen. If you can comfortably solve Medium Amazon problems, discuss trade-offs, and write clean code under time pressure, you will be over-prepared for the Infosys coding challenge. The reverse is not true.
+
+Your study path should be:
+
+1.  **Weeks 1-4:** Focus on Tier 1 (Array, String, DP) and Tier 2 (Hash Table, Trees) topics using Amazon-tagged Medium problems. Practice speaking your logic aloud.
+2.  **Week 5:** Integrate Amazon Leadership Principle stories into your problem-solving explanations.
+3.  **Week 6 (1-2 weeks before Infosys):** Shift to a breadth review. Do a few Infosys-tagged problems to understand their style, and practice the Tier 3 (Math, Greedy) topics. This will be a much lighter lift.
+
+By front-loading the harder preparation, you reduce total stress and increase your chances at both companies. An Amazon-ready candidate is a very strong Infosys candidate, but an Infosys-ready candidate is likely underprepared for Amazon.
+
+For more detailed breakdowns of each company's process, visit the CodeJeet company pages: [Amazon Interview Guide](/company/amazon) and [Infosys Interview Guide](/company/infosys).

@@ -1,100 +1,147 @@
 ---
 title: "JPMorgan vs Expedia: Interview Question Comparison"
 description: "Compare coding interview questions at JPMorgan and Expedia — difficulty levels, topic focus, and preparation strategy."
-date: "2028-01-25"
+date: "2026-03-10"
 category: "tips"
 tags: ["jpmorgan", "expedia", "comparison"]
 ---
 
-When preparing for technical interviews at major companies, understanding their specific focus areas can dramatically improve your efficiency. JPMorgan and Expedia, while both requiring strong algorithmic skills, present distinct profiles in question volume, difficulty, and topic emphasis. This comparison breaks down their patterns to help you prioritize your study.
+# JPMorgan vs Expedia: Interview Question Comparison
+
+If you're interviewing at both JPMorgan and Expedia, you're looking at two distinct tech cultures with surprisingly similar technical screening patterns. JPMorgan's engineering roles focus on financial systems that demand precision and reliability, while Expedia's travel platform requires scalable, high-availability services. The good news? Their coding interviews overlap significantly in core topics, meaning you can prepare efficiently for both. The key difference lies in intensity and emphasis—JPMorgan asks more questions overall with heavier sorting requirements, while Expedia leans into greedy algorithms for optimization problems.
 
 ## Question Volume and Difficulty
 
-JPMorgan's question bank is notably larger and slightly more challenging overall. With 78 total questions, it provides a broader set of problems to study. The difficulty distribution (25 Easy, 45 Medium, 8 Hard) shows a strong emphasis on Medium-level problems, which are the core of most technical screens. The presence of several Hard questions indicates you may encounter complex scenarios, especially in later interview rounds.
+JPMorgan's question bank shows 78 total questions with a distribution of 25 Easy, 45 Medium, and 8 Hard problems. This 3:1 Medium-to-Hard ratio suggests they're serious about technical screening—expect at least one Medium problem per round, possibly with a follow-up optimization. The volume indicates they have established question banks and likely rotate problems regularly.
 
-Expedia's list is more compact at 54 questions, which can make focused preparation more manageable. Its distribution (13 Easy, 35 Medium, 6 Hard) also centers on Medium difficulty but with a slightly lower volume in each category. This suggests the interview process may be slightly less intensive in its pure algorithmic demands, though still rigorous.
+Expedia's 54 questions (13 Easy, 35 Medium, 6 Hard) shows a similar emphasis on Medium problems but with slightly fewer overall questions. The 6:1 Medium-to-Hard ratio is actually more challenging proportionally—when Expedia asks a Hard problem, they really mean it. Both companies keep Easy questions as warm-ups or phone screens.
 
-**Key Takeaway:** JPMorgan requires preparation across a wider array of problems and a higher likelihood of encountering a challenging Hard question. Expedia's list, while still substantial, allows for deeper mastery of a smaller core set.
+The numbers tell a clear story: JPMorgan interviews will feel more comprehensive (more questions to master), while Expedia interviews might dive deeper on fewer concepts. If you're preparing for both, prioritize Medium problems—they constitute 57-65% of questions at both companies.
 
 ## Topic Overlap
 
-Both companies heavily test foundational data structures. **Array, String, and Hash Table** problems form the common core for both. These are essential for any interview prep.
+Both companies heavily test **Array, String, and Hash Table** problems. This isn't surprising—these fundamental data structures form the backbone of most real-world systems. The overlap means you get excellent return on investment studying these topics.
 
-The primary difference lies in their secondary focus:
+**Shared emphasis:**
 
-- **JPMorgan** lists **Sorting** as a key topic. This often involves not just using a built-in sort, but implementing custom comparators, solving problems where sorting is the key insight (like "Kth Largest Element" or "Merge Intervals"), and understanding time/space complexity of sort operations.
-- **Expedia** highlights **Greedy** algorithms. This points to problems where making a locally optimal choice at each step leads to a global optimum, such as "Task Scheduler," "Jump Game," or "Maximum Subarray."
+- **Array manipulation**: Sliding window, two-pointer techniques, prefix sums
+- **String operations**: Palindrome checks, anagram detection, string parsing
+- **Hash Table applications**: Frequency counting, lookups, caching patterns
 
-This distinction influences the problem types you'll see most frequently.
+**JPMorgan unique focus: Sorting** appears in their top topics but not Expedia's. This aligns with financial systems where data ordering matters—think transaction sequencing, price matching, or time-series analysis. Expect problems that combine sorting with other techniques.
+
+**Expedia unique focus: Greedy** algorithms reflect optimization challenges in travel—finding cheapest routes, scheduling resources, or maximizing value within constraints. These often appear in interval problems or resource allocation scenarios.
+
+## Preparation Priority Matrix
+
+**Study First (Maximum ROI):**
+
+1. **Hash Table + Array combos**: Problems where you use hash maps to optimize array searches
+2. **String manipulation with two pointers**: Efficient string processing without extra space
+3. **Array sorting with custom comparators**: Both companies test this, though JPMorgan more explicitly
+
+**JPMorgan-Specific Priority:**
+
+- **Sorting algorithms**: Quick sort implementations, merge sort variations
+- **Stable vs unstable sort applications**: When order preservation matters
+- **Comparator design**: Sorting complex objects by multiple fields
+
+**Expedia-Specific Priority:**
+
+- **Greedy interval scheduling**: Meeting Rooms II (#253) type problems
+- **Resource allocation**: Assigning limited resources optimally
+- **Minimum/maximum optimization**: Finding extremes with greedy choices
+
+**Recommended shared problems:**
+
+- **Two Sum (#1)**: Tests hash table fundamentals
+- **Group Anagrams (#49)**: Combines strings, sorting, and hash maps
+- **Merge Intervals (#56)**: Useful for both sorting (JPMorgan) and greedy merging (Expedia)
+
+## Interview Format Differences
+
+**JPMorgan** typically follows a structured technical screening process:
+
+- Phone screen (1 Easy/Medium problem, 45 minutes)
+- Virtual onsite (2-3 rounds, 45-60 minutes each, 1-2 problems per round)
+- Behavioral rounds mixed with technical discussions
+- System design expectations vary by level—senior roles should prepare for distributed system discussions
+- They often use HackerRank or similar platforms with time limits
+
+**Expedia** tends toward more conversational technical interviews:
+
+- Initial technical call (1 Medium problem, focus on approach discussion)
+- Virtual or in-person loops (3-4 rounds, including coding, system design, behavioral)
+- More emphasis on scalability and real-world application
+- Coding rounds often involve explaining trade-offs between multiple solutions
+- They may use CoderPad or live coding in an IDE
+
+Both companies value clean code and communication, but Expedia places slightly more weight on system thinking, while JPMorgan emphasizes algorithmic correctness and edge cases.
+
+## Specific Problem Recommendations
+
+Here are 5 problems that provide excellent coverage for both companies:
+
+1. **Top K Frequent Elements (#347)** - Tests hash tables (frequency counting) and sorting (by frequency). The optimal solution uses a min-heap, which touches on priority queues—a useful concept for both companies.
 
 <div class="code-group">
 
 ```python
-# JPMorgan Focus: Custom Sorting (Python)
-# Problem: Sort a list of intervals [start, end] by start time.
-intervals = [[1,3],[8,10],[2,6],[15,18]]
-intervals.sort(key=lambda x: x[0])
-print(intervals) # [[1, 3], [2, 6], [8, 10], [15, 18]]
+# Time: O(n log k) | Space: O(n)
+def topKFrequent(nums, k):
+    freq = {}
+    for num in nums:
+        freq[num] = freq.get(num, 0) + 1
 
-# Expedia Focus: Greedy (Python)
-# Problem: Find minimum number of jumps to reach end (Jump Game II).
-def jump(nums):
-    jumps = 0
-    current_end = 0
-    farthest = 0
-    for i in range(len(nums)-1):
-        farthest = max(farthest, i + nums[i])
-        if i == current_end:
-            jumps += 1
-            current_end = farthest
-    return jumps
+    # Min-heap approach keeps O(n log k) vs O(n log n) for sorting
+    import heapq
+    heap = []
+    for num, count in freq.items():
+        heapq.heappush(heap, (count, num))
+        if len(heap) > k:
+            heapq.heappop(heap)
+
+    return [num for count, num in heap]
 ```
 
 ```javascript
-// JPMorgan Focus: Custom Sorting (JavaScript)
-// Problem: Sort strings by custom order (e.g., by length).
-let strings = ["apple", "fig", "banana"];
-strings.sort((a, b) => a.length - b.length);
-console.log(strings); // ['fig', 'apple', 'banana']
-
-// Expedia Focus: Greedy (JavaScript)
-// Problem: Maximum sum of non-adjacent elements (House Robber).
-function rob(nums) {
-  let prev1 = 0,
-    prev2 = 0;
-  for (let num of nums) {
-    let temp = prev1;
-    prev1 = Math.max(prev2 + num, prev1);
-    prev2 = temp;
+// Time: O(n log k) | Space: O(n)
+function topKFrequent(nums, k) {
+  const freq = new Map();
+  for (const num of nums) {
+    freq.set(num, (freq.get(num) || 0) + 1);
   }
-  return prev1;
+
+  const heap = [];
+  for (const [num, count] of freq) {
+    heap.push([count, num]);
+    heap.sort((a, b) => a[0] - b[0]);
+    if (heap.length > k) heap.shift();
+  }
+
+  return heap.map((item) => item[1]);
 }
 ```
 
 ```java
-// JPMorgan Focus: Custom Sorting (Java)
-// Problem: Sort a 2D array based on the second element.
-import java.util.Arrays;
-import java.util.Comparator;
-int[][] intervals = {{1,3}, {8,10}, {2,6}, {15,18}};
-Arrays.sort(intervals, Comparator.comparingInt(a -> a[0]));
-// intervals is now sorted by start time.
-
-// Expedia Focus: Greedy (Java)
-// Problem: Partition labels (minimize partitions so each letter appears in one).
-public List<Integer> partitionLabels(String s) {
-    int[] lastIndex = new int[26];
-    for (int i = 0; i < s.length(); i++) {
-        lastIndex[s.charAt(i) - 'a'] = i;
+// Time: O(n log k) | Space: O(n)
+public int[] topKFrequent(int[] nums, int k) {
+    Map<Integer, Integer> freq = new HashMap<>();
+    for (int num : nums) {
+        freq.put(num, freq.getOrDefault(num, 0) + 1);
     }
-    List<Integer> result = new ArrayList<>();
-    int start = 0, end = 0;
-    for (int i = 0; i < s.length(); i++) {
-        end = Math.max(end, lastIndex[s.charAt(i) - 'a']);
-        if (i == end) {
-            result.add(end - start + 1);
-            start = i + 1;
-        }
+
+    PriorityQueue<Map.Entry<Integer, Integer>> heap =
+        new PriorityQueue<>((a, b) -> a.getValue() - b.getValue());
+
+    for (Map.Entry<Integer, Integer> entry : freq.entrySet()) {
+        heap.offer(entry);
+        if (heap.size() > k) heap.poll();
+    }
+
+    int[] result = new int[k];
+    for (int i = k - 1; i >= 0; i--) {
+        result[i] = heap.poll().getKey();
     }
     return result;
 }
@@ -102,12 +149,27 @@ public List<Integer> partitionLabels(String s) {
 
 </div>
 
+2. **Valid Anagram (#242)** - Simple but tests string manipulation, hash tables, and (implicitly) sorting. The follow-up about Unicode characters is particularly relevant for both companies dealing with international data.
+
+3. **Meeting Rooms II (#253)** - Perfect for Expedia's greedy focus and JPMorgan's sorting requirements. The interval merging pattern appears in many real-world scenarios.
+
+4. **Product of Array Except Self (#238)** - Excellent array manipulation problem that tests your ability to optimize space. The prefix/suffix product approach demonstrates clever problem-solving.
+
+5. **Longest Substring Without Repeating Characters (#3)** - Covers sliding window technique, hash tables for tracking characters, and string manipulation—all high-frequency topics.
+
 ## Which to Prepare for First
 
-Start with the **common core**. Mastering Array, String, and Hash Table problems will build a foundation applicable to both companies. Practice high-frequency problems like Two Sum, Sliding Window, and Anagram checks.
+Prepare for **JPMorgan first**, then adapt for Expedia. Here's why:
 
-If your goal is to interview at **both**, prepare for **JPMorgan first**. Its larger question bank and inclusion of Sorting covers more ground. The problem-solving patterns you develop for its Medium and Hard questions will naturally encompass the logic needed for many Greedy problems. Once comfortable with JPMorgan's list, reviewing Expedia's specific Greedy-focused problems will be a more targeted, efficient step.
+JPMorgan's broader question coverage (78 vs 54 questions) and heavier sorting emphasis create a more comprehensive foundation. If you master JPMorgan's patterns—particularly sorting variations and array manipulation—you'll cover 90% of Expedia's requirements automatically. The reverse isn't true: Expedia's greedy focus is important but narrower.
 
-If you are only targeting one company, tailor your deep dive accordingly: dedicate extra time to Sorting techniques and a wider variety of problems for JPMorgan, and drill down on canonical Greedy algorithms for Expedia.
+**Study sequence:**
 
-For specific question lists and patterns, visit the company pages: [JPMorgan Interview Questions](/company/jpmorgan) and [Expedia Interview Questions](/company/expedia).
+1. Week 1-2: Master Array, String, and Hash Table fundamentals (shared topics)
+2. Week 3: Deep dive into sorting algorithms and applications (JPMorgan focus)
+3. Week 4: Study greedy algorithms and interval problems (Expedia focus)
+4. Week 5: Mixed practice with emphasis on problems that combine multiple patterns
+
+Remember: Both companies ultimately test problem-solving approach more than rote memorization. Practice explaining your thinking, considering edge cases, and discussing time-space tradeoffs. The patterns matter, but your ability to apply them flexibly matters more.
+
+For company-specific details and recent question trends, check our dedicated pages: [JPMorgan Interview Guide](/company/jpmorgan) and [Expedia Interview Guide](/company/expedia).

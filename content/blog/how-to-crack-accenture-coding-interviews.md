@@ -1,551 +1,237 @@
 ---
 title: "How to Crack Accenture Coding Interviews in 2026"
 description: "Complete guide to Accenture coding interviews — question patterns, difficulty breakdown, must-practice topics, and preparation strategy."
-date: "2026-07-25"
+date: "2026-02-10"
 category: "company-guide"
 company: "accenture"
 tags: ["accenture", "interview prep", "leetcode"]
 ---
 
-Accenture is a global professional services and technology company that hires tens of thousands of engineers annually across consulting, technology, and operations roles. Their interview process is designed for volume — efficient, standardized, and focused on core competencies. This is good news for candidates: the coding component of Accenture interviews is the most approachable among major tech employers. If your fundamentals are solid, you can pass. The challenge is not exotic difficulty but consistent execution and speed.
+# How to Crack Accenture Coding Interviews in 2026
 
-The Accenture hiring process for technology roles typically includes a cognitive and technical assessment, a coding round (usually online), a technical interview, and an HR round. For fresher hiring, the initial assessment is a significant filter, and the coding problems are straightforward but timed. Experienced hires face a more conversational technical interview that may include live coding.
+Accenture’s technical interview process is a structured, multi-stage evaluation designed to assess both your foundational coding skills and your ability to apply them to business-relevant problems. While the exact format can vary by role and region, a typical process for a software engineering or advanced analytics position includes:
+
+1.  **Online Assessment (OA):** A timed, automated test often hosted on platforms like HackerRank or Codility. This usually consists of 2-3 coding problems to be solved in 60-90 minutes.
+2.  **Technical Interview (1-2 Rounds):** Live coding sessions with an engineer or manager. You'll share your screen and solve 1-2 problems, discussing your approach and trade-offs. This is often conversational and may involve debugging or extending your initial solution.
+3.  **Behavioral/HR Interview:** Focuses on your experience, alignment with Accenture's core values (like client value creation and one global network), and situational judgment.
+
+What makes Accenture's process unique is its **applied focus**. Unlike some pure-tech companies that lean into abstract algorithmic puzzles, Accenture’s problems frequently mirror real-world scenarios a consultant or solution architect might face: data transformation, business rule implementation, and process optimization. Success requires not just a correct algorithm, but clear, maintainable code and articulate communication about your choices.
+
+## What Makes Accenture Different
+
+If you're preparing for FAANG interviews, you're likely deep into complex graph traversals and low-level system design. Shift that mindset for Accenture. Their interviews are less about proving you're a computer science genius and more about proving you're a reliable, business-minded engineer who can deliver a working solution under constraints.
+
+Three key differentiators:
+
+1.  **Correctness and Clarity Trump Extreme Optimization:** While you need to know time/space complexity, an optimal O(n) solution is not always the primary goal. A clear, correct O(n log n) solution with robust edge-case handling and readable code is often perfectly acceptable, especially in the OA. They want to see you can _ship_.
+2.  **Problem Domains are Often Concrete:** You're less likely to get "Design TikTok" and more likely to get "Parse this log file to find the top error types" or "Calculate the optimal schedule for resource allocation given these constraints." The math and dynamic programming problems often have a tangible, business-logic wrapper.
+3.  **Communication is Part of the Technical Evaluation:** In the live rounds, how you explain your thought process is critical. Interviewers assess if you can collaborate, ask clarifying questions, and justify your design decisions—skills essential for client-facing or team-based project work.
 
 ## By the Numbers
 
-Accenture has **144 questions** in the CodeJeet database with the most beginner-friendly difficulty distribution among all companies tracked:
+An analysis of Accenture's known coding question bank reveals a clear strategy for preparation:
 
-- **Easy: 65 questions (45%)** — Nearly half. Accenture interviews lean heavily on fundamental problem-solving.
-- **Medium: 68 questions (47%)** — Almost exactly the other half. Together, Easy and Medium account for 92% of all questions.
-- **Hard: 11 questions (8%)** — A tiny fraction. Hard problems are exceptionally rare in Accenture interviews.
+- **Total Questions:** 144
+- **Easy:** 65 (45%)
+- **Medium:** 68 (47%)
+- **Hard:** 11 (8%)
 
-The 45/47/8 split is the most accessible you will find at any major tech employer. If you have solid command of Easy and Medium problems, you are prepared for the vast majority of what Accenture will throw at you.
+**What this means for your prep:** This is a **medium-difficulty-focused** profile. You must become highly proficient at LeetCode Medium problems. The high percentage of Easy problems (45%) is crucial for the Online Assessment; speed and accuracy on these are your ticket to the next round. The handful of Hard problems typically appear in later-stage technical interviews for senior roles.
+
+Don't just solve random mediums. Focus on the patterns that Accenture favors. For example, a classic Accenture-style Medium problem is **LeetCode #56 (Merge Intervals)**, which tests sorting and array traversal in a context relevant to scheduling and time-block consolidation. Another frequent flyer is **LeetCode #121 (Best Time to Buy and Sell Stock)**, a foundational DP problem with clear business implications.
 
 ## Top Topics to Focus On
 
-**Array** — The most frequently tested topic. Accenture array problems are practical and direct: find the maximum, compute a running sum, rotate an array, identify duplicates. These are the building blocks, and they need to be solved quickly and without errors.
+Master these five areas, which constitute the bulk of Accenture's technical questions.
 
-**String** — Basic string manipulation dominates: reversal, palindrome checks, character frequency, and simple parsing. Accenture's string problems rarely involve complex algorithms — they test whether you can handle standard string operations cleanly.
+**1. Array & String Manipulation**
 
-**Hash Table** — Used for counting, lookups, and duplicate detection. Hash map problems at Accenture tend to be at the Easy-to-Medium boundary. If you can use a hash map to solve two-sum and find duplicates, you have this category covered.
-
-**Math** — Accenture tests basic mathematical programming more than most companies. Expect problems on factorial computation, Fibonacci sequences, prime numbers, Armstrong numbers, and digit manipulation. These are predictable and worth memorizing the patterns for.
-
-**Dynamic Programming** — DP barely appears at the Hard level (which is only 8% of questions), but basic DP concepts like fibonacci-style recurrences and simple optimization problems may show up in Medium questions. A surface-level understanding is sufficient for most Accenture roles.
-
-### Deep Dive: Array Problems
-
-Array problems form the bedrock of Accenture's coding assessments. You must be proficient in iterating, accessing, and modifying arrays. Common patterns include:
-
-- **Traversal:** Looping through all elements to find a sum, maximum, or minimum.
-- **Two-Pointer Technique:** Used for problems like finding pairs with a given sum or removing duplicates from a sorted array.
-- **Sliding Window:** Useful for finding subarrays that meet certain criteria (e.g., maximum sum of a subarray of size `k`).
-- **In-place Operations:** Modifying the array without using extra space, such as rotating an array or moving zeros to the end.
-
-Let's look at a classic example: rotating an array to the right by `k` steps. The brute-force method involves rotating by one step `k` times, but a more efficient method reverses parts of the array.
+- **Why Accenture Favors It:** This is the bread and butter of data processing. Client data comes in lists and text formats. Questions test your ability to efficiently traverse, filter, transform, and aggregate data—a daily task for an Accenture developer.
+- **Key Pattern:** Two-Pointer/Sliding Window. Essential for solving problems involving subarrays, palindromes, or in-place operations without extra space.
 
 <div class="code-group">
 
 ```python
-def rotate_array(nums, k):
-    """
-    Rotate the array to the right by k steps.
-    Example: nums = [1,2,3,4,5,6,7], k = 3 -> [5,6,7,1,2,3,4]
-    """
-    n = len(nums)
-    k = k % n  # Handle cases where k > n
+# LeetCode #3 (Longest Substring Without Repeating Characters)
+# Time: O(n) | Space: O(min(m, n)) where m is charset size
+def lengthOfLongestSubstring(s: str) -> int:
+    char_index_map = {}
+    left = 0
+    max_length = 0
 
-    # Helper function to reverse a portion of the array
-    def reverse(start, end):
-        while start < end:
-            nums[start], nums[end] = nums[end], nums[start]
-            start += 1
-            end -= 1
+    for right, char in enumerate(s):
+        # If char is seen and its index is within the current window
+        if char in char_index_map and char_index_map[char] >= left:
+            left = char_index_map[char] + 1  # Shrink window from left
+        char_index_map[char] = right  # Update latest index
+        max_length = max(max_length, right - left + 1)
 
-    # Reverse the entire array
-    reverse(0, n - 1)
-    # Reverse the first k elements
-    reverse(0, k - 1)
-    # Reverse the remaining n-k elements
-    reverse(k, n - 1)
-
-    return nums
-
-# Example usage
-if __name__ == "__main__":
-    arr = [1, 2, 3, 4, 5, 6, 7]
-    print("Original:", arr)
-    print("Rotated by 3:", rotate_array(arr, 3))
+    return max_length
 ```
 
 ```javascript
-function rotateArray(nums, k) {
-  /**
-   * Rotate the array to the right by k steps.
-   * Example: nums = [1,2,3,4,5,6,7], k = 3 -> [5,6,7,1,2,3,4]
-   */
-  const n = nums.length;
-  k = k % n; // Handle cases where k > n
-
-  // Helper function to reverse a portion of the array
-  const reverse = (start, end) => {
-    while (start < end) {
-      [nums[start], nums[end]] = [nums[end], nums[start]];
-      start++;
-      end--;
-    }
-  };
-
-  // Reverse the entire array
-  reverse(0, n - 1);
-  // Reverse the first k elements
-  reverse(0, k - 1);
-  // Reverse the remaining n-k elements
-  reverse(k, n - 1);
-
-  return nums;
-}
-
-// Example usage
-const arr = [1, 2, 3, 4, 5, 6, 7];
-console.log("Original:", arr);
-console.log("Rotated by 3:", rotateArray([...arr], 3));
-```
-
-```java
-import java.util.Arrays;
-
-public class ArrayRotation {
-    /**
-     * Rotate the array to the right by k steps.
-     * Example: nums = [1,2,3,4,5,6,7], k = 3 -> [5,6,7,1,2,3,4]
-     */
-    public static void rotateArray(int[] nums, int k) {
-        int n = nums.length;
-        k = k % n; // Handle cases where k > n
-
-        // Reverse the entire array
-        reverse(nums, 0, n - 1);
-        // Reverse the first k elements
-        reverse(nums, 0, k - 1);
-        // Reverse the remaining n-k elements
-        reverse(nums, k, n - 1);
-    }
-
-    // Helper function to reverse a portion of the array
-    private static void reverse(int[] nums, int start, int end) {
-        while (start < end) {
-            int temp = nums[start];
-            nums[start] = nums[end];
-            nums[end] = temp;
-            start++;
-            end--;
-        }
-    }
-
-    public static void main(String[] args) {
-        int[] arr = {1, 2, 3, 4, 5, 6, 7};
-        System.out.println("Original: " + Arrays.toString(arr));
-        rotateArray(arr, 3);
-        System.out.println("Rotated by 3: " + Arrays.toString(arr));
-    }
-}
-```
-
-</div>
-
-### Deep Dive: String Problems
-
-String manipulation tests your ability to handle sequences of characters. Key operations include concatenation, slicing, searching, and comparison. Common Accenture problems involve checking properties (palindrome, anagram) or transforming the string (reversal, case conversion). Remember that strings are immutable in many languages, so operations often require creating new strings or using character arrays.
-
-A quintessential problem is checking if a string is a palindrome. A palindrome reads the same forwards and backwards, ignoring non-alphanumeric characters and case.
-
-<div class="code-group">
-
-```python
-def is_palindrome(s):
-    """
-    Check if a string is a palindrome, considering only alphanumeric characters and ignoring case.
-    Example: "A man, a plan, a canal: Panama" -> True
-    """
-    # Clean the string: keep only alphanumeric and convert to lowercase
-    cleaned = ''.join(ch.lower() for ch in s if ch.isalnum())
-
-    # Two-pointer approach
-    left, right = 0, len(cleaned) - 1
-    while left < right:
-        if cleaned[left] != cleaned[right]:
-            return False
-        left += 1
-        right -= 1
-    return True
-
-# Example usage
-test_string = "A man, a plan, a canal: Panama"
-print(f"'{test_string}' is palindrome? {is_palindrome(test_string)}")
-```
-
-```javascript
-function isPalindrome(s) {
-  /**
-   * Check if a string is a palindrome, considering only alphanumeric characters and ignoring case.
-   * Example: "A man, a plan, a canal: Panama" -> True
-   */
-  // Clean the string: keep only alphanumeric and convert to lowercase
-  const cleaned = s.toLowerCase().replace(/[^a-z0-9]/g, "");
-
-  // Two-pointer approach
+// LeetCode #3 (Longest Substring Without Repeating Characters)
+// Time: O(n) | Space: O(min(m, n)) where m is charset size
+function lengthOfLongestSubstring(s) {
+  const charIndexMap = new Map();
   let left = 0;
-  let right = cleaned.length - 1;
-  while (left < right) {
-    if (cleaned[left] !== cleaned[right]) {
-      return false;
-    }
-    left++;
-    right--;
-  }
-  return true;
-}
+  let maxLength = 0;
 
-// Example usage
-const testString = "A man, a plan, a canal: Panama";
-console.log(`'${testString}' is palindrome? ${isPalindrome(testString)}`);
+  for (let right = 0; right < s.length; right++) {
+    const char = s[right];
+    if (charIndexMap.has(char) && charIndexMap.get(char) >= left) {
+      left = charIndexMap.get(char) + 1;
+    }
+    charIndexMap.set(char, right);
+    maxLength = Math.max(maxLength, right - left + 1);
+  }
+  return maxLength;
+}
 ```
 
 ```java
-public class PalindromeCheck {
-    /**
-     * Check if a string is a palindrome, considering only alphanumeric characters and ignoring case.
-     * Example: "A man, a plan, a canal: Panama" -> True
-     */
-    public static boolean isPalindrome(String s) {
-        // Clean the string: keep only alphanumeric and convert to lowercase
-        StringBuilder cleaned = new StringBuilder();
-        for (char ch : s.toCharArray()) {
-            if (Character.isLetterOrDigit(ch)) {
-                cleaned.append(Character.toLowerCase(ch));
-            }
-        }
-        String cleanedStr = cleaned.toString();
+// LeetCode #3 (Longest Substring Without Repeating Characters)
+// Time: O(n) | Space: O(min(m, n)) where m is charset size
+public int lengthOfLongestSubstring(String s) {
+    Map<Character, Integer> charIndexMap = new HashMap<>();
+    int left = 0;
+    int maxLength = 0;
 
-        // Two-pointer approach
-        int left = 0;
-        int right = cleanedStr.length() - 1;
-        while (left < right) {
-            if (cleanedStr.charAt(left) != cleanedStr.charAt(right)) {
-                return false;
-            }
-            left++;
-            right--;
+    for (int right = 0; right < s.length(); right++) {
+        char c = s.charAt(right);
+        if (charIndexMap.containsKey(c) && charIndexMap.get(c) >= left) {
+            left = charIndexMap.get(c) + 1;
         }
-        return true;
+        charIndexMap.put(c, right);
+        maxLength = Math.max(maxLength, right - left + 1);
     }
-
-    public static void main(String[] args) {
-        String testString = "A man, a plan, a canal: Panama";
-        System.out.println("'" + testString + "' is palindrome? " + isPalindrome(testString));
-    }
+    return maxLength;
 }
 ```
 
 </div>
 
-### Deep Dive: Hash Table Problems
+**2. Hash Table**
 
-Hash tables (or hash maps) provide average O(1) time complexity for insertions and lookups, making them ideal for problems involving frequency counting, duplicate detection, and pair finding. The classic "Two Sum" problem is a must-know. Understanding how to use a hash map to store complements can turn an O(n²) brute-force solution into an O(n) one.
+- **Why Accenture Favors It:** The ultimate tool for fast lookups and frequency counting. Whether it's aggregating user events, finding duplicates, or implementing a cache-like mechanism, hash tables are indispensable for performant data processing.
+- **Key Pattern:** Frequency Mapping. Use a dictionary/map to count occurrences, enabling O(1) lookups to solve problems like anagrams or two-sum variants.
 
-<div class="code-group">
+**3. Math & Logic**
 
-```python
-def two_sum(nums, target):
-    """
-    Find two numbers in the array that add up to the target.
-    Return their indices.
-    Assume exactly one solution and you may not use the same element twice.
-    Example: nums = [2, 7, 11, 15], target = 9 -> [0, 1]
-    """
-    num_map = {}  # value -> index
-    for i, num in enumerate(nums):
-        complement = target - num
-        if complement in num_map:
-            return [num_map[complement], i]
-        num_map[num] = i
-    return []  # No solution found (though problem guarantees one)
+- **Why Accenture Favors It:** Many business rules and optimizations boil down to mathematical reasoning—calculating profit margins, resource allocation, or simulating discrete steps in a process. These questions test analytical thinking.
+- **Key Pattern:** Modulo Arithmetic and Digit Manipulation. Common in problems dealing with numbers, cycles, or encoding/decoding logic.
 
-# Example usage
-nums = [2, 7, 11, 15]
-target = 9
-print(f"Indices for two sum in {nums} with target {target}: {two_sum(nums, target)}")
-```
+**4. Dynamic Programming**
 
-```javascript
-function twoSum(nums, target) {
-  /**
-   * Find two numbers in the array that add up to the target.
-   * Return their indices.
-   * Assume exactly one solution and you may not use the same element twice.
-   * Example: nums = [2, 7, 11, 15], target = 9 -> [0, 1]
-   */
-  const numMap = new Map(); // value -> index
-  for (let i = 0; i < nums.length; i++) {
-    const complement = target - nums[i];
-    if (numMap.has(complement)) {
-      return [numMap.get(complement), i];
-    }
-    numMap.set(nums[i], i);
-  }
-  return []; // No solution found (though problem guarantees one)
-}
-
-// Example usage
-const nums = [2, 7, 11, 15];
-const target = 9;
-console.log(`Indices for two sum in [${nums}] with target ${target}:`, twoSum(nums, target));
-```
-
-```java
-import java.util.HashMap;
-import java.util.Map;
-
-public class TwoSum {
-    /**
-     * Find two numbers in the array that add up to the target.
-     * Return their indices.
-     * Assume exactly one solution and you may not use the same element twice.
-     * Example: nums = [2, 7, 11, 15], target = 9 -> [0, 1]
-     */
-    public static int[] twoSum(int[] nums, int target) {
-        Map<Integer, Integer> numMap = new HashMap<>(); // value -> index
-        for (int i = 0; i < nums.length; i++) {
-            int complement = target - nums[i];
-            if (numMap.containsKey(complement)) {
-                return new int[]{numMap.get(complement), i};
-            }
-            numMap.put(nums[i], i);
-        }
-        return new int[]{}; // No solution found (though problem guarantees one)
-    }
-
-    public static void main(String[] args) {
-        int[] nums = {2, 7, 11, 15};
-        int target = 9;
-        int[] result = twoSum(nums, target);
-        System.out.print("Indices for two sum in [2, 7, 11, 15] with target 9: ");
-        System.out.println("[" + result[0] + ", " + result[1] + "]");
-    }
-}
-```
-
-</div>
-
-### Deep Dive: Math Problems
-
-Math problems test your ability to translate mathematical concepts into code. Common themes include number theory (prime, perfect, Armstrong numbers), sequences (Fibonacci, factorial), and digit manipulation. These problems often have simple iterative or recursive solutions. For efficiency, know when to use memoization or closed-form formulas.
-
-Let's examine a common problem: checking if a number is an Armstrong number. An Armstrong number (or narcissistic number) is a number that is equal to the sum of its own digits each raised to the power of the number of digits.
+- **Why Accenture Favors It:** DP is the engine for optimization problems: minimizing cost, maximizing revenue, or finding the most efficient path. These are core consulting challenges framed as algorithms.
+- **Key Pattern:** 1D DP (like Fibonacci or Climbing Stairs). Start here before moving to 2D. Accenture's DP problems often have a clear, step-by-step recurrence relation.
 
 <div class="code-group">
 
 ```python
-def is_armstrong_number(num):
-    """
-    Check if a number is an Armstrong number.
-    Example: 153 -> 1^3 + 5^3 + 3^3 = 153 -> True
-    """
-    # Convert number to string to easily get digits and number of digits
-    str_num = str(num)
-    n = len(str_num)
-
-    # Calculate sum of digits raised to the power n
-    total = sum(int(digit) ** n for digit in str_num)
-
-    return total == num
-
-# Example usage
-test_num = 153
-print(f"Is {test_num} an Armstrong number? {is_armstrong_number(test_num)}")
-```
-
-```javascript
-function isArmstrongNumber(num) {
-  /**
-   * Check if a number is an Armstrong number.
-   * Example: 153 -> 1^3 + 5^3 + 3^3 = 153 -> True
-   */
-  // Convert number to string to easily get digits and number of digits
-  const strNum = num.toString();
-  const n = strNum.length;
-
-  // Calculate sum of digits raised to the power n
-  let total = 0;
-  for (let digit of strNum) {
-    total += Math.pow(parseInt(digit), n);
-  }
-
-  return total === num;
-}
-
-// Example usage
-const testNum = 153;
-console.log(`Is ${testNum} an Armstrong number? ${isArmstrongNumber(testNum)}`);
-```
-
-```java
-public class ArmstrongNumber {
-    /**
-     * Check if a number is an Armstrong number.
-     * Example: 153 -> 1^3 + 5^3 + 3^3 = 153 -> True
-     */
-    public static boolean isArmstrongNumber(int num) {
-        // Convert number to string to easily get digits and number of digits
-        String strNum = Integer.toString(num);
-        int n = strNum.length();
-
-        // Calculate sum of digits raised to the power n
-        int total = 0;
-        for (char ch : strNum.toCharArray()) {
-            int digit = Character.getNumericValue(ch);
-            total += Math.pow(digit, n);
-        }
-
-        return total == num;
-    }
-
-    public static void main(String[] args) {
-        int testNum = 153;
-        System.out.println("Is " + testNum + " an Armstrong number? " + isArmstrongNumber(testNum));
-    }
-}
-```
-
-</div>
-
-### Deep Dive: Dynamic Programming Problems
-
-While less frequent, basic Dynamic Programming (DP) problems test your ability to break down a problem into overlapping subproblems and avoid redundant computation. The key is to identify the recurrence relation. For Accenture, focus on foundational problems like Fibonacci, climbing stairs, or the 0/1 knapsack problem. Start with a recursive solution, add memoization (top-down), and then convert to an iterative (bottom-up) approach for efficiency.
-
-Let's solve the classic "Climbing Stairs" problem: You are climbing a staircase. It takes `n` steps to reach the top. Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
-
-<div class="code-group">
-
-```python
-def climb_stairs(n):
-    """
-    Count distinct ways to climb to the top, taking 1 or 2 steps at a time.
-    Uses bottom-up dynamic programming.
-    """
+# LeetCode #70 (Climbing Stairs) - Classic 1D DP
+# Time: O(n) | Space: O(1) (optimized space)
+def climbStairs(n: int) -> int:
     if n <= 2:
         return n
-
-    # dp[i] represents ways to reach step i
-    dp = [0] * (n + 1)
-    dp[1] = 1  # 1 way to reach step 1: (1)
-    dp[2] = 2  # 2 ways to reach step 2: (1,1) or (2)
+    # dp[i] = ways to reach step i
+    prev2, prev1 = 1, 2  # dp[1], dp[2]
 
     for i in range(3, n + 1):
-        # To reach step i, you could come from step i-1 or step i-2
-        dp[i] = dp[i - 1] + dp[i - 2]
+        current = prev1 + prev2
+        prev2, prev1 = prev1, current
 
-    return dp[n]
-
-# Example usage
-steps = 5
-print(f"Number of ways to climb {steps} stairs: {climb_stairs(steps)}")
+    return prev1
 ```
 
 ```javascript
+// LeetCode #70 (Climbing Stairs) - Classic 1D DP
+// Time: O(n) | Space: O(1) (optimized space)
 function climbStairs(n) {
-  /**
-   * Count distinct ways to climb to the top, taking 1 or 2 steps at a time.
-   * Uses bottom-up dynamic programming.
-   */
-  if (n <= 2) {
-    return n;
-  }
-
-  // dp[i] represents ways to reach step i
-  const dp = new Array(n + 1).fill(0);
-  dp[1] = 1; // 1 way to reach step 1: (1)
-  dp[2] = 2; // 2 ways to reach step 2: (1,1) or (2)
+  if (n <= 2) return n;
+  let prev2 = 1,
+    prev1 = 2; // ways for step 1 and 2
 
   for (let i = 3; i <= n; i++) {
-    // To reach step i, you could come from step i-1 or step i-2
-    dp[i] = dp[i - 1] + dp[i - 2];
+    const current = prev1 + prev2;
+    prev2 = prev1;
+    prev1 = current;
   }
-
-  return dp[n];
+  return prev1;
 }
-
-// Example usage
-const steps = 5;
-console.log(`Number of ways to climb ${steps} stairs: ${climbStairs(steps)}`);
 ```
 
 ```java
-public class ClimbingStairs {
-    /**
-     * Count distinct ways to climb to the top, taking 1 or 2 steps at a time.
-     * Uses bottom-up dynamic programming.
-     */
-    public static int climbStairs(int n) {
-        if (n <= 2) {
-            return n;
-        }
+// LeetCode #70 (Climbing Stairs) - Classic 1D DP
+// Time: O(n) | Space: O(1) (optimized space)
+public int climbStairs(int n) {
+    if (n <= 2) return n;
+    int prev2 = 1, prev1 = 2; // ways for step 1 and 2
 
-        // dp[i] represents ways to reach step i
-        int[] dp = new int[n + 1];
-        dp[1] = 1; // 1 way to reach step 1: (1)
-        dp[2] = 2; // 2 ways to reach step 2: (1,1) or (2)
-
-        for (int i = 3; i <= n; i++) {
-            // To reach step i, you could come from step i-1 or step i-2
-            dp[i] = dp[i - 1] + dp[i - 2];
-        }
-
-        return dp[n];
+    for (int i = 3; i <= n; i++) {
+        int current = prev1 + prev2;
+        prev2 = prev1;
+        prev1 = current;
     }
-
-    public static void main(String[] args) {
-        int steps = 5;
-        System.out.println("Number of ways to climb " + steps + " stairs: " + climbStairs(steps));
-    }
+    return prev1;
 }
 ```
 
 </div>
 
-## Preparation Strategy
+**5. Sorting & Searching**
 
-**Weeks 1-2: Crush the Fundamentals**
+- **Why Accenture Favors It:** Data is rarely sorted. Preparing data for analysis, finding thresholds (like top K items), or enabling binary search for efficiency are common tasks.
+- **Key Pattern:** Custom Sorting and Binary Search Application. Know how to sort objects by multiple keys and how to apply binary search beyond simple arrays (e.g., on a function's answer space).
 
-This is the most important phase for Accenture preparation. Solve 5 to 6 Easy problems per day across arrays, strings, math, and hash tables. Focus on speed and correctness — you should be able to solve any Easy problem in under 10 minutes. Practice math problems especially: prime checking, digit sums, and number pattern problems are Accenture staples.
+## Preparation Strategy: The 6-Week Plan
 
-**Week 3: Easy-to-Medium Transition**
+**Weeks 1-2: Foundation & Speed**
 
-Start solving low-Medium problems. Continue solving 3 to 4 problems per day, mixing Easy and Medium. Introduce two-pointer and basic hash map patterns. Practice writing complete solutions including input handling, as Accenture's online assessments often require full program submissions rather than function-only solutions.
+- **Goal:** Achieve automaticity on Easy problems.
+- **Action:** Solve 40-50 Easy problems (10-15 per topic from Arrays, Strings, Hash Table, Math). Time yourself strictly (15 mins max per problem). Use this time to get fluent in your language's standard library for collections and strings.
 
-**Week 4: Medium Problem Confidence**
+**Weeks 3-4: Core Competency**
 
-Spend a full week on Medium problems across all five top topics. Aim for 2 to 3 per day. Do not worry about Hard problems — your time is better spent ensuring you can solve every Medium problem you encounter. Practice basic DP only if you have time: climbing stairs, minimum cost path, and coin change are sufficient.
+- **Goal:** Master Medium-difficulty patterns.
+- **Action:** Solve 50-60 Medium problems. Focus on the top topics. For each problem, write out the brute force, optimize, and articulate the time/space complexity. Practice explaining your solution out loud as if to an interviewer. Key problems: Merge Intervals (#56), Top K Frequent Elements (#347), House Robber (#198 - a classic DP).
 
-**Week 5: Timed Simulations**
+**Week 5: Integration & Mock Testing**
 
-Simulate Accenture's online assessment format. Set a timer for 60 minutes and solve 3 to 4 problems of mixed Easy and Medium difficulty. Run three to four such simulations throughout the week. Time management is critical in Accenture's actual assessment, where rushing leads to careless errors.
+- **Goal:** Simulate the real interview and OA environment.
+- **Action:** Take 4-5 full mock interviews (use platforms like Pramp or find a study buddy). Complete 3-4 timed OA simulations with 2-3 problems in 90 minutes. Focus on producing clean, runnable code on the first try. Revisit any pattern you consistently struggle with.
 
-**Week 6: Technical Interview Prep**
+**Week 6: Polish & Review**
 
-Accenture's technical interview goes beyond coding. Review fundamental CS concepts: OOPS principles, database basics (SQL queries, normalization), networking essentials (HTTP, TCP/IP), and operating system concepts (processes vs. threads, memory management). Prepare to explain your projects and technical experience clearly.
+- **Goal:** Fill gaps and build confidence.
+- **Action:** Solve the 10-15 most common Accenture-specific problems you can find. Review all your past solutions. Practice 3-5 behavioral stories using the STAR method (Situation, Task, Action, Result) that highlight problem-solving and collaboration.
 
-## Key Tips
+## Common Mistakes (And How to Fix Them)
 
-1. **Speed and accuracy matter more than optimization.** Accenture's coding rounds are timed and straightforward. A correct brute-force solution submitted quickly beats an optimal solution submitted after the deadline. Focus on getting working code fast.
+1.  **Over-Engineering the Solution:** Candidates often jump to a complex, "clever" solution before establishing a simple, working one.
+    - **Fix:** **Always state the brute force first.** Then, explain the bottlenecks and optimize step-by-step. This demonstrates structured thinking and ensures you have a fallback.
 
-2. **Do not over-prepare.** Spending months grinding Hard LeetCode problems is overkill for Accenture. If you can reliably solve Easy problems in 10 minutes and Medium problems in 25 minutes, you are ready. Use your remaining preparation time for the aptitude and technical interview components.
+2.  **Neglecting Edge Cases and Input Validation:** In the rush to implement the core logic, candidates forget empty inputs, large numbers, or negative values.
+    - **Fix:** **Make it a ritual.** After explaining your algorithm, verbally list 2-3 edge cases _before_ you start coding. Write a comment or a quick `if` statement to handle them. This shows production-code mindset.
 
-3. **Practice the cognitive assessment.** Accenture's initial screening includes cognitive and logical reasoning components. Many candidates underestimate this and fail before reaching the coding round. Practice quantitative aptitude, logical reasoning, and English comprehension.
+3.  **Silent Coding:** Typing for minutes without speaking is an interview killer. The interviewer loses your thought process and may assume you're stuck.
+    - **Fix:** **Narrate constantly.** "Now I'm initializing a hash map to store the frequencies. I'll iterate through the array once, so that's O(n) time..." This keeps them engaged and allows them to course-correct you if needed.
 
-4. **Know your fundamentals cold.** Accenture's technical interview often asks you to explain concepts rather than just code them. Be ready to explain how a hash map works, what the time complexity of sorting algorithms is, and what OOP inheritance means — in plain language.
+4.  **Not Asking Clarifying Questions:** Assuming you fully understand the problem from the title (e.g., "Is the array sorted? Can the input be negative? What should we return if there's no solution?").
+    - **Fix:** **Spend the first 60 seconds interrogating the problem.** Ask at least 3 clarifying questions. This is not a weakness; it's a critical professional skill Accenture values highly.
 
-5. **Prepare domain knowledge for experienced roles.** If you are a lateral hire, expect questions specific to your domain: cloud services, data engineering, full-stack development, or whatever role you are applying for. Accenture values practical experience and domain expertise alongside coding ability.
+## Key Tips for Accenture in 2026
 
-[Browse all Accenture questions on CodeJeet](/company/accenture)
+1.  **Practice Writing Code in a Plain Text Editor.** The OA environment often lacks advanced IDE features like auto-complete. Get comfortable writing syntactically correct code without assistance. Use a site like LeetCode without their auto-suggest feature turned on.
+
+2.  **For Live Interviews, Prioritize Readability.** Use descriptive variable names (`maxProfit` instead of `mp`). Add brief inline comments for complex logic. Write a few lines of driver code or test cases if time permits. They want to see code they'd be happy to find in a code review.
+
+3.  **Connect Your Solution to Business Impact.** When discussing trade-offs, go beyond "O(n) is better than O(n²)." Say, "The O(n) approach scales linearly with more user data, which is crucial for our client's growing transaction volume." This frames you as a business technologist.
+
+4.  **Prepare "Why Accenture?" Beyond Generic Answers.** Research a specific Accenture project or practice area (e.g., cloud migration, supply chain analytics) that genuinely interests you. Mentioning this shows targeted interest and can create a natural connection with your interviewer.
+
+5.  **Manage Your OA Time Relentlessly.** If you hit 20 minutes on a problem and aren't close, write a brute-force solution with clear comments, submit it, and move on. Passing all test cases on 2 problems is better than fully solving one and leaving another blank.
+
+Accenture's interview is a test of practical, applicable software engineering. By focusing on the right patterns, prioritizing clear communication, and demonstrating a results-oriented mindset, you'll position yourself not just as a coder, but as a potential asset to their client delivery teams.
+
+Ready to dive into the specific problems? [Browse all Accenture questions on CodeJeet](/company/accenture) to target your practice.

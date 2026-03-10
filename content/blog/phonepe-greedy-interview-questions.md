@@ -1,82 +1,241 @@
 ---
 title: "Greedy Questions at PhonePe: What to Expect"
 description: "Prepare for Greedy interview questions at PhonePe — patterns, difficulty breakdown, and study tips."
-date: "2028-06-25"
+date: "2028-06-17"
 category: "dsa-patterns"
 tags: ["phonepe", "greedy", "interview prep"]
 ---
 
-Greedy algorithms are a core part of PhonePe's technical interview process, representing nearly 15% of their tagged coding problems. For a company handling millions of financial transactions daily, the ability to design efficient, step-by-step optimal solutions is critical. Greedy approaches are fundamental to real-time systems like payment routing, cashback optimization, and resource allocation, where you need a fast, good-enough solution that works within strict operational constraints. Mastering these questions demonstrates you can think about immediate optimization—a valuable skill for building scalable fintech products.
+If you're preparing for a PhonePe interview, you've likely seen the statistic: **15 out of their 102 tagged problems are Greedy**. That's roughly 15%, which is significant but not overwhelming. This tells a clear story: Greedy is a **core secondary topic** at PhonePe. You won't have an interview loop without encountering it, but it's unlikely to be the sole focus of an entire round. Instead, it frequently appears as the optimal solution to a problem that might initially seem to require Dynamic Programming (DP) or a brute-force search. Interviewers use these questions to test your ability to recognize when a locally optimal choice leads to a globally optimal solution—a critical skill for designing efficient, real-world payment and financial systems where resource allocation (like server bandwidth or transaction ordering) is key.
 
-## What to Expect — Types of Problems
+## Specific Patterns PhonePe Favors
 
-PhonePe's greedy problems typically fall into a few predictable categories. Expect to see **interval scheduling** problems, such as meeting rooms or non-overlapping intervals, which model real-world booking systems. **Coin change** or **minimum denominations** questions are directly relevant to payment systems. You'll also encounter **assignment problems**, like assigning tasks for minimum cost or maximum profit, which relate to optimizing transaction fees or partner payouts. Finally, **sorting-based optimization** is common, where the key insight is to sort data first (by end time, value, weight, etc.) to apply a greedy choice. The difficulty often lies not in complex code, but in proving to yourself and the interviewer that a greedy approach is correct for that scenario.
+PhonePe's Greedy problems aren't about obscure theoretical puzzles. They heavily favor **practical, interval-based and assignment-based optimization** problems. You'll see a clear bias towards:
 
-## How to Prepare — Study Tips with One Code Example
+1.  **Interval Scheduling & Merging:** Problems where you have tasks with start and end times, and you need to maximize tasks completed (non-overlapping intervals) or merge overlapping ones. This directly mirrors real scenarios like scheduling transaction validations or batch processing windows.
+2.  **"Jump Game" Variants:** These test your ability to see the minimum steps or feasibility of reaching an end point, analogous to routing a transaction through nodes with certain capacities.
+3.  **Simple Assignment with Sorting:** Problems where the greedy choice becomes obvious after sorting the input by one key parameter (e.g., earliest finish time, smallest/largest value).
 
-Start by learning the classic greedy patterns: activity selection, Huffman coding, and Kruskal's/Prim's algorithms for graphs. For each pattern, understand _why_ the greedy choice works—this is what interviewers probe. Practice by first attempting a brute-force solution, then identifying the greedy property (optimal substructure and the greedy-choice property). Always test your greedy algorithm with edge cases: empty input, single element, already sorted, reverse sorted, and cases where a greedy choice might fail.
+You will _not_ typically find deeply complex, proof-intensive greedy problems here. The focus is on **applied greedy intuition**.
 
-A key pattern is the "minimum number of coins" or "minimum steps" problem. The classic example is finding the minimum number of coins to make a target amount, given an infinite supply of coins of given denominations (where the greedy approach works, e.g., with standard Indian currency). Here’s the pattern applied to a "minimum coins for amount" problem with denominations [1, 2, 5], which mimics real currency systems.
+For example, **Non-overlapping Intervals (LeetCode #435)** and **Merge Intervals (LeetCode #56)** are quintessential PhonePe-style problems. Another favorite pattern is **Jump Game II (LeetCode #45)**, which tests optimal sequence jumping.
+
+## How to Prepare
+
+The key to PhonePe's greedy problems is mastering the **"sort first, then iterate"** pattern. The greedy choice is often hidden until you order the data correctly. Let's look at the most common variation: the interval scheduling pattern for finding the minimum number of intervals to remove to make the rest non-overlapping.
+
+The trick: Sort by the _end time_. Why? To maximize the number of intervals we can keep, we should always pick the interval that finishes the earliest, freeing up the rest of the timeline for more tasks.
 
 <div class="code-group">
 
 ```python
-def min_coins(coins, amount):
-    coins.sort(reverse=True)
-    count = 0
-    for coin in coins:
-        if amount >= coin:
-            count += amount // coin
-            amount %= coin
-    return count if amount == 0 else -1
+def eraseOverlapIntervals(intervals):
+    """
+    LeetCode #435: Non-overlapping Intervals
+    Time: O(n log n) due to sorting. Space: O(1) extra space.
+    """
+    if not intervals:
+        return 0
 
-# Example
-print(min_coins([1, 2, 5], 11))  # Output: 3 (5+5+1)
+    # Sort intervals by their end time
+    intervals.sort(key=lambda x: x[1])
+
+    count = 0
+    prev_end = intervals[0][1]
+
+    # Start from the second interval
+    for start, end in intervals[1:]:
+        if start >= prev_end:
+            # No overlap, update the previous end to current end
+            prev_end = end
+        else:
+            # Overlap occurs, we need to remove one.
+            # We greedily keep the one with the earlier end (already did by sorting).
+            # So we count this one for removal and do NOT update prev_end.
+            count += 1
+
+    return count
 ```
 
 ```javascript
-function minCoins(coins, amount) {
-  coins.sort((a, b) => b - a);
+function eraseOverlapIntervals(intervals) {
+  /**
+   * LeetCode #435: Non-overlapping Intervals
+   * Time: O(n log n) due to sorting. Space: O(1) extra space.
+   */
+  if (intervals.length === 0) return 0;
+
+  // Sort intervals by their end time
+  intervals.sort((a, b) => a[1] - b[1]);
+
   let count = 0;
-  for (const coin of coins) {
-    if (amount >= coin) {
-      count += Math.floor(amount / coin);
-      amount %= coin;
+  let prevEnd = intervals[0][1];
+
+  for (let i = 1; i < intervals.length; i++) {
+    const [start, end] = intervals[i];
+    if (start >= prevEnd) {
+      // No overlap, update the previous end
+      prevEnd = end;
+    } else {
+      // Overlap, greedily remove the current interval
+      count++;
     }
   }
-  return amount === 0 ? count : -1;
+  return count;
 }
-
-// Example
-console.log(minCoins([1, 2, 5], 11)); // Output: 3
 ```
 
 ```java
-public int minCoins(int[] coins, int amount) {
-    Arrays.sort(coins);
-    int count = 0;
-    for (int i = coins.length - 1; i >= 0; i--) {
-        if (amount >= coins[i]) {
-            count += amount / coins[i];
-            amount %= coins[i];
+import java.util.Arrays;
+
+public class Solution {
+    // LeetCode #435: Non-overlapping Intervals
+    // Time: O(n log n) | Space: O(1) extra space (sorting uses O(log n) space for the sort itself in Java).
+    public int eraseOverlapIntervals(int[][] intervals) {
+        if (intervals.length == 0) return 0;
+
+        // Sort intervals by their end time
+        Arrays.sort(intervals, (a, b) -> Integer.compare(a[1], b[1]));
+
+        int count = 0;
+        int prevEnd = intervals[0][1];
+
+        for (int i = 1; i < intervals.length; i++) {
+            int start = intervals[i][0];
+            int end = intervals[i][1];
+            if (start >= prevEnd) {
+                // No overlap
+                prevEnd = end;
+            } else {
+                // Overlap, remove this interval
+                count++;
+            }
         }
+        return count;
     }
-    return amount == 0 ? count : -1;
 }
-// Example: minCoins(new int[]{1, 2, 5}, 11) returns 3
 ```
 
 </div>
 
-**Important Note:** This greedy solution only works for canonical coin systems. For arbitrary denominations (e.g., [3, 5]), you would need a dynamic programming approach. This distinction is a common interview follow-up.
+Another essential pattern is the **"minimum jumps"** greedy approach, which is more about smart traversal than sorting.
+
+<div class="code-group">
+
+```python
+def jump(nums):
+    """
+    LeetCode #45: Jump Game II
+    Time: O(n). We traverse the list once.
+    Space: O(1). We only use a few variables.
+    """
+    jumps = 0
+    current_jump_end = 0
+    farthest = 0
+
+    # We don't need to iterate the last element
+    for i in range(len(nums) - 1):
+        farthest = max(farthest, i + nums[i])
+
+        # If we've reached the end of the current jump's range,
+        # we must take a jump to the farthest point we've seen.
+        if i == current_jump_end:
+            jumps += 1
+            current_jump_end = farthest
+
+            # Early exit: if we can already reach the end
+            if current_jump_end >= len(nums) - 1:
+                break
+    return jumps
+```
+
+```javascript
+function jump(nums) {
+  /**
+   * LeetCode #45: Jump Game II
+   * Time: O(n). Space: O(1).
+   */
+  let jumps = 0;
+  let currentJumpEnd = 0;
+  let farthest = 0;
+
+  for (let i = 0; i < nums.length - 1; i++) {
+    farthest = Math.max(farthest, i + nums[i]);
+
+    if (i === currentJumpEnd) {
+      jumps++;
+      currentJumpEnd = farthest;
+
+      if (currentJumpEnd >= nums.length - 1) {
+        break;
+      }
+    }
+  }
+  return jumps;
+}
+```
+
+```java
+public class Solution {
+    // LeetCode #45: Jump Game II
+    // Time: O(n) | Space: O(1)
+    public int jump(int[] nums) {
+        int jumps = 0;
+        int currentJumpEnd = 0;
+        int farthest = 0;
+
+        for (int i = 0; i < nums.length - 1; i++) {
+            farthest = Math.max(farthest, i + nums[i]);
+
+            if (i == currentJumpEnd) {
+                jumps++;
+                currentJumpEnd = farthest;
+
+                if (currentJumpEnd >= nums.length - 1) {
+                    break;
+                }
+            }
+        }
+        return jumps;
+    }
+}
+```
+
+</div>
+
+## How PhonePe Tests Greedy vs Other Companies
+
+At companies like Google or Meta, a Greedy problem might be wrapped in a complex graph scenario or require a non-trivial proof of correctness. At PhonePe, the **difficulty is medium, but the application is direct**. The twist is often that the problem statement might _look_ like a DP problem (e.g., "minimum number of something"), tempting you towards a more complex `O(n²)` solution. The interviewer is evaluating if you can pause, consider the properties of the input, and ask, "Is there a property here that allows for a greedy choice?"
+
+What's unique is the **practical context**. You might get a problem about minimizing cash flow between users (a variation of "Minimum Number of Arrows to Burst Balloons" #452) or scheduling transaction batches—abstracted just enough to be a LeetCode problem, but the domain hint is there.
+
+## Study Order
+
+Don't jump into the hardest tagged problems. Build your intuition sequentially:
+
+1.  **Foundational Sorting Greedy:** Start with problems where the greedy choice is obvious after sorting. This builds the core muscle of "reorder, then solve."
+    - Example: **Assign Cookies (LeetCode #455)**, **Maximum Units on a Truck (LeetCode #1710)**.
+2.  **Interval Patterns:** Move to 1D interval problems. This is PhonePe's bread and butter.
+    - First, learn to merge (**Merge Intervals #56**).
+    - Then, learn to schedule/select (**Non-overlapping Intervals #435**, **Minimum Number of Arrows to Burst Balloons #452**).
+3.  **Jump Game & Reachability:** These teach a different kind of greedy—one based on frontier expansion during traversal, not pre-sorting.
+    - Do **Jump Game (LeetCode #55)** first, then **Jump Game II (LeetCode #45)**.
+4.  **Slightly Advanced Assignment:** Problems where you need to track more than one variable or use a data structure like a heap to make the greedy choice efficient.
+    - Example: **Task Scheduler (LeetCode #621)**.
 
 ## Recommended Practice Order
 
-1.  **Foundations:** Start with classic problems like "Activity Selection" and "Fractional Knapsack."
-2.  **PhonePe-Focused:** Move to interval problems ("Non-overlapping Intervals," "Merge Intervals") and assignment problems ("Minimum Number of Platforms," "Task Scheduler").
-3.  **Advanced Patterns:** Tackle problems involving "Greedy + Heap" (like meeting rooms II) and "Greedy + Sorting" with complex comparators.
-4.  **Company-Specific:** Finally, solve all 15 PhonePe-tagged greedy questions on CodeJeet in one sitting to simulate interview pressure.
+Solve these PhonePe-tagged problems in this sequence to build confidence:
 
-Consistently ask yourself: "Is the greedy choice always safe here?" If you can justify it, you're ready.
+1.  **Assign Cookies (#455)** - The simplest sort-and-match.
+2.  **Merge Intervals (#56)** - Fundamental interval operation.
+3.  **Non-overlapping Intervals (#435)** - The classic scheduling problem.
+4.  **Minimum Number of Arrows to Burst Balloons (#452)** - A clever twist on the interval pattern.
+5.  **Jump Game (#55)** - Basic reachability.
+6.  **Jump Game II (#45)** - Optimal steps.
+7.  **Task Scheduler (#621)** - Introduces the heap-aided greedy pattern.
+8.  **Gas Station (#134)** - A circular array greedy problem that tests thoroughness.
+
+By following this path, you move from recognizing the greedy choice to proving it through implementation, which is exactly what your PhonePe interviewer will be watching for.
 
 [Practice Greedy at PhonePe](/company/phonepe/greedy)

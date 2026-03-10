@@ -1,97 +1,192 @@
 ---
 title: "Binary Search Questions at Accenture: What to Expect"
 description: "Prepare for Binary Search interview questions at Accenture — patterns, difficulty breakdown, and study tips."
-date: "2028-01-29"
+date: "2028-01-21"
 category: "dsa-patterns"
 tags: ["accenture", "binary-search", "interview prep"]
 ---
 
-Binary Search isn't just an algorithm at Accenture—it's a filter. With 12 out of 144 total coding questions dedicated to it, your ability to implement a flawless, bug-free binary search directly signals your competency in writing efficient, production-ready code. Accenture's projects often involve searching through massive datasets, optimizing resource allocation, and implementing efficient lookup systems. Demonstrating mastery here shows you understand how to move from a brute-force O(n) solution to an optimal O(log n) one, a fundamental leap in algorithmic thinking that is highly valued in enterprise-scale development.
+# Binary Search Questions at Accenture: What to Expect
 
-## What to Expect — Types of Problems
+Accenture's technical interviews often include algorithmic questions, and with 12 Binary Search problems in their question bank (out of 144 total), this topic represents a meaningful 8% of their potential technical content. While not as dominant as array or string manipulation, Binary Search appears frequently enough that you'll likely encounter at least one variation if you're interviewing for a software engineering or data-focused role. The key insight: Accenture uses Binary Search not just as a standalone algorithm, but as a pattern for solving optimization problems in their consulting and systems integration work—think finding optimal resource allocation, identifying performance bottlenecks, or determining minimum requirements for system deployments.
 
-You won't see a simple "find the index of a target" question. Accenture's problems test your ability to adapt the core pattern to more complex scenarios. Expect variations that fall into two main categories:
+## Specific Patterns Accenture Favors
 
-1.  **Search in Modified Data:** The array isn't perfectly sorted. You might need to search in a rotated sorted array (e.g., `[4,5,6,1,2,3]`) or an array that has been shifted.
-2.  **Finding a Boundary or Optimal Value:** This is the most common advanced type. You use binary search not to find a known target, but to find the first/last occurrence of something, or the minimum/maximum value that satisfies a condition. Classic examples include finding the first bad version, the minimum capacity to ship packages, or the smallest divisor within a threshold.
+Accenture's Binary Search questions tend to cluster around practical applications rather than theoretical puzzles. You'll notice three distinct patterns:
 
-These problems test if you understand the _logic_ of binary search—reducing the search space by half based on a condition—not just memorizing syntax.
+1. **Modified Binary Search on Arrays/Lists** - The classic "search in sorted array" but with twists like rotated arrays or finding boundaries. These test your ability to adapt the basic template.
+2. **Binary Search on Answer Space** - This is where Accenture really shines. Instead of searching an explicit array, you're searching a range of possible answers (like "find the minimum capacity to ship packages in D days" or "minimum time to complete tasks"). This pattern appears in their business context problems.
 
-## How to Prepare — Study Tips with One Code Example
+3. **Search in 2D/Multi-dimensional Spaces** - Less common but appears in matrix problems, reflecting their work with tabular data in enterprise systems.
 
-Memorizing a template is not enough. You must internalize the three key variables: `left`, `right`, and `mid`, and how to update them without creating infinite loops. The most critical skill is designing the **condition function** that tells you whether to search left or right.
+For example, **Find Minimum in Rotated Sorted Array (#153)** appears frequently because it tests both understanding of Binary Search fundamentals and the ability to handle edge cases—skills needed when working with partially sorted data in real systems.
 
-Consider the classic variation: **Find the first occurrence of a target in a sorted array with duplicates.** The trick is that when `nums[mid] == target`, you cannot return immediately. You must continue searching to the _left_ to see if an earlier occurrence exists.
+## How to Prepare
+
+The most critical skill for Accenture's Binary Search questions is recognizing when to apply the "search on answer space" pattern. Here's the template you need to master:
 
 <div class="code-group">
 
 ```python
-def first_occurrence(nums, target):
-    left, right = 0, len(nums) - 1
-    result = -1
-    while left <= right:
-        mid = left + (right - left) // 2
-        if nums[mid] == target:
-            result = mid   # record a candidate
-            right = mid - 1 # keep searching left
-        elif nums[mid] < target:
-            left = mid + 1
+def binary_search_on_answer(condition, left, right):
+    """
+    Generic template for binary search on answer space
+    condition: function that returns True/False for a given candidate
+    left, right: bounds of the search space
+    Returns: minimum value satisfying condition
+    """
+    while left < right:
+        mid = left + (right - left) // 2  # Avoid overflow
+        if condition(mid):
+            right = mid  # Try smaller values
         else:
-            right = mid - 1
-    return result
+            left = mid + 1  # Try larger values
+    return left
+
+# Example: Capacity To Ship Packages Within D Days (#1011)
+def shipWithinDays(weights, days):
+    def can_ship(capacity):
+        current_load = 0
+        required_days = 1
+        for weight in weights:
+            if current_load + weight > capacity:
+                required_days += 1
+                current_load = 0
+            current_load += weight
+        return required_days <= days
+
+    # Search space: max(weights) to sum(weights)
+    left, right = max(weights), sum(weights)
+    return binary_search_on_answer(can_ship, left, right)
+
+# Time: O(n log S) where n = len(weights), S = sum(weights)
+# Space: O(1) excluding input storage
 ```
 
 ```javascript
-function firstOccurrence(nums, target) {
-  let left = 0;
-  let right = nums.length - 1;
-  let result = -1;
-  while (left <= right) {
+function binarySearchOnAnswer(condition, left, right) {
+  while (left < right) {
     const mid = Math.floor(left + (right - left) / 2);
-    if (nums[mid] === target) {
-      result = mid; // record a candidate
-      right = mid - 1; // keep searching left
-    } else if (nums[mid] < target) {
-      left = mid + 1;
+    if (condition(mid)) {
+      right = mid;
     } else {
-      right = mid - 1;
+      left = mid + 1;
     }
   }
-  return result;
+  return left;
 }
+
+// Example: Capacity To Ship Packages Within D Days (#1011)
+function shipWithinDays(weights, days) {
+  const canShip = (capacity) => {
+    let currentLoad = 0;
+    let requiredDays = 1;
+    for (const weight of weights) {
+      if (currentLoad + weight > capacity) {
+        requiredDays++;
+        currentLoad = 0;
+      }
+      currentLoad += weight;
+    }
+    return requiredDays <= days;
+  };
+
+  let left = Math.max(...weights);
+  let right = weights.reduce((a, b) => a + b, 0);
+  return binarySearchOnAnswer(canShip, left, right);
+}
+
+// Time: O(n log S) where n = weights.length, S = sum of weights
+// Space: O(1)
 ```
 
 ```java
-public int firstOccurrence(int[] nums, int target) {
-    int left = 0;
-    int right = nums.length - 1;
-    int result = -1;
-    while (left <= right) {
-        int mid = left + (right - left) / 2;
-        if (nums[mid] == target) {
-            result = mid;   // record a candidate
-            right = mid - 1; // keep searching left
-        } else if (nums[mid] < target) {
-            left = mid + 1;
-        } else {
-            right = mid - 1;
+public class BinarySearchTemplate {
+    // Generic binary search on answer space
+    public static int binarySearchOnAnswer(Predicate<Integer> condition, int left, int right) {
+        while (left < right) {
+            int mid = left + (right - left) / 2;  // Prevent overflow
+            if (condition.test(mid)) {
+                right = mid;
+            } else {
+                left = mid + 1;
+            }
         }
+        return left;
     }
-    return result;
+
+    // Example: Capacity To Ship Packages Within D Days (#1011)
+    public int shipWithinDays(int[] weights, int days) {
+        // Find bounds
+        int left = 0, right = 0;
+        for (int weight : weights) {
+            left = Math.max(left, weight);
+            right += weight;
+        }
+
+        // Define condition
+        java.util.function.Predicate<Integer> canShip = (capacity) -> {
+            int currentLoad = 0;
+            int requiredDays = 1;
+            for (int weight : weights) {
+                if (currentLoad + weight > capacity) {
+                    requiredDays++;
+                    currentLoad = 0;
+                }
+                currentLoad += weight;
+            }
+            return requiredDays <= days;
+        };
+
+        return binarySearchOnAnswer(canShip, left, right);
+    }
 }
+
+// Time: O(n log S) where n = weights.length, S = sum of weights
+// Space: O(1)
 ```
 
 </div>
 
+Notice the pattern: we're not searching an array—we're searching for the minimum capacity that satisfies a business constraint. This exact thinking applies to problems like **Koko Eating Bananas (#875)** and **Split Array Largest Sum (#410)**.
+
+## How Accenture Tests Binary Search vs Other Companies
+
+Compared to FAANG companies, Accenture's Binary Search questions tend to be:
+
+- **More applied, less theoretical**: You won't see purely mathematical Binary Search puzzles. Every problem has a clear business analog.
+- **Moderate difficulty**: Typically LeetCode Medium level, rarely Hard. They want to see you can apply the pattern, not invent new algorithms.
+- **Integrated with system design thinking**: Often the follow-up question is "how would this scale?" or "what if the data was distributed?"
+
+Unlike Google or Meta that might ask about searching in infinite streams or exotic data structures, Accenture stays closer to enterprise scenarios: scheduling, resource allocation, performance optimization.
+
+## Study Order
+
+1. **Standard Binary Search** - Master the basic iterative implementation on sorted arrays. Understand why `mid = left + (right - left) // 2` is better than `(left + right) // 2`.
+
+2. **Variations on Sorted Arrays** - Practice finding first/last occurrence, search in rotated arrays, and finding missing elements. These build your edge-case handling.
+
+3. **Binary Search on Answer Space** - This is the most important for Accenture. Learn to identify when the problem is asking for "minimum X that can achieve Y" or "maximum X within constraint Y."
+
+4. **2D/Multi-dimensional Search** - Only after mastering the previous patterns, as these are less common but good to know.
+
+The logic: You need the fundamentals before you can recognize the more advanced patterns. Many candidates fail Accenture's Binary Search questions not because they don't know the algorithm, but because they don't recognize when to apply the "search on answer space" pattern.
+
 ## Recommended Practice Order
 
-Build your skills methodically:
+Solve these problems in sequence:
 
-1.  **Standard Binary Search:** Write it from memory until it's automatic.
-2.  **Search with Duplicates:** Practice finding the first and last position of an element.
-3.  **Search in Rotated Array:** Understand how to identify which half is properly sorted.
-4.  **"Condition-Based" Search:** Practice problems where you binary search over a _range of answers_ (like "Koko Eating Bananas" or "Capacity To Ship Packages"). This is where the pattern proves most powerful.
+1. **Binary Search (#704)** - The absolute basic. Ensure you can implement it flawlessly.
+2. **First Bad Version (#278)** - Introduces the "find first occurrence" pattern.
+3. **Search in Rotated Sorted Array (#33)** - Tests adaptability of the basic algorithm.
+4. **Find Minimum in Rotated Sorted Array (#153)** - Similar to #33 but with different termination logic.
+5. **Koko Eating Bananas (#875)** - Your first "search on answer space" problem. Critical for Accenture.
+6. **Capacity To Ship Packages Within D Days (#1011)** - The quintessential Accenture-style problem.
+7. **Split Array Largest Sum (#410)** - Another optimization problem using the same pattern.
+8. **Search a 2D Matrix (#74)** - For completeness, though less common at Accenture.
 
-Mastering these steps ensures you can handle any binary search variant Accenture presents.
+If you have time, add **Find Peak Element (#162)** and **Time Based Key-Value Store (#981)** to cover more edge cases.
+
+Remember: At Accenture, they're evaluating not just whether you get the right answer, but whether you can explain your reasoning clearly and discuss tradeoffs. Always be prepared to talk about what happens with larger datasets, how you'd parallelize the solution, or what you'd monitor in production.
 
 [Practice Binary Search at Accenture](/company/accenture/binary-search)

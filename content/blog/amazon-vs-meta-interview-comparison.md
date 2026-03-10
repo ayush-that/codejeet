@@ -1,165 +1,292 @@
 ---
 title: "Amazon vs Meta: Interview Question Comparison"
 description: "Compare coding interview questions at Amazon and Meta — difficulty levels, topic focus, and preparation strategy."
-date: "2028-05-30"
+date: "2028-10-19"
 category: "tips"
 tags: ["amazon", "meta", "comparison"]
 ---
 
-When preparing for technical interviews at top tech companies, understanding their specific focus areas can dramatically increase your efficiency. Amazon and Meta (Facebook) are two giants with distinct engineering cultures, which is reflected in their interview question patterns. While there is significant overlap in the core data structures tested, the volume, difficulty distribution, and subtle emphasis differ. A strategic candidate will tailor their preparation to these nuances.
+# Amazon vs Meta: Interview Question Comparison
+
+If you're preparing for interviews at both Amazon and Meta, you're facing a common but challenging dual-prep scenario. While both are FAANG companies, their technical interviews have distinct flavors, priorities, and hidden patterns. Preparing for one doesn't fully prepare you for the other, but there's significant overlap you can leverage. The key is understanding where to double down on shared patterns and where to specialize your preparation for each company's unique focus.
 
 ## Question Volume and Difficulty
 
-The raw data shows Amazon has a larger overall question pool and a heavier emphasis on harder problems.
+Let's decode the numbers. Amazon has tagged **1,938 questions** on LeetCode (530 Easy, 1,057 Medium, 351 Hard), while Meta has **1,387 questions** (414 Easy, 762 Medium, 211 Hard).
 
-- **Amazon:** With 1,938 total questions, Amazon's breakdown is **Easy: 530, Medium: 1,057, Hard: 351**. The Medium and Hard categories constitute over 72% of their catalog. This suggests Amazon interviews are designed to rigorously test problem-solving under pressure, often with follow-up questions that increase in complexity.
-- **Meta:** With 1,387 total questions, Meta's breakdown is **Easy: 414, Medium: 762, Hard: 211**. While still challenging, the proportion of Hard questions is lower (15% vs. Amazon's 18%). Meta's focus appears slightly more balanced, though Medium problems remain the core of the interview.
+What these numbers actually mean:
 
-This difference implies that for Amazon, you must be exceptionally solid on Medium problems and comfortable tackling a significant number of Hard ones. For Meta, deep mastery of Medium problems is absolutely critical.
+- **Amazon's larger question bank** suggests they have more historical data and potentially more variation in what you might encounter. With over 1,000 Medium questions, you can't possibly memorize them all—they're testing pattern recognition, not rote memorization.
+- **Meta's slightly higher Medium-to-Hard ratio** (762:211 vs 1057:351) indicates they lean slightly more toward Medium problems, but don't be fooled—Meta's Mediums can be deceptively tricky, often requiring optimal solutions with clean implementation.
+- **The real insight**: Both companies heavily favor Medium difficulty problems for their coding rounds. If you're short on time, prioritize Medium problems with high frequency tags.
+
+The intensity difference isn't in difficulty level but in **problem style**. Amazon problems often have more edge cases and require meticulous attention to constraints. Meta problems tend to be more algorithmically pure but demand optimal time/space complexity.
 
 ## Topic Overlap
 
-Both companies heavily test foundational data structures. **Array, String, and Hash Table** problems are paramount for both. This is the core of most coding interviews.
+Both companies test **Array, String, and Hash Table** problems extensively—these form the core of about 60-70% of coding questions at both companies. This is your highest ROI preparation area.
 
-- **Amazon's Additional Focus: Dynamic Programming (DP).** Amazon's inclusion of DP as a top topic is a key differentiator. Expect problems involving optimization, counting, or combinatorial decisions. You must be prepared to identify overlapping subproblems and optimal substructure.
-- **Meta's Additional Focus: Math.** Meta's listing of Math highlights a focus on logical reasoning, number manipulation, and sometimes combinatorial mathematics. This can involve problems related to number theory, probability, or clever arithmetic solutions.
+**Shared heavy hitters:**
 
-Here is a typical problem that could appear at either company, followed by examples of their unique emphasis.
+- **Sliding Window**: Both love variations (fixed vs dynamic window)
+- **Two Pointers**: Especially for sorted array problems
+- **Hash Map for frequency/counting**: The workhorse for O(n) solutions
+- **Binary Search**: Not just on arrays—applied to answer spaces
+
+**Where they diverge:**
+
+- **Amazon uniquely emphasizes Dynamic Programming**—it's their 4th most frequent tag. You'll encounter DP in various forms, from classic knapsack to pathfinding problems.
+- **Meta emphasizes Math and Bit Manipulation** more consistently. You'll see problems requiring number theory insights or clever bit operations.
+- **Graph problems** appear at both but with different flavors: Amazon leans toward practical graph applications (shipping routes, dependencies), while Meta focuses on social network-style graphs.
+
+## Preparation Priority Matrix
+
+Here's how to allocate your limited preparation time:
+
+**Tier 1: Overlap Topics (Study First)**
+
+- Arrays & Strings (sliding window, two pointers)
+- Hash Tables (frequency counting, complement searching)
+- Binary Search (including search space problems)
+- Recursion & Backtracking (subset/permutation problems)
+
+**Tier 2: Amazon-Specific**
+
+- Dynamic Programming (start with 1D, then 2D)
+- Trees & Tries (Amazon loves dictionary/prefix problems)
+- Design problems (often simpler than full system design)
+
+**Tier 3: Meta-Specific**
+
+- Math & Number Theory
+- Bit Manipulation
+- Graph traversal (BFS/DFS variations)
+
+**Dual-Prep Problems** (solve these first):
+
+1. **Two Sum (#1)** - Tests hash table fundamentals
+2. **Merge Intervals (#56)** - Tests array sorting and merging logic
+3. **Longest Substring Without Repeating Characters (#3)** - Classic sliding window
+4. **Word Break (#139)** - Tests both DP (Amazon) and recursion with memoization (Meta)
+5. **Clone Graph (#133)** - Graph traversal that appears at both
+
+## Interview Format Differences
+
+**Amazon's "Loop":**
+
+- Typically 4-5 rounds including 3-4 coding, 1 system design, and 1 behavioral (Leadership Principles)
+- 45-60 minutes per round
+- **Behavioral carries equal weight**—each interview starts with Leadership Principle questions
+- Coding problems often have **multiple follow-ups** testing edge cases
+- On-site is still common for final rounds
+
+**Meta's "Bootcamp" Model:**
+
+- Usually 2 phone screens then 4-5 on-site rounds
+- 45-minute coding rounds with **1-2 problems per round**
+- Less emphasis on behavioral (but still present)
+- **System design** is a separate, heavyweight round
+- Virtual interviews are standard
+- They often test **real-time coding** with an interviewer watching your every keystroke
+
+**Critical difference**: Amazon interviewers can be more directive, helping you if you're stuck. Meta interviewers tend to be more observational, expecting you to drive the problem-solving.
+
+## Specific Problem Recommendations
+
+These 5 problems provide maximum coverage for both companies:
+
+1. **LRU Cache (#146)** - Tests data structure design (Amazon) and linked list + hash map implementation (Meta). It's a classic that appears in slightly different forms at both.
 
 <div class="code-group">
 
 ```python
-# Overlap Example: Two Sum (Hash Table)
-def two_sum(nums, target):
-    seen = {}
-    for i, num in enumerate(nums):
-        complement = target - num
-        if complement in seen:
-            return [seen[complement], i]
-        seen[num] = i
-    return []
+class LRUCache:
+    def __init__(self, capacity: int):
+        self.capacity = capacity
+        self.cache = {}  # key -> node
+        self.head = Node(0, 0)  # dummy head
+        self.tail = Node(0, 0)  # dummy tail
+        self.head.next = self.tail
+        self.tail.prev = self.head
 
-# Amazon Emphasis: DP (Coin Change)
-def coin_change(coins, amount):
-    dp = [float('inf')] * (amount + 1)
-    dp[0] = 0
-    for coin in coins:
-        for i in range(coin, amount + 1):
-            dp[i] = min(dp[i], dp[i - coin] + 1)
-    return dp[amount] if dp[amount] != float('inf') else -1
+    def get(self, key: int) -> int:
+        if key in self.cache:
+            node = self.cache[key]
+            self._remove(node)
+            self._add(node)
+            return node.value
+        return -1
 
-# Meta Emphasis: Math (Reverse Integer)
-def reverse(x):
-    INT_MAX, INT_MIN = 2**31 - 1, -2**31
-    rev = 0
-    sign = -1 if x < 0 else 1
-    x = abs(x)
-    while x != 0:
-        pop = x % 10
-        x //= 10
-        # Check for overflow before multiplying
-        if rev > (INT_MAX // 10) or (rev == INT_MAX // 10 and pop > 7):
-            return 0
-        rev = rev * 10 + pop
-    return rev * sign
+    def put(self, key: int, value: int) -> None:
+        if key in self.cache:
+            self._remove(self.cache[key])
+        node = Node(key, value)
+        self._add(node)
+        self.cache[key] = node
+        if len(self.cache) > self.capacity:
+            lru = self.head.next
+            self._remove(lru)
+            del self.cache[lru.key]
+
+    def _add(self, node):
+        prev = self.tail.prev
+        prev.next = node
+        node.prev = prev
+        node.next = self.tail
+        self.tail.prev = node
+
+    def _remove(self, node):
+        prev, nxt = node.prev, node.next
+        prev.next = nxt
+        nxt.prev = prev
+
+# Time: O(1) for get/put | Space: O(capacity)
 ```
 
 ```javascript
-// Overlap Example: Two Sum (Hash Table)
-function twoSum(nums, target) {
-  const map = new Map();
-  for (let i = 0; i < nums.length; i++) {
-    const complement = target - nums[i];
-    if (map.has(complement)) {
-      return [map.get(complement), i];
-    }
-    map.set(nums[i], i);
+class LRUCache {
+  constructor(capacity) {
+    this.capacity = capacity;
+    this.cache = new Map();
+    this.head = new Node(0, 0);
+    this.tail = new Node(0, 0);
+    this.head.next = this.tail;
+    this.tail.prev = this.head;
   }
-  return [];
+
+  get(key) {
+    if (this.cache.has(key)) {
+      const node = this.cache.get(key);
+      this._remove(node);
+      this._add(node);
+      return node.value;
+    }
+    return -1;
+  }
+
+  put(key, value) {
+    if (this.cache.has(key)) {
+      this._remove(this.cache.get(key));
+    }
+    const node = new Node(key, value);
+    this._add(node);
+    this.cache.set(key, node);
+    if (this.cache.size > this.capacity) {
+      const lru = this.head.next;
+      this._remove(lru);
+      this.cache.delete(lru.key);
+    }
+  }
+
+  _add(node) {
+    const prev = this.tail.prev;
+    prev.next = node;
+    node.prev = prev;
+    node.next = this.tail;
+    this.tail.prev = node;
+  }
+
+  _remove(node) {
+    const prev = node.prev;
+    const nxt = node.next;
+    prev.next = nxt;
+    nxt.prev = prev;
+  }
 }
 
-// Amazon Emphasis: DP (Coin Change)
-function coinChange(coins, amount) {
-  const dp = new Array(amount + 1).fill(Infinity);
-  dp[0] = 0;
-  for (const coin of coins) {
-    for (let i = coin; i <= amount; i++) {
-      dp[i] = Math.min(dp[i], dp[i - coin] + 1);
-    }
-  }
-  return dp[amount] === Infinity ? -1 : dp[amount];
-}
-
-// Meta Emphasis: Math (Reverse Integer)
-function reverse(x) {
-  const INT_MAX = 2 ** 31 - 1,
-    INT_MIN = -(2 ** 31);
-  let rev = 0;
-  while (x !== 0) {
-    const pop = x % 10;
-    x = Math.trunc(x / 10);
-    if (rev > Math.trunc(INT_MAX / 10) || (rev === Math.trunc(INT_MAX / 10) && pop > 7)) return 0;
-    if (rev < Math.trunc(INT_MIN / 10) || (rev === Math.trunc(INT_MIN / 10) && pop < -8)) return 0;
-    rev = rev * 10 + pop;
-  }
-  return rev;
-}
+// Time: O(1) for get/put | Space: O(capacity)
 ```
 
 ```java
-// Overlap Example: Two Sum (Hash Table)
-public int[] twoSum(int[] nums, int target) {
-    Map<Integer, Integer> map = new HashMap<>();
-    for (int i = 0; i < nums.length; i++) {
-        int complement = target - nums[i];
-        if (map.containsKey(complement)) {
-            return new int[] { map.get(complement), i };
-        }
-        map.put(nums[i], i);
+class LRUCache {
+    class Node {
+        int key, value;
+        Node prev, next;
+        Node(int k, int v) { key = k; value = v; }
     }
-    return new int[0];
+
+    private Map<Integer, Node> cache;
+    private Node head, tail;
+    private int capacity;
+
+    public LRUCache(int capacity) {
+        this.capacity = capacity;
+        cache = new HashMap<>();
+        head = new Node(0, 0);
+        tail = new Node(0, 0);
+        head.next = tail;
+        tail.prev = head;
+    }
+
+    public int get(int key) {
+        if (cache.containsKey(key)) {
+            Node node = cache.get(key);
+            remove(node);
+            add(node);
+            return node.value;
+        }
+        return -1;
+    }
+
+    public void put(int key, int value) {
+        if (cache.containsKey(key)) {
+            remove(cache.get(key));
+        }
+        Node node = new Node(key, value);
+        add(node);
+        cache.put(key, node);
+        if (cache.size() > capacity) {
+            Node lru = head.next;
+            remove(lru);
+            cache.remove(lru.key);
+        }
+    }
+
+    private void add(Node node) {
+        Node prev = tail.prev;
+        prev.next = node;
+        node.prev = prev;
+        node.next = tail;
+        tail.prev = node;
+    }
+
+    private void remove(Node node) {
+        Node prev = node.prev;
+        Node nxt = node.next;
+        prev.next = nxt;
+        nxt.prev = prev;
+    }
 }
 
-// Amazon Emphasis: DP (Coin Change)
-public int coinChange(int[] coins, int amount) {
-    int[] dp = new int[amount + 1];
-    Arrays.fill(dp, amount + 1);
-    dp[0] = 0;
-    for (int coin : coins) {
-        for (int i = coin; i <= amount; i++) {
-            dp[i] = Math.min(dp[i], dp[i - coin] + 1);
-        }
-    }
-    return dp[amount] > amount ? -1 : dp[amount];
-}
-
-// Meta Emphasis: Math (Reverse Integer)
-public int reverse(int x) {
-    int rev = 0;
-    while (x != 0) {
-        int pop = x % 10;
-        x /= 10;
-        if (rev > Integer.MAX_VALUE/10 || (rev == Integer.MAX_VALUE / 10 && pop > 7)) return 0;
-        if (rev < Integer.MIN_VALUE/10 || (rev == Integer.MIN_VALUE / 10 && pop < -8)) return 0;
-        rev = rev * 10 + pop;
-    }
-    return rev;
-}
+// Time: O(1) for get/put | Space: O(capacity)
 ```
 
 </div>
 
+2. **Product of Array Except Self (#238)** - Tests array manipulation and prefix/suffix thinking. Appears at both companies in various forms.
+
+3. **Number of Islands (#200)** - Graph/DFS problem that's a favorite at both. Amazon might add constraints (largest island, perimeter), Meta might make it 3D.
+
+4. **Meeting Rooms II (#253)** - Tests interval thinking and min-heap usage. Amazon might frame it as delivery scheduling, Meta as calendar conflicts.
+
+5. **Valid Parentheses (#20)** - Simple but tests stack fundamentals. Both companies use this as a warm-up or as part of more complex parsing problems.
+
 ## Which to Prepare for First
 
-Prepare for **Amazon first**. Here’s why: Amazon's broader and deeper question pool, with its significant Dynamic Programming requirement, represents a superset of the core skills needed for Meta. Mastering Amazon-level problems—especially Medium and Hard DP, Array, and String questions—will make you over-prepared for Meta's Math-focused problems and strong on the shared Hash Table, Array, and String fundamentals.
+**Prepare for Amazon first if:**
 
-A logical study path is:
+- Your interview timeline is tight (Amazon's Leadership Principles require separate preparation)
+- You're stronger at implementation details than algorithmic elegance
+- You want the behavioral practice to carry over to Meta
 
-1.  Build a rock-solid foundation in **Arrays, Strings, and Hash Tables**.
-2.  Dive deeply into **Dynamic Programming** patterns (0/1 Knapsack, LCS, etc.).
-3.  Practice Amazon's large set of Medium problems.
-4.  Then, shift focus to Meta-specific **Math** problems and refine your system design and behavioral skills (Amazon's Leadership Principles vs. Meta's "Move Fast" culture).
+**Prepare for Meta first if:**
 
-This approach ensures you are ready for the more statistically difficult interview and then can specialize.
+- You have more time (Meta's problems require deeper algorithmic thinking)
+- You're confident in behavioral interviews
+- You want to tackle the hardest algorithmic problems first
 
-For targeted practice, visit the Amazon and Meta question lists: [Amazon Interview Questions](/company/amazon) | [Meta Interview Questions](/company/meta)
+**Strategic approach**: Start with the overlap topics, then add Amazon's DP focus, then Meta's math/bit focus. If interviewing at both, allocate 60% to overlap, 25% to Amazon-specific, 15% to Meta-specific topics.
+
+Remember: Both companies value clean, working code over clever but buggy solutions. Comment your thought process, handle edge cases explicitly, and practice speaking while coding—this matters more than which specific problems you've memorized.
+
+For more company-specific insights, check out our [Amazon interview guide](/company/amazon) and [Meta interview guide](/company/meta).

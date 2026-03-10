@@ -1,35 +1,102 @@
 ---
 title: "Infosys vs Yandex: Interview Question Comparison"
 description: "Compare coding interview questions at Infosys and Yandex — difficulty levels, topic focus, and preparation strategy."
-date: "2029-06-08"
+date: "2032-03-08"
 category: "tips"
 tags: ["infosys", "yandex", "comparison"]
 ---
 
-When preparing for technical interviews, understanding company-specific patterns is crucial. Infosys and Yandex, while both major tech employers, present distinct interview landscapes. Infosys, a global IT services giant, assesses foundational problem-solving for a broad range of roles. Yandex, often called "Russia's Google," focuses on core algorithmic proficiency for its product-driven engineering positions. A direct comparison of their question banks reveals key strategic differences.
+# Infosys vs Yandex: Interview Question Comparison
+
+If you're preparing for interviews at both Infosys and Yandex, you're looking at two distinct tech ecosystems with different hiring philosophies. Infosys, as a global IT services giant, focuses on foundational problem-solving and adaptability across diverse client projects. Yandex, Russia's leading tech company (often called "Russia's Google"), emphasizes algorithmic rigor and data structure mastery similar to other product-based tech giants. The good news? There's significant overlap in their technical screening, allowing for efficient preparation. The key difference lies in difficulty distribution and specific topic emphasis, which we'll break down strategically.
 
 ## Question Volume and Difficulty
 
-The raw data shows a clear divergence in focus. Infosys has a larger question bank (**158** total) with a more balanced difficulty spread: 42 Easy, 82 Medium, and 34 Hard questions. This suggests their process may involve a wider range of problems, testing consistent competency across fundamental to advanced concepts.
+The raw numbers tell an immediate story about each company's technical expectations.
 
-Yandex, with **134** questions, leans significantly more toward accessibility and speed: 52 Easy, 72 Medium, and only 10 Hard questions. This distribution indicates a strong emphasis on clean, efficient solutions to common problems, likely within tighter time constraints, rather than on tackling highly complex algorithmic puzzles.
+**Infosys (158 questions):** Difficulty distribution is E42/M82/H34. This shows a strong middle-heavy approach—82 medium questions indicate they deeply value your ability to handle moderately complex algorithmic challenges. The 34 hard questions suggest they'll test senior candidates or specialized roles with advanced problems, but medium difficulty forms the core of their technical assessment.
+
+**Yandex (134 questions):** Distribution is E52/M72/H10. Notice the dramatic difference: only 10 hard questions compared to Infosys's 34. Yandex heavily emphasizes fundamentals—with 52 easy and 72 medium problems, they're testing for clean, efficient implementation of core algorithms rather than extreme optimization puzzles. The low hard count doesn't mean interviews are easier; it means they expect perfection on medium problems within tight constraints.
+
+**Implication:** For Yandex, prioritize flawless execution on medium problems. For Infosys, ensure you can handle a wider range of medium problems and be prepared for occasional hard questions, especially for more senior positions.
 
 ## Topic Overlap
 
-Both companies heavily test core data structure proficiency. The primary shared topics are **Array** and **String** manipulation, which form the backbone of most coding interviews.
+Both companies test **Array** and **String** manipulation extensively—these are non-negotiable fundamentals. However, their secondary focuses diverge meaningfully.
 
-However, their secondary focuses differ, hinting at different evaluation priorities:
+**Shared high-value topics:**
 
-- **Infosys** shows a notable emphasis on **Dynamic Programming** and **Math**. This points to interviews that may include problems requiring optimization and mathematical reasoning.
-- **Yandex** frequently employs **Hash Table** and **Two Pointers** techniques. This highlights an interview style focused on practical efficiency, searching, and in-place array/string processing.
+- **Array:** Everything from basic traversal to sliding window and prefix sum techniques
+- **String:** Pattern matching, palindrome checks, and character counting problems
+- **Hash Table:** Frequently appears as the optimal auxiliary data structure
 
-Consider a common problem like finding a pair with a target sum. The solution approach reflects these priorities:
+**Infosys-specific emphasis:**
+
+- **Dynamic Programming:** With 34 hard problems, many will involve DP. Think knapsack variations, sequence alignment, or partition problems.
+- **Math:** Number theory, combinatorics, and computational geometry appear more frequently.
+
+**Yandex-specific emphasis:**
+
+- **Two Pointers:** This is a signature Yandex topic. They love problems that can be solved with synchronized or opposite-direction pointers.
+- **Sorting and Searching:** Often combined with two-pointer approaches for efficient solutions.
+
+The overlap means studying Arrays and Strings gives you maximum return on investment for both companies simultaneously.
+
+## Preparation Priority Matrix
+
+Here's how to allocate your study time strategically:
+
+**Tier 1: Overlap Topics (Study First)**
+
+- Arrays (sliding window, prefix sums, rotation)
+- Strings (palindromes, subsequences, encoding)
+- Hash Tables (frequency counting, complement finding)
+  _Recommended problems:_ Two Sum (#1), Valid Palindrome (#125), Maximum Subarray (#53)
+
+**Tier 2: Infosys-Specific Priority**
+
+- Dynamic Programming (memoization, tabulation, state machine)
+- Math (prime numbers, modular arithmetic, GCD/LCM)
+  _Recommended problems:_ Coin Change (#322), Unique Paths (#62), Rotate Image (#48)
+
+**Tier 3: Yandex-Specific Priority**
+
+- Two Pointers (sorted array manipulation, interval merging)
+- Sorting (custom comparators, k-th element problems)
+  _Recommended problems:_ Merge Intervals (#56), 3Sum (#15), Container With Most Water (#11)
+
+## Interview Format Differences
+
+**Infosys:**
+
+- Typically 2-3 technical rounds, often virtual
+- 45-60 minutes per coding round, 1-2 problems
+- May include system design for senior roles (but less rigorous than FAANG)
+- Behavioral questions are integrated throughout, focusing on teamwork and client scenarios
+- Sometimes includes a "puzzle round" with logical/mathematical brainteasers
+
+**Yandex:**
+
+- Usually 4-5 intensive technical rounds, often on-site in Moscow
+- 60-90 minutes per round, with 2-3 problems expected
+- Heavy emphasis on algorithmic optimization and edge cases
+- System design appears mainly for backend and infrastructure roles
+- Less behavioral focus—mostly technical depth and problem-solving approach
+- May include "real-world" data processing problems reflecting their search/advertising business
+
+Yandex interviews are generally more marathon-like, testing endurance across multiple difficult sessions. Infosys interviews are more standardized but vary by specific practice area (banking, healthcare, retail).
+
+## Specific Problem Recommendations
+
+These five problems provide exceptional coverage for both companies:
+
+1. **Two Sum (#1)** - The ultimate hash table problem. Master this and you'll handle most "find complement" problems at both companies.
 
 <div class="code-group">
 
 ```python
-# Yandex-style: Emphasizes Hash Table for O(n) time.
-def two_sum_hash(nums, target):
+# Time: O(n) | Space: O(n)
+def twoSum(nums, target):
     seen = {}
     for i, num in enumerate(nums):
         complement = target - num
@@ -37,25 +104,11 @@ def two_sum_hash(nums, target):
             return [seen[complement], i]
         seen[num] = i
     return []
-
-# Infosys-style: Could also involve a Two Pointers approach on sorted input.
-def two_sum_pointers(nums, target):
-    nums_sorted = sorted(nums) # Often a preliminary step
-    left, right = 0, len(nums_sorted) - 1
-    while left < right:
-        current_sum = nums_sorted[left] + nums_sorted[right]
-        if current_sum == target:
-            return [left, right] # Indices in sorted array
-        elif current_sum < target:
-            left += 1
-        else:
-            right -= 1
-    return []
 ```
 
 ```javascript
-// Yandex-style: Hash Table.
-function twoSumHash(nums, target) {
+// Time: O(n) | Space: O(n)
+function twoSum(nums, target) {
   const map = new Map();
   for (let i = 0; i < nums.length; i++) {
     const complement = target - nums[i];
@@ -66,32 +119,12 @@ function twoSumHash(nums, target) {
   }
   return [];
 }
-
-// Infosys-style: Two Pointers on sorted array.
-function twoSumPointers(nums, target) {
-  const sorted = [...nums].sort((a, b) => a - b);
-  let left = 0,
-    right = sorted.length - 1;
-  while (left < right) {
-    const sum = sorted[left] + sorted[right];
-    if (sum === target) {
-      return [left, right];
-    } else if (sum < target) {
-      left++;
-    } else {
-      right--;
-    }
-  }
-  return [];
-}
 ```
 
 ```java
-// Yandex-style: Hash Table.
-import java.util.HashMap;
-
-public int[] twoSumHash(int[] nums, int target) {
-    HashMap<Integer, Integer> map = new HashMap<>();
+// Time: O(n) | Space: O(n)
+public int[] twoSum(int[] nums, int target) {
+    Map<Integer, Integer> map = new HashMap<>();
     for (int i = 0; i < nums.length; i++) {
         int complement = target - nums[i];
         if (map.containsKey(complement)) {
@@ -99,38 +132,34 @@ public int[] twoSumHash(int[] nums, int target) {
         }
         map.put(nums[i], i);
     }
-    return new int[]{};
-}
-
-// Infosys-style: Two Pointers (requires sorted array).
-import java.util.Arrays;
-
-public int[] twoSumPointers(int[] nums, int target) {
-    int[] sorted = nums.clone();
-    Arrays.sort(sorted);
-    int left = 0, right = sorted.length - 1;
-    while (left < right) {
-        int sum = sorted[left] + sorted[right];
-        if (sum == target) {
-            return new int[]{left, right};
-        } else if (sum < target) {
-            left++;
-        } else {
-            right--;
-        }
-    }
-    return new int[]{};
+    return new int[0];
 }
 ```
 
 </div>
 
+2. **Merge Intervals (#56)** - Tests sorting, array manipulation, and edge case handling. Yandex loves interval problems; Infosys uses variations in scheduling contexts.
+
+3. **Coin Change (#322)** - The classic DP problem that appears frequently at Infosys. Understanding the difference between top-down memoization and bottom-up tabulation is crucial.
+
+4. **Container With Most Water (#11)** - Perfect two-pointer problem that Yandex frequently uses. Teaches the "move the smaller pointer" intuition that applies to many optimization problems.
+
+5. **Longest Palindromic Substring (#5)** - Covers string manipulation, dynamic programming (expand around center approach), and has variations that appear at both companies.
+
 ## Which to Prepare for First
 
-Start with **Yandex**. Its concentration on Easy and Medium problems covering Arrays, Hash Tables, and Two Pointers provides an excellent, focused foundation in writing efficient code for high-frequency questions. Mastering this set builds speed and confidence.
+Start with **Yandex preparation**, even if your Infosys interview comes first. Here's why: Yandex's emphasis on algorithmic fundamentals and clean code will force you to build a stronger foundation. If you can solve Yandex-style medium problems efficiently, you'll be overprepared for most Infosys coding rounds. The reverse isn't true—Infosys's occasional hard DP problems won't help much with Yandex's two-pointer and sorting emphasis.
 
-Then, move to **Infosys**. Its broader question bank and inclusion of more Hard problems, Dynamic Programming, and Math will expand your problem-solving range and depth, ensuring you are prepared for more varied and complex challenges.
+**Study sequence:**
 
-Ultimately, Yandex preparation builds a sharp, efficient core, while Infosys preparation builds robustness and adaptability. For comprehensive skill development, tackling Yandex's set first creates a solid platform for the wider scope of Infosys's problems.
+1. Master arrays and strings (2 weeks)
+2. Practice two-pointer and sorting problems (1 week)
+3. Add hash table patterns (1 week)
+4. Study dynamic programming (2 weeks for Infosys)
+5. Mix in math problems (1 week for Infosys)
 
-Practice questions directly from their databases: [Infosys Questions](/company/infosys) | [Yandex Questions](/company/yandex)
+The shared array/string/hash table foundation means approximately 60% of your preparation serves both companies simultaneously. Focus there first, then branch to company-specific topics based on your interview timeline.
+
+Remember: Infosys often values _correctness and clarity_ over optimal runtime for many roles, while Yandex almost always demands _optimal solutions_. Adjust your communication accordingly—explain brute force first at Infosys, but jump straight to optimal approaches at Yandex.
+
+For company-specific question banks and recent interview experiences, check our detailed guides at [/company/infosys](/company/infosys) and [/company/yandex](/company/yandex).

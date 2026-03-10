@@ -1,118 +1,200 @@
 ---
 title: "Dynamic Programming Questions at Hashedin: What to Expect"
 description: "Prepare for Dynamic Programming interview questions at Hashedin — patterns, difficulty breakdown, and study tips."
-date: "2030-08-04"
+date: "2030-07-27"
 category: "dsa-patterns"
 tags: ["hashedin", "dynamic-programming", "interview prep"]
 ---
 
-Dynamic Programming (DP) is a core competency tested at Hashedin because it directly evaluates a candidate's ability to optimize complex problems—a skill essential for building efficient, scalable software. Their interview process places a significant emphasis on algorithmic efficiency, with DP questions constituting a substantial portion of their technical assessment. Successfully solving these problems demonstrates not just rote memorization, but a deep understanding of problem decomposition, state management, and optimal substructure, which are critical for tackling real-world challenges in system design and performance-critical code.
+## Why Dynamic Programming Matters at Hashedin
 
-## What to Expect — Types of Problems
+If you're preparing for Hashedin interviews, you need to understand their unique emphasis on Dynamic Programming. With 12 out of 32 total questions dedicated to DP, this isn't just another topic—it's a core competency they actively screen for. In real interviews, you're likely to encounter at least one DP question, often as the main problem in a technical round. Why this focus? Hashedin works extensively on optimization problems, system design for scalable applications, and algorithmic efficiency in data processing. DP questions test your ability to break down complex problems, recognize overlapping subproblems, and optimize recursive solutions—skills directly applicable to their project work. Unlike companies that might use DP as a "weed-out" question, Hashedin uses it to assess your structured problem-solving approach.
 
-Hashedin's DP questions typically fall into a few classic categories. You can expect problems involving **sequence or string manipulation**, such as finding the longest common subsequence or edit distance. **Knapsack and subset problems** are also common, testing your ability to handle combinatorial optimization with constraints. Another frequent category is **pathfinding or grid-based problems**, like unique paths or minimum path sum in a matrix. The problems are designed to be layered; they often start with a standard pattern but may require you to adapt the solution or optimize for space. The key is to recognize the underlying pattern quickly.
+## Specific Patterns Hashedin Favors
 
-## How to Prepare — Study Tips with One Code Example
+Hashedin's DP questions tend to cluster around three specific patterns, with a clear preference for practical, real-world optimization scenarios over purely mathematical puzzles.
 
-Start by mastering the core concepts: overlapping subproblems and optimal substructure. Practice identifying the "state" of your DP table (usually `dp[i]` or `dp[i][j]`). Always begin by defining a brute-force recursive solution, then memoize it (top-down), and finally derive the iterative (bottom-up) tabulation approach. Space optimization is a common follow-up question.
+1. **1D/2D Tabulation for String/Array Optimization**  
+   They frequently ask problems where you need to find optimal solutions for sequences—think longest increasing subsequence, edit distance, or maximum sum subarray variations. These problems test your ability to work with tabulation (bottom-up DP) more than memoization. For example, "Longest Increasing Subsequence" (#300) appears in their question bank because it's a classic optimization pattern with applications in data alignment and version control systems.
 
-A fundamental pattern is the **Fibonacci sequence**, which illustrates the transition from recursion to DP. Here is the evolution of the solution:
+2. **Knapsack Variations for Resource Allocation**  
+   Hashedin loves knapsack-style problems, especially the 0/1 and unbounded variants. These model real decisions about resource allocation, feature selection, or cost optimization in system design. You'll see problems like "Partition Equal Subset Sum" (#416) or "Coin Change" (#322), which test whether you can recognize the knapsack pattern beneath a differently worded problem.
+
+3. **Grid Traversal with Constraints**  
+   DP on grids—like unique paths with obstacles or minimum path sum—is another common theme. These questions often include twists, like space optimization requirements or additional state variables (e.g., "Cherry Pickup" #741 style problems). They're assessing your ability to manage multiple dimensions in your DP state.
+
+Notice what's missing: highly abstract DP problems like "Egg Drop" or purely mathematical DP. Hashedin's questions almost always have a clear connection to software engineering scenarios.
+
+## How to Prepare
+
+Your preparation should focus on pattern recognition and state definition. Start by learning to identify the core DP patterns from problem descriptions. When you see "maximum/minimum," "number of ways," or "is it possible," DP should be your first suspicion.
+
+For tabulation problems, master the art of defining `dp[i]` or `dp[i][j]`. Let's look at a classic example: "Longest Increasing Subsequence." The key insight is that `dp[i]` represents the length of the LIS ending at index `i`.
 
 <div class="code-group">
 
 ```python
-# 1. Recursive (Exponential Time)
-def fib_recursive(n):
-    if n <= 1:
-        return n
-    return fib_recursive(n-1) + fib_recursive(n-2)
+# Time: O(n^2) | Space: O(n)
+def lengthOfLIS(nums):
+    if not nums:
+        return 0
 
-# 2. Memoization (Top-Down DP)
-def fib_memo(n, memo={}):
-    if n in memo:
-        return memo[n]
-    if n <= 1:
-        return n
-    memo[n] = fib_memo(n-1, memo) + fib_memo(n-2, memo)
-    return memo[n]
+    n = len(nums)
+    dp = [1] * n  # dp[i] = length of LIS ending at nums[i]
 
-# 3. Tabulation (Bottom-Up DP) with Space Optimization
-def fib_tab(n):
-    if n <= 1:
-        return n
-    prev2, prev1 = 0, 1  # F(0), F(1)
-    for i in range(2, n + 1):
-        current = prev1 + prev2
-        prev2, prev1 = prev1, current
-    return prev1
+    for i in range(n):
+        for j in range(i):
+            if nums[i] > nums[j]:
+                dp[i] = max(dp[i], dp[j] + 1)
+
+    return max(dp)
 ```
 
 ```javascript
-// 1. Recursive (Exponential Time)
-function fibRecursive(n) {
-  if (n <= 1) return n;
-  return fibRecursive(n - 1) + fibRecursive(n - 2);
-}
+// Time: O(n^2) | Space: O(n)
+function lengthOfLIS(nums) {
+  if (!nums.length) return 0;
 
-// 2. Memoization (Top-Down DP)
-function fibMemo(n, memo = {}) {
-  if (n in memo) return memo[n];
-  if (n <= 1) return n;
-  memo[n] = fibMemo(n - 1, memo) + fibMemo(n - 2, memo);
-  return memo[n];
-}
+  const n = nums.length;
+  const dp = new Array(n).fill(1); // dp[i] = length of LIS ending at nums[i]
 
-// 3. Tabulation (Bottom-Up DP) with Space Optimization
-function fibTab(n) {
-  if (n <= 1) return n;
-  let prev2 = 0,
-    prev1 = 1; // F(0), F(1)
-  for (let i = 2; i <= n; i++) {
-    const current = prev1 + prev2;
-    prev2 = prev1;
-    prev1 = current;
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < i; j++) {
+      if (nums[i] > nums[j]) {
+        dp[i] = Math.max(dp[i], dp[j] + 1);
+      }
+    }
   }
-  return prev1;
+
+  return Math.max(...dp);
 }
 ```
 
 ```java
-// 1. Recursive (Exponential Time)
-public int fibRecursive(int n) {
-    if (n <= 1) return n;
-    return fibRecursive(n - 1) + fibRecursive(n - 2);
-}
+// Time: O(n^2) | Space: O(n)
+public int lengthOfLIS(int[] nums) {
+    if (nums.length == 0) return 0;
 
-// 2. Memoization (Top-Down DP)
-import java.util.HashMap;
-public class Solution {
-    private HashMap<Integer, Integer> memo = new HashMap<>();
-    public int fibMemo(int n) {
-        if (memo.containsKey(n)) return memo.get(n);
-        if (n <= 1) return n;
-        int result = fibMemo(n - 1) + fibMemo(n - 2);
-        memo.put(n, result);
-        return result;
-    }
-}
+    int n = nums.length;
+    int[] dp = new int[n]; // dp[i] = length of LIS ending at nums[i]
+    Arrays.fill(dp, 1);
 
-// 3. Tabulation (Bottom-Up DP) with Space Optimization
-public int fibTab(int n) {
-    if (n <= 1) return n;
-    int prev2 = 0, prev1 = 1; // F(0), F(1)
-    for (int i = 2; i <= n; i++) {
-        int current = prev1 + prev2;
-        prev2 = prev1;
-        prev1 = current;
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < i; j++) {
+            if (nums[i] > nums[j]) {
+                dp[i] = Math.max(dp[i], dp[j] + 1);
+            }
+        }
     }
-    return prev1;
+
+    int maxLen = 0;
+    for (int len : dp) {
+        maxLen = Math.max(maxLen, len);
+    }
+    return maxLen;
 }
 ```
 
 </div>
 
+For knapsack problems, the pattern is even more formulaic. Recognize that you have a capacity constraint and items with values/weights. Here's the 0/1 knapsack template:
+
+<div class="code-group">
+
+```python
+# Time: O(n * capacity) | Space: O(n * capacity)
+def knapsack(weights, values, capacity):
+    n = len(weights)
+    dp = [[0] * (capacity + 1) for _ in range(n + 1)]
+
+    for i in range(1, n + 1):
+        for w in range(1, capacity + 1):
+            if weights[i-1] <= w:
+                dp[i][w] = max(dp[i-1][w], values[i-1] + dp[i-1][w - weights[i-1]])
+            else:
+                dp[i][w] = dp[i-1][w]
+
+    return dp[n][capacity]
+```
+
+```javascript
+// Time: O(n * capacity) | Space: O(n * capacity)
+function knapsack(weights, values, capacity) {
+  const n = weights.length;
+  const dp = Array.from({ length: n + 1 }, () => new Array(capacity + 1).fill(0));
+
+  for (let i = 1; i <= n; i++) {
+    for (let w = 1; w <= capacity; w++) {
+      if (weights[i - 1] <= w) {
+        dp[i][w] = Math.max(dp[i - 1][w], values[i - 1] + dp[i - 1][w - weights[i - 1]]);
+      } else {
+        dp[i][w] = dp[i - 1][w];
+      }
+    }
+  }
+
+  return dp[n][capacity];
+}
+```
+
+```java
+// Time: O(n * capacity) | Space: O(n * capacity)
+public int knapsack(int[] weights, int[] values, int capacity) {
+    int n = weights.length;
+    int[][] dp = new int[n + 1][capacity + 1];
+
+    for (int i = 1; i <= n; i++) {
+        for (int w = 1; w <= capacity; w++) {
+            if (weights[i-1] <= w) {
+                dp[i][w] = Math.max(dp[i-1][w], values[i-1] + dp[i-1][w - weights[i-1]]);
+            } else {
+                dp[i][w] = dp[i-1][w];
+            }
+        }
+    }
+
+    return dp[n][capacity];
+}
+```
+
+</div>
+
+## How Hashedin Tests Dynamic Programming vs Other Companies
+
+Hashedin's DP questions differ from other companies in several key ways:
+
+**Compared to FAANG:** FAANG companies often ask DP questions that are more mathematically complex or have clever optimizations (like the O(n log n) LIS solution). Hashedin cares more about your ability to implement the standard solution correctly and explain the recurrence relation clearly. They're less likely to expect you to know the optimal "trick" for every problem.
+
+**Compared to startups:** Early-stage startups might ask DP questions as pure algorithm tests. Hashedin often frames DP problems in context—you might get a problem about optimizing API call batches or caching strategies that reduces to a knapsack problem.
+
+**Unique aspects:** Hashedin interviewers frequently ask follow-up questions about space optimization. After you present an O(n²) space solution, be prepared to optimize it to O(n) or O(1) if possible. They also value clean code and good variable naming more than some other companies—your solution should be production-ready, not just correct.
+
+## Study Order
+
+1. **Fibonacci-style problems** — Start with the simplest DP to understand memoization vs tabulation. Problems: Climbing Stairs (#70), House Robber (#198).
+2. **1D array optimization** — Learn to define `dp[i]` for sequence problems. Problems: Longest Increasing Subsequence (#300), Maximum Subarray (#53).
+3. **2D grid traversal** — Master DP on grids before moving to more complex state. Problems: Unique Paths (#62), Minimum Path Sum (#64).
+4. **Knapsack fundamentals** — Learn the 0/1 knapsack pattern thoroughly. Problems: Partition Equal Subset Sum (#416), Target Sum (#494).
+5. **String DP** — Apply DP to string comparison and transformation. Problems: Edit Distance (#72), Longest Common Subsequence (#1143).
+6. **DP with additional state** — Handle problems requiring more than 2 dimensions in your DP table. Problems: Best Time to Buy/Sell Stock with Cooldown (#309), Cherry Pickup (#741).
+
+This order builds from simple recurrence relations to complex state management, ensuring you understand each layer before adding complexity.
+
 ## Recommended Practice Order
 
-Build your foundation systematically. First, master one-dimensional DP problems like Climbing Stairs and House Robber. Next, move to canonical two-dimensional problems like Longest Common Subsequence and 0/1 Knapsack. Then, tackle grid-based problems (Unique Paths, Minimum Path Sum) and interval or partition DP. Finally, practice more complex problems that combine these patterns. For each problem, write out all three approaches: recursive, memoized, and tabulated. Time yourself to improve speed.
+1. Climbing Stairs (#70) — Basic recurrence relation
+2. House Robber (#198) — Simple 1D DP with decision making
+3. Longest Increasing Subsequence (#300) — Classic 1D optimization
+4. Unique Paths (#62) — Basic 2D DP
+5. Minimum Path Sum (#64) — 2D DP with value accumulation
+6. Partition Equal Subset Sum (#416) — Knapsack recognition
+7. Coin Change (#322) — Unbounded knapsack variant
+8. Edit Distance (#72) — String DP with classic application
+9. Longest Common Subsequence (#1143) — Another essential string pattern
+10. Best Time to Buy/Sell Stock with Cooldown (#309) — DP with state machines
+11. Decode Ways (#91) — Hashedin frequently asks this one
+12. Word Break (#139) — Excellent test of DP thinking with strings
+
+After completing these, you'll have covered every DP pattern Hashedin commonly tests. Remember to practice explaining your thought process aloud—Hashedin interviewers want to hear how you arrive at the DP state definition, not just see the final code.
 
 [Practice Dynamic Programming at Hashedin](/company/hashedin/dynamic-programming)

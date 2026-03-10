@@ -1,90 +1,206 @@
 ---
 title: "TikTok vs PhonePe: Interview Question Comparison"
 description: "Compare coding interview questions at TikTok and PhonePe — difficulty levels, topic focus, and preparation strategy."
-date: "2027-03-07"
+date: "2029-12-05"
 category: "tips"
 tags: ["tiktok", "phonepe", "comparison"]
 ---
 
-When preparing for technical interviews at major tech companies, understanding the specific focus and patterns of their question banks can dramatically increase your efficiency. TikTok and PhonePe, while both prominent in their domains, present distinctly different landscapes for candidates. TikTok's interview process is known for its breadth and rigor, reflected in a large, publicly tracked question set. PhonePe's process, while still challenging, appears more concentrated. A strategic comparison of their question volume, difficulty distribution, and core topics reveals a clear preparation path.
+# TikTok vs PhonePe: Interview Question Comparison
+
+If you're preparing for interviews at both TikTok and PhonePe, you're looking at two distinct challenges. TikTok's interview process is notoriously comprehensive with a massive question bank, while PhonePe's is more focused but still demanding. The key insight isn't just that TikTok has more questions—it's that their approaches to evaluating candidates differ significantly. TikTok wants to see if you can handle their scale and fast-paced environment, while PhonePe is testing your ability to build reliable financial systems. Let's break down what this means for your preparation strategy.
 
 ## Question Volume and Difficulty
 
-The most immediate difference is scale. TikTok's listed **383 questions** dwarf PhonePe's **102**. This volume suggests TikTok's interviews draw from a vast problem pool, making pure memorization ineffective and placing a premium on understanding fundamental patterns.
+The numbers tell a clear story: TikTok's 383 questions dwarf PhonePe's 102. But look deeper at the distribution:
 
-The difficulty distribution further highlights their approaches:
+**TikTok (383 total)**
 
-- **TikTok (E42/M260/H81):** The weight is heavily towards **Medium (260 questions)**, with a significant number of **Hard (81)** problems. This indicates their interviews are designed to thoroughly test problem-solving under pressure, often involving multi-step reasoning or optimizations.
-- **PhonePe (E3/M63/H36):** The distribution is also centered on **Medium (63 questions)** but with a notable scarcity of **Easy (3)** and a substantial portion of **Hard (36)**. This skew towards medium and hard problems suggests PhonePe's interviews quickly move to substantive challenges, with less time spent on warm-up questions.
+- Easy: 42 (11%)
+- Medium: 260 (68%)
+- Hard: 81 (21%)
 
-This data implies that for TikTok, you must build exceptional fluency with medium-difficulty patterns and be prepared to tackle hards. For PhonePe, you should be ready to perform at a medium-to-high level from the outset.
+**PhonePe (102 total)**
+
+- Easy: 3 (3%)
+- Medium: 63 (62%)
+- Hard: 36 (35%)
+
+TikTok's distribution follows a more traditional pyramid—mostly medium with a solid base of easy questions. PhonePe's distribution is striking: they barely ask easy questions. Their interview process jumps straight to medium difficulty and includes a significantly higher proportion of hard problems (35% vs TikTok's 21%). This suggests PhonePe interviews might be shorter but more intense per question, while TikTok interviews test breadth and consistency across more problems.
 
 ## Topic Overlap
 
-Both companies emphasize a core set of data structures and algorithms, but with subtle priority shifts.
+Both companies heavily test **Arrays** and **Dynamic Programming**, which should be your foundation. Arrays appear in nearly every interview because they're fundamental to understanding memory layout and iteration patterns. Dynamic Programming is crucial for both: TikTok uses it for optimization problems in their recommendation algorithms, while PhonePe needs it for financial calculations and transaction optimizations.
 
-**Shared Top Topics:** **Array**, **Dynamic Programming (DP)**, and **Hash Table** are critical for both. Mastery here is non-negotiable.
+**Shared high-priority topics:**
 
-- **Array/String Manipulation:** Expect problems involving two-pointers, sliding windows, and in-place operations.
-- **Dynamic Programming:** A key differentiator. Be prepared for classic (knapsack, LCS) and variant problems.
+- Array manipulation and traversal patterns
+- Dynamic Programming (both 1D and 2D)
+- Hash Table implementations and collision handling
+
+**TikTok-specific emphasis:**
+
+- String algorithms (for text processing in content)
+- Graph algorithms (for social network features)
+- Tree traversals (for hierarchical data structures)
+
+**PhonePe-specific emphasis:**
+
+- Sorting algorithms and their tradeoffs (for transaction ordering)
+- Greedy algorithms (for optimization in payment routing)
+- Mathematical problems (for financial calculations)
+
+The overlap means you get excellent ROI studying Arrays and DP—these will serve you at both companies. But don't neglect the unique topics: TikTok's String questions often involve pattern matching (think content filtering), while PhonePe's Sorting questions test your understanding of stable vs unstable sorts and their memory characteristics.
+
+## Preparation Priority Matrix
+
+Here's how to allocate your study time efficiently:
+
+**Tier 1: Study First (High ROI for Both)**
+
+- **Dynamic Programming**: Start with Fibonacci variations, then move to knapsack problems
+- **Array Manipulation**: Two-pointer techniques, sliding window, prefix sums
+- **Hash Tables**: Implementation details and collision resolution strategies
+
+**Tier 2: TikTok-Specific Focus**
+
+- **String Algorithms**: KMP, Rabin-Karp, palindrome problems
+- **Graph Algorithms**: BFS/DFS variations, topological sort
+- **System Design**: Scalable video processing and recommendation systems
+
+**Tier 3: PhonePe-Specific Focus**
+
+- **Sorting Algorithms**: Know quicksort, mergesort, and when to use each
+- **Greedy Algorithms**: Interval scheduling, coin change variations
+- **Mathematical Problems**: Modular arithmetic, precision handling
+
+For shared preparation, these LeetCode problems are particularly valuable:
+
+- **#53 Maximum Subarray** (Kadane's algorithm, tests array manipulation)
+- **#70 Climbing Stairs** (DP foundation problem)
+- **#121 Best Time to Buy and Sell Stock** (combines array and DP thinking)
+- **#560 Subarray Sum Equals K** (hash table + prefix sum pattern)
+
+## Interview Format Differences
+
+**TikTok's Process:**
+
+- Typically 4-5 technical rounds including coding and system design
+- 45-60 minutes per coding round, often 2 problems per round
+- Heavy emphasis on optimization and edge cases
+- System design round focuses on scalable video systems
+- Behavioral questions integrated throughout
+
+**PhonePe's Process:**
+
+- Usually 3-4 technical rounds
+- 60 minutes per coding round, often 1 complex problem
+- Deep dives into problem analysis before coding
+- System design round focuses on payment systems and reliability
+- Strong emphasis on code correctness and error handling
+
+The practical implication: For TikTok, practice solving medium problems quickly (under 25 minutes). For PhonePe, practice thoroughly analyzing hard problems before writing code. TikTok wants speed with correctness; PhonePe wants thoroughness with robustness.
+
+## Specific Problem Recommendations
+
+These five problems provide maximum coverage for both companies:
+
+1. **#238 Product of Array Except Self** - Tests array manipulation without division, a common restriction in both interviews. The follow-up about constant space (excluding output array) appears frequently.
 
 <div class="code-group">
 
 ```python
-# Example: Sliding Window (Array/String)
-def max_subarray_sum(nums, k):
-    window_sum = sum(nums[:k])
-    max_sum = window_sum
-    for i in range(k, len(nums)):
-        window_sum += nums[i] - nums[i - k]
-        max_sum = max(max_sum, window_sum)
-    return max_sum
+# Time: O(n) | Space: O(1) excluding output array
+def productExceptSelf(nums):
+    n = len(nums)
+    result = [1] * n
+
+    # Left pass: accumulate products from left
+    left_product = 1
+    for i in range(n):
+        result[i] = left_product
+        left_product *= nums[i]
+
+    # Right pass: accumulate products from right
+    right_product = 1
+    for i in range(n-1, -1, -1):
+        result[i] *= right_product
+        right_product *= nums[i]
+
+    return result
 ```
 
 ```javascript
-// Example: Sliding Window (Array/String)
-function maxSubarraySum(nums, k) {
-  let windowSum = nums.slice(0, k).reduce((a, b) => a + b, 0);
-  let maxSum = windowSum;
-  for (let i = k; i < nums.length; i++) {
-    windowSum += nums[i] - nums[i - k];
-    maxSum = Math.max(maxSum, windowSum);
+// Time: O(n) | Space: O(1) excluding output array
+function productExceptSelf(nums) {
+  const n = nums.length;
+  const result = new Array(n).fill(1);
+
+  // Left pass
+  let leftProduct = 1;
+  for (let i = 0; i < n; i++) {
+    result[i] = leftProduct;
+    leftProduct *= nums[i];
   }
-  return maxSum;
+
+  // Right pass
+  let rightProduct = 1;
+  for (let i = n - 1; i >= 0; i--) {
+    result[i] *= rightProduct;
+    rightProduct *= nums[i];
+  }
+
+  return result;
 }
 ```
 
 ```java
-// Example: Sliding Window (Array/String)
-public int maxSubarraySum(int[] nums, int k) {
-    int windowSum = 0;
-    for (int i = 0; i < k; i++) windowSum += nums[i];
-    int maxSum = windowSum;
-    for (int i = k; i < nums.length; i++) {
-        windowSum += nums[i] - nums[i - k];
-        maxSum = Math.max(maxSum, windowSum);
+// Time: O(n) | Space: O(1) excluding output array
+public int[] productExceptSelf(int[] nums) {
+    int n = nums.length;
+    int[] result = new int[n];
+
+    // Left pass
+    int leftProduct = 1;
+    for (int i = 0; i < n; i++) {
+        result[i] = leftProduct;
+        leftProduct *= nums[i];
     }
-    return maxSum;
+
+    // Right pass
+    int rightProduct = 1;
+    for (int i = n - 1; i >= 0; i--) {
+        result[i] *= rightProduct;
+        rightProduct *= nums[i];
+    }
+
+    return result;
 }
 ```
 
 </div>
 
-**Diverging Focus:**
+2. **#322 Coin Change** - Classic DP problem that tests both memoization and tabulation approaches. Payment companies like PhonePe love this, while TikTok uses it for optimization problems.
 
-- **TikTok** lists **String** as a top topic, indicating a strong focus on text processing, palindromes, and string matching algorithms.
-- **PhonePe** explicitly highlights **Sorting**, suggesting importance on problems involving ordering, merging intervals, or using sorting as a key optimization step.
+3. **#15 3Sum** - Tests two-pointer technique on sorted arrays, a pattern that appears in both companies' interviews for different use cases (content deduplication at TikTok, transaction analysis at PhonePe).
 
-This means your preparation should be adjusted: deepen string expertise for TikTok, and ensure sorting-based solutions are in your toolkit for PhonePe.
+4. **#139 Word Break** - DP with strings and hash tables—covers TikTok's string focus and PhonePe's DP focus simultaneously.
+
+5. **#56 Merge Intervals** - Sorting + array manipulation combination. Useful for TikTok's scheduling problems and PhonePe's transaction window analysis.
 
 ## Which to Prepare for First
 
-The strategic choice depends on your timeline and target.
+Start with **PhonePe**, even if your TikTok interview comes first. Here's why:
 
-**Prepare for PhonePe first if:** You are early in your interview preparation cycle or have an interview scheduled soon. The smaller, more concentrated question set allows you to achieve coverage and build confidence more quickly. Mastering its medium/hard problems on core topics will establish a strong algorithmic foundation.
+PhonePe's higher proportion of hard problems means their questions often combine multiple patterns. If you can solve PhonePe-style problems, TikTok's medium problems will feel more manageable. The reverse isn't true—acing TikTok's medium problems won't guarantee you can handle PhonePe's hard problems.
 
-**Prepare for TikTok first if:** You are aiming for top-tier companies generally or have a longer runway. The vast number of medium and hard problems in TikTok's list will force you to develop deep pattern recognition and robust problem-solving skills. Successfully navigating this larger set will inherently prepare you for the scope and difficulty of PhonePe's interviews.
+Specifically:
 
-In essence, preparing for TikTok is a superset of preparing for PhonePe. The depth and breadth required for TikTok will make PhonePe's focused set feel more manageable. However, if time is limited, directly targeting PhonePe's profile is the efficient path.
+1. Master DP thoroughly (PhonePe's hard requirement)
+2. Practice array manipulation patterns (shared foundation)
+3. Then add TikTok's string and graph problems
+4. Finally, practice speed-solving for TikTok's format
 
-For targeted practice, visit the company pages: [TikTok Interview Questions](/company/tiktok) | [PhonePe Interview Questions](/company/phonepe)
+This approach gives you the deepest foundation first, then adds breadth and speed. Remember: depth is harder to build than speed, but speed is easier to add to depth.
+
+For company-specific insights and more problem recommendations, check out our dedicated pages: [TikTok Interview Guide](/company/tiktok) and [PhonePe Interview Guide](/company/phonepe).

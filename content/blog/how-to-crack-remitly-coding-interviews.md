@@ -1,90 +1,286 @@
 ---
 title: "How to Crack Remitly Coding Interviews in 2026"
 description: "Complete guide to Remitly coding interviews — question patterns, difficulty breakdown, must-practice topics, and preparation strategy."
-date: "2027-05-06"
+date: "2027-07-27"
 category: "company-guide"
 company: "remitly"
 tags: ["remitly", "interview prep", "leetcode"]
 ---
 
-Landing a software engineering role at Remitly means proving you can build reliable, scalable systems for a global financial platform. Their coding interviews are designed to assess your fundamental problem-solving skills and your ability to write clean, efficient code under pressure. The process typically involves one or two technical screening rounds, often conducted via platforms like CodeSignal or HackerRank, followed by a virtual onsite with multiple coding and system design sessions. Understanding the specific patterns they favor is your key to success.
+# How to Crack Remitly Coding Interviews in 2026
 
-## By the Numbers — Difficulty Breakdown and What It Means
+Remitly’s mission to transform the lives of immigrants and their families by providing the world’s most trusted financial services shapes not just their products, but their hiring. Their engineering interviews reflect a pragmatic, product-focused mindset. The process typically involves an initial recruiter screen, followed by a 60–75 minute technical phone screen focusing on coding and problem-solving. Successful candidates are invited to a virtual onsite, which usually consists of three to four rounds: two focused on coding and algorithms, one on system design, and a final behavioral/cultural fit round.
 
-An analysis of recent Remitly coding questions reveals a clear, candidate-friendly pattern: **0% Hard, 60% Medium, and 40% Easy**. This distribution is critical for your preparation strategy.
+What’s unique is the blend: Remitly’s coding interviews aren't just about algorithmic gymnastics. They are deeply contextualized within real-world financial operations—think currency conversion, transaction batching, fraud detection patterns, and data validation. You’re not just solving abstract graph problems; you’re often modeling a flow of money or data. The interviewers, many of whom are engineers working on these systems, evaluate how clearly you can translate a business constraint into a clean, efficient, and testable algorithm.
 
-It means Remitly prioritizes **foundational mastery and execution speed** over solving obscure, complex puzzles. You won't be expected to reinvent an advanced graph algorithm on the fly. Instead, you must demonstrate flawless command of core data structures and the ability to apply standard patterns to slightly novel problems. The 60% Medium weighting is the core of the interview—these questions test if you can recognize a problem type (e.g., "this is a sliding window variation") and implement a bug-free, optimized solution within 25-30 minutes. The 40% Easy questions serve as a baseline filter; failing here is not an option. Your goal is to ace every Easy, solve most Mediums optimally, and have enough time to discuss edge cases and complexity.
+## What Makes Remitly Different
+
+While FAANG companies might prioritize raw algorithmic complexity or cutting-edge system scalability, Remitly’s interviews have a distinct flavor. First, there’s a strong emphasis on **correctness and edge-case handling** over premature optimization. In a financial context, a wrong answer is far worse than a slow one. Interviewers will probe your solution’s robustness—what happens with null inputs, duplicate transactions, or unexpected currency codes?
+
+Second, they highly value **code clarity and communication**. You’re encouraged to write production-ready code, not pseudocode. This means proper naming, consistent formatting, and small, logical functions. They want to see that you can write code another engineer could maintain. It’s common for an interviewer to ask, “How would you test this?” or “What would you log here for debugging?”
+
+Finally, the problems often have a **“stateful” or “transactional”** element. You’re not just finding a sum; you’re tracking the state of a user’s balance or the status of a payment across multiple steps. This makes patterns like hash tables for state tracking and depth-first search for exploring decision trees particularly relevant.
+
+## By the Numbers
+
+An analysis of recent Remitly interview reports reveals a clear pattern: **60% Medium, 40% Easy, and 0% Hard** problems. This is a critical insight. It means Remitly is not trying to weed you out with obscure dynamic programming or complex graph algorithms. Instead, they are assessing your fundamentals, your coding hygiene, and your ability to solve practical problems under pressure.
+
+The absence of Hard problems is a signal: depth of understanding on core data structures is more valued than breadth of knowledge on advanced topics. You need to be flawless on Easy problems and very comfortable with Mediums. For example, a classic Easy like **Two Sum (#1)** might be framed as finding two transactions that sum to a target amount. A Medium like **Merge Intervals (#56)** could model consolidating overlapping time windows for transaction processing. Another frequent Medium is **Validate Binary Search Tree (#98)**, which tests your understanding of tree traversals and state propagation—a metaphor for validating a sequence of financial events.
 
 ## Top Topics to Focus On
 
-Your study time should be heavily weighted toward these five areas, which constitute the vast majority of Remitly's questions.
+**1. Array & Hash Table**
+These are the workhorses of Remitly’s problem set. Arrays model sequences of transactions, logs, or currency amounts. Hash tables (dictionaries/maps) are indispensable for O(1) lookups—tracking user IDs, counting transaction frequencies, or memoizing results. The combination is often key, as seen in the classic Two Sum pattern.
 
-- **Array:** The most frequent data structure. Master in-place operations, two-pointer techniques, and prefix sums.
-- **Hash Table:** The go-to tool for O(1) lookups. Essential for frequency counting, memoization, and matching pairs.
-- **String:** Often intertwined with Array and Hash Table problems. Focus on manipulation, palindrome checks, and substring searches.
-- **Dynamic Programming:** A key differentiator for Medium problems. Start with classic 1D and 2D problems like climbing stairs or coin change to internalize the pattern.
-- **Depth-First Search:** Applied to tree and graph traversal. Understand recursive and iterative implementations for problems involving paths, connectivity, or state exploration.
-
-For Remitly, **Dynamic Programming (DP)** is a particularly high-value topic for tackling their Medium-difficulty questions. The core pattern involves breaking a problem into overlapping subproblems, storing their results, and building a solution bottom-up. Here is the classic "Climbing Stairs" problem implemented in three languages, demonstrating the space-optimized DP approach.
+_Why Remitly Favors It:_ Financial data is inherently sequential (ledgers, payment histories) and requires fast access for validation and aggregation.
 
 <div class="code-group">
 
 ```python
-def climbStairs(n: int) -> int:
-    """Returns distinct ways to climb n stairs (1 or 2 steps at a time)."""
-    if n <= 2:
-        return n
-    # dp[i] = ways to reach step i
-    prev, curr = 1, 2  # dp[1], dp[2]
-    for i in range(3, n + 1):
-        prev, curr = curr, prev + curr  # dp[i] = dp[i-1] + dp[i-2]
-    return curr
+# LeetCode #1: Two Sum
+# Problem Context: Find two distinct transactions that sum to a target amount.
+# Time: O(n) | Space: O(n)
+def two_sum(transactions, target):
+    """
+    Returns the indices of two numbers in `transactions` that add up to `target`.
+    """
+    seen = {}  # Hash map: key = amount needed, value = index
+    for i, amount in enumerate(transactions):
+        complement = target - amount
+        if complement in seen:
+            return [seen[complement], i]
+        seen[amount] = i
+    return []  # No solution found
+
+# Example: transactions = [5, 12, 8, 3], target = 11
+# Output: [2, 3] (8 + 3 = 11)
 ```
 
 ```javascript
-function climbStairs(n) {
-  if (n <= 2) return n;
-  let prev = 1,
-    curr = 2; // ways for step 1 and 2
-  for (let i = 3; i <= n; i++) {
-    [prev, curr] = [curr, prev + curr];
+// LeetCode #1: Two Sum
+// Time: O(n) | Space: O(n)
+function twoSum(transactions, target) {
+  const seen = new Map(); // amount needed -> index
+  for (let i = 0; i < transactions.length; i++) {
+    const complement = target - transactions[i];
+    if (seen.has(complement)) {
+      return [seen.get(complement), i];
+    }
+    seen.set(transactions[i], i);
   }
-  return curr;
+  return []; // No solution
 }
 ```
 
 ```java
-public int climbStairs(int n) {
-    if (n <= 2) return n;
-    int prev = 1, curr = 2; // dp[1], dp[2]
-    for (int i = 3; i <= n; i++) {
-        int next = prev + curr;
-        prev = curr;
-        curr = next;
+// LeetCode #1: Two Sum
+// Time: O(n) | Space: O(n)
+public int[] twoSum(int[] transactions, int target) {
+    Map<Integer, Integer> seen = new HashMap<>(); // amount -> index
+    for (int i = 0; i < transactions.length; i++) {
+        int complement = target - transactions[i];
+        if (seen.containsKey(complement)) {
+            return new int[]{seen.get(complement), i};
+        }
+        seen.put(transactions[i], i);
     }
-    return curr;
+    return new int[]{}; // No solution
 }
 ```
 
 </div>
 
-## Preparation Strategy — A 4-6 Week Study Plan
+**2. String Manipulation**
+Strings appear in parsing ISO currency codes, validating SWIFT/BIC codes, formatting user addresses, or sanitizing input. Problems often involve checking palindromes (for validation), sliding windows (for finding substrings), or parsing with state machines.
 
-A structured plan is non-negotiable. Here is a focused 5-week schedule.
+_Why Remitly Favors It:_ Financial systems are built on strict protocols and standards, many of which are string-based. Clean string handling is non-negotiable.
 
-- **Week 1-2: Core Foundations.** Dedicate this phase to Easy problems on **Arrays, Hash Tables, and Strings**. Solve 30-40 problems. Your objective is speed and 100% accuracy. Use a timer.
-- **Week 3: Conquering Mediums.** Transition to Medium problems. Focus on the remaining top topics: **Dynamic Programming and Depth-First Search**. Solve 15-20 DP problems, starting with the classic patterns. Solve 10-15 tree/graph DFS problems.
-- **Week 4: Integration and Patterns.** Practice Medium problems that mix topics (e.g., "Hash Table + Array" or "DFS + DP"). Focus on pattern recognition. Start doing 2-3 timed mock interviews per week, simulating a 45-minute session with a Medium question.
-- **Week 5: Refinement and Review.** Re-solve your previously missed problems. Systematically review time/space complexity analysis for all your solutions. Practice explaining your code out loud as you write it.
-- **Final Days:** Light practice only. Review key patterns and get adequate rest.
+**3. Dynamic Programming**
+DP questions at Remitly are typically classic Medium problems that model optimization—like making change with the fewest coins (**Coin Change #322**) or finding the maximum profit from a series of transactions with a cooldown (**Best Time to Buy and Sell Stock with Cooldown #309**). The focus is on identifying the subproblem and state definition.
+
+_Why Remitly Favors It:_ Core business problems involve optimization: minimizing fees, maximizing successful transactions, or allocating resources efficiently.
+
+<div class="code-group">
+
+```python
+# LeetCode #322: Coin Change (Adapted for fee minimization)
+# Problem: Find the fewest number of "fee units" to make a target amount.
+# Time: O(amount * len(coins)) | Space: O(amount)
+def coin_change(coins, amount):
+    """
+    coins: list of available fee units (e.g., [1, 3, 5])
+    amount: target amount to reach.
+    Returns the minimum number of coins, or -1 if impossible.
+    """
+    # dp[i] = min coins to make amount i
+    dp = [float('inf')] * (amount + 1)
+    dp[0] = 0  # Base case: 0 coins to make amount 0
+
+    for i in range(1, amount + 1):
+        for coin in coins:
+            if i - coin >= 0:
+                dp[i] = min(dp[i], dp[i - coin] + 1)
+
+    return dp[amount] if dp[amount] != float('inf') else -1
+```
+
+```javascript
+// LeetCode #322: Coin Change
+// Time: O(amount * coins.length) | Space: O(amount)
+function coinChange(coins, amount) {
+  const dp = new Array(amount + 1).fill(Infinity);
+  dp[0] = 0;
+  for (let i = 1; i <= amount; i++) {
+    for (const coin of coins) {
+      if (i - coin >= 0) {
+        dp[i] = Math.min(dp[i], dp[i - coin] + 1);
+      }
+    }
+  }
+  return dp[amount] === Infinity ? -1 : dp[amount];
+}
+```
+
+```java
+// LeetCode #322: Coin Change
+// Time: O(amount * n) | Space: O(amount)
+public int coinChange(int[] coins, int amount) {
+    int[] dp = new int[amount + 1];
+    Arrays.fill(dp, amount + 1); // Use a value > amount as "infinity"
+    dp[0] = 0;
+    for (int i = 1; i <= amount; i++) {
+        for (int coin : coins) {
+            if (i - coin >= 0) {
+                dp[i] = Math.min(dp[i], dp[i - coin] + 1);
+            }
+        }
+    }
+    return dp[amount] > amount ? -1 : dp[amount];
+}
+```
+
+</div>
+
+**4. Depth-First Search**
+DFS is used for exploring all possible states or paths, such as generating all valid combinations of transaction flags, traversing a hierarchy of currency conversion rates, or exploring a decision tree in a fraud detection rule engine. It’s less about complex graphs and more about systematic recursion with backtracking.
+
+_Why Remitly Favors It:_ Many processes involve exploring configurations (e.g., different ways to split a payment) or validating hierarchical data (e.g., organizational structure for approvals).
+
+<div class="code-group">
+
+```python
+# Pattern: DFS for generating all combinations (Subsets #78)
+# Context: Find all possible fee combinations below a threshold.
+# Time: O(2^n) | Space: O(n) for recursion depth
+def subsets(nums):
+    """
+    Returns all possible subsets (the power set) of the input list.
+    """
+    def backtrack(start, path):
+        result.append(path[:])  # Take a snapshot of the current path
+        for i in range(start, len(nums)):
+            path.append(nums[i])      # Choose
+            backtrack(i + 1, path)    # Explore
+            path.pop()                # Unchoose (backtrack)
+
+    result = []
+    backtrack(0, [])
+    return result
+```
+
+```javascript
+// Pattern: DFS for generating all combinations (Subsets #78)
+// Time: O(2^n) | Space: O(n) for recursion call stack
+function subsets(nums) {
+  const result = [];
+  function backtrack(start, path) {
+    result.push([...path]); // Add a copy of current subset
+    for (let i = start; i < nums.length; i++) {
+      path.push(nums[i]);
+      backtrack(i + 1, path);
+      path.pop();
+    }
+  }
+  backtrack(0, []);
+  return result;
+}
+```
+
+```java
+// Pattern: DFS for generating all combinations (Subsets #78)
+// Time: O(2^n) | Space: O(n) for recursion depth
+public List<List<Integer>> subsets(int[] nums) {
+    List<List<Integer>> result = new ArrayList<>();
+    backtrack(nums, 0, new ArrayList<>(), result);
+    return result;
+}
+
+private void backtrack(int[] nums, int start, List<Integer> path, List<List<Integer>> result) {
+    result.add(new ArrayList<>(path)); // Add a copy
+    for (int i = start; i < nums.length; i++) {
+        path.add(nums[i]);
+        backtrack(nums, i + 1, path, result);
+        path.remove(path.size() - 1); // backtrack
+    }
+}
+```
+
+</div>
+
+## Preparation Strategy
+
+**Weeks 1-2: Foundation & Core Patterns**
+
+- **Goal:** Achieve automaticity on Easy problems and learn the top 5 Medium patterns.
+- **Action:** Solve 40 problems. Focus on:
+  - Array/Hash Table: 15 problems (e.g., Two Sum, Contains Duplicate, Valid Anagram).
+  - String: 10 problems (e.g., Valid Palindrome, Longest Substring Without Repeating Characters).
+  - Start DP: 5 classic Mediums (Climbing Stairs, Coin Change).
+  - Start DFS: 5 problems (Subsets, Binary Tree Inorder Traversal).
+- **Key:** Time yourself. An Easy should take ≤10 minutes to code. A Medium, ≤20 minutes for a first working solution.
+
+**Weeks 3-4: Depth & Integration**
+
+- **Goal:** Master Medium problems and integrate multiple concepts.
+- **Action:** Solve 50 problems. Focus on:
+  - Dynamic Programming: 15 problems (Knapsack variants, House Robber, Buy/Sell Stock series).
+  - DFS/BFS: 15 problems (Tree traversals, Number of Islands, Word Search).
+  - Mixed Bag: 20 problems from Remitly’s tagged list, focusing on problems that combine topics (e.g., using a hash table within a DFS).
+- **Key:** For every problem, verbally explain your approach before coding. Practice writing clean, commented code as if for a PR.
+
+**Weeks 5-6: Mock Interviews & Polish**
+
+- **Goal:** Simulate the actual interview environment and polish communication.
+- **Action:**
+  - Complete 8-10 mock interviews (use platforms like CodeJeet or with a study partner).
+  - Re-solve 20-30 of the most frequent Remitly problems from memory.
+  - Dedicate time to behavioral prep using the STAR method, focusing on Remitly’s principles (Customer Obsession, Dream Big, etc.).
+- **Key:** In mocks, insist on handling edge cases aloud and discussing testing strategies.
+
+## Common Mistakes
+
+1.  **Rushing to Code Without Clarifying Edge Cases:** Candidates often jump into implementation when given a finance-adjacent problem. The interviewer is waiting for you to ask: “Can amounts be negative?” “Is the transaction list sorted?” “What should we return if there’s no solution?”
+    - **Fix:** Spend the first 2 minutes asking clarifying questions. Write down the constraints. State your assumptions explicitly.
+
+2.  **Over-Engineering a Simple Solution:** Because the problems are often Medium/Easy, some candidates try to impress with a fancy segment tree or a complex DP when a simple hash table or greedy approach works. This introduces unnecessary bugs and complexity.
+    - **Fix:** Always start with the brute force solution, then optimize. Say, “The naive approach is O(n²). We can improve this to O(n) by using a hash map to store seen values.”
+
+3.  **Neglecting Code Readability and Structure:** Writing a monolithic function with poorly named variables (`i`, `j`, `temp`) signals you don’t write maintainable code.
+    - **Fix:** Use descriptive names (`seenTransactions`, `currentBalance`). Break your code into small, logical functions if it exceeds 15-20 lines. Add brief inline comments for complex logic.
+
+4.  **Silent Struggle:** When stuck, some candidates go quiet for minutes, hoping for inspiration. This loses the collaborative aspect of the interview.
+    - **Fix:** Think out loud. Even if you’re wrong, say “I’m considering a sliding window, but I’m worried about the edge case when the window shrinks.” This allows the interviewer to guide you.
 
 ## Key Tips
 
-1.  **Communicate Relentlessly.** Before you write a single line of code, restate the problem, confirm edge cases, and outline your approach. Verbalize your thought process as you code. This turns a silent test into a collaborative session.
-2.  **Optimize Iteratively.** First, state the brute-force solution and its complexity. Then, logically propose your optimization (e.g., "We can use a hash map here to reduce lookups from O(n) to O(1)"). This demonstrates structured problem-solving.
-3.  **Write Production-Ready Code.** Use meaningful variable names, include a comment for complex logic, and handle obvious edge cases (null input, empty array, single element). Write clean code as if a colleague will maintain it.
-4.  **Test with Examples.** After coding, don't just announce you're done. Walk through a small test case with your code, including a potential edge case. This often helps you catch off-by-one errors before the interviewer does.
+1.  **Frame the Problem in a Financial Context:** When you hear the problem, immediately think of how it relates to Remitly’s domain. Is it about finding duplicates in a transaction log (Hash Table)? Validating a sequence of events (DFS/State Machine)? Optimizing costs (DP)? Mentioning this connection shows product-mindedness.
 
-Success in Remitly's interviews hinges on consistent, deliberate practice of their favored patterns. Build the muscle memory for Arrays, Hash Tables, and DP, and you'll walk into your interview with confidence.
+2.  **Practice the “Test-First” Mentality:** After writing your solution, don’t just run through the given example. Proactively say, “Let me test this with some edge cases: an empty list, a single transaction, very large amounts, duplicate values.” Then walk through your code with those inputs. This is gold in a financial interview.
+
+3.  **Master Exactly One Language:** You need to be so fluent that syntax never slows you down. For Remitly, Python is an excellent choice for its readability and concise data structure syntax, but Java or JavaScript are perfectly fine if you’re expert-level. Know the standard library for collections (lists, maps, sets) by heart.
+
+4.  **Ask Insightful Questions at the End:** Prepare 2-3 questions that demonstrate genuine interest in Remitly’s engineering challenges. For example: “How does the team balance the need for absolute financial accuracy with system latency and availability?” or “Can you describe a recent technical challenge the payments team solved?”
+
+Cracking Remitly’s interview is less about solving impossibly hard puzzles and more about demonstrating consistent, clear, and robust engineering judgment on practical problems. Focus on the fundamentals, communicate your process, and always tie your solution back to the real-world impact of moving money safely across borders.
 
 [Browse all Remitly questions on CodeJeet](/company/remitly)

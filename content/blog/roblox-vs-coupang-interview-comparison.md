@@ -1,99 +1,204 @@
 ---
 title: "Roblox vs Coupang: Interview Question Comparison"
 description: "Compare coding interview questions at Roblox and Coupang — difficulty levels, topic focus, and preparation strategy."
-date: "2026-12-21"
+date: "2026-12-13"
 category: "tips"
 tags: ["roblox", "coupang", "comparison"]
 ---
 
-When preparing for technical interviews at major tech companies, understanding the specific focus areas and difficulty profiles can significantly streamline your study process. Roblox and Coupang, while both prominent in their respective industries (gaming and e-commerce), present distinct interview landscapes. A direct comparison of their question banks reveals key differences in volume, difficulty distribution, and core topic emphasis, allowing you to tailor your preparation more effectively.
+# Roblox vs Coupang: Interview Question Comparison
+
+If you're preparing for interviews at both Roblox and Coupang, you're looking at two companies with distinct engineering cultures but surprisingly similar technical screening patterns. Roblox, the user-generated gaming platform, and Coupang, South Korea's e-commerce giant, both prioritize algorithmic problem-solving in their interviews, but with subtle differences in emphasis that can affect your preparation strategy. The key insight: you can achieve significant overlap in your preparation, but you'll need to allocate about 20% of your study time to company-specific patterns.
 
 ## Question Volume and Difficulty
 
-The total number of cataloged questions is similar, but the difficulty distribution tells a more important story.
+Looking at the data (Roblox: 56 questions, Coupang: 53 questions), both companies have substantial question banks, suggesting they value depth over breadth in their technical assessments.
 
-**Roblox** lists 56 questions, categorized as 8 Easy, 36 Medium, and 12 Hard. This breakdown indicates a strong emphasis on Medium-difficulty problems, which are the cornerstone of most technical screens and onsite coding rounds. The relatively higher count of Easy questions suggests Roblox may include more accessible problems in early screening phases.
+Roblox's distribution (E8/M36/H12) reveals a clear middle-heavy approach: 64% of their questions are medium difficulty, with a reasonable spread of easy (14%) and hard (21%) problems. This suggests their interviews are designed to filter for solid fundamentals rather than extreme optimization skills. You're more likely to get a problem that requires clean implementation of a known pattern than a completely novel algorithm.
 
-**Coupang** lists 53 questions, with a sharper distribution: 3 Easy, 36 Medium, and 14 Hard. The near-absence of Easy questions and the higher proportion of Hards signal that Coupang's process may be more rigorous from the outset, potentially diving into complex problem-solving earlier. You should be prepared for a steeper initial climb.
+Coupang's distribution (E3/M36/H14) is more polarized: only 6% easy questions, 68% medium, and 26% hard. This indicates they're willing to push candidates harder on complexity analysis and edge cases. The higher proportion of hard problems suggests Coupang interviews may include at least one question requiring advanced optimization or non-obvious insights.
 
-This contrast suggests a different preparation mindset: for Roblox, ensure flawless execution on Mediums; for Coupang, build significant depth to tackle challenging Hard problems.
+Both companies have similar total volumes, but Coupang's higher hard-problem percentage implies slightly more intense preparation is needed for their most challenging rounds.
 
 ## Topic Overlap
 
-Both companies heavily test foundational data structures, but with a critical divergence.
+The core overlap is substantial and predictable:
 
-The top topics for both are nearly identical at first glance:
+**Shared heavy hitters (both companies):**
 
-- **Roblox:** Array, Hash Table, String, Math
-- **Coupang:** Array, String, Hash Table, Dynamic Programming
+- **Array manipulation** (sliding window, two-pointer, prefix sums)
+- **Hash Table applications** (frequency counting, complement finding, caching)
+- **String operations** (palindromes, subsequences, transformations)
 
-The core trio of **Array, String, and Hash Table** is non-negotiable for both. You must master techniques like two-pointers, sliding window, and prefix sums for arrays and strings, and leverage hash maps for efficient lookups and frequency counting.
+**Roblox-specific emphasis:**
+
+- **Math problems** appear more frequently in their dataset
+- Geometry and coordinate-based questions (relevant to game development)
+- Probability and combinatorics (for game mechanics simulation)
+
+**Coupang-specific emphasis:**
+
+- **Dynamic Programming** appears as a distinct category
+- Optimization problems related to logistics, scheduling, or resource allocation
+- Graph algorithms (implied by their e-commerce operations needs)
+
+The math focus at Roblox makes sense given their gaming context—you might encounter problems involving vectors, collisions, or probability. Coupang's DP emphasis aligns with e-commerce optimization: think inventory management, delivery routing, or pricing algorithms.
+
+## Preparation Priority Matrix
+
+Here's how to allocate your study time efficiently:
+
+**High ROI (Study First - 60% of time):**
+
+- Array manipulation patterns (sliding window, two-pointer)
+- Hash Table applications (Two Sum variations, frequency analysis)
+- String algorithms (palindrome checks, subsequence problems)
+- Basic graph traversal (BFS/DFS for both companies)
+
+**Roblox-Specific (20% of time):**
+
+- Math and geometry problems
+- Coordinate system manipulations
+- Probability calculations
+- Matrix traversal with constraints
+
+**Coupang-Specific (20% of time):**
+
+- Dynamic Programming (0/1 knapsack, LCS, matrix DP)
+- Advanced graph algorithms (Dijkstra, topological sort)
+- Greedy algorithms with proof of optimality
+
+**Recommended shared-prep problems:**
+
+1. **Two Sum (#1)** - The foundational hash table problem
+2. **Valid Palindrome (#125)** - Covers two-pointer string manipulation
+3. **Merge Intervals (#56)** - Tests sorting and interval logic (useful for both gaming events and delivery scheduling)
+4. **Longest Substring Without Repeating Characters (#3)** - Classic sliding window
+5. **Product of Array Except Self (#238)** - Tests array manipulation without division
+
+## Interview Format Differences
+
+**Roblox typically follows:**
+
+- 1-2 phone screens (45-60 minutes each)
+- Virtual onsite with 3-4 technical rounds (45-60 minutes each)
+- Usually 1-2 coding problems per round
+- Moderate emphasis on system design (scaling game servers, handling concurrent users)
+- Behavioral questions focused on collaboration and game development passion
+- Sometimes includes a "game jam" style problem (implement simple game mechanics)
+
+**Coupang typically follows:**
+
+- 1 technical phone screen (60 minutes)
+- Onsite with 4-5 rounds (some companies still do in-person in Korea)
+- Often 1 complex problem per round or 2 medium problems
+- Heavy emphasis on optimization and scalability
+- System design focused on e-commerce systems (inventory, recommendation engines, payment systems)
+- Behavioral questions about handling scale and operational excellence
+- May include a "data structures deep dive" round
+
+The key difference: Roblox problems might have a "game flavor" but use standard algorithms, while Coupang problems often optimize for business constraints (time, space, cost).
+
+## Specific Problem Recommendations for Both Companies
+
+Here are 5 problems that provide excellent crossover value:
+
+1. **Container With Most Water (#11)** - Excellent for both companies. Tests two-pointer optimization with a visual/spatial component (good for Roblox's math/geometry focus) while also being an optimization problem (good for Coupang).
 
 <div class="code-group">
 
 ```python
-# Example: Sliding Window with Hash Map (common to both)
-def length_of_longest_substring(s: str) -> int:
-    char_index = {}
-    left = max_length = 0
-    for right, ch in enumerate(s):
-        if ch in char_index and char_index[ch] >= left:
-            left = char_index[ch] + 1
-        char_index[ch] = right
-        max_length = max(max_length, right - left + 1)
-    return max_length
+# Time: O(n) | Space: O(1)
+def maxArea(height):
+    left, right = 0, len(height) - 1
+    max_water = 0
+
+    while left < right:
+        # Calculate current area
+        width = right - left
+        current_height = min(height[left], height[right])
+        max_water = max(max_water, width * current_height)
+
+        # Move the pointer with smaller height
+        if height[left] < height[right]:
+            left += 1
+        else:
+            right -= 1
+
+    return max_water
 ```
 
 ```javascript
-// Example: Sliding Window with Hash Map (common to both)
-function lengthOfLongestSubstring(s) {
-  const charIndex = new Map();
-  let left = 0,
-    maxLength = 0;
-  for (let right = 0; right < s.length; right++) {
-    const ch = s[right];
-    if (charIndex.has(ch) && charIndex.get(ch) >= left) {
-      left = charIndex.get(ch) + 1;
+// Time: O(n) | Space: O(1)
+function maxArea(height) {
+  let left = 0;
+  let right = height.length - 1;
+  let maxWater = 0;
+
+  while (left < right) {
+    const width = right - left;
+    const currentHeight = Math.min(height[left], height[right]);
+    maxWater = Math.max(maxWater, width * currentHeight);
+
+    // Move pointer with smaller height
+    if (height[left] < height[right]) {
+      left++;
+    } else {
+      right--;
     }
-    charIndex.set(ch, right);
-    max_length = Math.max(max_length, right - left + 1);
   }
-  return maxLength;
+
+  return maxWater;
 }
 ```
 
 ```java
-// Example: Sliding Window with Hash Map (common to both)
-public int lengthOfLongestSubstring(String s) {
-    Map<Character, Integer> charIndex = new HashMap<>();
-    int left = 0, maxLength = 0;
-    for (int right = 0; right < s.length(); right++) {
-        char ch = s.charAt(right);
-        if (charIndex.containsKey(ch) && charIndex.get(ch) >= left) {
-            left = charIndex.get(ch) + 1;
+// Time: O(n) | Space: O(1)
+public int maxArea(int[] height) {
+    int left = 0;
+    int right = height.length - 1;
+    int maxWater = 0;
+
+    while (left < right) {
+        int width = right - left;
+        int currentHeight = Math.min(height[left], height[right]);
+        maxWater = Math.max(maxWater, width * currentHeight);
+
+        // Move pointer with smaller height
+        if (height[left] < height[right]) {
+            left++;
+        } else {
+            right--;
         }
-        charIndex.put(ch, right);
-        maxLength = Math.max(maxLength, right - left + 1);
     }
-    return maxLength;
+
+    return maxWater;
 }
 ```
 
 </div>
 
-The pivotal difference is the fourth topic: **Math** for Roblox versus **Dynamic Programming (DP)** for Coupang. Roblox's inclusion of Math points to a need for proficiency in number theory, combinatorics, and simulation problems. Coupang's focus on DP is a major differentiator; it demands deep, dedicated practice on pattern recognition for optimization and combinatorial problems (e.g., knapsack, longest common subsequence, DP on strings or grids).
+2. **Word Break (#139)** - Perfect crossover: DP problem (Coupang focus) that's also a string segmentation problem (both companies test strings heavily).
+
+3. **Rotate Image (#48)** - Matrix manipulation with in-place rotation. Tests both array skills and mathematical thinking about indices. The kind of spatial reasoning useful for Roblox with the algorithmic complexity Coupang values.
+
+4. **Longest Increasing Subsequence (#300)** - Classic DP problem that appears in variations at both companies. The binary search optimization (O(n log n) solution) is particularly impressive.
+
+5. **Number of Islands (#200)** - Graph traversal (BFS/DFS) applied to a grid. Relevant to Roblox for map/terrain analysis and to Coupang for logistics optimization.
 
 ## Which to Prepare for First
 
-Your choice depends on your target and your current skill level.
+**Prepare for Coupang first if:** You have interviews scheduled close together. Coupang's harder problem distribution means that if you can handle their questions, Roblox's will feel more manageable. The DP and advanced graph algorithms needed for Coupang require more dedicated study time.
 
-If you are **earlier in your interview preparation journey** or are prioritizing Roblox, start there. The slightly gentler difficulty curve (more Easys, fewer Hards) and the focus on foundational data structures plus Math allows you to build core competency. Solidifying your skills on Roblox's problem set will create a strong base applicable to Coupang and many other companies.
+**Prepare for Roblox first if:** Your Roblox interview comes significantly earlier, or if you're stronger at math/geometry problems than DP. Roblox's focus on clean implementations of medium-difficulty problems can build confidence before tackling Coupang's optimization challenges.
 
-If **Coupang is your primary target** or you already have a strong grasp of Medium-level problems, begin your focused preparation with Coupang's list. The high density of Medium and Hard problems, especially those involving Dynamic Programming, requires more dedicated study time. Mastering Coupang's profile will inherently cover the core Array, String, and Hash Table problems needed for Roblox, though you may need to supplement with specific Math practice.
+**Optimal hybrid approach:**
 
-In essence, Roblox offers a broad foundation with a mathematical tilt, while Coupang demands advanced algorithmic depth, particularly in DP. Align your study plan accordingly.
+1. Week 1-2: Master the shared fundamentals (arrays, hash tables, strings, basic graphs)
+2. Week 3: Study DP thoroughly (knapsack, LCS, matrix DP variations)
+3. Week 4: Practice Roblox-style math/geometry problems
+4. Final days: Mix company-specific problems based on interview order
 
-For detailed question lists and patterns, visit the Roblox and Coupang company pages.
+Remember: Both companies value clean, well-communicated code over clever one-liners. Practice explaining your thought process out loud—this matters more than minor optimizations at Roblox and demonstrates structured thinking at Coupang.
 
-- [Roblox Interview Questions](/company/roblox)
-- [Coupang Interview Questions](/company/coupang)
+For more company-specific insights, check out our [Roblox interview guide](/company/roblox) and [Coupang interview guide](/company/coupang).

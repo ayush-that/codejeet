@@ -1,94 +1,259 @@
 ---
 title: "String Questions at MakeMyTrip: What to Expect"
 description: "Prepare for String interview questions at MakeMyTrip — patterns, difficulty breakdown, and study tips."
-date: "2031-04-11"
+date: "2031-04-03"
 category: "dsa-patterns"
 tags: ["makemytrip", "string", "interview prep"]
 ---
 
-String manipulation is a core skill tested in MakeMyTrip technical interviews. With nearly half of their coding problems (11 out of 24) focusing on strings, proficiency here is non-negotiable. This emphasis exists because travel technology fundamentally operates on textual data: processing user queries, parsing itinerary formats (like "DEL-BOM-12:30"), validating coupon codes, handling hotel/airport names, and managing search filters. Efficient string algorithms directly translate to faster search results, accurate booking systems, and a smoother user experience. If you can't manipulate strings cleanly under constraints, you'll struggle in their real-world backend and data processing roles.
+If you're preparing for a software engineering interview at MakeMyTrip, you need to pay special attention to String manipulation problems. With nearly half of their coding questions (11 out of 24) focusing on Strings, this isn't just another topic—it's a core competency they actively screen for. This heavy emphasis makes sense for a travel-tech giant. Think about their core business: parsing flight itineraries (strings like "DEL → BOM → GOI"), validating user input (names, passport numbers, email addresses), processing search queries, and formatting booking confirmations. A candidate who struggles with string operations would struggle with the company's fundamental data processing tasks. In real interviews, you can almost certainly expect at least one, and often two, string-focused problems in your coding rounds.
 
-## What to Expect — Types of Problems
+## Specific Patterns MakeMyTrip Favors
 
-MakeMyTrip's string problems are practical and often involve pattern matching, parsing, and transformation. You can expect these categories:
+MakeMyTrip's string problems aren't about obscure text algorithms. They favor practical, iterative problem-solving that tests your ability to manipulate data in-place, traverse with multiple pointers, and handle edge cases in real-world scenarios. The patterns lean heavily toward:
 
-1.  **Pattern Searching & Matching:** Implementing or using algorithms like KMP, Rabin-Karp, or Z-algorithm to find substrings (e.g., searching for airport codes within a flight description).
-2.  **String Parsing & Validation:** Breaking down complex formats (e.g., "2 adults, 1 child" or date strings) and checking validity (e.g., coupon code rules, email formatting).
-3.  **String Transformation & Encoding:** Problems involving run-length encoding, shortening URLs, or reformatting text according to specific rules.
-4.  **Anagrams & Palindromes:** Checking for anagram groupings of hotel names or finding the longest palindromic substring in a user review.
-5.  **Two-Pointer & Sliding Window on Strings:** Efficiently solving problems like finding substrings with unique characters or minimum window substring, which is common in search autocomplete optimization.
+1.  **Two-Pointer / Sliding Window:** This is their bread and butter. Problems often involve finding substrings, checking for palindromes, or compressing/formatting strings without extra space.
+2.  **Iterative Simulation & Parsing:** You'll be asked to simulate a process, like decoding a string (`a2[b]` becomes `abb`) or executing a sequence of instructions. Recursion appears, but the optimal solution is often an iterative stack-based approach.
+3.  **Hash Map for Frequency & State Tracking:** Used in conjunction with sliding windows for problems like "longest substring with K distinct characters" or checking anagrams.
 
-## How to Prepare — Study Tips with One Code Example
+You won't find many complex suffix trees or advanced dynamic programming on strings here. The focus is on clean, efficient, and bug-free implementation of the patterns above. For example, **Decode String (LeetCode #394)** is a classic MakeMyTrip-style problem: it requires parsing nested structures, managing state with stacks, and building strings efficiently—all highly relevant to parsing travel booking codes or rules.
 
-Focus on mastering fundamental operations and classic algorithms. Practice writing bug-free code for reversing strings, checking palindromes, and finding substrings. Then, move to advanced patterns like sliding window and KMP. Always discuss time and space complexity. For parsing problems, practice using regular expressions judiciously and also manual iteration.
+## How to Prepare
 
-A critical pattern is the **Sliding Window for substrings with unique characters**. This is common in problems like "longest substring without repeating characters," which models scenarios like validating a session ID or tracking a unique search query.
+The key is to master the two-pointer/sliding window pattern and its variations. Let's look at a fundamental example: checking if a string is a palindrome, considering only alphanumeric characters and ignoring case. This tests your two-pointer skills and attention to validation details.
 
 <div class="code-group">
 
 ```python
-def length_of_longest_substring(s: str) -> int:
-    char_set = set()
-    left = 0
-    max_len = 0
+def is_palindrome(s: str) -> bool:
+    """
+    Checks if a string is a valid palindrome.
+    Time: O(n) - We traverse the string once.
+    Space: O(1) - We use only two pointers.
+    """
+    left, right = 0, len(s) - 1
 
-    for right in range(len(s)):
-        while s[right] in char_set:
-            char_set.remove(s[left])
+    while left < right:
+        # Move left pointer to next alphanumeric char
+        while left < right and not s[left].isalnum():
             left += 1
-        char_set.add(s[right])
-        max_len = max(max_len, right - left + 1)
-    return max_len
+        # Move right pointer to previous alphanumeric char
+        while left < right and not s[right].isalnum():
+            right -= 1
+
+        # Compare characters (case-insensitive)
+        if s[left].lower() != s[right].lower():
+            return False
+
+        left += 1
+        right -= 1
+
+    return True
 ```
 
 ```javascript
-function lengthOfLongestSubstring(s) {
-  const charSet = new Set();
+function isPalindrome(s) {
+  /**
+   * Checks if a string is a valid palindrome.
+   * Time: O(n) - We traverse the string once.
+   * Space: O(1) - We use only two pointers.
+   */
   let left = 0;
-  let maxLen = 0;
+  let right = s.length - 1;
 
-  for (let right = 0; right < s.length; right++) {
-    while (charSet.has(s[right])) {
-      charSet.delete(s[left]);
+  while (left < right) {
+    // Move left pointer to next alphanumeric char
+    while (left < right && !/[a-zA-Z0-9]/.test(s[left])) {
       left++;
     }
-    charSet.add(s[right]);
-    maxLen = Math.max(maxLen, right - left + 1);
+    // Move right pointer to previous alphanumeric char
+    while (left < right && !/[a-zA-Z0-9]/.test(s[right])) {
+      right--;
+    }
+
+    // Compare characters (case-insensitive)
+    if (s[left].toLowerCase() !== s[right].toLowerCase()) {
+      return false;
+    }
+
+    left++;
+    right--;
   }
-  return maxLen;
+
+  return true;
 }
 ```
 
 ```java
-public int lengthOfLongestSubstring(String s) {
-    Set<Character> charSet = new HashSet<>();
+public boolean isPalindrome(String s) {
+    /**
+     * Checks if a string is a valid palindrome.
+     * Time: O(n) - We traverse the string once.
+     * Space: O(1) - We use only two pointers.
+     */
     int left = 0;
-    int maxLen = 0;
+    int right = s.length() - 1;
 
-    for (int right = 0; right < s.length(); right++) {
-        while (charSet.contains(s.charAt(right))) {
-            charSet.remove(s.charAt(left));
+    while (left < right) {
+        // Move left pointer to next alphanumeric char
+        while (left < right && !Character.isLetterOrDigit(s.charAt(left))) {
             left++;
         }
-        charSet.add(s.charAt(right));
-        maxLen = Math.max(maxLen, right - left + 1);
+        // Move right pointer to previous alphanumeric char
+        while (left < right && !Character.isLetterOrDigit(s.charAt(right))) {
+            right--;
+        }
+
+        // Compare characters (case-insensitive)
+        if (Character.toLowerCase(s.charAt(left)) != Character.toLowerCase(s.charAt(right))) {
+            return false;
+        }
+
+        left++;
+        right--;
     }
-    return maxLen;
+
+    return true;
 }
 ```
 
 </div>
 
+For a more advanced pattern, the sliding window with a hash map is critical. Let's implement finding the length of the longest substring with at most K distinct characters, a pattern directly applicable to search query analysis.
+
+<div class="code-group">
+
+```python
+def longest_substring_k_distinct(s: str, k: int) -> int:
+    """
+    Finds the length of the longest substring with at most K distinct characters.
+    Time: O(n) - Each character is processed at most twice (by left and right pointers).
+    Space: O(k) - The hash map stores at most k+1 character frequencies.
+    """
+    char_count = {}
+    left = 0
+    max_length = 0
+
+    for right in range(len(s)):
+        # Add current character to the window
+        right_char = s[right]
+        char_count[right_char] = char_count.get(right_char, 0) + 1
+
+        # Shrink window if we have more than k distinct chars
+        while len(char_count) > k:
+            left_char = s[left]
+            char_count[left_char] -= 1
+            if char_count[left_char] == 0:
+                del char_count[left_char]
+            left += 1
+
+        # Update max length
+        max_length = max(max_length, right - left + 1)
+
+    return max_length
+```
+
+```javascript
+function longestSubstringKDistinct(s, k) {
+  /**
+   * Finds the length of the longest substring with at most K distinct characters.
+   * Time: O(n) - Each character is processed at most twice.
+   * Space: O(k) - The map stores at most k+1 character frequencies.
+   */
+  const charCount = new Map();
+  let left = 0;
+  let maxLength = 0;
+
+  for (let right = 0; right < s.length; right++) {
+    // Add current character to the window
+    const rightChar = s[right];
+    charCount.set(rightChar, (charCount.get(rightChar) || 0) + 1);
+
+    // Shrink window if we have more than k distinct chars
+    while (charCount.size > k) {
+      const leftChar = s[left];
+      charCount.set(leftChar, charCount.get(leftChar) - 1);
+      if (charCount.get(leftChar) === 0) {
+        charCount.delete(leftChar);
+      }
+      left++;
+    }
+
+    // Update max length
+    maxLength = Math.max(maxLength, right - left + 1);
+  }
+
+  return maxLength;
+}
+```
+
+```java
+public int longestSubstringKDistinct(String s, int k) {
+    /**
+     * Finds the length of the longest substring with at most K distinct characters.
+     * Time: O(n) - Each character is processed at most twice.
+     * Space: O(k) - The map stores at most k+1 character frequencies.
+     */
+    Map<Character, Integer> charCount = new HashMap<>();
+    int left = 0;
+    int maxLength = 0;
+
+    for (int right = 0; right < s.length(); right++) {
+        // Add current character to the window
+        char rightChar = s.charAt(right);
+        charCount.put(rightChar, charCount.getOrDefault(rightChar, 0) + 1);
+
+        // Shrink window if we have more than k distinct chars
+        while (charCount.size() > k) {
+            char leftChar = s.charAt(left);
+            charCount.put(leftChar, charCount.get(leftChar) - 1);
+            if (charCount.get(leftChar) == 0) {
+                charCount.remove(leftChar);
+            }
+            left++;
+        }
+
+        // Update max length
+        maxLength = Math.max(maxLength, right - left + 1);
+    }
+
+    return maxLength;
+}
+```
+
+</div>
+
+## How MakeMyTrip Tests String vs Other Companies
+
+Compared to other companies, MakeMyTrip's string questions have a distinct "applied" flavor. At a company like Google, you might get a string problem that's a clever disguise for a graph theory concept (e.g., Word Ladder). At Amazon, you might need to integrate string parsing with object-oriented design. MakeMyTrip, however, keeps it closer to the data manipulation layer. The difficulty is often in the **edge cases and implementation details**, not in discovering a novel algorithm. For example, a problem might involve formatting a date string according to locale-specific rules or parsing a complex but well-defined itinerary format. The interviewer will watch closely for off-by-one errors, proper handling of empty inputs, and efficient memory usage. What's unique is the expectation of **production-ready code** in an interview setting—clean, commented where necessary, and robust.
+
+## Study Order
+
+Tackle these sub-topics in this order to build a solid foundation:
+
+1.  **Basic Traversal & Two-Pointers:** Start here because every other pattern builds on the ability to navigate a string efficiently. Practice reversing strings, checking palindromes, and comparing strings.
+2.  **Sliding Window:** Learn the fixed and dynamic window patterns next. This is MakeMyTrip's most frequent pattern, used for substring problems. Understand how to maintain window invariants.
+3.  **Hash Map for Frequency:** Integrate hash maps with sliding windows. This combination solves a huge class of problems (anagrams, longest substring with K distinct characters).
+4.  **Stack for Parsing & Simulation:** Learn to use stacks for problems involving nested structures (Decode String, Valid Parentheses). This is crucial for simulating sequential processes.
+5.  **Interleaving & Merging:** Finally, practice problems that require merging two strings or checking interleaving. These often combine multiple pointers with conditional logic.
+
+This order works because it moves from simple linear traversal to managing state (with hash maps) to managing sequence and history (with stacks), which is the natural progression of complexity in MakeMyTrip's problem set.
+
 ## Recommended Practice Order
 
-Tackle problems in this sequence to build competence systematically:
+Solve these specific problems in sequence to build the right skills:
 
-1.  **Basics:** Reversal, palindrome checks, anagram detection.
-2.  **Two-Pointer:** Problems like valid palindrome, comparing strings with backspaces.
-3.  **Sliding Window:** Longest substring with K distinct characters, minimum window substring.
-4.  **Advanced Algorithms:** Implement KMP for pattern searching, Rabin-Karp for multiple pattern search.
-5.  **Parsing & Simulation:** Decode strings, convert between formats (e.g., zigzag conversion).
+1.  **Valid Palindrome (LeetCode #125):** Master the basic two-pointer pattern with validation.
+2.  **Longest Substring Without Repeating Characters (LeetCode #3):** The canonical sliding window problem.
+3.  **Minimum Window Substring (LeetCode #76):** A harder sliding window that introduces the "have/need" count pattern.
+4.  **Longest Substring with At Most K Distinct Characters (LeetCode #340):** Direct practice for the pattern shown in the code above.
+5.  **Decode String (LeetCode #394):** Excellent practice for stack-based parsing and string building.
+6.  **String Compression (LeetCode #443):** Tests in-place modification with two-pointers.
+7.  **Find All Anagrams in a String (LeetCode #438):** Combines sliding window with frequency counting perfectly.
+8.  **Valid Parentheses (LeetCode #20):** A foundational stack problem.
+9.  **Group Anagrams (LeetCode #49):** Focuses on hashing string patterns.
+10. **Integer to English Words (LeetCode #273):** A challenging MakeMyTrip-style problem that tests meticulous parsing and edge-case handling—a great final challenge.
 
-This progression ensures you handle the most frequent patterns first before tackling complex, less common problems.
+This sequence starts with core patterns, adds complexity, and finishes with a problem that demands careful, clean implementation—exactly what your interview will require.
 
 [Practice String at MakeMyTrip](/company/makemytrip/string)

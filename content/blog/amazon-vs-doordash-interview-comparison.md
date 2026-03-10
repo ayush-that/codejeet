@@ -1,131 +1,170 @@
 ---
 title: "Amazon vs DoorDash: Interview Question Comparison"
 description: "Compare coding interview questions at Amazon and DoorDash — difficulty levels, topic focus, and preparation strategy."
-date: "2026-03-24"
+date: "2028-12-12"
 category: "tips"
 tags: ["amazon", "doordash", "comparison"]
 ---
 
-When preparing for technical interviews at top tech companies, understanding the specific focus and expectations of each can dramatically improve your efficiency. Amazon and DoorDash, while both requiring strong algorithmic skills, present distinct interview landscapes in terms of scale, question difficulty, and topic emphasis. This comparison breaks down their key differences to help you tailor your preparation strategy.
+# Amazon vs DoorDash: Interview Question Comparison
 
-## Question Volume and Difficulty
+If you're interviewing at both Amazon and DoorDash, you're facing two distinct beasts in the tech landscape. One is a retail and cloud behemoth with a famously vast, standardized question bank. The other is a logistics-focused platform with a smaller, more operationally-driven set of problems. Preparing for both simultaneously is less about doubling your workload and more about smartly mapping the overlapping terrain and then branching out to company-specific frontiers. The core insight? A solid foundation in arrays, strings, and hash tables will serve you tremendously for both, but your depth of study and peripheral topics will need to diverge.
 
-The most striking difference is the sheer volume of documented questions. Amazon's list of **1,938 questions** is massive, dwarfing DoorDash's **87 questions**. This reflects Amazon's longer interview history, larger number of roles, and the widespread sharing of experiences online.
+## Question Volume and Difficulty: A Tale of Two Scales
 
-The difficulty distributions also tell a story:
+The raw numbers tell a stark story. Amazon's tagged LeetCode questions number **1,938**, dwarfing DoorDash's **87**. This isn't just a difference in quantity; it signals a fundamental difference in interview philosophy and what you're up against.
 
-- **Amazon (E530/M1057/H351):** The difficulty is weighted towards **Medium** questions, which make up over half of the total. This aligns with the typical on-site loop, where most questions are designed to be solved in 30-45 minutes with a strong, optimal solution. The significant number of Hard questions often appears in later rounds for more senior positions or specific teams.
-- **DoorDash (E6/M51/H30):** The distribution here is heavily skewed towards **Medium and Hard** problems relative to its total. Easy questions are minimal. This suggests DoorDash interviews frequently dive directly into complex scenarios, testing your ability to handle nuanced system design or multi-step algorithmic challenges from the outset. The smaller pool means questions may be repeated or have slight variations more often.
+**Amazon's** distribution (530 Easy, 1057 Medium, 351 Hard) reveals their process: it's a broad, well-trodden machine. With thousands of interviews conducted monthly, they have a massive, recycled question bank. Your odds of getting a completely novel, unseen problem are low if you've prepared extensively. However, the volume means you must prepare for _breadth_. You might see a classic like "Two Sum" or a complex DP problem; the spread is wide. The high Medium count is the key—this is the heart of their technical screen.
 
-## Topic Overlap
+**DoorDash's** numbers (6 Easy, 51 Medium, 30 Hard) point to a more curated, intense experience. The near absence of Easy questions suggests they skip the warm-ups. The interview jumps quickly into substantive problem-solving. The high Hard-to-Total ratio (~34%) is significantly higher than Amazon's (~18%), indicating that for the questions they _do_ ask, they favor depth and complexity, often related to real-world logistics, scheduling, and state management. Their list is smaller because their problems are often more bespoke or deeply tied to their domain.
 
-Both companies heavily test core data structures. **Array, String, and Hash Table** problems are fundamental for both. This is your essential foundation.
+**Implication:** For Amazon, you run a marathon across a wide field. For DoorDash, you prepare for a series of deep, challenging sprints.
 
-The primary divergence appears in the next layer of focus:
+## Topic Overlap: Your Foundation for Both
 
-- **Amazon's** fourth most frequent topic is **Dynamic Programming (DP)**. This is a critical area for Amazon, especially for optimizing problems related to resource allocation, paths, and sequences. Expect to see classic DP patterns.
-- **DoorDash's** fourth most frequent topic is **Depth-First Search (DFS)**. This aligns with problems involving hierarchies, menus, geographical areas, or state exploration—scenarios common in delivery logistics, mapping, and platform management.
+Both companies heavily test **Array**, **String**, and **Hash Table** manipulations. This trio forms the absolute core of shared preparation. These are not just simple topics; they are the building blocks for most algorithms. At Amazon, a string question might be about parsing and transformation. At DoorDash, it might involve manipulating delivery addresses or time windows. The underlying skills—two-pointer techniques, sliding windows, character counting with hash maps—are identical.
 
-Here’s a quick example illustrating a common pattern for each:
+The key divergence appears in their secondary focuses:
+
+- **Amazon** heavily emphasizes **Dynamic Programming**. This is a staple for them, testing your ability to break down complex problems and optimize overlapping subproblems. It's a must-know area.
+- **DoorDash** shows a distinct emphasis on **Depth-First Search** (and by extension, general graph traversal). This makes intuitive sense for a company mapping deliveries, routes, and dependencies between tasks. You should be equally comfortable with BFS, but DFS is explicitly called out.
+
+Think of it this way: The shared core (Array, String, Hash Table) is your universal toolkit. For Amazon, you add a specialized DP wrench. For DoorDash, you add a graph traversal screwdriver.
+
+## Preparation Priority Matrix
+
+Maximize your return on study time by following this priority order:
+
+1.  **Overlap Core (Study First - Highest ROI):**
+    - **Topics:** Array, String, Hash Table.
+    - **Skills:** Two-pointers, Sliding Window, Prefix Sum, Hashing for lookups and counts.
+    - **Sample Problems Useful for Both:**
+      - **Two Sum (#1):** The quintessential hash map problem.
+      - **Longest Substring Without Repeating Characters (#3):** Classic sliding window/hash map.
+      - **Merge Intervals (#56):** Extremely common pattern for both companies (scheduling meetings, merging delivery time windows).
+
+2.  **Amazon-Only Priority:**
+    - **Topic:** Dynamic Programming.
+    - **Focus:** Start with 1D DP (Climbing Stairs #70, Coin Change #322), then move to 2D DP (Longest Common Subsequence #1143, Edit Distance #72). Don't neglect DP on strings.
+
+3.  **DoorDash-Only Priority:**
+    - **Topic:** Depth-First Search / Graph Traversal.
+    - **Focus:** Graph representation, cycle detection, topological sort (Course Schedule #207), and DFS on matrices (Number of Islands #200). Problems involving trees are also fair game.
+
+## Interview Format Differences
+
+**Amazon** follows the highly structured "Loop." You'll typically have 3-4 60-minute back-to-back interviews in one day (virtual or on-site). Each session is divided roughly into:
+
+- **5-10 mins:** Brief intro and behavioral question(s) based on their Leadership Principles.
+- **40-45 mins:** One or two coding problems on a shared editor. The interviewer has a rubric.
+- **5-10 mins:** Your questions for them.
+  The behavioral component is **critical** and weighted as heavily as the coding. For SDE II and above, one round will be a **System Design** interview (e.g., design a parking lot, a notification system).
+
+**DoorDash**'s process is generally leaner but intense. After a recruiter screen, you can expect:
+
+- **Technical Phone Screen:** 45-60 minutes, often one meaty Medium/Hard problem.
+- **Virtual On-Site:** 3-4 rounds of 45-60 minutes each. These rounds are almost purely technical and problem-solving focused, with less rigid time devoted to behavioral questions (though culture fit is assessed throughout). Problems are more likely to be multi-part, building in complexity. For senior roles, a **System Design** round focusing on scalable, real-time systems (e.g., design DoorDash's dispatch system) is standard.
+
+## Specific Problem Recommendations for Dual Preparation
+
+Here are 3-5 problems that efficiently build skills applicable to both companies:
+
+1.  **Merge Intervals (#56):** This pattern is ubiquitous. Amazon might use it for optimizing server usage; DoorDash for consolidating delivery windows. It teaches sorting and managing ranges—a fundamental skill.
+2.  **LRU Cache (#146):** A perfect blend of design and algorithm. It tests your understanding of hash tables and linked lists. Amazon loves it for system fundamentals; DoorDash might relate it to caching delivery data.
+3.  **Word Break (#139):** A fantastic bridge problem. It can be solved with DFS/backtracking (relevant to DoorDash's graph focus) but has a more optimal Dynamic Programming solution (relevant to Amazon's DP focus). Studying both approaches is a huge win.
+4.  **Number of Islands (#200):** The canonical DFS/BFS on a matrix problem. Essential for DoorDash's stated focus, but also a very common Amazon question. It's a must-know graph traversal technique.
+5.  **Longest Palindromic Substring (#5):** Excellent for practicing 2D array manipulation and expanding from a center point. It touches strings, arrays, and has a DP solution, hitting multiple core and Amazon-specific areas.
 
 <div class="code-group">
 
 ```python
-# Amazon-style DP: Climbing Stairs (Classic)
-def climbStairs(n: int) -> int:
-    if n <= 2:
-        return n
-    dp = [0] * (n + 1)
-    dp[1], dp[2] = 1, 2
-    for i in range(3, n + 1):
-        dp[i] = dp[i-1] + dp[i-2]
-    return dp[n]
+# Example: Two-Pointer approach for Longest Palindromic Substring (#5)
+# Time: O(n^2) | Space: O(1)
+class Solution:
+    def longestPalindrome(self, s: str) -> str:
+        def expand_around_center(left: int, right: int) -> str:
+            # Expand outwards while the substring is a palindrome
+            while left >= 0 and right < len(s) and s[left] == s[right]:
+                left -= 1
+                right += 1
+            # Return the palindrome found (note: left, right are one step beyond)
+            return s[left + 1:right]
 
-# DoorDash-style DFS: Clone a N-ary Tree (Hierarchy)
-class Node:
-    def __init__(self, val=None, children=None):
-        self.val = val
-        self.children = children if children is not None else []
+        longest = ""
+        for i in range(len(s)):
+            # Check for odd-length palindromes (single character center)
+            odd_pal = expand_around_center(i, i)
+            # Check for even-length palindromes (two character center)
+            even_pal = expand_around_center(i, i + 1)
 
-def cloneTree(root: 'Node') -> 'Node':
-    if not root:
-        return None
-    clone = Node(root.val)
-    for child in root.children:
-        clone.children.append(cloneTree(child))
-    return clone
+            # Update the longest palindrome found
+            if len(odd_pal) > len(longest):
+                longest = odd_pal
+            if len(even_pal) > len(longest):
+                longest = even_pal
+        return longest
 ```
 
 ```javascript
-// Amazon-style DP: Climbing Stairs
-function climbStairs(n) {
-  if (n <= 2) return n;
-  let dp = new Array(n + 1).fill(0);
-  dp[1] = 1;
-  dp[2] = 2;
-  for (let i = 3; i <= n; i++) {
-    dp[i] = dp[i - 1] + dp[i - 2];
-  }
-  return dp[n];
-}
+// Time: O(n^2) | Space: O(1)
+function longestPalindrome(s) {
+  const expandAroundCenter = (left, right) => {
+    while (left >= 0 && right < s.length && s[left] === s[right]) {
+      left--;
+      right++;
+    }
+    return s.substring(left + 1, right);
+  };
 
-// DoorDash-style DFS: Clone N-ary Tree
-function Node(val, children) {
-  this.val = val;
-  this.children = children || [];
-}
-function cloneTree(root) {
-  if (!root) return null;
-  let clone = new Node(root.val);
-  for (let child of root.children) {
-    clone.children.push(cloneTree(child));
+  let longest = "";
+  for (let i = 0; i < s.length; i++) {
+    const oddPal = expandAroundCenter(i, i);
+    const evenPal = expandAroundCenter(i, i + 1);
+
+    if (oddPal.length > longest.length) longest = oddPal;
+    if (evenPal.length > longest.length) longest = evenPal;
   }
-  return clone;
+  return longest;
 }
 ```
 
 ```java
-// Amazon-style DP: Climbing Stairs
-public int climbStairs(int n) {
-    if (n <= 2) return n;
-    int[] dp = new int[n + 1];
-    dp[1] = 1; dp[2] = 2;
-    for (int i = 3; i <= n; i++) {
-        dp[i] = dp[i-1] + dp[i-2];
-    }
-    return dp[n];
-}
+// Time: O(n^2) | Space: O(1)
+public class Solution {
+    public String longestPalindrome(String s) {
+        if (s == null || s.length() < 1) return "";
 
-// DoorDash-style DFS: Clone N-ary Tree
-class Node {
-    public int val;
-    public List<Node> children;
-    public Node(int val, List<Node> children) {
-        this.val = val;
-        this.children = children;
+        int start = 0, end = 0;
+        for (int i = 0; i < s.length(); i++) {
+            int len1 = expandAroundCenter(s, i, i);     // odd length
+            int len2 = expandAroundCenter(s, i, i + 1); // even length
+            int len = Math.max(len1, len2);
+            if (len > end - start) {
+                start = i - (len - 1) / 2;
+                end = i + len / 2;
+            }
+        }
+        return s.substring(start, end + 1);
     }
-}
-public Node cloneTree(Node root) {
-    if (root == null) return null;
-    List<Node> clonedChildren = new ArrayList<>();
-    for (Node child : root.children) {
-        clonedChildren.add(cloneTree(child));
+
+    private int expandAroundCenter(String s, int left, int right) {
+        while (left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)) {
+            left--;
+            right++;
+        }
+        return right - left - 1; // length of the palindrome
     }
-    return new Node(root.val, clonedChildren);
 }
 ```
 
 </div>
 
-## Which to Prepare for First
+## Which to Prepare for First?
 
-Start with the **shared foundation**. Grind problems on **Arrays, Strings, and Hash Tables** until you can identify patterns and edge cases quickly. This core is non-negotiable for both.
+The strategic choice depends on your interview timeline, but here's the logic: **Prepare for DoorDash first.**
 
-If your goal is **Amazon**, you must dedicate significant time to **Dynamic Programming**. Practice the common patterns (0/1 knapsack, LCS, LIS, etc.) until you can derive the state transition. The vast question pool means you should focus on pattern recognition over memorization.
+Why? DoorDash's focused, harder problem set will force you to build deep problem-solving skills and mastery in graph algorithms. This creates a high ceiling of competency. Once you have that depth, transitioning to Amazon's preparation is largely about _broadening_ your knowledge—practicing a wider variety of problems, especially Dynamic Programming, and integrating the extensive behavioral preparation around Leadership Principles. It's easier to go from deep, focused practice to broad practice than the other way around. If you only prepare broadly for Amazon, you might be caught off guard by the depth and domain-specific nuance of a DoorDash Hard problem.
 
-If your goal is **DoorDash**, after mastering the core, prioritize **Graph traversal (DFS/BFS)** and tree problems. Think about real-world applications: mapping routes, managing order states, or navigating menu categories. The smaller question pool makes recent problem lists highly valuable.
+Start with the shared core, then dive into DoorDash's graph/DFS focus and complex problem-solving. Finally, widen your scope to Amazon's DP and larger question bank while drilling behavioral stories. This path builds the most robust and transferable skill set.
 
-Ultimately, your preparation should be company-targeted. Use the massive Amazon list for broad pattern practice, and the focused DoorDash list for deep, scenario-based drilling.
-
-- Practice Amazon questions: [/company/amazon](/company/amazon)
-- Practice DoorDash questions: [/company/doordash](/company/doordash)
+For further company-specific details, visit the CodeJeet pages for [Amazon](/company/amazon) and [DoorDash](/company/doordash).

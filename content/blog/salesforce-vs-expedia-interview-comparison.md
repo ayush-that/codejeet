@@ -1,138 +1,186 @@
 ---
 title: "Salesforce vs Expedia: Interview Question Comparison"
 description: "Compare coding interview questions at Salesforce and Expedia — difficulty levels, topic focus, and preparation strategy."
-date: "2028-10-25"
+date: "2031-07-26"
 category: "tips"
 tags: ["salesforce", "expedia", "comparison"]
 ---
 
-When preparing for technical interviews at major tech companies, understanding the specific focus and patterns of each company's question bank can dramatically improve your efficiency. Salesforce and Expedia, while both prominent in their industries, present distinct interview landscapes in terms of volume, difficulty, and core topic emphasis. This comparison breaks down their technical interview question profiles to help you strategize your preparation.
+# Salesforce vs Expedia: Interview Question Comparison
+
+If you're preparing for interviews at both Salesforce and Expedia, you're looking at two distinct challenges. Salesforce, with its massive question bank, tests depth and breadth across difficulty levels, while Expedia's more focused list suggests a different interview philosophy. The key insight: you can optimize your preparation by understanding their overlapping patterns and unique priorities. This isn't about studying twice as much—it's about studying smarter, starting with the intersection of their requirements.
 
 ## Question Volume and Difficulty
 
-The sheer number of documented questions is the most immediate difference. Salesforce's list is significantly larger, with **189 questions** compared to Expedia's **54**. This volume suggests that Salesforce has a more extensive, and possibly more varied, historical question bank that candidates report on.
+The numbers tell a clear story about interview intensity. Salesforce's 189 questions (27 Easy, 113 Medium, 49 Hard) indicate a comprehensive, rigorous process. With over twice as many Medium questions as Easy and Hard combined, they're clearly testing for strong problem-solving on non-trivial challenges. This volume suggests you might encounter a wider variety of problems or that they've been running technical interviews longer with more documented questions.
 
-The difficulty distribution also reveals contrasting profiles:
+Expedia's 54 questions (13 Easy, 35 Medium, 6 Hard) presents a different picture. The Medium-heavy distribution (65% of questions) aligns with Salesforce, but the much smaller total count and minimal Hard questions (just 6) suggest a more focused interview. This could mean they reuse certain problem patterns more frequently or have a narrower scope of assessment.
 
-- **Salesforce (E27/M113/H49):** The majority of questions are rated Medium (113), with a substantial number of Hard questions (49). This indicates a strong emphasis on complex problem-solving. The relatively low number of Easy questions suggests the interview process is designed to quickly move into challenging territory.
-- **Expedia (E13/M35/H6):** The focus here is overwhelmingly on Medium-difficulty problems (35). The number of Hard questions is minimal (6), and Easy questions make up a notable portion. This points to an interview process that tests solid fundamentals and applied problem-solving, with less frequent forays into highly optimized, complex algorithms.
+The implication: For Salesforce, you need broad preparation across difficulty levels. For Expedia, you can afford to go deeper on Medium problems while ensuring you cover their specific topic preferences.
 
 ## Topic Overlap
 
-Both companies heavily test core data structures, as seen in their shared top topics: **Array, String, and Hash Table**. Mastery of these is non-negotiable for either interview.
+Both companies heavily test **Array**, **String**, and **Hash Table** problems. This overlap is your preparation sweet spot—mastering these topics gives you maximum return on investment for both interviews.
 
-The key differentiator lies in their fourth most frequent topic:
+**Shared patterns to master:**
 
-- **Salesforce: Dynamic Programming (DP).** The high frequency of DP aligns with its abundance of Medium and Hard questions. DP problems are classic tests of advanced problem decomposition, state definition, and optimization. Preparing for Salesforce necessitates a deep dive into DP patterns like knapsack, longest common subsequence, and state machine DP.
+- Two-pointer techniques (especially for arrays and strings)
+- Sliding window problems
+- Hash map for frequency counting and lookups
+- String manipulation and parsing
+
+**Unique focuses:**
+
+- **Salesforce**: Dynamic Programming appears as a distinct category, suggesting they test optimization problems, memoization, and bottom-up/top-down approaches.
+- **Expedia**: Greedy algorithms are specifically mentioned, indicating they value problems where local optimal choices lead to global solutions.
+
+Interestingly, both omit some common categories like Trees and Graphs from their top lists, though you might still encounter them. The shared emphasis on fundamental data structures suggests both companies want to assess core algorithmic thinking before specialized knowledge.
+
+## Preparation Priority Matrix
+
+Here's how to allocate your study time strategically:
+
+**High Priority (Both Companies):**
+
+- Array manipulation (sorting, searching, partitioning)
+- String operations (palindromes, subsequences, transformations)
+- Hash Table applications (Two Sum pattern, frequency analysis)
+
+**Medium Priority (Salesforce Focus):**
+
+- Dynamic Programming (start with 1D then 2D problems)
+- Memoization patterns for optimization
+
+**Medium Priority (Expedia Focus):**
+
+- Greedy algorithms (interval scheduling, task assignment)
+- Problems with "minimum" or "maximum" in optimal way
+
+**Specific LeetCode problems useful for both:**
+
+- Two Sum (#1) - Hash Table fundamentals
+- Merge Intervals (#56) - Tests sorting and greedy thinking
+- Longest Substring Without Repeating Characters (#3) - Sliding window technique
+- Valid Parentheses (#20) - Stack application (implied in string manipulation)
+
+## Interview Format Differences
+
+**Salesforce** typically follows a multi-round process:
+
+- 1-2 phone screens with coding challenges
+- Virtual or on-site final rounds with 3-5 interviews
+- 45-60 minutes per coding round, often with 2 problems (one Medium, one Medium-Hard)
+- Behavioral questions integrated into most rounds
+- System design expectations vary by level (senior roles definitely need it)
+
+**Expedia** tends to be more streamlined:
+
+- Usually 1-2 technical phone interviews
+- Final round with 2-3 technical sessions
+- 45 minutes per coding round, typically 1-2 Medium problems
+- Separate behavioral/cultural fit interviews
+- System design less emphasized for non-senior roles
+
+Both companies use collaborative coding environments (CoderPad, HackerRank) and expect you to discuss your approach. Salesforce interviews often feel more like a marathon—you need endurance across multiple challenging rounds. Expedia interviews are more like sprints—shorter but still intense.
+
+## Specific Problem Recommendations
+
+Here are 5 problems that provide excellent coverage for both companies:
+
+1. **Container With Most Water (#11)** - Tests two-pointer technique with arrays, which appears in both companies' question banks.
 
 <div class="code-group">
 
 ```python
-# Example DP pattern (Coin Change)
-def coinChange(coins, amount):
-    dp = [float('inf')] * (amount + 1)
-    dp[0] = 0
-    for i in range(1, amount + 1):
-        for coin in coins:
-            if i - coin >= 0:
-                dp[i] = min(dp[i], dp[i - coin] + 1)
-    return dp[amount] if dp[amount] != float('inf') else -1
-```
+# Time: O(n) | Space: O(1)
+def maxArea(height):
+    left, right = 0, len(height) - 1
+    max_area = 0
 
-```javascript
-// Example DP pattern (Coin Change)
-function coinChange(coins, amount) {
-  const dp = new Array(amount + 1).fill(Infinity);
-  dp[0] = 0;
-  for (let i = 1; i <= amount; i++) {
-    for (const coin of coins) {
-      if (i - coin >= 0) {
-        dp[i] = Math.min(dp[i], dp[i - coin] + 1);
-      }
-    }
-  }
-  return dp[amount] === Infinity ? -1 : dp[amount];
-}
-```
+    while left < right:
+        # Calculate area with current boundaries
+        width = right - left
+        current_height = min(height[left], height[right])
+        max_area = max(max_area, width * current_height)
 
-```java
-// Example DP pattern (Coin Change)
-public int coinChange(int[] coins, int amount) {
-    int[] dp = new int[amount + 1];
-    Arrays.fill(dp, amount + 1);
-    dp[0] = 0;
-    for (int i = 1; i <= amount; i++) {
-        for (int coin : coins) {
-            if (i - coin >= 0) {
-                dp[i] = Math.min(dp[i], dp[i - coin] + 1);
-            }
-        }
-    }
-    return dp[amount] > amount ? -1 : dp[amount];
-}
-```
-
-</div>
-
-- **Expedia: Greedy Algorithms.** This focus complements its profile of Medium-difficulty questions. Greedy problems test your ability to find locally optimal choices that lead to a global solution, often involving sorting and interval manipulation. They require strong reasoning to prove the greedy choice is valid.
-
-<div class="code-group">
-
-```python
-# Example Greedy pattern (Merge Intervals)
-def merge(intervals):
-    intervals.sort(key=lambda x: x[0])
-    merged = []
-    for interval in intervals:
-        if not merged or merged[-1][1] < interval[0]:
-            merged.append(interval)
+        # Move the pointer with smaller height inward
+        if height[left] < height[right]:
+            left += 1
         else:
-            merged[-1][1] = max(merged[-1][1], interval[1])
-    return merged
+            right -= 1
+
+    return max_area
 ```
 
 ```javascript
-// Example Greedy pattern (Merge Intervals)
-function merge(intervals) {
-  intervals.sort((a, b) => a[0] - b[0]);
-  const merged = [];
-  for (const interval of intervals) {
-    if (merged.length === 0 || merged[merged.length - 1][1] < interval[0]) {
-      merged.push(interval);
+// Time: O(n) | Space: O(1)
+function maxArea(height) {
+  let left = 0;
+  let right = height.length - 1;
+  let maxArea = 0;
+
+  while (left < right) {
+    const width = right - left;
+    const currentHeight = Math.min(height[left], height[right]);
+    maxArea = Math.max(maxArea, width * currentHeight);
+
+    // Move pointer with smaller height
+    if (height[left] < height[right]) {
+      left++;
     } else {
-      merged[merged.length - 1][1] = Math.max(merged[merged.length - 1][1], interval[1]);
+      right--;
     }
   }
-  return merged;
+
+  return maxArea;
 }
 ```
 
 ```java
-// Example Greedy pattern (Merge Intervals)
-public int[][] merge(int[][] intervals) {
-    Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
-    List<int[]> merged = new ArrayList<>();
-    for (int[] interval : intervals) {
-        if (merged.isEmpty() || merged.get(merged.size() - 1)[1] < interval[0]) {
-            merged.add(interval);
+// Time: O(n) | Space: O(1)
+public int maxArea(int[] height) {
+    int left = 0;
+    int right = height.length - 1;
+    int maxArea = 0;
+
+    while (left < right) {
+        int width = right - left;
+        int currentHeight = Math.min(height[left], height[right]);
+        maxArea = Math.max(maxArea, width * currentHeight);
+
+        if (height[left] < height[right]) {
+            left++;
         } else {
-            merged.get(merged.size() - 1)[1] = Math.max(merged.get(merged.size() - 1)[1], interval[1]);
+            right--;
         }
     }
-    return merged.toArray(new int[merged.size()][]);
+
+    return maxArea;
 }
 ```
 
 </div>
+
+2. **Longest Palindromic Substring (#5)** - Covers string manipulation and dynamic programming thinking (expanding from center is more efficient but DP approach teaches important patterns).
+
+3. **Merge Intervals (#56)** - Appears frequently in both companies' lists and teaches sorting with custom comparators and greedy merging.
+
+4. **Product of Array Except Self (#238)** - Tests array manipulation without division and demonstrates prefix/suffix accumulation patterns.
+
+5. **Word Break (#139)** - For Salesforce specifically, this DP problem teaches memoization and optimization. For Expedia, it's good string practice.
 
 ## Which to Prepare for First
 
-Your preparation priority should be dictated by the breadth of coverage.
+Prepare for **Salesforce first**, even if your Expedia interview comes earlier. Here's why: Salesforce's broader coverage (including Dynamic Programming) will force you to learn patterns that make Expedia's problems feel easier. If you prepare for Expedia first, you might neglect DP and other advanced topics, leaving you underprepared for Salesforce.
 
-**Prepare for Salesforce first if you are interviewing at both.** The reason is coverage: mastering the core topics (Array, String, Hash Table) plus the advanced topic of Dynamic Programming will inherently cover the vast majority of what you'll see at Expedia. The rigorous practice for Medium/Hard Salesforce questions will make Expedia's Medium-focused Greedy and core topic questions feel more manageable. It's a more comprehensive foundation.
+**Strategic timeline:**
 
-If you are only preparing for **Expedia**, your path is more focused. Drill deeply into Array, String, and Hash Table problems, then dedicate specific practice to common Greedy algorithm patterns (e.g., interval scheduling, task scheduling, greedy choice with sorting). You can afford to spend less time on the most complex DP problems.
+1. Week 1-2: Master Array, String, and Hash Table fundamentals (covers both)
+2. Week 3: Add Dynamic Programming patterns (Salesforce focus)
+3. Week 4: Practice Greedy algorithms (Expedia focus) and mock interviews
 
-Ultimately, a strong grasp of fundamental data structures is the universal key. Prioritize Salesforce's list for its broader, deeper challenge, or focus narrowly on Expedia's fundamentals-and-greedy combo for a targeted approach.
+If your interviews are close together, spend 70% of time on shared topics, 20% on Salesforce-specific, and 10% on Expedia-specific. The overlap is substantial enough that this gives you solid coverage for both.
 
-For detailed question lists, visit the Salesforce and Expedia pages on CodeJeet: [/company/salesforce](/company/salesforce) and [/company/expedia](/company/expedia).
+Remember: Both companies value clean, communicative code and collaborative problem-solving. Practice explaining your thinking out loud as you code—this matters as much as the solution itself.
+
+For more company-specific insights, check out our [Salesforce interview guide](/company/salesforce) and [Expedia interview guide](/company/expedia).

@@ -1,581 +1,295 @@
 ---
 title: "How to Crack PhonePe Coding Interviews in 2026"
 description: "Complete guide to PhonePe coding interviews — question patterns, difficulty breakdown, must-practice topics, and preparation strategy."
-date: "2026-01-17"
+date: "2026-02-26"
 category: "company-guide"
 company: "phonepe"
 tags: ["phonepe", "interview prep", "leetcode"]
 ---
 
-PhonePe's coding interviews are designed to assess strong problem-solving skills and the ability to write clean, efficient code under pressure. The process typically involves multiple rounds focusing on data structures, algorithms, and system design, with a heavy emphasis on practical, implementable solutions. Success requires targeted preparation aligned with their specific technical focus.
+# How to Crack PhonePe Coding Interviews in 2026
+
+PhonePe has rapidly become one of India's most formidable tech companies, known for its massive scale in digital payments and relentless focus on performance. Their interview process reflects this engineering-first culture. While the exact structure can vary by team, you'll typically face a multi-stage gauntlet: an initial recruiter screen, followed by 3-5 technical rounds. These rounds often blend coding, system design, and problem-solving discussions. What's unique is the intensity—PhonePe interviews are known for their depth over breadth. You won't just solve a problem; you'll be expected to defend your approach, discuss trade-offs, and optimize for the specific constraints of a high-throughput, low-latency financial system. Expect follow-up questions that start with "What if the data stream is infinite?" or "How would this degrade under peak Diwali traffic?"
+
+## What Makes PhonePe Different
+
+Interviewing at PhonePe isn't like interviewing at a traditional FAANG company. The difference lies in context. While Google might ask a graph problem in the abstract, PhonePe will frame it around reconciling transaction logs or detecting fraudulent payment rings. Their problems are frequently _applied_.
+
+Three key distinctions define their style:
+
+1.  **Production-Ready Code:** Clean, modular, and maintainable code is valued highly. You might be asked to write code that could theoretically be checked into a repo later that day. This means proper error handling, clear variable names, and considering edge cases relevant to financial data (empty states, negative values, idempotency).
+2.  **The "Scale" Follow-Up:** Almost every problem has a second layer. After solving the core algorithm, be prepared for: "Now, assume this function is called 100,000 times per second. What bottlenecks do you see? How would you make it faster?" This tests your ability to think about systems, not just algorithms.
+3.  **Collaborative Debugging:** Interviewers often take the role of a colleague reviewing your code. They might introduce a bug or a new constraint and ask you to walk through the logic to find the issue. It's less about getting the perfect answer on the first try and more about demonstrating rigorous, logical thought processes under pressure.
 
 ## By the Numbers
 
-The reported data shows a clear emphasis on challenging problems. With only 3% of questions categorized as Easy, 62% as Medium, and 35% as Hard, PhonePe's interviews are not for the faint of heart. This breakdown signals that interviewers expect candidates to comfortably handle complex problem-solving. You must be prepared to not only solve Medium-difficulty problems consistently but also to grapple with a significant number of Hard problems, often involving multi-step logic or optimization. The low number of Easy questions means there is little warm-up; you are expected to be technically sharp from the start.
+An analysis of 102 PhonePe-associated coding questions reveals a stark, actionable picture:
+
+- **Easy:** 3 (3%)
+- **Medium:** 63 (62%)
+- **Hard:** 36 (35%)
+
+This 62/35 split between Medium and Hard is telling. Most FAANG interviews hover around a 70/30 Medium/Hard ratio. PhonePe's tilt toward Hard problems signals they are selecting for engineers who can handle significant complexity. You must be comfortable with problems that have non-obvious solutions or require combining multiple patterns.
+
+Don't let the 35% Hard intimidate you; often, these are Medium problems with a "PhonePe twist"—an added optimization or scale constraint that pushes them into Hard territory. For example, a standard "Merge Intervals" problem (LeetCode #56) might become a PhonePe Hard if framed as merging millions of transaction time windows from a distributed stream, forcing you to discuss external sorting or approximation algorithms.
+
+**Specific Problems to Know:** While question banks evolve, patterns persist. Be intimately familiar with problems like **Trapping Rain Water (#42)**, **LRU Cache (#146)**, **Merge k Sorted Lists (#23)**, **Word Break (#139)**, and **Find Median from Data Stream (#295)**. These are not just algorithm tests; they are proxies for real-world scenarios like rate limiting, caching payment results, batching operations, and monitoring real-time transaction metrics.
 
 ## Top Topics to Focus On
 
-Mastering the following five areas is non-negotiable, as they form the core of PhonePe's technical assessment.
+Your study should be ruthlessly prioritized. Here are the top topics, why PhonePe cares, and the pattern you must master.
 
-**Array:** This is the most fundamental data structure and the bedrock of countless problems. Expect questions on subarrays, rotations, and in-place manipulations. Your ability to traverse and manipulate arrays efficiently is a basic expectation. Common patterns include the sliding window technique for subarray problems, two-pointer approaches for sorted arrays or in-place operations, and prefix sum arrays for range queries. For example, a classic problem is finding the maximum sum of a contiguous subarray (Kadane's Algorithm) or rotating an array in-place.
+**1. Dynamic Programming (DP)**
+PhonePe's domain is full of optimization problems: minimizing reconciliation time, maximizing successful transaction routing, calculating optimal cashback strategies. DP is the toolkit for these. You must move beyond memorizing Fibonacci and understand _when_ to apply DP (optimal substructure, overlapping subproblems) and how to space-optimize.
 
-<div class="code-group">
-
-```python
-# Python: Kadane's Algorithm for Maximum Subarray Sum
-def max_subarray_sum(nums):
-    max_current = max_global = nums[0]
-    for i in range(1, len(nums)):
-        max_current = max(nums[i], max_current + nums[i])
-        if max_current > max_global:
-            max_global = max_current
-    return max_global
-
-# Example: In-place array rotation using reversal
-def rotate_array(nums, k):
-    n = len(nums)
-    k %= n
-    def reverse(arr, start, end):
-        while start < end:
-            arr[start], arr[end] = arr[end], arr[start]
-            start += 1
-            end -= 1
-    reverse(nums, 0, n - 1)
-    reverse(nums, 0, k - 1)
-    reverse(nums, k, n - 1)
-    return nums
-```
-
-```javascript
-// JavaScript: Kadane's Algorithm for Maximum Subarray Sum
-function maxSubarraySum(nums) {
-  let maxCurrent = nums[0];
-  let maxGlobal = nums[0];
-  for (let i = 1; i < nums.length; i++) {
-    maxCurrent = Math.max(nums[i], maxCurrent + nums[i]);
-    if (maxCurrent > maxGlobal) {
-      maxGlobal = maxCurrent;
-    }
-  }
-  return maxGlobal;
-}
-
-// Example: In-place array rotation using reversal
-function rotateArray(nums, k) {
-  const n = nums.length;
-  k %= n;
-  const reverse = (arr, start, end) => {
-    while (start < end) {
-      [arr[start], arr[end]] = [arr[end], arr[start]];
-      start++;
-      end--;
-    }
-  };
-  reverse(nums, 0, n - 1);
-  reverse(nums, 0, k - 1);
-  reverse(nums, k, n - 1);
-  return nums;
-}
-```
-
-```java
-// Java: Kadane's Algorithm for Maximum Subarray Sum
-public int maxSubarraySum(int[] nums) {
-    int maxCurrent = nums[0];
-    int maxGlobal = nums[0];
-    for (int i = 1; i < nums.length; i++) {
-        maxCurrent = Math.max(nums[i], maxCurrent + nums[i]);
-        if (maxCurrent > maxGlobal) {
-            maxGlobal = maxCurrent;
-        }
-    }
-    return maxGlobal;
-}
-
-// Example: In-place array rotation using reversal
-public void rotateArray(int[] nums, int k) {
-    int n = nums.length;
-    k %= n;
-    reverse(nums, 0, n - 1);
-    reverse(nums, 0, k - 1);
-    reverse(nums, k, n - 1);
-}
-private void reverse(int[] arr, int start, int end) {
-    while (start < end) {
-        int temp = arr[start];
-        arr[start] = arr[end];
-        arr[end] = temp;
-        start++;
-        end--;
-    }
-}
-```
-
-</div>
-
-**Dynamic Programming:** The high percentage of Hard questions is often linked to DP. You must be proficient in identifying overlapping subproblems and optimal substructure, particularly in classical problems involving sequences, partitioning, and optimization. Key patterns include 0/1 Knapsack for resource allocation, Longest Common Subsequence (LCS) for sequence comparison, and Longest Increasing Subsequence (LIS). A solid approach is to first define the state (e.g., `dp[i][j]`), then the recurrence relation, followed by base cases and the order of computation (often tabulation or memoization).
+- **Key Pattern:** DP on Strings (Edit Distance, Longest Common Subsequence). This pattern is crucial for data matching and validation tasks.
 
 <div class="code-group">
 
 ```python
-# Python: 0/1 Knapsack Problem (Tabulation)
-def knapsack(weights, values, capacity):
-    n = len(weights)
-    dp = [[0] * (capacity + 1) for _ in range(n + 1)]
-    for i in range(1, n + 1):
-        for w in range(1, capacity + 1):
-            if weights[i-1] <= w:
-                dp[i][w] = max(values[i-1] + dp[i-1][w - weights[i-1]], dp[i-1][w])
+# LeetCode #72 - Edit Distance
+# Time: O(m * n) | Space: O(min(m, n)) - Optimized space
+def minDistance(word1: str, word2: str) -> int:
+    # Ensure word1 is the shorter string for space optimization
+    if len(word1) > len(word2):
+        word1, word2 = word2, word1
+    m, n = len(word1), len(word2)
+
+    # Previous row of DP table, initialized for empty string
+    prev = list(range(m + 1))
+
+    for j in range(1, n + 1):
+        # Current row, starting with cost of deleting j chars from word2
+        curr = [j] + [0] * m
+        for i in range(1, m + 1):
+            if word1[i-1] == word2[j-1]:
+                curr[i] = prev[i-1]  # Characters match, no cost
             else:
-                dp[i][w] = dp[i-1][w]
-    return dp[n][capacity]
+                # Minimum of insert, delete, or replace
+                curr[i] = 1 + min(curr[i-1],    # Insert into word1
+                                  prev[i],      # Delete from word1
+                                  prev[i-1])    # Replace
+        prev = curr  # Move to next row
 
-# Python: Longest Common Subsequence (Memoization)
-def lcs_memo(text1, text2):
-    from functools import lru_cache
-    @lru_cache(None)
-    def dfs(i, j):
-        if i == len(text1) or j == len(text2):
-            return 0
-        if text1[i] == text2[j]:
-            return 1 + dfs(i + 1, j + 1)
-        return max(dfs(i + 1, j), dfs(i, j + 1))
-    return dfs(0, 0)
+    return prev[m]
+
+# This space-optimized DP is critical for PhonePe-scale problems.
 ```
 
 ```javascript
-// JavaScript: 0/1 Knapsack Problem (Tabulation)
-function knapsack(weights, values, capacity) {
-  const n = weights.length;
-  const dp = Array.from({ length: n + 1 }, () => Array(capacity + 1).fill(0));
-  for (let i = 1; i <= n; i++) {
-    for (let w = 1; w <= capacity; w++) {
-      if (weights[i - 1] <= w) {
-        dp[i][w] = Math.max(values[i - 1] + dp[i - 1][w - weights[i - 1]], dp[i - 1][w]);
+// LeetCode #72 - Edit Distance
+// Time: O(m * n) | Space: O(min(m, n))
+function minDistance(word1, word2) {
+  if (word1.length > word2.length) {
+    [word1, word2] = [word2, word1];
+  }
+  const m = word1.length,
+    n = word2.length;
+
+  let prev = Array.from({ length: m + 1 }, (_, i) => i);
+
+  for (let j = 1; j <= n; j++) {
+    const curr = [j];
+    for (let i = 1; i <= m; i++) {
+      if (word1[i - 1] === word2[j - 1]) {
+        curr[i] = prev[i - 1];
       } else {
-        dp[i][w] = dp[i - 1][w];
+        curr[i] =
+          1 +
+          Math.min(
+            curr[i - 1], // Insert
+            prev[i], // Delete
+            prev[i - 1] // Replace
+          );
       }
     }
+    prev = curr;
   }
-  return dp[n][capacity];
-}
-
-// JavaScript: Longest Common Subsequence (Memoization)
-function longestCommonSubsequence(text1, text2) {
-  const memo = new Map();
-  function dfs(i, j) {
-    if (i === text1.length || j === text2.length) return 0;
-    const key = `${i},${j}`;
-    if (memo.has(key)) return memo.get(key);
-    let result;
-    if (text1[i] === text2[j]) {
-      result = 1 + dfs(i + 1, j + 1);
-    } else {
-      result = Math.max(dfs(i + 1, j), dfs(i, j + 1));
-    }
-    memo.set(key, result);
-    return result;
-  }
-  return dfs(0, 0);
+  return prev[m];
 }
 ```
 
 ```java
-// Java: 0/1 Knapsack Problem (Tabulation)
-public int knapsack(int[] weights, int[] values, int capacity) {
-    int n = weights.length;
-    int[][] dp = new int[n + 1][capacity + 1];
-    for (int i = 1; i <= n; i++) {
-        for (int w = 1; w <= capacity; w++) {
-            if (weights[i - 1] <= w) {
-                dp[i][w] = Math.max(values[i - 1] + dp[i - 1][w - weights[i - 1]], dp[i - 1][w]);
+// LeetCode #72 - Edit Distance
+// Time: O(m * n) | Space: O(min(m, n))
+public int minDistance(String word1, String word2) {
+    if (word1.length() > word2.length()) {
+        String temp = word1;
+        word1 = word2;
+        word2 = temp;
+    }
+    int m = word1.length(), n = word2.length();
+
+    int[] prev = new int[m + 1];
+    for (int i = 0; i <= m; i++) prev[i] = i;
+
+    for (int j = 1; j <= n; j++) {
+        int[] curr = new int[m + 1];
+        curr[0] = j;
+        for (int i = 1; i <= m; i++) {
+            if (word1.charAt(i-1) == word2.charAt(j-1)) {
+                curr[i] = prev[i-1];
             } else {
-                dp[i][w] = dp[i - 1][w];
+                curr[i] = 1 + Math.min(curr[i-1],
+                                      Math.min(prev[i], prev[i-1]));
             }
         }
+        prev = curr;
     }
-    return dp[n][capacity];
-}
-
-// Java: Longest Common Subsequence (Memoization)
-import java.util.HashMap;
-import java.util.Map;
-public class LCSMemo {
-    private Map<String, Integer> memo = new HashMap<>();
-    public int longestCommonSubsequence(String text1, String text2) {
-        return dfs(text1, text2, 0, 0);
-    }
-    private int dfs(String text1, String text2, int i, int j) {
-        if (i == text1.length() || j == text2.length()) return 0;
-        String key = i + "," + j;
-        if (memo.containsKey(key)) return memo.get(key);
-        int result;
-        if (text1.charAt(i) == text2.charAt(j)) {
-            result = 1 + dfs(text1, text2, i + 1, j + 1);
-        } else {
-            result = Math.max(dfs(text1, text2, i + 1, j), dfs(text1, text2, i, j + 1));
-        }
-        memo.put(key, result);
-        return result;
-    }
+    return prev[m];
 }
 ```
 
 </div>
 
-**Sorting:** It's rarely just about calling `sort()`. Focus on how sorting enables other algorithms (like two-pointer techniques) and be ready to implement custom comparators or even specific sorting algorithms like quicksort or mergesort if required. Understanding the time and space complexity trade-offs (e.g., quicksort O(n log n) average but O(n²) worst-case, mergesort's stable O(n log n) but O(n) space) is crucial. Sorting is often a pre-processing step to simplify problems, such as finding pairs with a given sum or merging intervals.
+**2. Arrays & Hashing**
+The bread and butter of data processing. Payment transactions are arrays of events. User accounts are mapped via hashes. You'll need to perform efficient lookups, compute running metrics, and find patterns in sequences.
+
+- **Key Pattern:** Sliding Window (especially variable-size). Perfect for analyzing time-bound transaction sequences, like "find the maximum number of transactions from a single user in any 10-minute window."
+
+**3. Sorting**
+Rarely an end in itself, but a critical preprocessing step. Think sorting transactions by timestamp for reconciliation, or by amount for batch processing.
+
+- **Key Pattern:** Custom Comparator Sorting. You must be able to sort objects based on multiple, potentially complex, business rules on the fly.
 
 <div class="code-group">
 
 ```python
-# Python: Custom sorting with a comparator (sort by frequency then value)
-from collections import Counter
-def sort_by_frequency(arr):
-    freq = Counter(arr)
-    # Sort by descending frequency, then ascending value
-    return sorted(arr, key=lambda x: (-freq[x], x))
+# Pattern: Custom Sorting with Multiple Keys
+# Imagine sorting transactions: first by status (FAILED before SUCCESS),
+# then by amount (descending), then by timestamp (ascending).
+from datetime import datetime
+from functools import cmp_to_key
 
-# Python: Quicksort implementation (in-place)
-def quicksort(arr, low, high):
-    if low < high:
-        pi = partition(arr, low, high)
-        quicksort(arr, low, pi - 1)
-        quicksort(arr, pi + 1, high)
-def partition(arr, low, high):
-    pivot = arr[high]
-    i = low - 1
-    for j in range(low, high):
-        if arr[j] <= pivot:
-            i += 1
-            arr[i], arr[j] = arr[j], arr[i]
-    arr[i + 1], arr[high] = arr[high], arr[i + 1]
-    return i + 1
+class Transaction:
+    def __init__(self, id, status, amount, timestamp):
+        self.id = id
+        self.status = status
+        self.amount = amount
+        self.timestamp = timestamp
+
+def sort_transactions(txns):
+    def compare(t1, t2):
+        # 1. Status priority: FAILED < SUCCESS
+        status_order = {'FAILED': 0, 'SUCCESS': 1}
+        if status_order[t1.status] != status_order[t2.status]:
+            return status_order[t1.status] - status_order[t2.status]
+        # 2. Amount: higher first (descending)
+        if t1.amount != t2.amount:
+            return t2.amount - t1.amount
+        # 3. Timestamp: older first (ascending)
+        return 1 if t1.timestamp > t2.timestamp else -1
+
+    return sorted(txns, key=cmp_to_key(compare))
+
+# Time: O(n log n) | Space: O(log n) for Timsort sorting space
 ```
 
 ```javascript
-// JavaScript: Custom sorting with a comparator (sort by frequency then value)
-function sortByFrequency(arr) {
-  const freq = new Map();
-  arr.forEach((num) => freq.set(num, (freq.get(num) || 0) + 1));
-  return arr.sort((a, b) => {
-    if (freq.get(a) !== freq.get(b)) {
-      return freq.get(b) - freq.get(a); // Descending frequency
+// Pattern: Custom Sorting with Multiple Keys
+class Transaction {
+  constructor(id, status, amount, timestamp) {
+    this.id = id;
+    this.status = status;
+    this.amount = amount;
+    this.timestamp = timestamp;
+  }
+}
+
+function sortTransactions(transactions) {
+  const statusOrder = { FAILED: 0, SUCCESS: 1 };
+
+  return transactions.sort((a, b) => {
+    // 1. Status
+    if (statusOrder[a.status] !== statusOrder[b.status]) {
+      return statusOrder[a.status] - statusOrder[b.status];
     }
-    return a - b; // Ascending value
+    // 2. Amount (descending)
+    if (a.amount !== b.amount) {
+      return b.amount - a.amount;
+    }
+    // 3. Timestamp (ascending)
+    return new Date(a.timestamp) - new Date(b.timestamp);
   });
 }
-
-// JavaScript: Quicksort implementation (in-place)
-function quicksort(arr, low = 0, high = arr.length - 1) {
-  if (low < high) {
-    const pi = partition(arr, low, high);
-    quicksort(arr, low, pi - 1);
-    quicksort(arr, pi + 1, high);
-  }
-}
-function partition(arr, low, high) {
-  const pivot = arr[high];
-  let i = low - 1;
-  for (let j = low; j < high; j++) {
-    if (arr[j] <= pivot) {
-      i++;
-      [arr[i], arr[j]] = [arr[j], arr[i]];
-    }
-  }
-  [arr[i + 1], arr[high]] = [arr[high], arr[i + 1]];
-  return i + 1;
-}
+// Time: O(n log n) | Space: O(log n) for V8's sorting algorithm
 ```
 
 ```java
-// Java: Custom sorting with a comparator (sort by frequency then value)
+// Pattern: Custom Sorting with Multiple Keys
 import java.util.*;
-public class FrequencySort {
-    public List<Integer> sortByFrequency(List<Integer> list) {
-        Map<Integer, Integer> freq = new HashMap<>();
-        for (int num : list) {
-            freq.put(num, freq.getOrDefault(num, 0) + 1);
-        }
-        list.sort((a, b) -> {
-            if (!freq.get(a).equals(freq.get(b))) {
-                return freq.get(b) - freq.get(a); // Descending frequency
-            }
-            return a - b; // Ascending value
-        });
-        return list;
-    }
+
+class Transaction {
+    String id, status;
+    int amount;
+    Date timestamp;
+    // ... constructor ...
 }
 
-// Java: Quicksort implementation (in-place)
-public class QuickSort {
-    public void quicksort(int[] arr, int low, int high) {
-        if (low < high) {
-            int pi = partition(arr, low, high);
-            quicksort(arr, low, pi - 1);
-            quicksort(arr, pi + 1, high);
+public List<Transaction> sortTransactions(List<Transaction> transactions) {
+    Map<String, Integer> statusOrder = Map.of("FAILED", 0, "SUCCESS", 1);
+
+    transactions.sort((a, b) -> {
+        // 1. Status
+        if (!a.status.equals(b.status)) {
+            return statusOrder.get(a.status) - statusOrder.get(b.status);
         }
-    }
-    private int partition(int[] arr, int low, int high) {
-        int pivot = arr[high];
-        int i = low - 1;
-        for (int j = low; j < high; j++) {
-            if (arr[j] <= pivot) {
-                i++;
-                int temp = arr[i];
-                arr[i] = arr[j];
-                arr[j] = temp;
-            }
+        // 2. Amount (descending)
+        if (a.amount != b.amount) {
+            return b.amount - a.amount;
         }
-        int temp = arr[i + 1];
-        arr[i + 1] = arr[high];
-        arr[high] = temp;
-        return i + 1;
-    }
+        // 3. Timestamp (ascending)
+        return a.timestamp.compareTo(b.timestamp);
+    });
+    return transactions;
 }
+// Time: O(n log n) | Space: O(log n) for Java's TimSort
 ```
 
 </div>
 
-**Hash Table:** This is your primary tool for achieving O(1) lookups and solving problems involving frequency counting, duplicate detection, and mapping relationships. Master its use to optimize solutions that would otherwise be O(n²). Beyond simple lookups, hash tables (or dictionaries/maps) are essential for implementing caches (like LRU Cache), grouping elements (like anagrams), and maintaining state across iterations. For instance, the two-sum problem is a classic example of using a hash map to store complements.
+**4. Strings**
+Payment IDs, UPI handles, bank account numbers, merchant descriptors—it's all strings. Master string manipulation, parsing, and pattern matching (think validating UPI IDs or masking sensitive data).
 
-<div class="code-group">
+## Preparation Strategy: The 6-Week PhonePe Sprint
 
-```python
-# Python: Two Sum using Hash Map
-def two_sum(nums, target):
-    num_map = {}
-    for i, num in enumerate(nums):
-        complement = target - num
-        if complement in num_map:
-            return [num_map[complement], i]
-        num_map[num] = i
-    return []
+**Weeks 1-2: Foundation & Patterns (40 Problems)**
 
-# Python: Grouping Anagrams using Hash Map
-from collections import defaultdict
-def group_anagrams(strs):
-    anagram_map = defaultdict(list)
-    for s in strs:
-        key = ''.join(sorted(s))  # Sorted string as key
-        anagram_map[key].append(s)
-    return list(anagram_map.values())
-```
+- **Goal:** Achieve fluency in the top 4 topics. Don't just solve; for each problem, write the brute force, then the optimal solution, and verbalize the pattern.
+- **Daily Target:** 3-4 problems. Spend 45 minutes solving, 30 minutes reviewing solutions and writing clean, commented code.
+- **Focus:** Complete 15 DP problems (including all variations of Knapsack, LCS, and Edit Distance), 15 Array/Hash problems (emphasis on Sliding Window and Two Pointers), 5 Sorting, and 5 String problems.
 
-```javascript
-// JavaScript: Two Sum using Hash Map
-function twoSum(nums, target) {
-  const numMap = new Map();
-  for (let i = 0; i < nums.length; i++) {
-    const complement = target - nums[i];
-    if (numMap.has(complement)) {
-      return [numMap.get(complement), i];
-    }
-    numMap.set(nums[i], i);
-  }
-  return [];
-}
+**Weeks 3-4: Depth & PhonePe Context (35 Problems)**
 
-// JavaScript: Grouping Anagrams using Hash Map
-function groupAnagrams(strs) {
-  const anagramMap = new Map();
-  for (const s of strs) {
-    const key = s.split("").sort().join(""); // Sorted string as key
-    if (!anagramMap.has(key)) {
-      anagramMap.set(key, []);
-    }
-    anagramMap.get(key).push(s);
-  }
-  return Array.from(anagramMap.values());
-}
-```
+- **Goal:** Shift to Hard problems and add the "PhonePe layer."
+- **Daily Target:** 2-3 problems, but spend equal time on the follow-up discussion.
+- **Focus:** Pick Hard problems from the PhonePe list. For each one, after solving, ask yourself: "How would this break at 10,000 QPS?" and "What would I monitor in production?" Practice explaining these thoughts aloud.
 
-```java
-// Java: Two Sum using Hash Map
-import java.util.*;
-public class TwoSum {
-    public int[] twoSum(int[] nums, int target) {
-        Map<Integer, Integer> numMap = new HashMap<>();
-        for (int i = 0; i < nums.length; i++) {
-            int complement = target - nums[i];
-            if (numMap.containsKey(complement)) {
-                return new int[]{numMap.get(complement), i};
-            }
-            numMap.put(nums[i], i);
-        }
-        return new int[]{};
-    }
-}
+**Week 5: Integration & Mock Interviews (20 Problems)**
 
-// Java: Grouping Anagrams using Hash Map
-import java.util.*;
-public class GroupAnagrams {
-    public List<List<String>> groupAnagrams(String[] strs) {
-        Map<String, List<String>> anagramMap = new HashMap<>();
-        for (String s : strs) {
-            char[] chars = s.toCharArray();
-            Arrays.sort(chars);
-            String key = new String(chars);
-            anagramMap.computeIfAbsent(key, k -> new ArrayList<>()).add(s);
-        }
-        return new ArrayList<>(anagramMap.values());
-    }
-}
-```
+- **Goal:** Simulate the real interview. No more solo grinding.
+- **Daily Target:** 1-2 full mock interviews (90 mins each) with a partner or using a platform. Solve a Medium/Hard problem while talking through every step, then discuss scale and trade-offs.
+- **Focus:** Problems that combine patterns (e.g., DP + Sorting, Hashing + Sliding Window).
 
-</div>
+**Week 6: Tuning & System Design (7 Problems + Review)**
 
-**String:** String manipulation questions often combine with other topics like DP or hash tables. Be thoroughly comfortable with operations like substring search, palindrome checks, anagrams, and string transformations. Key algorithms include the Knuth-Morris-Pratt (KMP) algorithm for efficient substring search, and dynamic programming approaches for longest palindromic substring. Understanding how to efficiently reverse, split, concatenate, and compare strings (considering encoding if applicable) is fundamental.
+- **Goal:** Polish and fill gaps. Reduce problem count, increase quality of communication.
+- **Daily Target:** 1 problem perfectly, then review all your notes and code from the past 5 weeks. Dedicate 1-2 hours daily to system design fundamentals (CAP theorem, load balancing, caching strategies, DB indexing) as PhonePe rounds often blend these topics.
 
-<div class="code-group">
+## Common Mistakes (And How to Fix Them)
 
-```python
-# Python: Check if a string is a palindrome
-def is_palindrome(s):
-    left, right = 0, len(s) - 1
-    while left < right:
-        if s[left] != s[right]:
-            return False
-        left += 1
-        right -= 1
-    return True
-
-# Python: Longest Palindromic Substring using DP
-def longest_palindrome(s):
-    n = len(s)
-    if n < 2:
-        return s
-    dp = [[False] * n for _ in range(n)]
-    start, max_len = 0, 1
-    # All substrings of length 1 are palindromes
-    for i in range(n):
-        dp[i][i] = True
-    # Check substrings of length 2
-    for i in range(n - 1):
-        if s[i] == s[i + 1]:
-            dp[i][i + 1] = True
-            start = i
-            max_len = 2
-    # Check lengths greater than 2
-    for length in range(3, n + 1):
-        for i in range(n - length + 1):
-            j = i + length - 1
-            if s[i] == s[j] and dp[i + 1][j - 1]:
-                dp[i][j] = True
-                start = i
-                max_len = length
-    return s[start:start + max_len]
-```
-
-```javascript
-// JavaScript: Check if a string is a palindrome
-function isPalindrome(s) {
-  let left = 0,
-    right = s.length - 1;
-  while (left < right) {
-    if (s[left] !== s[right]) return false;
-    left++;
-    right--;
-  }
-  return true;
-}
-
-// JavaScript: Longest Palindromic Substring using DP
-function longestPalindrome(s) {
-  const n = s.length;
-  if (n < 2) return s;
-  const dp = Array.from({ length: n }, () => Array(n).fill(false));
-  let start = 0,
-    maxLen = 1;
-  // All substrings of length 1 are palindromes
-  for (let i = 0; i < n; i++) dp[i][i] = true;
-  // Check substrings of length 2
-  for (let i = 0; i < n - 1; i++) {
-    if (s[i] === s[i + 1]) {
-      dp[i][i + 1] = true;
-      start = i;
-      maxLen = 2;
-    }
-  }
-  // Check lengths greater than 2
-  for (let len = 3; len <= n; len++) {
-    for (let i = 0; i <= n - len; i++) {
-      const j = i + len - 1;
-      if (s[i] === s[j] && dp[i + 1][j - 1]) {
-        dp[i][j] = true;
-        start = i;
-        maxLen = len;
-      }
-    }
-  }
-  return s.substring(start, start + maxLen);
-}
-```
-
-```java
-// Java: Check if a string is a palindrome
-public boolean isPalindrome(String s) {
-    int left = 0, right = s.length() - 1;
-    while (left < right) {
-        if (s.charAt(left) != s.charAt(right)) return false;
-        left++;
-        right--;
-    }
-    return true;
-}
-
-// Java: Longest Palindromic Substring using DP
-public String longestPalindrome(String s) {
-    int n = s.length();
-    if (n < 2) return s;
-    boolean[][] dp = new boolean[n][n];
-    int start = 0, maxLen = 1;
-    // All substrings of length 1 are palindromes
-    for (int i = 0; i < n; i++) dp[i][i] = true;
-    // Check substrings of length 2
-    for (int i = 0; i < n - 1; i++) {
-        if (s.charAt(i) == s.charAt(i + 1)) {
-            dp[i][i + 1] = true;
-            start = i;
-            maxLen = 2;
-        }
-    }
-    // Check lengths greater than 2
-    for (int len = 3; len <= n; len++) {
-        for (int i = 0; i <= n - len; i++) {
-            int j = i + len - 1;
-            if (s.charAt(i) == s.charAt(j) && dp[i + 1][j - 1]) {
-                dp[i][j] = true;
-                start = i;
-                maxLen = len;
-            }
-        }
-    }
-    return s.substring(start, start + maxLen);
-}
-```
-
-</div>
-
-## Preparation Strategy
-
-A focused 4-6 week plan is essential. Assume you have a foundational knowledge of data structures.
-
-**Weeks 1-2: Core Topic Deep Dive.** Dedicate each day to one of the top five topics. For each, solve 15-20 curated LeetCode problems, prioritizing Medium difficulty. For example, for Dynamic Programming, start with foundational patterns (knapsack, LCS, LIS) before moving to more complex variants. The goal is not to memorize but to internalize patterns. For Arrays, practice sliding window and two-pointer techniques. For Hash Tables, solve problems involving frequency maps and caching. For Strings, tackle palindrome and substring problems. For Sorting, implement custom comparators and understand algorithm trade-offs.
-
-**Weeks 3-4: Problem Intensity and Mock Interviews.** Shift to solving PhonePe-tagged problems directly. Mix 2-3 problems daily, ensuring at least one is Hard. Begin timed practice sessions of 45-60 minutes to simulate interview pressure. In the fourth week, start weekly mock interviews with a peer or mentor, focusing on communicating your thought process clearly while coding. Practice writing code on a whiteboard or in a plain text editor without syntax highlighting. Record yourself explaining your approach to improve clarity.
-
-**Weeks 5-6: Gap Analysis and Revision.** Identify your weak spots from the previous weeks—was it graph problems that occasionally appeared, or a specific DP pattern? Systematically review those concepts. Re-solve previously challenging problems without help. Dedicate time to reviewing system design fundamentals, as this is a likely subsequent round. Create summary sheets for each core topic with key algorithms, their complexities, and common variations. Conduct final mock interviews focusing on weak areas.
+1.  **Jumping to Code Without a Concrete Example:** PhonePe interviewers want to see structured thinking. **Fix:** Always start by walking through a medium-sized, non-trivial example (e.g., not `[1,2,3]`). Use it to derive your algorithm steps before writing a single line of code.
+2.  **Ignoring the "Real-World" Hook:** If the problem mentions transactions, users, or timestamps, and you solve it purely mathematically, you've missed a dimension. **Fix:** Explicitly map your variables to the domain. Say "Let's treat this array as the transaction log, where each index is a timestamp..." This shows you can translate business problems into code.
+3.  **Over-Optimizing Prematurely:** Candidates sometimes blurt out "We can use a segment tree!" for a simple prefix sum problem. **Fix:** Practice the mantra: "First, a working solution. Then, let's analyze the bottlenecks. The time complexity is O(n²). The constraint is 10^5 items, so that's 10^10 operations, which is too slow. We need to get to O(n log n) or O(n). Here, I think we can use a hash map to reduce the lookup time..."
+4.  **Writing Sloppy, Silent Code:** Typing furiously without explanation is a red flag. **Fix:** Narrate your code as you write it. "I'm initializing a hash map here to store the running sum as the key and the index as the value. This will help us find a subarray summing to zero in O(1) time later."
 
 ## Key Tips
 
-1.  **Optimize Relentlessly.** For Medium problems, a brute-force solution is rarely enough. Interviewers will push for the most optimal approach. Always analyze time and space complexity and be prepared to discuss trade-offs. For example, if you propose an O(n²) solution, immediately think about whether sorting, hashing, or dynamic programming can reduce it to O(n log n) or O(n).
+1.  **Practice the "And Then?" Drill:** After every practice problem, force yourself to answer: "And then how would you deploy this?" "And then what metric would you alert on if it spiked?" This builds the muscle memory for PhonePe's second-layer questions.
+2.  **Master One Language, Deeply:** Use Python for speed, Java for type-safety, or JavaScript—it doesn't matter. What matters is that you know its standard library collections inside out (e.g., `defaultdict`, `PriorityQueue`, `TreeMap`) and can articulate performance implications (e.g., "I'm using a `LinkedHashMap` to maintain insertion order for the LRU cache").
+3.  **Communicate Trade-offs, Not Just Answers:** When choosing a data structure, say why. "I'm using a heap here because we need constant time access to the minimum element, and the input is dynamic. The trade-off is O(log n) insertion, but that's acceptable for our use case."
+4.  **Ask Clarifying Questions at the Start:** Before solving, ask about data size, input constraints, and expected output format. This not only clarifies the problem but shows you're thinking like an engineer who gathers requirements. A simple "Can the transaction amount be negative?" can open up a crucial edge-case discussion.
 
-2.  **Communicate Before You Code.** Verbally walk through your initial thoughts, a brute-force idea, and then your optimized approach. This demonstrates structured thinking and allows the interviewer to guide you if you're heading in the right direction. For instance, start with: "A naive approach would be to check all pairs, which is O(n²). We can optimize by using a hash map to store seen elements, reducing it to O(n) time with O(n) space."
+Cracking PhonePe's interview is about demonstrating you can build robust, scalable systems, not just solve puzzles. Your code should be the blueprint for a feature they could ship. Focus on depth, context, and clarity.
 
-3.  **Write Production-Ready Code.** Use meaningful variable names, include clear comments for complex logic, and handle edge cases explicitly. Sloppy code, even if the algorithm is correct, will count against you. Always check for null inputs, empty arrays, single-element cases, and large inputs that could cause overflow. Write helper functions when logic becomes nested.
-
-4.  **Practice on a Whiteboard or Plain Text Editor.** Do not rely solely on LeetCode's auto-complete and syntax highlighting. Get comfortable writing syntactically correct code in a minimal environment, as this mirrors the interview setting. Practice writing code by hand or in a simple text editor like Notepad to build muscle memory for syntax and structure.
-
-Targeted, consistent practice on the right topics is the most reliable path to success. Start with the core areas, build up to Hard problems, and simulate the real environment as closely as possible.
-
-[Browse all PhonePe questions on CodeJeet](/company/phonepe)
+Ready to target your practice? [Browse all PhonePe questions on CodeJeet](/company/phonepe) to work on problems filtered by their specific frequency and difficulty.

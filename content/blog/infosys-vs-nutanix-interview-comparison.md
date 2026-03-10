@@ -1,137 +1,210 @@
 ---
 title: "Infosys vs Nutanix: Interview Question Comparison"
 description: "Compare coding interview questions at Infosys and Nutanix — difficulty levels, topic focus, and preparation strategy."
-date: "2029-07-08"
+date: "2032-04-07"
 category: "tips"
 tags: ["infosys", "nutanix", "comparison"]
 ---
 
-When preparing for technical interviews, understanding the specific focus of each company can dramatically improve your efficiency. Infosys and Nutanix represent two distinct ends of the software career spectrum—large-scale systems integration and high-performance cloud infrastructure—and their interview questions reflect these differing operational cores. A direct comparison of their question banks reveals clear patterns in volume, difficulty, and tested concepts, allowing you to tailor your study plan effectively.
+# Infosys vs Nutanix: Interview Question Comparison
+
+If you're interviewing at both Infosys and Nutanix, you're looking at two fundamentally different interview experiences. Infosys, as a global IT services giant, focuses on foundational problem-solving across a broad range of topics, while Nutanix, a cloud infrastructure specialist, targets more specialized, medium-to-hard algorithmic challenges. The good news? There's significant overlap in their most-tested topics, meaning you can prepare strategically for both simultaneously. The key difference lies in depth versus breadth: Infosys wants to see you handle many problems competently, while Nutanix wants to see you solve fewer problems with elegant, optimized solutions.
 
 ## Question Volume and Difficulty
 
-The most immediate difference is the sheer number of questions. Infosys's list of **158 questions** is more than double Nutanix's **68 questions**. This volume suggests Infosys has a broader, more generalized question pool, likely due to its massive hiring scale for diverse roles.
+The numbers tell a clear story. Infosys has **158 questions** in their tagged LeetCode collection (42 Easy, 82 Medium, 34 Hard), while Nutanix has **68 questions** (5 Easy, 46 Medium, 17 Hard).
 
-The difficulty distribution further highlights their different hiring bars:
+Infosys's distribution suggests they're testing breadth of knowledge. With 82 Medium questions—more than Nutanix's entire question bank—they're likely presenting candidates with multiple problems per interview or varying questions significantly across interviews. The presence of 34 Hard questions indicates they do test advanced concepts, but the emphasis is clearly on Medium-level competency across many domains.
 
-- **Infosys (E42/M82/H34):** The majority of questions are Medium (82), with a significant number of Easy (42) and a solid chunk of Hard (34). This spread indicates a balanced test of fundamental competency, with some challenging problems to identify top candidates.
-- **Nutanix (E5/M46/H17):** The profile is sharply focused. With only 5 Easy questions, the interview immediately targets Medium (46) and Hard (17) problems. This skew signals an expectation of strong algorithmic proficiency from the outset, targeting engineers for complex systems roles.
+Nutanix's distribution is more concentrated and challenging. With 46 out of 68 questions being Medium difficulty (68%), and only 5 Easy questions (7%), they're signaling that they expect candidates to handle non-trivial algorithmic problems consistently. The 17 Hard questions (25%) suggest they'll push strong candidates with optimization challenges, particularly in their later interview rounds.
 
-In short, Infosys's process casts a wider net, while Nutanix's is a targeted filter for advanced problem-solving skills.
+**Implication for preparation:** For Infosys, you need to be comfortable solving many Medium problems quickly. For Nutanix, you need to solve fewer problems perfectly, with optimal time/space complexity and clean code.
 
 ## Topic Overlap
 
-Both companies heavily test core data structures, but with different emphases.
+Both companies heavily test **Arrays** and **Strings**—these are your highest-return preparation areas.
 
-**Shared Core: Array, String**
-These foundational topics are critical for both. You must be adept at manipulation, traversal, and common patterns like two-pointers or sliding windows.
+**Shared high-priority topics:**
+
+- **Array manipulation** (sliding window, two-pointer, prefix sums)
+- **String algorithms** (palindromes, subsequences, encoding/decoding)
+- **Hash Table applications** (though more emphasized by Nutanix)
+
+**Infosys-specific emphasis:**
+
+- **Dynamic Programming** (appears in their top 4 topics)
+- **Math problems** (number theory, combinatorics)
+- **Greedy algorithms** (implied by their question mix)
+
+**Nutanix-specific emphasis:**
+
+- **Depth-First Search** (explicitly in their top 4)
+- **Tree and Graph algorithms** (DFS implies related structures)
+- **System design fundamentals** (given their infrastructure focus)
+
+The overlap means approximately 60-70% of your Infosys preparation will directly apply to Nutanix, particularly the array and string problems. However, you'll need additional graph/tree practice for Nutanix and additional DP practice for Infosys.
+
+## Preparation Priority Matrix
+
+Here's how to allocate your study time efficiently:
+
+**Tier 1: Overlap Topics (Study First)**
+
+- Arrays (sliding window, two-pointer techniques)
+- Strings (palindrome checks, subsequence problems)
+- Hash Tables (frequency counting, lookups)
+- _Recommended problems:_ Two Sum (#1), Valid Palindrome (#125), Group Anagrams (#49)
+
+**Tier 2: Infosys-Specific Topics**
+
+- Dynamic Programming (knapsack, LCS, edit distance)
+- Math problems (prime checks, GCD/LCM, modular arithmetic)
+- _Recommended problems:_ Climbing Stairs (#70), Coin Change (#322), Count Primes (#204)
+
+**Tier 3: Nutanix-Specific Topics**
+
+- Depth-First Search (tree traversals, graph connectivity)
+- Tree algorithms (BST validation, LCA problems)
+- _Recommended problems:_ Number of Islands (#200), Validate Binary Search Tree (#98), Lowest Common Ancestor of a Binary Tree (#236)
+
+**Tier 4: Advanced/Company-Specific**
+
+- Infosys: Advanced DP (partition problems, DP on strings)
+- Nutanix: Graph algorithms (topological sort, shortest path)
+
+## Interview Format Differences
+
+**Infosys typically follows:**
+
+1. **Online assessment** (multiple coding problems, 60-90 minutes)
+2. **Technical interviews** (2-3 rounds, 45-60 minutes each)
+3. **Focus on:** Multiple problem-solving, code correctness, edge cases
+4. **Behavioral component:** Moderate weight, often integrated into technical rounds
+5. **System design:** Rare for entry-level, may appear for senior roles
+6. **Time per problem:** 15-25 minutes, expecting working (not necessarily optimal) solutions
+
+**Nutanix typically follows:**
+
+1. **Phone screen** (1-2 medium-hard problems, 45 minutes)
+2. **Virtual on-site** (4-5 rounds, including coding, system design, behavioral)
+3. **Focus on:** Single complex problem per round, optimization, code quality
+4. **Behavioral component:** Separate dedicated round(s)
+5. **System design:** Expected for most engineering roles (even mid-level)
+6. **Time per problem:** 30-45 minutes, expecting optimal solutions with clean code
+
+The key distinction: Infosys interviews feel like a breadth-first search through your knowledge, while Nutanix interviews feel like depth-first dives into specific problem domains.
+
+## Specific Problem Recommendations
+
+Here are 5 problems that provide excellent crossover value:
+
+1. **3Sum (#15)** - Tests array manipulation, two-pointer technique, and handling duplicates. Useful for both companies as it's medium difficulty with optimization opportunities.
 
 <div class="code-group">
 
 ```python
-# Example: Two-pointer for a sorted array (common pattern)
-def two_sum_sorted(numbers, target):
-    left, right = 0, len(numbers) - 1
-    while left < right:
-        current_sum = numbers[left] + numbers[right]
-        if current_sum == target:
-            return [left + 1, right + 1]
-        elif current_sum < target:
-            left += 1
-        else:
-            right -= 1
-    return []
+# Time: O(n²) | Space: O(1) ignoring output storage
+def threeSum(nums):
+    nums.sort()
+    result = []
+    for i in range(len(nums)-2):
+        if i > 0 and nums[i] == nums[i-1]:
+            continue  # Skip duplicates
+        left, right = i+1, len(nums)-1
+        while left < right:
+            total = nums[i] + nums[left] + nums[right]
+            if total < 0:
+                left += 1
+            elif total > 0:
+                right -= 1
+            else:
+                result.append([nums[i], nums[left], nums[right]])
+                while left < right and nums[left] == nums[left+1]:
+                    left += 1
+                while left < right and nums[right] == nums[right-1]:
+                    right -= 1
+                left += 1
+                right -= 1
+    return result
 ```
 
 ```javascript
-// Example: Two-pointer for a sorted array (common pattern)
-function twoSumSorted(numbers, target) {
-  let left = 0,
-    right = numbers.length - 1;
-  while (left < right) {
-    const currentSum = numbers[left] + numbers[right];
-    if (currentSum === target) {
-      return [left + 1, right + 1];
-    } else if (currentSum < target) {
-      left++;
-    } else {
-      right--;
+// Time: O(n²) | Space: O(1) ignoring output storage
+function threeSum(nums) {
+  nums.sort((a, b) => a - b);
+  const result = [];
+  for (let i = 0; i < nums.length - 2; i++) {
+    if (i > 0 && nums[i] === nums[i - 1]) continue;
+    let left = i + 1,
+      right = nums.length - 1;
+    while (left < right) {
+      const sum = nums[i] + nums[left] + nums[right];
+      if (sum < 0) left++;
+      else if (sum > 0) right--;
+      else {
+        result.push([nums[i], nums[left], nums[right]]);
+        while (left < right && nums[left] === nums[left + 1]) left++;
+        while (left < right && nums[right] === nums[right - 1]) right--;
+        left++;
+        right--;
+      }
     }
   }
-  return [];
+  return result;
 }
 ```
 
 ```java
-// Example: Two-pointer for a sorted array (common pattern)
-public int[] twoSumSorted(int[] numbers, int target) {
-    int left = 0, right = numbers.length - 1;
-    while (left < right) {
-        int currentSum = numbers[left] + numbers[right];
-        if (currentSum == target) {
-            return new int[]{left + 1, right + 1};
-        } else if (currentSum < target) {
-            left++;
-        } else {
-            right--;
+// Time: O(n²) | Space: O(1) ignoring output storage
+public List<List<Integer>> threeSum(int[] nums) {
+    Arrays.sort(nums);
+    List<List<Integer>> result = new ArrayList<>();
+    for (int i = 0; i < nums.length - 2; i++) {
+        if (i > 0 && nums[i] == nums[i-1]) continue;
+        int left = i + 1, right = nums.length - 1;
+        while (left < right) {
+            int sum = nums[i] + nums[left] + nums[right];
+            if (sum < 0) left++;
+            else if (sum > 0) right--;
+            else {
+                result.add(Arrays.asList(nums[i], nums[left], nums[right]));
+                while (left < right && nums[left] == nums[left+1]) left++;
+                while (left < right && nums[right] == nums[right-1]) right--;
+                left++;
+                right--;
+            }
         }
     }
-    return new int[]{};
+    return result;
 }
 ```
 
 </div>
 
-**Diverging Specialties:**
+2. **Longest Substring Without Repeating Characters (#3)** - Tests sliding window technique and hash table usage. Medium difficulty, appears in both companies' question banks.
 
-- **Infosys** prominently features **Dynamic Programming** and **Math**. This points to interviews that assess logical decomposition and numerical problem-solving, skills valuable for large-scale business logic and system optimization.
-- **Nutanix** emphasizes **Hash Table** and **Depth-First Search**. The focus on hash tables underscores the importance of efficient lookup and data association in distributed systems. DFS, often used in tree/graph problems, aligns with Nutanix's core work in networked storage and infrastructure, where modeling hierarchies and connections is key.
+3. **Merge Intervals (#56)** - Tests array sorting and interval manipulation. Good for Infosys (array focus) and demonstrates clean problem decomposition for Nutanix.
 
-<div class="code-group">
+4. **Word Break (#139)** - Dynamic Programming problem that's popular at Infosys, but also tests string manipulation relevant to Nutanix.
 
-```python
-# Example: DFS on a graph (Nutanix-relevant topic)
-def dfs(node, graph, visited):
-    if not node or node in visited:
-        return
-    visited.add(node)
-    print(node)  # Process node
-    for neighbor in graph[node]:
-        dfs(neighbor, graph, visited)
-```
-
-```javascript
-// Example: DFS on a graph (Nutanix-relevant topic)
-function dfs(node, graph, visited) {
-  if (!node || visited.has(node)) return;
-  visited.add(node);
-  console.log(node); // Process node
-  for (const neighbor of graph[node] || []) {
-    dfs(neighbor, graph, visited);
-  }
-}
-```
-
-```java
-// Example: DFS on a graph (Nutanix-relevant topic)
-public void dfs(Node node, Map<Node, List<Node>> graph, Set<Node> visited) {
-    if (node == null || visited.contains(node)) return;
-    visited.add(node);
-    System.out.println(node); // Process node
-    for (Node neighbor : graph.getOrDefault(node, new ArrayList<>())) {
-        dfs(neighbor, graph, visited);
-    }
-}
-```
-
-</div>
+5. **Number of Islands (#200)** - DFS problem crucial for Nutanix, but the grid traversal concepts help with Infosys array problems too.
 
 ## Which to Prepare for First
 
-Your preparation priority should be dictated by your career stage and target role.
+**Prepare for Nutanix first.** Here's why:
 
-**Prepare for Infosys first if:** You are early in your coding interview journey. The larger volume of questions, combined with a meaningful number of Easy problems, provides a structured learning path. Mastering the core Array, String, and Math problems will build a solid foundation. The Dynamic Programming questions will then push you to develop more advanced optimization thinking. This sequence builds competency progressively.
+1. **Higher difficulty ceiling:** If you can handle Nutanix's medium-hard problems, Infosys's medium problems will feel more manageable.
+2. **Depth transfers to breadth:** Mastering fewer problems deeply (Nutanix style) makes it easier to solve many problems competently (Infosys style).
+3. **Graph knowledge is additive:** Learning DFS/trees for Nutanix won't help much with Infosys's DP focus, but the reverse isn't true. DP knowledge doesn't transfer to graph problems.
+4. **Interview timing:** Nutanix interviews typically have fewer but harder problems, requiring more deliberate practice to build intuition.
 
-**Prepare for Nutanix first if:** You are aiming for roles in infrastructure, distributed systems, or performance-critical applications. The focused question set demands high proficiency immediately. You should already be comfortable with core data structures and dive directly into mastering Hash Table implementations and graph traversal algorithms (DFS, BFS). The high ratio of Medium/Hard problems requires practicing under time constraints to simulate the actual interview pressure.
+**Strategic sequence:**
 
-Regardless of your target, always solve problems on the platform you'll be tested on. Practice Infosys questions on their [company page](/company/infosys) and Nutanix questions on their [company page](/company/nutanix) to familiarize yourself with any potential formatting or stylistic nuances.
+1. Master array and string fundamentals (weeks 1-2)
+2. Practice Nutanix's graph/DFS problems (weeks 3-4)
+3. Add Infosys's DP problems (weeks 5-6)
+4. Do mixed practice from both question banks (week 7+)
+
+Remember: The overlap in array and string problems means you're never preparing for just one company. Every sliding window problem you master helps for both interviews. Focus on understanding patterns rather than memorizing solutions, and you'll be prepared for either company's technical challenges.
+
+For more company-specific insights, check out our [Infosys interview guide](/company/infosys) and [Nutanix interview guide](/company/nutanix).

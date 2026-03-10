@@ -1,160 +1,174 @@
 ---
 title: "Microsoft vs Infosys: Interview Question Comparison"
 description: "Compare coding interview questions at Microsoft and Infosys — difficulty levels, topic focus, and preparation strategy."
-date: "2026-08-21"
+date: "2029-05-21"
 category: "tips"
 tags: ["microsoft", "infosys", "comparison"]
 ---
 
-When preparing for technical interviews, understanding the specific focus and expectations of each company is crucial. Microsoft and Infosys are major employers with distinct hiring processes, reflected in their publicly curated question lists. A direct comparison of these lists reveals key differences in volume, difficulty distribution, and topic emphasis, which should inform your preparation strategy.
+# Microsoft vs Infosys: Interview Question Comparison
+
+If you're interviewing at both Microsoft and Infosys, you're looking at two fundamentally different interview experiences. Microsoft represents the classic FAANG-style technical gauntlet, while Infosys reflects a more traditional enterprise software company approach. The key insight? Microsoft interviews test your ability to solve novel algorithmic problems under pressure, while Infosys interviews often focus on practical problem-solving with less emphasis on optimization. You can't prepare for both the same way—here's how to strategize.
 
 ## Question Volume and Difficulty
 
-The most striking difference is the sheer scale of preparation material. Microsoft's list, with **1352 questions**, dwarfs Infosys's **158 questions**. This volume suggests a broader and deeper expected knowledge base for Microsoft candidates, aligning with its product-based, research-driven engineering culture.
+The numbers tell a clear story: Microsoft has 1,352 tagged questions (379 Easy, 762 Medium, 211 Hard) compared to Infosys' 158 (42 Easy, 82 Medium, 34 Hard). This 8.5x difference isn't just about quantity—it reflects fundamentally different interview philosophies.
 
-The difficulty breakdown further highlights their different screening intensities:
+Microsoft's massive question bank means they can afford to ask fresh, challenging problems that aren't widely practiced. Their Medium-heavy distribution (56% of questions) indicates they're looking for candidates who can handle moderately complex algorithmic thinking within 45-minute interview slots. The 211 Hard questions suggest senior roles will face optimization challenges.
 
-- **Microsoft (E379/M762/H211)**: The distribution is balanced, with a significant majority (~56%) of questions categorized as **Medium**. The high number of Hard questions (211) indicates that roles, especially senior ones, will test advanced problem-solving and optimization.
-- **Infosys (E42/M82/H34)**: The distribution proportionally mirrors Microsoft's (~52% Medium, ~22% Hard), but the absolute numbers are far lower. This suggests Infosys interviews may focus on core competency and foundational logic, with less emphasis on solving numerous highly complex algorithmic puzzles.
+Infosys' smaller question bank suggests more predictable patterns. With 52% Medium questions, they're testing solid fundamentals rather than cutting-edge optimization. The lower volume means you're more likely to encounter problems that have been asked before, making targeted preparation more effective.
 
-<div class="code-group">
-
-```python
-# Example of a foundational "Medium" array problem common to both:
-def maxSubArray(nums):
-    max_current = max_global = nums[0]
-    for i in range(1, len(nums)):
-        max_current = max(nums[i], max_current + nums[i])
-        if max_current > max_global:
-            max_global = max_current
-    return max_global
-```
-
-```javascript
-function maxSubArray(nums) {
-  let maxCurrent = nums[0];
-  let maxGlobal = nums[0];
-  for (let i = 1; i < nums.length; i++) {
-    maxCurrent = Math.max(nums[i], maxCurrent + nums[i]);
-    if (maxCurrent > maxGlobal) maxGlobal = maxCurrent;
-  }
-  return maxGlobal;
-}
-```
-
-```java
-public int maxSubArray(int[] nums) {
-    int maxCurrent = nums[0];
-    int maxGlobal = nums[0];
-    for (int i = 1; i < nums.length; i++) {
-        maxCurrent = Math.max(nums[i], maxCurrent + nums[i]);
-        maxGlobal = Math.max(maxGlobal, maxCurrent);
-    }
-    return maxGlobal;
-}
-```
-
-</div>
+**Implication:** For Microsoft, you need broad pattern recognition. For Infosys, you can focus on mastering their specific question patterns.
 
 ## Topic Overlap
 
-Both companies prioritize **Array**, **String**, and **Dynamic Programming (DP)**, confirming these as universal pillars of coding interviews. Mastering these is non-negotiable for either company.
+Both companies heavily test:
 
-The key difference lies in the fourth-ranked topic:
+- **Arrays** (foundation for most algorithmic problems)
+- **Strings** (common in real-world applications)
+- **Dynamic Programming** (tests systematic thinking)
 
-- **Microsoft** emphasizes **Hash Table**, critical for optimizing lookups and solving problems involving frequency counting, duplicates, or mappings (e.g., two-sum, substring problems).
-- **Infosys** includes **Math**, indicating a stronger focus on numerical problems, puzzles, and basic algorithmic logic that may not require complex data structures.
+Where they diverge:
 
-This suggests Microsoft's interviews lean more towards assessing the ability to select and combine appropriate data structures for efficiency, while Infosys may include more logical and mathematical reasoning.
+- **Microsoft unique emphasis:** Hash Tables appear in their top 4 topics—this reflects their focus on optimization (O(1) lookups) and problems like Two Sum variants.
+- **Infosys unique emphasis:** Math problems make their top 4, suggesting more practical, calculation-based problems rather than pure data structure manipulation.
+
+The overlap means about 70% of your Infosys preparation directly applies to Microsoft, but only about 30% of Microsoft preparation applies to Infosys. Microsoft tests everything Infosys does, plus more advanced patterns.
+
+## Preparation Priority Matrix
+
+**Study First (Maximum ROI):**
+
+1. **Array Manipulation** - Sliding window, two-pointer, prefix sum
+2. **String Algorithms** - Palindrome checks, anagrams, parsing
+3. **Basic Dynamic Programming** - Fibonacci-style, knapsack variations
+
+**Microsoft-Specific Priority:**
+
+1. **Hash Table Applications** - Frequency counting, caching, O(1) lookups
+2. **Graph Algorithms** (not in top 4 but appears frequently)
+3. **Tree Traversals** - Especially BST operations
+
+**Infosys-Specific Priority:**
+
+1. **Mathematical Reasoning** - Number properties, basic combinatorics
+2. **Simulation Problems** - Step-by-step process implementation
+
+**Shared Problems with High Value:**
+
+- **Two Sum (#1)** - Tests hash table understanding (critical for Microsoft) and basic problem-solving (sufficient for Infosys)
+- **Maximum Subarray (#53)** - Tests both basic DP (Kadane's algorithm) and array manipulation
+- **Longest Common Subsequence (#1143)** - Classic DP that appears at both companies
+
+## Interview Format Differences
+
+**Microsoft:**
+
+- Typically 4-5 rounds including coding, system design (for senior roles), and behavioral
+- 45 minutes per coding round, usually 2 problems (one Medium, one Medium-Hard)
+- Whiteboard or shared editor with real-time collaboration
+- Heavy emphasis on optimization trade-offs and edge cases
+- Behavioral questions ("Tell me about a time...") weighted about 20-30%
+
+**Infosys:**
+
+- Often 2-3 rounds total, with coding being one component
+- 30-60 minutes for coding assessment, often 1-2 simpler problems
+- May include platform-based coding with test cases
+- More emphasis on working solution than optimal solution
+- Behavioral/cultural fit may carry equal or greater weight than technical
+- Rarely includes system design unless applying for architect roles
+
+The key difference: Microsoft interviews are elimination rounds where each problem has multiple "hurdles" (correctness, efficiency, edge cases). Infosys interviews are more about demonstrating baseline competence.
+
+## Specific Problem Recommendations
+
+Here are 5 problems that provide excellent crossover value:
+
+1. **Best Time to Buy and Sell Stock (#121)** - Simple but teaches array traversal and optimization thinking. The one-pass O(n) solution is exactly the kind of optimization Microsoft looks for, while the brute force O(n²) would still pass at Infosys.
 
 <div class="code-group">
 
 ```python
-# Hash Table focus (Microsoft): Two Sum
-def twoSum(nums, target):
-    seen = {}
-    for i, num in enumerate(nums):
-        complement = target - num
-        if complement in seen:
-            return [seen[complement], i]
-        seen[num] = i
-    return []
+# Time: O(n) | Space: O(1)
+def maxProfit(prices):
+    if not prices:
+        return 0
 
-# Math focus (Infosys): Reverse Integer
-def reverse(x):
-    INT_MIN, INT_MAX = -2**31, 2**31 - 1
-    rev = 0
-    sign = -1 if x < 0 else 1
-    x = abs(x)
-    while x != 0:
-        pop = x % 10
-        x //= 10
-        if rev > (INT_MAX - pop) // 10:
-            return 0
-        rev = rev * 10 + pop
-    return rev * sign
+    min_price = float('inf')
+    max_profit = 0
+
+    for price in prices:
+        if price < min_price:
+            min_price = price
+        elif price - min_price > max_profit:
+            max_profit = price - min_price
+
+    return max_profit
 ```
 
 ```javascript
-// Hash Table focus (Microsoft): Two Sum
-function twoSum(nums, target) {
-  const map = new Map();
-  for (let i = 0; i < nums.length; i++) {
-    const complement = target - nums[i];
-    if (map.has(complement)) return [map.get(complement), i];
-    map.set(nums[i], i);
-  }
-  return [];
-}
+// Time: O(n) | Space: O(1)
+function maxProfit(prices) {
+  if (!prices.length) return 0;
 
-// Math focus (Infosys): Reverse Integer
-function reverse(x) {
-  const INT_MAX = 2 ** 31 - 1,
-    INT_MIN = -(2 ** 31);
-  let rev = 0;
-  while (x !== 0) {
-    const pop = x % 10;
-    x = Math.trunc(x / 10);
-    if (rev > Math.trunc(INT_MAX / 10) || (rev === Math.trunc(INT_MAX / 10) && pop > 7)) return 0;
-    if (rev < Math.trunc(INT_MIN / 10) || (rev === Math.trunc(INT_MIN / 10) && pop < -8)) return 0;
-    rev = rev * 10 + pop;
+  let minPrice = Infinity;
+  let maxProfit = 0;
+
+  for (let price of prices) {
+    if (price < minPrice) {
+      minPrice = price;
+    } else if (price - minPrice > maxProfit) {
+      maxProfit = price - minPrice;
+    }
   }
-  return rev;
+
+  return maxProfit;
 }
 ```
 
 ```java
-// Hash Table focus (Microsoft): Two Sum
-public int[] twoSum(int[] nums, int target) {
-    Map<Integer, Integer> map = new HashMap<>();
-    for (int i = 0; i < nums.length; i++) {
-        int complement = target - nums[i];
-        if (map.containsKey(complement)) {
-            return new int[] { map.get(complement), i };
-        }
-        map.put(nums[i], i);
-    }
-    return new int[0];
-}
+// Time: O(n) | Space: O(1)
+public int maxProfit(int[] prices) {
+    if (prices.length == 0) return 0;
 
-// Math focus (Infosys): Reverse Integer
-public int reverse(int x) {
-    int rev = 0;
-    while (x != 0) {
-        int pop = x % 10;
-        x /= 10;
-        if (rev > Integer.MAX_VALUE/10 || (rev == Integer.MAX_VALUE/10 && pop > 7)) return 0;
-        if (rev < Integer.MIN_VALUE/10 || (rev == Integer.MIN_VALUE/10 && pop < -8)) return 0;
-        rev = rev * 10 + pop;
+    int minPrice = Integer.MAX_VALUE;
+    int maxProfit = 0;
+
+    for (int price : prices) {
+        if (price < minPrice) {
+            minPrice = price;
+        } else if (price - minPrice > maxProfit) {
+            maxProfit = price - minPrice;
+        }
     }
-    return rev;
+
+    return maxProfit;
 }
 ```
 
 </div>
 
+2. **Climbing Stairs (#70)** - Perfect DP introduction. The Fibonacci pattern appears everywhere, and you can solve it with O(n) time O(1) space for Microsoft, or simpler memoization for Infosys.
+
+3. **Valid Parentheses (#20)** - Stack application that tests both basic data structure knowledge (Infosys) and optimization thinking (Microsoft wants O(n) time, O(n) space).
+
+4. **Merge Intervals (#56)** - Tests sorting comprehension and array manipulation. The optimal O(n log n) solution satisfies Microsoft, while a less optimized version might suffice for Infosys.
+
+5. **Contains Duplicate (#217)** - Three solutions demonstrate skill progression: O(n²) brute force (Infosys minimum), O(n log n) sorting (better), O(n) hash set (Microsoft expected).
+
 ## Which to Prepare for First
 
-Prepare for **Infosys first**. Its smaller, foundational question set covering core topics (Array, String, DP, Math) establishes the essential problem-solving muscle memory. Success here builds confidence and a solid base. Once this core is strong, scaling up to **Microsoft's** list is a matter of volume, depth, and increased emphasis on advanced data structures like Hash Tables and tackling more Hard problems. This progression ensures you build from a stable foundation outward, rather than being overwhelmed by breadth and complexity from the start.
+**Prepare for Microsoft first, then adapt for Infosys.** Here's why:
 
-For detailed company-specific question lists and guides, visit the CodeJeet pages for [Microsoft](/company/microsoft) and [Infosys](/company/infosys).
+Microsoft preparation covers 90% of what Infosys tests, plus additional advanced topics. If you study Microsoft-style problems for 4 weeks, you can spend 1 week adjusting to Infosys' simpler expectations. The reverse doesn't work—Infosys preparation leaves massive gaps for Microsoft.
+
+**Week 1-4:** Focus on Microsoft patterns—hash tables, graph traversal, tree operations, and Medium-level DP. Practice explaining trade-offs and optimizing from brute force.
+
+**Week 5:** Review Infosys-specific questions. Notice they often accept simpler solutions. Practice explaining your thinking clearly (they value communication) and implement working solutions quickly rather than perfect ones.
+
+**Critical mindset shift:** In Microsoft interviews, never present a suboptimal solution first—they want to see your optimization process. In Infosys interviews, present a working solution first, then discuss improvements if time allows.
+
+Remember: Microsoft interviews are about proving you belong in the top 10% of candidates. Infosys interviews are about proving you're competent and coachable. Prepare accordingly.
+
+For more company-specific insights, check out our [Microsoft interview guide](/company/microsoft) and [Infosys interview guide](/company/infosys).

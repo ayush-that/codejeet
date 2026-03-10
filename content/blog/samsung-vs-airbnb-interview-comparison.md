@@ -1,161 +1,240 @@
 ---
 title: "Samsung vs Airbnb: Interview Question Comparison"
 description: "Compare coding interview questions at Samsung and Airbnb — difficulty levels, topic focus, and preparation strategy."
-date: "2026-06-04"
+date: "2026-05-27"
 category: "tips"
 tags: ["samsung", "airbnb", "comparison"]
 ---
 
-When preparing for technical interviews, company-specific patterns matter. Samsung and Airbnb both test core algorithmic skills but emphasize different problem types and contexts. Understanding their distinct profiles helps you allocate preparation time effectively.
+# Samsung vs Airbnb: Interview Question Comparison
+
+If you're preparing for interviews at both Samsung and Airbnb, you're facing two distinct challenges that require strategic preparation. While both are tech giants, their interview styles reflect their core business models: Samsung's hardware/embedded systems focus versus Airbnb's marketplace/platform engineering. The good news is that with smart preparation, you can efficiently cover both. The key insight? Start with their substantial overlap in fundamental data structures, then branch into their unique specialties.
 
 ## Question Volume and Difficulty
 
-Samsung's tagged question pool on CodeJeet is slightly larger at 69 questions, compared to Airbnb's 64. The difficulty distribution reveals different priorities.
+Looking at the numbers — Samsung's 69 questions (15 Easy, 37 Medium, 17 Hard) versus Airbnb's 64 questions (11 Easy, 34 Medium, 19 Hard) — reveals important patterns.
 
-Samsung (69 total):
+First, both companies lean heavily toward Medium difficulty questions (54% for Samsung, 53% for Airbnb), which is typical for competitive tech interviews. However, Airbnb has a slightly higher Hard question percentage (30% vs Samsung's 25%), suggesting their interviews might push deeper into optimization or edge cases. Samsung's slightly larger question pool (69 vs 64) indicates they might have more variety in their question bank, possibly reflecting their diverse engineering domains from mobile to semiconductors.
 
-- Easy: 15 (21.7%)
-- Medium: 37 (53.6%)
-- Hard: 17 (24.6%)
-
-Airbnb (64 total):
-
-- Easy: 11 (17.2%)
-- Medium: 34 (53.1%)
-- Hard: 19 (29.7%)
-
-While both have a majority of Medium problems, Samsung has a higher proportion of Easy questions, suggesting a broader scope that includes more fundamental checks. Airbnb has a notably higher percentage of Hard problems, indicating a greater emphasis on complex, multi-step scenarios often tied to real-world product features like booking systems or string processing.
+The practical implication: if you're strong on Medium problems and can handle some Hards, you're positioned well for both. But don't underestimate Samsung's Medium questions — with 37 of them, they have plenty of room to test nuanced understanding.
 
 ## Topic Overlap
 
-Both companies heavily test **Array** and **Dynamic Programming (DP)**, but their application differs.
+Both companies test **Array** and **Dynamic Programming** extensively, making these your highest-return preparation areas. **Hash Table** also appears in both lists, though it's more prominent for Airbnb (their #2 topic) than Samsung (#4).
 
-**Common Ground (Array, Hash Table, DP):** You will need strong fundamentals here. Array manipulation and hash tables for lookups are universal.
+The divergence comes in their secondary focuses:
 
-**Samsung's Focus:** The prominence of **Two Pointers** aligns with problems involving sequences, intervals, or in-place array operations common in systems and low-level optimization contexts. DP problems often relate to combinatorial counts, paths, or resource allocation.
+- **Samsung** uniquely emphasizes **Two Pointers** — this makes sense given their work with sorted data, sensor inputs, or memory-constrained environments where in-place operations matter.
+- **Airbnb** prioritizes **String** manipulation — logical for a platform dealing with user profiles, reviews, search queries, and internationalization.
 
-**Airbnb's Focus:** The high frequency of **String** problems is a key differentiator. Airbnb's business involves heavy text processing—search, parsing, formatting user data, and validating inputs (like dates or listings). Their DP and array questions frequently model real-world constraints like calendar conflicts, pricing, or reservation systems.
-
-Consider this classic Two Pointer problem, more common at Samsung:
+Here's a practical example of how both might test arrays differently:
 
 <div class="code-group">
 
 ```python
-def trap_rain_water(height):
-    left, right = 0, len(height) - 1
-    left_max = right_max = water = 0
-    while left <= right:
-        if left_max <= right_max:
-            left_max = max(left_max, height[left])
-            water += left_max - height[left]
-            left += 1
-        else:
-            right_max = max(right_max, height[right])
-            water += right_max - height[right]
-            right -= 1
-    return water
+# Samsung-style: Two pointers with array (like Move Zeroes #283)
+# Time: O(n) | Space: O(1)
+def moveZeroes(nums):
+    """Move all zeros to end while maintaining relative order of non-zero elements."""
+    write = 0
+    for read in range(len(nums)):
+        if nums[read] != 0:
+            nums[write], nums[read] = nums[read], nums[write]
+            write += 1
+    return nums
+
+# Airbnb-style: Array with hash table (like Two Sum #1)
+# Time: O(n) | Space: O(n)
+def twoSum(nums, target):
+    """Find two indices where values sum to target."""
+    seen = {}
+    for i, num in enumerate(nums):
+        complement = target - num
+        if complement in seen:
+            return [seen[complement], i]
+        seen[num] = i
+    return []
 ```
 
 ```javascript
-function trapRainWater(height) {
-  let left = 0,
-    right = height.length - 1;
-  let leftMax = 0,
-    rightMax = 0,
-    water = 0;
-  while (left <= right) {
-    if (leftMax <= rightMax) {
-      leftMax = Math.max(leftMax, height[left]);
-      water += leftMax - height[left];
-      left++;
-    } else {
-      rightMax = Math.max(rightMax, height[right]);
-      water += rightMax - height[right];
-      right--;
+// Samsung-style: Two pointers with array
+// Time: O(n) | Space: O(1)
+function moveZeroes(nums) {
+  let write = 0;
+  for (let read = 0; read < nums.length; read++) {
+    if (nums[read] !== 0) {
+      [nums[write], nums[read]] = [nums[read], nums[write]];
+      write++;
     }
   }
-  return water;
+  return nums;
+}
+
+// Airbnb-style: Array with hash table
+// Time: O(n) | Space: O(n)
+function twoSum(nums, target) {
+  const seen = new Map();
+  for (let i = 0; i < nums.length; i++) {
+    const complement = target - nums[i];
+    if (seen.has(complement)) {
+      return [seen.get(complement), i];
+    }
+    seen.set(nums[i], i);
+  }
+  return [];
 }
 ```
 
 ```java
-public int trapRainWater(int[] height) {
-    int left = 0, right = height.length - 1;
-    int leftMax = 0, rightMax = 0, water = 0;
-    while (left <= right) {
-        if (leftMax <= rightMax) {
-            leftMax = Math.max(leftMax, height[left]);
-            water += leftMax - height[left];
-            left++;
-        } else {
-            rightMax = Math.max(rightMax, height[right]);
-            water += rightMax - height[right];
-            right--;
+// Samsung-style: Two pointers with array
+// Time: O(n) | Space: O(1)
+public void moveZeroes(int[] nums) {
+    int write = 0;
+    for (int read = 0; read < nums.length; read++) {
+        if (nums[read] != 0) {
+            int temp = nums[write];
+            nums[write] = nums[read];
+            nums[read] = temp;
+            write++;
         }
     }
-    return water;
+}
+
+// Airbnb-style: Array with hash table
+// Time: O(n) | Space: O(n)
+public int[] twoSum(int[] nums, int target) {
+    Map<Integer, Integer> seen = new HashMap<>();
+    for (int i = 0; i < nums.length; i++) {
+        int complement = target - nums[i];
+        if (seen.containsKey(complement)) {
+            return new int[]{seen.get(complement), i};
+        }
+        seen.put(nums[i], i);
+    }
+    return new int[]{};
 }
 ```
 
 </div>
 
-Now, a String parsing problem more typical of Airbnb:
+## Preparation Priority Matrix
+
+**Tier 1: Overlap Topics (Study First)**
+
+1. **Array manipulation** — sliding window, prefix sums, rotation
+2. **Dynamic Programming** — both 1D and 2D, especially knapsack variations
+3. **Hash Table applications** — frequency counting, complement searching
+
+**Tier 2: Samsung-Specific**
+
+1. **Two Pointers** — sorted array operations, in-place modifications
+2. **Bit Manipulation** (implied by hardware focus) — though not listed, expect it
+
+**Tier 3: Airbnb-Specific**
+
+1. **String algorithms** — parsing, pattern matching, encoding
+2. **Graph traversal** (implied by their platform) — BFS/DFS for recommendation systems
+
+## Interview Format Differences
+
+**Samsung** interviews often include:
+
+- More rounds focused on low-level optimization
+- Questions about memory management and efficiency
+- Possible embedded systems or hardware-aware coding questions
+- Shorter problems (30-45 minutes) testing clean implementation
+
+**Airbnb** interviews typically feature:
+
+- Strong emphasis on real-world system design (even for mid-level)
+- Behavioral rounds weighted heavily on "host/guest empathy"
+- Longer problems (45-60 minutes) with multiple follow-ups
+- Focus on scalable, maintainable code for web platforms
+
+The key difference: Samsung might ask you to optimize an algorithm for limited memory, while Airbnb might ask you to design how to scale that algorithm for millions of concurrent users.
+
+## Specific Problem Recommendations
+
+These 5 problems give you maximum coverage for both companies:
+
+1. **Product of Array Except Self (#238)** — Tests array manipulation (both companies) and optimization thinking (Samsung's efficiency focus)
+2. **Longest Palindromic Substring (#5)** — Covers string manipulation (Airbnb) with dynamic programming (both)
+3. **Merge Intervals (#56)** — Array sorting with merging logic appears in both companies' question banks
+4. **House Robber (#198)** — Classic DP problem that tests recursive-to-iterative thinking
+5. **3Sum (#15)** — Combines arrays, two pointers (Samsung), and hash tables (Airbnb) in one problem
+
+For example, here's how you might approach #56 for both interview styles:
 
 <div class="code-group">
 
 ```python
-def parse_ternary(expression):
-    stack = []
-    i = len(expression) - 1
-    while i >= 0:
-        char = expression[i]
-        if stack and stack[-1] == '?':
-            stack.pop()  # remove '?'
-            on_true = stack.pop()
-            stack.pop()  # remove ':'
-            on_false = stack.pop()
-            stack.append(on_true if char == 'T' else on_false)
+# Merge Intervals - clean solution for both companies
+# Time: O(n log n) | Space: O(n) or O(1) depending on implementation
+def merge(intervals):
+    if not intervals:
+        return []
+
+    intervals.sort(key=lambda x: x[0])
+    merged = [intervals[0]]
+
+    for current in intervals[1:]:
+        last = merged[-1]
+        # If intervals overlap
+        if current[0] <= last[1]:
+            # Merge them by updating the end
+            last[1] = max(last[1], current[1])
         else:
-            stack.append(char)
-        i -= 1
-    return stack[0]
+            merged.append(current)
+
+    return merged
 ```
 
 ```javascript
-function parseTernary(expression) {
-  const stack = [];
-  for (let i = expression.length - 1; i >= 0; i--) {
-    const char = expression[i];
-    if (stack.length && stack[stack.length - 1] === "?") {
-      stack.pop(); // remove '?'
-      const onTrue = stack.pop();
-      stack.pop(); // remove ':'
-      const onFalse = stack.pop();
-      stack.push(char === "T" ? onTrue : onFalse);
+// Merge Intervals
+// Time: O(n log n) | Space: O(n)
+function merge(intervals) {
+  if (intervals.length === 0) return [];
+
+  intervals.sort((a, b) => a[0] - b[0]);
+  const merged = [intervals[0]];
+
+  for (let i = 1; i < intervals.length; i++) {
+    const current = intervals[i];
+    const last = merged[merged.length - 1];
+
+    if (current[0] <= last[1]) {
+      last[1] = Math.max(last[1], current[1]);
     } else {
-      stack.push(char);
+      merged.push(current);
     }
   }
-  return stack[0];
+
+  return merged;
 }
 ```
 
 ```java
-public String parseTernary(String expression) {
-    Deque<Character> stack = new ArrayDeque<>();
-    for (int i = expression.length() - 1; i >= 0; i--) {
-        char c = expression.charAt(i);
-        if (!stack.isEmpty() && stack.peek() == '?') {
-            stack.pop(); // remove '?'
-            char onTrue = stack.pop();
-            stack.pop(); // remove ':'
-            char onFalse = stack.pop();
-            stack.push(c == 'T' ? onTrue : onFalse);
+// Merge Intervals
+// Time: O(n log n) | Space: O(n)
+public int[][] merge(int[][] intervals) {
+    if (intervals.length <= 1) return intervals;
+
+    Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
+    List<int[]> merged = new ArrayList<>();
+    merged.add(intervals[0]);
+
+    for (int i = 1; i < intervals.length; i++) {
+        int[] current = intervals[i];
+        int[] last = merged.get(merged.size() - 1);
+
+        if (current[0] <= last[1]) {
+            last[1] = Math.max(last[1], current[1]);
         } else {
-            stack.push(c);
+            merged.add(current);
         }
     }
-    return String.valueOf(stack.peek());
+
+    return merged.toArray(new int[merged.size()][]);
 }
 ```
 
@@ -163,10 +242,12 @@ public String parseTernary(String expression) {
 
 ## Which to Prepare for First
 
-Prepare for **Samsung first** if you are solidifying core algorithmic fundamentals. Its broader range, including more Easy problems and strong focus on Two Pointers and classic DP, builds a robust foundation. Mastering these patterns will make Airbnb's harder problems more approachable.
+**Start with Airbnb's question bank.** Here's why: Airbnb's emphasis on strings and hash tables, combined with their DP and array questions, covers 80% of Samsung's requirements. Once you're comfortable with Airbnb's patterns, you only need to add Samsung's two-pointer techniques to be fully prepared for both.
 
-Prepare for **Airbnb first** if you are already comfortable with arrays, hash tables, and basic DP, and need to specialize. The intense focus on String manipulation and complex, scenario-based Hard problems requires dedicated practice. Success here often depends on careful edge-case handling and modeling.
+The reverse isn't as efficient — if you start with Samsung, you might neglect the string depth Airbnb expects. Also, Airbnb's slightly higher Hard question percentage means if you can handle their challenges, Samsung's will feel more manageable.
 
-Ultimately, a strong candidate for either company must be proficient in Array, Hash Table, and Dynamic Programming. Use Samsung's list to build breadth and speed, then use Airbnb's list to develop depth and mastery in parsing and system design-like problem-solving.
+Spend 60% of your time on the overlapping topics, 25% on Airbnb-specific string problems, and 15% on Samsung's two-pointer patterns. This gives you the best return on your preparation time.
 
-For focused practice, visit the [Samsung question list](/company/samsung) and the [Airbnb question list](/company/airbnb).
+Remember: both companies value clean, well-communicated code. Practice explaining your thought process out loud, as you'll need to do this in both interview settings.
+
+For more company-specific insights, check out our [Samsung interview guide](/company/samsung) and [Airbnb interview guide](/company/airbnb).

@@ -1,95 +1,196 @@
 ---
 title: "Two Pointers Questions at Swiggy: What to Expect"
 description: "Prepare for Two Pointers interview questions at Swiggy — patterns, difficulty breakdown, and study tips."
-date: "2030-02-11"
+date: "2030-02-03"
 category: "dsa-patterns"
 tags: ["swiggy", "two-pointers", "interview prep"]
 ---
 
-Two Pointers is a core algorithmic pattern that appears in 5 out of 41 coding questions at Swiggy. This 12% representation means you have a high probability of encountering it in your technical interview. For a company that operates at Swiggy's scale—optimizing delivery routes, managing real-time order assignments, and processing large datasets—efficient array and string manipulation is non-negotiable. The Two Pointers technique is prized for its ability to solve problems in linear O(n) time with constant O(1) extra space, making it ideal for performance-critical systems.
+# Two Pointers Questions at Swiggy: What to Expect
 
-## What to Expect — Types of Problems
+If you're preparing for a software engineering interview at Swiggy, you've likely noticed their problem breakdown: 5 out of 41 tagged questions involve the Two Pointers technique. That's roughly 12% of their technical question pool. While this might seem like a niche topic, in practice, Two Pointers problems appear with surprising frequency in live interviews—especially for roles involving backend systems, logistics optimization, or data processing. Why? Because Swiggy's core business—food delivery and quick commerce—revolves around efficient data traversal, matching, and interval management. Think of matching orders to delivery executives, optimizing delivery routes, or merging time slots for restaurant operations. The Two Pointers technique isn't just an algorithmic curiosity here; it's a practical tool for solving real-world problems they face daily.
 
-Swiggy's Two Pointers questions typically fall into three categories, reflecting real-world engineering scenarios:
+## Specific Patterns Swiggy Favors
 
-1.  **Sorted Array Pair Searches:** Finding pairs or triplets that meet a condition (e.g., "two sum" in a sorted list, three sum, or pairs with a specific difference). This directly relates to tasks like matching delivery executives to orders based on proximity scores stored in sorted arrays.
-2.  **In-Place Array Transformations:** Removing duplicates, segregating elements (like moving all zeros to the end), or partitioning. This mirrors data sanitization and filtering for order lists or user data streams.
-3.  **String Validity & Comparison:** Checking for palindromes, subsequences, or string transformations (e.g., backspace string compare). This is applicable to validating user inputs, tracking order IDs, or comparing address strings.
+Swiggy's Two Pointers questions tend to cluster around three specific patterns, each mirroring a domain problem they encounter.
 
-Expect problems that test not just your ability to implement the pattern, but also to identify when it's the optimal tool.
+1. **Sorted Array Pair Searching**: This is their most common pattern. Problems like "Two Sum II - Input Array Is Sorted" (LeetCode #167) directly model matching scenarios—finding two delivery executives whose combined capacity meets an order requirement, or identifying two time slots that can be merged. The sorted array is key because their data (like delivery windows or sorted IDs) often arrives ordered.
 
-## How to Prepare — Study Tips with One Code Example
+2. **In-place Array Manipulation**: Swiggy loves problems where you must rearrange or filter data without extra space. "Remove Duplicates from Sorted Array" (LeetCode #26) or "Move Zeroes" (LeetCode #283) test your ability to efficiently clean or transform datasets, similar to processing real-time order streams or filtering invalid location pings.
 
-Master the fundamentals first. The core idea is using two indices (pointers) that traverse a data structure—often from opposite ends or at different speeds—to solve a problem in a single pass.
+3. **Interval Merging and Overlap**: While sometimes categorized under "Intervals," these problems are frequently solved with a Two Pointers approach after sorting. "Merge Intervals" (LeetCode #56) is a classic example. At Swiggy, this translates to consolidating delivery schedules, merging promotional time windows, or combining overlapping service areas.
 
-A critical pattern is the **"Opposite Ends" Two Pointer** used for problems like finding a pair sum in a sorted array. This is a classic because it reduces a potential O(n²) brute-force solution to O(n).
+Notice what's missing: complex linked list cycles or abstract palindrome problems. Swiggy's questions are grounded in array/list manipulation that mirrors operational data structures.
+
+## How to Prepare
+
+Mastering Two Pointers for Swiggy means internalizing the pattern variations. Let's walk through the most common one: the opposite-direction pointers for a sorted array.
 
 <div class="code-group">
 
 ```python
+# Time: O(n) | Space: O(1)
 def two_sum_sorted(numbers, target):
+    """
+    LeetCode #167: Two Sum II - Input Array Is Sorted
+    Given a 1-indexed sorted array, find two numbers that sum to target.
+    """
     left, right = 0, len(numbers) - 1
+
     while left < right:
         current_sum = numbers[left] + numbers[right]
+
         if current_sum == target:
-            return [left, right]  # Indices found
+            # Problem uses 1-indexed, so add 1
+            return [left + 1, right + 1]
         elif current_sum < target:
-            left += 1  # Need a larger sum
-        else:  # current_sum > target
-            right -= 1  # Need a smaller sum
-    return []  # No pair found
+            left += 1  # Need a larger sum, move left pointer right
+        else:
+            right -= 1  # Need a smaller sum, move right pointer left
+
+    return []  # No solution found
 ```
 
 ```javascript
+// Time: O(n) | Space: O(1)
 function twoSumSorted(numbers, target) {
   let left = 0;
   let right = numbers.length - 1;
+
   while (left < right) {
     const currentSum = numbers[left] + numbers[right];
+
     if (currentSum === target) {
-      return [left, right];
+      return [left + 1, right + 1]; // 1-indexed
     } else if (currentSum < target) {
       left++;
     } else {
-      // currentSum > target
       right--;
     }
   }
-  return []; // No pair found
+
+  return [];
 }
 ```
 
 ```java
+// Time: O(n) | Space: O(1)
 public int[] twoSumSorted(int[] numbers, int target) {
     int left = 0;
     int right = numbers.length - 1;
+
     while (left < right) {
         int currentSum = numbers[left] + numbers[right];
+
         if (currentSum == target) {
-            return new int[]{left, right};
+            return new int[]{left + 1, right + 1};
         } else if (currentSum < target) {
             left++;
-        } else { // currentSum > target
+        } else {
             right--;
         }
     }
-    return new int[]{}; // No pair found
+
+    return new int[]{};
 }
 ```
 
 </div>
 
-Practice by writing this code from memory. Then, trace its execution with sample inputs to build intuition for how the pointers converge.
+The second pattern to master is same-direction pointers for in-place operations. This is essentially the "slow and fast pointer" technique applied to arrays.
+
+<div class="code-group">
+
+```python
+# Time: O(n) | Space: O(1)
+def remove_duplicates_sorted(nums):
+    """
+    LeetCode #26: Remove Duplicates from Sorted Array
+    Remove duplicates in-place, return new length.
+    """
+    if not nums:
+        return 0
+
+    # slow pointer tracks the position of the last unique element
+    slow = 0
+
+    # fast pointer explores the array
+    for fast in range(1, len(nums)):
+        if nums[fast] != nums[slow]:
+            slow += 1
+            nums[slow] = nums[fast]
+
+    # Length is slow + 1 (0-indexed)
+    return slow + 1
+```
+
+```javascript
+// Time: O(n) | Space: O(1)
+function removeDuplicatesSorted(nums) {
+  if (nums.length === 0) return 0;
+
+  let slow = 0;
+
+  for (let fast = 1; fast < nums.length; fast++) {
+    if (nums[fast] !== nums[slow]) {
+      slow++;
+      nums[slow] = nums[fast];
+    }
+  }
+
+  return slow + 1;
+}
+```
+
+```java
+// Time: O(n) | Space: O(1)
+public int removeDuplicatesSorted(int[] nums) {
+    if (nums.length == 0) return 0;
+
+    int slow = 0;
+
+    for (int fast = 1; fast < nums.length; fast++) {
+        if (nums[fast] != nums[slow]) {
+            slow++;
+            nums[slow] = nums[fast];
+        }
+    }
+
+    return slow + 1;
+}
+```
+
+</div>
+
+## How Swiggy Tests Two Pointers vs Other Companies
+
+Swiggy's approach to Two Pointers differs from other tech companies in subtle but important ways. At FAANG companies, you might encounter Two Pointers as part of a multi-step problem or combined with other patterns (like in "Trapping Rain Water"). Swiggy, however, tends to present it as a standalone, clean algorithmic test—but with a practical twist. They often embed the problem in a domain context: "Given sorted delivery time windows, find two that can be combined to meet a large order deadline."
+
+The difficulty level is typically medium, but they emphasize clarity and optimality. While a company like Google might accept a suboptimal solution to see your thought process, Swiggy interviewers often expect you to arrive at the O(n) time, O(1) space solution quickly, because that's what their systems require for scalability. They're less interested in clever tricks and more in robust, maintainable implementations.
+
+## Study Order
+
+Tackle Two Pointers in this sequence to build a solid foundation:
+
+1. **Basic Opposite-Direction Pointers**: Start with "Two Sum II" (#167) and "Valid Palindrome" (#125). This teaches you the fundamental movement logic when pointers move toward each other.
+2. **Same-Direction Pointers**: Move to "Remove Duplicates from Sorted Array" (#26) and "Remove Element" (#27). These introduce the slow/fast pointer pattern for in-place operations.
+3. **Window Variants**: Practice "Container With Most Water" (#11) and "3Sum" (#15). These add complexity with area calculations or multiple pointers.
+4. **Interval Problems**: Tackle "Merge Intervals" (#56) and "Insert Interval" (#57). While not exclusively Two Pointers, they rely heavily on sorted traversal and pointer logic.
+5. **Linked List Applications**: Finally, practice "Linked List Cycle" (#141) and "Palindrome Linked List" (#234). These transfer the pattern to pointer-based structures.
+
+This order works because it progresses from simple array traversal to more complex decision-making, then applies the pattern to different data structures. Each step reinforces pointer movement logic while adding new constraints.
 
 ## Recommended Practice Order
 
-Build your competency systematically:
+Solve these problems in sequence to build Swiggy-specific competency:
 
-1.  **Foundation:** Start with basic opposite-ends problems (Two Sum II, Valid Palindrome).
-2.  **In-Place Operations:** Move to problems requiring element swaps or overwrites (Remove Duplicates, Move Zeroes).
-3.  **Complex Traversal:** Tackle "slow and fast" pointer problems (Linked List Cycle) and sliding window variants.
-4.  **Swiggy-Specific:** Finally, solve problems tagged for Swiggy on platforms like CodeJeet to familiarize yourself with their exact problem style and constraints.
+1. **Two Sum II - Input Array Is Sorted** (#167) - The foundational opposite-pointer pattern.
+2. **Remove Duplicates from Sorted Array** (#26) - Master same-direction pointers.
+3. **Merge Intervals** (#56) - Apply sorting plus pointer traversal.
+4. **3Sum** (#15) - Handle multiple pointers and deduplication.
+5. **Container With Most Water** (#11) - Practice pointer movement based on conditions.
+6. **Trapping Rain Water** (#42) - Advanced application combining multiple patterns.
 
-Focus on writing clean, bug-free code. In your interview, clearly communicate your thought process, starting with the brute-force approach before optimizing with the Two Pointers technique.
+After completing these, you'll have covered every Two Pointers variation Swiggy commonly tests. Remember to verbalize your thought process during practice—Swiggy interviewers value clear communication about trade-offs as much as the solution itself.
 
 [Practice Two Pointers at Swiggy](/company/swiggy/two-pointers)

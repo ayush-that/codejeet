@@ -1,122 +1,143 @@
 ---
 title: "Amazon vs eBay: Interview Question Comparison"
 description: "Compare coding interview questions at Amazon and eBay — difficulty levels, topic focus, and preparation strategy."
-date: "2026-04-15"
+date: "2029-01-03"
 category: "tips"
 tags: ["amazon", "ebay", "comparison"]
 ---
 
-When preparing for technical interviews at major tech companies, understanding the differences in their question patterns can significantly streamline your study process. Amazon and eBay, while both e-commerce giants, present distinct interview landscapes in terms of volume, difficulty, and focus. This comparison breaks down their technical interview question profiles to help you prioritize your preparation effectively.
+If you're interviewing at both Amazon and eBay, or trying to decide where to focus your limited prep time, you're facing two very different beasts. Amazon's interview process is a well-documented, high-volume gauntlet that's become a benchmark for the industry. eBay's process is more focused and less publicized, but no less rigorous within its scope. The core difference isn't just in question count—it's in strategic approach. Preparing for Amazon is like training for a marathon with known checkpoints; preparing for eBay is like sharpening your skills for a targeted decathlon. This guide will break down the numbers, the overlaps, and the unique demands of each to help you build an efficient, dual-track preparation strategy.
 
-## Question Volume and Difficulty
+## Question Volume and Difficulty: A Tale of Two Scales
 
-The most striking difference is the sheer scale of available and reported questions.
+The raw numbers tell a stark story. On platforms like LeetCode, Amazon has **1,938** tagged questions, dwarfing eBay's **60**. This disparity isn't just about company size; it reflects the nature of their interview processes and how long they've been a staple of tech recruiting.
 
-**Amazon** has a massive question bank, with approximately 1938 questions categorized by difficulty: 530 Easy, 1057 Medium, and 351 Hard. This volume reflects Amazon's vast hiring scale across numerous technical roles and teams. The distribution suggests a strong emphasis on Medium-difficulty problems, which are typical for assessing core problem-solving and data structure application. The significant number of Hard questions indicates that roles at Amazon, particularly senior or specialized positions, will require mastery of complex algorithmic concepts.
+- **Amazon (E530/M1057/H351):** The difficulty distribution is a classic bell curve, heavily weighted toward **Medium** problems. This is the sweet spot for Amazon interviews: problems that are conceptually accessible but require clean, optimal implementation under pressure. The high number of Easy questions often serves as foundational practice, while the Hard questions test depth on core data structures. The volume means you cannot "grind" every problem. Success requires **pattern recognition**.
+- **eBay (E12/M38/H10):** With only 60 questions, the pool is shallow but concentrated. The focus is overwhelmingly on **Medium** difficulty, with a handful of Easy warm-ups and a few Hard problems that likely represent senior or specialized roles. This smaller corpus suggests two things: 1) eBay's question bank is less "leaked" or over-analyzed, and 2) They may reuse or slightly modify a core set of problems more frequently. Your preparation must be **deep and precise** on fundamentals, as you're more likely to encounter a known problem variant.
 
-**eBay** has a much more focused question bank, with around 60 total questions: 12 Easy, 38 Medium, and 10 Hard. This smaller, more curated set likely represents the most frequent and characteristic questions asked in eBay interviews. The emphasis is overwhelmingly on Medium-difficulty problems, which form the bulk of their technical screening.
+**Implication:** For Amazon, breadth and pattern-matching are key. For eBay, mastering the fundamentals covered in their limited set is critical—there are fewer surprises, but less room for error.
 
-_Preparation Implication:_ For Amazon, you must prepare for breadth and unpredictability within a large set. For eBay, you can aim for depth on a more predictable, core set of problems.
+## Topic Overlap: The Common Core
 
-## Topic Overlap
+Both companies test a strong foundation in computer science fundamentals. The overlap is your highest-return study area.
 
-Both companies heavily test fundamental data structures, but with different secondary emphases.
+- **Heavy Overlap (Study These First):**
+  - **Array & String:** Manipulation, traversal, two-pointer techniques, sliding window.
+  - **Hash Table:** The go-to tool for O(1) lookups, frequency counting, and complement searching (like in Two Sum).
+- **Significant for Both:**
+  - **Sorting:** Often a prerequisite step for more complex algorithms. Understanding _when_ to sort is as important as knowing how.
+- **The Divergence:**
+  - **Amazon Unique:** **Dynamic Programming (DP)** is a major topic for Amazon (evident in their tag count). Problems like knapsack, longest common subsequence, or unique paths are fair game. This tests a candidate's ability to break down complex problems and optimize overlapping subproblems.
+  - **eBay Unique:** While not exclusive, the official tag list highlights **Sorting** as a distinct priority. Expect to not just use sorting, but to discuss trade-offs between sorts or implement comparator logic.
 
-**Core Shared Topics:** Array, String, and Hash Table problems are central to both companies' interviews. These form the essential toolkit for solving a wide range of problems.
+## Preparation Priority Matrix
 
-**Amazon's Additional Focus:** Dynamic Programming (DP) is a standout specific topic for Amazon. Its presence in their top topics, alongside the large number of Hard questions, signals that you must be proficient in breaking down complex problems into overlapping subproblems. Expect scenarios involving optimization, counting, or decision-making that require a DP approach.
+Use this to triage your study time, especially if prepping for both.
 
-**eBay's Additional Focus:** Sorting appears as a key topic. This often involves not just applying a sort function, but understanding sorting algorithms, custom comparators, and using sorting as a pre-processing step to enable efficient solutions (like the two-pointer technique) for problems involving arrays or strings.
+| Priority                      | Topics                                                                                      | Rationale                                                                                             | Sample LeetCode Problems                                                                       |
+| :---------------------------- | :------------------------------------------------------------------------------------------ | :---------------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------- |
+| **Tier 1 (Max ROI)**          | **Array, String, Hash Table**                                                               | Universal fundamentals. Mastery here pays off in _every_ interview.                                   | #1 Two Sum, #242 Valid Anagram, #121 Best Time to Buy and Sell Stock                           |
+| **Tier 2 (Amazon-First)**     | **Dynamic Programming, Trees (BFS/DFS), Graphs**                                            | DP is a known Amazon staple. Trees/Graphs are high-frequency even if not top-tagged.                  | #70 Climbing Stairs (DP intro), #102 Binary Tree Level Order Traversal, #200 Number of Islands |
+| **Tier 2 (eBay-First)**       | **Sorting, Linked Lists**                                                                   | Deep dive into sorting applications and linked list pointer manipulation.                             | #56 Merge Intervals (sorting application), #206 Reverse Linked List                            |
+| **Tier 3 (Company-Specific)** | **Amazon:** System Design, Leadership Principles. **eBay:** In-depth review of their 60 Qs. | Amazon's behavioral and system design rounds are half the battle. eBay's focused list demands review. | N/A                                                                                            |
+
+## Interview Format Differences
+
+The structure of the day itself varies significantly.
+
+- **Amazon:**
+  - **The Loop:** Typically 4-5 consecutive 1-hour interviews (now often virtual). This includes 2-3 coding rounds, 1 system design round (for mid-level+), and 1-2 behavioral/LP rounds.
+  - **The "Bar Raiser":** One interviewer is a trained "Bar Raiser" from a different team, with veto power to ensure hiring standards.
+  - **Behavioral Weight:** 50% of the evaluation is based on their **Leadership Principles**. You must have 1-2 stories per principle, structured in the STAR format.
+  - **Coding Expectation:** You must not only solve the problem but write **production-ready code** on a shared editor, handling edge cases and communicating clearly.
+
+- **eBay:**
+  - **Format:** Often a simpler structure: 1-2 phone screens (coding) followed by a virtual or on-site final round of 3-4 interviews.
+  - **Rounds:** Mix of coding, behavioral (less rigidly structured than Amazon's LP), and sometimes a practical problem-solving or design discussion (less formal than full system design).
+  - **Coding Expectation:** Focus tends to be on **correctness, efficiency, and clarity**. The pressure may feel slightly less intense than Amazon's marathon, but the technical bar remains high.
+
+## Specific Problem Recommendations for Dual Prep
+
+These 5 problems build skills that transfer directly to both interview processes.
+
+1.  **Two Sum (#1):** The quintessential hash table problem. It teaches complement searching and the time-space trade-off. If you can't explain this in your sleep, you're not ready.
+2.  **Valid Anagram (#242):** A perfect array/string/hash table hybrid. Tests understanding of frequency counting and early-exit optimization. Variations are endless.
+3.  **Merge Intervals (#56):** A classic "sorting application" problem. It's high-frequency for both companies because it tests the ability to identify the need to sort and then implement a clean merging logic. This pattern appears in scheduling, calendar, and range problems.
 
 <div class="code-group">
 
 ```python
-# Example of a Sorting-focused problem pattern (Two Sum II - Input Array Is Sorted)
-def two_sum_sorted(numbers, target):
-    left, right = 0, len(numbers) - 1
-    while left < right:
-        current_sum = numbers[left] + numbers[right]
-        if current_sum == target:
-            return [left + 1, right + 1]
-        elif current_sum < target:
-            left += 1
+# Time: O(n log n) for sort | Space: O(n) for output (or O(1) if sorted in-place)
+def merge(intervals):
+    if not intervals:
+        return []
+    # Sort by start time
+    intervals.sort(key=lambda x: x[0])
+    merged = [intervals[0]]
+    for current_start, current_end in intervals[1:]:
+        last_start, last_end = merged[-1]
+        if current_start <= last_end:  # Overlap
+            merged[-1][1] = max(last_end, current_end)  # Merge
         else:
-            right -= 1
-    return []
-
-# Example of a Dynamic Programming pattern (Climbing Stairs)
-def climb_stairs(n):
-    if n <= 2:
-        return n
-    dp = [0] * (n + 1)
-    dp[1], dp[2] = 1, 2
-    for i in range(3, n + 1):
-        dp[i] = dp[i - 1] + dp[i - 2]
-    return dp[n]
+            merged.append([current_start, current_end])  # New interval
+    return merged
 ```
 
 ```javascript
-// Example of a Sorting-focused problem pattern (Two Sum II - Input Array Is Sorted)
-function twoSumSorted(numbers, target) {
-  let left = 0,
-    right = numbers.length - 1;
-  while (left < right) {
-    const sum = numbers[left] + numbers[right];
-    if (sum === target) return [left + 1, right + 1];
-    if (sum < target) left++;
-    else right--;
+// Time: O(n log n) | Space: O(n)
+function merge(intervals) {
+  if (intervals.length === 0) return [];
+  intervals.sort((a, b) => a[0] - b[0]);
+  const merged = [intervals[0]];
+  for (let i = 1; i < intervals.length; i++) {
+    const [currStart, currEnd] = intervals[i];
+    const [lastStart, lastEnd] = merged[merged.length - 1];
+    if (currStart <= lastEnd) {
+      merged[merged.length - 1][1] = Math.max(lastEnd, currEnd);
+    } else {
+      merged.push([currStart, currEnd]);
+    }
   }
-  return [];
-}
-
-// Example of a Dynamic Programming pattern (Climbing Stairs)
-function climbStairs(n) {
-  if (n <= 2) return n;
-  const dp = new Array(n + 1).fill(0);
-  dp[1] = 1;
-  dp[2] = 2;
-  for (let i = 3; i <= n; i++) {
-    dp[i] = dp[i - 1] + dp[i - 2];
-  }
-  return dp[n];
+  return merged;
 }
 ```
 
 ```java
-// Example of a Sorting-focused problem pattern (Two Sum II - Input Array Is Sorted)
-public int[] twoSumSorted(int[] numbers, int target) {
-    int left = 0, right = numbers.length - 1;
-    while (left < right) {
-        int sum = numbers[left] + numbers[right];
-        if (sum == target) return new int[]{left + 1, right + 1};
-        if (sum < target) left++;
-        else right--;
+// Time: O(n log n) | Space: O(n) (or O(log n) for sort space)
+public int[][] merge(int[][] intervals) {
+    if (intervals.length <= 1) return intervals;
+    Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
+    List<int[]> merged = new ArrayList<>();
+    merged.add(intervals[0]);
+    for (int i = 1; i < intervals.length; i++) {
+        int[] last = merged.get(merged.size() - 1);
+        int[] curr = intervals[i];
+        if (curr[0] <= last[1]) {
+            last[1] = Math.max(last[1], curr[1]);
+        } else {
+            merged.add(curr);
+        }
     }
-    return new int[]{};
-}
-
-// Example of a Dynamic Programming pattern (Climbing Stairs)
-public int climbStairs(int n) {
-    if (n <= 2) return n;
-    int[] dp = new int[n + 1];
-    dp[1] = 1; dp[2] = 2;
-    for (int i = 3; i <= n; i++) {
-        dp[i] = dp[i - 1] + dp[i - 2];
-    }
-    return dp[n];
+    return merged.toArray(new int[merged.size()][]);
 }
 ```
 
 </div>
 
-## Which to Prepare for First
+4.  **Best Time to Buy and Sell Stock (#121):** A brilliant intro to the "Kadane's Algorithm" / one-pass dynamic programming mindset. It's simple, elegant, and tests your ability to track a minimum and compute a max difference. The pattern is reusable.
+5.  **Climbing Stairs (#70):** The gateway drug to Dynamic Programming. If you're prepping for Amazon, you must understand the memoization and tabulation approaches to this problem. It's the foundational model for all "count the ways" DP problems.
 
-Your preparation order should be guided by the breadth of coverage.
+## Which to Prepare for First? The Strategic Order
 
-**Prepare for eBay's core set first.** Mastering the ~60 questions, with a special focus on Array, String, Hash Table, and **Sorting-based techniques**, will build a solid foundation. This set covers the essential Medium-difficulty problems that are also highly relevant to Amazon. It's an efficient way to gain confidence and core competency.
+**If interviews are close together: Prepare for Amazon first.**
 
-**Then, expand to Amazon's vast question bank.** Use your strong foundation to tackle the larger volume. Prioritize the Medium questions, but ensure you dedicate significant time to **Dynamic Programming** and other advanced topics (like Trees, Graphs, and System Design, which are likely present beyond the listed top topics) to handle their Hard problems. The skills you build here will far exceed what's needed for eBay's interviews.
+Here’s why: Amazon's scope is broader. Mastering the Amazon curriculum—especially adding Dynamic Programming and deep-diving into Leadership Principles—will inherently cover 95% of eBay's technical expectations. The reverse is not true. Preparing for eBay's focused list might leave you exposed on DP and the endurance needed for Amazon's multi-round format.
 
-In summary, eBay's interview preparation acts as a focused core curriculum. Amazon's requires a broad university-level study plan. Start with the core, then expand to the comprehensive set.
+**Your 3-Week Dual-Prep Plan:**
 
-For specific question lists and patterns, visit the Amazon and eBay question pages: [Amazon Interview Questions](/company/amazon) | [eBay Interview Questions](/company/ebay)
+- **Week 1-2:** Follow a standard Amazon prep plan. Grind Array, String, Hash Table, then move to Trees/Graphs and DP. Practice 2-3 LP stories daily.
+- **Week 3:** **Pivot to eBay.** Do a targeted review of all ~60 eBay-tagged problems on LeetCode. This will solidify the common patterns and expose you to any eBay-specific nuances. Simultaneously, shift your behavioral prep from LP stories to more general "project deep-dives" and conflict resolution examples for eBay.
+
+By front-loading the broader challenge, you make your final week of preparation for the more focused interview efficient and confidence-building. Remember, for Amazon, you're running a marathon on a known course. For eBay, you're sprinting on a track you've carefully studied. Train for the marathon first, and the sprint becomes a matter of pace.
+
+For deeper dives into each company's process, visit our dedicated guides: [Amazon Interview Guide](/company/amazon) and [eBay Interview Guide](/company/ebay).

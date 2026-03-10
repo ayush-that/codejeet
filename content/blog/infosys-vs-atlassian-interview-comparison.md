@@ -1,141 +1,175 @@
 ---
 title: "Infosys vs Atlassian: Interview Question Comparison"
 description: "Compare coding interview questions at Infosys and Atlassian — difficulty levels, topic focus, and preparation strategy."
-date: "2029-07-16"
+date: "2032-04-15"
 category: "tips"
 tags: ["infosys", "atlassian", "comparison"]
 ---
 
-When preparing for technical interviews, understanding the specific focus and expectations of each company is crucial. Infosys and Atlassian represent two distinct ends of the software industry spectrum—a global IT services and consulting giant versus a focused product-based software company. This difference is sharply reflected in their technical interview question patterns, volume, and difficulty distribution. A strategic candidate will tailor their preparation based on which company they are targeting, as the required depth and breadth of knowledge differ significantly.
+# Infosys vs Atlassian: Interview Question Comparison
+
+If you're preparing for interviews at both Infosys and Atlassian, you're looking at two fundamentally different experiences. Infosys, as a global IT services giant, focuses on breadth and foundational problem-solving, while Atlassian, a product-focused software company, emphasizes practical, implementation-heavy coding. The key insight? Atlassian interviews are more selective and depth-oriented, while Infosys tests broader competency across more problems. You can't use the same preparation strategy for both—but there's significant overlap in core topics that lets you optimize your study time.
 
 ## Question Volume and Difficulty
 
-The data shows a stark contrast in the sheer number of documented questions and their difficulty breakdown.
+The numbers tell a clear story. Infosys has **158 questions** in their tagged LeetCode collection (42 Easy, 82 Medium, 34 Hard), while Atlassian has just **62 questions** (7 Easy, 43 Medium, 12 Hard).
 
-**Infosys** has a much larger public question bank of **158 questions**. The difficulty distribution is relatively balanced, leaning towards medium problems:
+This isn't about Atlassian being easier—it's about focus. Atlassian's distribution (69% Medium questions) indicates they're looking for candidates who can reliably solve moderately complex problems under pressure. Their lower volume suggests they reuse or iterate on a core set of problem patterns. When you see a Medium problem from Atlassian, expect it to be on the harder side of Medium, often requiring careful implementation details.
 
-- **Easy:** 42 questions (≈27%)
-- **Medium:** 82 questions (≈52%)
-- **Hard:** 34 questions (≈21%)
+Infosys's larger question bank with a more even distribution suggests they cast a wider net. You might encounter more variation, including straightforward implementation questions (Easy) alongside challenging algorithmic puzzles (Hard). The higher volume means you're less likely to see repeat questions, so pattern recognition becomes more valuable than memorization.
 
-This high volume suggests Infosys's interviews may draw from a broad but established pool of problems, often covering foundational computer science concepts. The significant portion of medium and hard problems indicates they assess problem-solving rigor, not just basic syntax.
-
-**Atlassian** has a more curated set of **62 questions**. The distribution is heavily skewed towards medium difficulty:
-
-- **Easy:** 7 questions (≈11%)
-- **Medium:** 43 questions (≈69%)
-- **Hard:** 12 questions (≈19%)
-
-The lower total count but higher concentration of medium problems implies Atlassian interviews focus intensely on applied problem-solving. Questions are likely to be more nuanced, testing clean code design, efficiency under constraints, and the ability to handle edge cases within a compact problem statement.
+**Practical implication:** For Atlassian, deep mastery of 40-50 Medium problems is better than superficial knowledge of 150. For Infosys, broader exposure to different problem types pays off.
 
 ## Topic Overlap
 
-Both companies emphasize core data structures, but with different nuances.
+Both companies heavily test **Arrays** and **Strings**—these are your highest-return study areas.
 
-The top topics for **Infosys** are Array, Dynamic Programming, String, and Math. The inclusion of **Dynamic Programming (DP)** as a top category is significant. It signals that Infosys interviews frequently test advanced optimization and recursive problem-solving techniques, which are often considered a differentiator between intermediate and strong candidates.
+**Shared high-value topics:**
+
+- **Array manipulation:** Sliding window, two-pointer techniques, prefix sums
+- **String algorithms:** Palindrome checks, substring problems, character counting
+- **Hash Table usage:** Frequency counting, lookups, complement finding
+
+**Infosys-specific emphasis:**
+
+- **Dynamic Programming** appears prominently in their question list. You'll want to know classic DP patterns like knapsack, LCS, and edit distance.
+- **Math problems** are more common at Infosys—think prime numbers, modular arithmetic, and combinatorial calculations.
+
+**Atlassian-specific emphasis:**
+
+- **Sorting algorithms** and their applications appear frequently. Know not just how to sort, but when to sort as a preprocessing step.
+- While not in the top four listed, **Tree and Graph** problems appear in their Medium/Hard questions, often related to real-world data structures.
+
+## Preparation Priority Matrix
+
+Here's how to allocate your study time if interviewing at both companies:
+
+1. **Study First (Maximum ROI):** Array problems (especially two-pointer and sliding window), String manipulation, Hash Table applications. These appear constantly at both companies.
+
+2. **Infosys-Specific Priority:** Dynamic Programming (start with 1D then 2D), Math problems involving number theory or combinatorics.
+
+3. **Atlassian-Specific Priority:** Sorting applications, Tree traversals (especially BST operations), Graph BFS/DFS for medium problems.
+
+For shared preparation, these LeetCode problems offer excellent coverage:
+
+- **Two Sum (#1)** - Tests hash table usage (appears in both companies' lists)
+- **Merge Intervals (#56)** - Tests array sorting and merging logic
+- **Longest Substring Without Repeating Characters (#3)** - Classic sliding window problem
+- **Valid Parentheses (#20)** - Tests stack usage with strings
+
+## Interview Format Differences
+
+**Infosys** typically follows a more traditional IT services interview structure:
+
+- Multiple coding rounds, sometimes with different focuses (algorithmic, data structures, problem-solving)
+- Problems may be more academically oriented
+- May include aptitude tests or pseudocode analysis
+- System design questions tend to be more basic or may not appear for junior roles
+- Behavioral questions often focus on teamwork, adaptability, and handling pressure
+
+**Atlassian** follows product company patterns:
+
+- Usually 2-3 technical rounds, each with 1-2 coding problems
+- Problems often relate to real-world scenarios (file systems, collaboration tools, version control)
+- Expect follow-up questions about optimization, edge cases, and scalability
+- System design appears even for mid-level roles, focusing on practical tradeoffs
+- Behavioral questions emphasize ownership, customer focus, and technical decision-making
+
+Time pressure differs too: Atlassian problems often require complete, working solutions in 45 minutes, while Infosys may give more time but expect multiple problems.
+
+## Specific Problem Recommendations
+
+These five problems provide exceptional coverage for both companies:
+
+1. **Container With Most Water (#11)** - Excellent array two-pointer problem that tests optimization thinking. Atlassian has similar array maximization problems.
 
 <div class="code-group">
 
 ```python
-# Example DP problem (Fibonacci)
-def fib(n, memo={}):
-    if n in memo:
-        return memo[n]
-    if n <= 2:
-        return 1
-    memo[n] = fib(n-1, memo) + fib(n-2, memo)
-    return memo[n]
+# Time: O(n) | Space: O(1)
+def maxArea(height):
+    left, right = 0, len(height) - 1
+    max_water = 0
+
+    while left < right:
+        # Calculate current area
+        width = right - left
+        current_height = min(height[left], height[right])
+        max_water = max(max_water, width * current_height)
+
+        # Move the pointer with smaller height
+        if height[left] < height[right]:
+            left += 1
+        else:
+            right -= 1
+
+    return max_water
 ```
 
 ```javascript
-// Example DP problem (Fibonacci)
-function fib(n, memo = {}) {
-  if (n in memo) return memo[n];
-  if (n <= 2) return 1;
-  memo[n] = fib(n - 1, memo) + fib(n - 2, memo);
-  return memo[n];
-}
-```
+// Time: O(n) | Space: O(1)
+function maxArea(height) {
+  let left = 0;
+  let right = height.length - 1;
+  let maxWater = 0;
 
-```java
-// Example DP problem (Fibonacci)
-import java.util.HashMap;
+  while (left < right) {
+    const width = right - left;
+    const currentHeight = Math.min(height[left], height[right]);
+    maxWater = Math.max(maxWater, width * currentHeight);
 
-public class Solution {
-    public int fib(int n, HashMap<Integer, Integer> memo) {
-        if (memo.containsKey(n)) return memo.get(n);
-        if (n <= 2) return 1;
-        int result = fib(n-1, memo) + fib(n-2, memo);
-        memo.put(n, result);
-        return result;
+    // Move pointer with smaller height
+    if (height[left] < height[right]) {
+      left++;
+    } else {
+      right--;
     }
-}
-```
-
-</div>
-
-The top topics for **Atlassian** are Array, Hash Table, String, and Sorting. The prominence of **Hash Table** points to a strong emphasis on problems requiring efficient lookups, frequency counting, and clever use of mapping to reduce time complexity—skills critical for optimizing real-world software features.
-
-<div class="code-group">
-
-```python
-# Example Hash Table problem (Two Sum)
-def two_sum(nums, target):
-    seen = {}
-    for i, num in enumerate(nums):
-        complement = target - num
-        if complement in seen:
-            return [seen[complement], i]
-        seen[num] = i
-    return []
-```
-
-```javascript
-// Example Hash Table problem (Two Sum)
-function twoSum(nums, target) {
-  const map = new Map();
-  for (let i = 0; i < nums.length; i++) {
-    const complement = target - nums[i];
-    if (map.has(complement)) {
-      return [map.get(complement), i];
-    }
-    map.set(nums[i], i);
   }
-  return [];
+
+  return maxWater;
 }
 ```
 
 ```java
-// Example Hash Table problem (Two Sum)
-import java.util.HashMap;
+// Time: O(n) | Space: O(1)
+public int maxArea(int[] height) {
+    int left = 0;
+    int right = height.length - 1;
+    int maxWater = 0;
 
-public class Solution {
-    public int[] twoSum(int[] nums, int target) {
-        HashMap<Integer, Integer> map = new HashMap<>();
-        for (int i = 0; i < nums.length; i++) {
-            int complement = target - nums[i];
-            if (map.containsKey(complement)) {
-                return new int[]{map.get(complement), i};
-            }
-            map.put(nums[i], i);
+    while (left < right) {
+        int width = right - left;
+        int currentHeight = Math.min(height[left], height[right]);
+        maxWater = Math.max(maxWater, width * currentHeight);
+
+        // Move pointer with smaller height
+        if (height[left] < height[right]) {
+            left++;
+        } else {
+            right--;
         }
-        return new int[]{};
     }
+
+    return maxWater;
 }
 ```
 
 </div>
 
-While both test Arrays and Strings, Infosys's list suggests a broader theoretical scope (DP, Math), whereas Atlassian's list indicates a focus on practical data structure manipulation (Hash Table, Sorting).
+2. **Group Anagrams (#49)** - Tests hash table and string manipulation skills. Both companies have variations of grouping/categorization problems.
+
+3. **Best Time to Buy and Sell Stock (#121)** - Simple but tests understanding of array traversal and maintaining state. Dynamic programming variant (#122) is great for Infosys prep.
+
+4. **Merge k Sorted Lists (#23)** - For Atlassian, this tests sorting/merging logic; for Infosys, it's good heap practice. Both companies value efficient merging.
+
+5. **Longest Palindromic Substring (#5)** - Covers string manipulation, dynamic programming (Infosys), and optimization thinking (Atlassian).
 
 ## Which to Prepare for First
 
-Your preparation priority should depend on your target company and career stage.
+**Prepare for Atlassian first.** Here's why: Atlassian's problems are generally more challenging and implementation-focused. If you can solve Atlassian's Medium problems comfortably, you'll be over-prepared for most Infosys problems. The reverse isn't true—Infosys preparation might leave gaps for Atlassian's depth requirements.
 
-**Prepare for Infosys first if:** You are early in your interview preparation journey or targeting IT services/consulting roles. The vast question bank provides extensive practice material across difficulties. Mastering their problems, especially Dynamic Programming and mathematical puzzles, will build a very solid foundation in algorithms that is transferable to many other companies. It's a breadth-first approach to learning.
+Start with array and string problems (the overlap), then move to Atlassian's sorting and tree problems. Finally, add Infosys-specific DP and math problems. This approach gives you descending returns: maximum shared value first, then company-specific depth.
 
-**Prepare for Atlassian first if:** You are specifically aiming for product-based or tech-focused companies and already have a firm grasp on fundamentals. The concentrated set of medium-difficulty problems requires deeper thinking per question. Excelling here means honing your ability to write optimal, clean, and well-structured solutions under pressure—a key expectation in product development roles. It's a depth-first approach to problem-solving.
+Remember: Atlassian interviews test not just whether you solve the problem, but how cleanly and efficiently. Infosys often cares more about correctness and approach. Adjust your communication accordingly—explain tradeoffs more thoroughly for Atlassian, ensure bulletproof solutions for Infosys.
 
-In summary, use Infosys's list for broad algorithmic conditioning and Atlassian's list for targeted, high-quality practice in writing efficient code.
-
-For more detailed question lists and patterns, visit the Infosys and Atlassian interview question pages: [Infosys Interview Questions](/company/infosys) | [Atlassian Interview Questions](/company/atlassian)
+For more company-specific insights, check out our detailed guides: [Infosys Interview Guide](/company/infosys) and [Atlassian Interview Guide](/company/atlassian).

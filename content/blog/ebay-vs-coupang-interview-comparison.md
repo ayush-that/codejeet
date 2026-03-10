@@ -1,134 +1,180 @@
 ---
 title: "eBay vs Coupang: Interview Question Comparison"
 description: "Compare coding interview questions at eBay and Coupang — difficulty levels, topic focus, and preparation strategy."
-date: "2026-11-09"
+date: "2026-11-01"
 category: "tips"
 tags: ["ebay", "coupang", "comparison"]
 ---
 
-When preparing for technical interviews at major e-commerce companies, understanding the specific patterns and expectations of each can significantly streamline your study process. eBay and Coupang, while both operating in the online retail space, present distinct interview landscapes in terms of question volume, difficulty distribution, and core topic emphasis. A targeted comparison reveals how to allocate your preparation time effectively.
+# eBay vs Coupang: Interview Question Comparison
+
+If you're preparing for interviews at both eBay and Coupang, you're looking at two e-commerce giants with distinct technical interview cultures. While both test fundamental data structures and algorithms, their question distributions, difficulty focus, and topic priorities reveal different engineering philosophies. Preparing strategically for both simultaneously requires understanding where your study time gives you the highest return on investment and where you need to target specific company preferences.
 
 ## Question Volume and Difficulty
 
-The overall volume of documented questions is similar, but the difficulty distribution differs meaningfully.
+The raw numbers tell an immediate story about interview intensity and what each company values in candidates.
 
-**eBay** lists approximately **60 questions**, categorized as Easy (12), Medium (38), and Hard (10). This breakdown suggests a strong focus on Medium-difficulty problems, which are typical for assessing core algorithmic reasoning and clean code implementation. The presence of 10 Hard questions indicates you must be prepared for complex scenarios, often involving optimization or combining multiple concepts.
+eBay's 60 questions in their question bank (12 Easy, 38 Medium, 10 Hard) suggests a broader but slightly more accessible question pool. The heavy skew toward Medium difficulty (63%) indicates they're primarily testing for solid, reliable problem-solving on standard patterns. The 10 Hard questions likely appear in later rounds for senior positions or as stretch challenges. This distribution says: "We want engineers who won't get stuck on common problems."
 
-**Coupang** lists about **53 questions**, with a starker distribution: Easy (3), Medium (36), and Hard (14). The near-absence of Easy questions and the higher count of Hard problems signal that Coupang's interviews may have a higher baseline difficulty. You are expected to handle Medium problems reliably and be thoroughly prepared for challenging algorithmic puzzles.
-
-This contrast means that for eBay, a solid grasp of Medium fundamentals is paramount, while for Coupang, you must dedicate substantial time to mastering advanced Hard problem patterns.
+Coupang's 53 questions (3 Easy, 36 Medium, 14 Hard) reveals a different emphasis. With only 3 Easy questions and a substantial 26% Hard representation, Coupang signals they're pushing candidates toward more complex optimization challenges. The Korean "rocket delivery" company's engineering culture appears to prioritize tackling difficult algorithmic problems head-on. If you're interviewing at Coupang, expect to be stretched beyond comfortable Medium-level solutions.
 
 ## Topic Overlap
 
-Both companies heavily test foundational data structures, but Coupang places a significant additional emphasis on Dynamic Programming.
+Both companies heavily test **Array**, **String**, and **Hash Table** problems. This triple overlap represents your highest-leverage preparation area. Mastering these fundamentals will serve you well in both interview processes.
 
-**Shared Core Topics:** Array, String, and Hash Table problems form the backbone of interviews at both companies. These often involve tasks like two-pointer techniques, sliding windows, substring searches, and frequency counting. Sorting is frequently a required step within these solutions.
+The key divergence is in their secondary focus areas:
+
+- **eBay** adds **Sorting** as a primary topic
+- **Coupang** adds **Dynamic Programming** as a primary topic
+
+This difference is revealing. eBay's inclusion of Sorting suggests they value clean, efficient data organization and manipulation—skills directly applicable to e-commerce catalog systems, search ranking, and inventory management. Coupang's DP focus indicates they're interested in optimization problems, likely related to logistics, routing, inventory allocation, or pricing algorithms.
+
+## Preparation Priority Matrix
+
+Here's how to allocate your study time when preparing for both companies:
+
+**High Priority (Overlap Topics - Study First)**
+
+- Array manipulation (sliding window, two pointers, prefix sums)
+- String operations (palindromes, subsequences, encoding/decoding)
+- Hash Table applications (frequency counting, caching, lookups)
+
+**Medium Priority (eBay-Specific)**
+
+- Sorting algorithms and their applications
+- Problems involving comparison and ordering
+
+**Medium Priority (Coupang-Specific)**
+
+- Dynamic Programming (both 1D and 2D)
+- Optimization problems with overlapping subproblems
+
+**Specific LeetCode problems valuable for both:**
+
+- Two Sum (#1) - Hash Table fundamentals
+- Merge Intervals (#56) - Array/Sorting hybrid
+- Longest Substring Without Repeating Characters (#3) - Sliding window + Hash Table
+- Product of Array Except Self (#238) - Array manipulation pattern
+
+## Interview Format Differences
+
+Beyond question content, the interview structures differ significantly.
+
+**eBay** typically follows a more traditional Silicon Valley format:
+
+- 4-5 rounds including coding, system design, and behavioral
+- 45-60 minutes per coding round, often 1-2 problems
+- Strong emphasis on clean code, test cases, and communication
+- System design expectations scale with level (E4-E6 have different bars)
+- Virtual or on-site options, with increasing virtual preference
+
+**Coupang** interviews often have a distinct character:
+
+- May include more rounds focused purely on algorithmic problem-solving
+- Problems tend to be more mathematically complex
+- Cultural fit and "grit" assessment is woven into technical rounds
+- System design questions often relate directly to e-commerce/logistics
+- May include take-home assignments or pair programming components
+
+Coupang's Korean engineering culture sometimes means faster-paced interviews with less hand-holding. They expect you to dive deep quickly.
+
+## Specific Problem Recommendations
+
+Here are 5 problems that provide exceptional preparation value for both companies:
+
+1. **Top K Frequent Elements (#347)** - Combines Hash Tables, Sorting, and potentially Heap optimization. Tests your ability to choose the right data structure combination.
 
 <div class="code-group">
 
 ```python
-# Example: A common two-pointer problem (Valid Palindrome)
-def isPalindrome(s: str) -> bool:
-    l, r = 0, len(s) - 1
-    while l < r:
-        while l < r and not s[l].isalnum():
-            l += 1
-        while r > l and not s[r].isalnum():
-            r -= 1
-        if s[l].lower() != s[r].lower():
-            return False
-        l += 1
-        r -= 1
-    return True
+# Time: O(n log k) | Space: O(n)
+def topKFrequent(nums, k):
+    freq = {}
+    for num in nums:
+        freq[num] = freq.get(num, 0) + 1
+
+    # Min-heap approach for O(n log k)
+    import heapq
+    heap = []
+    for num, count in freq.items():
+        heapq.heappush(heap, (count, num))
+        if len(heap) > k:
+            heapq.heappop(heap)
+
+    return [num for count, num in heap]
 ```
 
 ```javascript
-// Example: A common two-pointer problem (Valid Palindrome)
-function isPalindrome(s) {
-  let l = 0,
-    r = s.length - 1;
-  while (l < r) {
-    while (l < r && !/^[a-z0-9]$/i.test(s[l])) l++;
-    while (r > l && !/^[a-z0-9]$/i.test(s[r])) r--;
-    if (s[l].toLowerCase() !== s[r].toLowerCase()) return false;
-    l++;
-    r--;
+// Time: O(n log k) | Space: O(n)
+function topKFrequent(nums, k) {
+  const freq = new Map();
+  for (const num of nums) {
+    freq.set(num, (freq.get(num) || 0) + 1);
   }
-  return true;
+
+  // Min-heap implementation
+  const heap = new MinHeap();
+  for (const [num, count] of freq) {
+    heap.push([count, num]);
+    if (heap.size() > k) {
+      heap.pop();
+    }
+  }
+
+  return heap.toArray().map((item) => item[1]);
 }
 ```
 
 ```java
-// Example: A common two-pointer problem (Valid Palindrome)
-public boolean isPalindrome(String s) {
-    int l = 0, r = s.length() - 1;
-    while (l < r) {
-        while (l < r && !Character.isLetterOrDigit(s.charAt(l))) l++;
-        while (r > l && !Character.isLetterOrDigit(s.charAt(r))) r--;
-        if (Character.toLowerCase(s.charAt(l)) != Character.toLowerCase(s.charAt(r))) {
-            return false;
+// Time: O(n log k) | Space: O(n)
+public int[] topKFrequent(int[] nums, int k) {
+    Map<Integer, Integer> freq = new HashMap<>();
+    for (int num : nums) {
+        freq.put(num, freq.getOrDefault(num, 0) + 1);
+    }
+
+    PriorityQueue<Map.Entry<Integer, Integer>> heap =
+        new PriorityQueue<>((a, b) -> a.getValue() - b.getValue());
+
+    for (Map.Entry<Integer, Integer> entry : freq.entrySet()) {
+        heap.offer(entry);
+        if (heap.size() > k) {
+            heap.poll();
         }
-        l++;
-        r--;
     }
-    return true;
+
+    int[] result = new int[k];
+    for (int i = k - 1; i >= 0; i--) {
+        result[i] = heap.poll().getKey();
+    }
+    return result;
 }
 ```
 
 </div>
 
-**Key Differentiator:** The most notable difference is Coupang's explicit listing of **Dynamic Programming** as a top topic. This implies a high probability of encountering classic DP problems (e.g., knapsack, longest increasing subsequence, string edit distance) or problems requiring optimal substructure thinking. eBay's listed topics do not highlight DP as prominently, though it may appear within Medium or Hard problems.
+2. **Longest Palindromic Substring (#5)** - Excellent String problem that can be solved with DP (Coupang focus) or expansion (eBay-friendly). Lets you demonstrate multiple approaches.
 
-<div class="code-group">
+3. **Merge Intervals (#56)** - Tests Sorting fundamentals (eBay) while being a practical problem relevant to scheduling systems (Coupang logistics applications).
 
-```python
-# Example: A foundational DP problem (Climbing Stairs)
-def climbStairs(n: int) -> int:
-    if n <= 2:
-        return n
-    dp = [0] * (n + 1)
-    dp[1], dp[2] = 1, 2
-    for i in range(3, n + 1):
-        dp[i] = dp[i - 1] + dp[i - 2]
-    return dp[n]
-```
+4. **Coin Change (#322)** - Classic DP problem (Coupang priority) that also involves array manipulation and greedy thinking (eBay relevance).
 
-```javascript
-// Example: A foundational DP problem (Climbing Stairs)
-function climbStairs(n) {
-  if (n <= 2) return n;
-  const dp = new Array(n + 1).fill(0);
-  dp[1] = 1;
-  dp[2] = 2;
-  for (let i = 3; i <= n; i++) {
-    dp[i] = dp[i - 1] + dp[i - 2];
-  }
-  return dp[n];
-}
-```
-
-```java
-// Example: A foundational DP problem (Climbing Stairs)
-public int climbStairs(int n) {
-    if (n <= 2) return n;
-    int[] dp = new int[n + 1];
-    dp[1] = 1;
-    dp[2] = 2;
-    for (int i = 3; i <= n; i++) {
-        dp[i] = dp[i - 1] + dp[i - 2];
-    }
-    return dp[n];
-}
-```
-
-</div>
+5. **Container With Most Water (#11)** - Array two-pointer problem that appears frequently in both companies' question banks. Tests optimization thinking.
 
 ## Which to Prepare for First
 
-Start with **eBay**. Its emphasis on a broad set of Medium problems across Arrays, Strings, and Hash Tables provides an excellent foundation for any technical interview. Mastering these will build the speed and pattern recognition needed for most coding assessments. Once comfortable, you can tackle eBay's Hard questions and the specific Sorting patterns.
+Start with **Coupang**, then adapt for eBay. Here's why:
 
-Then, transition to **Coupang**. Use your established foundation and add intensive practice in **Dynamic Programming**. Systematically work through DP problem patterns, from 1D to 2D formulations. Given Coupang's higher proportion of Hard questions, also prioritize solving complex problems that may combine DP with other data structures.
+Coupang's higher proportion of Hard problems and DP focus requires more dedicated, deep study. If you can solve Coupang-level problems, eBay's Medium-heavy questions will feel more manageable. The reverse isn't necessarily true—acing eBay questions might leave you underprepared for Coupang's harder challenges.
 
-In summary, eBay's profile is ideal for building core competency, while Coupang's requires deepening that skill set with advanced optimization techniques. Prepare for eBay first to create a strong base, then layer on Coupang's specific demands.
+Study sequence:
 
-For detailed question lists, visit the eBay and Coupang company pages: [eBay](/company/ebay), [Coupang](/company/coupang).
+1. Master Array, String, and Hash Table fundamentals (shared base)
+2. Deep dive into Dynamic Programming patterns (Coupang priority)
+3. Practice Sorting applications and variations (eBay priority)
+4. Mix in the specific problem recommendations above
+5. Do mock interviews focusing on communication for eBay and optimization for Coupang
+
+Remember: eBay will reward clear communication and clean code slightly more, while Coupang may prioritize getting to the most optimal solution. Tailor your presentation accordingly.
+
+For more company-specific insights, visit our [eBay interview guide](/company/ebay) and [Coupang interview guide](/company/coupang).

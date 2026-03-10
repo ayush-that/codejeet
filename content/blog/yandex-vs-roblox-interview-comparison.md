@@ -1,123 +1,173 @@
 ---
 title: "Yandex vs Roblox: Interview Question Comparison"
 description: "Compare coding interview questions at Yandex and Roblox — difficulty levels, topic focus, and preparation strategy."
-date: "2026-09-02"
+date: "2032-12-23"
 category: "tips"
 tags: ["yandex", "roblox", "comparison"]
 ---
 
-When preparing for technical interviews at major tech companies, understanding the specific focus and difficulty of their question banks can dramatically improve your efficiency. Yandex and Roblox, while both prominent in their respective domains, present distinct interview landscapes. Yandex, a Russian multinational known for search, AI, and e-commerce, has a large, well-documented set of problems. Roblox, the user-generated gaming platform, has a smaller but still challenging set. A direct comparison of their question profiles reveals clear strategic differences for candidates.
+# Yandex vs Roblox: Interview Question Comparison
+
+If you're preparing for interviews at both Yandex and Roblox, you're looking at two distinct engineering cultures with different technical priorities. Yandex, Russia's search giant, operates at internet scale with complex distributed systems, while Roblox, the gaming and creation platform, focuses on real-time systems, physics, and game engine architecture. The good news? Their coding interviews share significant overlap in fundamental data structures, but with different emphasis and depth. Preparing strategically for one can give you a strong foundation for the other, but you'll need targeted work to cover their unique focuses.
 
 ## Question Volume and Difficulty
 
-The most immediate difference is sheer volume. Yandex's catalog of approximately 134 questions is more than double Roblox's 56. This suggests Yandex's interview process may draw from a broader pool of concepts or that their question bank has been more extensively documented by the community.
+The raw numbers tell an immediate story about interview intensity and scope.
 
-The difficulty distribution also tells a story:
+**Yandex (134 questions: Easy 52, Medium 72, Hard 10)**
+This is a large, well-established question bank. The distribution (39% Easy, 54% Medium, 7% Hard) is classic for big tech: the core of the interview is Medium-difficulty problems designed to test applied problem-solving under pressure. The relatively low percentage of Hards suggests that while they might ask a challenging problem, it's not the primary filter. The high volume (134 questions) means their interviewers draw from a deep pool, reducing the value of pure memorization and increasing the value of pattern recognition.
 
-- **Yandex (E52/M72/H10):** The emphasis is heavily on Medium-difficulty questions (72 out of 134), with a substantial number of Easy problems. Hard questions are relatively rare. This points to an interview that tests strong fundamentals and the application of core algorithms under pressure, rather than esoteric, ultra-complex problems.
-- **Roblox (E8/M36/H12):** The distribution is skewed more toward challenge. While Mediums are still the majority, the proportion of Hard questions is higher than at Yandex, and Easy questions are fewer. This indicates that Roblox interviews may expect candidates to tackle more intricate optimization or system design problems from the outset.
+**Roblox (56 questions: Easy 8, Medium 36, Hard 12)**
+The smaller question bank (56 total) is typical for a company with a more specialized engineering focus. The difficulty distribution is strikingly different: only 14% Easy, a dominant 64% Medium, and a significant 21% Hard. This signals that Roblox's technical bar is high and they are comfortable with complex problems, likely reflecting the real-time, performance-critical nature of their platform. The interview might feel more intense, with less "warm-up" and more time spent on substantial algorithmic challenges.
+
+**Implication:** Preparing for Roblox's curve will make Yandex's Medium-heavy set feel more manageable. Conversely, if you start with Yandex, you'll need to level up significantly to handle Roblox's Hard problems.
 
 ## Topic Overlap
 
-Both companies heavily emphasize foundational data structures, as seen in their top topics: **Array, Hash Table, and String**. This universal focus makes mastering these areas the highest-return investment for any software engineering interview.
+Both companies heavily test **Array, Hash Table, String, and Two Pointers** (Yandex) / **Math** (Roblox). This is your high-value overlap zone.
 
-The key differences in their listed specialties reveal their engineering priorities:
+- **Array & Hash Table:** The bread and butter of coding interviews. Expect problems involving lookups, frequency counting, subarray sums, and state tracking.
+- **String:** Manipulation, parsing, and pattern matching are universal.
+- **Two Pointers (Yandex) / Math (Roblox):** This is the most interesting divergence in the shared topics. Yandex explicitly calls out Two Pointers, a technique crucial for sorted array/search problems. Roblox's emphasis on Math suggests problems involving number theory, combinatorics, probability, or geometric calculations—highly relevant for game development.
 
-- **Yandex** includes **Two Pointers** as a top topic. This is a classic technique for solving problems on sorted arrays or linked lists, often related to search, comparison, or windowing algorithms. It's a staple for optimizing solutions that might otherwise be O(n²).
-- **Roblox** lists **Math** as a core topic. This aligns with the needs of a gaming and simulation platform, where problems involving geometry, probability, game mechanics, or numerical computation are more prevalent.
+**Unique Focuses:**
 
-Here is a classic problem that could appear at either company, solved with their respective highlighted techniques:
+- **Yandex:** The listed topics are standard. Given their search background, you might encounter more problems related to trees (tries for autocomplete), graphs (web crawling), and string algorithms.
+- **Roblox:** Beyond Math, be prepared for topics inherent to their domain: **Simulation** (game state updates), problems involving **Randomness** (loot drops, matchmaking), and potentially **Memory/Performance Optimization** for real-time processing.
+
+## Preparation Priority Matrix
+
+Maximize your return on study time with this layered approach:
+
+1.  **Shared Core (Study First):** Array, Hash Table, String. Master fundamental patterns here.
+    - **Patterns:** Frequency counting, sliding window, prefix sums, two-pointer for strings/arrays.
+    - **Example Problem:** **#1 Two Sum** is the quintessential Hash Table problem. **#3 Longest Substring Without Repeating Characters** combines Hash Table and Sliding Window perfectly.
+
+2.  **Yandex-Specific Priority:** **Two Pointers.** Dive deep into variations: opposite-direction (Two Sum II), same-direction (fast/slow for cycles), and merging sorted sequences.
+    - **Example Problem:** **#15 3Sum** (Two Pointers on sorted array). **#42 Trapping Rain Water** (classic Two Pointer application).
+
+3.  **Roblox-Specific Priority:** **Math.** Review modular arithmetic, greatest common divisor (GCD), least common multiple (LCM), prime numbers, basic combinatorics (n-choose-k), and geometric formulas (distance, area).
+    - **Example Problem:** **#149 Max Points on a Line** (geometry, slope calculation). **#470 Implement Rand10() Using Rand7()** (probability, rejection sampling).
+
+## Interview Format Differences
+
+- **Yandex:** The process is similar to other FAANG-style companies. Expect 2-3 technical phone screens followed by a virtual or on-site loop of 4-5 interviews. These typically include 2-3 coding rounds, a system design round (focusing on scalable web services, search, or distributed caching), and a behavioral/cultural fit round. Coding problems often have a follow-up or scaling discussion.
+- **Roblox:** Also rigorous, but with a flavor of its own. The process may involve a take-home assignment or a more complex initial coding challenge. On-site loops heavily emphasize **game-adjacent system design** (e.g., design a leaderboard, a matchmaking service, an item trading system) alongside deep coding interviews. Behavioral questions often probe your passion for gaming, creation, and community, not just generic teamwork stories.
+
+**Key Difference:** Roblox is more likely to embed its domain (games, real-time interaction, virtual economy) into both coding and design problems. Yandex's problems, while challenging, are more generically algorithmic.
+
+## Specific Problem Recommendations for Dual Preparation
+
+These problems train patterns useful for both companies.
+
+1.  **#56 Merge Intervals:** A classic Medium that tests sorting, array manipulation, and greedy thinking. The pattern appears in scheduling, resource allocation, and game event handling.
+2.  **#238 Product of Array Except Self:** An excellent array problem that forces you to think in passes (prefix/suffix). It's a common follow-up to simpler array questions and tests optimization intuition.
+3.  **#973 K Closest Points to Origin:** Combines Math (distance formula), Array sorting/partitioning, and can be solved with a heap—a data structure both companies likely expect you to know. It's directly relevant to spatial queries in games.
+4.  **#139 Word Break:** A step up in difficulty that introduces Dynamic Programming (DP) on strings/hashing. DP is a fundamental topic that might not be in the top-4 listed but is almost certainly tested.
+5.  **#227 Basic Calculator II:** Excellent for practicing string parsing, stack usage, and handling operator precedence—skills needed for any interpreter-like or expression evaluation problem.
 
 <div class="code-group">
 
 ```python
-# Two Pointers approach (Yandex-relevant)
-def two_sum_sorted(numbers, target):
-    left, right = 0, len(numbers) - 1
-    while left < right:
-        current_sum = numbers[left] + numbers[right]
-        if current_sum == target:
-            return [left + 1, right + 1]  # 1-indexed
-        elif current_sum < target:
-            left += 1
-        else:
-            right -= 1
-    return []
+# Problem #973 K Closest Points to Origin - Min Heap Solution
+# Time: O(n log k) for heap operations | Space: O(k) for the heap
+import heapq
 
-# Hash Table approach (Common to both)
-def two_sum(nums, target):
-    seen = {}
-    for i, num in enumerate(nums):
-        complement = target - num
-        if complement in seen:
-            return [seen[complement], i]
-        seen[num] = i
-    return []
+def kClosest(points, k):
+    # Max-heap simulation: store negative distance to keep largest at root for popping
+    heap = []
+
+    for (x, y) in points:
+        dist = -(x*x + y*y)  # Negative for max-heap behavior
+        if len(heap) == k:
+            # If this point is closer than the farthest in heap, replace it
+            if dist > heap[0][0]:
+                heapq.heappop(heap)
+                heapq.heappush(heap, (dist, x, y))
+        else:
+            heapq.heappush(heap, (dist, x, y))
+
+    # Return the k points from the heap
+    return [[x, y] for (_, x, y) in heap]
 ```
 
 ```javascript
-// Two Pointers approach (Yandex-relevant)
-function twoSumSorted(numbers, target) {
-  let left = 0,
-    right = numbers.length - 1;
-  while (left < right) {
-    const sum = numbers[left] + numbers[right];
-    if (sum === target) return [left + 1, right + 1];
-    if (sum < target) left++;
-    else right--;
+// Problem #973 K Closest Points to Origin - Min Heap Solution
+// Time: O(n log k) | Space: O(k)
+class MinHeap {
+  constructor() {
+    this.heap = [];
   }
-  return [];
+  push(val) {
+    this.heap.push(val);
+    this.bubbleUp(this.heap.length - 1);
+  }
+  pop() {
+    const min = this.heap[0];
+    const end = this.heap.pop();
+    if (this.heap.length > 0) {
+      this.heap[0] = end;
+      this.sinkDown(0);
+    }
+    return min;
+  }
+  bubbleUp(idx) {
+    /*...*/
+  }
+  sinkDown(idx) {
+    /*...*/
+  }
 }
 
-// Hash Table approach (Common to both)
-function twoSum(nums, target) {
-  const map = new Map();
-  for (let i = 0; i < nums.length; i++) {
-    const complement = target - nums[i];
-    if (map.has(complement)) return [map.get(complement), i];
-    map.set(nums[i], i);
+function kClosest(points, k) {
+  const heap = new MinHeap();
+  for (const [x, y] of points) {
+    const dist = x * x + y * y;
+    heap.push([dist, x, y]);
+    if (heap.heap.length > k) {
+      heap.pop(); // Remove the farthest (largest distance)
+    }
   }
-  return [];
+  return heap.heap.map(([_, x, y]) => [x, y]);
 }
 ```
 
 ```java
-// Two Pointers approach (Yandex-relevant)
-public int[] twoSumSorted(int[] numbers, int target) {
-    int left = 0, right = numbers.length - 1;
-    while (left < right) {
-        int sum = numbers[left] + numbers[right];
-        if (sum == target) return new int[]{left + 1, right + 1};
-        if (sum < target) left++;
-        else right--;
-    }
-    return new int[]{};
-}
+// Problem #973 K Closest Points to Origin - Min Heap Solution
+// Time: O(n log k) | Space: O(k)
+import java.util.PriorityQueue;
 
-// Hash Table approach (Common to both)
-public int[] twoSum(int[] nums, int target) {
-    Map<Integer, Integer> map = new HashMap<>();
-    for (int i = 0; i < nums.length; i++) {
-        int complement = target - nums[i];
-        if (map.containsKey(complement)) {
-            return new int[]{map.get(complement), i};
+public int[][] kClosest(int[][] points, int k) {
+    // Max-heap: comparator sorts by distance descending
+    PriorityQueue<int[]> heap = new PriorityQueue<>(
+        (a, b) -> Integer.compare(b[0]*b[0] + b[1]*b[1], a[0]*a[0] + a[1]*a[1])
+    );
+
+    for (int[] point : points) {
+        heap.offer(point);
+        if (heap.size() > k) {
+            heap.poll(); // Remove the farthest point
         }
-        map.put(nums[i], i);
     }
-    return new int[]{};
+
+    int[][] result = new int[k][2];
+    for (int i = 0; i < k; i++) {
+        result[i] = heap.poll();
+    }
+    return result;
 }
 ```
 
 </div>
 
-## Which to Prepare for First
+## Which to Prepare for First?
 
-Your preparation order should be guided by your fundamentals and timeline.
+**Prepare for Roblox first.** Here's the strategic reasoning:
 
-**Start with Roblox if:** You are already comfortable with core data structures and want to challenge yourself with a higher density of Medium and Hard problems. Its smaller question bank allows for deeper, more repeated practice on each problem, which is excellent for mastering pattern application under tougher constraints.
+1.  **Difficulty Escalation:** Roblox's question set has a higher concentration of Hard problems. If you can solve a robust mix of Medium and Hard problems under interview conditions, tackling Yandex's Medium-heavy set will feel like a relative step down in intensity.
+2.  **Domain Knowledge:** Roblox's potential game/math/simulation focus requires specific review. Building this context takes time. Yandex's problems, while challenging, are more aligned with general algorithmic canon.
+3.  **Pattern Coverage:** Mastering the Math and simulation-style problems for Roblox will make you stronger overall. The reverse isn't as true—being great at pure Two Pointer problems won't directly help you calculate probabilities or geometric intersections.
 
-**Start with Yandex if:** You are building or solidifying your foundation. The larger number of Easy and Medium problems provides a broader set of practice material to internalize fundamental patterns like Two Pointers, which are widely applicable. The volume helps build stamina and fluency.
+Start with the shared Array/Hash Table/String core, then layer in Roblox's Math focus and problem-solving stamina for Hards. Finally, polish your Two Pointer technique and review large-scale system design for Yandex. This approach ensures you're building from a solid foundation upward to the highest required difficulty.
 
-Ultimately, the significant overlap in core topics means preparation for one directly benefits the other. A robust strategy is to use Yandex's extensive Medium-question bank for breadth and pattern recognition, then sharpen your problem-solving edge with Roblox's more difficult set. Mastery of Arrays, Hash Tables, and Strings, supplemented with practice on Two Pointers and Math, will make you competitive for both.
-
-For specific question lists, visit the CodeJeet pages for [Yandex](/company/yandex) and [Roblox](/company/roblox).
+For more detailed company-specific question breakdowns and reported interview experiences, check out the CodeJeet pages for [Yandex](/company/yandex) and [Roblox](/company/roblox).

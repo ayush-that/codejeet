@@ -1,81 +1,220 @@
 ---
 title: "PayPal vs Expedia: Interview Question Comparison"
 description: "Compare coding interview questions at PayPal and Expedia — difficulty levels, topic focus, and preparation strategy."
-date: "2026-01-17"
+date: "2033-07-27"
 category: "tips"
 tags: ["paypal", "expedia", "comparison"]
 ---
 
-When preparing for technical interviews, understanding company-specific patterns is crucial. PayPal and Expedia, while both major tech employers, present distinct interview landscapes in terms of volume, difficulty, and focus. This comparison analyzes their question profiles to help you strategize your preparation.
+# PayPal vs Expedia: Interview Question Comparison
+
+If you're interviewing at both PayPal and Expedia, or choosing between them, you're facing two distinct interview cultures. PayPal's technical interviews are more intense, with nearly double the question volume and significantly more hard problems. Expedia's interviews are more moderate, focusing on practical problem-solving with fewer extreme challenges. The good news: both companies test similar core topics, so you can prepare efficiently for both simultaneously with strategic prioritization.
 
 ## Question Volume and Difficulty
 
-PayPal's question bank is significantly larger and more challenging. With **106 total questions** (Easy: 18, Medium: 69, Hard: 19), the sheer volume indicates a broader pool of potential problems. The distribution is heavily weighted toward **Medium** and **Hard** questions, which together constitute over 83% of the catalog. This suggests PayPal's interviews often involve complex problem-solving and optimization, requiring deep algorithmic understanding.
+PayPal's 106 questions (18 Easy, 69 Medium, 19 Hard) versus Expedia's 54 questions (13 Easy, 35 Medium, 6 Hard) tells a clear story. PayPal interviews are more comprehensive and demanding—you'll face more problems per interview and encounter challenging algorithmic puzzles. The 19 Hard problems at PayPal (18% of their total) indicate they're willing to push candidates with complex optimization problems.
 
-Expedia's profile is more approachable. With **54 total questions** (Easy: 13, Medium: 35, Hard: 6), the volume is roughly half of PayPal's. More importantly, the difficulty skews lighter. **Medium** questions are the core, but **Hard** problems are relatively rare, making up only about 11% of the total. This points to an interview process that may prioritize foundational competency and clean implementation over solving the most complex algorithmic puzzles.
+Expedia's distribution is more typical of mid-tier tech companies: mostly Medium problems (65% of their total) with just 6 Hard problems (11%). This suggests Expedia focuses on assessing solid fundamentals and practical coding ability rather than algorithmic brilliance.
+
+The implication: If you're interviewing at both, you should prepare to PayPal's standard. That preparation will comfortably cover Expedia's requirements, but the reverse isn't true.
 
 ## Topic Overlap
 
-Both companies heavily test fundamental data structures, creating a strong foundation for shared preparation.
+Both companies heavily test **Array**, **String**, and **Hash Table** problems. This is your foundation—master these and you're 80% prepared for both companies.
 
-**Core Shared Topics:** Array, String, and Hash Table problems are central to both. Mastering these is non-negotiable. A question like "Two Sum" is a classic example that could appear in either interview.
+**Shared focus areas:**
+
+- Array manipulation and traversal
+- String processing and pattern matching
+- Hash Table optimization (reducing time complexity from O(n²) to O(n))
+- Two-pointer techniques (especially for sorted arrays)
+
+**Unique to PayPal:** Sorting appears as a distinct topic, indicating they ask explicit sorting algorithm questions (not just using built-in sort). You might need to implement quicksort, mergesort, or solve problems where the sorting algorithm choice matters.
+
+**Unique to Expedia:** Greedy algorithms are explicitly listed. While greedy problems appear at PayPal too, Expedia specifically calls them out, suggesting they value candidates who can recognize when a greedy approach works and prove its optimality.
+
+## Preparation Priority Matrix
+
+**Study First (Maximum ROI):**
+
+1. **Hash Table + Array combos** - Problems like Two Sum (#1) and its variants
+2. **String manipulation** - Palindrome checks, substring problems, character counting
+3. **Array traversal patterns** - Sliding window, two pointers, prefix sums
+
+**PayPal-Specific Priority:**
+
+1. **Sorting algorithms** - Know how to implement and analyze quicksort, mergesort
+2. **Complex array problems** - Matrix operations, interval merging, harder DP
+
+**Expedia-Specific Priority:**
+
+1. **Greedy algorithms** - Activity selection, interval scheduling, coin change (greedy version)
+2. **Practical string problems** - Real-world text processing scenarios
+
+**Recommended problems for both companies:**
+
+- Two Sum (#1) - Tests hash table fundamentals
+- Valid Palindrome (#125) - Tests two-pointer string manipulation
+- Merge Intervals (#56) - Tests sorting + array merging (covers both companies)
+- Longest Substring Without Repeating Characters (#3) - Tests sliding window + hash table
+
+## Interview Format Differences
+
+**PayPal** typically has 4-5 rounds including:
+
+- 2-3 coding rounds (45-60 minutes each, often 2 problems per round)
+- 1 system design round (for senior roles)
+- 1 behavioral/experience round
+- Virtual or onsite, with emphasis on optimal solutions and edge cases
+
+**Expedia** typically has 3-4 rounds including:
+
+- 1-2 coding rounds (60 minutes, often 1-2 problems)
+- 1 system design (for senior+ roles, but less rigorous than PayPal)
+- 1 behavioral/cultural fit round
+- More emphasis on clean, maintainable code versus optimal algorithms
+
+Key difference: PayPal interviews feel more like a traditional FAANG interview—they want to see you optimize and handle edge cases. Expedia interviews feel more like pair programming with a future colleague—they want to see you write clean, understandable code that solves the business problem.
+
+## Specific Problem Recommendations
+
+Here are 5 problems that provide excellent coverage for both companies:
+
+1. **3Sum (#15)** - Covers array manipulation, sorting, and two-pointer technique. PayPal might ask for the O(n²) solution with optimization; Expedia might focus on the clean implementation.
 
 <div class="code-group">
 
 ```python
-def two_sum(nums, target):
-    seen = {}
-    for i, num in enumerate(nums):
-        complement = target - num
-        if complement in seen:
-            return [seen[complement], i]
-        seen[num] = i
-    return []
+# Time: O(n²) | Space: O(1) ignoring output storage
+def threeSum(nums):
+    nums.sort()
+    result = []
+
+    for i in range(len(nums) - 2):
+        # Skip duplicates for the first element
+        if i > 0 and nums[i] == nums[i - 1]:
+            continue
+
+        left, right = i + 1, len(nums) - 1
+
+        while left < right:
+            total = nums[i] + nums[left] + nums[right]
+
+            if total < 0:
+                left += 1
+            elif total > 0:
+                right -= 1
+            else:
+                result.append([nums[i], nums[left], nums[right]])
+
+                # Skip duplicates for left and right pointers
+                while left < right and nums[left] == nums[left + 1]:
+                    left += 1
+                while left < right and nums[right] == nums[right - 1]:
+                    right -= 1
+
+                left += 1
+                right -= 1
+
+    return result
 ```
 
 ```javascript
-function twoSum(nums, target) {
-  const map = new Map();
-  for (let i = 0; i < nums.length; i++) {
-    const complement = target - nums[i];
-    if (map.has(complement)) {
-      return [map.get(complement), i];
+// Time: O(n²) | Space: O(1) ignoring output storage
+function threeSum(nums) {
+  nums.sort((a, b) => a - b);
+  const result = [];
+
+  for (let i = 0; i < nums.length - 2; i++) {
+    // Skip duplicates for the first element
+    if (i > 0 && nums[i] === nums[i - 1]) continue;
+
+    let left = i + 1;
+    let right = nums.length - 1;
+
+    while (left < right) {
+      const total = nums[i] + nums[left] + nums[right];
+
+      if (total < 0) {
+        left++;
+      } else if (total > 0) {
+        right--;
+      } else {
+        result.push([nums[i], nums[left], nums[right]]);
+
+        // Skip duplicates for left and right pointers
+        while (left < right && nums[left] === nums[left + 1]) left++;
+        while (left < right && nums[right] === nums[right - 1]) right--;
+
+        left++;
+        right--;
+      }
     }
-    map.set(nums[i], i);
   }
-  return [];
+
+  return result;
 }
 ```
 
 ```java
-public int[] twoSum(int[] nums, int target) {
-    Map<Integer, Integer> map = new HashMap<>();
-    for (int i = 0; i < nums.length; i++) {
-        int complement = target - nums[i];
-        if (map.containsKey(complement)) {
-            return new int[]{map.get(complement), i};
+// Time: O(n²) | Space: O(1) ignoring output storage
+public List<List<Integer>> threeSum(int[] nums) {
+    Arrays.sort(nums);
+    List<List<Integer>> result = new ArrayList<>();
+
+    for (int i = 0; i < nums.length - 2; i++) {
+        // Skip duplicates for the first element
+        if (i > 0 && nums[i] == nums[i - 1]) continue;
+
+        int left = i + 1;
+        int right = nums.length - 1;
+
+        while (left < right) {
+            int total = nums[i] + nums[left] + nums[right];
+
+            if (total < 0) {
+                left++;
+            } else if (total > 0) {
+                right--;
+            } else {
+                result.add(Arrays.asList(nums[i], nums[left], nums[right]));
+
+                // Skip duplicates for left and right pointers
+                while (left < right && nums[left] == nums[left + 1]) left++;
+                while (left < right && nums[right] == nums[right - 1]) right--;
+
+                left++;
+                right--;
+            }
         }
-        map.put(nums[i], i);
     }
-    return new int[]{};
+
+    return result;
 }
 ```
 
 </div>
 
-**Key Differentiator:** The fourth most frequent topic reveals a divergence in focus.
+2. **Group Anagrams (#49)** - Tests hash table usage and string manipulation. Both companies love this problem because it's practical (categorization logic) and tests optimization.
 
-- **PayPal** lists **Sorting**. This often implies questions involving custom comparators, merging intervals, or using sorting as a pre-processing step for more complex algorithms (e.g., "Merge Intervals," "Kth Largest Element").
-- **Expedia** lists **Greedy**. This suggests a focus on problems where a locally optimal choice leads to a global solution (e.g., "Maximum Subarray," "Jump Game," scheduling problems). While Sorting is a tool, Greedy represents a specific algorithmic paradigm.
+3. **Meeting Rooms II (#253)** - Covers greedy algorithms (for Expedia) and interval sorting (for PayPal). This is the perfect bridge problem.
+
+4. **Product of Array Except Self (#238)** - Tests array manipulation without division. PayPal might ask for the O(1) space solution; Expedia might focus on the clean two-pass approach.
+
+5. **Valid Parentheses (#20)** - Tests stack usage and edge case handling. Simple enough for Expedia's screening, but with enough nuance (different bracket types) for PayPal to probe deeper.
 
 ## Which to Prepare for First
 
-Your preparation order should be guided by your target companies and timeline.
+**Prepare for PayPal first.** Here's why:
 
-**Prepare for Expedia first if:** You are early in your interview prep cycle or prioritizing breadth. The smaller question count and lower proportion of Hard problems make it an achievable first milestone. Solidifying the core topics (Array, String, Hash Table) and practicing Greedy patterns will build a strong foundation that is also applicable to PayPal.
+1. **Difficulty coverage**: PayPal's harder problems will stretch you more. Once you can solve their Medium/Hard problems, Expedia's Mediums will feel comfortable.
 
-**Prepare for PayPal first if:** PayPal is your primary target, or you are aiming for a more rigorous practice session. Tackling PayPal's larger and more difficult set will force you to master Medium problems and confront challenging Hard scenarios. Success here will make Expedia's profile feel like a subset, significantly boosting your confidence. The Sorting focus requires practice with nuanced implementations.
+2. **Topic completeness**: PayPal's sorting focus means you'll learn algorithms that might come up at Expedia anyway (many greedy problems involve sorting first).
 
-A strategic hybrid approach is effective: **Start with the shared core.** Drill Array, String, and Hash Table problems to proficiency. Then, **branch based on your target**. If aiming for both, mastering PayPal's set is the more comprehensive strategy. Ensure you dedicate specific study to **Sorting algorithms** for PayPal and **Greedy problem patterns** for Expedia.
+3. **Time efficiency**: You have limited prep time. Studying PayPal's 106 questions gives you broader coverage than Expedia's 54.
 
-For detailed question lists, visit the [PayPal](/company/paypal) and [Expedia](/company/expedia) pages on CodeJeet.
+**Schedule strategically**: If you have interviews at both companies, try to schedule Expedia first if possible. Use it as a "warm-up" for the more demanding PayPal interviews. If you must do PayPal first, that's fine too—just know you'll be well-prepared for Expedia afterward.
+
+**Final tip**: For PayPal, practice explaining your optimization decisions clearly. For Expedia, practice writing clean, readable code with good variable names. Both value communication, but in different ways.
+
+For more company-specific insights, check out our [PayPal interview guide](/company/paypal) and [Expedia interview guide](/company/expedia).

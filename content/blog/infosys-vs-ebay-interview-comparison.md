@@ -1,94 +1,169 @@
 ---
 title: "Infosys vs eBay: Interview Question Comparison"
 description: "Compare coding interview questions at Infosys and eBay — difficulty levels, topic focus, and preparation strategy."
-date: "2029-07-18"
+date: "2032-04-17"
 category: "tips"
 tags: ["infosys", "ebay", "comparison"]
 ---
 
-When preparing for technical interviews, understanding the specific focus and expectations of each company can dramatically improve your efficiency. Infosys and eBay represent two distinct ends of the spectrum: a global IT services giant and a specialized e-commerce technology company. Their interview question profiles reflect their different business models and engineering needs.
+# Infosys vs eBay: Interview Question Comparison
+
+If you're interviewing at both Infosys and eBay, you're looking at two fundamentally different interview experiences. Infosys, as a global IT services and consulting giant, focuses on foundational problem-solving and algorithmic thinking across a broad spectrum of difficulty. eBay, as a specialized e-commerce tech company, targets more practical, data-structure intensive problems with a sharper focus on medium difficulty. The key insight? Preparing for eBay will give you excellent coverage for Infosys's medium questions, but you'll need additional depth for Infosys's harder problems and broader topic list. Let's break down exactly how to allocate your study time.
 
 ## Question Volume and Difficulty
 
-The data shows a significant difference in the volume and distribution of questions between the two companies.
+The numbers tell a clear story. Infosys has a massive, publicly tagged question bank of **158 problems** on platforms like LeetCode, distributed as **42 Easy, 82 Medium, and 34 Hard**. This indicates a process that can test a wide range of candidates, from new graduates to experienced hires, with a significant emphasis on medium-difficulty problem-solving stamina. You should expect at least one, possibly two, coding rounds with problems spanning this difficulty spectrum.
 
-Infosys has a much larger question bank of **158 questions**, with a difficulty distribution of Easy (42), Medium (82), and Hard (34). This high volume, especially the substantial number of Medium and Hard problems, suggests that Infosys's interview process may involve a broader screening of fundamental algorithmic knowledge and problem-solving stamina. The wide range is typical for large service-based companies that hire at scale for diverse projects.
+eBay's tagged list is smaller at **60 problems**, with a distribution of **12 Easy, 38 Medium, and 10 Hard**. This points to a more curated, focused interview process. The heavy skew toward Medium (63% of their questions) is the critical takeaway. eBay interviews are designed to find candidates who can reliably solve non-trivial, practical algorithmic challenges under pressure. The lower volume doesn't mean it's easier—it means their question pool is more targeted and consistent.
 
-eBay's profile is more concentrated, with **60 questions** total, distributed as Easy (12), Medium (38), and Hard (10). The emphasis is clearly on Medium-difficulty problems. This smaller, more focused set indicates that eBay's interviews likely prioritize applied problem-solving and coding clarity over encyclopedic algorithmic knowledge. The lower proportion of Hard questions suggests a focus on practical, clean solutions to common engineering problems rather than on highly complex optimization.
+**Implication:** For Infosys, you must be prepared for a wider net, including a non-trivial chance of a tricky Hard problem. For eBay, you should drill Medium problems until you can solve them cleanly and communicate your approach flawlessly. Mastery of Mediums is your ticket.
 
 ## Topic Overlap
 
-Both companies heavily test core computer science fundamentals, but with different secondary emphases.
+Both companies heavily test **Array** and **String** manipulation. These are the bread and butter of coding interviews, and proficiency here is non-negotiable for either company.
 
-**Shared Core Topics:**
+- **Shared High-Value Topics:** Array, String.
+- **Infosys-Specific Emphasis:** Dynamic Programming (DP) and Math. The presence of 34 Hard problems often correlates with DP (e.g., knapsack variants, complex state transitions) and tricky mathematical reasoning (combinatorics, number theory).
+- **eBay-Specific Emphasis:** Hash Table and Sorting. This aligns with e-commerce fundamentals: efficiently matching items (Hash Table), organizing listings or search results (Sorting), and managing data lookups. Think of problems involving user sessions, product catalogs, or transaction data.
 
-- **Array** and **String** manipulation are fundamental for both. Expect questions on traversal, searching, and in-place modifications.
-- **Sorting** is a critical underlying concept for many problems, even if not listed as a primary topic for Infosys.
+The overlap is your efficiency gain. Getting rock-solid on array and string problems serves both companies simultaneously.
 
-**Diverging Focus:**
+## Preparation Priority Matrix
 
-- **Infosys** prominently lists **Dynamic Programming (DP)** and **Math**. The inclusion of DP, often a challenging topic, aligns with their larger number of Hard questions and emphasizes strong analytical and optimization skills.
-- **eBay** prominently lists **Hash Table**. This highlights a practical focus on efficient data lookup, a common requirement in building scalable web applications and systems.
+Use this matrix to prioritize your study. The goal is maximum return on investment (ROI) for a dual-track interview prep.
 
-Here is a typical problem that could appear at either company, solved using a hash table for efficiency:
+| Priority                 | Topics                             | Reason                                                                        | Company Focus         |
+| :----------------------- | :--------------------------------- | :---------------------------------------------------------------------------- | :-------------------- |
+| **Tier 1 (Study First)** | Array, String, Hash Table, Sorting | Covers 100% of eBay's top topics and the core of Infosys's list. Highest ROI. | **Both**              |
+| **Tier 2 (Study Next)**  | Dynamic Programming, Math          | Essential to tackle Infosys's Hard problem segment. Less critical for eBay.   | **Primarily Infosys** |
+| **Tier 3 (Review)**      | Tree, Graph, Greedy                | Appear in both lists but less frequently. Cover once Tiers 1 & 2 are solid.   | **Both (Secondary)**  |
+
+**Specific Crossover Problems:** These LeetCode problems are excellent because they test Tier 1 topics common to both companies:
+
+- **Two Sum (#1):** Array + Hash Table fundamental.
+- **Merge Intervals (#56):** Array + Sorting classic.
+- **Longest Substring Without Repeating Characters (#3):** String + Hash Table (Sliding Window).
+
+## Interview Format Differences
+
+This is where the experiences truly diverge.
+
+**Infosys** interviews often follow a more traditional, academic structure. You might encounter:
+
+- **Rounds:** 2-3 technical rounds, possibly including a written test.
+- **Problem Focus:** One problem per round, but it may be complex (especially in later rounds). They may ask for a brute-force solution first, then optimization.
+- **Behavioral/System Design:** For senior roles, expect some system design discussion, but the weight is strongly on algorithmic problem-solving. Behavioral questions are standard but not the primary filter.
+
+**eBay** interviews tend to mirror other product-based tech companies:
+
+- **Rounds:** 4-5 rounds in a "virtual on-site," typically including 2-3 coding rounds, 1 system design, and 1 behavioral/experience deep-dive.
+- **Problem Focus:** One, maybe two, Medium+ problems per coding round with a strong emphasis on clean code, testing, and trade-off discussion. You're expected to go from problem to optimal solution efficiently.
+- **Behavioral/System Design:** Significant weight. The system design round is crucial for mid-level and above roles (think "design a nearby listings feature"). Behavioral questions using the STAR method are taken seriously to assess collaboration.
+
+## Specific Problem Recommendations for Dual Prep
+
+Here are 5 problems that provide outsized value for preparing for both companies. They cover the key overlapping topics and thinking patterns.
+
+1.  **Group Anagrams (#49):** A perfect hash table + sorting problem. It's eBay-relevant for data categorization and Infosys-relevant as a classic medium string problem.
+2.  **Product of Array Except Self (#238):** A quintessential array problem that requires clever forward/backward passes. It tests fundamental logic without advanced data structures, loved by both types of interviewers.
+3.  **Longest Palindromic Substring (#5):** A string problem that can be approached with expanding windows (more common) or DP. It bridges core string skills (for eBay) and introduces DP thinking (for Infosys).
+4.  **Merge Sorted Array (#88):** A fundamental array/pointer manipulation question. It's simple enough to be an Infosys easy/medium warm-up but tests precise in-place operations critical for real-world coding.
+5.  **Container With Most Water (#11):** An excellent array + two-pointer problem. It's a medium-difficulty challenge that tests optimization intuition and is highly representative of problem styles at both companies.
 
 <div class="code-group">
 
 ```python
-def two_sum(nums, target):
-    seen = {}
-    for i, num in enumerate(nums):
-        complement = target - num
-        if complement in seen:
-            return [seen[complement], i]
-        seen[num] = i
-    return []
+# Example: Problem #11 - Container With Most Water
+# Time: O(n) | Space: O(1)
+def maxArea(height):
+    """
+    Uses two pointers to find the maximum area.
+    The intuition: move the pointer pointing at the shorter line,
+    as that's the limiting factor for area.
+    """
+    left, right = 0, len(height) - 1
+    max_area = 0
 
-# Example
-print(two_sum([2, 7, 11, 15], 9))  # Output: [0, 1]
+    while left < right:
+        # Calculate current area
+        width = right - left
+        current_height = min(height[left], height[right])
+        current_area = width * current_height
+        max_area = max(max_area, current_area)
+
+        # Move the pointer with the smaller height
+        if height[left] < height[right]:
+            left += 1
+        else:
+            right -= 1
+
+    return max_area
 ```
 
 ```javascript
-function twoSum(nums, target) {
-  const map = new Map();
-  for (let i = 0; i < nums.length; i++) {
-    const complement = target - nums[i];
-    if (map.has(complement)) {
-      return [map.get(complement), i];
-    }
-    map.set(nums[i], i);
-  }
-  return [];
-}
+// Example: Problem #11 - Container With Most Water
+// Time: O(n) | Space: O(1)
+function maxArea(height) {
+  let left = 0;
+  let right = height.length - 1;
+  let maxArea = 0;
 
-// Example
-console.log(twoSum([2, 7, 11, 15], 9)); // Output: [0, 1]
+  while (left < right) {
+    const width = right - left;
+    const currentHeight = Math.min(height[left], height[right]);
+    const currentArea = width * currentHeight;
+    maxArea = Math.max(maxArea, currentArea);
+
+    // Move the pointer pointing to the shorter line
+    if (height[left] < height[right]) {
+      left++;
+    } else {
+      right--;
+    }
+  }
+
+  return maxArea;
+}
 ```
 
 ```java
-public int[] twoSum(int[] nums, int target) {
-    HashMap<Integer, Integer> map = new HashMap<>();
-    for (int i = 0; i < nums.length; i++) {
-        int complement = target - nums[i];
-        if (map.containsKey(complement)) {
-            return new int[] { map.get(complement), i };
+// Example: Problem #11 - Container With Most Water
+// Time: O(n) | Space: O(1)
+public int maxArea(int[] height) {
+    int left = 0;
+    int right = height.length - 1;
+    int maxArea = 0;
+
+    while (left < right) {
+        int width = right - left;
+        int currentHeight = Math.min(height[left], height[right]);
+        int currentArea = width * currentHeight;
+        maxArea = Math.max(maxArea, currentArea);
+
+        // Move the pointer pointing to the shorter line
+        if (height[left] < height[right]) {
+            left++;
+        } else {
+            right--;
         }
-        map.put(nums[i], i);
     }
-    return new int[0];
+
+    return maxArea;
 }
 ```
 
 </div>
 
-## Which to Prepare for First
+## Which to Prepare for First?
 
-Your preparation strategy should depend on your target role and timeline.
+**Prepare for eBay first.**
 
-**Prepare for Infosys first if:** You are early in your interview preparation cycle or aiming for roles that require strong foundational mastery across a wide range of algorithms. Tackling Infosys's larger and more difficult question set will force you to cover more ground, including challenging topics like Dynamic Programming. Success here will build a robust foundation that makes eBay's more focused list feel manageable.
+Here’s the strategic reasoning: Mastering the **Medium-difficulty Array, String, Hash Table, and Sorting** problems that eBay focuses on will automatically make you highly competitive for the majority (the Medium 82) of Infosys's questions. This approach gives you the strongest dual-company foundation with the least context switching.
 
-**Prepare for eBay first if:** You are short on time or targeting product-based company interviews that value clean, optimal solutions to common problems. Mastering eBay's focused list—especially becoming proficient with Arrays, Strings, and Hash Tables—will give you a high yield on core concepts. You can then supplement with Infosys's Math and DP questions if time allows.
+Once you are confident with eBay's core topics, _then_ layer on the additional preparation needed for Infosys: specifically, dive into **Dynamic Programming** and **Math** problems, and practice a few **Hard** problems to build stamina and exposure to complex edge cases. This sequential approach is more efficient than trying to tackle Infosys's vast list from the start.
 
-In summary, use Infosys's list for broad, foundational drilling and eBay's list for targeted, efficient practice on the most frequently tested patterns in tech interviews.
+In short, use eBay prep to build your core engineering interview muscle. Use Infosys prep to add breadth and depth. Good luck.
 
-For specific question lists, visit the Infosys and eBay question pages: [Infosys](/company/infosys) | [eBay](/company/ebay)
+---
+
+_Explore detailed question lists and interview experiences: [Infosys Interview Questions](/company/infosys) | [eBay Interview Questions](/company/ebay)_

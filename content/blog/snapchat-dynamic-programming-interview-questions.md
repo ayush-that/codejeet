@@ -1,83 +1,185 @@
 ---
 title: "Dynamic Programming Questions at Snapchat: What to Expect"
 description: "Prepare for Dynamic Programming interview questions at Snapchat — patterns, difficulty breakdown, and study tips."
-date: "2028-07-13"
+date: "2028-07-05"
 category: "dsa-patterns"
 tags: ["snapchat", "dynamic-programming", "interview prep"]
 ---
 
-Dynamic Programming (DP) is a critical skill for acing software engineering interviews at Snapchat. The company’s focus on real-time multimedia processing, efficient content delivery, and scalable infrastructure means engineers constantly optimize for performance and resource constraints. DP questions test your ability to break down complex problems into overlapping subproblems and cache results—a direct parallel to optimizing features like video encoding, story sequencing, or ad delivery systems. With 15 out of their 99 total coding questions tagged as Dynamic Programming, mastering this paradigm is non-negotiable for a serious candidate.
+Dynamic Programming at Snapchat isn't just another algorithm category—it's a critical filter. With 15 out of their 99 tagged problems being DP, it represents a significant 15% of their technical question pool. In practice, this means you have roughly a 1 in 3 chance of encountering a Dynamic Programming question in any given interview loop. The reason is structural: Snapchat's core products—Stories, Spotlight, Maps, Chat—are built on efficiently processing sequential data (video frames, message streams, location paths) and optimizing resource allocation (ad delivery, AR lens rendering, bandwidth use). Problems that involve making optimal decisions over time or sequences are naturally modeled with DP. If you can't demonstrate fluency here, you're likely screening yourself out for mid-to-senior level backend, infrastructure, or machine learning roles.
 
-## What to Expect — Types of Problems
+## Specific Patterns Snapchat Favors
 
-Snapchat’s DP problems often revolve around practical, high-impact scenarios. You can expect variations on these core themes:
+Snapchat's DP questions have a distinct flavor. They heavily favor **iterative, bottom-up tabulation** over recursive memoization. This isn't an accident; iterative solutions often have clearer state transitions and better constant factors, which aligns with writing performant code for scale. The two most prevalent patterns are:
 
-- **String/Sequence Processing:** Problems involving longest common subsequence, edit distance, or palindrome partitioning. These model text analysis in chat or caption features.
-- **Pathfinding & Grid Problems:** Counting unique paths, minimum path sums, or dungeon games. These abstract navigation within the app’s UI or network routing.
-- **Knapsack & Resource Allocation:** Classic knapsack or partition problems, which underpin efficient resource allocation for serving ads or managing memory.
-- **State Machine DP:** Problems like "Best Time to Buy and Sell Stock" with cooldowns, reflecting decision-making in system state management.
+1.  **1D/2D Sequence DP:** Classic problems where the state is defined by an index in one or two sequences. Think "edit distance" or "longest common subsequence" variants. They love applying this to string manipulation, which is core to features like search, chat, and captions.
+2.  **Knapsack-style / Finite State DP:** Problems involving choices with constraints, like allocating a budget (e.g., server capacity, ad spend) or toggling between states (e.g., user engagement states in a session). The "state" is often multi-dimensional (e.g., `dp[i][k]` where `i` is an index and `k` is a usage limit).
 
-The problems are typically at a medium to hard difficulty level. They will require you to not only implement a solution but also to articulate the transition between states and optimize space complexity.
+A quintessential Snapchat problem is **Word Break II (#140)**. It starts with the classic Word Break (#139) DP decision problem (`dp[i] = can the substring s[0:i] be segmented?`), but then layers on the reconstruction of _all_ possible sentences. This tests not only your ability to devise the DP table but also to backtrack through it—a common follow-up. Another favorite is **Maximum Subarray (#53)**, often dressed up in domain-specific clothing (e.g., "maximum engagement value from a sequence of user actions").
 
-## How to Prepare — Study Tips with One Code Example
+## How to Prepare
 
-Start by internalizing the core DP patterns: top-down (memoization) and bottom-up (tabulation). For Snapchat, you must be fluent in both. Practice deriving the recurrence relation before writing any code. Always analyze space optimization potential—can you reduce a 2D table to 1D?
+The key is to drill the state definition and transition until it's automatic. Let's deconstruct the most common pattern: 1D Sequence DP for a string.
 
-A fundamental pattern is the **"Fibonacci-style" DP**, which extends to problems like climbing stairs or decoding messages. Here is the bottom-up approach for the classic "Climbing Stairs" problem (find the number of distinct ways to reach the top using 1 or 2 steps), optimized to O(1) space.
+**Core Pattern:** `dp[i]` represents the optimal answer (or a boolean) for the substring ending at (or up to) index `i`. The transition almost always looks back at previous states `dp[j]` where `j < i`.
+
+Here’s the skeleton for a "segmentation" or "valid break" problem type:
 
 <div class="code-group">
 
 ```python
-def climbStairs(n: int) -> int:
-    if n <= 2:
-        return n
-    prev1, prev2 = 2, 1  # ways for i-1 and i-2
-    for i in range(3, n + 1):
-        current = prev1 + prev2
-        prev2, prev1 = prev1, current
-    return prev1
+def word_break_pattern(s, word_dict):
+    n = len(s)
+    # dp[i] = can the prefix s[0:i] be successfully segmented?
+    dp = [False] * (n + 1)
+    dp[0] = True  # Base: empty string is valid
+
+    for i in range(1, n + 1):
+        for j in range(i):
+            # Check if prefix s[0:j] is valid AND substring s[j:i] is in dict
+            if dp[j] and s[j:i] in word_dict:
+                dp[i] = True
+                break  # One valid path is enough
+    return dp[n]
+# Time: O(n^2) for nested loops, plus substring cost. With a set dict, substring is O(n) worst-case.
+# Space: O(n) for the dp array.
 ```
 
 ```javascript
-function climbStairs(n) {
-  if (n <= 2) return n;
-  let prev1 = 2,
-    prev2 = 1;
-  for (let i = 3; i <= n; i++) {
-    const current = prev1 + prev2;
-    prev2 = prev1;
-    prev1 = current;
+function wordBreakPattern(s, wordDict) {
+  const n = s.length;
+  const dp = new Array(n + 1).fill(false);
+  dp[0] = true;
+  const dictSet = new Set(wordDict);
+
+  for (let i = 1; i <= n; i++) {
+    for (let j = 0; j < i; j++) {
+      if (dp[j] && dictSet.has(s.substring(j, i))) {
+        dp[i] = true;
+        break;
+      }
+    }
   }
-  return prev1;
+  return dp[n];
 }
+// Time: O(n^2) | Space: O(n)
 ```
 
 ```java
-public int climbStairs(int n) {
-    if (n <= 2) return n;
-    int prev1 = 2, prev2 = 1;
-    for (int i = 3; i <= n; i++) {
-        int current = prev1 + prev2;
-        prev2 = prev1;
-        prev1 = current;
+public boolean wordBreakPattern(String s, List<String> wordDict) {
+    int n = s.length();
+    boolean[] dp = new boolean[n + 1];
+    dp[0] = true;
+    Set<String> dictSet = new HashSet<>(wordDict);
+
+    for (int i = 1; i <= n; i++) {
+        for (int j = 0; j < i; j++) {
+            if (dp[j] && dictSet.contains(s.substring(j, i))) {
+                dp[i] = true;
+                break;
+            }
+        }
     }
-    return prev1;
+    return dp[n];
 }
+// Time: O(n^2) | Space: O(n)
 ```
 
 </div>
 
-This pattern teaches you to identify when only a constant number of previous states are needed, a common optimization in interviews.
+For the second common pattern—Knapsack-style—the state usually gains a second dimension for a constraint `k`. The transition involves a decision: _use_ the current item (affecting the constraint) or _skip_ it.
+
+<div class="code-group">
+
+```python
+def knapsack_pattern(weights, values, capacity):
+    n = len(weights)
+    # dp[i][w] = max value using first i items with exact weight w
+    dp = [[0] * (capacity + 1) for _ in range(n + 1)]
+
+    for i in range(1, n + 1):
+        for w in range(1, capacity + 1):
+            if weights[i-1] > w:
+                # Can't take item i-1
+                dp[i][w] = dp[i-1][w]
+            else:
+                # Decision: skip item OR take item (add its value, reduce capacity)
+                dp[i][w] = max(dp[i-1][w], values[i-1] + dp[i-1][w - weights[i-1]])
+    return dp[n][capacity]
+# Time: O(n * capacity) | Space: O(n * capacity)
+```
+
+```javascript
+function knapsackPattern(weights, values, capacity) {
+  const n = weights.length;
+  const dp = Array.from({ length: n + 1 }, () => new Array(capacity + 1).fill(0));
+
+  for (let i = 1; i <= n; i++) {
+    for (let w = 1; w <= capacity; w++) {
+      if (weights[i - 1] > w) {
+        dp[i][w] = dp[i - 1][w];
+      } else {
+        dp[i][w] = Math.max(dp[i - 1][w], values[i - 1] + dp[i - 1][w - weights[i - 1]]);
+      }
+    }
+  }
+  return dp[n][capacity];
+}
+// Time: O(n * capacity) | Space: O(n * capacity)
+```
+
+```java
+public int knapsackPattern(int[] weights, int[] values, int capacity) {
+    int n = weights.length;
+    int[][] dp = new int[n + 1][capacity + 1];
+
+    for (int i = 1; i <= n; i++) {
+        for (int w = 1; w <= capacity; w++) {
+            if (weights[i-1] > w) {
+                dp[i][w] = dp[i-1][w];
+            } else {
+                dp[i][w] = Math.max(dp[i-1][w], values[i-1] + dp[i-1][w - weights[i-1]]);
+            }
+        }
+    }
+    return dp[n][capacity];
+}
+// Time: O(n * capacity) | Space: O(n * capacity)
+```
+
+</div>
+
+## How Snapchat Tests Dynamic Programming vs Other Companies
+
+Compared to Google or Meta, Snapchat's DP questions are less about clever mathematical reductions and more about **applied optimization**. At Google, you might get a DP problem disguised as a complex game theory or geometry puzzle. At Meta, DP is common but often intertwined with graph traversal (e.g., dynamic programming on trees).
+
+At Snapchat, the DP problem will often be presented with a **direct, product-adjacent scenario**. For example, instead of "Maximum Subarray," it might be "Given a stream of daily active users with a seasonal pattern, find the contiguous period with the highest growth to launch a feature." The core algorithm is the same, but they test your ability to map the real-world problem to the abstract DP state. Their interviewers are also more likely to ask for **space optimization** (going from O(n²) to O(n) space) as a follow-up, probing your understanding of which previous states are truly needed.
+
+## Study Order
+
+Tackle DP in this order to build a compounding understanding:
+
+1.  **Foundation: Fibonacci & Climbing Stairs (#70).** Understand memoization vs. tabulation. This is where you learn that `dp[i] = dp[i-1] + dp[i-2]`.
+2.  **1D Linear DP:** House Robber (#198), Maximum Subarray (#53). Learn to define `dp[i]` as the best answer _considering elements up to i_. This introduces the "take or skip" decision.
+3.  **Knapsack & 2D DP:** 0/1 Knapsack, Partition Equal Subset Sum (#416). This is the leap to two-dimensional states (`dp[i][w]`) and is non-negotiable.
+4.  **String/Sequence DP:** Longest Common Subsequence (#1143), Edit Distance (#72), Word Break (#139). This teaches you to think in terms of two pointers/indices progressing, a pattern that appears constantly.
+5.  **Advanced Patterns & Optimization:** DP on intervals (Burst Balloons #312), DP on trees, or state machine DP (Best Time to Buy/Sell Stock with Cooldown #309). Only attempt these once 1-4 are solid.
 
 ## Recommended Practice Order
 
-Do not jump to hard problems. Build competence systematically:
+Solve these specific problems in sequence. Each builds on the previous pattern.
 
-1.  **Foundation:** Master Fibonacci, Climbing Stairs, and Minimum Path Sum. Ensure you can solve them with both memoization and tabulation.
-2.  **Core Patterns:** Practice 1D DP problems (Knapsack, Coin Change) and 2D DP on strings (Longest Common Subsequence, Edit Distance).
-3.  **State Machine & Harder Variants:** Tackle problems like "Best Time to Buy and Sell Stock with Cooldown" or "Dungeon Game."
-4.  **Snapchat-Specific Problems:** Finally, apply your skills to actual problems from Snapchat’s question list to understand their flavor and difficulty.
+1.  Climbing Stairs (#70) - Pure introduction.
+2.  House Robber (#198) - 1D linear "take or skip".
+3.  Maximum Subarray (#53) - 1D linear, but `dp[i]` definition is different (best subarray _ending_ at i).
+4.  Coin Change (#322) - Unbounded knapsack style (infinite items).
+5.  Partition Equal Subset Sum (#416) - 0/1 Knapsack decision problem.
+6.  Longest Common Subsequence (#1143) - Classic 2D string DP.
+7.  Word Break (#139) - 1D DP on a string with lookbacks.
+8.  **Word Break II (#140)** - The classic Snapchat follow-up: DP + backtracking.
+9.  Edit Distance (#72) - Another core 2D string DP, highly likely.
+10. Decode Ways (#91) - Excellent 1D string DP with conditionals on one/two characters.
 
-Consistency is key. Solve at least one DP problem daily for a month, focusing on clean implementation and clear explanation.
+Master this progression, and you'll be able to decompose any Snapchat DP problem into a state definition and transition you've seen before.
 
 [Practice Dynamic Programming at Snapchat](/company/snapchat/dynamic-programming)

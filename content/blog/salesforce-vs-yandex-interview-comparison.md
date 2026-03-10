@@ -1,126 +1,184 @@
 ---
 title: "Salesforce vs Yandex: Interview Question Comparison"
 description: "Compare coding interview questions at Salesforce and Yandex — difficulty levels, topic focus, and preparation strategy."
-date: "2028-09-05"
+date: "2031-06-06"
 category: "tips"
 tags: ["salesforce", "yandex", "comparison"]
 ---
 
-When preparing for technical interviews at major tech companies, understanding the specific focus areas and difficulty distribution of their coding questions can significantly streamline your study process. Salesforce and Yandex, while both prominent in their respective regions, present distinct interview landscapes. Salesforce, a global CRM leader, has a larger question pool with a greater emphasis on advanced problems. Yandex, Russia's search and tech giant, offers a more moderate set with a stronger focus on foundational and medium-level algorithmic skills. A direct comparison of their question banks reveals clear strategic differences.
+# Salesforce vs Yandex: Interview Question Comparison
+
+If you're preparing for interviews at both Salesforce and Yandex, you're looking at two distinct engineering cultures with surprisingly different technical interview profiles. Salesforce, the enterprise CRM giant, tests with a balanced mix of difficulty levels across traditional data structures. Yandex, Russia's search and tech leader, leans heavily toward medium-difficulty problems with a practical, implementation-focused approach. The smart strategy isn't to prepare twice as much—it's to prepare strategically where their requirements overlap, then fill in the gaps.
 
 ## Question Volume and Difficulty
 
-The most striking difference is in the total number of questions and their difficulty distribution.
+The numbers tell a clear story about what each company emphasizes.
 
-**Salesforce** maintains a larger repository of **189 questions**. The difficulty breakdown is **Easy: 27, Medium: 113, Hard: 49**. This distribution highlights a significant emphasis on **Medium and Hard problems**, which together constitute over 85% of their question bank. Preparing for a Salesforce interview means you must be comfortable with complex problem-solving and optimization, as nearly a quarter of their questions are classified as Hard.
+Salesforce's 189 questions in their tagged LeetCode collection break down as:
 
-**Yandex** has a smaller set of **134 questions**. The breakdown is **Easy: 52, Medium: 72, Hard: 10**. This profile is markedly different, with a strong skew towards **Easy and Medium problems**, which make up over 92% of their questions. The presence of Hard problems is minimal. This suggests Yandex interviews may place a higher initial priority on assessing solid foundational knowledge and reliable implementation under typical constraints, rather than on solving the most computationally complex edge cases.
+- **Easy**: 27 questions (14%)
+- **Medium**: 113 questions (60%)
+- **Hard**: 49 questions (26%)
+
+This distribution reveals Salesforce's interview style: they're not afraid to ask challenging problems. With over a quarter of their questions rated as Hard, they expect candidates to handle complex algorithmic thinking, often involving multiple concepts combined. The high volume of Medium questions suggests they value both problem-solving ability and clean implementation.
+
+Yandex's 134 questions show a different pattern:
+
+- **Easy**: 52 questions (39%)
+- **Medium**: 72 questions (54%)
+- **Hard**: 10 questions (7%)
+
+Yandex leans heavily toward practical, solvable problems within interview time constraints. The low percentage of Hard questions (less than half of Salesforce's proportion) suggests they prioritize clean, efficient solutions to standard problems over extreme algorithmic complexity. The higher Easy percentage might indicate more screening questions or problems with multiple parts where the initial step is straightforward.
+
+**Implication**: If you're strong at Medium problems but struggle with Hards, Yandex might feel more comfortable. If you want to maximize preparation efficiency, focus on Medium problems first—they represent the majority for both companies.
 
 ## Topic Overlap
 
-Both companies heavily test core data structures and algorithms, but with subtle priority shifts.
+Both companies test core computer science fundamentals, but with different emphasis:
 
-The top four topics for both include **Array, String, and Hash Table**, indicating these are universal essentials. **Dynamic Programming (DP)** is a top-4 topic for Salesforce but does not appear in Yandex's top four, which instead features **Two Pointers**. This is a critical distinction.
+**Shared heavy hitters (study these first)**:
 
-Salesforce's inclusion of DP as a primary topic aligns with its larger number of Hard questions, as DP problems often involve significant optimization challenges. Yandex's focus on Two Pointers suggests an interview style that frequently tests efficient in-place array/string manipulation and sliding window techniques, which are common in Medium-difficulty problems.
+- **Array**: #1 topic for both. Expect manipulation, searching, and optimization problems.
+- **Hash Table**: Critical for both. Salesforce uses it in 28% of questions, Yandex in 26%.
+- **String**: High frequency for both companies, often combined with other data structures.
 
-Here is a typical Two Pointers problem you might encounter at Yandex:
+**Salesforce specialties**:
+
+- **Dynamic Programming**: Appears in 18% of Salesforce questions versus only 4% for Yandex. This is a major differentiator.
+- **Tree** and **Depth-First Search**: More prevalent in Salesforce questions.
+- **Graph**: Appears more frequently than in Yandex questions.
+
+**Yandex specialties**:
+
+- **Two Pointers**: Appears in 22% of Yandex questions versus 11% for Salesforce.
+- **Sorting**: More frequently tested as a core component.
+- **Greedy**: Slightly higher representation in their problem set.
+
+The overlap means you get excellent return on investment by mastering arrays, hash tables, and strings—these will serve you well at both companies.
+
+## Preparation Priority Matrix
+
+Here's how to allocate your study time efficiently:
+
+**Tier 1: Overlap Topics (Highest ROI)**
+
+- Array manipulation and searching
+- Hash table implementation and applications
+- String algorithms and pattern matching
+- Recommended problems: Two Sum (#1), Valid Parentheses (#20), Merge Intervals (#56)
+
+**Tier 2: Salesforce-Specific Focus**
+
+- Dynamic programming (start with 1D then 2D)
+- Tree traversals and modifications
+- Graph algorithms (BFS/DFS)
+- Recommended problems: Coin Change (#322), House Robber (#198), Course Schedule (#207)
+
+**Tier 3: Yandex-Specific Focus**
+
+- Two pointer techniques
+- Sorting-based solutions
+- Sliding window variations
+- Recommended problems: Container With Most Water (#11), 3Sum (#15), Longest Substring Without Repeating Characters (#3)
+
+**Tier 4: Lower Priority for Both**
+
+- Bit manipulation, math-heavy problems, and extremely niche data structures
+
+## Interview Format Differences
+
+Beyond the question content, how you're tested differs significantly.
+
+**Salesforce** typically follows the Silicon Valley standard:
+
+- 4-5 rounds including coding, system design, and behavioral
+- 45-60 minutes per coding round, often 2 problems per round
+- Strong emphasis on communication and thought process
+- System design expected for senior roles (L5+)
+- Virtual or on-site options, with some whiteboarding even for virtual interviews
+
+**Yandex** has a more focused approach:
+
+- 3-4 technical rounds, often with shorter duration (30-45 minutes)
+- More emphasis on working code versus perfect optimal solution
+- Practical problems that might relate to their products (search, maps, etc.)
+- Less behavioral questioning, more straight-to-coding
+- Often includes a "home assignment" round before onsite interviews
+
+**Key insight**: Salesforce interviews test both depth and breadth, while Yandex interviews test practical implementation speed. For Salesforce, explain your thinking thoroughly. For Yandex, focus on getting to working code efficiently.
+
+## Specific Problem Recommendations
+
+These five problems provide excellent coverage for both companies:
+
+1. **Two Sum (#1)** - The ultimate hash table problem that appears in variations for both companies. Master the basic version, then practice sorted array and two-pointer variations.
 
 <div class="code-group">
 
 ```python
-def removeDuplicates(nums):
-    if not nums:
-        return 0
-    i = 0
-    for j in range(1, len(nums)):
-        if nums[j] != nums[i]:
-            i += 1
-            nums[i] = nums[j]
-    return i + 1
+# Time: O(n) | Space: O(n)
+def twoSum(nums, target):
+    seen = {}
+    for i, num in enumerate(nums):
+        complement = target - num
+        if complement in seen:
+            return [seen[complement], i]
+        seen[num] = i
+    return []
 ```
 
 ```javascript
-function removeDuplicates(nums) {
-  if (!nums.length) return 0;
-  let i = 0;
-  for (let j = 1; j < nums.length; j++) {
-    if (nums[j] !== nums[i]) {
-      i++;
-      nums[i] = nums[j];
+// Time: O(n) | Space: O(n)
+function twoSum(nums, target) {
+  const map = new Map();
+  for (let i = 0; i < nums.length; i++) {
+    const complement = target - nums[i];
+    if (map.has(complement)) {
+      return [map.get(complement), i];
     }
+    map.set(nums[i], i);
   }
-  return i + 1;
+  return [];
 }
 ```
 
 ```java
-public int removeDuplicates(int[] nums) {
-    if (nums.length == 0) return 0;
-    int i = 0;
-    for (int j = 1; j < nums.length; j++) {
-        if (nums[j] != nums[i]) {
-            i++;
-            nums[i] = nums[j];
+// Time: O(n) | Space: O(n)
+public int[] twoSum(int[] nums, int target) {
+    Map<Integer, Integer> map = new HashMap<>();
+    for (int i = 0; i < nums.length; i++) {
+        int complement = target - nums[i];
+        if (map.containsKey(complement)) {
+            return new int[]{map.get(complement), i};
         }
+        map.put(nums[i], i);
     }
-    return i + 1;
+    return new int[]{};
 }
 ```
 
 </div>
 
-In contrast, a Dynamic Programming problem more indicative of Salesforce's style:
+2. **Merge Intervals (#56)** - Tests sorting, array manipulation, and edge case handling. Salesforce uses interval problems frequently, and Yandex appreciates the clean implementation.
 
-<div class="code-group">
+3. **Longest Substring Without Repeating Characters (#3)** - Covers hash tables and sliding window/two pointers. This single problem practices techniques important to both companies.
 
-```python
-def coinChange(coins, amount):
-    dp = [float('inf')] * (amount + 1)
-    dp[0] = 0
-    for coin in coins:
-        for x in range(coin, amount + 1):
-            dp[x] = min(dp[x], dp[x - coin] + 1)
-    return dp[amount] if dp[amount] != float('inf') else -1
-```
+4. **Coin Change (#322)** - The classic dynamic programming problem. Essential for Salesforce, and good general DP practice that translates to other problems.
 
-```javascript
-function coinChange(coins, amount) {
-  const dp = new Array(amount + 1).fill(Infinity);
-  dp[0] = 0;
-  for (const coin of coins) {
-    for (let x = coin; x <= amount; x++) {
-      dp[x] = Math.min(dp[x], dp[x - coin] + 1);
-    }
-  }
-  return dp[amount] === Infinity ? -1 : dp[amount];
-}
-```
-
-```java
-public int coinChange(int[] coins, int amount) {
-    int[] dp = new int[amount + 1];
-    Arrays.fill(dp, amount + 1);
-    dp[0] = 0;
-    for (int coin : coins) {
-        for (int x = coin; x <= amount; x++) {
-            dp[x] = Math.min(dp[x], dp[x - coin] + 1);
-        }
-    }
-    return dp[amount] > amount ? -1 : dp[amount];
-}
-```
-
-</div>
+5. **Container With Most Water (#11)** - Pure two-pointer problem that's highly relevant for Yandex and appears in Salesforce's list too.
 
 ## Which to Prepare for First
 
-Your preparation priority should be dictated by your target company and current skill level.
+Start with **Yandex**, then move to **Salesforce**. Here's why:
 
-If your goal is **Yandex**, start there. The higher proportion of Easy questions allows you to build confidence with fundamentals. Master the core topics—particularly Arrays, Hash Tables, and Two Pointers—before tackling their Medium problems. You can afford to deprioritize the deepest depths of advanced Dynamic Programming initially.
+Yandex's emphasis on Medium problems with strong focus on arrays, hash tables, and two pointers gives you a solid foundation in the most frequently tested topics. Mastering these will cover approximately 70% of what both companies test. Once you're comfortable with Yandex's problem style, adding Salesforce's requirements means:
 
-If your goal is **Salesforce**, you must prepare for a more demanding interview. Begin by solidifying your understanding of Arrays, Strings, and Hash Tables, but quickly transition to practicing a high volume of **Medium problems**. Dedicate substantial time to **Dynamic Programming**, as it is a key differentiator in their question bank. The large number of Hard problems means you should also practice complex problem decomposition and optimization.
+1. You already have the core data structures mastered
+2. You can focus specifically on dynamic programming (the biggest gap)
+3. You're practicing "up" in difficulty rather than "down"
 
-For a generalist preparing for both or for the tech interview market broadly, a hybrid approach is effective. **Start with the Yandex-focused plan** to build a robust foundation across core data structures. This will cover most Easy and many Medium problems common to both companies. **Then, layer on the Salesforce-focused depth**, specifically drilling into Dynamic Programming patterns and challenging Hard problems to elevate your problem-solving ceiling.
+If you prepare for Salesforce first, you might spend significant time on dynamic programming and graph problems that yield less return for Yandex interviews. The reverse approach gives you better coverage with less total study time.
 
-Explore the specific question lists for each company to tailor your practice: [Salesforce Interview Questions](/company/salesforce) and [Yandex Interview Questions](/company/yandex).
+**Final tip**: Regardless of which company you interview with first, maintain a running list of problem patterns you struggle with. Both companies test similar patterns, just in different proportions. Your weakness in two-pointer problems will hurt you at Yandex; your weakness in dynamic programming will hurt you at Salesforce. Identify and patch these gaps systematically.
+
+For more company-specific details, visit our [Salesforce interview guide](/company/salesforce) and [Yandex interview guide](/company/yandex).

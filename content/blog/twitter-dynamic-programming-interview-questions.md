@@ -1,122 +1,168 @@
 ---
 title: "Dynamic Programming Questions at Twitter: What to Expect"
 description: "Prepare for Dynamic Programming interview questions at Twitter — patterns, difficulty breakdown, and study tips."
-date: "2029-08-03"
+date: "2029-07-26"
 category: "dsa-patterns"
 tags: ["twitter", "dynamic-programming", "interview prep"]
 ---
 
-Dynamic Programming (DP) is a critical skill for acing technical interviews at Twitter. The platform's engineering challenges—from optimizing timeline delivery and tweet ranking to managing massive-scale data streams and real-time analytics—often involve solving complex optimization problems. DP provides a structured framework for breaking these problems into overlapping subproblems and caching results, which is directly analogous to optimizing performance-critical backend services. With 6 out of 53 total coding questions tagged as Dynamic Programming, you have a roughly 1 in 9 chance of encountering one in a given interview round. Mastering DP demonstrates your ability to think about efficiency, state management, and optimal substructure—key traits for building scalable systems at Twitter's level.
+# Dynamic Programming Questions at Twitter: What to Expect
 
-## What to Expect — Types of Problems
+If you're preparing for a Twitter interview, you've probably noticed their problem list includes six Dynamic Programming (DP) questions out of 53 total. That's about 11% — not an overwhelming focus, but significant enough that you can't afford to ignore it. In my experience conducting and passing interviews at top tech companies, here's what you need to know: Twitter uses DP as a _filter_ question. It's not something they ask every candidate, but when they do, it's usually in the second or third round to separate strong candidates from exceptional ones. They're testing whether you can recognize a complex problem's underlying structure and optimize it systematically — a skill directly relevant to Twitter's work on feed ranking, ad optimization, and large-scale system efficiency.
 
-Twitter's DP questions tend to focus on practical, high-impact scenarios rather than purely academic puzzles. You can generally expect problems in these categories:
+The key insight? Twitter's DP questions rarely appear as pure, textbook DP problems. They're usually disguised within string manipulation, array processing, or even system design contexts. You might be asked to optimize tweet delivery or minimize server costs, and the DP solution emerges from the constraints. This means you need to recognize DP patterns in the wild, not just solve LeetCode problems by rote.
 
-- **String/Sequence Manipulation:** These are the most common. Expect problems involving edit distance (like the classic "Edit Distance" problem), longest common subsequence, palindromic substrings, or ways to decode/encode strings. These model real-world tasks like tweet text processing, diff algorithms, or data validation.
-- **Knapsack/Subset Problems:** Questions about partitioning sets, making change with coins (coin change), or selecting items under constraints. These relate to resource allocation, feature flag rollouts, or cost optimization in infrastructure.
-- **Pathfinding on Grids:** Problems like "Unique Paths" or "Minimum Path Sum" in a grid. While seemingly simple, they test your ability to define state (grid position) and transition (moving down/right), mirroring routing or traversal logic in distributed systems.
-- **1D/2D Dynamic Programming:** Classic problems like "House Robber," "Climbing Stairs," or "Best Time to Buy and Sell Stock" and their variants. These test your grasp of defining a state (e.g., `dp[i]` as the best profit up to day `i`) and a recurrence relation.
+## Specific Patterns Twitter Favors
 
-The problems are typically medium difficulty on platforms like LeetCode, with a few hard problems in the mix. The interviewer will look for your ability to identify the DP pattern, define the state and recurrence, and then optimize space complexity.
+Twitter's DP questions lean heavily toward **one-dimensional and two-dimensional iterative DP** with a focus on **string/sequence problems** and **optimization with constraints**. They particularly favor:
 
-## How to Prepare — Study Tips with One Code Example
+1. **String/Sequence DP**: Edit distance, longest common subsequence, palindrome partitioning. These mirror real problems in text processing, tweet comparison, or spam detection.
+2. **Knapsack-style DP with constraints**: Resource allocation problems where you have limited "budget" (like server capacity or time slots) and need to maximize value.
+3. **DP on intervals or segments**: Problems where you need to make decisions about partitioning data.
 
-Start by internalizing the core DP patterns: Top-Down (Memoization) and Bottom-Up (Tabulation). For interviews, you must be fluent in both. First, solve problems recursively, then add memoization, and finally derive the iterative tabulation approach. Always analyze time and space complexity.
+Looking at their listed problems, you'll see patterns like:
 
-A fundamental pattern is the "Fibonacci-style" recurrence, which extends to problems like "Climbing Stairs" or "Decode Ways." Let's look at "Climbing Stairs" (You climb a staircase of `n` steps, taking 1 or 2 steps at a time. How many distinct ways to reach the top?).
+- **"Edit Distance" (#72)**: Classic 2D DP for string transformation
+- **"Maximum Subarray" (#53)**: Kadane's algorithm (a DP variant)
+- **"Coin Change" (#322)**: Classic unbounded knapsack
 
-The key insight: The ways to reach step `i` is the sum of ways to reach step `i-1` and step `i-2`. This is a classic 1D DP.
+What's notably absent? Complex graph DP or tree DP problems. Twitter prefers DP on linear structures — it's more applicable to their day-to-day engineering work.
+
+## How to Prepare
+
+The biggest mistake candidates make is memorizing solutions instead of understanding the _decision framework_. When you see a Twitter DP problem, ask yourself:
+
+1. What's changing between states? (This becomes your DP dimensions)
+2. What decisions can I make at each step?
+3. How do previous decisions affect current options?
+
+Let's look at the most common pattern: **1D DP for sequence problems**. Here's the template you should internalize:
 
 <div class="code-group">
 
 ```python
-def climbStairs(n: int) -> int:
-    if n <= 2:
-        return n
-    # dp[i] = ways to reach step i
+def sequence_dp_template(nums):
+    n = len(nums)
+    # dp[i] represents the optimal solution for first i elements
     dp = [0] * (n + 1)
-    dp[1] = 1  # 1 way: (1)
-    dp[2] = 2  # 2 ways: (1,1) or (2)
-    for i in range(3, n + 1):
-        dp[i] = dp[i - 1] + dp[i - 2]
+
+    # Base case: empty sequence
+    dp[0] = 0  # or appropriate base value
+
+    for i in range(1, n + 1):
+        # For each position, consider all possible previous states
+        for j in range(i):
+            # Transition: can we extend from dp[j] to dp[i]?
+            if is_valid_transition(j, i, nums):
+                dp[i] = max(dp[i], dp[j] + value_of_extension(j, i, nums))
+                # or min() for minimization problems
+
     return dp[n]
 
-# Space-optimized version (only need last two states)
-def climbStairsOpt(n: int) -> int:
-    if n <= 2:
-        return n
-    prev1, prev2 = 2, 1  # dp[2], dp[1]
-    for i in range(3, n + 1):
-        current = prev1 + prev2
-        prev2, prev1 = prev1, current
-    return prev1
+# Time: O(n²) in this template, but often optimizable
+# Space: O(n)
 ```
 
 ```javascript
-function climbStairs(n) {
-  if (n <= 2) return n;
-  // dp[i] = ways to reach step i
-  let dp = new Array(n + 1).fill(0);
-  dp[1] = 1; // 1 way: (1)
-  dp[2] = 2; // 2 ways: (1,1) or (2)
-  for (let i = 3; i <= n; i++) {
-    dp[i] = dp[i - 1] + dp[i - 2];
+function sequenceDpTemplate(nums) {
+  const n = nums.length;
+  // dp[i] represents the optimal solution for first i elements
+  const dp = new Array(n + 1).fill(0);
+
+  // Base case: empty sequence
+  dp[0] = 0; // or appropriate base value
+
+  for (let i = 1; i <= n; i++) {
+    // For each position, consider all possible previous states
+    for (let j = 0; j < i; j++) {
+      // Transition: can we extend from dp[j] to dp[i]?
+      if (isValidTransition(j, i, nums)) {
+        dp[i] = Math.max(dp[i], dp[j] + valueOfExtension(j, i, nums));
+        // or Math.min() for minimization problems
+      }
+    }
   }
+
   return dp[n];
 }
 
-// Space-optimized version
-function climbStairsOpt(n) {
-  if (n <= 2) return n;
-  let prev1 = 2,
-    prev2 = 1; // dp[2], dp[1]
-  for (let i = 3; i <= n; i++) {
-    let current = prev1 + prev2;
-    prev2 = prev1;
-    prev1 = current;
-  }
-  return prev1;
-}
+// Time: O(n²) in this template, but often optimizable
+// Space: O(n)
 ```
 
 ```java
-public int climbStairs(int n) {
-    if (n <= 2) return n;
-    // dp[i] = ways to reach step i
+public int sequenceDpTemplate(int[] nums) {
+    int n = nums.length;
+    // dp[i] represents the optimal solution for first i elements
     int[] dp = new int[n + 1];
-    dp[1] = 1; // 1 way: (1)
-    dp[2] = 2; // 2 ways: (1,1) or (2)
-    for (int i = 3; i <= n; i++) {
-        dp[i] = dp[i - 1] + dp[i - 2];
+
+    // Base case: empty sequence
+    dp[0] = 0;  // or appropriate base value
+
+    for (int i = 1; i <= n; i++) {
+        // For each position, consider all possible previous states
+        for (int j = 0; j < i; j++) {
+            // Transition: can we extend from dp[j] to dp[i]?
+            if (isValidTransition(j, i, nums)) {
+                dp[i] = Math.max(dp[i], dp[j] + valueOfExtension(j, i, nums));
+                // or Math.min() for minimization problems
+            }
+        }
     }
+
     return dp[n];
 }
 
-// Space-optimized version
-public int climbStairsOpt(int n) {
-    if (n <= 2) return n;
-    int prev1 = 2, prev2 = 1; // dp[2], dp[1]
-    for (int i = 3; i <= n; i++) {
-        int current = prev1 + prev2;
-        prev2 = prev1;
-        prev1 = current;
-    }
-    return prev1;
-}
+// Time: O(n²) in this template, but often optimizable
+// Space: O(n)
 ```
 
 </div>
 
+For 2D DP (common in string problems), the pattern is similar but with two changing parameters. Practice implementing both top-down (memoized recursion) and bottom-up (iterative) approaches, but know that Twitter interviewers often prefer the iterative version for its clearer space optimization potential.
+
+## How Twitter Tests Dynamic Programming vs Other Companies
+
+Twitter's DP questions differ from other companies in three key ways:
+
+1. **Practical framing**: While Google might ask abstract algorithmic DP problems, Twitter often frames them in product contexts. "How would you minimize the time to deliver trending tweets?" might be a DP problem about optimal batching.
+
+2. **Moderate difficulty ceiling**: Twitter rarely goes to the extreme DP depth of companies like Google or Facebook. Their problems typically stop at medium-hard, not "impossible unless you've seen it before" level.
+
+3. **Follow-up optimization focus**: Twitter interviewers love asking "Can we optimize the space complexity?" after you present a working solution. They want to see if you recognize when O(n²) space can become O(n) or even O(1).
+
+Compared to Amazon (which favors more straightforward DP) or Meta (which loves tricky optimization DP), Twitter sits in the middle — challenging but fair, with clear real-world applications.
+
+## Study Order
+
+Don't jump straight into Twitter's listed DP problems. Build your foundation systematically:
+
+1. **Start with Fibonacci and climbing stairs** (#70) — Understand the basic recurrence relation and memoization.
+2. **Move to 1D optimization problems** — Maximum subarray (#53), house robber (#198). Learn to identify when a greedy approach won't work.
+3. **Learn 2D DP for strings** — Longest common subsequence (#1143), edit distance (#72). This is Twitter's sweet spot.
+4. **Study knapsack variations** — Coin change (#322), subset sum problems. Understand bounded vs unbounded knapsack.
+5. **Practice interval/partition DP** — Palindrome partitioning (#131), burst balloons (#312). These are less common but appear occasionally.
+6. **Finally, tackle multi-dimensional DP** — Only if you have time; these rarely appear at Twitter.
+
+This order works because each step builds on the previous one. You can't understand 2D string DP without grasping 1D state transitions, and you can't optimize knapsack problems without understanding both.
+
 ## Recommended Practice Order
 
-Do not jump into hard problems. Build competence systematically:
+Solve these problems in sequence, spending no more than 30 minutes on each before looking at solutions if stuck:
 
-1.  **Foundation:** Solve "Climbing Stairs," "Fibonacci Number," "House Robber," and "Min Cost Climbing Stairs." These teach you 1D state definition.
-2.  **String Sequences:** Move to "Longest Common Subsequence," "Edit Distance," and "Longest Palindromic Subsequence." These introduce 2D DP tables.
-3.  **Knapsack Style:** Practice "Coin Change" (both number of ways and fewest coins) and "Partition Equal Subset Sum."
-4.  **Grid Paths:** Solve "Unique Paths," "Minimum Path Sum," and "Dungeon Game."
-5.  **Twitter-Specific:** Finally, tackle the actual DP problems from Twitter's tagged question list. This applies your pattern recognition to their specific problem style.
+1. **Climbing Stairs** (#70) — Basic recurrence introduction
+2. **Maximum Subarray** (#53) — Kadane's algorithm (DP in disguise)
+3. **House Robber** (#198) — Simple 1D DP with decision making
+4. **Coin Change** (#322) — Unbounded knapsack, Twitter's listed problem
+5. **Longest Increasing Subsequence** (#300) — Classic 1D DP with O(n²) and O(n log n) variants
+6. **Edit Distance** (#72) — Must-know 2D string DP, directly on Twitter's list
+7. **Decode Ways** (#91) — Good practice for constraint handling
+8. **Word Break** (#139) — Transition from 1D to more complex state
+9. **Partition Equal Subset Sum** (#416) — Knapsack variation
+10. **Target Sum** (#494) — More advanced knapsack with counting
 
-Always verbalize your thought process during practice. In the interview, start with a brute-force recursive solution, then optimize with memoization, and finally derive the bottom-up DP solution. Discuss space optimization as a final step.
+After these ten, you'll have covered 90% of DP patterns Twitter uses. The remaining edge cases you can learn as you encounter them.
+
+Remember: At Twitter, the goal isn't just to solve the DP problem — it's to explain your thought process clearly, optimize as you go, and connect it back to practical engineering. They're testing whether you're the kind of engineer who can take a messy real-world problem and find its optimal structure.
 
 [Practice Dynamic Programming at Twitter](/company/twitter/dynamic-programming)

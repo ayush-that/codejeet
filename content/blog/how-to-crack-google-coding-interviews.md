@@ -1,910 +1,362 @@
 ---
 title: "How to Crack Google Coding Interviews in 2026"
 description: "Complete guide to Google coding interviews — question patterns, difficulty breakdown, must-practice topics, and preparation strategy."
-date: "2026-06-01"
+date: "2026-01-05"
 category: "company-guide"
 company: "google"
 tags: ["google", "interview prep", "leetcode"]
 ---
 
-Google's coding interview is widely regarded as one of the most rigorous in the industry. The process typically involves a recruiter phone screen, one or two technical phone interviews, and then an on-site loop of four to five rounds. Each coding round lasts about 45 minutes, and you are expected to write clean, working code — usually on a whiteboard or in a shared Google Doc. Beyond raw problem-solving, Google interviewers pay close attention to how you communicate your thought process, handle edge cases, and analyze time and space complexity.
+# How to Crack Google Coding Interviews in 2026
 
-What sets Google apart is the sheer breadth of its question bank and its willingness to test candidates on harder problems. If you are preparing for Google, you need depth across multiple topics, not just surface-level familiarity.
+Google’s interview process is a marathon, not a sprint. While many companies have adopted a standardized LeetCode-heavy approach, Google’s process retains a distinct flavor that tests not just raw algorithmic skill, but engineering judgment and collaborative problem-solving. The typical software engineering loop consists of two 45-minute phone screens (often focusing on coding and algorithms) followed by four to five on-site interviews. These on-site rounds usually break down into: 2-3 coding/algorithms sessions, 1 system design round (for mid-level and above), and 1-2 rounds on behavioral/leadership ("Googleyness") and sometimes domain-specific knowledge.
+
+What makes Google unique isn't just the difficulty—it's the expectation of a _dialogue_. You're not a silent code-monkey. Interviewers act as collaborators; they want to see you reason aloud, consider trade-offs, and iterate on solutions. The best solutions are often not the most complex, but the most _appropriate_ for the constraints. Pseudocode is generally acceptable in early discussion, but you'll be expected to produce clean, compilable code by the end. Optimization is critical, but so is clarity and correctness.
+
+## What Makes Google Different
+
+Google's interviews are less about trick questions and more about assessing how you think like an engineer at scale. Three key aspects set them apart:
+
+First, **heavy emphasis on foundational computer science.** While many companies test pattern recognition on common LeetCode problems, Google often digs deeper into first principles. You might get a problem that _looks_ like a standard graph traversal, but requires you to derive an efficient algorithm from scratch, proving its correctness and complexity. They test your ability to _invent_, not just recall.
+
+Second, **the "Googleyness" factor.** This nebulous term essentially evaluates collaborative problem-solving and intellectual humility. Do you ask clarifying questions? Do you listen to hints and incorporate feedback? Do you handle ambiguity gracefully? An interviewer might deliberately leave a requirement vague to see if you probe for edge cases. Fighting for the "smartest" solution in the room often backfires; demonstrating a structured, cooperative approach wins.
+
+Third, **pragmatic optimization.** Google deals with planetary-scale systems. Therefore, interview problems often have a clear scalability angle. A brute-force solution followed by an optimized one is the standard playbook, but Google interviewers frequently push beyond the standard "O(n) to O(log n)" improvement. They want to hear you discuss _real_ bottlenecks: memory access patterns, network latency in distributed scenarios, or time-space trade-offs when dealing with massive datasets. The final answer isn't just asymptotically optimal; it's practically sound.
 
 ## By the Numbers
 
-Google has one of the largest interview question pools of any company, with **2,217 questions** reported across LeetCode. The difficulty distribution tells an important story:
+Let's look at the data. Of the 2217 questions tagged for Google:
 
-- **Easy: 588 questions (27%)**
-- **Medium: 1,153 questions (52%)**
-- **Hard: 476 questions (21%)**
+- **Easy: 588 (27%)** – These are your warm-ups and screening questions. Don't ignore them. They test core concepts and clean coding under time pressure. A sloppy solution on an Easy problem can be a quick reject.
+- **Medium: 1153 (52%)** – This is the heart of the Google interview. You must be dominant here. These problems test your ability to combine 2-3 patterns, handle edge cases, and communicate your reasoning.
+- **Hard: 476 (21%)** – You will likely encounter at least one Hard problem in the process. The goal here is often not a perfect solution, but a strong, logical approach and a good discussion of complexities.
 
-That 21% hard rate is significant. Roughly one in five questions you might face will be a hard-level problem, which is higher than most other top tech companies. You should be comfortable with hard problems, not just able to recognize them. The medium category dominates at 52%, which means the bulk of your preparation should focus there — but never at the expense of ignoring the hard tier.
+What does this mean for prep? You need breadth _and_ depth. Being a specialist in Dynamic Programming but weak on Strings will hurt you. Google's question bank is vast because they pull from many domains. Certain problems have become classics due to their ability to test multiple concepts. For example:
+
+- **Two Sum (#1)** is a fundamental test of your approach to lookup problems.
+- **Merge Intervals (#56)** tests your ability to manage and sort overlapping data—a common real-world scenario.
+- **LRU Cache (#146)** combines hash tables and linked lists to test system design fundamentals.
+- **Find Median from Data Stream (#295)** is a brilliant test of your knowledge of heap data structures and invariant maintenance.
+
+Your preparation must account for this distribution. Spending 70% of your time on Hard problems is a mistake when over half of what you'll see is Medium.
 
 ## Top Topics to Focus On
 
-**Arrays** — Google loves array-based problems. Sliding window, two pointers, prefix sums, and subarray problems come up frequently. Make sure you can handle variations fluently, not just the textbook versions.
+Based on frequency and the nature of Google's work, these topics are non-negotiable.
 
-Let's look at a classic "Sliding Window" problem: **Maximum Sum Subarray of Size K**. This is a fundamental pattern that appears in many Google interview questions.
-
-<div class="code-group">
-
-```python
-def max_sum_subarray_of_size_k(arr, k):
-    """
-    Given an array of integers and a number k,
-    find the maximum sum of any contiguous subarray of size k.
-    """
-    if len(arr) < k:
-        return -1  # Or handle error appropriately
-
-    window_sum = sum(arr[:k])
-    max_sum = window_sum
-
-    # Slide the window from start to end
-    for i in range(k, len(arr)):
-        window_sum = window_sum + arr[i] - arr[i - k]
-        max_sum = max(max_sum, window_sum)
-
-    return max_sum
-
-# Example usage:
-arr = [2, 1, 5, 1, 3, 2]
-k = 3
-print(max_sum_subarray_of_size_k(arr, k))  # Output: 9 (subarray [5, 1, 3])
-```
-
-```javascript
-function maxSumSubarrayOfSizeK(arr, k) {
-  /**
-   * Given an array of integers and a number k,
-   * find the maximum sum of any contiguous subarray of size k.
-   */
-  if (arr.length < k) {
-    return -1; // Or handle error appropriately
-  }
-
-  let windowSum = arr.slice(0, k).reduce((a, b) => a + b, 0);
-  let maxSum = windowSum;
-
-  // Slide the window from start to end
-  for (let i = k; i < arr.length; i++) {
-    windowSum = windowSum + arr[i] - arr[i - k];
-    maxSum = Math.max(maxSum, windowSum);
-  }
-
-  return maxSum;
-}
-
-// Example usage:
-const arr = [2, 1, 5, 1, 3, 2];
-const k = 3;
-console.log(maxSumSubarrayOfSizeK(arr, k)); // Output: 9 (subarray [5, 1, 3])
-```
-
-```java
-public class MaxSumSubarray {
-    public static int maxSumSubarrayOfSizeK(int[] arr, int k) {
-        /**
-         * Given an array of integers and a number k,
-         * find the maximum sum of any contiguous subarray of size k.
-         */
-        if (arr.length < k) {
-            return -1; // Or handle error appropriately
-        }
-
-        int windowSum = 0;
-        for (int i = 0; i < k; i++) {
-            windowSum += arr[i];
-        }
-        int maxSum = windowSum;
-
-        // Slide the window from start to end
-        for (int i = k; i < arr.length; i++) {
-            windowSum = windowSum + arr[i] - arr[i - k];
-            maxSum = Math.max(maxSum, windowSum);
-        }
-
-        return maxSum;
-    }
-
-    public static void main(String[] args) {
-        int[] arr = {2, 1, 5, 1, 3, 2};
-        int k = 3;
-        System.out.println(maxSumSubarrayOfSizeK(arr, k)); // Output: 9 (subarray [5, 1, 3])
-    }
-}
-```
-
-</div>
-
-**Strings** — String manipulation, parsing, and pattern matching are staples. Pay attention to problems involving substrings, anagrams, and string transformations. Many Google string problems have a deceptive simplicity that hides tricky edge cases.
-
-A common Google string problem is checking if two strings are **anagrams**. An anagram is a word or phrase formed by rearranging the letters of a different word or phrase, using all the original letters exactly once.
+**1. Arrays & Strings**
+Google's foundational data. Search, indexing, and data processing all boil down to efficient manipulation of sequences. You must master in-place operations, sliding windows, and two-pointer techniques. Why? Because they reflect real constraints: memory is finite, and data streams are continuous.
 
 <div class="code-group">
 
 ```python
-def is_anagram(s: str, t: str) -> bool:
-    """
-    Check if two strings are anagrams of each other.
-    Time Complexity: O(n), where n is the length of the strings.
-    Space Complexity: O(1) if we consider a fixed-size count array, or O(k) for k unique characters.
-    """
-    if len(s) != len(t):
-        return False
+# Problem: Minimum Window Substring (LeetCode #76 - a Google favorite)
+# Time: O(|S| + |T|) | Space: O(|S| + |T|)
+def minWindow(s: str, t: str) -> str:
+    from collections import Counter
+    if not s or not t:
+        return ""
 
-    # Use a dictionary/hash map to count character frequencies
-    char_count = {}
-    for char in s:
-        char_count[char] = char_count.get(char, 0) + 1
+    dict_t = Counter(t)
+    required = len(dict_t)
 
-    for char in t:
-        if char not in char_count:
-            return False
-        char_count[char] -= 1
-        if char_count[char] == 0:
-            del char_count[char]
+    l, r = 0, 0
+    formed = 0
+    window_counts = {}
 
-    # If all counts are zero, char_count will be empty
-    return len(char_count) == 0
+    # ans tuple: (window length, left, right)
+    ans = float("inf"), None, None
 
-# Example usage:
-s1, t1 = "anagram", "nagaram"
-print(is_anagram(s1, t1))  # Output: True
+    while r < len(s):
+        char = s[r]
+        window_counts[char] = window_counts.get(char, 0) + 1
 
-s2, t2 = "rat", "car"
-print(is_anagram(s2, t2))  # Output: False
+        if char in dict_t and window_counts[char] == dict_t[char]:
+            formed += 1
+
+        while l <= r and formed == required:
+            char = s[l]
+
+            if r - l + 1 < ans[0]:
+                ans = (r - l + 1, l, r)
+
+            window_counts[char] -= 1
+            if char in dict_t and window_counts[char] < dict_t[char]:
+                formed -= 1
+
+            l += 1
+
+        r += 1
+
+    return "" if ans[0] == float("inf") else s[ans[1]: ans[2] + 1]
 ```
 
 ```javascript
-function isAnagram(s, t) {
-  /**
-   * Check if two strings are anagrams of each other.
-   * Time Complexity: O(n), where n is the length of the strings.
-   * Space Complexity: O(k) for k unique characters.
-   */
-  if (s.length !== t.length) {
-    return false;
+// Problem: Minimum Window Substring (LeetCode #76)
+// Time: O(|S| + |T|) | Space: O(|S| + |T|)
+function minWindow(s, t) {
+  if (s.length === 0 || t.length === 0) return "";
+
+  const dictT = new Map();
+  for (const ch of t) {
+    dictT.set(ch, (dictT.get(ch) || 0) + 1);
   }
 
-  // Use a Map to count character frequencies
-  const charCount = new Map();
-  for (const char of s) {
-    charCount.set(char, (charCount.get(char) || 0) + 1);
-  }
+  const required = dictT.size;
+  let l = 0,
+    r = 0;
+  let formed = 0;
+  const windowCounts = new Map();
 
-  for (const char of t) {
-    if (!charCount.has(char)) {
-      return false;
+  let ans = [-1, 0, 0]; // (length, left, right)
+
+  while (r < s.length) {
+    const char = s[r];
+    windowCounts.set(char, (windowCounts.get(char) || 0) + 1);
+
+    if (dictT.has(char) && windowCounts.get(char) === dictT.get(char)) {
+      formed++;
     }
-    const newCount = charCount.get(char) - 1;
-    if (newCount === 0) {
-      charCount.delete(char);
-    } else {
-      charCount.set(char, newCount);
+
+    while (l <= r && formed === required) {
+      const char = s[l];
+
+      if (ans[0] === -1 || r - l + 1 < ans[0]) {
+        ans = [r - l + 1, l, r];
+      }
+
+      windowCounts.set(char, windowCounts.get(char) - 1);
+      if (dictT.has(char) && windowCounts.get(char) < dictT.get(char)) {
+        formed--;
+      }
+
+      l++;
     }
+    r++;
   }
 
-  // If all counts are zero, charCount will be empty
-  return charCount.size === 0;
+  return ans[0] === -1 ? "" : s.substring(ans[1], ans[2] + 1);
 }
-
-// Example usage:
-const s1 = "anagram",
-  t1 = "nagaram";
-console.log(isAnagram(s1, t1)); // Output: true
-
-const s2 = "rat",
-  t2 = "car";
-console.log(isAnagram(s2, t2)); // Output: false
 ```
 
 ```java
+// Problem: Minimum Window Substring (LeetCode #76)
+// Time: O(|S| + |T|) | Space: O(|S| + |T|)
 import java.util.HashMap;
 import java.util.Map;
 
-public class AnagramCheck {
-    public static boolean isAnagram(String s, String t) {
-        /**
-         * Check if two strings are anagrams of each other.
-         * Time Complexity: O(n), where n is the length of the strings.
-         * Space Complexity: O(k) for k unique characters.
-         */
-        if (s.length() != t.length()) {
-            return false;
-        }
+public class Solution {
+    public String minWindow(String s, String t) {
+        if (s.length() == 0 || t.length() == 0) return "";
 
-        // Use a HashMap to count character frequencies
-        Map<Character, Integer> charCount = new HashMap<>();
-        for (char c : s.toCharArray()) {
-            charCount.put(c, charCount.getOrDefault(c, 0) + 1);
-        }
-
+        Map<Character, Integer> dictT = new HashMap<>();
         for (char c : t.toCharArray()) {
-            if (!charCount.containsKey(c)) {
-                return false;
-            }
-            int newCount = charCount.get(c) - 1;
-            if (newCount == 0) {
-                charCount.remove(c);
-            } else {
-                charCount.put(c, newCount);
-            }
+            dictT.put(c, dictT.getOrDefault(c, 0) + 1);
         }
 
-        // If all counts are zero, charCount will be empty
-        return charCount.isEmpty();
-    }
+        int required = dictT.size();
+        int l = 0, r = 0;
+        int formed = 0;
+        Map<Character, Integer> windowCounts = new HashMap<>();
 
-    public static void main(String[] args) {
-        String s1 = "anagram", t1 = "nagaram";
-        System.out.println(isAnagram(s1, t1)); // Output: true
+        int[] ans = {-1, 0, 0}; // {length, left, right}
 
-        String s2 = "rat", t2 = "car";
-        System.out.println(isAnagram(s2, t2)); // Output: false
+        while (r < s.length()) {
+            char c = s.charAt(r);
+            windowCounts.put(c, windowCounts.getOrDefault(c, 0) + 1);
+
+            if (dictT.containsKey(c) && windowCounts.get(c).intValue() == dictT.get(c).intValue()) {
+                formed++;
+            }
+
+            while (l <= r && formed == required) {
+                c = s.charAt(l);
+
+                if (ans[0] == -1 || r - l + 1 < ans[0]) {
+                    ans[0] = r - l + 1;
+                    ans[1] = l;
+                    ans[2] = r;
+                }
+
+                windowCounts.put(c, windowCounts.get(c) - 1);
+                if (dictT.containsKey(c) && windowCounts.get(c) < dictT.get(c)) {
+                    formed--;
+                }
+
+                l++;
+            }
+            r++;
+        }
+
+        return ans[0] == -1 ? "" : s.substring(ans[1], ans[2] + 1);
     }
 }
 ```
 
 </div>
 
-**Hash Tables** — Hashing is fundamental to efficient solutions across nearly every topic. If your first instinct on a problem is not to consider whether a hash map could help, you need to retrain that instinct. Google frequently tests problems where the optimal solution hinges on clever use of hash maps.
+**2. Hash Tables**
+The workhorse of efficient lookups. Google's systems are built on fast retrieval. Understanding hash collisions, load factors, and designing good keys (e.g., for grouping problems like **Group Anagrams (#49)**) is essential. It's often the difference between O(n²) and O(n).
 
-A classic problem is the **Two Sum** problem, which is a perfect example of using a hash map to achieve O(n) time complexity.
+**3. Dynamic Programming**
+DP tests your ability to break down complex problems and optimize overlapping subproblems—a core skill for algorithm design at scale. Google favors DP problems that have a clean, logical state transition, like **Longest Increasing Subsequence (#300)** or **Edit Distance (#72)**. The key is to articulate the recurrence relation before coding.
 
-<div class="code-group">
-
-```python
-def two_sum(nums, target):
-    """
-    Given an array of integers nums and an integer target,
-    return indices of the two numbers such that they add up to target.
-    Assumes exactly one solution and you may not use the same element twice.
-    Time Complexity: O(n)
-    Space Complexity: O(n)
-    """
-    num_to_index = {}  # Hash map to store number -> index
-
-    for i, num in enumerate(nums):
-        complement = target - num
-        if complement in num_to_index:
-            return [num_to_index[complement], i]
-        num_to_index[num] = i
-
-    # According to problem constraints, we should never reach here
-    return []
-
-# Example usage:
-nums = [2, 7, 11, 15]
-target = 9
-print(two_sum(nums, target))  # Output: [0, 1]
-```
-
-```javascript
-function twoSum(nums, target) {
-  /**
-   * Given an array of integers nums and an integer target,
-   * return indices of the two numbers such that they add up to target.
-   * Assumes exactly one solution and you may not use the same element twice.
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   */
-  const numToIndex = new Map(); // Hash map to store number -> index
-
-  for (let i = 0; i < nums.length; i++) {
-    const complement = target - nums[i];
-    if (numToIndex.has(complement)) {
-      return [numToIndex.get(complement), i];
-    }
-    numToIndex.set(nums[i], i);
-  }
-
-  // According to problem constraints, we should never reach here
-  return [];
-}
-
-// Example usage:
-const nums = [2, 7, 11, 15];
-const target = 9;
-console.log(twoSum(nums, target)); // Output: [0, 1]
-```
-
-```java
-import java.util.HashMap;
-import java.util.Map;
-
-public class TwoSum {
-    public static int[] twoSum(int[] nums, int target) {
-        /**
-         * Given an array of integers nums and an integer target,
-         * return indices of the two numbers such that they add up to target.
-         * Assumes exactly one solution and you may not use the same element twice.
-         * Time Complexity: O(n)
-         * Space Complexity: O(n)
-         */
-        Map<Integer, Integer> numToIndex = new HashMap<>(); // Hash map to store number -> index
-
-        for (int i = 0; i < nums.length; i++) {
-            int complement = target - nums[i];
-            if (numToIndex.containsKey(complement)) {
-                return new int[]{numToIndex.get(complement), i};
-            }
-            numToIndex.put(nums[i], i);
-        }
-
-        // According to problem constraints, we should never reach here
-        return new int[]{};
-    }
-
-    public static void main(String[] args) {
-        int[] nums = {2, 7, 11, 15};
-        int target = 9;
-        int[] result = twoSum(nums, target);
-        System.out.println("[" + result[0] + ", " + result[1] + "]"); // Output: [0, 1]
-    }
-}
-```
-
-</div>
-
-**Dynamic Programming** — This is where Google separates strong candidates from average ones. Expect DP problems that go beyond the classic knapsack and coin change templates. Practice 2D DP, interval DP, and problems that combine DP with other techniques like binary search or graph traversal.
-
-Let's examine a foundational 1D DP problem: **Climbing Stairs**. You are climbing a staircase. It takes `n` steps to reach the top. Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
+**4. Graphs (BFS/DFS/Union Find)**
+Modeling relationships is fundamental to web search, social networks, and infrastructure. You must be comfortable with both traversal algorithms and more advanced concepts like topological sort (**Course Schedule #207**) and shortest path variations. Union Find is a must-know for connectivity problems.
 
 <div class="code-group">
 
 ```python
-def climb_stairs(n: int) -> int:
-    """
-    Returns the number of distinct ways to climb to the top of n stairs,
-    taking 1 or 2 steps at a time.
-    This is essentially the Fibonacci sequence.
-    Time Complexity: O(n)
-    Space Complexity: O(1) with optimized approach
-    """
-    if n <= 2:
-        return n
+# Problem: Number of Islands (LeetCode #200) - Graph/Grid DFS
+# Time: O(M * N) | Space: O(M * N) in worst case due to recursion stack
+def numIslands(grid):
+    if not grid:
+        return 0
 
-    # dp[i] represents number of ways to reach step i
-    # We only need to keep track of the last two values
-    prev1, prev2 = 2, 1  # Ways to reach step 2 and step 1
+    rows, cols = len(grid), len(grid[0])
+    island_count = 0
 
-    for i in range(3, n + 1):
-        current = prev1 + prev2
-        prev2, prev1 = prev1, current
+    def dfs(r, c):
+        if r < 0 or c < 0 or r >= rows or c >= cols or grid[r][c] != '1':
+            return
+        grid[r][c] = '0'  # Mark as visited
+        dfs(r + 1, c)
+        dfs(r - 1, c)
+        dfs(r, c + 1)
+        dfs(r, c - 1)
 
-    return prev1
+    for r in range(rows):
+        for c in range(cols):
+            if grid[r][c] == '1':
+                island_count += 1
+                dfs(r, c)
 
-# Example usage:
-print(climb_stairs(2))  # Output: 2 (1+1, 2)
-print(climb_stairs(3))  # Output: 3 (1+1+1, 1+2, 2+1)
-print(climb_stairs(5))  # Output: 8
+    return island_count
 ```
 
 ```javascript
-function climbStairs(n) {
-  /**
-   * Returns the number of distinct ways to climb to the top of n stairs,
-   * taking 1 or 2 steps at a time.
-   * This is essentially the Fibonacci sequence.
-   * Time Complexity: O(n)
-   * Space Complexity: O(1) with optimized approach
-   */
-  if (n <= 2) {
-    return n;
+// Problem: Number of Islands (LeetCode #200)
+// Time: O(M * N) | Space: O(M * N) worst case
+function numIslands(grid) {
+  if (!grid || grid.length === 0) return 0;
+
+  const rows = grid.length;
+  const cols = grid[0].length;
+  let islandCount = 0;
+
+  function dfs(r, c) {
+    if (r < 0 || c < 0 || r >= rows || c >= cols || grid[r][c] !== "1") {
+      return;
+    }
+    grid[r][c] = "0";
+    dfs(r + 1, c);
+    dfs(r - 1, c);
+    dfs(r, c + 1);
+    dfs(r, c - 1);
   }
 
-  // dp[i] represents number of ways to reach step i
-  // We only need to keep track of the last two values
-  let prev1 = 2; // Ways to reach step 2
-  let prev2 = 1; // Ways to reach step 1
-
-  for (let i = 3; i <= n; i++) {
-    const current = prev1 + prev2;
-    prev2 = prev1;
-    prev1 = current;
-  }
-
-  return prev1;
-}
-
-// Example usage:
-console.log(climbStairs(2)); // Output: 2 (1+1, 2)
-console.log(climbStairs(3)); // Output: 3 (1+1+1, 1+2, 2+1)
-console.log(climbStairs(5)); // Output: 8
-```
-
-```java
-public class ClimbingStairs {
-    public static int climbStairs(int n) {
-        /**
-         * Returns the number of distinct ways to climb to the top of n stairs,
-         * taking 1 or 2 steps at a time.
-         * This is essentially the Fibonacci sequence.
-         * Time Complexity: O(n)
-         * Space Complexity: O(1) with optimized approach
-         */
-        if (n <= 2) {
-            return n;
-        }
-
-        // dp[i] represents number of ways to reach step i
-        // We only need to keep track of the last two values
-        int prev1 = 2; // Ways to reach step 2
-        int prev2 = 1; // Ways to reach step 1
-
-        for (int i = 3; i <= n; i++) {
-            int current = prev1 + prev2;
-            prev2 = prev1;
-            prev1 = current;
-        }
-
-        return prev1;
-    }
-
-    public static void main(String[] args) {
-        System.out.println(climbStairs(2)); // Output: 2 (1+1, 2)
-        System.out.println(climbStairs(3)); // Output: 3 (1+1+1, 1+2, 2+1)
-        System.out.println(climbStairs(5)); // Output: 8
-    }
-}
-```
-
-</div>
-
-**Math** — Number theory, combinatorics, modular arithmetic, and geometry-adjacent problems appear more often at Google than at many other companies. Do not skip this category — a math problem in a Google interview is not unusual, and being unprepared for it can cost you a round.
-
-A common math problem is checking if a number is a **prime number**. While a naive solution checks divisibility up to n-1, an optimized approach only checks up to the square root of n.
-
-<div class="code-group">
-
-```python
-import math
-
-def is_prime(n: int) -> bool:
-    """
-    Check if a number is prime.
-    A prime number is a natural number greater than 1 that has no positive divisors other than 1 and itself.
-    Time Complexity: O(sqrt(n))
-    Space Complexity: O(1)
-    """
-    if n <= 1:
-        return False
-    if n <= 3:
-        return True
-    if n % 2 == 0 or n % 3 == 0:
-        return False
-
-    # Check for factors from 5 to sqrt(n)
-    # We can skip even numbers and multiples of 3 by using 6k ± 1 optimization
-    i = 5
-    while i * i <= n:
-        if n % i == 0 or n % (i + 2) == 0:
-            return False
-        i += 6
-    return True
-
-# Example usage:
-print(is_prime(2))   # Output: True
-print(is_prime(17))  # Output: True
-print(is_prime(49))  # Output: False (7*7)
-print(is_prime(1))   # Output: False
-```
-
-```javascript
-function isPrime(n) {
-  /**
-   * Check if a number is prime.
-   * A prime number is a natural number greater than 1 that has no positive divisors other than 1 and itself.
-   * Time Complexity: O(sqrt(n))
-   * Space Complexity: O(1)
-   */
-  if (n <= 1) return false;
-  if (n <= 3) return true;
-  if (n % 2 === 0 || n % 3 === 0) return false;
-
-  // Check for factors from 5 to sqrt(n)
-  // We can skip even numbers and multiples of 3 by using 6k ± 1 optimization
-  let i = 5;
-  while (i * i <= n) {
-    if (n % i === 0 || n % (i + 2) === 0) {
-      return false;
-    }
-    i += 6;
-  }
-  return true;
-}
-
-// Example usage:
-console.log(isPrime(2)); // Output: true
-console.log(isPrime(17)); // Output: true
-console.log(isPrime(49)); // Output: false (7*7)
-console.log(isPrime(1)); // Output: false
-```
-
-```java
-public class PrimeCheck {
-    public static boolean isPrime(int n) {
-        /**
-         * Check if a number is prime.
-         * A prime number is a natural number greater than 1 that has no positive divisors other than 1 and itself.
-         * Time Complexity: O(sqrt(n))
-         * Space Complexity: O(1)
-         */
-        if (n <= 1) return false;
-        if (n <= 3) return true;
-        if (n % 2 == 0 || n % 3 == 0) return false;
-
-        // Check for factors from 5 to sqrt(n)
-        // We can skip even numbers and multiples of 3 by using 6k ± 1 optimization
-        int i = 5;
-        while (i * i <= n) {
-            if (n % i == 0 || n % (i + 2) == 0) {
-                return false;
-            }
-            i += 6;
-        }
-        return true;
-    }
-
-    public static void main(String[] args) {
-        System.out.println(isPrime(2));   // Output: true
-        System.out.println(isPrime(17));  // Output: true
-        System.out.println(isPrime(49));  // Output: false (7*7)
-        System.out.println(isPrime(1));   // Output: false
-    }
-}
-```
-
-</div>
-
-## Preparation Strategy
-
-**Weeks 1-2: Build the Foundation.** Solve 8-10 problems per day focusing on arrays, strings, and hash tables. Prioritize medium difficulty. For each problem, write out the brute force approach first, then optimize. Time yourself — aim for under 25 minutes per medium problem by the end of week two.
-
-**Week 3: Dynamic Programming Deep Dive.** Dedicate an entire week to DP. Start with 1D problems (climbing stairs, house robber), move to 2D (unique paths, edit distance), then tackle harder variants (burst balloons, regular expression matching). Solve at least 30 DP problems this week.
-
-Let's look at a classic 2D DP problem: **Unique Paths**. A robot is located at the top-left corner of an `m x n` grid. The robot can only move either down or right at any point in time. The robot is trying to reach the bottom-right corner of the grid. How many possible unique paths are there?
-
-<div class="code-group">
-
-```python
-def unique_paths(m: int, n: int) -> int:
-    """
-    Returns the number of unique paths from top-left to bottom-right
-    in an m x n grid, moving only down or right.
-    Time Complexity: O(m * n)
-    Space Complexity: O(n) with optimized DP
-    """
-    # Create a 1D DP array representing the current row
-    dp = [1] * n
-
-    # For each row (starting from the second row)
-    for i in range(1, m):
-        # For each column in the current row
-        for j in range(1, n):
-            # dp[j] (new) = dp[j] (old, from above) + dp[j-1] (from left)
-            dp[j] = dp[j] + dp[j - 1]
-
-    return dp[n - 1]
-
-# Example usage:
-print(unique_paths(3, 7))  # Output: 28
-print(unique_paths(3, 2))  # Output: 3
-```
-
-```javascript
-function uniquePaths(m, n) {
-  /**
-   * Returns the number of unique paths from top-left to bottom-right
-   * in an m x n grid, moving only down or right.
-   * Time Complexity: O(m * n)
-   * Space Complexity: O(n) with optimized DP
-   */
-  // Create a 1D DP array representing the current row
-  let dp = new Array(n).fill(1);
-
-  // For each row (starting from the second row)
-  for (let i = 1; i < m; i++) {
-    // For each column in the current row
-    for (let j = 1; j < n; j++) {
-      // dp[j] (new) = dp[j] (old, from above) + dp[j-1] (from left)
-      dp[j] = dp[j] + dp[j - 1];
-    }
-  }
-
-  return dp[n - 1];
-}
-
-// Example usage:
-console.log(uniquePaths(3, 7)); // Output: 28
-console.log(uniquePaths(3, 2)); // Output: 3
-```
-
-```java
-public class UniquePaths {
-    public static int uniquePaths(int m, int n) {
-        /**
-         * Returns the number of unique paths from top-left to bottom-right
-         * in an m x n grid, moving only down or right.
-         * Time Complexity: O(m * n)
-         * Space Complexity: O(n) with optimized DP
-         */
-        // Create a 1D DP array representing the current row
-        int[] dp = new int[n];
-        for (int j = 0; j < n; j++) {
-            dp[j] = 1;
-        }
-
-        // For each row (starting from the second row)
-        for (int i = 1; i < m; i++) {
-            // For each column in the current row
-            for (int j = 1; j < n; j++) {
-                // dp[j] (new) = dp[j] (old, from above) + dp[j-1] (from left)
-                dp[j] = dp[j] + dp[j - 1];
-            }
-        }
-
-        return dp[n - 1];
-    }
-
-    public static void main(String[] args) {
-        System.out.println(uniquePaths(3, 7)); // Output: 28
-        System.out.println(uniquePaths(3, 2)); // Output: 3
-    }
-}
-```
-
-</div>
-
-**Week 4: Graphs, Trees, and Recursion.** Google frequently tests tree traversal variants, graph search (BFS/DFS), and problems involving connected components or shortest paths. Practice at least 20 graph and tree problems, including hard-level ones.
-
-A fundamental graph traversal algorithm is **Breadth-First Search (BFS)**. Let's implement BFS to traverse a graph represented as an adjacency list.
-
-<div class="code-group">
-
-```python
-from collections import deque
-
-def bfs(graph, start):
-    """
-    Perform Breadth-First Search on a graph.
-    graph: adjacency list representation (dict of list)
-    start: starting node
-    Returns: list of nodes in BFS order
-    Time Complexity: O(V + E)
-    Space Complexity: O(V)
-    """
-    visited = set()
-    queue = deque([start])
-    result = []
-
-    while queue:
-        node = queue.popleft()
-        if node not in visited:
-            visited.add(node)
-            result.append(node)
-            # Add all unvisited neighbors to the queue
-            for neighbor in graph.get(node, []):
-                if neighbor not in visited:
-                    queue.append(neighbor)
-
-    return result
-
-# Example usage:
-graph = {
-    'A': ['B', 'C'],
-    'B': ['A', 'D', 'E'],
-    'C': ['A', 'F'],
-    'D': ['B'],
-    'E': ['B', 'F'],
-    'F': ['C', 'E']
-}
-print(bfs(graph, 'A'))  # Output: ['A', 'B', 'C', 'D', 'E', 'F']
-```
-
-```javascript
-function bfs(graph, start) {
-  /**
-   * Perform Breadth-First Search on a graph.
-   * graph: adjacency list representation (object with array values)
-   * start: starting node
-   * Returns: array of nodes in BFS order
-   * Time Complexity: O(V + E)
-   * Space Complexity: O(V)
-   */
-  const visited = new Set();
-  const queue = [start];
-  const result = [];
-
-  while (queue.length > 0) {
-    const node = queue.shift();
-    if (!visited.has(node)) {
-      visited.add(node);
-      result.push(node);
-      // Add all unvisited neighbors to the queue
-      const neighbors = graph[node] || [];
-      for (const neighbor of neighbors) {
-        if (!visited.has(neighbor)) {
-          queue.push(neighbor);
-        }
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      if (grid[r][c] === "1") {
+        islandCount++;
+        dfs(r, c);
       }
     }
   }
-
-  return result;
+  return islandCount;
 }
-
-// Example usage:
-const graph = {
-  A: ["B", "C"],
-  B: ["A", "D", "E"],
-  C: ["A", "F"],
-  D: ["B"],
-  E: ["B", "F"],
-  F: ["C", "E"],
-};
-console.log(bfs(graph, "A")); // Output: ['A', 'B', 'C', 'D', 'E', 'F']
 ```
 
 ```java
-import java.util.*;
+// Problem: Number of Islands (LeetCode #200)
+// Time: O(M * N) | Space: O(M * N) worst case
+public class Solution {
+    public int numIslands(char[][] grid) {
+        if (grid == null || grid.length == 0) return 0;
 
-public class BFS {
-    public static List<String> bfs(Map<String, List<String>> graph, String start) {
-        /**
-         * Perform Breadth-First Search on a graph.
-         * graph: adjacency list representation
-         * start: starting node
-         * Returns: list of nodes in BFS order
-         * Time Complexity: O(V + E)
-         * Space Complexity: O(V)
-         */
-        Set<String> visited = new HashSet<>();
-        Queue<String> queue = new LinkedList<>();
-        List<String> result = new ArrayList<>();
+        int rows = grid.length;
+        int cols = grid[0].length;
+        int islandCount = 0;
 
-        queue.add(start);
-
-        while (!queue.isEmpty()) {
-            String node = queue.poll();
-            if (!visited.contains(node)) {
-                visited.add(node);
-                result.add(node);
-                // Add all unvisited neighbors to the queue
-                List<String> neighbors = graph.getOrDefault(node, new ArrayList<>());
-                for (String neighbor : neighbors) {
-                    if (!visited.contains(neighbor)) {
-                        queue.add(neighbor);
-                    }
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < cols; c++) {
+                if (grid[r][c] == '1') {
+                    islandCount++;
+                    dfs(grid, r, c);
                 }
             }
         }
-
-        return result;
+        return islandCount;
     }
 
-    public static void main(String[] args) {
-        Map<String, List<String>> graph = new HashMap<>();
-        graph.put("A", Arrays.asList("B", "C"));
-        graph.put("B", Arrays.asList("A", "D", "E"));
-        graph.put("C", Arrays.asList("A", "F"));
-        graph.put("D", Arrays.asList("B"));
-        graph.put("E", Arrays.asList("B", "F"));
-        graph.put("F", Arrays.asList("C", "E"));
-
-        System.out.println(bfs(graph, "A")); // Output: [A, B, C, D, E, F]
-    }
-}
-```
-
-</div>
-
-**Week 5: Math, Bit Manipulation, and Mixed Topics.** Cover the less common but still important topics. Solve math problems involving GCD, primes, and combinatorics. Practice bit manipulation basics. Do 5-10 hard problems from random topics to build comfort with unfamiliar problem types.
-
-Let's look at a bit manipulation problem: **Counting the number of 1 bits** (also known as Hamming weight). This is a common interview question that tests your understanding of bitwise operations.
-
-<div class="code-group">
-
-```python
-def hamming_weight(n: int) -> int:
-    """
-    Returns the number of '1' bits in the binary representation of a non-negative integer.
-    This is also known as the Hamming weight or popcount.
-    Time Complexity: O(k) where k is the number of bits (32 for 32-bit integers)
-    Space Complexity: O(1)
-    """
-    count = 0
-    while n:
-        # n & (n-1) clears the least significant 1-bit
-        n = n & (n - 1)
-        count += 1
-    return count
-
-# Alternative approach using built-in function
-def hamming_weight_builtin(n: int) -> int:
-    return bin(n).count('1')
-
-# Example usage:
-print(hamming_weight(11))    # 11 in binary is 1011 -> Output: 3
-print(hamming_weight(128))   # 128 in binary is 10000000 -> Output: 1
-print(hamming_weight(2147483645))  # Output: 30
-```
-
-```javascript
-function hammingWeight(n) {
-  /**
-   * Returns the number of '1' bits in the binary representation of a non-negative integer.
-   * This is also known as the Hamming weight or popcount.
-   * Time Complexity: O(k) where k is the number of bits (32 for 32-bit integers)
-   * Space Complexity: O(1)
-   */
-  let count = 0;
-  while (n !== 0) {
-    // n & (n-1) clears the least significant 1-bit
-    n = n & (n - 1);
-    count++;
-  }
-  return count;
-}
-
-// Alternative approach using built-in function
-function hammingWeightBuiltin(n) {
-  return n.toString(2).split("0").join("").length;
-}
-
-// Example usage:
-console.log(hammingWeight(11)); // 11 in binary is 1011 -> Output: 3
-console.log(hammingWeight(128)); // 128 in binary is 10000000 -> Output: 1
-console.log(hammingWeight(2147483645)); // Output: 30
-```
-
-```java
-public class HammingWeight {
-    public static int hammingWeight(int n) {
-        /**
-         * Returns the number of '1' bits in the binary representation of a non-negative integer.
-         * This is also known as the Hamming weight or popcount.
-         * Time Complexity: O(k) where k is the number of bits (32 for 32-bit integers)
-         * Space Complexity: O(1)
-         */
-        int count = 0;
-        while (n != 0) {
-            // n & (n-1) clears the least significant 1-bit
-            n = n & (n - 1);
-            count++;
+    private void dfs(char[][] grid, int r, int c) {
+        if (r < 0 || c < 0 || r >= grid.length || c >= grid[0].length || grid[r][c] != '1') {
+            return;
         }
-        return count;
-    }
-
-    // Alternative approach using built-in function
-    public static int hammingWeightBuiltin(int n) {
-        return Integer.bitCount(n);
-    }
-
-    public static void main(String[] args) {
-        System.out.println(hammingWeight(11));    // 11 in binary is 1011 -> Output: 3
-        System.out.println(hammingWeight(128));   // 128 in binary is 10000000 -> Output: 1
-        System.out.println(hammingWeight(2147483645));  // Output: 30
+        grid[r][c] = '0';
+        dfs(grid, r + 1, c);
+        dfs(grid, r - 1, c);
+        dfs(grid, r, c + 1);
+        dfs(grid, r, c - 1);
     }
 }
 ```
 
 </div>
 
-**Week 6: Mock Interviews and Review.** Do at least 4 full mock interviews (timed, 45 minutes, no hints). Review every problem you struggled with during the previous five weeks. Focus on articulating your thought process out loud — Google cares deeply about how you communicate while solving.
+**5. Trees & Recursion**
+Hierarchical data is everywhere (file systems, DOM, organizational charts). Mastering tree traversals (iterative and recursive), BST properties, and recursion with memoization is critical. Problems like **Serialize and Deserialize Binary Tree (#297)** test deep understanding.
+
+## Preparation Strategy
+
+A 6-week, focused plan is ideal. The goal is systematic coverage, not random grinding.
+
+**Weeks 1-2: Foundation & Core Patterns**
+
+- Goal: Complete 80-100 problems (Mix of Easy and Medium).
+- Focus: One core topic per day (Arrays, Strings, Hash Tables, Linked Lists, Trees, Graphs, Sorting/Searching).
+- Action: For each topic, learn the 2-3 most common patterns. Write them out from memory. Use spaced repetition.
+
+**Weeks 3-4: Depth & Integration**
+
+- Goal: Complete 100-120 Medium problems, 15-20 Hards.
+- Focus: Dynamic Programming, advanced Graph algorithms, and problems that combine topics (e.g., Array + Binary Search, String + DP).
+- Action: Start doing 2-3 problems in a 45-minute timed session. Practice explaining your approach out loud as you code.
+
+**Week 5: Mock Interviews & Weaknesses**
+
+- Goal: 4-6 full mock interviews (use platforms like CodeJeet or find a study partner).
+- Focus: Simulate the real environment. Have your partner ask clarifying questions. Identify your weak spots—is it problem identification, coding speed, or communication?
+- Action: Create a "cheat sheet" of your most common mistakes and patterns you forget.
+
+**Week 6: Tapering & Review**
+
+- Goal: No new problems. Review 50-70 of your previously solved problems, focusing on those you found tricky.
+- Focus: Re-implement solutions from scratch. Review system design fundamentals if applicable.
+- Action: Get good sleep. The work is done; now you need sharpness.
+
+## Common Mistakes
+
+1.  **Jumping to Code Without a Plan:** The most frequent killer. You see a problem, think you recognize it, and start typing. Google interviewers want to see your process. _Fix:_ Spend the first 5 minutes discussing constraints, edge cases, and at least two approaches (brute force -> optimized). Write a few lines of pseudocode or a clear comment outline before any real code.
+
+2.  **Ignoring the Interviewer's Hints:** Google interviewers are trained to guide you if you're stuck. They might say, "Think about how you could use extra space," or "Does this remind you of a known data structure?" Ignoring these cues signals poor collaboration. _Fix:_ Actively listen. Paraphrase their hint: "So you're suggesting I could use a heap to track the largest element?" This shows engagement.
+
+3.  **Over-Optimizing Prematurely:** Candidates sometimes try to deliver the most clever, one-line, constant-space solution immediately. This often leads to buggy, unreadable code. _Fix:_ Start with the simplest correct solution. Say, "The brute force is O(n²). Let me implement that first to ensure correctness, then we can optimize." This demonstrates disciplined engineering.
+
+4.  **Poor Testing & Edge Cases:** Saying "I think it works" is a red flag. _Fix:_ After writing code, _always_ walk through a small example. Then, verbally list edge cases: empty input, single element, large values, duplicates, sorted/reverse-sorted input. Then test one or two of them explicitly in the code.
 
 ## Key Tips
 
-1. **Always discuss complexity.** Google interviewers expect you to proactively analyze time and space complexity after presenting a solution. Do not wait to be asked. Practice stating complexity for every problem you solve. For example, when solving the Two Sum problem with a hash map, you should immediately state: "This solution has O(n) time complexity because we iterate through the array once, and O(n) space complexity in the worst case to store all elements in the hash map."
+1.  **Master the "Google Style" Communication:** Structure your response like this: 1) Clarify requirements and assumptions, 2) Propose a brute force, state its complexity, 3) Propose an optimized approach, explain _why_ it's better, 4) Write clean, modular code with meaningful variable names, 5) Walk through a test case, 6) State time/space complexity. Practice this flow until it's automatic.
 
-2. **Do not jump to code immediately.** Spend the first 5-10 minutes understanding the problem, clarifying constraints, and discussing your approach. Google rewards structured thinking over speed. Ask clarifying questions like: "What is the expected input size?" "Can the input contain negative numbers?" "What should we return if no solution exists?" "Are there any memory constraints?"
+2.  **Study "Meta"-Problems:** Certain Google problems are famous for being question _generators_. For example, **Insert Delete GetRandom O(1) (#380)** teaches you how to combine a hash map and an array to support multiple O(1) operations. Understanding the _design_ behind these problems is more valuable than memorizing the code.
 
-3. **Prepare for follow-ups.** Google interviewers commonly extend problems. After you solve the base case, expect a harder variant — what if the input is a stream? What if it does not fit in memory? What if you need to optimize further? Practice thinking one step ahead. For example, after solving the basic Two Sum problem, you might be asked: "What if the input is too large to fit in memory?" (Answer: You might need to use external sorting or a distributed hash map.)
+3.  **Practice on a Whiteboard or Google Doc:** Coding in a shared Google Doc (which they often use) is different from an IDE. No auto-complete, no syntax highlighting. Get used to it. Write your code neatly, use consistent indentation, and leave space for comments.
 
-4. **Write clean, modular code.** Even though you may be coding in a doc or on a whiteboard, use meaningful variable names and break logic into helper functions. Google values code readability. For example, instead of writing a monolithic function, separate concerns: validation logic, core algorithm, and result formatting.
+4.  **Have Strong Stories for Behavioral Questions:** For "Googleyness," prepare 2-3 detailed stories using the STAR method (Situation, Task, Action, Result) that demonstrate: overcoming a technical challenge, dealing with conflict on a team, learning from a mistake, and taking initiative. Weave in technical details to show depth.
 
-5. **Do not neglect system design if you are mid-level or above.** While this guide focuses on coding, L4+ candidates will face at least one system design round. Prepare for that separately. Common Google system design questions include designing YouTube, Google Search, Google Docs, or distributed key-value stores like Bigtable.
+5.  **Ask Insightful Questions at the End:** When they ask if you have questions, don't ask about free food. Ask about the engineering challenges the _team_ is facing, how they measure success, or what the onboarding process looks like for new engineers. This shows genuine interest and long-term thinking.
 
-[Browse
+The path to a Google offer is demanding but systematic. It rewards consistent, thoughtful preparation and the ability to think like an engineer who builds for billions. Focus on understanding, not just solving. Good luck.
+
+[Browse all Google questions on CodeJeet](/company/google)

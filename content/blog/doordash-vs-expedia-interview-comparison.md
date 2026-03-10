@@ -1,32 +1,76 @@
 ---
 title: "DoorDash vs Expedia: Interview Question Comparison"
 description: "Compare coding interview questions at DoorDash and Expedia — difficulty levels, topic focus, and preparation strategy."
-date: "2027-11-12"
+date: "2034-03-04"
 category: "tips"
 tags: ["doordash", "expedia", "comparison"]
 ---
 
-When preparing for technical interviews at major tech companies, understanding the specific patterns and expectations of each employer is crucial. DoorDash and Expedia, while both prominent in the tech industry, present distinct interview landscapes. DoorDash's process is heavily weighted towards algorithmic problem-solving, reflecting its complex logistics and mapping systems. Expedia's interviews, while still technical, show a greater emphasis on foundational data structures and practical problem-solving, aligning with its travel and e-commerce platform. This comparison breaks down the key differences in question volume, difficulty, and topic focus to help you strategize your preparation.
+# DoorDash vs Expedia: A Strategic Interview Question Comparison
 
-## Question Volume and Difficulty
+If you're interviewing at both DoorDash and Expedia, you're looking at two distinct technical interview cultures. DoorDash interviews like a pure tech company, while Expedia interviews like a tech-enabled travel business. The preparation overlap is about 70% — enough that you can study efficiently for both, but different enough that you'll need targeted work for each. Here's what you need to know to allocate your limited prep time effectively.
 
-The data reveals a significant disparity in both the number of documented questions and their perceived difficulty.
+## Question Volume and Difficulty: Intensity vs Selectivity
 
-**DoorDash** has a larger, more challenging question bank with **87 questions**. The difficulty distribution is **30 Easy, 51 Medium, and 30 Hard**. This high volume, coupled with a substantial portion (over 34%) being Hard problems, indicates an interview process that rigorously tests advanced algorithmic thinking and optimization. Candidates should expect multi-layered problems that may combine several concepts.
+DoorDash's 87 questions in the database versus Expedia's 54 tells the first story: DoorDash interviews more candidates, has more data points, and likely has a more standardized, intense process. The difficulty breakdown reveals even more:
 
-**Expedia** has a smaller, more moderate question bank of **54 questions**. The difficulty distribution is **13 Easy, 35 Medium, and only 6 Hard**. This suggests an interview that focuses heavily on core competency with Medium-level problems (nearly 65% of the total). The presence of very few Hard problems implies that while you must be proficient, you are less likely to encounter the most extreme optimization challenges typical at pure-play tech giants.
+**DoorDash (E6/M51/H30):** Medium-heavy with substantial hard questions (34% hard). This matches their reputation for rigorous technical screening. They're testing not just if you can solve problems, but if you can solve _challenging_ problems under pressure. The high hard percentage suggests they expect senior candidates to handle complex graph traversals, optimization problems, or tricky dynamic programming.
 
-## Topic Overlap
+**Expedia (E13/M35/H6):** Medium-focused with minimal hard questions (11% hard). This reflects a more practical, business-oriented technical screen. They want to know you can write clean, maintainable code for real-world problems, not necessarily that you can derive novel algorithms. The higher easy percentage (24% vs DoorDash's 7%) suggests they might include more straightforward warm-up questions or focus heavily on implementation correctness.
 
-Both companies heavily test fundamental data structures, but with different secondary emphases.
+The implication: If you're strong on medium problems but shaky on hards, Expedia's bar might feel more approachable. But don't underestimate their mediums — they're likely testing for production-quality code, not just algorithmic cleverness.
 
-The core overlapping topics are **Array, String, and Hash Table**. Mastery of these is non-negotiable for either interview. You must be adept at string manipulation, two-pointer techniques, sliding windows, and leveraging hash maps for efficient lookups.
+## Topic Overlap: The 70% Foundation
+
+Both companies heavily test **Array, String, and Hash Table** problems. This is your core preparation zone — these topics form the backbone of most practical programming interviews because they test fundamental data manipulation skills.
+
+**DoorDash-specific emphasis: Depth-First Search** appears in their top four topics but not Expedia's. This makes perfect sense given DoorDash's domain: mapping delivery routes, restaurant-to-customer graphs, and dispatch optimization all naturally map to graph traversal problems. If you're interviewing at DoorDash, you must be comfortable with DFS/BFS, cycle detection, and pathfinding.
+
+**Expedia-specific emphasis: Greedy Algorithms** appear in their top topics. Travel optimization — finding the cheapest flights, optimal itineraries, scheduling — often involves greedy approaches. Think "minimum number of planes to catch all flights" or "maximum activities you can schedule."
+
+The shared foundation means studying arrays, strings, and hash tables gives you maximum return on investment for both companies. The specialized topics require targeted study based on which company you're prioritizing.
+
+## Preparation Priority Matrix
+
+Here's how to allocate your study time if interviewing at both:
+
+**Tier 1: Overlap Topics (Study First)**
+
+- **Arrays:** Sliding window, two-pointer, prefix sums
+- **Strings:** Palindrome checks, anagrams, string builders
+- **Hash Tables:** Frequency counting, complement finding, caching
+
+**Tier 2: DoorDash-Specific**
+
+- **Graphs:** DFS/BFS, topological sort, union-find
+- **Trees:** Binary tree traversals, BST operations
+- **Dynamic Programming:** Medium-hard DP problems (less emphasis on ultra-hard)
+
+**Tier 3: Expedia-Specific**
+
+- **Greedy:** Interval scheduling, task assignment, optimization
+- **Sorting:** Custom comparators, meeting room problems
+- **Design:** Likely more practical system design questions
+
+## Interview Format Differences
+
+**DoorDash** typically follows the FAANG-style: 4-5 rounds including 2-3 coding rounds, 1 system design, 1 behavioral. Coding rounds are 45-60 minutes, often with 2 problems (medium + medium/hard). They expect optimal solutions with clean code. System design is crucial for senior roles — think "design a food delivery system" (literally their business).
+
+**Expedia** tends toward: 3-4 rounds with 1-2 coding rounds, 1 system design/architecture, behavioral/cultural fit. Coding rounds might be 45 minutes with 1-2 problems (usually medium). They place more weight on code quality, readability, and maintainability. System design questions might be more generic ("design a hotel booking system") rather than their exact business.
+
+The behavioral difference is key: DoorDash evaluates "bar raiser" culture fit (move fast, scale), while Expedia might emphasize collaboration in a more corporate environment.
+
+## Specific Problem Recommendations for Both Companies
+
+These five problems give you coverage for overlapping patterns and company-specific flavors:
+
+1. **Two Sum (#1)** — The ultimate hash table problem. Master this and its variants (Two Sum II - sorted input, Three Sum). Tests basic hash table usage that appears everywhere.
 
 <div class="code-group">
 
 ```python
-# Example: A common overlapping pattern - Two Sum using Hash Table
-def two_sum(nums, target):
+# Time: O(n) | Space: O(n)
+def twoSum(nums, target):
     seen = {}
     for i, num in enumerate(nums):
         complement = target - num
@@ -37,50 +81,53 @@ def two_sum(nums, target):
 ```
 
 ```javascript
-// Example: A common overlapping pattern - Two Sum using Hash Table
+// Time: O(n) | Space: O(n)
 function twoSum(nums, target) {
-  const map = new Map();
+  const seen = new Map();
   for (let i = 0; i < nums.length; i++) {
     const complement = target - nums[i];
-    if (map.has(complement)) {
-      return [map.get(complement), i];
+    if (seen.has(complement)) {
+      return [seen.get(complement), i];
     }
-    map.set(nums[i], i);
+    seen.set(nums[i], i);
   }
   return [];
 }
 ```
 
 ```java
-// Example: A common overlapping pattern - Two Sum using Hash Table
+// Time: O(n) | Space: O(n)
 public int[] twoSum(int[] nums, int target) {
-    Map<Integer, Integer> map = new HashMap<>();
+    Map<Integer, Integer> seen = new HashMap<>();
     for (int i = 0; i < nums.length; i++) {
         int complement = target - nums[i];
-        if (map.containsKey(complement)) {
-            return new int[] { map.get(complement), i };
+        if (seen.containsKey(complement)) {
+            return new int[]{seen.get(complement), i};
         }
-        map.put(nums[i], i);
+        seen.put(nums[i], i);
     }
-    return new int[0];
+    return new int[]{};
 }
 ```
 
 </div>
 
-The key divergence is in the **secondary focus**:
+2. **Merge Intervals (#56)** — Covers sorting, array manipulation, and greedy thinking. Useful for both: DoorDash (merging delivery time windows), Expedia (merging flight schedules).
 
-- **DoorDash** prominently features **Depth-First Search (DFS)**. This aligns with problems involving tree/graph traversal, pathfinding, and backtracking—all relevant to its delivery routing and mapping systems.
-- **Expedia** prominently features **Greedy** algorithms. This aligns with optimization problems common in scheduling, resource allocation, and making a series of optimal local choices, which are relevant to travel itinerary planning and pricing.
+3. **Number of Islands (#200)** — Classic DFS problem. Essential for DoorDash's graph emphasis. Tests traversal, visited tracking, and grid manipulation.
 
-## Which to Prepare for First
+4. **Meeting Rooms II (#253)** — Greedy + intervals + min-heap. Perfect for Expedia's scheduling focus, but also tests data structure selection that DoorDash values.
 
-Your preparation priority should be dictated by your target company and timeline.
+5. **LRU Cache (#146)** — Combines hash table and linked list. Tests system design thinking and data structure implementation — valuable for both companies' practical coding expectations.
 
-If your goal is **general interview readiness** or you are interviewing with **Expedia first**, start there. The smaller question bank and focus on Medium-difficulty problems on core topics (Array, String, Hash Table, Greedy) provide a strong, manageable foundation. Mastering these will build the essential skills needed for most technical interviews.
+## Which to Prepare for First?
 
-If your goal is to pass **DoorDash interviews**, you must prepare for DoorDash specifically and early. The larger volume and higher difficulty require dedicated time. After solidifying the shared core topics (Array, String, Hash Table), you must prioritize **Depth-First Search (DFS)** and advanced graph/tree problems. The Hard problems are a significant part of their process, so practice under time constraints is critical.
+**Prepare for DoorDash first if:** You're interviewing for senior roles (they have higher hard question percentage), you enjoy algorithmic challenges, or your interview timelines are similar. DoorDash preparation will cover most of Expedia's needs plus give you graph practice.
 
-**Strategy:** Build a foundation with Expedia's core list, then layer on DoorDash's advanced graph and optimization challenges. This approach ensures you are well-rounded and can tackle the increased rigor of a DoorDash interview.
+**Prepare for Expedia first if:** Your Expedia interview comes first (obviously), you're stronger on implementation quality than algorithm derivation, or you want to build confidence with medium problems before tackling DoorDash's hards.
 
-For detailed question lists and patterns, visit the company pages: [DoorDash Interview Questions](/company/doordash) and [Expedia Interview Questions](/company/expedia).
+The strategic approach: Start with the overlap topics (arrays, strings, hash tables), then add DoorDash's graphs, then Expedia's greedy. If time is limited, DoorDash prep gives you more coverage since it includes the hard problems Expedia doesn't emphasize.
+
+Remember: Both companies ultimately want engineers who can translate business problems into clean, efficient code. DoorDash leans slightly more toward algorithmic rigor, Expedia toward practical implementation. Tailor your practice accordingly.
+
+For more company-specific details, check out our [DoorDash interview guide](/company/doordash) and [Expedia interview guide](/company/expedia).

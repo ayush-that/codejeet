@@ -1,126 +1,97 @@
 ---
 title: "Expedia vs Twitter: Interview Question Comparison"
 description: "Compare coding interview questions at Expedia and Twitter — difficulty levels, topic focus, and preparation strategy."
-date: "2027-01-12"
+date: "2027-01-04"
 category: "tips"
 tags: ["expedia", "twitter", "comparison"]
 ---
 
-When preparing for technical interviews, understanding company-specific patterns is crucial for efficient study. Expedia and Twitter both ask a similar volume of questions (54 vs. 53), but their difficulty distributions and thematic focuses reveal distinct priorities. This comparison breaks down their question profiles to help you strategize your preparation.
+If you're preparing for interviews at both Expedia and Twitter, you're in a unique position. On the surface, their question breakdowns look strikingly similar: both have around 53-54 tagged questions on platforms like LeetCode, with a heavy emphasis on **Array, String, and Hash Table** problems. This suggests a strong foundation in data structures and algorithms (DSA) is non-negotiable for both. However, the devil—and the key to efficient preparation—is in the details. One company leans heavily into practical, business-logic coding, while the other introduces a distinct layer of design complexity. Treating them as identical would be a strategic mistake. Let's break down what you need to know to ace both.
 
 ## Question Volume and Difficulty
 
-The total number of cataloged questions is nearly identical, but the difficulty spread tells a different story.
+The raw numbers tell the first part of the story:
 
-**Expedia's** questions are heavily weighted toward easier and medium problems: 54 questions total, with 13 Easy (E13), 35 Medium (M35), and only 6 Hard (H6). This suggests their interview process is broadly accessible, focusing on core competency and clean implementation over solving esoteric, complex algorithms. Success here likely depends on demonstrating fluency with fundamental data structures and avoiding subtle bugs.
+- **Expedia:** 54 questions (E13/M35/H6)
+- **Twitter:** 53 questions (E8/M33/H12)
 
-**Twitter's** distribution skews more challenging: 53 questions total, with 8 Easy (E8), 33 Medium (M33), and 12 Hard (H12). The presence of twice as many Hard problems indicates a greater emphasis on algorithmic optimization and handling edge cases. Interviews may involve at least one problem requiring advanced techniques or multi-step reasoning under pressure.
+The total volume is virtually identical, meaning the breadth of potential questions you might encounter is similar. The difficulty distribution, however, reveals a critical difference.
 
-## Topic Overlap
+**Expedia's curve** is more beginner-friendly, with a significant portion (24%) of Easy questions. The bulk is Medium (65%), with a small tail of Hard (11%). This profile is common for companies with a strong focus on building reliable, scalable travel systems. They want engineers who can write clean, correct, and efficient code under typical constraints. You're less likely to face a brain-bending algorithmic puzzle and more likely to face a problem that tests your ability to manipulate data, handle edge cases, and implement a known pattern correctly.
 
-Both companies heavily test the foundational trio: **Array, String, and Hash Table**. Mastery of these is non-negotiable for either interview.
+**Twitter's curve** is steeper. Only 15% of questions are Easy. While Mediums still dominate (62%), the share of Hard questions more than doubles to 23%. This signals a higher bar for pure algorithmic problem-solving. Twitter's systems deal with massive, real-time graph data (the social graph), feed ranking, and distributed systems. Their interviews reflect this by probing deeper into complex data structure combinations, optimization, and, as we'll see, system design thinking even in coding rounds.
 
-- **Array/String Manipulation:** Expect problems involving two-pointers, sliding windows, and in-place modifications.
-- **Hash Table Usage:** Crucial for frequency counting, mapping, and achieving O(1) lookups to optimize solutions.
+**Implication:** For Twitter, you must be comfortable with Hard problems, particularly those involving graphs, dynamic programming, or intricate two-pointer/ sliding window logic. For Expedia, deep mastery of Mediums is the priority, with a focus on execution speed and code quality.
 
-The key differentiator is in the fourth most frequent topic:
+## Topic Overlap and Divergence
 
-- **Expedia** lists **Greedy** algorithms. This points to a focus on problems where a locally optimal choice leads to a global solution, often involving sorting or scheduling (e.g., meeting rooms, task scheduling).
-- **Twitter** lists **Design**. This is a significant addition, encompassing both low-level object-oriented design (like designing a parking lot) and potentially high-level system design concepts for senior roles. It signals that Twitter evaluates a candidate's ability to architect scalable, maintainable systems, not just write algorithms.
+Both companies test **Array, Hash Table, and String** relentlessly. This is your absolute core. If you can optimally solve most Medium problems in these categories, you're 70% prepared for both.
 
-<div class="code-group">
+The divergence comes from the fourth-most frequent topic for each:
 
-```python
-# Example of a common Greedy pattern (Expedia-relevant)
-def max_meetings(start, end):
-    meetings = sorted(zip(start, end), key=lambda x: x[1])
-    count, last_end = 0, 0
-    for s, e in meetings:
-        if s >= last_end:
-            count += 1
-            last_end = e
-    return count
+- **Expedia: Greedy.** This aligns with their business. Many travel optimization problems (e.g., "find the minimum number of planes to catch," "schedule the most meetings in a room") can be modeled with greedy algorithms. Think: "always make the locally optimal choice." It's about practical, efficient solutions.
+- **Twitter: Design.** This is the big differentiator. "Design" here often refers to **Object-Oriented Design (OED)** or system design principles applied to a coding problem. You might be asked to design a data structure like an LRU Cache (#146) or a social media feature. It tests your ability to translate a real-world requirement into a clean, extensible class hierarchy with proper APIs.
 
-# Example of a common Hash Table pattern (Both companies)
-def two_sum(nums, target):
-    seen = {}
-    for i, num in enumerate(nums):
-        complement = target - num
-        if complement in seen:
-            return [seen[complement], i]
-        seen[num] = i
-    return []
-```
+**Unique Flavors:** Expedia also shows a notable presence of `Math` and `Sorting` problems. Twitter has a stronger showing in `Dynamic Programming`, `Tree`, and `Graph` categories, befitting its Hard-question slant.
 
-```javascript
-// Example of a common Greedy pattern (Expedia-relevant)
-function maxMeetings(start, end) {
-  const meetings = start.map((s, i) => [s, end[i]]);
-  meetings.sort((a, b) => a[1] - b[1]);
-  let count = 0,
-    lastEnd = 0;
-  for (const [s, e] of meetings) {
-    if (s >= lastEnd) {
-      count++;
-      lastEnd = e;
-    }
-  }
-  return count;
-}
+## Preparation Priority Matrix
 
-// Example of a common Hash Table pattern (Both companies)
-function twoSum(nums, target) {
-  const map = new Map();
-  for (let i = 0; i < nums.length; i++) {
-    const complement = target - nums[i];
-    if (map.has(complement)) return [map.get(complement), i];
-    map.set(nums[i], i);
-  }
-  return [];
-}
-```
+Use this to maximize your return on study time.
 
-```java
-// Example of a common Greedy pattern (Expedia-relevant)
-public int maxMeetings(int[] start, int[] end) {
-    int[][] meetings = new int[start.length][2];
-    for (int i = 0; i < start.length; i++) {
-        meetings[i][0] = start[i];
-        meetings[i][1] = end[i];
-    }
-    Arrays.sort(meetings, (a, b) -> a[1] - b[1]);
-    int count = 0, lastEnd = 0;
-    for (int[] meeting : meetings) {
-        if (meeting[0] >= lastEnd) {
-            count++;
-            lastEnd = meeting[1];
-        }
-    }
-    return count;
-}
+| Priority                      | Topics & Focus                                                             | Rationale                                                                             |
+| :---------------------------- | :------------------------------------------------------------------------- | :------------------------------------------------------------------------------------ |
+| **Tier 1 (Study First)**      | **Array, Hash Table, String (Medium Focus)**                               | The massive overlap. Mastery here is essential for both.                              |
+| **Tier 2 (Twitter-Specific)** | **Design (OOP), Graph, Dynamic Programming (Hard Focus)**                  | Critical to pass Twitter's harder bar. These topics are less frequent at Expedia.     |
+| **Tier 3 (Expedia-Specific)** | **Greedy, Sorting, Math (Medium Focus)**                                   | Nail down standard greedy patterns and common math tricks (modulo, bit manipulation). |
+| **Tier 4 (Both)**             | **Depth-First Search, Breadth-First Search, Two Pointers, Sliding Window** | These are the _techniques_ you'll use within the core topics.                         |
 
-// Example of a common Hash Table pattern (Both companies)
-public int[] twoSum(int[] nums, int target) {
-    Map<Integer, Integer> map = new HashMap<>();
-    for (int i = 0; i < nums.length; i++) {
-        int complement = target - nums[i];
-        if (map.containsKey(complement)) {
-            return new int[]{map.get(complement), i};
-        }
-        map.put(nums[i], i);
-    }
-    return new int[]{};
-}
-```
+**High-ROI LeetCode Problems for Both:**
 
-</div>
+- **#56 Merge Intervals:** Tests sorting, array manipulation, and edge-case handling. Classic for calendar/scheduling logic (travel bookings, tweet timelines).
+- **#238 Product of Array Except Self:** A quintessential array problem that separates those who memorize from those who understand prefix/suffix concepts.
+- **#49 Group Anagrams:** Hash Table mastery. Simple concept, but implementation teaches you about choosing the right key.
+- **#3 Longest Substring Without Repeating Characters:** The definitive sliding window problem. Must-know pattern.
 
-## Which to Prepare for First
+## Interview Format Differences
 
-Prepare for **Expedia first** if you are strengthening your fundamentals. The lower proportion of Hard questions allows you to build confidence by mastering arrays, strings, hash tables, and greedy patterns. This creates a solid foundation that is directly transferable.
+**Expedia** tends to follow a more standard tech interview format: 1-2 phone screens (often a coding problem on a platform like CoderPad) followed by a virtual or on-site final round consisting of 3-4 sessions. These typically include 2-3 coding rounds (45-60 mins each), a system design round (for mid-level and above), and a behavioral/cultural fit round. The coding problems are often directly from their tagged LeetCode list or close variants. The emphasis is on communication, clean code, and test cases.
 
-Prepare for **Twitter first** if you are already comfortable with medium-level algorithmic problems and need to ramp up on design principles or tackle more complex optimization challenges. The Twitter question set will push you harder on pure algorithms and introduce a separate, critical skill dimension with design.
+**Twitter's** process is known to be rigorous and can vary. There is often an initial technical phone screen, sometimes followed by a second technical screen or a take-home assignment. The on-site (often virtual) is intense, usually comprising 4-5 rounds back-to-back. You can expect:
 
-Ultimately, the core preparation for arrays, strings, and hash tables serves both. Prioritize based on which difficulty curve aligns with your current level and which additional topic (Greedy vs. Design) you need to practice.
+- 2-3 **Coding Rounds:** These can be pure DSA or, frequently, **Coding + Design**. You might be asked to design classes for a Twitter feature _and then_ implement a key method. Time management is crucial.
+- 1 **System Design Round:** This is a heavyweight round, especially for E5 (Senior) and above, focusing on large-scale distributed systems.
+- 1 **Behavioral Round ("Experience Deep Dive”):** Often more technically focused than other companies, digging into past projects for architectural decisions and trade-offs.
 
-For specific question lists, visit the Expedia and Twitter question pages: [Expedia Interview Questions](/company/expedia) | [Twitter Interview Questions](/company/twitter)
+The **behavioral weight** is significant at both, but Twitter's behavioral round is deeply technical. Expedia's may focus more on collaboration and past project experience in a business context.
+
+## Specific Problem Recommendations
+
+Here are 5 problems that provide exceptional coverage for both companies:
+
+1.  **#146 LRU Cache (Medium):** This is the perfect hybrid problem for this dual prep. It's a **Design** problem that requires implementing a data structure using a Hash Table and a Doubly Linked List. It's highly relevant to Twitter (caching) and tests fundamental data structure knowledge for Expedia. **Why:** Covers Design, Hash Table, and Linked List in one.
+
+2.  **#253 Meeting Rooms II (Medium):** A classic Expedia-style problem (scheduling/optimization) that uses a **Greedy** approach with a min-heap (or sorting + pointer tracking). It also touches on array manipulation and priority queues. Understanding this solves a whole class of interval problems. **Why:** Directly targets Expedia's Greedy focus and is practical.
+
+3.  **#200 Number of Islands (Medium):** A foundational **Graph** traversal problem (modeled as a grid). It's essential for Twitter's graph-heavy focus and is a perfect vehicle to demonstrate flawless **BFS/DFS** implementation, which is a safe bet for any company including Expedia. **Why:** Graph fundamentals, clean recursive/iterative implementation.
+
+4.  **#139 Word Break (Medium):** A fantastic problem that starts simply (can you segment a string?) and leads naturally into **Dynamic Programming** optimization. It's a common pattern and tests your ability to move from a brute-force recursive solution to a memoized or tabulated DP solution. **Why:** Bridges String, Hash Table, and DP—hitting Twitter's harder topics.
+
+5.  **#380 Insert Delete GetRandom O(1) (Medium):** Another brilliant **Design**-focused data structure problem. It forces you to think about the trade-offs between an Array and a Hash Map to achieve different O(1) operations. This kind of "design a data structure" question is pure Twitter fodder and excellent DSA practice for Expedia. **Why:** Core Design, Array, and Hash Table synthesis.
+
+## Which to Prepare for First?
+
+**Prepare for Twitter first.**
+
+This is the strategic choice. Twitter's interview has a higher peak difficulty and includes the additional dimension of Design within coding rounds. If you build a study plan that gets you Twitter-ready—meaning you are confident on a mix of Medium and Hard problems, including OOP design—you will automatically cover 95% of what Expedia will test. The reverse is not true. Preparing only for Expedia might leave you under-prepared for Twitter's Hard problems and design expectations.
+
+**Your study flow should be:**
+
+1.  **Weeks 1-3:** Grind the **Tier 1 (Array, Hash, String)** and **Tier 4 (Core Patterns)** problems. Achieve fluency.
+2.  **Weeks 4-5:** Dive into **Tier 2 (Design, Graph, DP)**. This is your Twitter-specific deep dive. Implement LRU Cache, design Twitter features, solve graph traversals and common DP patterns.
+3.  **Week 6 (Final Prep):** Sweep through **Tier 3 (Greedy, Math)** to lock in Expedia-specific topics. Then, do mixed problem sets from both companies' tagged lists to simulate interview conditions.
+
+By front-loading the harder material, you make your final review period less stressful and more about refinement and speed. Good luck—you're targeting two great companies with a smart, efficient plan.
+
+---
+
+_Explore more detailed question breakdowns and interview experiences for [Expedia](/company/expedia) and [Twitter](/company/twitter)._
