@@ -105,7 +105,7 @@ export default async function CompanyPage({ params }: { params: Promise<{ slug: 
             {topTopics.map((topic) => (
               <Link
                 key={topic.slug}
-                href={`/topic/${topic.slug}`}
+                href={`/company/${slug}/${topic.slug}`}
                 className="inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
               >
                 {topic.name}

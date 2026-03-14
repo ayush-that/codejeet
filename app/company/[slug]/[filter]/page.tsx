@@ -301,7 +301,7 @@ function DifficultyFilterView({
             {topTopics.map(([topic, count]) => (
               <Link
                 key={topic}
-                href={`/topic/${toTopicSlug(topic)}`}
+                href={`/company/${slug}/${toTopicSlug(topic)}`}
                 className="inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
               >
                 {topic}
@@ -443,7 +443,7 @@ async function ProblemFilterView({
             {companyQuestion.topics.map((topic) => (
               <Link
                 key={topic}
-                href={`/topic/${toTopicSlug(topic)}`}
+                href={`/company/${slug}/${toTopicSlug(topic)}`}
                 className="px-2.5 py-1 rounded-md text-xs font-medium bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
               >
                 {topic}
