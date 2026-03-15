@@ -31,8 +31,8 @@ const Navbar = () => {
   return (
     <div className="border-b bg-background">
       <div className="flex h-16 items-center px-4 container mx-auto">
-        <div className="text-lg">
-          <Link href="/" className="flex items-center">
+        <div className="text-lg relative z-10">
+          <Link href="/" onClick={() => setMobileOpen(false)} className="flex items-center">
             <span className={pixel.className}>
               {LOGO_LETTERS.map((l, i) => (
                 <span key={i} style={{ color: l.color }}>
