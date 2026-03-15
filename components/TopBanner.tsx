@@ -16,14 +16,14 @@ export default function TopBanner() {
       href={url}
       target="_blank"
       rel="noopener noreferrer sponsored"
-      className="relative block cursor-pointer bg-[#FACC15] text-black py-2.5 px-4 pr-10 text-center text-base font-medium hover:bg-[#EAC308] transition-colors"
+      className="relative block cursor-pointer bg-[#FACC15] text-black py-2.5 px-4 pr-10 text-center text-sm font-medium hover:bg-[#EAC308] transition-colors"
     >
       <div className="mx-auto max-w-5xl">
         <span>
           Typing code is easy. Explaining it out loud is hard. Pass the verbal technical screen with
           Crackr&apos;s Live AI Interviewer. 🎙️{" "}
         </span>
-        <span className="ml-1 inline-block rounded-md bg-black px-3 py-0.5 text-sm font-semibold text-[#FACC15]">
+        <span className="ml-1 inline-block rounded-md bg-black px-3 py-1.5 text-sm font-semibold text-[#FACC15]">
           Start Free Mock
         </span>
       </div>
