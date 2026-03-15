@@ -1,6 +1,6 @@
 export default function TopBanner() {
   return (
-    <div className="sticky top-0 z-50 bg-[#FACC15] text-black py-2.5 px-4 text-center text-sm font-medium">
+    <div className="bg-[#FACC15] text-black py-2.5 px-4 text-center text-sm font-medium">
       <div className="mx-auto max-w-5xl">
         <span>
           Typing code is easy. Explaining it out loud is hard. Pass the verbal technical screen with

@@ -40,8 +40,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={`${jakarta.variable} font-sans tracking-normal`} suppressHydrationWarning>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
           <div className="min-h-screen bg-background flex flex-col">
-            <TopBanner />
-            <Navbar />
+            <div className="sticky top-0 z-50">
+              <TopBanner />
+              <Navbar />
+            </div>
             <main className="flex-1">{children}</main>
             <Footer />
             <Toaster />

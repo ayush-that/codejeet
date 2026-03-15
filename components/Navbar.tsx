@@ -29,7 +29,7 @@ const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <div className="border-b sticky top-0 z-50 bg-background">
+    <div className="border-b bg-background">
       <div className="flex h-16 items-center px-4 container mx-auto">
         <div className="text-lg">
           <Link href="/" className="flex items-center">
