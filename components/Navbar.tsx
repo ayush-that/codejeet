@@ -94,7 +94,7 @@ const Navbar = () => {
 
       {/* Mobile dropdown */}
       {mobileOpen && (
-        <nav className="md:hidden border-t bg-background px-4 pb-4">
+        <nav className="md:hidden border-t bg-background px-4 py-1">
           {NAV_LINKS.map((link) => (
             <Link
               key={link.href}
