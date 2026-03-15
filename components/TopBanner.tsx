@@ -1,15 +1,6 @@
-"use client";
-
-import { useState } from "react";
-import { X } from "lucide-react";
-
 export default function TopBanner() {
-  const [dismissed, setDismissed] = useState(false);
-
-  if (dismissed) return null;
-
   return (
-    <div className="relative bg-[#FACC15] text-black py-2.5 px-4 text-center text-sm font-medium">
+    <div className="sticky top-0 z-50 bg-[#FACC15] text-black py-2.5 px-4 text-center text-sm font-medium">
       <div className="mx-auto max-w-5xl">
         <span>
           Typing code is easy. Explaining it out loud is hard. Pass the verbal technical screen with
@@ -24,13 +15,6 @@ export default function TopBanner() {
           Start Free Mock
         </a>
       </div>
-      <button
-        onClick={() => setDismissed(true)}
-        className="absolute right-2 top-1/2 -translate-y-1/2 rounded p-1 transition-opacity hover:opacity-60"
-        aria-label="Dismiss banner"
-      >
-        <X className="h-4 w-4" />
-      </button>
     </div>
   );
 }
