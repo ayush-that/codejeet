@@ -16,7 +16,7 @@ export default function TopBanner() {
       href={url}
       target="_blank"
       rel="noopener noreferrer sponsored"
-      className="relative block cursor-pointer bg-[#FACC15] text-black py-2.5 px-4 pr-10 text-center text-sm font-medium hover:bg-[#EAC308] transition-colors"
+      className="relative block cursor-pointer bg-[#FACC15] text-black py-2.5 px-4 pr-10 text-center text-base font-medium hover:bg-[#EAC308] transition-colors"
     >
       <div className="mx-auto max-w-5xl">
         <span>
