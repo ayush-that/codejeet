@@ -23,7 +23,7 @@ export default function TopBanner() {
           Typing code is easy. Explaining it out loud is hard. Pass the verbal technical screen with
           Crackr&apos;s Live AI Interviewer. 🎙️{" "}
         </span>
-        <span className="ml-1 inline-block rounded-md bg-black px-3 py-1.5 text-sm font-semibold text-[#FACC15]">
+        <span className="ml-1 inline-block rounded-md bg-black px-3 md:px-4 md:py-1.5 py-0.5 text-sm font-semibold text-[#FACC15]">
           Start Free Mock
         </span>
       </div>
