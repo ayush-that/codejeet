@@ -94,13 +94,13 @@ const Navbar = () => {
 
       {/* Mobile dropdown */}
       {mobileOpen && (
-        <nav className="md:hidden border-t bg-background px-4 py-1">
+        <nav className="md:hidden border-t bg-background py-1">
           {NAV_LINKS.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               onClick={() => setMobileOpen(false)}
-              className="block py-3 text-sm text-muted-foreground hover:text-foreground transition-colors border-b border-border last:border-0"
+              className="block px-4 py-3 text-sm text-muted-foreground hover:text-foreground transition-colors border-b border-border last:border-0"
             >
               {link.label}
             </Link>

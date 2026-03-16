@@ -8,6 +8,7 @@ const nextConfig: NextConfig = {
     unoptimized: true,
   },
   productionBrowserSourceMaps: false,
+  poweredByHeader: false,
 };
 
 export default nextConfig;

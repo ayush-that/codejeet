@@ -13,6 +13,13 @@ export function generateMetadata(): Metadata {
       "In-depth guides on cracking tech interviews at top companies. " +
       "DSA patterns, problem-solving strategies, and company-specific preparation tips.",
     alternates: { canonical: "https://codejeet.com/blog" },
+    openGraph: {
+      title: "Blog - Interview Prep Guides & Tips | CodeJeet",
+      description:
+        "In-depth guides on cracking tech interviews at top companies. DSA patterns and strategies.",
+      type: "website",
+      url: "https://codejeet.com/blog",
+    },
   };
 }
 

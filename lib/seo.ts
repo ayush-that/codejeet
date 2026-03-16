@@ -4,6 +4,108 @@ import type { CompanyProfile } from "./pseo-data";
 const SITE_URL = "https://codejeet.com";
 const SITE_NAME = "CodeJeet";
 
+export function websiteJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: SITE_NAME,
+    url: SITE_URL,
+    description:
+      "Browse 17,000+ company-wise LeetCode DSA interview questions from 660+ companies.",
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: `${SITE_URL}/dashboard?q={search_term_string}`,
+      },
+      "query-input": "required name=search_term_string",
+    },
+  };
+}
+
+export function organizationJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: SITE_NAME,
+    url: SITE_URL,
+    logo: `${SITE_URL}/icon.svg`,
+    sameAs: ["https://x.com/codejeet"],
+  };
+}
+
+export function siteNavigationJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    itemListElement: [
+      {
+        "@type": "SiteNavigationElement",
+        position: 1,
+        name: "Companies",
+        url: `${SITE_URL}/companies`,
+      },
+      {
+        "@type": "SiteNavigationElement",
+        position: 2,
+        name: "Blog",
+        url: `${SITE_URL}/blog`,
+      },
+      {
+        "@type": "SiteNavigationElement",
+        position: 3,
+        name: "Tracker",
+        url: `${SITE_URL}/dashboard`,
+      },
+      {
+        "@type": "SiteNavigationElement",
+        position: 4,
+        name: "System Design",
+        url: `${SITE_URL}/system-design`,
+      },
+      {
+        "@type": "SiteNavigationElement",
+        position: 5,
+        name: "Podcast",
+        url: `${SITE_URL}/podcast`,
+      },
+    ],
+  };
+}
+
+export function faqJsonLd(questions: { question: string; answer: string }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: questions.map((q) => ({
+      "@type": "Question",
+      name: q.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: q.answer,
+      },
+    })),
+  };
+}
+
+export function videoObjectJsonLd(opts: {
+  name: string;
+  description: string;
+  thumbnailUrl: string;
+  embedUrl: string;
+  uploadDate?: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "VideoObject",
+    name: opts.name,
+    description: opts.description,
+    thumbnailUrl: opts.thumbnailUrl,
+    embedUrl: opts.embedUrl,
+    uploadDate: opts.uploadDate ?? "2025-01-01",
+  };
+}
+
 export function companyMetadata(profile: CompanyProfile): Metadata {
   const { displayName, questionCount, difficultyDist, topTopics } = profile;
   const topTopicNames = topTopics

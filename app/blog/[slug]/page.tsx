@@ -109,7 +109,23 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           headline: frontmatter.title,
           description: frontmatter.description,
           datePublished: frontmatter.date,
+          dateModified: frontmatter.date,
           url: `https://codejeet.com/blog/${slug}`,
+          author: {
+            "@type": "Organization",
+            name: "CodeJeet",
+            url: "https://codejeet.com",
+          },
+          publisher: {
+            "@type": "Organization",
+            name: "CodeJeet",
+            url: "https://codejeet.com",
+            logo: { "@type": "ImageObject", url: "https://codejeet.com/icon.svg" },
+          },
+          mainEntityOfPage: {
+            "@type": "WebPage",
+            "@id": `https://codejeet.com/blog/${slug}`,
+          },
           isPartOf: { "@type": "WebSite", name: "CodeJeet", url: "https://codejeet.com" },
         }}
       />

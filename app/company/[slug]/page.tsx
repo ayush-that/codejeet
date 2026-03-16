@@ -2,25 +2,17 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getAllCompanyProfiles, getCompanyProfile } from "@/lib/pseo-data";
-import { companyMetadata, collectionJsonLd } from "@/lib/seo";
+import { companyMetadata, collectionJsonLd, faqJsonLd, breadcrumbJsonLd } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { DifficultyBadge } from "@/components/ui/difficulty-badge";
 
 export const dynamicParams = true;
 
-// ---------------------------------------------------------------------------
-// Static params — pre-render all company pages at build time
-// ---------------------------------------------------------------------------
-
 export async function generateStaticParams() {
   const profiles = await getAllCompanyProfiles();
   return Object.keys(profiles).map((slug) => ({ slug }));
 }
-
-// ---------------------------------------------------------------------------
-// Metadata
-// ---------------------------------------------------------------------------
 
 export async function generateMetadata({
   params,
@@ -42,10 +34,6 @@ export async function generateMetadata({
 
   return meta;
 }
-
-// ---------------------------------------------------------------------------
-// Page
-// ---------------------------------------------------------------------------
 
 export default async function CompanyPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -190,6 +178,34 @@ export default async function CompanyPage({ params }: { params: Promise<{ slug: 
           url: `https://codejeet.com/company/${slug}`,
           numberOfItems: questionCount,
         })}
+      />
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Companies", url: "/companies" },
+          { name: displayName, url: `/company/${slug}` },
+        ])}
+      />
+      <JsonLd
+        data={faqJsonLd([
+          {
+            question: `How many LeetCode questions does ${displayName} ask in interviews?`,
+            answer: `${displayName} has ${questionCount} known LeetCode interview questions. The difficulty breakdown is ${difficultyDist.easy} Easy, ${difficultyDist.medium} Medium, and ${difficultyDist.hard} Hard problems.`,
+          },
+          {
+            question: `What are the most common topics in ${displayName} coding interviews?`,
+            answer: `The most frequently asked topics at ${displayName} are ${topTopics
+              .slice(0, 5)
+              .map((t) => `${t.name} (${t.count} questions)`)
+              .join(", ")}. Focus on these topics to maximize your preparation.`,
+          },
+          {
+            question: `How should I prepare for a ${displayName} coding interview?`,
+            answer: `Start with the most frequently asked ${displayName} problems on CodeJeet, sorted by frequency. Focus on ${difficultyDist.medium > difficultyDist.easy ? "Medium" : "Easy"} difficulty first since ${displayName} asks ${difficultyDist.medium} Medium problems. Practice the top topics: ${topTopics
+              .slice(0, 3)
+              .map((t) => t.name)
+              .join(", ")}.`,
+          },
+        ])}
       />
     </div>
   );

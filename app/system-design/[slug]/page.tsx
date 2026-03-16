@@ -13,6 +13,8 @@ import Slugger from "github-slugger";
 import TOC, { TocItem } from "@/components/TOC";
 import { cn } from "@/lib/utils";
 import matter from "gray-matter";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { breadcrumbJsonLd, videoObjectJsonLd } from "@/lib/seo";
 
 export const dynamic = "force-static";
 export const dynamicParams = false;
@@ -97,7 +99,17 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
             const h1 = parsed.content.match(/^#\s+(.+)$/m) || parsed.content.match(/^##\s+(.+)$/m);
             if (h1?.[1]) title = h1[1].trim();
           }
-          return { title };
+          return {
+            title: `${title} - System Design Interview`,
+            description: `Learn ${title} for system design interviews. In-depth guide with diagrams, examples, and video explanations.`,
+            alternates: { canonical: `https://codejeet.com/system-design/${slug}` },
+            openGraph: {
+              title: `${title} - System Design Interview | CodeJeet`,
+              description: `Learn ${title} for system design interviews. In-depth guide with diagrams and examples.`,
+              type: "article",
+              url: `https://codejeet.com/system-design/${slug}`,
+            },
+          };
         }
       } catch {
         continue;
@@ -191,8 +203,28 @@ export default async function SystemDesignDetailPage({
   }
   const chapters = await getChapters();
 
+  // Extract title for structured data
+  const titleMatch = content.match(/^#\s+(.+)$/m) || content.match(/^##\s+(.+)$/m);
+  const pageTitle = titleMatch?.[1]?.trim() ?? slug;
+
   return (
     <div className="container mx-auto px-4 py-8">
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "System Design", url: "/system-design" },
+          { name: pageTitle, url: `/system-design/${slug}` },
+        ])}
+      />
+      {embedUrl && (
+        <JsonLd
+          data={videoObjectJsonLd({
+            name: `${pageTitle} - System Design`,
+            description: `System design interview guide: ${pageTitle}. Learn key concepts with visual explanations.`,
+            thumbnailUrl: `https://codejeet.com/og-image.png`,
+            embedUrl,
+          })}
+        />
+      )}
       <div className="md:hidden mb-4 space-y-2">
         <details className="w-full border rounded-lg">
           <summary className="cursor-pointer px-3 py-2">Chapters</summary>

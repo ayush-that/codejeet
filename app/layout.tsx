@@ -5,6 +5,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import TopBanner from "@/components/TopBanner";
 import { Toaster } from "@/components/ui/toaster";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { websiteJsonLd, organizationJsonLd, siteNavigationJsonLd } from "@/lib/seo";
 import "./globals.css";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -29,6 +31,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
+    site: "@codejeet",
+    creator: "@codejeet",
   },
   robots: { index: true, follow: true },
 };
@@ -36,7 +40,11 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head />
+      <head>
+        <JsonLd data={websiteJsonLd()} />
+        <JsonLd data={organizationJsonLd()} />
+        <JsonLd data={siteNavigationJsonLd()} />
+      </head>
       <body className={`${jakarta.variable} font-sans tracking-normal`} suppressHydrationWarning>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
           <div className="min-h-screen bg-background flex flex-col">
