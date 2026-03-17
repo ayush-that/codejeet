@@ -120,14 +120,14 @@ export const reducer = (state: State, action: Action): State => {
   }
 };
 
-const listeners: Array<(state: State) => void> = [];
+const listeners: Array<() => void> = [];
 
 let memoryState: State = { toasts: [] };
 
 function dispatch(action: Action) {
   memoryState = reducer(memoryState, action);
   listeners.forEach((listener) => {
-    listener(memoryState);
+    listener();
   });
 }
 
@@ -162,18 +162,22 @@ function toast({ ...props }: Toast) {
   };
 }
 
-function useToast() {
-  const [state, setState] = React.useState<State>(memoryState);
+function subscribe(callback: () => void) {
+  listeners.push(callback);
+  return () => {
+    const index = listeners.indexOf(callback);
+    if (index > -1) {
+      listeners.splice(index, 1);
+    }
+  };
+}
 
-  React.useEffect(() => {
-    listeners.push(setState);
-    return () => {
-      const index = listeners.indexOf(setState);
-      if (index > -1) {
-        listeners.splice(index, 1);
-      }
-    };
-  }, [state]);
+function getSnapshot(): State {
+  return memoryState;
+}
+
+function useToast() {
+  const state = React.useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
 
   return {
     ...state,

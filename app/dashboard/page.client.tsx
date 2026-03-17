@@ -1,60 +1,27 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 import LeetCodeDashboard from "@/components/LeetCodeDashboard";
-import { CACHE_VERSION } from "@/lib/cache-version";
-
-function getCachedData() {
-  try {
-    const cached = localStorage.getItem(`dashboard-cache-${CACHE_VERSION}`);
-    if (cached) {
-      const parsed = JSON.parse(cached);
-      if (parsed && Array.isArray(parsed.questions) && Array.isArray(parsed.companies)) {
-        return { questions: parsed.questions, companies: parsed.companies };
-      }
-    }
-  } catch {}
-  return null;
-}
+import {
+  subscribeToDashboard,
+  getDashboardSnapshot,
+  getDashboardServerSnapshot,
+} from "@/lib/dashboard-store";
 
 export default function DashboardClient() {
-  const [questions, setQuestions] = useState([]);
-  const [companies, setCompanies] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const cached = getCachedData();
-    if (cached) {
-      queueMicrotask(() => {
-        setQuestions(cached.questions);
-        setCompanies(cached.companies);
-        setLoading(false);
-      });
-      return;
-    }
-
-    fetch("/data/questions.json")
-      .then((res) => res.json())
-      .then((data) => {
-        setQuestions(data.questions);
-        setCompanies(data.companies);
-        setLoading(false);
-        try {
-          localStorage.setItem(
-            `dashboard-cache-${CACHE_VERSION}`,
-            JSON.stringify({ questions: data.questions, companies: data.companies })
-          );
-        } catch {}
-      })
-      .catch((error) => {
-        console.error("Error loading questions:", error);
-        setLoading(false);
-      });
-  }, []);
+  const { data, loading } = useSyncExternalStore(
+    subscribeToDashboard,
+    getDashboardSnapshot,
+    getDashboardServerSnapshot
+  );
 
   return (
     <div className="container mx-auto py-8">
-      <LeetCodeDashboard questions={questions} companies={companies} loading={loading} />
+      <LeetCodeDashboard
+        questions={data?.questions ?? []}
+        companies={data?.companies ?? []}
+        loading={loading}
+      />
     </div>
   );
 }

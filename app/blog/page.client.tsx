@@ -1,17 +1,10 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-
-interface BlogPost {
-  slug: string;
-  title: string;
-  description: string;
-  date: string;
-  category: string;
-}
+import { subscribeToBlog, getBlogSnapshot, getBlogServerSnapshot } from "@/lib/blog-store";
 
 const ITEMS_PER_PAGE = 24;
 
@@ -23,8 +16,11 @@ const CATEGORIES = [
 ] as const;
 
 export function BlogClient() {
-  const [posts, setPosts] = useState<BlogPost[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { posts, loading } = useSyncExternalStore(
+    subscribeToBlog,
+    getBlogSnapshot,
+    getBlogServerSnapshot
+  );
   const [category, setCategory] = useState("all");
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
@@ -37,16 +33,6 @@ export function BlogClient() {
     setSearch(v);
     setPage(1);
   }
-
-  useEffect(() => {
-    fetch("/data/blog-index.json")
-      .then((r) => r.json())
-      .then((data: BlogPost[]) => {
-        setPosts(data);
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
-  }, []);
 
   const filtered = useMemo(() => {
     let result = posts;
@@ -84,7 +70,6 @@ export function BlogClient() {
 
   return (
     <div>
-      {/* Filters */}
       <div className="flex flex-col sm:flex-row gap-3 mb-6">
         <div className="flex flex-wrap gap-2">
           {CATEGORIES.map((cat) => (
@@ -106,13 +91,11 @@ export function BlogClient() {
         />
       </div>
 
-      {/* Results count */}
       <p className="text-sm text-muted-foreground mb-4">
         {filtered.length} {filtered.length === 1 ? "post" : "posts"}
         {category !== "all" || search ? " found" : ""}
       </p>
 
-      {/* Cards grid */}
       {paginated.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {paginated.map((post) => (
@@ -133,7 +116,6 @@ export function BlogClient() {
         <p className="text-muted-foreground py-12 text-center">No posts match your filters.</p>
       )}
 
-      {/* Pagination */}
       {totalPages > 1 && (
         <div className="flex items-center justify-center gap-4 mt-8">
           <Button

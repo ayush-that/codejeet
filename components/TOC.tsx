@@ -10,26 +10,29 @@ export interface TocItem {
   depth: number;
 }
 
-export default function TOC({ items }: { items: TocItem[] }) {
-  const [activeId, setActiveId] = React.useState<string>("");
+function subscribeToScroll(callback: () => void) {
+  window.addEventListener("scroll", callback, { passive: true });
+  window.addEventListener("resize", callback, { passive: true });
+  return () => {
+    window.removeEventListener("scroll", callback);
+    window.removeEventListener("resize", callback);
+  };
+}
 
-  React.useEffect(() => {
-    const handler = () => {
-      const headings = items
-        .map((i) => document.getElementById(i.id))
-        .filter(Boolean) as HTMLElement[];
-      let current = headings[0]?.id || "";
-      for (const h of headings) {
-        const top = h.getBoundingClientRect().top;
-        if (top <= 100) current = h.id;
-        else break;
-      }
-      setActiveId(current);
-    };
-    handler();
-    window.addEventListener("scroll", handler, { passive: true });
-    return () => window.removeEventListener("scroll", handler);
-  }, [items]);
+function getActiveHeadingId(items: TocItem[]): string {
+  const headings = items.map((i) => document.getElementById(i.id)).filter(Boolean) as HTMLElement[];
+  let current = headings[0]?.id || "";
+  for (const h of headings) {
+    const top = h.getBoundingClientRect().top;
+    if (top <= 100) current = h.id;
+    else break;
+  }
+  return current;
+}
+
+export default function TOC({ items }: { items: TocItem[] }) {
+  const getSnapshot = React.useCallback(() => getActiveHeadingId(items), [items]);
+  const activeId = React.useSyncExternalStore(subscribeToScroll, getSnapshot, () => "");
 
   if (items.length === 0) return null;
 

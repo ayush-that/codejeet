@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { useInView, useMotionValue, useSpring } from "framer-motion";
+import { useRef, useSyncExternalStore, useCallback } from "react";
+import { useInView, useMotionValue, animate } from "framer-motion";
 
 import { cn } from "@/lib/utils";
 
@@ -20,32 +20,38 @@ export default function NumberTicker({
 }) {
   const ref = useRef<HTMLSpanElement>(null);
   const motionValue = useMotionValue(direction === "down" ? value : 0);
-  const springValue = useSpring(motionValue, {
-    damping: 60,
-    stiffness: 100,
-  });
   const isInView = useInView(ref, { once: true, margin: "0px" });
+  const hasStarted = useRef(false);
 
-  useEffect(() => {
-    if (isInView) {
-      setTimeout(() => {
-        motionValue.set(direction === "down" ? 0 : value);
-      }, delay * 1000);
-    }
-  }, [motionValue, isInView, delay, value, direction]);
+  if (isInView && !hasStarted.current) {
+    hasStarted.current = true;
+    animate(motionValue, direction === "down" ? 0 : value, {
+      type: "spring",
+      damping: 60,
+      stiffness: 100,
+      delay,
+    });
+  }
 
-  useEffect(
+  const subscribe = useCallback((cb: () => void) => motionValue.on("change", cb), [motionValue]);
+
+  const getSnapshot = useCallback(
     () =>
-      springValue.on("change", (latest) => {
-        if (ref.current) {
-          ref.current.textContent = Intl.NumberFormat("en-US", {
-            minimumFractionDigits: decimalPlaces,
-            maximumFractionDigits: decimalPlaces,
-          }).format(Number(latest.toFixed(decimalPlaces)));
-        }
-      }),
-    [springValue, decimalPlaces]
+      Intl.NumberFormat("en-US", {
+        minimumFractionDigits: decimalPlaces,
+        maximumFractionDigits: decimalPlaces,
+      }).format(Number(motionValue.get().toFixed(decimalPlaces))),
+    [motionValue, decimalPlaces]
   );
+
+  const initialValue = direction === "down" ? value : 0;
+  const serverSnapshot = Intl.NumberFormat("en-US", {
+    minimumFractionDigits: decimalPlaces,
+    maximumFractionDigits: decimalPlaces,
+  }).format(initialValue);
+  const getServerSnapshot = useCallback(() => serverSnapshot, [serverSnapshot]);
+
+  const displayValue = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
   return (
     <span
@@ -54,6 +60,8 @@ export default function NumberTicker({
         className
       )}
       ref={ref}
-    />
+    >
+      {displayValue}
+    </span>
   );
 }

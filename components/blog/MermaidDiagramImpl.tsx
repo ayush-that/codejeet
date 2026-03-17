@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { use, Suspense, type ReactNode } from "react";
 
 function extractText(node: ReactNode): string {
   if (typeof node === "string") return node;
@@ -12,45 +12,42 @@ function extractText(node: ReactNode): string {
   return "";
 }
 
-export default function MermaidDiagramImpl({ chart }: { chart: ReactNode }) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [svg, setSvg] = useState<string | null>(null);
-  const [error, setError] = useState(false);
-  const chartText = extractText(chart).trim();
+const renderCache = new Map<string, Promise<string | null>>();
 
-  useEffect(() => {
-    let cancelled = false;
+function renderMermaid(chartText: string): Promise<string | null> {
+  if (!renderCache.has(chartText)) {
+    renderCache.set(
+      chartText,
+      (async () => {
+        try {
+          const mermaid = (await import("mermaid")).default;
+          mermaid.initialize({
+            startOnLoad: false,
+            theme: "dark",
+            themeVariables: {
+              darkMode: true,
+              background: "#18181b",
+              primaryColor: "#3b82f6",
+              primaryTextColor: "#e4e4e7",
+              lineColor: "#71717a",
+            },
+          });
+          const id = `mermaid-${Math.random().toString(36).slice(2, 9)}`;
+          const { svg } = await mermaid.render(id, chartText);
+          return svg;
+        } catch {
+          return null;
+        }
+      })()
+    );
+  }
+  return renderCache.get(chartText)!;
+}
 
-    async function render() {
-      try {
-        const mermaid = (await import("mermaid")).default;
-        mermaid.initialize({
-          startOnLoad: false,
-          theme: "dark",
-          themeVariables: {
-            darkMode: true,
-            background: "#18181b",
-            primaryColor: "#3b82f6",
-            primaryTextColor: "#e4e4e7",
-            lineColor: "#71717a",
-          },
-        });
+function MermaidContent({ chartText }: { chartText: string }) {
+  const svg = use(renderMermaid(chartText));
 
-        const id = `mermaid-${Math.random().toString(36).slice(2, 9)}`;
-        const { svg: rendered } = await mermaid.render(id, chartText);
-        if (!cancelled) setSvg(rendered);
-      } catch {
-        if (!cancelled) setError(true);
-      }
-    }
-
-    render();
-    return () => {
-      cancelled = true;
-    };
-  }, [chartText]);
-
-  if (error) {
+  if (!svg) {
     return (
       <pre className="my-4 rounded-lg border border-border bg-zinc-900 p-4 text-sm text-muted-foreground overflow-x-auto">
         <code>{chartText}</code>
@@ -58,19 +55,25 @@ export default function MermaidDiagramImpl({ chart }: { chart: ReactNode }) {
     );
   }
 
-  if (!svg) {
-    return (
-      <div className="my-4 flex items-center justify-center rounded-lg border border-border bg-zinc-900 p-8 text-sm text-muted-foreground">
-        Loading diagram...
-      </div>
-    );
-  }
-
   return (
     <div
-      ref={containerRef}
       className="my-4 flex justify-center rounded-lg border border-border bg-zinc-900 p-4 overflow-x-auto [&>svg]:max-w-full"
       dangerouslySetInnerHTML={{ __html: svg }}
     />
+  );
+}
+
+export default function MermaidDiagramImpl({ chart }: { chart: ReactNode }) {
+  const chartText = extractText(chart).trim();
+  return (
+    <Suspense
+      fallback={
+        <div className="my-4 flex items-center justify-center rounded-lg border border-border bg-zinc-900 p-8 text-sm text-muted-foreground">
+          Loading diagram...
+        </div>
+      }
+    >
+      <MermaidContent chartText={chartText} />
+    </Suspense>
   );
 }

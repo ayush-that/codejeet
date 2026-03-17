@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo, useEffect, useRef } from "react";
+import React, { useState, useMemo } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import {
   Table,
@@ -28,31 +28,7 @@ import TopicDropdown from "@/components/TopicDropdown";
 
 const LEETCODE_BASE_URL = "https://leetcode.com";
 
-const useOutsideClick = (ref: React.RefObject<HTMLElement | null>, callback: () => void) => {
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (ref.current && !ref.current.contains(event.target as Node)) {
-        callback();
-      }
-    };
-
-    const handleEscapeKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        callback();
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    document.addEventListener("keydown", handleEscapeKey);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("keydown", handleEscapeKey);
-    };
-  }, [ref, callback]);
-};
-
-interface Question {
+export interface Question {
   id: number;
   slug: string;
   title: string;
@@ -108,21 +84,13 @@ const LeetCodeDashboard: React.FC<LeetCodeDashboardProps> = ({
   const [acceptanceSort, setAcceptanceSort] = useState<"asc" | "desc" | null>(null);
   const [premiumFilter, setPremiumFilter] = useState("free");
   const [showCompanyDropdown, setShowCompanyDropdown] = useState(false);
-  const companySearchRef = useRef<HTMLDivElement>(null);
 
-  useOutsideClick(companySearchRef, () => {
-    setShowCompanyDropdown(false);
-  });
-
-  useEffect(() => {
-    localStorage.setItem("leetcode-checked-items", JSON.stringify(checkedItems));
-  }, [checkedItems]);
-
-  const handleCheckboxChange = async (id: string, value: boolean) => {
-    setCheckedItems((prev) => ({
-      ...prev,
-      [id]: value,
-    }));
+  const handleCheckboxChange = (id: string, value: boolean) => {
+    setCheckedItems((prev) => {
+      const next = { ...prev, [id]: value };
+      localStorage.setItem("leetcode-checked-items", JSON.stringify(next));
+      return next;
+    });
   };
 
   const companyStats = useMemo(() => {
@@ -393,7 +361,17 @@ const LeetCodeDashboard: React.FC<LeetCodeDashboardProps> = ({
             </div>
 
             <div className="flex flex-col md:flex-row gap-4">
-              <div className="md:w-[260px] relative" ref={companySearchRef}>
+              <div
+                className="md:w-[260px] relative"
+                onBlur={(e) => {
+                  if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+                    setShowCompanyDropdown(false);
+                  }
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Escape") setShowCompanyDropdown(false);
+                }}
+              >
                 <Input
                   placeholder="Search companies..."
                   value={searchQuery}
@@ -415,6 +393,7 @@ const LeetCodeDashboard: React.FC<LeetCodeDashboardProps> = ({
                           <li
                             key={c.name}
                             className="px-3 py-2 hover:bg-accent hover:text-accent-foreground cursor-pointer"
+                            onMouseDown={(e) => e.preventDefault()}
                             onClick={() => {
                               setSearchQuery(c.name);
                               setShowCompanyDropdown(false);

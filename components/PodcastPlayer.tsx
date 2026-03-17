@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useCallback } from "react";
 import { Headphones, Pause, Play, RotateCcw, RotateCw, SkipBack, SkipForward } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
@@ -68,11 +68,9 @@ export default function PodcastPlayer() {
     setPlaybackRate,
   } = usePodcastPlayer();
 
-  const activeChapterRef = useRef<HTMLButtonElement>(null);
-
-  useEffect(() => {
-    activeChapterRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
-  }, [currentChapterIndex]);
+  const scrollActiveRef = useCallback((el: HTMLButtonElement | null) => {
+    el?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }, []);
 
   if (isLoading) {
     return <PlayerSkeleton />;
@@ -251,7 +249,7 @@ export default function PodcastPlayer() {
                 return (
                   <button
                     key={chapter.index}
-                    ref={isActive ? activeChapterRef : undefined}
+                    ref={isActive ? scrollActiveRef : undefined}
                     onClick={() => goToChapter(idx)}
                     className={cn(
                       "flex w-full items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-accent/50",
