@@ -115,7 +115,8 @@ function goToChapter(index: number) {
 }
 
 function handleKeyDown(e: KeyboardEvent) {
-  const target = e.target as HTMLElement;
+  if (!(e.target instanceof HTMLElement)) return;
+  const target = e.target;
   const tag = target.tagName.toLowerCase();
   if (tag === "input" || tag === "textarea" || tag === "select") return;
   if (target.isContentEditable) return;

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useSyncExternalStore, useCallback } from "react";
+import { useRef, useSyncExternalStore, useCallback, useEffect } from "react";
 import { useInView, useMotionValue, animate } from "framer-motion";
 
 import { cn } from "@/lib/utils";
@@ -21,17 +21,17 @@ export default function NumberTicker({
   const ref = useRef<HTMLSpanElement>(null);
   const motionValue = useMotionValue(direction === "down" ? value : 0);
   const isInView = useInView(ref, { once: true, margin: "0px" });
-  const hasStarted = useRef(false);
 
-  if (isInView && !hasStarted.current) {
-    hasStarted.current = true;
-    animate(motionValue, direction === "down" ? 0 : value, {
+  useEffect(() => {
+    if (!isInView) return;
+    const controls = animate(motionValue, direction === "down" ? 0 : value, {
       type: "spring",
       damping: 60,
       stiffness: 100,
       delay,
     });
-  }
+    return () => controls.stop();
+  }, [isInView, motionValue, direction, value, delay]);
 
   const subscribe = useCallback((cb: () => void) => motionValue.on("change", cb), [motionValue]);
 
