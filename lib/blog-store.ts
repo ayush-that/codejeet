@@ -33,6 +33,7 @@ function startFetch() {
       emit();
     })
     .catch(() => {
+      fetchStarted = false;
       store = { posts: [], loading: false };
       emit();
     });

@@ -57,6 +57,7 @@ function startFetch() {
       emit();
     })
     .catch(() => {
+      fetchStarted = false;
       store = { data: { questions: [], companies: [] }, loading: false };
       emit();
     });

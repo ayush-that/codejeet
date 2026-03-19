@@ -80,6 +80,7 @@ let audio: HTMLAudioElement | null = null;
 const storeListeners = new Set<() => void>();
 let initialized = false;
 let subscriberCount = 0;
+let activeFetchId = 0;
 let lastTimeupdate = 0;
 let saveTimer: ReturnType<typeof setTimeout> | null = null;
 let restoredTime: number | null = null;
@@ -255,11 +256,14 @@ function init() {
     });
   });
 
+  const fetchId = ++activeFetchId;
   (async () => {
     try {
       const res = await fetch("/data/podcast.json");
+      if (fetchId !== activeFetchId) return;
       if (!res.ok) throw new Error(`Failed to fetch podcast manifest: ${res.status}`);
       const data = (await res.json()) as PodcastManifest;
+      if (fetchId !== activeFetchId) return;
 
       const saved = loadProgress();
       let startIndex = 0;
@@ -292,6 +296,7 @@ function init() {
         isLoading: false,
       });
     } catch (e) {
+      if (fetchId !== activeFetchId) return;
       updateState({
         error: e instanceof Error ? e.message : "Failed to load podcast data",
         isLoading: false,

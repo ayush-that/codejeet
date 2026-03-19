@@ -14,24 +14,33 @@ function extractText(node: ReactNode): string {
 
 const renderCache = new Map<string, Promise<string | null>>();
 
+let mermaidInstance: typeof import("mermaid").default | null = null;
+
+async function getMermaid() {
+  if (!mermaidInstance) {
+    mermaidInstance = (await import("mermaid")).default;
+    mermaidInstance.initialize({
+      startOnLoad: false,
+      theme: "dark",
+      themeVariables: {
+        darkMode: true,
+        background: "#18181b",
+        primaryColor: "#3b82f6",
+        primaryTextColor: "#e4e4e7",
+        lineColor: "#71717a",
+      },
+    });
+  }
+  return mermaidInstance;
+}
+
 function renderMermaid(chartText: string): Promise<string | null> {
   if (!renderCache.has(chartText)) {
     renderCache.set(
       chartText,
       (async () => {
         try {
-          const mermaid = (await import("mermaid")).default;
-          mermaid.initialize({
-            startOnLoad: false,
-            theme: "dark",
-            themeVariables: {
-              darkMode: true,
-              background: "#18181b",
-              primaryColor: "#3b82f6",
-              primaryTextColor: "#e4e4e7",
-              lineColor: "#71717a",
-            },
-          });
+          const mermaid = await getMermaid();
           const id = `mermaid-${Math.random().toString(36).slice(2, 9)}`;
           const { svg } = await mermaid.render(id, chartText);
           return svg;
