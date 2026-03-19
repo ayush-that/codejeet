@@ -40,6 +40,7 @@ export async function generateMetadata({
       `${companyB.displayName} (${companyB.questionCount} questions). ` +
       `${sharedCount} shared LeetCode problems.`,
     alternates: { canonical: `https://codejeet.com/compare/${pair}` },
+    robots: { index: false, follow: true },
     openGraph: {
       title: `${companyA.displayName} vs ${companyB.displayName} | CodeJeet`,
       description:
