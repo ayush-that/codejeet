@@ -19,6 +19,7 @@ const LOGO_LETTERS = [
 
 const NAV_LINKS = [
   { href: "/companies", label: "Companies" },
+  { href: "/learn", label: "Learn" },
   { href: "/blog", label: "Blog" },
   { href: "/dashboard", label: "Tracker" },
   { href: "/system-design", label: "System Design" },

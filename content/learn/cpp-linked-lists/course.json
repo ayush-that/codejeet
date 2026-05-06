@@ -1,0 +1,8 @@
+{
+  "slug": "cpp-linked-lists",
+  "title": "Linked Lists in C++",
+  "description": "Pointer mechanics, insertion, deletion, and the classic interview patterns. Build the data structure from scratch and earn the intuition that carries over to trees, graphs, and allocators.",
+  "language": "cpp",
+  "order": 1,
+  "lessons": ["01-linked-lists-basics", "02-insert-at-head", "03-reverse-linked-list"]
+}

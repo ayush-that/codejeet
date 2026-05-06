@@ -1,0 +1,32 @@
+[
+  {
+    "name": "three values stay in order",
+    "stdin": "1 2 3 -1\n",
+    "expectedStdout": "1 2 3\n",
+    "visible": true
+  },
+  {
+    "name": "single value",
+    "stdin": "42 -1\n",
+    "expectedStdout": "42\n",
+    "visible": true
+  },
+  {
+    "name": "empty list prints a blank line",
+    "stdin": "-1\n",
+    "expectedStdout": "\n",
+    "visible": false
+  },
+  {
+    "name": "longer list preserves order",
+    "stdin": "5 10 15 20 25 30 -1\n",
+    "expectedStdout": "5 10 15 20 25 30\n",
+    "visible": false
+  },
+  {
+    "name": "negative values that aren't the sentinel",
+    "stdin": "-2 -3 -4 -1\n",
+    "expectedStdout": "-2 -3 -4\n",
+    "visible": false
+  }
+]
