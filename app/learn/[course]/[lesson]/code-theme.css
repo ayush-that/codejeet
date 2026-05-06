@@ -1,0 +1,106 @@
+/*
+ * Atom One Dark — exact palette from highlight.js/styles/atom-one-dark.css.
+ * Co-located here (instead of `import "highlight.js/styles/atom-one-dark.css"`
+ * inside a component) because Next.js + Turbopack/OpenNext silently drops
+ * node_modules CSS imported from deeply nested server components, but does
+ * bundle CSS imported directly from a route page module. This file mirrors
+ * the working pattern used by app/blog/[slug]/code-theme.css and matches
+ * the CodeMirror @codemirror/theme-one-dark editor next to it.
+ *
+ * base:    #282c34
+ * mono-1:  #abb2bf
+ * mono-3:  #5c6370
+ * hue-1:   #56b6c2
+ * hue-2:   #61aeee
+ * hue-3:   #c678dd
+ * hue-4:   #98c379
+ * hue-5:   #e06c75
+ * hue-6:   #d19a66
+ * hue-6-2: #e6c07b
+ */
+
+article pre code,
+article pre code.hljs {
+  font-family:
+    "JetBrains Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono",
+    monospace;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+article pre code.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 1em;
+  color: #abb2bf;
+}
+
+article .hljs-comment,
+article .hljs-quote {
+  color: #5c6370;
+  font-style: italic;
+}
+
+article .hljs-doctag,
+article .hljs-keyword,
+article .hljs-formula {
+  color: #c678dd;
+}
+
+article .hljs-section,
+article .hljs-name,
+article .hljs-selector-tag,
+article .hljs-deletion,
+article .hljs-subst {
+  color: #e06c75;
+}
+
+article .hljs-literal {
+  color: #56b6c2;
+}
+
+article .hljs-string,
+article .hljs-regexp,
+article .hljs-addition,
+article .hljs-attribute,
+article .hljs-meta .hljs-string {
+  color: #98c379;
+}
+
+article .hljs-attr,
+article .hljs-variable,
+article .hljs-template-variable,
+article .hljs-type,
+article .hljs-selector-class,
+article .hljs-selector-attr,
+article .hljs-selector-pseudo,
+article .hljs-number {
+  color: #d19a66;
+}
+
+article .hljs-symbol,
+article .hljs-bullet,
+article .hljs-link,
+article .hljs-meta,
+article .hljs-selector-id,
+article .hljs-title {
+  color: #61aeee;
+}
+
+article .hljs-built_in,
+article .hljs-title.class_,
+article .hljs-class .hljs-title {
+  color: #e6c07b;
+}
+
+article .hljs-emphasis {
+  font-style: italic;
+}
+
+article .hljs-strong {
+  font-weight: 700;
+}
+
+article .hljs-link {
+  text-decoration: underline;
+}
