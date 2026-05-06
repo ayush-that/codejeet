@@ -60,7 +60,7 @@ export async function runAll(
       onProgress,
       timeoutMs: 5000,
     });
-    const actualStdout = result.ok ? result.stdout : result.stdout;
+    const actualStdout = result.stdout;
     const isPass = result.ok && compareOutput(actualStdout, test.expectedStdout);
     if (isPass) passed++;
     results.push({
