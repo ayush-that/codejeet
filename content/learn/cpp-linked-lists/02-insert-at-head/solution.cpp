@@ -1,0 +1,52 @@
+#include <iostream>
+using namespace std;
+
+struct Node {
+  int data;
+  Node* next;
+  Node(int value) : data(value), next(nullptr) {}
+};
+
+class LinkedList {
+ public:
+  Node* head;
+  Node* tail;
+
+  LinkedList() : head(nullptr), tail(nullptr) {}
+
+  ~LinkedList() {
+    while (head != nullptr) {
+      Node* nextNode = head->next;
+      delete head;
+      head = nextNode;
+    }
+  }
+
+  void insertAtHead(int value) {
+    Node* newNode = new Node(value);
+    newNode->next = head;
+    head = newNode;
+    if (tail == nullptr) tail = newNode;
+  }
+
+  void print() const {
+    Node* current = head;
+    while (current != nullptr) {
+      cout << current->data;
+      if (current->next != nullptr) cout << " ";
+      current = current->next;
+    }
+    cout << "\n";
+  }
+};
+
+int main() {
+  LinkedList list;
+  int value;
+  while (cin >> value) {
+    if (value == -1) break;
+    list.insertAtHead(value);
+  }
+  list.print();
+  return 0;
+}

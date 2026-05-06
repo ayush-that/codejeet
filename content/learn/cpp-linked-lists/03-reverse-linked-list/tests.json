@@ -1,0 +1,32 @@
+[
+  {
+    "name": "1 2 3 reversed is 3 2 1",
+    "stdin": "1 2 3 -1\n",
+    "expectedStdout": "3 2 1\n",
+    "visible": true
+  },
+  {
+    "name": "single element reverses to itself",
+    "stdin": "42 -1\n",
+    "expectedStdout": "42\n",
+    "visible": true
+  },
+  {
+    "name": "empty list",
+    "stdin": "-1\n",
+    "expectedStdout": "\n",
+    "visible": false
+  },
+  {
+    "name": "longer reversal",
+    "stdin": "1 2 3 4 5 6 7 -1\n",
+    "expectedStdout": "7 6 5 4 3 2 1\n",
+    "visible": false
+  },
+  {
+    "name": "two elements",
+    "stdin": "9 8 -1\n",
+    "expectedStdout": "8 9\n",
+    "visible": false
+  }
+]

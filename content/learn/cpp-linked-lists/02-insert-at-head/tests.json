@@ -1,0 +1,26 @@
+[
+  {
+    "name": "1, 2, 3 prints 3 2 1",
+    "stdin": "1 2 3 -1\n",
+    "expectedStdout": "3 2 1\n",
+    "visible": true
+  },
+  {
+    "name": "single value",
+    "stdin": "7 -1\n",
+    "expectedStdout": "7\n",
+    "visible": true
+  },
+  {
+    "name": "empty list",
+    "stdin": "-1\n",
+    "expectedStdout": "\n",
+    "visible": false
+  },
+  {
+    "name": "longer reverse",
+    "stdin": "10 20 30 40 50 -1\n",
+    "expectedStdout": "50 40 30 20 10\n",
+    "visible": false
+  }
+]
