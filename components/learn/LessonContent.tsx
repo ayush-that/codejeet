@@ -3,6 +3,7 @@ import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import rehypeSlug from "rehype-slug";
 import rehypeHighlight from "rehype-highlight";
+import "highlight.js/styles/atom-one-dark.css";
 import { cn } from "@/lib/utils";
 
 interface LessonContentProps {
