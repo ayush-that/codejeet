@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getAllLessonParams, getCourseBySlug, getLesson } from "@/lib/learn/loader";
 import { LessonWorkspace } from "@/components/learn/LessonWorkspace";
+import "./code-theme.css";
 
 export const dynamic = "force-static";
 export const dynamicParams = false;
