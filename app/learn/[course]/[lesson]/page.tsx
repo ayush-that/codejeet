@@ -4,9 +4,6 @@ import { getAllLessonParams, getCourseBySlug, getLesson } from "@/lib/learn/load
 import { LessonWorkspace } from "@/components/learn/LessonWorkspace";
 import "./code-theme.css";
 
-export const dynamic = "force-static";
-export const dynamicParams = false;
-
 export async function generateStaticParams() {
   return getAllLessonParams();
 }

@@ -3,9 +3,6 @@ import { notFound } from "next/navigation";
 import { getAllQuizParams, getCourseBySlug, getQuiz } from "@/lib/learn/loader";
 import { QuizWorkspace } from "@/components/learn/QuizWorkspace";
 
-export const dynamic = "force-static";
-export const dynamicParams = false;
-
 export async function generateStaticParams() {
   return getAllQuizParams();
 }

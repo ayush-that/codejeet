@@ -4,9 +4,6 @@ import { notFound } from "next/navigation";
 import { getAllCourses, getCourseBySlug, getQuizzesForCourse } from "@/lib/learn/loader";
 import { LANGUAGE_LABEL } from "@/lib/learn/types";
 
-export const dynamic = "force-static";
-export const dynamicParams = false;
-
 export async function generateStaticParams() {
   const courses = await getAllCourses();
   return courses.map((c) => ({ course: c.slug }));
