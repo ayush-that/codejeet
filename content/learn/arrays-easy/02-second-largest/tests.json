@@ -1,0 +1,32 @@
+[
+  {
+    "name": "mixed values",
+    "stdin": "5\n3 7 2 9 4\n",
+    "expectedStdout": "7",
+    "visible": true
+  },
+  {
+    "name": "duplicate max",
+    "stdin": "5\n5 1 5 5 2\n",
+    "expectedStdout": "2",
+    "visible": true
+  },
+  {
+    "name": "no second distinct",
+    "stdin": "4\n3 3 3 3\n",
+    "expectedStdout": "-1",
+    "visible": true
+  },
+  {
+    "name": "two distinct",
+    "stdin": "2\n10 4\n",
+    "expectedStdout": "4",
+    "visible": false
+  },
+  {
+    "name": "single element",
+    "stdin": "1\n42\n",
+    "expectedStdout": "-1",
+    "visible": false
+  }
+]

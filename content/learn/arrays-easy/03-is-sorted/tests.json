@@ -1,0 +1,32 @@
+[
+  {
+    "name": "ascending",
+    "stdin": "5\n1 2 3 4 5\n",
+    "expectedStdout": "true",
+    "visible": true
+  },
+  {
+    "name": "with equal adjacent",
+    "stdin": "4\n1 2 2 3\n",
+    "expectedStdout": "true",
+    "visible": true
+  },
+  {
+    "name": "one out of order",
+    "stdin": "5\n1 3 2 4 5\n",
+    "expectedStdout": "false",
+    "visible": true
+  },
+  {
+    "name": "descending",
+    "stdin": "4\n5 4 3 2\n",
+    "expectedStdout": "false",
+    "visible": false
+  },
+  {
+    "name": "single element",
+    "stdin": "1\n7\n",
+    "expectedStdout": "true",
+    "visible": false
+  }
+]

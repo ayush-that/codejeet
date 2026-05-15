@@ -3,11 +3,12 @@
 import { useEffect, useState } from "react";
 import CodeMirror from "@uiw/react-codemirror";
 import type { Extension } from "@codemirror/state";
+import type { LessonLanguage } from "@/lib/learn/types";
 
 interface CodeEditorImplProps {
   value: string;
   onChange: (next: string) => void;
-  language?: "cpp";
+  language?: LessonLanguage;
   readOnly?: boolean;
 }
 
@@ -27,6 +28,15 @@ export function CodeEditorImpl({
       if (language === "cpp") {
         const { cpp } = await import("@codemirror/lang-cpp");
         exts.push(cpp());
+      } else if (language === "javascript") {
+        const { javascript } = await import("@codemirror/lang-javascript");
+        exts.push(javascript());
+      } else if (language === "python") {
+        const { python } = await import("@codemirror/lang-python");
+        exts.push(python());
+      } else if (language === "java") {
+        const { java } = await import("@codemirror/lang-java");
+        exts.push(java());
       }
       const { oneDark } = await import("@codemirror/theme-one-dark");
       if (cancelled) return;

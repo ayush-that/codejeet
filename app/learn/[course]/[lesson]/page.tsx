@@ -54,6 +54,7 @@ export default async function LessonPage({
       nextHref={next ? `/learn/${courseData.slug}/${next.slug}` : null}
       prevTitle={prev?.title ?? null}
       nextTitle={next?.title ?? null}
+      defaultLanguage={courseData.defaultLanguage}
     />
   );
 }

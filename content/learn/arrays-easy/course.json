@@ -1,0 +1,18 @@
+{
+  "slug": "arrays-easy",
+  "title": "Arrays — Easy",
+  "description": "Linear scans, two-pass tricks, basic counting. The first set of array problems every interviewer expects you to do without thinking.",
+  "defaultLanguage": "cpp",
+  "languages": ["cpp", "javascript", "python", "java"],
+  "order": 10,
+  "step": "step-03-arrays",
+  "topic": "arrays-easy",
+  "lessons": [
+    "01-largest-element",
+    "02-second-largest",
+    "03-is-sorted",
+    "04-remove-duplicates",
+    "05-left-rotate-by-one",
+    "06-move-zeros-to-end"
+  ]
+}

@@ -1,0 +1,32 @@
+[
+  {
+    "name": "small ascending",
+    "stdin": "5\n3 7 2 9 4\n",
+    "expectedStdout": "9",
+    "visible": true
+  },
+  {
+    "name": "all negative",
+    "stdin": "4\n-1 -7 -3 -2\n",
+    "expectedStdout": "-1",
+    "visible": true
+  },
+  {
+    "name": "single element",
+    "stdin": "1\n42\n",
+    "expectedStdout": "42",
+    "visible": true
+  },
+  {
+    "name": "max at end",
+    "stdin": "6\n1 2 3 4 5 100\n",
+    "expectedStdout": "100",
+    "visible": false
+  },
+  {
+    "name": "duplicates of max",
+    "stdin": "5\n5 1 5 5 2\n",
+    "expectedStdout": "5",
+    "visible": false
+  }
+]
