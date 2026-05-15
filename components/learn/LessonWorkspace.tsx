@@ -7,10 +7,15 @@ import { Badge } from "@/components/ui/badge";
 import { CodeEditor } from "./CodeEditor";
 import { LessonContent } from "./LessonContent";
 import { runAll, runSingle } from "@/lib/learn/runner";
+import { terminateAllRunners } from "@/lib/learn/multi-runner";
 import type { RunResult, RunnerProgress } from "@/lib/learn/runner-types";
 import type { Lesson, LessonLanguage } from "@/lib/learn/types";
-import { LANGUAGE_FILE_EXTENSION, LANGUAGE_LABEL } from "@/lib/learn/types";
+import { ALL_LESSON_LANGUAGES, LANGUAGE_FILE_EXTENSION, LANGUAGE_LABEL } from "@/lib/learn/types";
 import type { TestRunOutcome } from "@/lib/learn/runner";
+
+// Cheap runtime guard for values pulled out of localStorage, where the stored
+// string could be stale, manually edited, or missing entirely.
+const VALID_LANGUAGES: ReadonlySet<string> = new Set(ALL_LESSON_LANGUAGES);
 
 interface LessonWorkspaceProps {
   lesson: Lesson;
@@ -71,7 +76,7 @@ function loadLanguagePref(): LessonLanguage | null {
   if (typeof window === "undefined") return null;
   try {
     const raw = window.localStorage.getItem(LANGUAGE_PREF_KEY);
-    if (!raw) return null;
+    if (!raw || !VALID_LANGUAGES.has(raw)) return null;
     return raw as LessonLanguage;
   } catch {
     return null;
@@ -164,6 +169,15 @@ export function LessonWorkspace({
     }, 400);
     return () => clearTimeout(handle);
   }, [code, lesson.courseSlug, lesson.slug, language]);
+
+  // Tear down language workers when the component unmounts (route change, etc).
+  // Without this, pending jobs and the main-thread kill timer stay alive after
+  // the user navigates away.
+  useEffect(() => {
+    return () => {
+      terminateAllRunners();
+    };
+  }, []);
 
   const onProgress = useCallback((p: RunnerProgress) => {
     if (p.phase === "loading-toolchain") {

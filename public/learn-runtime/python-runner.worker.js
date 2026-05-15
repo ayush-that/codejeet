@@ -25,23 +25,34 @@ async function loadPyodideInstance(postProgress) {
       message: "Downloading Python runtime (~10 MB the first time, cached after)…",
     });
     pyodidePromise = (async () => {
-      // Pyodide is shipped as a classic IIFE that adds globals to self.
-      // We use importScripts because this worker is loaded as a module worker
-      // and importScripts is unavailable there — fall back to dynamic eval of
-      // the fetched source as a classic script via Function. Simpler: use a
-      // dynamic import of the ESM build if available, otherwise self-attach.
-      // pyodide 0.27+ ships an ESM bundle too.
-      const mod = await import(`${PYODIDE_BASE}pyodide.mjs`);
-      const loadPyodide = mod.loadPyodide ?? self.loadPyodide;
-      if (typeof loadPyodide !== "function") {
-        throw new Error("Failed to locate loadPyodide entry");
+      try {
+        // pyodide 0.27+ ships an ESM bundle; dynamic import that.
+        const mod = await import(`${PYODIDE_BASE}pyodide.mjs`);
+        const loadPyodide = mod.loadPyodide ?? self.loadPyodide;
+        if (typeof loadPyodide !== "function") {
+          throw new Error("Failed to locate loadPyodide entry");
+        }
+        const py = await loadPyodide({ indexURL: PYODIDE_BASE });
+        return py;
+      } catch (err) {
+        // Reset the cached promise so a future call re-attempts the load
+        // instead of re-awaiting an already-rejected promise. Without this a
+        // single CDN failure permanently bricks the runner for the session.
+        pyodidePromise = null;
+        throw err;
       }
-      const py = await loadPyodide({ indexURL: PYODIDE_BASE });
-      return py;
     })();
   }
-  pyodideReady = await pyodidePromise;
-  return pyodideReady;
+  try {
+    pyodideReady = await pyodidePromise;
+    return pyodideReady;
+  } catch (err) {
+    // Belt-and-suspenders: also reset here in case some other call awaited
+    // the same promise before the inner catch ran.
+    pyodidePromise = null;
+    pyodideReady = null;
+    throw err;
+  }
 }
 
 self.addEventListener("message", async (event) => {
@@ -52,8 +63,14 @@ self.addEventListener("message", async (event) => {
   const postProgress = (progress) => post({ id, type: "progress", progress });
   const startedAt = performance.now();
 
-  let stdout = "";
-  let stderr = "";
+  // Collect stdout/stderr as byte arrays and decode once at the end. Appending
+  // characters one-at-a-time to a JS string is O(n²) overall, which becomes
+  // visible even on a few KB of program output.
+  const stdoutBytes = [];
+  const stderrBytes = [];
+  const textDecoder = new TextDecoder();
+  const decodeOut = () => textDecoder.decode(new Uint8Array(stdoutBytes));
+  const decodeErr = () => textDecoder.decode(new Uint8Array(stderrBytes));
 
   try {
     const py = await loadPyodideInstance(postProgress);
@@ -77,29 +94,28 @@ self.addEventListener("message", async (event) => {
     });
     py.setStdout({
       raw: (byte) => {
-        stdout += String.fromCharCode(byte);
+        stdoutBytes.push(byte);
       },
       isatty: false,
     });
     py.setStderr({
       raw: (byte) => {
-        stderr += String.fromCharCode(byte);
+        stderrBytes.push(byte);
       },
       isatty: false,
     });
 
     postProgress({ phase: "running" });
     try {
-      // Wrap user code so unhandled exceptions don't poison subsequent runs.
-      // pyodide.runPython is synchronous so this is fine.
+      // pyodide.runPython is synchronous so any exception lands in our catch.
       py.runPython(source);
       post({
         id,
         type: "result",
         result: {
           ok: true,
-          stdout,
-          stderr,
+          stdout: decodeOut(),
+          stderr: decodeErr(),
           exitCode: 0,
           durationMs: performance.now() - startedAt,
         },
@@ -108,14 +124,16 @@ self.addEventListener("message", async (event) => {
       // Pyodide wraps Python exceptions as JS PythonError with .message.
       const message = err instanceof Error ? err.message : String(err);
       const isSyntax = /SyntaxError|IndentationError/.test(message);
+      const stderrText = decodeErr();
+      const sep = stderrText === "" || stderrText.endsWith("\n") ? "" : "\n";
       post({
         id,
         type: "result",
         result: {
           ok: false,
           errorKind: isSyntax ? "compile" : "runtime",
-          stdout,
-          stderr: stderr + (stderr.endsWith("\n") || stderr === "" ? "" : "\n") + message,
+          stdout: decodeOut(),
+          stderr: stderrText + sep + message,
           message,
           durationMs: performance.now() - startedAt,
         },
@@ -129,8 +147,8 @@ self.addEventListener("message", async (event) => {
       result: {
         ok: false,
         errorKind: "internal",
-        stdout,
-        stderr: stderr + message,
+        stdout: decodeOut(),
+        stderr: decodeErr() + message,
         message,
         durationMs: performance.now() - startedAt,
       },
