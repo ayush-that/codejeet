@@ -1,0 +1,613 @@
+{
+  "steps": [
+    {
+      "slug": "step-01-basics",
+      "order": 1,
+      "title": "Learn the Basics",
+      "description": "Language fundamentals, time/space complexity, and the hashing intuition every other step rides on.",
+      "problemCount": 54,
+      "topics": [
+        {
+          "slug": "language-fundamentals",
+          "title": "Language Fundamentals",
+          "description": "Variables, control flow, I/O, functions, and arrays in C++, Java, JavaScript, and Python.",
+          "courses": []
+        },
+        {
+          "slug": "complexity",
+          "title": "Time and Space Complexity",
+          "description": "Big-O notation, common growth classes, how to reason about loops, recursion, and amortized costs.",
+          "courses": []
+        },
+        {
+          "slug": "hashing",
+          "title": "Hashing",
+          "description": "Hash maps, hash sets, frequency counting, the classic two-sum pattern.",
+          "courses": []
+        }
+      ]
+    },
+    {
+      "slug": "step-02-sorting",
+      "order": 2,
+      "title": "Sorting Techniques",
+      "description": "Build every classic sort from scratch. Then understand why we use the built-in sort for almost everything else.",
+      "problemCount": 7,
+      "topics": [
+        {
+          "slug": "elementary-sorts",
+          "title": "Elementary Sorts",
+          "description": "Selection, bubble, insertion. Quadratic but instructive.",
+          "courses": []
+        },
+        {
+          "slug": "efficient-sorts",
+          "title": "Efficient Sorts",
+          "description": "Merge sort, quick sort. The recursive sorts that get you to O(n log n).",
+          "courses": []
+        }
+      ]
+    },
+    {
+      "slug": "step-03-arrays",
+      "order": 3,
+      "title": "Arrays",
+      "description": "The most important data structure. Master the patterns here and binary search, two pointer, sliding window all click later.",
+      "problemCount": 40,
+      "topics": [
+        {
+          "slug": "arrays-easy",
+          "title": "Arrays — Easy",
+          "description": "Linear scans, two-pass tricks, basic counting. The warmup problems.",
+          "courses": ["arrays-easy"]
+        },
+        {
+          "slug": "arrays-medium",
+          "title": "Arrays — Medium",
+          "description": "Kadane, Dutch national flag, majority element, set matrix zeroes, rotations.",
+          "courses": []
+        },
+        {
+          "slug": "arrays-hard",
+          "title": "Arrays — Hard",
+          "description": "Merge intervals, count inversions, median of two sorted arrays, reverse pairs.",
+          "courses": []
+        }
+      ]
+    },
+    {
+      "slug": "step-04-binary-search",
+      "order": 4,
+      "title": "Binary Search",
+      "description": "Binary search isn't just for sorted arrays. Learn to recognize the monotonic predicate and you'll see binary search everywhere.",
+      "problemCount": 32,
+      "topics": [
+        {
+          "slug": "binary-search-1d",
+          "title": "Binary Search on 1D Arrays",
+          "description": "Classic lower bound, upper bound, first and last occurrence, rotated arrays.",
+          "courses": []
+        },
+        {
+          "slug": "binary-search-answer",
+          "title": "Binary Search on the Answer",
+          "description": "Search over a range of possible answers. Aggressive cows, koko eating bananas, painter's partition.",
+          "courses": []
+        },
+        {
+          "slug": "binary-search-2d",
+          "title": "Binary Search on 2D Matrices",
+          "description": "Row-column elimination, treating a matrix as a flattened sorted array.",
+          "courses": []
+        }
+      ]
+    },
+    {
+      "slug": "step-05-strings-basic",
+      "order": 5,
+      "title": "Strings — Basic and Medium",
+      "description": "Character manipulation, palindromes, anagrams. The classic warmup before advanced string algorithms.",
+      "problemCount": 15,
+      "topics": [
+        {
+          "slug": "strings-basic",
+          "title": "String Basics",
+          "description": "Reverse, palindrome check, anagram check, longest common prefix.",
+          "courses": []
+        },
+        {
+          "slug": "strings-medium",
+          "title": "String Medium",
+          "description": "Roman to integer, group anagrams, longest substring without repeating, sort by frequency.",
+          "courses": []
+        }
+      ]
+    },
+    {
+      "slug": "step-06-linked-list",
+      "order": 6,
+      "title": "Linked Lists",
+      "description": "Pointer manipulation that carries over to trees, graphs, allocators, parsers. Master the dummy node + two pointer patterns.",
+      "problemCount": 31,
+      "topics": [
+        {
+          "slug": "singly-linked-list",
+          "title": "Singly Linked List",
+          "description": "Build the data structure. Insertions, deletions, reversal, the most asked DSA topic in interviews.",
+          "courses": ["cpp-linked-lists"]
+        },
+        {
+          "slug": "doubly-linked-list",
+          "title": "Doubly Linked List",
+          "description": "Prev + next pointers. The data structure behind LRU caches and browser history.",
+          "courses": []
+        },
+        {
+          "slug": "linked-list-medium",
+          "title": "Linked List Medium",
+          "description": "Floyd's cycle detection, merge two sorted, remove nth from end, palindrome check, intersection.",
+          "courses": []
+        },
+        {
+          "slug": "linked-list-hard",
+          "title": "Linked List Hard",
+          "description": "Reverse in k-groups, copy list with random pointer, sort, flatten a multilevel list.",
+          "courses": []
+        }
+      ]
+    },
+    {
+      "slug": "step-07-recursion",
+      "order": 7,
+      "title": "Recursion",
+      "description": "Pattern by pattern. Once you internalize parametrized recursion, backtracking and dynamic programming both stop being scary.",
+      "problemCount": 25,
+      "topics": [
+        {
+          "slug": "recursion-basics",
+          "title": "Recursion Basics",
+          "description": "Print 1 to N, factorial, sum of N, recursion tree intuition.",
+          "courses": []
+        },
+        {
+          "slug": "subsequences-and-subsets",
+          "title": "Subsequences and Subsets",
+          "description": "Power set, subsequences with sum K, count subsequences, the take-or-skip pattern.",
+          "courses": []
+        },
+        {
+          "slug": "backtracking",
+          "title": "Backtracking",
+          "description": "N-queens, sudoku solver, rat in a maze, word break, palindrome partitioning.",
+          "courses": []
+        }
+      ]
+    },
+    {
+      "slug": "step-08-bit-manipulation",
+      "order": 8,
+      "title": "Bit Manipulation",
+      "description": "Bitwise tricks that turn O(n) lookups into O(1) and unlock subset enumeration, parity, XOR.",
+      "problemCount": 18,
+      "topics": [
+        {
+          "slug": "bit-basics",
+          "title": "Bit Basics",
+          "description": "AND, OR, XOR, shift, set/clear/toggle the i-th bit.",
+          "courses": []
+        },
+        {
+          "slug": "bit-tricks",
+          "title": "Bit Tricks",
+          "description": "Count set bits, single non-repeating, XOR of range, power of two, n divisors.",
+          "courses": []
+        }
+      ]
+    },
+    {
+      "slug": "step-09-stack-queue",
+      "order": 9,
+      "title": "Stacks and Queues",
+      "description": "LIFO and FIFO. Plus the monotonic stack and deque, two of the most reused patterns in competitive programming.",
+      "problemCount": 30,
+      "topics": [
+        {
+          "slug": "stack-basics",
+          "title": "Stack and Queue Basics",
+          "description": "Implementations using arrays and linked lists. Stack from queues, queue from stacks.",
+          "courses": []
+        },
+        {
+          "slug": "monotonic-stack",
+          "title": "Monotonic Stack",
+          "description": "Next greater element, daily temperatures, largest rectangle in histogram, sum of subarray minimums.",
+          "courses": []
+        },
+        {
+          "slug": "monotonic-deque",
+          "title": "Monotonic Deque",
+          "description": "Sliding window maximum, the classic monotonic deque pattern.",
+          "courses": []
+        }
+      ]
+    },
+    {
+      "slug": "step-10-sliding-window",
+      "order": 10,
+      "title": "Sliding Window and Two Pointer",
+      "description": "Whenever you see 'longest subarray with property X', this is your tool. Internalize the expand-shrink template.",
+      "problemCount": 12,
+      "topics": [
+        {
+          "slug": "two-pointer",
+          "title": "Two Pointer",
+          "description": "Pair sum on a sorted array, three sum, remove duplicates, container with most water.",
+          "courses": []
+        },
+        {
+          "slug": "sliding-window",
+          "title": "Sliding Window",
+          "description": "Longest substring without repeating, max consecutive ones, minimum window substring, fruits into baskets.",
+          "courses": []
+        }
+      ]
+    },
+    {
+      "slug": "step-11-heaps",
+      "order": 11,
+      "title": "Heaps and Priority Queues",
+      "description": "The data structure of choice for top-K problems, streaming medians, and Dijkstra's algorithm.",
+      "problemCount": 17,
+      "topics": [
+        {
+          "slug": "heap-basics",
+          "title": "Heap Basics",
+          "description": "Heapify, sift up, sift down, build heap in O(n), implement a priority queue from scratch.",
+          "courses": []
+        },
+        {
+          "slug": "top-k-problems",
+          "title": "Top-K Problems",
+          "description": "K largest elements, K closest points to origin, K-th smallest in a sorted matrix, top K frequent.",
+          "courses": []
+        },
+        {
+          "slug": "streaming-median",
+          "title": "Streaming Median and Merge",
+          "description": "Two-heap median, merge K sorted lists, the two-heap pattern.",
+          "courses": []
+        }
+      ]
+    },
+    {
+      "slug": "step-12-greedy",
+      "order": 12,
+      "title": "Greedy Algorithms",
+      "description": "When local optimal choices give the global optimum. Learn the standard problems and the proof patterns.",
+      "problemCount": 16,
+      "topics": [
+        {
+          "slug": "greedy-basics",
+          "title": "Greedy Basics",
+          "description": "Assign cookies, lemonade change, valid parenthesis after replacements.",
+          "courses": []
+        },
+        {
+          "slug": "greedy-scheduling",
+          "title": "Scheduling and Intervals",
+          "description": "N meetings in one room, minimum platforms, job sequencing for max profit.",
+          "courses": []
+        },
+        {
+          "slug": "greedy-classic",
+          "title": "Classic Greedy",
+          "description": "Fractional knapsack, jump game I and II, candy distribution, minimum coins.",
+          "courses": []
+        }
+      ]
+    },
+    {
+      "slug": "step-13-binary-trees",
+      "order": 13,
+      "title": "Binary Trees",
+      "description": "Traversals, structural problems, the most-asked tree patterns. Recursion on trees is the easiest place to internalize tree DP.",
+      "problemCount": 39,
+      "topics": [
+        {
+          "slug": "tree-traversals",
+          "title": "Traversals",
+          "description": "Preorder, inorder, postorder (recursive and iterative). Level order BFS. Morris traversal.",
+          "courses": []
+        },
+        {
+          "slug": "tree-structural",
+          "title": "Structural Problems",
+          "description": "Height, diameter, balanced check, identical trees, symmetric trees, max path sum.",
+          "courses": []
+        },
+        {
+          "slug": "tree-construction-and-views",
+          "title": "Construction and Views",
+          "description": "Build a tree from traversals, top/bottom/left/right views, vertical order traversal.",
+          "courses": []
+        },
+        {
+          "slug": "lca",
+          "title": "Lowest Common Ancestor",
+          "description": "LCA in a binary tree, LCA in a BST, k-th ancestor with binary lifting.",
+          "courses": []
+        }
+      ]
+    },
+    {
+      "slug": "step-14-bst",
+      "order": 14,
+      "title": "Binary Search Trees",
+      "description": "BST invariant, search/insert/delete, and the inorder traversal trick that makes a lot of BST problems easy.",
+      "problemCount": 16,
+      "topics": [
+        {
+          "slug": "bst-operations",
+          "title": "Operations on a BST",
+          "description": "Search, insert, delete, ceiling, floor, k-th smallest, validate BST.",
+          "courses": []
+        },
+        {
+          "slug": "bst-medium-hard",
+          "title": "BST Medium and Hard",
+          "description": "Recover a BST, merge two BSTs, pair sum in a BST, BST iterator with O(h) memory.",
+          "courses": []
+        }
+      ]
+    },
+    {
+      "slug": "step-15-graphs",
+      "order": 15,
+      "title": "Graphs",
+      "description": "Traversals, shortest paths, MST, topological sort. The most varied chapter in DSA.",
+      "problemCount": 54,
+      "topics": [
+        {
+          "slug": "graph-representation",
+          "title": "Representation",
+          "description": "Adjacency list vs matrix, directed vs undirected, edge list, when to use each.",
+          "courses": []
+        },
+        {
+          "slug": "bfs-dfs",
+          "title": "BFS and DFS",
+          "description": "Traversal templates, connected components, cycle detection, bipartite check.",
+          "courses": []
+        },
+        {
+          "slug": "topological-sort",
+          "title": "Topological Sort",
+          "description": "Kahn's algorithm and DFS-based, course schedule, alien dictionary.",
+          "courses": []
+        },
+        {
+          "slug": "shortest-paths",
+          "title": "Shortest Paths",
+          "description": "Dijkstra, Bellman-Ford, Floyd-Warshall, 0/1 BFS, shortest path in DAG.",
+          "courses": []
+        },
+        {
+          "slug": "mst",
+          "title": "Minimum Spanning Tree",
+          "description": "Prim's and Kruskal's. Why MSTs matter and how to spot them in problem statements.",
+          "courses": []
+        },
+        {
+          "slug": "dsu",
+          "title": "Disjoint Set Union",
+          "description": "Union by rank, path compression, the data structure that makes Kruskal's fast and unlocks Number of Islands II.",
+          "courses": []
+        },
+        {
+          "slug": "tarjan-and-bridges",
+          "title": "Tarjan, Bridges, Articulation Points",
+          "description": "Strongly connected components, bridges in a graph, articulation points. Disc/low time intuition.",
+          "courses": []
+        }
+      ]
+    },
+    {
+      "slug": "step-16-dp",
+      "order": 16,
+      "title": "Dynamic Programming",
+      "description": "DP by pattern. Once you can spot which standard pattern a problem maps to, DP stops feeling magical.",
+      "problemCount": 56,
+      "topics": [
+        {
+          "slug": "dp-1d",
+          "title": "1D DP",
+          "description": "Fibonacci, climbing stairs, frog jump, max sum of non-adjacent, house robber.",
+          "courses": []
+        },
+        {
+          "slug": "dp-on-grids",
+          "title": "DP on Grids",
+          "description": "Unique paths, min path sum, triangle, chocolate pickup.",
+          "courses": []
+        },
+        {
+          "slug": "dp-on-subsequences",
+          "title": "DP on Subsequences",
+          "description": "Subset sum, partition, target sum, count subsets, the take-or-skip pattern with memoization.",
+          "courses": []
+        },
+        {
+          "slug": "knapsack",
+          "title": "Knapsack Patterns",
+          "description": "0/1 knapsack, unbounded knapsack, coin change I and II, rod cutting.",
+          "courses": []
+        },
+        {
+          "slug": "lis",
+          "title": "Longest Increasing Subsequence",
+          "description": "O(n^2) DP, O(n log n) binary search variant, printing the LIS, longest divisible subset.",
+          "courses": []
+        },
+        {
+          "slug": "dp-on-strings",
+          "title": "DP on Strings",
+          "description": "Longest common subsequence, edit distance, shortest common supersequence, wildcard matching.",
+          "courses": []
+        },
+        {
+          "slug": "dp-stocks",
+          "title": "DP on Stocks",
+          "description": "All six stock problems with one unified state machine.",
+          "courses": []
+        },
+        {
+          "slug": "matrix-chain",
+          "title": "Partition DP",
+          "description": "Matrix chain multiplication, palindrome partitioning, burst balloons, boolean evaluation.",
+          "courses": []
+        },
+        {
+          "slug": "dp-on-trees",
+          "title": "DP on Trees",
+          "description": "Tree diameter via DP, max path sum, house robber on a tree, rerooting technique.",
+          "courses": []
+        }
+      ]
+    },
+    {
+      "slug": "step-17-tries",
+      "order": 17,
+      "title": "Tries",
+      "description": "Prefix tree data structure. Used for autocomplete, longest common prefix, max XOR pair, word search II.",
+      "problemCount": 7,
+      "topics": [
+        {
+          "slug": "trie-basics",
+          "title": "Trie Basics",
+          "description": "Insert, search, starts-with. Build the data structure from scratch.",
+          "courses": []
+        },
+        {
+          "slug": "trie-applications",
+          "title": "Trie Applications",
+          "description": "Max XOR of two numbers, count distinct substrings, word search II.",
+          "courses": []
+        }
+      ]
+    },
+    {
+      "slug": "step-18-strings-advanced",
+      "order": 18,
+      "title": "Strings — Advanced",
+      "description": "Failure function, suffix arrays, hashing. The string algorithms that show up in hard interviews and competitive programming.",
+      "problemCount": 7,
+      "topics": [
+        {
+          "slug": "kmp",
+          "title": "KMP",
+          "description": "Knuth-Morris-Pratt failure function. Substring matching in O(n + m).",
+          "courses": []
+        },
+        {
+          "slug": "z-algorithm",
+          "title": "Z Algorithm",
+          "description": "Z-function. Pattern matching, string period detection.",
+          "courses": []
+        },
+        {
+          "slug": "string-hashing",
+          "title": "String Hashing",
+          "description": "Rabin-Karp, polynomial hashing, double hashing to defeat anti-hash tests.",
+          "courses": []
+        },
+        {
+          "slug": "manacher",
+          "title": "Manacher's Algorithm",
+          "description": "Longest palindromic substring in O(n).",
+          "courses": []
+        }
+      ]
+    },
+    {
+      "slug": "step-19-math",
+      "order": 19,
+      "title": "Math Foundations",
+      "description": "The number theory you actually need: GCD, LCM, primes, modular arithmetic, combinatorics. Topics Striver underweights but interviews ask for.",
+      "problemCount": 18,
+      "topics": [
+        {
+          "slug": "math-basics",
+          "title": "Number Theory Basics",
+          "description": "GCD by Euclid's algorithm, LCM, sieve of Eratosthenes, prime factorization.",
+          "courses": []
+        },
+        {
+          "slug": "modular-arithmetic",
+          "title": "Modular Arithmetic",
+          "description": "Modular addition, multiplication, inverse via Fermat's little theorem, fast exponentiation.",
+          "courses": []
+        },
+        {
+          "slug": "combinatorics",
+          "title": "Combinatorics",
+          "description": "nCr mod p, Pascal's triangle, stars and bars, basic counting.",
+          "courses": []
+        }
+      ]
+    },
+    {
+      "slug": "step-20-advanced-trees",
+      "order": 20,
+      "title": "Segment Trees and Fenwick Trees",
+      "description": "Range query data structures. Striver barely touches these; for competitive programming and FAANG-tier interviews they're table stakes.",
+      "problemCount": 12,
+      "topics": [
+        {
+          "slug": "segment-tree-basics",
+          "title": "Segment Tree Basics",
+          "description": "Build, point update, range query. Sum, min, max segment trees.",
+          "courses": []
+        },
+        {
+          "slug": "segment-tree-lazy",
+          "title": "Segment Tree with Lazy Propagation",
+          "description": "Range updates with lazy propagation. The pattern that turns O(n*q) into O((n+q) log n).",
+          "courses": []
+        },
+        {
+          "slug": "fenwick-tree",
+          "title": "Fenwick Tree (BIT)",
+          "description": "Binary indexed tree, prefix sums in O(log n), counting inversions in O(n log n).",
+          "courses": []
+        }
+      ]
+    },
+    {
+      "slug": "step-21-system-design-lite",
+      "order": 21,
+      "title": "Data Structure Design",
+      "description": "LRU cache, LFU cache, time-based key-value, snapshot array. The 'design X' problems that combine multiple DSAs.",
+      "problemCount": 8,
+      "topics": [
+        {
+          "slug": "lru-cache",
+          "title": "LRU Cache",
+          "description": "Hash map + doubly linked list. The most-asked design problem in interviews.",
+          "courses": []
+        },
+        {
+          "slug": "lfu-cache",
+          "title": "LFU Cache",
+          "description": "Frequency tracking with O(1) operations. Hash map + nested doubly linked list.",
+          "courses": []
+        },
+        {
+          "slug": "design-problems",
+          "title": "Other Design Problems",
+          "description": "Time-based key-value store, snapshot array, randomized set, design Twitter.",
+          "courses": []
+        }
+      ]
+    }
+  ]
+}

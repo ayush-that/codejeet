@@ -1,11 +1,12 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import type { LessonLanguage } from "@/lib/learn/types";
 
 interface CodeEditorProps {
   value: string;
   onChange: (next: string) => void;
-  language?: "cpp";
+  language?: LessonLanguage;
   className?: string;
   readOnly?: boolean;
 }

@@ -8,7 +8,8 @@ import { CodeEditor } from "./CodeEditor";
 import { LessonContent } from "./LessonContent";
 import { runAll, runSingle } from "@/lib/learn/runner";
 import type { RunResult, RunnerProgress } from "@/lib/learn/runner-types";
-import type { Lesson } from "@/lib/learn/types";
+import type { Lesson, LessonLanguage } from "@/lib/learn/types";
+import { LANGUAGE_FILE_EXTENSION, LANGUAGE_LABEL } from "@/lib/learn/types";
 import type { TestRunOutcome } from "@/lib/learn/runner";
 
 interface LessonWorkspaceProps {
@@ -19,14 +20,17 @@ interface LessonWorkspaceProps {
   nextTitle: string | null;
   courseTitle: string;
   courseHref: string;
+  /** Default language for this lesson, taken from the course's defaultLanguage. */
+  defaultLanguage: LessonLanguage;
 }
 
 type Tab = "tests" | "stdin" | "output";
 
-const STORAGE_PREFIX = "codejeet:learn:cpp:v1:";
+const STORAGE_PREFIX = "codejeet:learn:v2:";
+const LANGUAGE_PREF_KEY = "codejeet:learn:v2:lang";
 
-function storageKey(courseSlug: string, lessonSlug: string) {
-  return `${STORAGE_PREFIX}${courseSlug}/${lessonSlug}`;
+function storageKey(courseSlug: string, lessonSlug: string, language: LessonLanguage) {
+  return `${STORAGE_PREFIX}${courseSlug}/${lessonSlug}/${language}`;
 }
 
 interface SavedCode {
@@ -34,10 +38,14 @@ interface SavedCode {
   savedAt: number;
 }
 
-function loadSaved(courseSlug: string, lessonSlug: string): string | null {
+function loadSaved(
+  courseSlug: string,
+  lessonSlug: string,
+  language: LessonLanguage
+): string | null {
   if (typeof window === "undefined") return null;
   try {
-    const raw = window.localStorage.getItem(storageKey(courseSlug, lessonSlug));
+    const raw = window.localStorage.getItem(storageKey(courseSlug, lessonSlug, language));
     if (!raw) return null;
     const parsed = JSON.parse(raw) as SavedCode;
     return parsed.code ?? null;
@@ -46,13 +54,36 @@ function loadSaved(courseSlug: string, lessonSlug: string): string | null {
   }
 }
 
-function saveCode(courseSlug: string, lessonSlug: string, code: string) {
+function saveCode(courseSlug: string, lessonSlug: string, language: LessonLanguage, code: string) {
   if (typeof window === "undefined") return;
   try {
     const payload: SavedCode = { code, savedAt: Date.now() };
-    window.localStorage.setItem(storageKey(courseSlug, lessonSlug), JSON.stringify(payload));
+    window.localStorage.setItem(
+      storageKey(courseSlug, lessonSlug, language),
+      JSON.stringify(payload)
+    );
   } catch {
     // ignore quota errors
+  }
+}
+
+function loadLanguagePref(): LessonLanguage | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = window.localStorage.getItem(LANGUAGE_PREF_KEY);
+    if (!raw) return null;
+    return raw as LessonLanguage;
+  } catch {
+    return null;
+  }
+}
+
+function saveLanguagePref(language: LessonLanguage) {
+  if (typeof window === "undefined") return;
+  try {
+    window.localStorage.setItem(LANGUAGE_PREF_KEY, language);
+  } catch {
+    // ignore
   }
 }
 
@@ -66,6 +97,17 @@ interface RunStatus {
   message?: string;
 }
 
+function pickInitialLanguage(lesson: Lesson, defaultLanguage: LessonLanguage): LessonLanguage {
+  if (lesson.languages.includes(defaultLanguage)) return defaultLanguage;
+  return lesson.languages[0] ?? "cpp";
+}
+
+function fileNameForLanguage(language: LessonLanguage): string {
+  const ext = LANGUAGE_FILE_EXTENSION[language];
+  if (language === "java") return `Main.${ext}`;
+  return `main.${ext}`;
+}
+
 export function LessonWorkspace({
   lesson,
   prevHref,
@@ -74,8 +116,16 @@ export function LessonWorkspace({
   nextTitle,
   courseTitle,
   courseHref,
+  defaultLanguage,
 }: LessonWorkspaceProps) {
-  const [code, setCode] = useState<string>(lesson.starter);
+  const [language, setLanguage] = useState<LessonLanguage>(() =>
+    pickInitialLanguage(lesson, defaultLanguage)
+  );
+  const sourcesForLang = lesson.sources[language];
+  const starterForLang = sourcesForLang?.starter ?? "";
+  const solutionForLang = sourcesForLang?.solution ?? "";
+
+  const [code, setCode] = useState<string>(starterForLang);
   const [stdin, setStdin] = useState<string>(() => defaultStdin(lesson));
   const [tab, setTab] = useState<Tab>("tests");
   const [runResult, setRunResult] = useState<RunResult | null>(null);
@@ -87,29 +137,37 @@ export function LessonWorkspace({
   const [status, setStatus] = useState<RunStatus>({ kind: "idle" });
   const [, setRehydrated] = useState(false);
 
-  // Hydrate from localStorage after mount. The setState here is intentional —
-  // localStorage isn't available during SSR/static export so we can't read it
-  // in a lazy initializer; this is the canonical SSR-safe rehydration pattern.
+  // Hydrate language pref + starter code on mount and on lesson change.
   useEffect(() => {
-    const saved = loadSaved(lesson.courseSlug, lesson.slug);
-    if (saved && saved.length > 0) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setCode(saved);
-    }
+    const pref = loadLanguagePref();
+    const next =
+      pref && lesson.languages.includes(pref) ? pref : pickInitialLanguage(lesson, defaultLanguage);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setLanguage(next);
     setRehydrated(true);
-  }, [lesson.courseSlug, lesson.slug]);
+  }, [lesson, defaultLanguage]);
 
-  // Persist code on change (debounced via requestIdleCallback fallback).
+  // Rehydrate the editor whenever the active language (or lesson) changes.
+  useEffect(() => {
+    const saved = loadSaved(lesson.courseSlug, lesson.slug, language);
+    const next = lesson.sources[language];
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setCode(saved && saved.length > 0 ? saved : (next?.starter ?? ""));
+    setRunResult(null);
+    setSubmitResult(null);
+  }, [lesson, language]);
+
+  // Persist code on change (debounced).
   useEffect(() => {
     const handle = setTimeout(() => {
-      saveCode(lesson.courseSlug, lesson.slug, code);
+      saveCode(lesson.courseSlug, lesson.slug, language, code);
     }, 400);
     return () => clearTimeout(handle);
-  }, [code, lesson.courseSlug, lesson.slug]);
+  }, [code, lesson.courseSlug, lesson.slug, language]);
 
   const onProgress = useCallback((p: RunnerProgress) => {
     if (p.phase === "loading-toolchain") {
-      setStatus({ kind: "loading-toolchain", message: p.message ?? "Downloading C++ toolchain…" });
+      setStatus({ kind: "loading-toolchain", message: p.message ?? "Downloading runtime…" });
     } else if (p.phase === "compiling") {
       setStatus({ kind: "compiling", message: "Compiling…" });
     } else if (p.phase === "running") {
@@ -121,16 +179,16 @@ export function LessonWorkspace({
     setSubmitResult(null);
     setStatus({ kind: "compiling", message: "Compiling…" });
     setTab("output");
-    const result = await runSingle(code, stdin, onProgress);
+    const result = await runSingle(language, code, stdin, onProgress);
     setStatus({ kind: "idle" });
     setRunResult(result);
-  }, [code, stdin, onProgress]);
+  }, [code, language, stdin, onProgress]);
 
   const handleSubmit = useCallback(async () => {
     setRunResult(null);
     setStatus({ kind: "compiling", message: "Compiling…" });
     setTab("tests");
-    const outcome = await runAll(code, lesson.tests, (p) => {
+    const outcome = await runAll(language, code, lesson.tests, (p) => {
       if ("phase" in p && p.phase === "test") {
         setStatus({
           kind: "running",
@@ -146,29 +204,35 @@ export function LessonWorkspace({
       total: outcome.totalTests,
       results: outcome.results,
     });
-  }, [code, lesson.tests, onProgress]);
+  }, [code, language, lesson.tests, onProgress]);
 
   const handleReset = useCallback(() => {
     if (typeof window !== "undefined") {
       const ok = window.confirm("Reset your code to the starter? Your edits will be lost.");
       if (!ok) return;
     }
-    setCode(lesson.starter);
+    setCode(starterForLang);
     setRunResult(null);
     setSubmitResult(null);
-  }, [lesson.starter]);
+  }, [starterForLang]);
 
   const handleSeeSolution = useCallback(() => {
     if (typeof window !== "undefined") {
       const ok = window.confirm("Replace your code with the reference solution?");
       if (!ok) return;
     }
-    setCode(lesson.solution);
-  }, [lesson.solution]);
+    setCode(solutionForLang);
+  }, [solutionForLang]);
+
+  const handleLanguageChange = useCallback((next: LessonLanguage) => {
+    setLanguage(next);
+    saveLanguagePref(next);
+  }, []);
 
   const visibleTests = useMemo(() => lesson.tests.filter((t) => t.visible), [lesson.tests]);
 
   const isBusy = status.kind !== "idle";
+  const hasSourcesForLang = lesson.sources[language] !== undefined;
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 min-h-[calc(100vh-4rem)] divide-y lg:divide-y-0 lg:divide-x divide-border">
@@ -218,8 +282,13 @@ export function LessonWorkspace({
       <div className="flex flex-col bg-zinc-950 lg:max-h-[calc(100vh-4rem)]">
         <div className="flex items-center justify-between gap-2 border-b border-border bg-background px-3 py-2">
           <div className="flex items-center gap-2 min-w-0">
+            <LanguageSelector
+              current={language}
+              available={lesson.languages}
+              onChange={handleLanguageChange}
+            />
             <span className="text-xs font-mono uppercase tracking-wider text-muted-foreground">
-              main.cpp
+              {fileNameForLanguage(language)}
             </span>
           </div>
           <div className="flex items-center gap-2">
@@ -227,7 +296,7 @@ export function LessonWorkspace({
               variant="ghost"
               size="sm"
               onClick={handleReset}
-              disabled={isBusy}
+              disabled={isBusy || !hasSourcesForLang}
               className="h-8 text-xs"
             >
               Reset
@@ -236,7 +305,7 @@ export function LessonWorkspace({
               variant="ghost"
               size="sm"
               onClick={handleSeeSolution}
-              disabled={isBusy}
+              disabled={isBusy || !hasSourcesForLang}
               className="h-8 text-xs"
             >
               Solution
@@ -245,18 +314,29 @@ export function LessonWorkspace({
               variant="outline"
               size="sm"
               onClick={handleRun}
-              disabled={isBusy}
+              disabled={isBusy || !hasSourcesForLang}
               className="h-8 text-xs"
             >
               Run
             </Button>
-            <Button size="sm" onClick={handleSubmit} disabled={isBusy} className="h-8 text-xs">
+            <Button
+              size="sm"
+              onClick={handleSubmit}
+              disabled={isBusy || !hasSourcesForLang}
+              className="h-8 text-xs"
+            >
               Submit
             </Button>
           </div>
         </div>
         <div className="flex-1 min-h-[280px] max-h-[60vh] lg:max-h-none">
-          <CodeEditor value={code} onChange={setCode} language="cpp" className="h-full" />
+          {hasSourcesForLang ? (
+            <CodeEditor value={code} onChange={setCode} language={language} className="h-full" />
+          ) : (
+            <div className="h-full flex items-center justify-center text-sm text-muted-foreground px-4 text-center">
+              No {LANGUAGE_LABEL[language]} source for this lesson yet. Pick a different language.
+            </div>
+          )}
         </div>
         <ResultsPanel
           tab={tab}
@@ -271,6 +351,30 @@ export function LessonWorkspace({
         />
       </div>
     </div>
+  );
+}
+
+function LanguageSelector({
+  current,
+  available,
+  onChange,
+}: {
+  current: LessonLanguage;
+  available: LessonLanguage[];
+  onChange: (lang: LessonLanguage) => void;
+}) {
+  return (
+    <select
+      value={current}
+      onChange={(e) => onChange(e.target.value as LessonLanguage)}
+      className="h-7 text-xs bg-muted/40 border border-border rounded px-2 text-foreground focus:outline-none focus:ring-1 focus:ring-primary"
+    >
+      {available.map((lang) => (
+        <option key={lang} value={lang}>
+          {LANGUAGE_LABEL[lang]}
+        </option>
+      ))}
+    </select>
   );
 }
 
@@ -400,17 +504,19 @@ function OutputTab({ result }: { result: RunResult | null }) {
     );
   }
   if (!result.ok) {
+    const headline =
+      result.errorKind === "compile"
+        ? "Compilation failed"
+        : result.errorKind === "timeout"
+          ? "Execution timed out"
+          : result.errorKind === "runtime"
+            ? "Runtime error"
+            : result.errorKind === "unsupported"
+              ? "Language not yet supported"
+              : "Internal runner error";
     return (
       <div className="space-y-3">
-        <div className="text-red-300 font-semibold">
-          {result.errorKind === "compile"
-            ? "Compilation failed"
-            : result.errorKind === "timeout"
-              ? "Execution timed out"
-              : result.errorKind === "runtime"
-                ? "Runtime error"
-                : "Internal runner error"}
-        </div>
+        <div className="text-red-300 font-semibold">{headline}</div>
         {result.message && (
           <pre className="whitespace-pre-wrap break-words text-foreground">{result.message}</pre>
         )}
@@ -591,23 +697,27 @@ function TestResultRow({ outcome }: { outcome: TestRunOutcome }) {
 }
 
 function ReactMarkdownLite({ text }: { text: string }) {
-  // Tiny inline markdown for the exercise prompt: respects backticks and **bold**.
-  // We avoid the full ReactMarkdown pipeline here to keep the prompt lightweight.
-  const html = useMemo(() => formatInline(text), [text]);
-  return <div dangerouslySetInnerHTML={{ __html: html }} />;
-}
-
-function escapeHtml(s: string): string {
-  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-}
-
-function formatInline(text: string): string {
-  const escaped = escapeHtml(text);
-  // Convert paragraphs separated by blank lines.
-  const paragraphs = escaped.split(/\n\s*\n/).map((p) => {
-    const withCode = p.replace(/`([^`]+)`/g, '<code class="bg-zinc-800 px-1 rounded">$1</code>');
-    const withBold = withCode.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
-    return `<p>${withBold.replace(/\n/g, "<br/>")}</p>`;
-  });
-  return paragraphs.join("\n");
+  // Tiny inline markdown to avoid pulling react-markdown into the prompt box.
+  // We only render very simple text + inline code.
+  const lines = text.split("\n");
+  return (
+    <div className="space-y-2 text-foreground">
+      {lines.map((line, i) => (
+        <p key={i} className="whitespace-pre-wrap">
+          {line.split(/(`[^`]+`)/g).map((seg, j) =>
+            seg.startsWith("`") && seg.endsWith("`") ? (
+              <code
+                key={j}
+                className="font-mono text-[12px] bg-muted/60 text-foreground rounded px-1.5 py-0.5"
+              >
+                {seg.slice(1, -1)}
+              </code>
+            ) : (
+              <span key={j}>{seg}</span>
+            )
+          )}
+        </p>
+      ))}
+    </div>
+  );
 }

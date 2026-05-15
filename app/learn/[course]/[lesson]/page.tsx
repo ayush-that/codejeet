@@ -4,9 +4,6 @@ import { getAllLessonParams, getCourseBySlug, getLesson } from "@/lib/learn/load
 import { LessonWorkspace } from "@/components/learn/LessonWorkspace";
 import "./code-theme.css";
 
-export const dynamic = "force-static";
-export const dynamicParams = false;
-
 export async function generateStaticParams() {
   return getAllLessonParams();
 }
@@ -54,6 +51,7 @@ export default async function LessonPage({
       nextHref={next ? `/learn/${courseData.slug}/${next.slug}` : null}
       prevTitle={prev?.title ?? null}
       nextTitle={next?.title ?? null}
+      defaultLanguage={courseData.defaultLanguage}
     />
   );
 }

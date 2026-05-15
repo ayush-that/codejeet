@@ -1,0 +1,32 @@
+[
+  {
+    "name": "mixed duplicates",
+    "stdin": "6\n1 1 2 2 2 3\n",
+    "expectedStdout": "3\n1 2 3",
+    "visible": true
+  },
+  {
+    "name": "no duplicates",
+    "stdin": "4\n1 2 3 4\n",
+    "expectedStdout": "4\n1 2 3 4",
+    "visible": true
+  },
+  {
+    "name": "all same",
+    "stdin": "5\n7 7 7 7 7\n",
+    "expectedStdout": "1\n7",
+    "visible": true
+  },
+  {
+    "name": "single element",
+    "stdin": "1\n42\n",
+    "expectedStdout": "1\n42",
+    "visible": false
+  },
+  {
+    "name": "long run at end",
+    "stdin": "6\n1 2 3 3 3 3\n",
+    "expectedStdout": "3\n1 2 3",
+    "visible": false
+  }
+]

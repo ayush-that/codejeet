@@ -1,0 +1,51 @@
+{
+  "slug": "01-array-basics",
+  "title": "Array basics",
+  "description": "Quick sanity check on indexing, complexity and the two-pointer pattern.",
+  "order": 1,
+  "questions": [
+    {
+      "id": "q1",
+      "kind": "mcq",
+      "prompt": "What is the time complexity of finding the maximum element in an unsorted array of n integers?",
+      "options": ["O(1)", "O(log n)", "O(n)", "O(n log n)"],
+      "correctIndex": 2,
+      "explanation": "You must look at every element at least once — any single skip could miss the max — so it's at least O(n). A single-pass scan achieves exactly O(n)."
+    },
+    {
+      "id": "q2",
+      "kind": "mcq",
+      "prompt": "Why does the standard 'second largest' algorithm need to track BOTH the largest and the second largest in the same loop?",
+      "options": [
+        "Sorting is too slow",
+        "You can't know which element is the second largest until you've seen the largest",
+        "Hash maps are not allowed",
+        "Arrays are 0-indexed"
+      ],
+      "correctIndex": 1,
+      "explanation": "Until you've fixed the maximum, you can't decide what counts as 'second' to it. Maintaining both as you scan lets you correctly demote the old max when a new max appears."
+    },
+    {
+      "id": "q3",
+      "kind": "mcq",
+      "prompt": "An array is sorted in non-decreasing order if for every adjacent pair a[i-1] and a[i], it holds that ...",
+      "options": ["a[i-1] < a[i]", "a[i-1] <= a[i]", "a[i-1] > a[i]", "a[i-1] != a[i]"],
+      "correctIndex": 1,
+      "explanation": "Non-decreasing allows equality, so 1, 2, 2, 3 is sorted. Strictly increasing would be 1, 2, 3."
+    },
+    {
+      "id": "q4",
+      "kind": "fill-blank",
+      "prompt": "In the in-place 'remove duplicates from a sorted array' algorithm, the two pointers are usually called 'read' and 'write'. After the loop finishes, the new length of the unique-values prefix is _____ + 1.",
+      "acceptedAnswers": ["write"],
+      "explanation": "write was an index, so the prefix length is write + 1. The new logical end of the array is at index write."
+    },
+    {
+      "id": "q5",
+      "kind": "fill-blank",
+      "prompt": "In the 'move zeros to end' algorithm, we use a _____ operation rather than a copy because we also need to push the existing zero somewhere to the right.",
+      "acceptedAnswers": ["swap"],
+      "explanation": "Swapping moves the non-zero into place AND moves the zero out of place in a single step, preserving the relative order of non-zeros."
+    }
+  ]
+}

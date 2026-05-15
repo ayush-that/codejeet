@@ -5,7 +5,17 @@ const eslintConfig = [
   ...nextCoreWebVitals,
   ...nextTypescript,
   {
-    ignores: ["node_modules/**", ".next/**", "out/**", "build/**", "next-env.d.ts", "scraper/**"],
+    ignores: [
+      "node_modules/**",
+      ".next/**",
+      "out/**",
+      "build/**",
+      ".open-next/**",
+      "next-env.d.ts",
+      "scraper/**",
+      "lib/learn/generated.ts",
+      "content/learn/**",
+    ],
   },
 ];
 
