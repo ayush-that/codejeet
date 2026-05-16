@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ArrowLeft } from "lucide-react";
 import { getAllCourses, getCourseBySlug, getQuizzesForCourse } from "@/lib/learn/loader";
 import { LANGUAGE_LABEL } from "@/lib/learn/types";
 
@@ -33,8 +34,12 @@ export default async function CoursePage({ params }: { params: Promise<{ course:
 
   return (
     <div className="container mx-auto px-4 py-10 max-w-3xl">
-      <Link href="/learn" className="text-xs text-muted-foreground hover:text-foreground">
-        ← Learn
+      <Link
+        href="/learn"
+        className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
+      >
+        <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
+        Learn
       </Link>
       <header className="mt-3 mb-8">
         <h1 className="text-3xl md:text-4xl font-semibold tracking-tight">{data.title}</h1>

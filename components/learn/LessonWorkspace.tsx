@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { CodeEditor } from "./CodeEditor";
@@ -255,9 +256,10 @@ export function LessonWorkspace({
           <div className="mb-4">
             <Link
               href={courseHref}
-              className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+              className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
             >
-              ← {courseTitle}
+              <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
+              {courseTitle}
             </Link>
           </div>
           <LessonContent body={lesson.body} />
@@ -273,9 +275,10 @@ export function LessonWorkspace({
             {prevHref ? (
               <Link
                 href={prevHref}
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
-                ← {prevTitle ?? "Previous"}
+                <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+                {prevTitle ?? "Previous"}
               </Link>
             ) : (
               <span />
@@ -283,9 +286,10 @@ export function LessonWorkspace({
             {nextHref ? (
               <Link
                 href={nextHref}
-                className="text-sm text-foreground hover:text-foreground/80 transition-colors"
+                className="inline-flex items-center gap-1.5 text-sm text-foreground hover:text-foreground/80 transition-colors"
               >
-                {nextTitle ?? "Next"} →
+                {nextTitle ?? "Next"}
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </Link>
             ) : (
               <span />
