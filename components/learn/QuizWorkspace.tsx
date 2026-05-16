@@ -2,6 +2,7 @@
 
 import { useCallback, useMemo, useState } from "react";
 import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import type { Quiz, QuizQuestion } from "@/lib/learn/types";
@@ -117,8 +118,12 @@ export function QuizWorkspace({ quiz, courseTitle, courseHref }: QuizWorkspacePr
 
   return (
     <div className="container mx-auto px-4 py-10 max-w-3xl">
-      <Link href={courseHref} className="text-xs text-muted-foreground hover:text-foreground">
-        ← {courseTitle}
+      <Link
+        href={courseHref}
+        className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
+      >
+        <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
+        {courseTitle}
       </Link>
       <header className="mt-3 mb-6">
         <div className="text-xs uppercase tracking-wider text-muted-foreground">Quiz</div>
