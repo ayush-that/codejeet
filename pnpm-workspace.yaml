@@ -1,0 +1,8 @@
+packages:
+  - .
+onlyBuiltDependencies:
+  - "@clerk/shared"
+  - esbuild
+  - sharp
+  - unrs-resolver
+  - workerd
