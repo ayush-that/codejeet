@@ -14,6 +14,8 @@ const eslintConfig = [
       "next-env.d.ts",
       "scraper/**",
       "lib/learn/generated.ts",
+      "lib/sitemap/generated.ts",
+      "lib/system-design/generated.ts",
       "content/learn/**",
     ],
   },

@@ -16,7 +16,7 @@ export function Breadcrumbs({ items }: { items: BreadcrumbItem[] }) {
       {/* Full-bleed so the trail always aligns to the global container (same
           left edge as the navbar), regardless of each page's content width. */}
       <nav aria-label="Breadcrumb" className="relative left-1/2 w-screen -translate-x-1/2">
-        <ol className="container mx-auto flex flex-wrap items-center gap-2 px-4 pb-6 font-mono text-xs uppercase tracking-[0.1em] text-muted-foreground">
+        <ol className="container mx-auto flex flex-wrap items-center gap-2 px-4 pb-6 text-sm text-muted-foreground">
           {allItems.map((item, i) => (
             <li key={item.href} className="flex items-center gap-2">
               {i > 0 && <span className="text-muted-foreground/40">/</span>}

@@ -11,6 +11,9 @@ const NAV_LINKS = [
   { href: "/system-design", label: "System Design" },
 ];
 
+const navLinkClass =
+  "text-sm font-medium text-muted-foreground hover:text-foreground transition-colors";
+
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -27,9 +30,7 @@ const Navbar = () => {
               priority
               className="h-7 w-7"
             />
-            <span className="font-mono text-lg font-bold tracking-tight text-foreground">
-              codejeet
-            </span>
+            <span className="text-lg font-bold tracking-tight text-foreground">codejeet</span>
           </Link>
         </div>
 
@@ -38,20 +39,13 @@ const Navbar = () => {
         {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-6">
           {NAV_LINKS.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="font-mono text-xs uppercase tracking-[0.1em] text-muted-foreground hover:text-foreground transition-colors"
-            >
+            <Link key={link.href} href={link.href} className={navLinkClass}>
               {link.label}
             </Link>
           ))}
           <SignedOut>
             <SignInButton mode="modal">
-              <button
-                type="button"
-                className="font-mono text-xs uppercase tracking-[0.1em] text-muted-foreground hover:text-foreground transition-colors"
-              >
+              <button type="button" className={navLinkClass}>
                 Sign in
               </button>
             </SignInButton>
@@ -103,7 +97,7 @@ const Navbar = () => {
               key={link.href}
               href={link.href}
               onClick={() => setMobileOpen(false)}
-              className="block px-4 py-3 font-mono text-xs uppercase tracking-[0.1em] text-muted-foreground hover:text-foreground transition-colors border-b border-border last:border-0"
+              className={`block px-4 py-3 ${navLinkClass} border-b border-border last:border-0`}
             >
               {link.label}
             </Link>
@@ -111,10 +105,7 @@ const Navbar = () => {
           <div className="px-4 py-3">
             <SignedOut>
               <SignInButton mode="modal">
-                <button
-                  type="button"
-                  className="font-mono text-xs uppercase tracking-[0.1em] text-muted-foreground hover:text-foreground transition-colors"
-                >
+                <button type="button" className={navLinkClass}>
                   Sign in
                 </button>
               </SignInButton>

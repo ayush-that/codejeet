@@ -1,6 +1,7 @@
 import fs from "fs/promises";
 import path from "path";
 import matter from "gray-matter";
+import { spreadBlogDates } from "../lib/blog/dates";
 import { loadAllQuestions, type QuestionWithDetails } from "../lib/data";
 import { capitalizeWords } from "../utils/utils";
 
@@ -333,7 +334,7 @@ async function main() {
   sitemapUrls.push({ path: "/companies", priority: 0.9, changeFrequency: "weekly" });
   sitemapUrls.push({ path: "/podcast", priority: 0.6, changeFrequency: "monthly" });
 
-  // Company pages (skip companies with <3 questions — they have noindex)
+  // Companies with fewer than 3 questions are noindex
   for (const slug of Object.keys(companyProfiles)) {
     const profile = companyProfiles[slug];
     if (profile.questionCount < 3) continue;
@@ -521,15 +522,6 @@ async function main() {
     JSON.stringify(filterTypeLookup)
   );
 
-  // 9. Expand sitemap with cross-product URLs (skip problem-type — duplicates /problem/[slug])
-  for (const p of companyFilterParams) {
-    if (p.type === "problem") continue;
-    sitemapUrls.push({
-      path: `/company/${p.slug}/${p.filter}`,
-      priority: p.type === "topic" ? 0.6 : 0.5,
-      changeFrequency: "monthly",
-    });
-  }
   for (const p of comparisonPairs) {
     sitemapUrls.push({ path: `/compare/${p.pair}`, priority: 0.6, changeFrequency: "monthly" });
   }
@@ -578,9 +570,9 @@ async function main() {
       });
     }
 
-    blogIndex.sort((a, b) => (b.date ?? "").localeCompare(a.date ?? ""));
-    await fs.writeFile(path.join(outDir, "blog-index.json"), JSON.stringify(blogIndex));
-    console.log(`Wrote ${blogIndex.length} blog entries to blog-index.json`);
+    const datedIndex = spreadBlogDates(blogIndex);
+    await fs.writeFile(path.join(outDir, "blog-index.json"), JSON.stringify(datedIndex));
+    console.log(`Wrote ${datedIndex.length} blog entries to blog-index.json`);
   } catch {
     console.warn("No blog directory found, skipping blog-index.json");
   }

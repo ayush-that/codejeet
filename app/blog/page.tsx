@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { collectionJsonLd } from "@/lib/seo";
+import { getBlogIndex } from "@/lib/blog-data";
 import { BlogClient } from "./page.client";
 
 export const dynamic = "force-static";
@@ -23,7 +24,9 @@ export function generateMetadata(): Metadata {
   };
 }
 
-export default function BlogIndexPage() {
+export default async function BlogIndexPage() {
+  const blogIndex = await getBlogIndex();
+
   return (
     <div className="container mx-auto px-4 py-8 max-w-5xl">
       <Breadcrumbs items={[{ name: "Blog", href: "/blog" }]} />
@@ -42,7 +45,7 @@ export default function BlogIndexPage() {
           name: "CodeJeet Blog",
           description: "Interview prep guides and DSA tips for tech interviews.",
           url: "https://codejeet.com/blog",
-          numberOfItems: 0,
+          numberOfItems: blogIndex.length,
         })}
       />
     </div>

@@ -5,11 +5,11 @@ const Footer = () => {
     <footer className="py-4 border-t">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between">
-          <span className="flex items-center font-mono text-xs uppercase tracking-[0.1em] text-muted-foreground shrink-0">
+          <span className="flex items-center text-sm text-muted-foreground shrink-0">
             Built with <BsSuitHeartFill className="ml-1 mr-1" />
             by shydev
           </span>
-          <span className="hidden md:block font-mono text-xs tracking-[0.1em] text-muted-foreground text-center">
+          <span className="hidden md:block text-sm text-muted-foreground text-center">
             Questions sourced from{" "}
             <a
               href="https://github.com/liquidslr/interview-company-wise-problems"

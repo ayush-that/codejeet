@@ -8,8 +8,6 @@ import { Frame } from "@/components/ui/frame";
 import { GridRails, HatchDivider } from "@/components/ui/decor";
 
 export default function HomeClient() {
-  // ponytail: server renders a stable default; randomize the A/B hero image after
-  // mount so SSR and first client render match (Math.random in render = hydration mismatch).
   const [focusLabel, setFocusLabel] = useState<"DSA" | "System Design">("DSA");
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional: SSR-safe random after mount
@@ -25,7 +23,7 @@ export default function HomeClient() {
             <h1 className="text-center text-4xl md:text-5xl lg:text-6xl font-bold break-words w-full max-w-[92vw] md:max-w-[1100px] px-2 mx-auto leading-tight tracking-tight">
               15,000+ Company-wise LeetCode Interview Questions
             </h1>
-            <h2 className="font-mono text-base text-muted-foreground tracking-normal text-center max-w-2xl mx-auto">
+            <h2 className="text-base text-muted-foreground text-center max-w-2xl mx-auto">
               Filter by company, topic, and difficulty. Practice smarter for your next tech
               interview.
             </h2>

@@ -78,7 +78,9 @@ function slugFromUrl(url) {
 }
 
 function titleCaseDifficulty(d) {
-  const s = String(d || "").trim().toLowerCase();
+  const s = String(d || "")
+    .trim()
+    .toLowerCase();
   return s ? s.charAt(0).toUpperCase() + s.slice(1) : "";
 }
 
@@ -197,7 +199,11 @@ for (const slug of new Set([...E, ...L])) {
   let rows;
   if (L.has(slug)) {
     rows = buildLiquidRows(liquidBySlug.get(slug));
-    E.has(slug) ? overlapRefreshed++ : newAdded++;
+    if (E.has(slug)) {
+      overlapRefreshed++;
+    } else {
+      newAdded++;
+    }
   } else {
     rows = buildExistingRows(slug);
     existingKept++;
@@ -214,7 +220,9 @@ for (const slug of new Set([...E, ...L])) {
 }
 
 console.log("\n==================== IMPORT REPORT ====================");
-console.log(`Companies: ${overlapRefreshed + existingKept + newAdded} (refreshed ${overlapRefreshed}, kept ${existingKept}, new ${newAdded})`);
+console.log(
+  `Companies: ${overlapRefreshed + existingKept + newAdded} (refreshed ${overlapRefreshed}, kept ${existingKept}, new ${newAdded})`
+);
 console.log(`Total rows: ${totalRows}`);
 for (const k of ["30_days", "3_months", "6_months", "more_than_6m", "all"]) {
   console.log(`  ${k.padEnd(13)}: ${timeframeCounts[k] || 0}`);
