@@ -44,9 +44,11 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
+const clerkPublishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <ClerkProvider appearance={{ baseTheme: dark }}>
+    <ClerkProvider publishableKey={clerkPublishableKey} appearance={{ baseTheme: dark }}>
       <html lang="en" suppressHydrationWarning>
         <head>
           <JsonLd data={websiteJsonLd()} />
