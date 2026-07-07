@@ -155,6 +155,8 @@ async function main() {
 
   const outDir = path.join(process.cwd(), "public", "data");
   await fs.mkdir(outDir, { recursive: true });
+  // Drop legacy monolith if cached from an older build (exceeded 25 MiB asset limit).
+  await fs.unlink(path.join(outDir, "comparison-pairs.json")).catch(() => {});
 
   // Write main questions.json (lightweight, for dashboard listing). Strip the
   // heavy per-problem fields (hints, similar_questions, totals, category,

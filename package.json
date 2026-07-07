@@ -6,7 +6,7 @@
     "prebuild": "tsx scripts/build-data.ts && tsx scripts/build-blog.ts && tsx scripts/build-learn.ts && tsx scripts/build-system-design.ts && tsx scripts/build-sitemap.ts",
     "import:data": "node scripts/import-liquidslr.mjs",
     "build": "next build",
-    "build:worker": "opennextjs-cloudflare build --minify",
+    "build:worker": "opennextjs-cloudflare build --minify && tsx scripts/check-worker-assets.ts",
     "preview": "wrangler dev",
     "deploy": "wrangler deploy",
     "format": "oxfmt --write .",
