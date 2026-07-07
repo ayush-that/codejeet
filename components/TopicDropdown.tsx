@@ -44,7 +44,7 @@ export default function TopicDropdown({
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="justify-between min-w-[200px] bg-transparent [&>span]:line-clamp-1"
+            className="justify-between min-w-[200px] [&>span]:line-clamp-1"
           >
             <span className="line-clamp-1">
               {selectedOptions.length === 0 ? placeholder : `${selectedOptions.length} selected`}

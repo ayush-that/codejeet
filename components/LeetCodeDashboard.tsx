@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState, useMemo, useEffect, useRef } from "react";
-import { useUser, SignedOut, SignInButton } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import { fetchUserProgress, updateQuestionProgress, reviewStatus } from "@/utils/progressUtils";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -389,24 +389,7 @@ const LeetCodeDashboard: React.FC<LeetCodeDashboardProps> = ({
   return (
     <div className="p-6">
       <Card className="w-full">
-        <CardHeader>
-          <CardTitle className="text-3xl font-bold">Practice Questions</CardTitle>
-          <CardDescription>
-            Browse through {filteredQuestions.length.toLocaleString()} DSA questions asked in
-            technical interviews
-          </CardDescription>
-          <SignedOut>
-            <CardDescription className="mt-1">
-              <SignInButton mode="modal">
-                <button type="button" className="text-primary hover:underline">
-                  Sign in
-                </button>
-              </SignInButton>{" "}
-              to save your progress across devices and get revision reminders.
-            </CardDescription>
-          </SignedOut>
-        </CardHeader>
-        <CardContent>
+        <CardContent className="pt-6">
           <div className="flex flex-col gap-6">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <Card className="bg-background/50">

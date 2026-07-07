@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import { Button } from "@/components/ui/button";
 
 const NAV_LINKS = [
   { href: "/blog", label: "Blog" },
@@ -45,9 +46,9 @@ const Navbar = () => {
           ))}
           <SignedOut>
             <SignInButton mode="modal">
-              <button type="button" className={navLinkClass}>
+              <Button type="button" variant="outline" size="sm">
                 Sign in
-              </button>
+              </Button>
             </SignInButton>
           </SignedOut>
           <SignedIn>
@@ -105,9 +106,9 @@ const Navbar = () => {
           <div className="px-4 py-3">
             <SignedOut>
               <SignInButton mode="modal">
-                <button type="button" className={navLinkClass}>
+                <Button type="button" variant="outline" size="sm">
                   Sign in
-                </button>
+                </Button>
               </SignInButton>
             </SignedOut>
             <SignedIn>
