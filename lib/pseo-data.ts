@@ -184,7 +184,6 @@ export interface ComparisonPair {
   sharedCount: number;
   uniqueToACount: number;
   uniqueToBCount: number;
-  sharedSlugs: string[];
   sharedProblems: CompareQuestion[];
   exclusiveToA: CompareQuestion[];
   exclusiveToB: CompareQuestion[];
@@ -192,13 +191,25 @@ export interface ComparisonPair {
   blogSlug?: string;
 }
 
-export async function getAllComparisonPairs(): Promise<Record<string, ComparisonPair>> {
-  return readJson(path.join(DATA_DIR, "comparison-pairs.json"));
+export interface ComparisonIndexEntry {
+  pair: string;
+  companyA: { slug: string; displayName: string; questionCount: number };
+  companyB: { slug: string; displayName: string; questionCount: number };
+  sharedCount: number;
+  uniqueToACount: number;
+  uniqueToBCount: number;
+}
+
+export async function getComparisonIndex(): Promise<ComparisonIndexEntry[]> {
+  return readJson(path.join(DATA_DIR, "comparison-index.json"));
 }
 
 export async function getComparisonPair(pair: string): Promise<ComparisonPair | null> {
-  const pairs = await getAllComparisonPairs();
-  return pairs[pair] ?? null;
+  try {
+    return await readJson<ComparisonPair>(path.join(DATA_DIR, "compare", `${pair}.json`));
+  } catch {
+    return null;
+  }
 }
 
 // === Sitemap ===

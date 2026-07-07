@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getAllComparisonPairs, getComparisonPair, type CompareQuestion } from "@/lib/pseo-data";
+import { getComparisonIndex, getComparisonPair, type CompareQuestion } from "@/lib/pseo-data";
 import {
   breadcrumbJsonLd,
   buildCompareFaqs,
@@ -17,10 +17,8 @@ import { isCompareIndexable } from "@/lib/compare";
 export const dynamicParams = true;
 
 export async function generateStaticParams() {
-  const pairs = await getAllComparisonPairs();
-  return Object.values(pairs)
-    .filter((p) => isCompareIndexable(p.sharedCount))
-    .map((p) => ({ pair: p.pair }));
+  const pairs = await getComparisonIndex();
+  return pairs.filter((p) => isCompareIndexable(p.sharedCount)).map((p) => ({ pair: p.pair }));
 }
 
 export async function generateMetadata({

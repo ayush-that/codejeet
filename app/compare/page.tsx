@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getAllComparisonPairs } from "@/lib/pseo-data";
+import { getComparisonIndex } from "@/lib/pseo-data";
 import { isCompareIndexable } from "@/lib/compare";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -23,8 +23,7 @@ export const metadata: Metadata = {
 };
 
 export default async function CompareIndexPage() {
-  const pairs = await getAllComparisonPairs();
-  const indexable = Object.values(pairs)
+  const indexable = (await getComparisonIndex())
     .filter((p) => isCompareIndexable(p.sharedCount))
     .sort((a, b) => b.sharedCount - a.sharedCount);
 

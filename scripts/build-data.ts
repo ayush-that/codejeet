@@ -475,7 +475,6 @@ async function main() {
     sharedCount: number;
     uniqueToACount: number;
     uniqueToBCount: number;
-    sharedSlugs: string[];
     sharedProblems: CompareQuestion[];
     exclusiveToA: CompareQuestion[];
     exclusiveToB: CompareQuestion[];
@@ -585,7 +584,6 @@ async function main() {
         sharedCount: shared.length,
         uniqueToACount: first.questionCount - shared.length,
         uniqueToBCount: second.questionCount - shared.length,
-        sharedSlugs: shared.slice(0, 50),
         sharedProblems,
         exclusiveToA,
         exclusiveToB,
@@ -595,12 +593,44 @@ async function main() {
     }
   }
 
-  // Write comparison pairs index (slug list for generateStaticParams)
-  await fs.writeFile(
-    path.join(outDir, "comparison-pairs.json"),
-    JSON.stringify(Object.fromEntries(comparisonPairs.map((p) => [p.pair, p])))
+  const compareDir = path.join(outDir, "compare");
+  await fs.mkdir(compareDir, { recursive: true });
+
+  const comparisonIndex = comparisonPairs.map((p) => ({
+    pair: p.pair,
+    companyA: {
+      slug: p.companyA.slug,
+      displayName: p.companyA.displayName,
+      questionCount: p.companyA.questionCount,
+    },
+    companyB: {
+      slug: p.companyB.slug,
+      displayName: p.companyB.displayName,
+      questionCount: p.companyB.questionCount,
+    },
+    sharedCount: p.sharedCount,
+    uniqueToACount: p.uniqueToACount,
+    uniqueToBCount: p.uniqueToBCount,
+  }));
+
+  await fs.writeFile(path.join(outDir, "comparison-index.json"), JSON.stringify(comparisonIndex));
+
+  let compareFilesWritten = 0;
+  for (const p of comparisonPairs) {
+    if (!isCompareIndexable(p.sharedCount)) continue;
+    await fs.writeFile(path.join(compareDir, `${p.pair}.json`), JSON.stringify(p));
+    compareFilesWritten++;
+  }
+
+  try {
+    await fs.unlink(path.join(outDir, "comparison-pairs.json"));
+  } catch {
+    // legacy monolith removed — per-pair files stay under Cloudflare's 25 MiB asset limit
+  }
+
+  console.log(
+    `Wrote ${comparisonPairs.length} comparison index entries and ${compareFilesWritten} compare detail files`
   );
-  console.log(`Wrote ${comparisonPairs.length} comparison pairs`);
 
   // 8. Build filter type lookup (for page component to determine filter type)
   const filterTypeLookup: Record<string, "topic" | "difficulty"> = {};
