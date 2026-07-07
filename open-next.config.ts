@@ -9,5 +9,5 @@ const config = defineCloudflareConfig({
 
 export default {
   ...config,
-  buildCommand: "pnpm run build",
+  buildCommand: "CI=true pnpm run build",
 };

@@ -16,8 +16,8 @@ const nextConfig: NextConfig = {
   },
   productionBrowserSourceMaps: false,
   poweredByHeader: false,
-  // Avoid parallel SSG races (ENOENT mkdir) when prerendering 13k+ pages in CI.
-  experimental: process.env.CI ? { cpus: 1, staticGenerationMaxConcurrency: 1 } : undefined,
+  // Serialize SSG: parallel opengraph-image prerender races cause ENOENT at ~13k pages.
+  experimental: { cpus: 1, staticGenerationMaxConcurrency: 1 },
 };
 
 export default nextConfig;
