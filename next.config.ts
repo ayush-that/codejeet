@@ -16,8 +16,6 @@ const nextConfig: NextConfig = {
   },
   productionBrowserSourceMaps: false,
   poweredByHeader: false,
-  // Serialize SSG: parallel opengraph-image prerender races cause ENOENT at ~13k pages.
-  experimental: { cpus: 1, staticGenerationMaxConcurrency: 1 },
 };
 
 export default nextConfig;

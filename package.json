@@ -8,7 +8,7 @@
     "build": "NODE_OPTIONS='--max-old-space-size=6144' next build",
     "build:worker": "opennextjs-cloudflare build --minify && tsx scripts/check-worker-assets.ts",
     "preview": "wrangler dev",
-    "deploy": "wrangler deploy",
+    "deploy": "pnpm exec tsx scripts/check-worker-assets.ts && wrangler deploy",
     "format": "oxfmt --write .",
     "format:check": "oxfmt --check .",
     "prepare": "husky",

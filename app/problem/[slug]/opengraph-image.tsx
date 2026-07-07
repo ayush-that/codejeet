@@ -1,13 +1,10 @@
 import { ImageResponse } from "next/og";
-import { getProblem, getProblemSlugs, getProblemCompanies } from "@/lib/pseo-data";
+import { getProblem, getProblemCompanies } from "@/lib/pseo-data";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-export async function generateStaticParams() {
-  const slugs = await getProblemSlugs();
-  return slugs.map((slug) => ({ slug }));
-}
+// Generated on demand — pre-rendering ~2.8k OG images bloated CI and caused ENOENT races.
 
 const DIFFICULTY_COLORS: Record<string, string> = {
   Easy: "#22c55e",

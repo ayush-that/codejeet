@@ -1,13 +1,10 @@
 import { ImageResponse } from "next/og";
-import { getAllCompanyProfiles, getCompanyProfile } from "@/lib/pseo-data";
+import { getCompanyProfile } from "@/lib/pseo-data";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-export async function generateStaticParams() {
-  const profiles = await getAllCompanyProfiles();
-  return Object.keys(profiles).map((slug) => ({ slug }));
-}
+// Generated on demand — pre-rendering ~400 OG images slowed Workers Builds.
 
 export default async function OGImage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
