@@ -10,6 +10,7 @@ import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { CodeTabs } from "@/components/blog/CodeTabs";
 import { MermaidDiagram } from "@/components/blog/MermaidDiagram";
+import { comparePairFromBlogSlug } from "@/lib/compare";
 import { getBlogIndex, getBlogPost, getBlogSlugs } from "@/lib/blog-data";
 import "./code-theme.css";
 
@@ -30,15 +31,20 @@ export async function generateMetadata({
   const post = await getBlogPost(slug);
   if (!post) return { title: "Blog Post Not Found" };
 
+  const comparePair = comparePairFromBlogSlug(slug);
+  const canonical = comparePair
+    ? `https://codejeet.com/compare/${comparePair}`
+    : `https://codejeet.com/blog/${slug}`;
+
   return {
     title: post.title,
     description: post.description,
-    alternates: { canonical: `https://codejeet.com/blog/${slug}` },
+    alternates: { canonical },
     openGraph: {
       title: `${post.title} | CodeJeet`,
       description: post.description,
       type: "article",
-      url: `https://codejeet.com/blog/${slug}`,
+      url: canonical,
     },
   };
 }

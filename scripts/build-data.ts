@@ -2,6 +2,7 @@ import fs from "fs/promises";
 import path from "path";
 import matter from "gray-matter";
 import { spreadBlogDates } from "../lib/blog/dates";
+import { isCompareIndexable, parseComparePair } from "../lib/compare";
 import { loadAllQuestions, type QuestionWithDetails } from "../lib/data";
 import { capitalizeWords } from "../utils/utils";
 
@@ -444,6 +445,19 @@ async function main() {
 
   const topN = sortedCompanies.slice(0, 100);
 
+  type CompareQuestion = {
+    slug: string;
+    title: string;
+    difficulty: string;
+    topics: string[];
+  };
+
+  type CompareTopicStat = {
+    name: string;
+    slug: string;
+    count: number;
+  };
+
   interface ComparisonPair {
     pair: string;
     companyA: {
@@ -459,15 +473,49 @@ async function main() {
       difficultyDist: DifficultyDist;
     };
     sharedCount: number;
+    uniqueToACount: number;
+    uniqueToBCount: number;
     sharedSlugs: string[];
+    sharedProblems: CompareQuestion[];
+    exclusiveToA: CompareQuestion[];
+    exclusiveToB: CompareQuestion[];
+    topSharedTopics: CompareTopicStat[];
+    blogSlug?: string;
   }
 
   const comparisonPairs: ComparisonPair[] = [];
+
+  let compareBlogSlugSet = new Set<string>();
+  try {
+    const compareBlogFiles = await fs.readdir(path.join(process.cwd(), "content", "blog"));
+    compareBlogSlugSet = new Set(
+      compareBlogFiles.filter((f) => f.endsWith(".md")).map((f) => f.replace(/\.md$/, ""))
+    );
+  } catch {
+    // No blog directory during partial builds
+  }
 
   // Pre-build question sets per company for fast overlap computation
   const companyQuestionSets = new Map<string, Set<string>>();
   for (const c of topN) {
     companyQuestionSets.set(c.slug, new Set(c.questions.map((q) => q.slug)));
+  }
+
+  function toCompareQuestion(q: CompanyProfile["questions"][number]): CompareQuestion {
+    return {
+      slug: q.slug,
+      title: q.title,
+      difficulty: q.difficulty,
+      topics: q.topics,
+    };
+  }
+
+  function questionForSlug(slug: string, ...profiles: CompanyProfile[]): CompareQuestion | null {
+    for (const profile of profiles) {
+      const q = profile.questions.find((item) => item.slug === slug);
+      if (q) return toCompareQuestion(q);
+    }
+    return null;
   }
 
   for (let i = 0; i < topN.length; i++) {
@@ -480,7 +528,45 @@ async function main() {
 
       const setA = companyQuestionSets.get(first.slug)!;
       const setB = companyQuestionSets.get(second.slug)!;
-      const shared = Array.from(setA).filter((s) => setB.has(s));
+      const shared = first.questions.map((q) => q.slug).filter((slug) => setB.has(slug));
+
+      const topicCounts = new Map<string, number>();
+      const sharedProblems: CompareQuestion[] = [];
+      for (const slug of shared.slice(0, 30)) {
+        const q = questionForSlug(slug, first, second);
+        if (!q) continue;
+        sharedProblems.push(q);
+        for (const topic of q.topics) {
+          topicCounts.set(topic, (topicCounts.get(topic) || 0) + 1);
+        }
+      }
+
+      const topSharedTopics: CompareTopicStat[] = Array.from(topicCounts.entries())
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 8)
+        .map(([name, count]) => ({
+          name,
+          slug: topicSlug(name),
+          count,
+        }));
+
+      const exclusiveToA = first.questions
+        .filter((q) => !setB.has(q.slug))
+        .slice(0, 12)
+        .map(toCompareQuestion);
+      const exclusiveToB = second.questions
+        .filter((q) => !setA.has(q.slug))
+        .slice(0, 12)
+        .map(toCompareQuestion);
+
+      const parsed = parseComparePair(pair);
+      const blogCandidates = parsed
+        ? [
+            `${parsed.companyA}-vs-${parsed.companyB}-interview-comparison`,
+            `${parsed.companyB}-vs-${parsed.companyA}-interview-comparison`,
+          ]
+        : [];
+      const blogSlug = blogCandidates.find((slug) => compareBlogSlugSet.has(slug));
 
       comparisonPairs.push({
         pair,
@@ -497,7 +583,14 @@ async function main() {
           difficultyDist: second.difficultyDist,
         },
         sharedCount: shared.length,
+        uniqueToACount: first.questionCount - shared.length,
+        uniqueToBCount: second.questionCount - shared.length,
         sharedSlugs: shared.slice(0, 50),
+        sharedProblems,
+        exclusiveToA,
+        exclusiveToB,
+        topSharedTopics,
+        ...(blogSlug ? { blogSlug } : {}),
       });
     }
   }
@@ -522,9 +615,16 @@ async function main() {
     JSON.stringify(filterTypeLookup)
   );
 
+  sitemapUrls.push({ path: "/compare", priority: 0.8, changeFrequency: "weekly" });
+
+  let indexableCompareCount = 0;
   for (const p of comparisonPairs) {
-    sitemapUrls.push({ path: `/compare/${p.pair}`, priority: 0.6, changeFrequency: "monthly" });
+    if (!isCompareIndexable(p.sharedCount)) continue;
+    indexableCompareCount++;
+    const priority = p.sharedCount >= 50 ? 0.75 : p.sharedCount >= 20 ? 0.7 : 0.65;
+    sitemapUrls.push({ path: `/compare/${p.pair}`, priority, changeFrequency: "monthly" });
   }
+  console.log(`Added ${indexableCompareCount} indexable comparison URLs to sitemap`);
 
   // Blog pages
   const blogDir = path.join(process.cwd(), "content", "blog");

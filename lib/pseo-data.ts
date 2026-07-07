@@ -154,6 +154,19 @@ export async function getFilterTypeLookup(): Promise<Record<string, "topic" | "d
   return readJson(path.join(DATA_DIR, "filter-type-lookup.json"));
 }
 
+export interface CompareQuestion {
+  slug: string;
+  title: string;
+  difficulty: string;
+  topics: string[];
+}
+
+export interface CompareTopicStat {
+  name: string;
+  slug: string;
+  count: number;
+}
+
 export interface ComparisonPair {
   pair: string;
   companyA: {
@@ -169,7 +182,14 @@ export interface ComparisonPair {
     difficultyDist: { easy: number; medium: number; hard: number };
   };
   sharedCount: number;
+  uniqueToACount: number;
+  uniqueToBCount: number;
   sharedSlugs: string[];
+  sharedProblems: CompareQuestion[];
+  exclusiveToA: CompareQuestion[];
+  exclusiveToB: CompareQuestion[];
+  topSharedTopics: CompareTopicStat[];
+  blogSlug?: string;
 }
 
 export async function getAllComparisonPairs(): Promise<Record<string, ComparisonPair>> {
