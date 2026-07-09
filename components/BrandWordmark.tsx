@@ -1,12 +1,11 @@
 "use client";
 
-import Image from "next/image";
-import { Antonio } from "next/font/google";
+import { Chango } from "next/font/google";
 import { cn } from "@/lib/utils";
 
-const antonio = Antonio({
+const chango = Chango({
   subsets: ["latin"],
-  weight: ["700"],
+  weight: "400",
 });
 
 type BrandLockupProps = {
@@ -16,18 +15,9 @@ type BrandLockupProps = {
 export function BrandLockup({ className }: BrandLockupProps) {
   return (
     <span
-      className={cn(antonio.className, "brand-lockup inline-flex items-center gap-2", className)}
+      className={cn(chango.className, "brand-lockup inline-flex items-center", className)}
     >
-      <Image
-        src="/logo.png"
-        alt=""
-        width={24}
-        height={24}
-        priority
-        aria-hidden
-        className="brand-logo shrink-0"
-      />
-      <span className="brand-wordmark select-none">codejeet</span>
+      <span className="brand-wordmark select-none">Codejeet</span>
     </span>
   );
 }

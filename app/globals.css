@@ -151,27 +151,14 @@
     transform: translateX(-50%);
   }
 
-  /* Navbar brand lockup — icon sized to cap height of the wordmark. */
+  /* Navbar brand wordmark — Chango display face. */
   .brand-lockup {
-    font-size: 1.125rem;
+    font-size: 1.35rem;
     line-height: 1;
   }
 
-  .brand-logo {
-    /* 1em = wordmark font size; slight bump for PNG inset + emboss depth */
-    height: 1.2em;
-    width: auto;
-  }
-
-  /* Condensed command-style emboss (reference: COMMAND CODE). */
   .brand-wordmark {
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
+    letter-spacing: 0.02em;
     color: oklch(0.97 0 0);
-    text-shadow:
-      0 1px 0 oklch(1 0 0 / 0.75),
-      0 2px 0 oklch(0.72 0 0 / 0.55),
-      0 3px 0 oklch(0.5 0 0 / 0.45),
-      0 4px 1px oklch(0.28 0 0 / 0.55);
   }
 }

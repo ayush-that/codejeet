@@ -1,4 +1,4 @@
-// Progress sync (signed-in users) + spaced-repetition scheduling.
+// Progress sync for signed-in users.
 // Signed-out users keep using localStorage ("leetcode-checked-items") as before;
 // this layer is purely additive on top of that.
 
@@ -53,34 +53,4 @@ export function saveLocalProgress(progress: Record<string, boolean>): void {
   } catch (error) {
     console.error("saveLocalProgress failed:", error);
   }
-}
-
-// --- Spaced repetition ---------------------------------------------------
-// Stateless: a pure function of the solve date + how "fundamental/frequent" the
-// question is (Amey's request). No cron, no email, no stored review state.
-// A question becomes "due" once enough days have passed since it was solved;
-// fundamental/frequent and harder questions come back SOONER (~6 days) than rare
-// easy ones (~14 days). Re-solving (uncheck then re-check) resets the clock.
-//
-// We deliberately don't model a growing multi-step ladder: true spaced repetition
-// needs per-review state we don't store, so a weighted recurring threshold is the
-// honest, useful v1.
-const BASE_REVIEW_DAYS = 14;
-const DAY_MS = 86_400_000;
-
-export function reviewStatus(
-  solvedAtISO: string,
-  freq: number,
-  difficulty: string,
-  now: number = Date.now()
-): { isDue: boolean; nextReview: number } {
-  const solved = new Date(solvedAtISO).getTime();
-  if (!Number.isFinite(solved)) return { isDue: false, nextReview: Infinity };
-
-  const diffScore = difficulty === "Hard" ? 1 : difficulty === "Medium" ? 0.5 : 0;
-  // weight in [1, 2.5]: 30+ companies = max frequency signal.
-  const weight = 1 + Math.min(freq / 30, 1) + 0.5 * diffScore;
-  const intervalDays = Math.max(3, Math.round(BASE_REVIEW_DAYS / weight)); // ~6 .. 14
-  const nextReview = solved + intervalDays * DAY_MS;
-  return { isDue: now >= nextReview, nextReview };
 }

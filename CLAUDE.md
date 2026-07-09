@@ -41,7 +41,7 @@ Markdown-based content in `public/system-design/` with numbered folders (e.g., `
 
 All browsing is public — sign-in is only needed to **save** progress. `middleware.ts` runs a bare `clerkMiddleware()` that gates nothing; the API route does its own `auth()` check. **Keep it as `middleware.ts`, NOT `proxy.ts`:** Next 16's `proxy.ts` convention is hardwired to the Node.js runtime, but OpenNext for Cloudflare only supports **Edge** middleware (`opennextjs-cloudflare build` exits with "Node.js middleware is not currently supported" otherwise). `middleware.ts` runs on Edge — the deprecation warning during build is expected and harmless. `app/layout.tsx` wraps the app in `ClerkProvider` (dark theme); `Navbar` shows `SignInButton`/`UserButton`. GitHub is the only enabled social connection. Pinned to **Clerk v6** (`@clerk/nextjs@^6`): v7 dropped `SignedIn`/`SignedOut`/`appearance.baseTheme`.
 
-When signed in, the dashboard syncs the localStorage `leetcode-checked-items` map to D1 via `utils/progressUtils.ts`; marking is keyed by slug (`question.ID`), so a question marked once shows solved across all companies. `reviewStatus()` computes a "due for revision" flag from solve date + company-frequency + difficulty (no cron/email).
+When signed in, the dashboard syncs the localStorage `leetcode-checked-items` map to D1 via `utils/progressUtils.ts`; marking is keyed by slug (`question.ID`), so a question marked once shows solved across all companies.
 
 ### Deployment (OpenNext → Cloudflare Workers)
 
