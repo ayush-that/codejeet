@@ -35,10 +35,18 @@ describe("encodeDashboardData", () => {
 
     assert.deepEqual(payload.topics, ["Array", "Hash Table", "Two Pointers"]);
     assert.deepEqual(payload.companies, [
-      ["amazon", 2],
-      ["google", 1],
+      ["amazon", 2, "Amazon"],
+      ["google", 1, "Google"],
     ]);
-    assert.equal(payload.v, 1);
+    assert.equal(payload.v, 2);
+  });
+
+  it("bakes brand-cased display names for special company slugs", () => {
+    const payload = encodeDashboardData([q({ company: "jpmorgan" }), q({ company: "github" })]);
+    assert.deepEqual(payload.companies, [
+      ["github", 1, "GitHub"],
+      ["jpmorgan", 1, "JPMorgan"],
+    ]);
   });
 
   it("stores each problem once and links every row", () => {

@@ -27,10 +27,12 @@ export type EncodedLink = [
   timeframeMask: number,
 ];
 
-export type EncodedCompany = [slug: string, count: number];
+// displayName is baked at build time (brand casing: JPMorgan, GitHub, AT&T).
+// UI never re-capitalizes slugs at runtime.
+export type EncodedCompany = [slug: string, count: number, displayName: string];
 
 export interface DashboardPayload {
-  v: 1;
+  v: 2;
   topics: string[];
   companies: EncodedCompany[];
   problems: EncodedProblem[];

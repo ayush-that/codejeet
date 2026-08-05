@@ -1,8 +1,10 @@
+import { capitalizeWords } from "../../utils/utils";
 import {
   DIFFICULTIES,
   maskFromTimeframes,
   type DashboardPayload,
   type Difficulty,
+  type EncodedCompany,
   type EncodedLink,
   type EncodedProblem,
 } from "./schema";
@@ -81,9 +83,11 @@ export function encodeDashboardData(questions: readonly SourceQuestion[]): Dashb
   }
 
   return {
-    v: 1,
+    v: 2,
     topics,
-    companies: companies.map((company, i): [string, number] => [company, counts[i]]),
+    companies: companies.map(
+      (company, i): EncodedCompany => [company, counts[i], capitalizeWords(company)]
+    ),
     problems,
     links,
   };

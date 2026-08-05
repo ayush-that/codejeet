@@ -24,7 +24,6 @@ import { ChevronLeft, ChevronRight, ChevronDown, ChevronUp } from "lucide-react"
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { capitalizeWords } from "@/utils/utils";
 import { DifficultyBadge } from "@/components/ui/difficulty-badge";
 import TopicDropdown from "@/components/TopicDropdown";
 import { toDisplayRow, type DashboardIndex } from "@/lib/dashboard/decode";
@@ -120,7 +119,11 @@ const LeetCodeDashboard: React.FC<LeetCodeDashboardProps> = ({
   const companyStats = useMemo(() => {
     if (!index) return [];
     return index.companies
-      .map((name, i) => ({ name, count: index.companyCounts[i] }))
+      .map((slug, i) => ({
+        slug,
+        name: index.companyNames[i],
+        count: index.companyCounts[i],
+      }))
       .sort((a, b) => b.count - a.count);
   }, [index]);
 
@@ -327,11 +330,15 @@ const LeetCodeDashboard: React.FC<LeetCodeDashboardProps> = ({
                   <div className="absolute left-0 right-0 mt-1 z-20 rounded-md border bg-popover text-popover-foreground shadow-md max-h-64 overflow-y-auto">
                     <ul className="py-1 text-sm">
                       {companyStats
-                        .filter((c) => c.name.toLowerCase().includes(searchQuery.toLowerCase()))
+                        .filter(
+                          (c) =>
+                            c.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                            c.slug.toLowerCase().includes(searchQuery.toLowerCase())
+                        )
                         .slice(0, 10)
                         .map((c) => (
                           <li
-                            key={c.name}
+                            key={c.slug}
                             className="px-3 py-2 hover:bg-accent hover:text-accent-foreground cursor-pointer"
                             onMouseDown={(e) => e.preventDefault()}
                             onClick={() => {
@@ -570,7 +577,7 @@ const LeetCodeDashboard: React.FC<LeetCodeDashboardProps> = ({
                             </a>
                           </TableCell>
                           <TableCell>
-                            <div className="capitalize">{capitalizeWords(row.company)}</div>
+                            <div>{row.company}</div>
                           </TableCell>
                           <TableCell>
                             <DifficultyBadge difficulty={row.difficulty} />
@@ -684,9 +691,7 @@ const LeetCodeDashboard: React.FC<LeetCodeDashboardProps> = ({
                             >
                               {row.title}
                             </a>
-                            <div className="capitalize text-xs text-muted-foreground">
-                              {capitalizeWords(row.company)}
-                            </div>
+                            <div className="text-xs text-muted-foreground">{row.company}</div>
                           </div>
                         </div>
                         <DifficultyBadge difficulty={row.difficulty} />

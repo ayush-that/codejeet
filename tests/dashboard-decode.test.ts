@@ -37,14 +37,15 @@ const index = decodeDashboardPayload(
 );
 
 describe("decodeDashboardPayload", () => {
-  it("splits companies from their counts", () => {
+  it("splits company slugs, display names, and counts", () => {
     assert.deepEqual(index.companies, ["amazon", "google"]);
+    assert.deepEqual(index.companyNames, ["Amazon", "Google"]);
     assert.deepEqual(index.companyCounts, [1, 1]);
   });
 
   it("precomputes lowercase lookups so search does no work per keystroke", () => {
     assert.deepEqual(index.titleLower, ["two sum", "median of two sorted arrays"]);
-    assert.deepEqual(index.companyLower, ["amazon", "google"]);
+    assert.deepEqual(index.companyLower, ["amazon amazon", "google google"]);
     assert.deepEqual(index.topicsLower, ["array", "hash table"]);
   });
 
@@ -55,14 +56,14 @@ describe("decodeDashboardPayload", () => {
 });
 
 describe("toDisplayRow", () => {
-  it("rebuilds every rendered field", () => {
+  it("rebuilds every rendered field with baked company display name", () => {
     assert.deepEqual(toDisplayRow(index, 0), {
       key: "0",
       slug: "two-sum",
       title: "Two Sum",
       path: "/problems/two-sum",
       difficulty: "Easy",
-      company: "google",
+      company: "Google",
       acceptance: "54.3%",
       frequency: "100.0%",
       topics: ["Array", "Hash Table"],

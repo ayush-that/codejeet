@@ -2,16 +2,34 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
+  getAllCompanyProfiles,
   getCompanyProfile,
   getFilterTypeLookup,
   getProblem,
   getProblemCompanies,
+  getTopicProfile,
 } from "@/lib/pseo-data";
 import { collectionJsonLd, problemJsonLd } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { DifficultyBadge } from "@/components/ui/difficulty-badge";
-import { capitalizeWords } from "@/utils/utils";
+
+const DIFFICULTY_LABELS: Record<string, string> = {
+  easy: "Easy",
+  medium: "Medium",
+  hard: "Hard",
+};
+
+async function topicLabelFor(filter: string, questions: { topics: string[] }[]): Promise<string> {
+  const profile = await getTopicProfile(filter);
+  if (profile?.name) return profile.name;
+  // Fall back to the first matching topic string already stored on questions.
+  for (const q of questions) {
+    const match = q.topics.find((t) => toTopicSlug(t) === filter);
+    if (match) return match;
+  }
+  return filter;
+}
 
 export const dynamicParams = true;
 
@@ -66,7 +84,7 @@ export async function generateMetadata({
   const { displayName, questions } = profile;
 
   if (filterType === "topic") {
-    const topicLabel = capitalizeWords(filter);
+    const topicLabel = await topicLabelFor(filter, questions);
     const filtered = questions.filter((q) => q.topics.some((t) => toTopicSlug(t) === filter));
     const count = filtered.length;
 
@@ -87,7 +105,7 @@ export async function generateMetadata({
   }
 
   if (filterType === "difficulty") {
-    const diffLabel = capitalizeWords(filter);
+    const diffLabel = DIFFICULTY_LABELS[filter] ?? filter;
     const filtered = questions.filter((q) => q.difficulty.toLowerCase() === filter);
     const count = filtered.length;
 
@@ -153,7 +171,7 @@ export default async function CompanyFilterPage({ params }: { params: Promise<Pa
 /*  Topic Filter View                                                  */
 /* ------------------------------------------------------------------ */
 
-function TopicFilterView({
+async function TopicFilterView({
   slug,
   filter,
   profile,
@@ -163,7 +181,7 @@ function TopicFilterView({
   profile: NonNullable<Awaited<ReturnType<typeof getCompanyProfile>>>;
 }) {
   const { displayName, questions } = profile;
-  const topicLabel = capitalizeWords(filter);
+  const topicLabel = await topicLabelFor(filter, questions);
   const filtered = questions.filter((q) => q.topics.some((t) => toTopicSlug(t) === filter));
 
   if (filtered.length === 0) return notFound();
@@ -256,7 +274,7 @@ function DifficultyFilterView({
   profile: NonNullable<Awaited<ReturnType<typeof getCompanyProfile>>>;
 }) {
   const { displayName, questions } = profile;
-  const diffLabel = capitalizeWords(filter);
+  const diffLabel = DIFFICULTY_LABELS[filter] ?? filter;
   const filtered = questions.filter((q) => q.difficulty.toLowerCase() === filter);
 
   if (filtered.length === 0) return notFound();
@@ -372,7 +390,10 @@ async function ProblemFilterView({
 
   // Load full problem data
   const problem = await getProblem(filter);
-  const companiesMap = await getProblemCompanies();
+  const [companiesMap, companyProfiles] = await Promise.all([
+    getProblemCompanies(),
+    getAllCompanyProfiles(),
+  ]);
   const otherCompanies = (companiesMap[filter] ?? []).filter((c) => c !== slug);
 
   // Truncate the question description to 300 chars
@@ -469,7 +490,7 @@ async function ProblemFilterView({
                 href={`/company/${companySlug}`}
                 className="px-2 py-1 rounded-full text-xs bg-secondary text-secondary-foreground hover:bg-accent transition-colors"
               >
-                {capitalizeWords(companySlug)}
+                {companyProfiles[companySlug]?.displayName ?? companySlug}
               </Link>
             ))}
             {otherCompanies.length > 20 && (

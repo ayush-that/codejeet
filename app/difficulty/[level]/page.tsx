@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getQuestionsData } from "@/lib/pseo-data";
+import { getAllCompanyProfiles, getQuestionsData } from "@/lib/pseo-data";
 import { collectionJsonLd } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { DifficultyBadge } from "@/components/ui/difficulty-badge";
-import { capitalizeWords } from "@/utils/utils";
 
 // Prerender known levels; SSR on cache-miss on demand (runtime-safe data).
 export const dynamicParams = true;
@@ -117,10 +116,15 @@ async function getQuestionsForDifficulty(level: Level): Promise<{
     companyCounts.set(q.company, (companyCounts.get(q.company) || 0) + 1);
   }
 
+  const profiles = await getAllCompanyProfiles();
   const topCompanies = Array.from(companyCounts.entries())
     .sort((a, b) => b[1] - a[1])
     .slice(0, 15)
-    .map(([slug, count]) => ({ slug, name: capitalizeWords(slug), count }));
+    .map(([slug, count]) => ({
+      slug,
+      name: profiles[slug]?.displayName ?? slug,
+      count,
+    }));
 
   return { questions: unique, topCompanies };
 }

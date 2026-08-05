@@ -1,12 +1,17 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import type { Metadata } from "next";
-import { getProblem, getProblemSlugs, getProblemCompanies } from "@/lib/pseo-data";
+import {
+  getAllCompanyProfiles,
+  getProblem,
+  getProblemSlugs,
+  getProblemCompanies,
+} from "@/lib/pseo-data";
 import { problemMetadata, problemJsonLd } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { DifficultyBadge } from "@/components/ui/difficulty-badge";
-import { capitalizeWords } from "@/utils/utils";
+import ProblemNotes from "@/components/ProblemNotes";
 
 export const dynamicParams = true;
 
@@ -70,7 +75,10 @@ export default async function ProblemPage({ params }: { params: Promise<{ slug: 
   const problem = await getProblem(slug);
   if (!problem) return notFound();
 
-  const companiesMap = await getProblemCompanies();
+  const [companiesMap, companyProfiles] = await Promise.all([
+    getProblemCompanies(),
+    getAllCompanyProfiles(),
+  ]);
   const companies = companiesMap[slug] ?? [];
 
   const MAX_COMPANIES = 20;
@@ -128,7 +136,7 @@ export default async function ProblemPage({ params }: { params: Promise<{ slug: 
                 href={`/company/${companySlug}`}
                 className="px-2 py-1 rounded-full text-xs bg-secondary text-secondary-foreground hover:bg-accent transition-colors"
               >
-                {capitalizeWords(companySlug)}
+                {companyProfiles[companySlug]?.displayName ?? companySlug}
               </Link>
             ))}
             {remainingCount > 0 && (
@@ -159,6 +167,9 @@ export default async function ProblemPage({ params }: { params: Promise<{ slug: 
           </div>
         </section>
       )}
+
+      {/* Personal notes (client; localStorage + optional cloud sync) */}
+      <ProblemNotes key={problem.slug} slug={problem.slug} />
 
       {/* Divider */}
       <hr className="border-border mb-8" />
