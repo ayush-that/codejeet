@@ -45,7 +45,7 @@ function readCache(): DashboardIndex | null {
     const cached = localStorage.getItem(CACHE_KEY);
     if (!cached) return null;
     const payload = JSON.parse(cached) as DashboardPayload;
-    if (payload?.v !== 1 || !Array.isArray(payload.links)) throw new Error("bad shape");
+    if (payload?.v !== 2 || !Array.isArray(payload.links)) throw new Error("bad shape");
     return decodeDashboardPayload(payload);
   } catch {
     try {
