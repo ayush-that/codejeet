@@ -103,20 +103,23 @@ export function ProblemNotesImpl({ slug }: ProblemNotesImplProps) {
     committedSlugsRef.current.add(slug);
     setSaveState("saving");
     setLocalNote(slug, text);
-    if (isSignedIn) {
-      const ok = await updateUserNote(slug, text);
-      if (gen !== mutationGenRef.current) return;
-      savingRef.current = false;
-      if (!ok) {
-        setSaveState("error");
-        return;
+    try {
+      if (isSignedIn) {
+        const ok = await updateUserNote(slug, text);
+        if (gen !== mutationGenRef.current) return;
+        if (!ok) {
+          setSaveState("error");
+          return;
+        }
       }
-    } else {
       if (gen !== mutationGenRef.current) return;
-      savingRef.current = false;
+      setText(getLocalNote(slug));
+      flashSaved();
+    } catch {
+      if (gen === mutationGenRef.current) setSaveState("error");
+    } finally {
+      if (gen === mutationGenRef.current) savingRef.current = false;
     }
-    setText(getLocalNote(slug));
-    flashSaved();
   }, [slug, text, isSignedIn, flashSaved]);
 
   const handleClear = useCallback(async () => {
@@ -129,22 +132,28 @@ export function ProblemNotesImpl({ slug }: ProblemNotesImplProps) {
     const previous = getLocalNote(slug);
     clearLocalNote(slug);
     setText("");
-    if (isSignedIn) {
-      const ok = await updateUserNote(slug, "");
+    try {
+      if (isSignedIn) {
+        const ok = await updateUserNote(slug, "");
+        if (gen !== mutationGenRef.current) return;
+        if (!ok) {
+          setLocalNote(slug, previous);
+          setText(previous);
+          setSaveState("error");
+          return;
+        }
+      }
       if (gen !== mutationGenRef.current) return;
-      savingRef.current = false;
-      if (!ok) {
-        // Roll back optimistic clear so local matches cloud until retry.
+      flashSaved();
+    } catch {
+      if (gen === mutationGenRef.current) {
         setLocalNote(slug, previous);
         setText(previous);
         setSaveState("error");
-        return;
       }
-    } else {
-      if (gen !== mutationGenRef.current) return;
-      savingRef.current = false;
+    } finally {
+      if (gen === mutationGenRef.current) savingRef.current = false;
     }
-    flashSaved();
   }, [slug, isSignedIn, flashSaved]);
 
   const remaining = MAX_NOTE_LENGTH - text.length;
