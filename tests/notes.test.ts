@@ -10,6 +10,7 @@ import {
   getLocalNote,
   getNoteFromMap,
   isValidSlug,
+  localOnlyNotes,
   mergeNotesMaps,
   mergeNotesMapsRespectingLocal,
   normalizeNote,
@@ -19,7 +20,6 @@ import {
   type NotesMap,
 } from "../utils/notesUtils";
 
-/** Minimal localStorage so get/set/clear local helpers run on the real path in Node. */
 function installMemoryLocalStorage() {
   const store = new Map<string, string>();
   const memory = {
@@ -127,6 +127,21 @@ describe("mergeNotesMaps", () => {
   });
 });
 
+describe("localOnlyNotes", () => {
+  it("returns local keys that remote does not have", () => {
+    const local: NotesMap = { a: "local-a", b: "local-b", c: "local-c" };
+    const remote: NotesMap = { b: "remote-b", d: "remote-d" };
+    assert.deepEqual(localOnlyNotes(local, remote), {
+      a: "local-a",
+      c: "local-c",
+    });
+  });
+
+  it("returns empty when remote already has every local key", () => {
+    assert.deepEqual(localOnlyNotes({ a: "1" }, { a: "2", b: "3" }), {});
+  });
+});
+
 describe("mergeNotesMapsRespectingLocal", () => {
   it("keeps local for protected slugs even when remote has a different value", () => {
     const local: NotesMap = { "two-sum": "just-saved", other: "local-other" };
@@ -173,7 +188,6 @@ describe("localStorage notes helpers (shipped path)", () => {
 
     clearLocalNote("two-sum");
     assert.equal(getLocalNote("two-sum"), "");
-    // Cleared key must not linger in the stored JSON map.
     const raw = store.get(NOTES_LOCAL_KEY);
     assert.ok(raw);
     const parsed = JSON.parse(raw!) as NotesMap;

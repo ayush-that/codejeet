@@ -12,17 +12,13 @@ export function isValidSlug(slug: unknown): slug is string {
   return typeof slug === "string" && slug.length > 0 && slug.length <= MAX_SLUG_LENGTH;
 }
 
-/** Hard ceiling for raw POST body length before normalize (allows small overshoot). */
+// Hard ceiling for raw POST body length before normalize (allows small overshoot).
 export const MAX_NOTE_BODY_RAW = MAX_NOTE_LENGTH + 100;
 
 export type NotesPostBody =
   | { ok: true; slug: string; note: string }
   | { ok: false; status: number; error: string };
 
-/**
- * Pure request-body validation for POST /api/notes.
- * Shared by the route and unit tests so the contract is not reimplemented in tests.
- */
 export function parseNotesPostBody(body: unknown): NotesPostBody {
   if (typeof body !== "object" || body === null) {
     return { ok: false, status: 400, error: "Invalid JSON" };
@@ -40,7 +36,6 @@ export function parseNotesPostBody(body: unknown): NotesPostBody {
   return { ok: true, slug, note: normalizeNote(note) };
 }
 
-/** Trim and cap length. Whitespace-only becomes empty string. */
 export function normalizeNote(text: string): string {
   const trimmed = text.trim();
   if (!trimmed) return "";
@@ -53,10 +48,6 @@ export function getNoteFromMap(map: NotesMap, slug: string): string {
   return typeof value === "string" ? value : "";
 }
 
-/**
- * Set or clear a note in the map. Empty/whitespace notes remove the key so
- * cleared notes do not linger as fake content.
- */
 export function setNoteInMap(map: NotesMap, slug: string, text: string): NotesMap {
   if (!isValidSlug(slug)) return map;
   const next = { ...map };
@@ -73,16 +64,21 @@ export function clearNoteFromMap(map: NotesMap, slug: string): NotesMap {
   return setNoteInMap(map, slug, "");
 }
 
-/** Remote entries overwrite local for the same slug; local-only keys remain. */
 export function mergeNotesMaps(local: NotesMap, remote: NotesMap): NotesMap {
   return { ...local, ...remote };
 }
 
-/**
- * Merge remote over local, but keep local for protected slugs (user saved/cleared
- * or typed-and-persisted while the remote fetch was in flight). If a protected
- * slug is absent from local, the clear wins and the key is removed from the result.
- */
+// Local keys missing from remote — safe to upload on sign-in without clobbering cloud.
+export function localOnlyNotes(local: NotesMap, remote: NotesMap): NotesMap {
+  const out: NotesMap = {};
+  for (const [slug, note] of Object.entries(local)) {
+    if (!Object.hasOwn(remote, slug)) out[slug] = note;
+  }
+  return out;
+}
+
+// Remote overwrites local, except protected slugs (edits/clears made while fetch was in flight).
+// Absent protected key means clear wins and the remote value is dropped.
 export function mergeNotesMapsRespectingLocal(
   local: NotesMap,
   remote: NotesMap,
@@ -146,30 +142,28 @@ export function clearLocalNote(slug: string): NotesMap {
   return setLocalNote(slug, "");
 }
 
-export async function fetchUserNotes(): Promise<NotesMap> {
+export type FetchNotesResult = { ok: true; notes: NotesMap } | { ok: false };
+
+export async function fetchUserNotes(): Promise<FetchNotesResult> {
   try {
     const res = await fetch("/api/notes");
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
     const raw = data.notes;
-    if (typeof raw !== "object" || raw === null) return {};
+    if (typeof raw !== "object" || raw === null) return { ok: true, notes: {} };
     const map: NotesMap = {};
     for (const [key, value] of Object.entries(raw)) {
       if (typeof value === "string" && value.trim()) {
         map[key] = normalizeNote(value);
       }
     }
-    return map;
+    return { ok: true, notes: map };
   } catch (error) {
     console.error("fetchUserNotes failed:", error);
-    return {};
+    return { ok: false };
   }
 }
 
-/**
- * Upsert or delete a note for the signed-in user.
- * Pass empty string / null to delete. Fire-and-forget from UI.
- */
 export async function updateUserNote(slug: string, note: string | null): Promise<boolean> {
   try {
     const res = await fetch("/api/notes", {

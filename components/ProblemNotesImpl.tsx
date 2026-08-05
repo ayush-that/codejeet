@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import {
@@ -9,6 +9,7 @@ import {
   fetchUserNotes,
   getLocalNote,
   getLocalNotes,
+  localOnlyNotes,
   mergeNotesMapsRespectingLocal,
   saveLocalNotes,
   setLocalNote,
@@ -21,39 +22,58 @@ interface ProblemNotesImplProps {
 
 type SaveState = "idle" | "saving" | "saved" | "error";
 
-/**
- * Notes editor body. Loaded only on the client (via ProblemNotes dynamic ssr:false)
- * so the localStorage initializer runs in the browser, not during SSR.
- */
 export function ProblemNotesImpl({ slug }: ProblemNotesImplProps) {
   const { isSignedIn } = useUser();
   const [text, setText] = useState(() => getLocalNote(slug));
   const [saveState, setSaveState] = useState<SaveState>("idle");
-  // True once the user types, saves, or clears for this mount — remote merge must not clobber.
+  // Unsaved typing: skip setText from remote, but do not treat as a committed clear/save.
   const dirtyRef = useRef(false);
-  // Slugs the user wrote/cleared while a cloud sync was in flight (local wins those keys).
-  const protectedSlugsRef = useRef(new Set<string>());
-  const pushedOnSignInRef = useRef(false);
+  // Save/clear only: local wins merge for these slugs and they are re-pushed after fetch.
+  const committedSlugsRef = useRef(new Set<string>());
+  const syncedOnSignInRef = useRef(false);
+  // Bumps on every save/clear so a slow earlier request cannot apply after a later one.
+  const mutationGenRef = useRef(0);
+  const savingRef = useRef(false);
   const savedFlashTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // On sign-in (once per mount): push local, pull remote, merge without stomping user edits.
   useEffect(() => {
-    if (!isSignedIn) return;
+    if (!isSignedIn) {
+      syncedOnSignInRef.current = false;
+      return;
+    }
     let cancelled = false;
     (async () => {
-      if (!pushedOnSignInRef.current) {
-        pushedOnSignInRef.current = true;
-        const local = getLocalNotes();
-        await Promise.all(Object.entries(local).map(([s, note]) => updateUserNote(s, note)));
+      if (syncedOnSignInRef.current) return;
+      syncedOnSignInRef.current = true;
+
+      const result = await fetchUserNotes();
+      if (cancelled) return;
+      // Failed GET must not look like an empty account (would mass-upload local over cloud).
+      if (!result.ok) {
+        syncedOnSignInRef.current = false;
+        return;
       }
-      const remote = await fetchUserNotes();
+
+      const remote = result.notes;
+      const local = getLocalNotes();
+      const toUpload = localOnlyNotes(local, remote);
+      if (Object.keys(toUpload).length > 0) {
+        await Promise.all(Object.entries(toUpload).map(([s, note]) => updateUserNote(s, note)));
+      }
+      // Re-push save/clear that landed while fetch was in flight (or a prior failed POST).
+      await Promise.all(
+        [...committedSlugsRef.current].map((s) => updateUserNote(s, getLocalNote(s)))
+      );
       if (cancelled) return;
 
-      const local = getLocalNotes();
-      const merged = mergeNotesMapsRespectingLocal(local, remote, protectedSlugsRef.current);
+      const latestLocal = getLocalNotes();
+      const merged = mergeNotesMapsRespectingLocal(
+        latestLocal,
+        remote,
+        committedSlugsRef.current
+      );
       saveLocalNotes(merged);
 
-      // Never replace in-progress or just-saved textarea content with a stale remote value.
       if (!dirtyRef.current) {
         setText(merged[slug] ?? "");
       }
@@ -69,11 +89,6 @@ export function ProblemNotesImpl({ slug }: ProblemNotesImplProps) {
     };
   }, []);
 
-  const markUserEdit = useCallback((editedSlug: string) => {
-    dirtyRef.current = true;
-    protectedSlugsRef.current.add(editedSlug);
-  }, []);
-
   const flashSaved = useCallback(() => {
     setSaveState("saved");
     if (savedFlashTimer.current) clearTimeout(savedFlashTimer.current);
@@ -81,37 +96,60 @@ export function ProblemNotesImpl({ slug }: ProblemNotesImplProps) {
   }, []);
 
   const handleSave = useCallback(async () => {
-    markUserEdit(slug);
+    if (savingRef.current) return;
+    const gen = ++mutationGenRef.current;
+    savingRef.current = true;
+    dirtyRef.current = true;
+    committedSlugsRef.current.add(slug);
     setSaveState("saving");
     setLocalNote(slug, text);
     if (isSignedIn) {
       const ok = await updateUserNote(slug, text);
+      if (gen !== mutationGenRef.current) return;
+      savingRef.current = false;
       if (!ok) {
         setSaveState("error");
         return;
       }
+    } else {
+      if (gen !== mutationGenRef.current) return;
+      savingRef.current = false;
     }
     setText(getLocalNote(slug));
     flashSaved();
-  }, [slug, text, isSignedIn, flashSaved, markUserEdit]);
+  }, [slug, text, isSignedIn, flashSaved]);
 
   const handleClear = useCallback(async () => {
-    markUserEdit(slug);
+    if (savingRef.current) return;
+    const gen = ++mutationGenRef.current;
+    savingRef.current = true;
+    dirtyRef.current = true;
+    committedSlugsRef.current.add(slug);
     setSaveState("saving");
+    const previous = getLocalNote(slug);
     clearLocalNote(slug);
     setText("");
     if (isSignedIn) {
       const ok = await updateUserNote(slug, "");
+      if (gen !== mutationGenRef.current) return;
+      savingRef.current = false;
       if (!ok) {
+        // Roll back optimistic clear so local matches cloud until retry.
+        setLocalNote(slug, previous);
+        setText(previous);
         setSaveState("error");
         return;
       }
+    } else {
+      if (gen !== mutationGenRef.current) return;
+      savingRef.current = false;
     }
     flashSaved();
-  }, [slug, isSignedIn, flashSaved, markUserEdit]);
+  }, [slug, isSignedIn, flashSaved]);
 
   const remaining = MAX_NOTE_LENGTH - text.length;
   const hasStored = Boolean(getLocalNote(slug));
+  const busy = saveState === "saving";
   const statusLabel =
     saveState === "saving"
       ? "Saving…"
@@ -144,19 +182,20 @@ export function ProblemNotesImpl({ slug }: ProblemNotesImplProps) {
         onChange={(e) => {
           const next = e.target.value;
           if (next.length <= MAX_NOTE_LENGTH) {
-            markUserEdit(slug);
+            dirtyRef.current = true;
             setText(next);
           }
         }}
         placeholder="Patterns, edge cases, mistakes to avoid…"
         rows={5}
         maxLength={MAX_NOTE_LENGTH}
-        className="w-full resize-y rounded-[2px] border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+        disabled={busy}
+        className="w-full resize-y rounded-[2px] border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:opacity-50"
         aria-label="Personal note for this problem"
       />
 
       <div className="mt-3 flex flex-wrap items-center gap-2">
-        <Button type="button" size="sm" onClick={() => void handleSave()}>
+        <Button type="button" size="sm" onClick={() => void handleSave()} disabled={busy}>
           Save note
         </Button>
         <Button
@@ -164,7 +203,7 @@ export function ProblemNotesImpl({ slug }: ProblemNotesImplProps) {
           size="sm"
           variant="outline"
           onClick={() => void handleClear()}
-          disabled={!text && !hasStored}
+          disabled={busy || (!text && !hasStored)}
         >
           Clear
         </Button>
