@@ -1,6 +1,7 @@
 import {
   DIFFICULTIES,
   formatPercent,
+  practiceUrl,
   problemPath,
   type DashboardPayload,
   type Difficulty,
@@ -53,6 +54,8 @@ export interface DisplayRow {
   slug: string;
   title: string;
   path: string;
+  /** External practice URL (LeetCode free, LintCode by slug for premium). */
+  url: string;
   difficulty: Difficulty;
   /** Brand-cased company label (not the slug). */
   company: string;
@@ -65,17 +68,19 @@ export interface DisplayRow {
 export function toDisplayRow(index: DashboardIndex, linkIndex: number): DisplayRow {
   const [problem, company, frequency] = index.links[linkIndex];
   const [slug, title, difficulty, acceptance, premium, topics] = index.problems[problem];
+  const isPremium = premium === 1;
 
   return {
     key: String(linkIndex),
     slug,
     title,
     path: problemPath(slug),
+    url: practiceUrl(isPremium, title, slug),
     difficulty: DIFFICULTIES[difficulty],
     company: index.companyNames[company],
     acceptance: formatPercent(acceptance),
     frequency: formatPercent(frequency),
     topics: topics.map((topic) => index.topics[topic]),
-    premium: premium === 1,
+    premium: isPremium,
   };
 }

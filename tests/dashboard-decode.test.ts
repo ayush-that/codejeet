@@ -62,6 +62,7 @@ describe("toDisplayRow", () => {
       slug: "two-sum",
       title: "Two Sum",
       path: "/problems/two-sum",
+      url: "https://leetcode.com/problems/two-sum",
       difficulty: "Easy",
       company: "Google",
       acceptance: "54.3%",
@@ -78,6 +79,17 @@ describe("toDisplayRow", () => {
     assert.equal(row.frequency, "7.5%");
     assert.equal(row.difficulty, "Hard");
     assert.equal(row.premium, true);
+  });
+
+  it("points free rows at LeetCode and premium rows at LintCode by slug", () => {
+    const free = toDisplayRow(index, 0);
+    const premium = toDisplayRow(index, 1);
+
+    assert.equal(free.url, "https://leetcode.com/problems/two-sum");
+    assert.equal(
+      premium.url,
+      "https://www.lintcode.com/problem/median-of-two-sorted-arrays/"
+    );
   });
 
   it("gives every row a unique key even when two links share a problem and company", () => {

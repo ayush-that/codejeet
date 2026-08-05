@@ -28,7 +28,7 @@ import { DifficultyBadge } from "@/components/ui/difficulty-badge";
 import TopicDropdown from "@/components/TopicDropdown";
 import { toDisplayRow, type DashboardIndex } from "@/lib/dashboard/decode";
 import { computeStats, filterLinks, sortLinks, type SortOrder } from "@/lib/dashboard/query";
-import { LEETCODE_BASE_URL, type Difficulty, type Timeframe } from "@/lib/dashboard/schema";
+import { type Difficulty, type Timeframe } from "@/lib/dashboard/schema";
 
 interface LeetCodeDashboardProps {
   index: DashboardIndex | null;
@@ -568,9 +568,14 @@ const LeetCodeDashboard: React.FC<LeetCodeDashboardProps> = ({
                           </TableCell>
                           <TableCell>
                             <a
-                              href={`${LEETCODE_BASE_URL}${row.path}`}
+                              href={row.url}
                               target="_blank"
                               rel="noopener noreferrer"
+                              title={
+                                row.premium
+                                  ? "Open on LintCode (LeetCode premium)"
+                                  : "Open on LeetCode"
+                              }
                               className="text-foreground hover:text-primary hover:underline"
                             >
                               {row.title}
@@ -684,9 +689,14 @@ const LeetCodeDashboard: React.FC<LeetCodeDashboardProps> = ({
                           />
                           <div>
                             <a
-                              href={`${LEETCODE_BASE_URL}${row.path}`}
+                              href={row.url}
                               target="_blank"
                               rel="noopener noreferrer"
+                              title={
+                                row.premium
+                                  ? "Open on LintCode (LeetCode premium)"
+                                  : "Open on LeetCode"
+                              }
                               className="font-medium hover:underline"
                             >
                               {row.title}

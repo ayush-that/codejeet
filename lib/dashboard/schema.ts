@@ -10,6 +10,7 @@ export const TIMEFRAMES = ["all", "30_days", "3_months", "6_months", "more_than_
 export type Timeframe = (typeof TIMEFRAMES)[number];
 
 export const LEETCODE_BASE_URL = "https://leetcode.com";
+export const LINTCODE_BASE_URL = "https://www.lintcode.com";
 
 export type EncodedProblem = [
   slug: string,
@@ -70,4 +71,17 @@ export function problemPath(slug: string): string {
 
 export function problemUrl(slug: string): string {
   return `${LEETCODE_BASE_URL}${problemPath(slug)}`;
+}
+
+/**
+ * LintCode problem page by LeetCode-style slug (singular /problem/, not /problems/).
+ * Matching slugs redirect to numeric IDs (e.g. /problem/two-sum/ → /problem/56/).
+ */
+export function lintcodeProblemUrl(slug: string): string {
+  return `${LINTCODE_BASE_URL}/problem/${slug}/`;
+}
+
+/** External practice link: free → LeetCode, premium → LintCode (same slug). */
+export function practiceUrl(premium: boolean, _title: string, slug: string): string {
+  return premium ? lintcodeProblemUrl(slug) : problemUrl(slug);
 }
