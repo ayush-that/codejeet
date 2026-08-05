@@ -183,7 +183,7 @@ describe("reconcileNotes (LWW + protected)", () => {
     const localMeta: NotesMeta = { "two-sum": newer };
     const remote: NotesMap = { "two-sum": "older cloud" };
     const remoteMeta: NotesMeta = { "two-sum": older };
-    const rec = reconcileNotes(local, localMeta, remote, remoteMeta, []);
+    const rec = reconcileNotes(local, localMeta, {}, remote, remoteMeta, []);
     assert.equal(rec.merged["two-sum"], "signed-out revision");
     assert.equal(rec.toUpload["two-sum"], "signed-out revision");
   });
@@ -193,7 +193,7 @@ describe("reconcileNotes (LWW + protected)", () => {
     const localMeta: NotesMeta = { "two-sum": older };
     const remote: NotesMap = { "two-sum": "other device win" };
     const remoteMeta: NotesMeta = { "two-sum": newer };
-    const rec = reconcileNotes(local, localMeta, remote, remoteMeta, []);
+    const rec = reconcileNotes(local, localMeta, {}, remote, remoteMeta, []);
     assert.equal(rec.merged["two-sum"], "other device win");
     assert.equal(Object.hasOwn(rec.toUpload, "two-sum"), false);
   });
@@ -203,7 +203,7 @@ describe("reconcileNotes (LWW + protected)", () => {
     const localMeta: NotesMeta = { only: newer, shared: older };
     const remote: NotesMap = { shared: "remote-shared" };
     const remoteMeta: NotesMeta = { shared: older };
-    const rec = reconcileNotes(local, localMeta, remote, remoteMeta, []);
+    const rec = reconcileNotes(local, localMeta, {}, remote, remoteMeta, []);
     assert.equal(rec.merged.only, "local-only");
     assert.equal(rec.toUpload.only, "local-only");
     assert.equal(rec.merged.shared, "remote-shared");
@@ -214,7 +214,7 @@ describe("reconcileNotes (LWW + protected)", () => {
     const local: NotesMap = {};
     const remote: NotesMap = { "two-sum": "still-on-server" };
     const remoteMeta: NotesMeta = { "two-sum": newer };
-    const rec = reconcileNotes(local, {}, remote, remoteMeta, ["two-sum"]);
+    const rec = reconcileNotes(local, {}, {}, remote, remoteMeta, ["two-sum"]);
     assert.equal(Object.hasOwn(rec.merged, "two-sum"), false);
     assert.equal(rec.toUpload["two-sum"], "");
   });
@@ -223,9 +223,29 @@ describe("reconcileNotes (LWW + protected)", () => {
     const local: NotesMap = { "two-sum": "pre-meta signed-out edit" };
     const remote: NotesMap = { "two-sum": "cloud copy" };
     const remoteMeta: NotesMeta = { "two-sum": newer };
-    const rec = reconcileNotes(local, {}, remote, remoteMeta, []);
+    const rec = reconcileNotes(local, {}, {}, remote, remoteMeta, []);
     assert.equal(rec.merged["two-sum"], "pre-meta signed-out edit");
     assert.equal(rec.toUpload["two-sum"], "pre-meta signed-out edit");
+  });
+
+  it("tombstone clear wins over older cloud after remount", () => {
+    const remote: NotesMap = { "two-sum": "still-on-server" };
+    const remoteMeta: NotesMeta = { "two-sum": older };
+    const tombs: NotesMeta = { "two-sum": newer };
+    const rec = reconcileNotes({}, {}, tombs, remote, remoteMeta, []);
+    assert.equal(Object.hasOwn(rec.merged, "two-sum"), false);
+    assert.equal(rec.toUpload["two-sum"], "");
+    assert.equal(rec.mergedTombstones["two-sum"], newer);
+  });
+
+  it("newer remote restores over an older tombstone", () => {
+    const remote: NotesMap = { "two-sum": "edited on other device" };
+    const remoteMeta: NotesMeta = { "two-sum": newer };
+    const tombs: NotesMeta = { "two-sum": older };
+    const rec = reconcileNotes({}, {}, tombs, remote, remoteMeta, []);
+    assert.equal(rec.merged["two-sum"], "edited on other device");
+    assert.equal(Object.hasOwn(rec.toUpload, "two-sum"), false);
+    assert.equal(Object.hasOwn(rec.mergedTombstones, "two-sum"), false);
   });
 });
 

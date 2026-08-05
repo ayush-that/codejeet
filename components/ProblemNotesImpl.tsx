@@ -10,9 +10,11 @@ import {
   getLocalNote,
   getLocalNotes,
   getLocalNotesMeta,
+  getLocalNoteTombstones,
   reconcileNotes,
   saveLocalNotes,
   saveLocalNotesMeta,
+  saveLocalNoteTombstones,
   setLocalNote,
   updateUserNote,
 } from "@/utils/notesUtils";
@@ -40,6 +42,8 @@ export function ProblemNotesImpl({ slug }: ProblemNotesImplProps) {
   useEffect(() => {
     if (!isSignedIn) {
       syncedOnSignInRef.current = false;
+      // Drop session protection so a later sign-in uses LWW, not a stale save.
+      committedSlugsRef.current.clear();
       return;
     }
     let cancelled = false;
@@ -53,6 +57,20 @@ export function ProblemNotesImpl({ slug }: ProblemNotesImplProps) {
       }, 1000 * (nextAttempt - 1));
     };
 
+    const snapshotLocal = () =>
+      reconcileNotes(
+        getLocalNotes(),
+        getLocalNotesMeta(),
+        getLocalNoteTombstones(),
+        resultNotes,
+        resultUpdatedAt,
+        committedSlugsRef.current
+      );
+
+    // Filled after successful GET; used by snapshotLocal closures below.
+    let resultNotes: Record<string, string> = {};
+    let resultUpdatedAt: Record<string, string> = {};
+
     const runSync = async (attempt: number) => {
       // True only after a fully successful sign-in sync; never used as an in-flight lock.
       if (syncedOnSignInRef.current) return;
@@ -64,15 +82,11 @@ export function ProblemNotesImpl({ slug }: ProblemNotesImplProps) {
         scheduleRetry(attempt + 1);
         return;
       }
+      resultNotes = result.notes;
+      resultUpdatedAt = result.updatedAt;
 
       // Re-read local after fetch so saves that landed mid-flight are included.
-      const rec = reconcileNotes(
-        getLocalNotes(),
-        getLocalNotesMeta(),
-        result.notes,
-        result.updatedAt,
-        committedSlugsRef.current
-      );
+      const rec = snapshotLocal();
       const firstResults = await Promise.all(
         Object.entries(rec.toUpload).map(async ([s, note]) => ({
           slug: s,
@@ -84,13 +98,7 @@ export function ProblemNotesImpl({ slug }: ProblemNotesImplProps) {
       const failedFirst = new Set(firstResults.filter((r) => !r.ok).map((r) => r.slug));
 
       // Second reconcile picks up concurrent local saves during POSTs.
-      const final = reconcileNotes(
-        getLocalNotes(),
-        getLocalNotesMeta(),
-        result.notes,
-        result.updatedAt,
-        committedSlugsRef.current
-      );
+      const final = snapshotLocal();
       const secondResults = await Promise.all(
         Object.entries(final.toUpload)
           .filter(([s, note]) => {
@@ -103,13 +111,7 @@ export function ProblemNotesImpl({ slug }: ProblemNotesImplProps) {
       if (cancelled) return;
 
       // Re-read after POSTs so a save/clear during the second batch is not overwritten.
-      const latest = reconcileNotes(
-        getLocalNotes(),
-        getLocalNotesMeta(),
-        result.notes,
-        result.updatedAt,
-        committedSlugsRef.current
-      );
+      const latest = snapshotLocal();
       // Re-push concurrent commits (and any new local-wins) so a late second-batch POST
       // cannot leave cloud on a value the user already replaced or cleared.
       const thirdResults = await Promise.all(
@@ -133,15 +135,10 @@ export function ProblemNotesImpl({ slug }: ProblemNotesImplProps) {
         secondResults.some((ok) => !ok) ||
         thirdResults.some((ok) => !ok);
 
-      const settled = reconcileNotes(
-        getLocalNotes(),
-        getLocalNotesMeta(),
-        result.notes,
-        result.updatedAt,
-        committedSlugsRef.current
-      );
+      const settled = snapshotLocal();
       saveLocalNotes(settled.merged);
       saveLocalNotesMeta(settled.mergedMeta);
+      saveLocalNoteTombstones(settled.mergedTombstones);
 
       if (!dirtyRef.current) {
         setText(settled.merged[slug] ?? "");
@@ -152,7 +149,11 @@ export function ProblemNotesImpl({ slug }: ProblemNotesImplProps) {
         return;
       }
 
-      if (!cancelled) syncedOnSignInRef.current = true;
+      if (!cancelled) {
+        syncedOnSignInRef.current = true;
+        // Protection only covers in-flight sync; further conflicts use LWW timestamps.
+        committedSlugsRef.current.clear();
+      }
     };
 
     void runSync(1);

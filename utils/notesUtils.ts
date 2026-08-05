@@ -3,6 +3,8 @@
 
 export const NOTES_LOCAL_KEY = "leetcode-problem-notes";
 export const NOTES_META_KEY = "leetcode-problem-notes-meta";
+// slug -> ISO deletedAt for signed-out clears that must still win over cloud
+export const NOTES_TOMBSTONES_KEY = "leetcode-problem-notes-deleted";
 export const MAX_NOTE_LENGTH = 2000;
 export const MAX_SLUG_LENGTH = 256;
 
@@ -108,15 +110,18 @@ export function mergeNotesMapsRespectingLocal(
 export type NotesReconciliation = {
   merged: NotesMap;
   mergedMeta: NotesMeta;
+  mergedTombstones: NotesMeta;
   // empty string = delete
   toUpload: NotesMap;
 };
 
 // LWW by updatedAt. Protected slugs always keep local (including clear).
+// Tombstones keep signed-out deletes until cloud is cleared or a newer remote wins.
 // Equal/unknown timestamps prefer remote so multi-device cloud stays stable.
 export function reconcileNotes(
   local: NotesMap,
   localMeta: NotesMeta,
+  localTombstones: NotesMeta,
   remote: NotesMap,
   remoteMeta: NotesMeta,
   protectedSlugs: Iterable<string>
@@ -128,10 +133,12 @@ export function reconcileNotes(
 
   const merged: NotesMap = {};
   const mergedMeta: NotesMeta = {};
+  const mergedTombstones: NotesMeta = {};
   const toUpload: NotesMap = {};
   const slugs = new Set([
     ...Object.keys(local),
     ...Object.keys(remote),
+    ...Object.keys(localTombstones),
     ...protectedSet,
   ]);
 
@@ -143,13 +150,33 @@ export function reconcileNotes(
     const remoteNote = hasRemote ? remote[slug] : "";
     const localTs = parseNoteTimestamp(localMeta[slug]);
     const remoteTs = parseNoteTimestamp(remoteMeta[slug]);
+    const tombTs = parseNoteTimestamp(localTombstones[slug]);
+    const hasTomb = tombTs > 0;
 
     if (protectedSet.has(slug)) {
       if (hasLocal) {
         merged[slug] = localNote;
         mergedMeta[slug] = localMeta[slug] || new Date().toISOString();
+      } else if (hasTomb) {
+        mergedTombstones[slug] = localTombstones[slug];
       }
       toUpload[slug] = hasLocal ? localNote : "";
+      continue;
+    }
+
+    // Signed-out clear that must still beat older cloud content.
+    if (hasTomb && !hasLocal) {
+      if (!hasRemote) {
+        // Cloud already gone; drop the tombstone.
+        continue;
+      }
+      if (tombTs > remoteTs) {
+        toUpload[slug] = "";
+        mergedTombstones[slug] = localTombstones[slug];
+        continue;
+      }
+      merged[slug] = remoteNote;
+      if (remoteMeta[slug]) mergedMeta[slug] = remoteMeta[slug];
       continue;
     }
 
@@ -182,7 +209,7 @@ export function reconcileNotes(
     }
   }
 
-  return { merged, mergedMeta, toUpload };
+  return { merged, mergedMeta, mergedTombstones, toUpload };
 }
 
 function readStringMap(key: string): Record<string, string> {
@@ -229,6 +256,17 @@ export function getLocalNotesMeta(): NotesMeta {
   return map;
 }
 
+export function getLocalNoteTombstones(): NotesMeta {
+  const raw = readStringMap(NOTES_TOMBSTONES_KEY);
+  const map: NotesMeta = {};
+  for (const [key, value] of Object.entries(raw)) {
+    if (isValidSlug(key) && parseNoteTimestamp(value) > 0) {
+      map[key] = value;
+    }
+  }
+  return map;
+}
+
 export function saveLocalNotes(notes: NotesMap): void {
   if (typeof window === "undefined") return;
   try {
@@ -247,6 +285,15 @@ export function saveLocalNotesMeta(meta: NotesMeta): void {
   }
 }
 
+export function saveLocalNoteTombstones(tombstones: NotesMeta): void {
+  if (typeof window === "undefined") return;
+  try {
+    localStorage.setItem(NOTES_TOMBSTONES_KEY, JSON.stringify(tombstones));
+  } catch (error) {
+    console.error("saveLocalNoteTombstones failed:", error);
+  }
+}
+
 export function getLocalNote(slug: string): string {
   return getNoteFromMap(getLocalNotes(), slug);
 }
@@ -255,12 +302,19 @@ export function setLocalNote(slug: string, text: string): NotesMap {
   const next = setNoteInMap(getLocalNotes(), slug, text);
   saveLocalNotes(next);
   const meta = { ...getLocalNotesMeta() };
+  const tombstones = { ...getLocalNoteTombstones() };
   if (Object.hasOwn(next, slug)) {
     meta[slug] = new Date().toISOString();
+    delete tombstones[slug];
   } else {
     delete meta[slug];
+    // Deletion marker so a remount before sign-in still wins over older cloud.
+    if (isValidSlug(slug)) {
+      tombstones[slug] = new Date().toISOString();
+    }
   }
   saveLocalNotesMeta(meta);
+  saveLocalNoteTombstones(tombstones);
   return next;
 }
 
