@@ -42,29 +42,42 @@ export function ProblemNotesImpl({ slug }: ProblemNotesImplProps) {
       return;
     }
     let cancelled = false;
-    (async () => {
+    let retryTimer: ReturnType<typeof setTimeout> | null = null;
+    const maxAttempts = 3;
+
+    const scheduleRetry = (nextAttempt: number) => {
+      if (cancelled || nextAttempt > maxAttempts) return;
+      retryTimer = setTimeout(() => {
+        if (!cancelled) void runSync(nextAttempt);
+      }, 1000 * (nextAttempt - 1));
+    };
+
+    const runSync = async (attempt: number) => {
+      // True only after a fully successful sign-in sync; never used as an in-flight lock.
       if (syncedOnSignInRef.current) return;
-      syncedOnSignInRef.current = true;
 
       const result = await fetchUserNotes();
       if (cancelled) return;
       // Failed GET must not look like an empty account (would mass-upload local over cloud).
       if (!result.ok) {
-        syncedOnSignInRef.current = false;
+        scheduleRetry(attempt + 1);
         return;
       }
 
       const remote = result.notes;
       const local = getLocalNotes();
       const toUpload = localOnlyNotes(local, remote);
-      if (Object.keys(toUpload).length > 0) {
-        await Promise.all(Object.entries(toUpload).map(([s, note]) => updateUserNote(s, note)));
-      }
+      const localOnlyResults = await Promise.all(
+        Object.entries(toUpload).map(([s, note]) => updateUserNote(s, note))
+      );
       // Re-push save/clear that landed while fetch was in flight (or a prior failed POST).
-      await Promise.all(
+      const committedResults = await Promise.all(
         [...committedSlugsRef.current].map((s) => updateUserNote(s, getLocalNote(s)))
       );
       if (cancelled) return;
+
+      const uploadsFailed =
+        localOnlyResults.some((ok) => !ok) || committedResults.some((ok) => !ok);
 
       const latestLocal = getLocalNotes();
       const merged = mergeNotesMapsRespectingLocal(
@@ -77,9 +90,19 @@ export function ProblemNotesImpl({ slug }: ProblemNotesImplProps) {
       if (!dirtyRef.current) {
         setText(merged[slug] ?? "");
       }
-    })();
+
+      if (uploadsFailed) {
+        scheduleRetry(attempt + 1);
+        return;
+      }
+
+      if (!cancelled) syncedOnSignInRef.current = true;
+    };
+
+    void runSync(1);
     return () => {
       cancelled = true;
+      if (retryTimer) clearTimeout(retryTimer);
     };
   }, [isSignedIn, slug]);
 
