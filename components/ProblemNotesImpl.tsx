@@ -102,14 +102,49 @@ export function ProblemNotesImpl({ slug }: ProblemNotesImplProps) {
       );
       if (cancelled) return;
 
-      const uploadsFailed =
-        firstResults.some((r) => !r.ok) || secondResults.some((ok) => !ok);
+      // Re-read after POSTs so a save/clear during the second batch is not overwritten.
+      const latest = reconcileNotes(
+        getLocalNotes(),
+        getLocalNotesMeta(),
+        result.notes,
+        result.updatedAt,
+        committedSlugsRef.current
+      );
+      // Re-push concurrent commits (and any new local-wins) so a late second-batch POST
+      // cannot leave cloud on a value the user already replaced or cleared.
+      const thirdResults = await Promise.all(
+        Object.entries(latest.toUpload)
+          .filter(([s, note]) => {
+            if (committedSlugsRef.current.has(s)) return true;
+            if (!Object.hasOwn(rec.toUpload, s) && !Object.hasOwn(final.toUpload, s)) {
+              return true;
+            }
+            const prev = Object.hasOwn(final.toUpload, s)
+              ? final.toUpload[s]
+              : rec.toUpload[s];
+            return prev !== note;
+          })
+          .map(([s, note]) => updateUserNote(s, note))
+      );
+      if (cancelled) return;
 
-      saveLocalNotes(final.merged);
-      saveLocalNotesMeta(final.mergedMeta);
+      const uploadsFailed =
+        firstResults.some((r) => !r.ok) ||
+        secondResults.some((ok) => !ok) ||
+        thirdResults.some((ok) => !ok);
+
+      const settled = reconcileNotes(
+        getLocalNotes(),
+        getLocalNotesMeta(),
+        result.notes,
+        result.updatedAt,
+        committedSlugsRef.current
+      );
+      saveLocalNotes(settled.merged);
+      saveLocalNotesMeta(settled.mergedMeta);
 
       if (!dirtyRef.current) {
-        setText(final.merged[slug] ?? "");
+        setText(settled.merged[slug] ?? "");
       }
 
       if (uploadsFailed) {
