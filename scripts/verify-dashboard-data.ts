@@ -38,8 +38,11 @@ async function main() {
   for (let i = 0; i < limit; i++) {
     const expected = legacy.questions[i];
     const row = toDisplayRow(index, i);
+    const companyIndex = index.links[i][1];
+    const companySlug = index.companies[companyIndex];
     const mask = index.links[i][3];
 
+    // company slug must match questions.json; display name is baked separately.
     const checks: [string, unknown, unknown][] = [
       ["ID", row.slug, expected.ID],
       ["Title", row.title, expected.Title],
@@ -47,7 +50,7 @@ async function main() {
       ["Topics", row.topics.join(", "), expected.Topics],
       ["URL", row.path, expected.URL],
       ["link", problemUrl(row.slug), expected.link],
-      ["company", row.company, expected.company],
+      ["company", companySlug, expected.company],
       ["Acceptance %", row.acceptance, expected["Acceptance %"]],
       ["Frequency %", row.frequency, expected["Frequency %"]],
       ["Is Premium", row.premium ? "Y" : "N", expected["Is Premium"]],
@@ -64,6 +67,12 @@ async function main() {
           `row ${i} (${expected.ID}/${expected.company}) ${field}: ${actual} != ${want}`
         );
       }
+    }
+
+    if (!row.company || row.company.trim() === "") {
+      failures.push(
+        `row ${i} (${expected.ID}/${expected.company}) company displayName is empty`
+      );
     }
 
     if (failures.length >= 20) break;
