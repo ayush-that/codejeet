@@ -8,6 +8,10 @@
     "directory": ".open-next/assets",
     "binding": "ASSETS",
   },
+  // Backs next/image optimization on Workers (sharp can't run there).
+  "images": {
+    "binding": "IMAGES",
+  },
   "d1_databases": [
     {
       "binding": "DB",

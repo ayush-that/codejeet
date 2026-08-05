@@ -12,7 +12,7 @@ if (process.env.NODE_ENV === "development") {
 
 const nextConfig: NextConfig = {
   images: {
-    unoptimized: true,
+    formats: ["image/avif", "image/webp"],
   },
   productionBrowserSourceMaps: false,
   poweredByHeader: false,

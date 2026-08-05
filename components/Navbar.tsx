@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Link from "next/link";
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
-import { Button } from "@/components/ui/button";
 import { BrandLockup } from "@/components/BrandWordmark";
 
 const NAV_LINKS = [
@@ -43,9 +42,9 @@ const Navbar = () => {
           ))}
           <SignedOut>
             <SignInButton mode="modal">
-              <Button type="button" variant="outline" size="sm">
+              <button type="button" className={navLinkClass}>
                 Sign in
-              </Button>
+              </button>
             </SignInButton>
           </SignedOut>
           <SignedIn>
@@ -103,9 +102,9 @@ const Navbar = () => {
           <div className="px-4 py-3">
             <SignedOut>
               <SignInButton mode="modal">
-                <Button type="button" variant="outline" size="sm">
+                <button type="button" className={navLinkClass}>
                   Sign in
-                </Button>
+                </button>
               </SignInButton>
             </SignedOut>
             <SignedIn>

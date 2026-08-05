@@ -1,5 +1,21 @@
 packages:
   - .
+
+# pnpm 10 reads overrides from here, not from package.json's `pnpm.overrides`
+# (it warns "the pnpm field is no longer read" and ignores them silently).
+overrides:
+  "@types/react": 19.2.7
+  "@types/react-dom": 19.2.3
+  prismjs: ^1.30.0
+  # Patched transitive deps flagged by Dependabot.
+  "brace-expansion@1": ^1.1.16
+  "brace-expansion@2": ^2.1.2
+  "brace-expansion@5": ^5.0.8
+  postcss: ^8.5.18
+  fast-uri: ^3.1.4
+  sharp: ^0.35.3
+  dompurify: ^3.4.12
+
 onlyBuiltDependencies:
   - "@clerk/shared"
   - esbuild

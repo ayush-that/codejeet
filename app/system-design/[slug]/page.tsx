@@ -191,6 +191,7 @@ export default async function SystemDesignDetailPage({
                     alt={props.alt ?? ""}
                     width={800}
                     height={600}
+                    sizes="(max-width: 768px) 100vw, 800px"
                     className="rounded-lg border my-4"
                   />
                 );

@@ -70,7 +70,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           )}
         </head>
         <body
-          className={`${jakarta.variable} ${jetbrainsMono.variable} font-sans tracking-normal`}
+          // !pr-0 kills the scrollbar-compensation padding modals (Clerk, Radix) put on
+          // <body>; the stable scrollbar gutter on <html> already reserves that space.
+          className={`${jakarta.variable} ${jetbrainsMono.variable} font-sans tracking-normal !pr-0`}
           suppressHydrationWarning
         >
           <ThemeProvider

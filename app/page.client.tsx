@@ -39,7 +39,10 @@ export default function HomeClient() {
                 </Button>
               </Link>
             </div>
-            <Frame className="mt-6 w-full max-w-[92vw] md:max-w-[1100px] bg-card p-1.5">
+            <Frame
+              ticks={false}
+              className="mt-6 w-full max-w-[92vw] md:max-w-[1100px] bg-card p-1.5"
+            >
               <Image
                 src={focusLabel === "DSA" ? "/image1.webp" : "/image2.webp"}
                 alt="CodeJeet dashboard showing company-wise LeetCode questions filtered by difficulty and topic"
