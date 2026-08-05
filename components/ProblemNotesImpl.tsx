@@ -9,9 +9,10 @@ import {
   fetchUserNotes,
   getLocalNote,
   getLocalNotes,
-  localOnlyNotes,
-  mergeNotesMapsRespectingLocal,
+  getLocalNotesMeta,
+  reconcileNotes,
   saveLocalNotes,
+  saveLocalNotesMeta,
   setLocalNote,
   updateUserNote,
 } from "@/utils/notesUtils";
@@ -64,31 +65,51 @@ export function ProblemNotesImpl({ slug }: ProblemNotesImplProps) {
         return;
       }
 
-      const remote = result.notes;
-      const local = getLocalNotes();
-      const toUpload = localOnlyNotes(local, remote);
-      const localOnlyResults = await Promise.all(
-        Object.entries(toUpload).map(([s, note]) => updateUserNote(s, note))
+      // Re-read local after fetch so saves that landed mid-flight are included.
+      const rec = reconcileNotes(
+        getLocalNotes(),
+        getLocalNotesMeta(),
+        result.notes,
+        result.updatedAt,
+        committedSlugsRef.current
       );
-      // Re-push save/clear that landed while fetch was in flight (or a prior failed POST).
-      const committedResults = await Promise.all(
-        [...committedSlugsRef.current].map((s) => updateUserNote(s, getLocalNote(s)))
+      const firstResults = await Promise.all(
+        Object.entries(rec.toUpload).map(async ([s, note]) => ({
+          slug: s,
+          ok: await updateUserNote(s, note),
+        }))
+      );
+      if (cancelled) return;
+
+      const failedFirst = new Set(firstResults.filter((r) => !r.ok).map((r) => r.slug));
+
+      // Second reconcile picks up concurrent local saves during POSTs.
+      const final = reconcileNotes(
+        getLocalNotes(),
+        getLocalNotesMeta(),
+        result.notes,
+        result.updatedAt,
+        committedSlugsRef.current
+      );
+      const secondResults = await Promise.all(
+        Object.entries(final.toUpload)
+          .filter(([s, note]) => {
+            if (failedFirst.has(s)) return true;
+            if (!Object.hasOwn(rec.toUpload, s)) return true;
+            return rec.toUpload[s] !== note;
+          })
+          .map(([s, note]) => updateUserNote(s, note))
       );
       if (cancelled) return;
 
       const uploadsFailed =
-        localOnlyResults.some((ok) => !ok) || committedResults.some((ok) => !ok);
+        firstResults.some((r) => !r.ok) || secondResults.some((ok) => !ok);
 
-      const latestLocal = getLocalNotes();
-      const merged = mergeNotesMapsRespectingLocal(
-        latestLocal,
-        remote,
-        committedSlugsRef.current
-      );
-      saveLocalNotes(merged);
+      saveLocalNotes(final.merged);
+      saveLocalNotesMeta(final.mergedMeta);
 
       if (!dirtyRef.current) {
-        setText(merged[slug] ?? "");
+        setText(final.merged[slug] ?? "");
       }
 
       if (uploadsFailed) {

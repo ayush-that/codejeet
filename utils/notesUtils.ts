@@ -2,14 +2,23 @@
 // Signed-out users store notes in localStorage; signed-in users also sync via /api/notes.
 
 export const NOTES_LOCAL_KEY = "leetcode-problem-notes";
+export const NOTES_META_KEY = "leetcode-problem-notes-meta";
 export const MAX_NOTE_LENGTH = 2000;
 export const MAX_SLUG_LENGTH = 256;
 
 // slug -> note text
 export type NotesMap = Record<string, string>;
+// slug -> ISO updatedAt (LWW)
+export type NotesMeta = Record<string, string>;
 
 export function isValidSlug(slug: unknown): slug is string {
   return typeof slug === "string" && slug.length > 0 && slug.length <= MAX_SLUG_LENGTH;
+}
+
+export function parseNoteTimestamp(value: unknown): number {
+  if (typeof value !== "string" || !value) return 0;
+  const t = Date.parse(value);
+  return Number.isFinite(t) ? t : 0;
 }
 
 // Hard ceiling for raw POST body length before normalize (allows small overshoot).
@@ -96,27 +105,128 @@ export function mergeNotesMapsRespectingLocal(
   return merged;
 }
 
-export function getLocalNotes(): NotesMap {
+export type NotesReconciliation = {
+  merged: NotesMap;
+  mergedMeta: NotesMeta;
+  // empty string = delete
+  toUpload: NotesMap;
+};
+
+// LWW by updatedAt. Protected slugs always keep local (including clear).
+// Equal/unknown timestamps prefer remote so multi-device cloud stays stable.
+export function reconcileNotes(
+  local: NotesMap,
+  localMeta: NotesMeta,
+  remote: NotesMap,
+  remoteMeta: NotesMeta,
+  protectedSlugs: Iterable<string>
+): NotesReconciliation {
+  const protectedSet = new Set<string>();
+  for (const slug of protectedSlugs) {
+    if (isValidSlug(slug)) protectedSet.add(slug);
+  }
+
+  const merged: NotesMap = {};
+  const mergedMeta: NotesMeta = {};
+  const toUpload: NotesMap = {};
+  const slugs = new Set([
+    ...Object.keys(local),
+    ...Object.keys(remote),
+    ...protectedSet,
+  ]);
+
+  for (const slug of slugs) {
+    if (!isValidSlug(slug)) continue;
+    const hasLocal = Object.hasOwn(local, slug);
+    const hasRemote = Object.hasOwn(remote, slug);
+    const localNote = hasLocal ? local[slug] : "";
+    const remoteNote = hasRemote ? remote[slug] : "";
+    const localTs = parseNoteTimestamp(localMeta[slug]);
+    const remoteTs = parseNoteTimestamp(remoteMeta[slug]);
+
+    if (protectedSet.has(slug)) {
+      if (hasLocal) {
+        merged[slug] = localNote;
+        mergedMeta[slug] = localMeta[slug] || new Date().toISOString();
+      }
+      toUpload[slug] = hasLocal ? localNote : "";
+      continue;
+    }
+
+    if (hasLocal && !hasRemote) {
+      merged[slug] = localNote;
+      mergedMeta[slug] = localMeta[slug] || new Date().toISOString();
+      toUpload[slug] = localNote;
+      continue;
+    }
+
+    if (!hasLocal && hasRemote) {
+      merged[slug] = remoteNote;
+      if (remoteMeta[slug]) mergedMeta[slug] = remoteMeta[slug];
+      continue;
+    }
+
+    // Pre-meta local edits have ts 0; if content differs, treat as newer so upgrade
+    // does not silently drop signed-out work that predates NOTES_META_KEY.
+    let effectiveLocalTs = localTs;
+    if (localTs === 0 && localNote !== remoteNote) {
+      effectiveLocalTs = remoteTs + 1;
+    }
+    if (effectiveLocalTs > remoteTs) {
+      merged[slug] = localNote;
+      mergedMeta[slug] = localMeta[slug] || new Date().toISOString();
+      if (localNote !== remoteNote) toUpload[slug] = localNote;
+    } else {
+      merged[slug] = remoteNote;
+      if (remoteMeta[slug]) mergedMeta[slug] = remoteMeta[slug];
+    }
+  }
+
+  return { merged, mergedMeta, toUpload };
+}
+
+function readStringMap(key: string): Record<string, string> {
   if (typeof window === "undefined") return {};
   try {
-    const saved = localStorage.getItem(NOTES_LOCAL_KEY);
+    const saved = localStorage.getItem(key);
     if (!saved) return {};
     const parsed = JSON.parse(saved);
     if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) {
-      localStorage.removeItem(NOTES_LOCAL_KEY);
+      localStorage.removeItem(key);
       return {};
     }
-    const map: NotesMap = {};
-    for (const [key, value] of Object.entries(parsed)) {
+    const map: Record<string, string> = {};
+    for (const [k, value] of Object.entries(parsed)) {
       if (typeof value === "string" && value.trim()) {
-        map[key] = normalizeNote(value);
+        map[k] = value;
       }
     }
     return map;
   } catch {
-    localStorage.removeItem(NOTES_LOCAL_KEY);
+    localStorage.removeItem(key);
     return {};
   }
+}
+
+export function getLocalNotes(): NotesMap {
+  const raw = readStringMap(NOTES_LOCAL_KEY);
+  const map: NotesMap = {};
+  for (const [key, value] of Object.entries(raw)) {
+    const note = normalizeNote(value);
+    if (note) map[key] = note;
+  }
+  return map;
+}
+
+export function getLocalNotesMeta(): NotesMeta {
+  const raw = readStringMap(NOTES_META_KEY);
+  const map: NotesMeta = {};
+  for (const [key, value] of Object.entries(raw)) {
+    if (isValidSlug(key) && parseNoteTimestamp(value) > 0) {
+      map[key] = value;
+    }
+  }
+  return map;
 }
 
 export function saveLocalNotes(notes: NotesMap): void {
@@ -128,6 +238,15 @@ export function saveLocalNotes(notes: NotesMap): void {
   }
 }
 
+export function saveLocalNotesMeta(meta: NotesMeta): void {
+  if (typeof window === "undefined") return;
+  try {
+    localStorage.setItem(NOTES_META_KEY, JSON.stringify(meta));
+  } catch (error) {
+    console.error("saveLocalNotesMeta failed:", error);
+  }
+}
+
 export function getLocalNote(slug: string): string {
   return getNoteFromMap(getLocalNotes(), slug);
 }
@@ -135,6 +254,13 @@ export function getLocalNote(slug: string): string {
 export function setLocalNote(slug: string, text: string): NotesMap {
   const next = setNoteInMap(getLocalNotes(), slug, text);
   saveLocalNotes(next);
+  const meta = { ...getLocalNotesMeta() };
+  if (Object.hasOwn(next, slug)) {
+    meta[slug] = new Date().toISOString();
+  } else {
+    delete meta[slug];
+  }
+  saveLocalNotesMeta(meta);
   return next;
 }
 
@@ -142,7 +268,9 @@ export function clearLocalNote(slug: string): NotesMap {
   return setLocalNote(slug, "");
 }
 
-export type FetchNotesResult = { ok: true; notes: NotesMap } | { ok: false };
+export type FetchNotesResult =
+  | { ok: true; notes: NotesMap; updatedAt: NotesMeta }
+  | { ok: false };
 
 export async function fetchUserNotes(): Promise<FetchNotesResult> {
   try {
@@ -150,14 +278,25 @@ export async function fetchUserNotes(): Promise<FetchNotesResult> {
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
     const raw = data.notes;
-    if (typeof raw !== "object" || raw === null) return { ok: true, notes: {} };
+    if (typeof raw !== "object" || raw === null) {
+      return { ok: true, notes: {}, updatedAt: {} };
+    }
     const map: NotesMap = {};
     for (const [key, value] of Object.entries(raw)) {
       if (typeof value === "string" && value.trim()) {
         map[key] = normalizeNote(value);
       }
     }
-    return { ok: true, notes: map };
+    const updatedAt: NotesMeta = {};
+    const rawMeta = data.updatedAt;
+    if (typeof rawMeta === "object" && rawMeta !== null && !Array.isArray(rawMeta)) {
+      for (const [key, value] of Object.entries(rawMeta)) {
+        if (isValidSlug(key) && typeof value === "string" && parseNoteTimestamp(value) > 0) {
+          updatedAt[key] = value;
+        }
+      }
+    }
+    return { ok: true, notes: map, updatedAt };
   } catch (error) {
     console.error("fetchUserNotes failed:", error);
     return { ok: false };

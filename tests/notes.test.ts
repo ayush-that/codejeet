@@ -5,9 +5,11 @@ import {
   MAX_NOTE_LENGTH,
   MAX_SLUG_LENGTH,
   NOTES_LOCAL_KEY,
+  NOTES_META_KEY,
   clearLocalNote,
   clearNoteFromMap,
   getLocalNote,
+  getLocalNotesMeta,
   getNoteFromMap,
   isValidSlug,
   localOnlyNotes,
@@ -15,9 +17,11 @@ import {
   mergeNotesMapsRespectingLocal,
   normalizeNote,
   parseNotesPostBody,
+  reconcileNotes,
   setLocalNote,
   setNoteInMap,
   type NotesMap,
+  type NotesMeta,
 } from "../utils/notesUtils";
 
 function installMemoryLocalStorage() {
@@ -170,6 +174,61 @@ describe("mergeNotesMapsRespectingLocal", () => {
   });
 });
 
+describe("reconcileNotes (LWW + protected)", () => {
+  const older = "2026-01-01T00:00:00.000Z";
+  const newer = "2026-06-01T00:00:00.000Z";
+
+  it("uploads and keeps a newer signed-out local edit over older cloud", () => {
+    const local: NotesMap = { "two-sum": "signed-out revision" };
+    const localMeta: NotesMeta = { "two-sum": newer };
+    const remote: NotesMap = { "two-sum": "older cloud" };
+    const remoteMeta: NotesMeta = { "two-sum": older };
+    const rec = reconcileNotes(local, localMeta, remote, remoteMeta, []);
+    assert.equal(rec.merged["two-sum"], "signed-out revision");
+    assert.equal(rec.toUpload["two-sum"], "signed-out revision");
+  });
+
+  it("keeps newer remote and does not upload when local is older", () => {
+    const local: NotesMap = { "two-sum": "stale device" };
+    const localMeta: NotesMeta = { "two-sum": older };
+    const remote: NotesMap = { "two-sum": "other device win" };
+    const remoteMeta: NotesMeta = { "two-sum": newer };
+    const rec = reconcileNotes(local, localMeta, remote, remoteMeta, []);
+    assert.equal(rec.merged["two-sum"], "other device win");
+    assert.equal(Object.hasOwn(rec.toUpload, "two-sum"), false);
+  });
+
+  it("uploads local-only keys and prefers remote on equal timestamps", () => {
+    const local: NotesMap = { only: "local-only", shared: "local-shared" };
+    const localMeta: NotesMeta = { only: newer, shared: older };
+    const remote: NotesMap = { shared: "remote-shared" };
+    const remoteMeta: NotesMeta = { shared: older };
+    const rec = reconcileNotes(local, localMeta, remote, remoteMeta, []);
+    assert.equal(rec.merged.only, "local-only");
+    assert.equal(rec.toUpload.only, "local-only");
+    assert.equal(rec.merged.shared, "remote-shared");
+    assert.equal(Object.hasOwn(rec.toUpload, "shared"), false);
+  });
+
+  it("protected clear wins and schedules delete upload", () => {
+    const local: NotesMap = {};
+    const remote: NotesMap = { "two-sum": "still-on-server" };
+    const remoteMeta: NotesMeta = { "two-sum": newer };
+    const rec = reconcileNotes(local, {}, remote, remoteMeta, ["two-sum"]);
+    assert.equal(Object.hasOwn(rec.merged, "two-sum"), false);
+    assert.equal(rec.toUpload["two-sum"], "");
+  });
+
+  it("unstamped local that differs from remote is treated as a local edit", () => {
+    const local: NotesMap = { "two-sum": "pre-meta signed-out edit" };
+    const remote: NotesMap = { "two-sum": "cloud copy" };
+    const remoteMeta: NotesMeta = { "two-sum": newer };
+    const rec = reconcileNotes(local, {}, remote, remoteMeta, []);
+    assert.equal(rec.merged["two-sum"], "pre-meta signed-out edit");
+    assert.equal(rec.toUpload["two-sum"], "pre-meta signed-out edit");
+  });
+});
+
 describe("localStorage notes helpers (shipped path)", () => {
   it("persists, updates, and clears by slug through setLocalNote", () => {
     const store = installMemoryLocalStorage();
@@ -178,6 +237,7 @@ describe("localStorage notes helpers (shipped path)", () => {
     setLocalNote("two-sum", "hash map O(n)");
     assert.equal(getLocalNote("two-sum"), "hash map O(n)");
     assert.equal(getLocalNote("add-two-numbers"), "");
+    assert.ok(getLocalNotesMeta()["two-sum"]);
 
     setLocalNote("add-two-numbers", "linked list reverse");
     assert.equal(getLocalNote("two-sum"), "hash map O(n)");
@@ -188,11 +248,13 @@ describe("localStorage notes helpers (shipped path)", () => {
 
     clearLocalNote("two-sum");
     assert.equal(getLocalNote("two-sum"), "");
+    assert.equal(Object.hasOwn(getLocalNotesMeta(), "two-sum"), false);
     const raw = store.get(NOTES_LOCAL_KEY);
     assert.ok(raw);
     const parsed = JSON.parse(raw!) as NotesMap;
     assert.equal(Object.hasOwn(parsed, "two-sum"), false);
     assert.equal(parsed["add-two-numbers"], "linked list reverse");
+    assert.ok(store.get(NOTES_META_KEY));
   });
 });
 

@@ -9,22 +9,26 @@ function db() {
   return getCloudflareContext().env.DB;
 }
 
-// GET -> { notes: { [slug]: text } }. Signed-out returns an empty map
-// (200, not a redirect) so the client can call it unconditionally.
+// GET -> { notes: { [slug]: text }, updatedAt: { [slug]: ISO } }.
+// Signed-out returns empty maps (200, not a redirect) so the client can call it unconditionally.
 export async function GET() {
   const { userId } = await auth();
-  if (!userId) return Response.json({ notes: {} });
+  if (!userId) return Response.json({ notes: {}, updatedAt: {} });
 
   const { results } = await db()
-    .prepare("SELECT slug, note FROM notes WHERE user_id = ?")
+    .prepare("SELECT slug, note, updated_at FROM notes WHERE user_id = ?")
     .bind(userId)
-    .all<{ slug: string; note: string }>();
+    .all<{ slug: string; note: string; updated_at: string }>();
 
   const notes: Record<string, string> = {};
+  const updatedAt: Record<string, string> = {};
   for (const row of results ?? []) {
-    if (row.note?.trim()) notes[row.slug] = row.note;
+    if (row.note?.trim()) {
+      notes[row.slug] = row.note;
+      if (row.updated_at) updatedAt[row.slug] = row.updated_at;
+    }
   }
-  return Response.json({ notes });
+  return Response.json({ notes, updatedAt });
 }
 
 // POST { slug, note }. Non-empty note -> upsert. Empty/whitespace -> delete.
