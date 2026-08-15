@@ -73,3 +73,6 @@ logo-options/
 
 .agents/skills/seo-audit/
 docs/
+
+# clerk configuration (can include secrets)
+/.clerk/
