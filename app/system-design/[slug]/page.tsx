@@ -110,7 +110,7 @@ export default async function SystemDesignDetailPage({
           })}
         />
       )}
-      <div className="md:hidden mb-4 space-y-2">
+      <div className="lg:hidden mb-4 space-y-2">
         <details className="w-full border rounded-lg">
           <summary className="cursor-pointer px-3 py-2">Chapters</summary>
           <div className="p-3">
@@ -141,11 +141,11 @@ export default async function SystemDesignDetailPage({
         </details>
       </div>
 
-      <div className="grid grid-cols-12 gap-6">
-        <aside className="hidden md:block col-span-3">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <aside className="hidden lg:block lg:col-span-3 min-w-0">
           <TOC items={toc} />
         </aside>
-        <div className="col-span-12 md:col-span-6 mx-auto max-w-3xl order-last md:order-none">
+        <div className="min-w-0 w-full lg:col-span-6 mx-auto max-w-3xl">
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
             rehypePlugins={[
@@ -178,6 +178,11 @@ export default async function SystemDesignDetailPage({
                 </div>
               ),
               iframe: undefined,
+              table: ({ children }) => (
+                <div className="overflow-x-auto">
+                  <table>{children}</table>
+                </div>
+              ),
               img: (props) => {
                 const rawSrc = (props.src ?? "").toString();
                 const isAbsolute = /^([a-z]+:)?\/\//i.test(rawSrc) || rawSrc.startsWith("/");
@@ -192,7 +197,7 @@ export default async function SystemDesignDetailPage({
                     width={800}
                     height={600}
                     sizes="(max-width: 768px) 100vw, 800px"
-                    className="rounded-lg border my-4"
+                    className="rounded-lg border my-4 max-w-full h-auto"
                   />
                 );
               },
@@ -201,7 +206,7 @@ export default async function SystemDesignDetailPage({
             {content}
           </ReactMarkdown>
         </div>
-        <aside className="hidden md:block col-span-3">
+        <aside className="hidden lg:block lg:col-span-3 min-w-0">
           <nav
             aria-label="Chapters"
             className="text-sm sticky top-20 max-h-[80vh] overflow-auto pl-2"
