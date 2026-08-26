@@ -348,6 +348,10 @@ async function main() {
   sitemapUrls.push({ path: "/dashboard", priority: 0.9, changeFrequency: "weekly" });
   sitemapUrls.push({ path: "/companies", priority: 0.9, changeFrequency: "weekly" });
   sitemapUrls.push({ path: "/podcast", priority: 0.6, changeFrequency: "monthly" });
+  sitemapUrls.push({ path: "/about", priority: 0.6, changeFrequency: "monthly" });
+  sitemapUrls.push({ path: "/contact", priority: 0.6, changeFrequency: "monthly" });
+  sitemapUrls.push({ path: "/privacy", priority: 0.6, changeFrequency: "monthly" });
+  sitemapUrls.push({ path: "/developers", priority: 0.7, changeFrequency: "monthly" });
 
   // Companies with fewer than 3 questions are noindex
   for (const slug of Object.keys(companyProfiles)) {

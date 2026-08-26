@@ -9,6 +9,17 @@ import Footer from "@/components/Footer";
 import { Toaster } from "@/components/ui/toaster";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { websiteJsonLd, organizationJsonLd, siteNavigationJsonLd } from "@/lib/seo";
+import {
+  OG_IMAGE_ALT,
+  OG_IMAGE_HEIGHT,
+  OG_IMAGE_PATH,
+  OG_IMAGE_WIDTH,
+  OG_TYPE,
+  SITE_DESCRIPTION,
+  SITE_LANG,
+  SITE_NAME,
+  SITE_URL,
+} from "@/lib/site";
 import "./globals.css";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -22,24 +33,30 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://codejeet.com"),
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: "CodeJeet - Company-wise LeetCode Interview Questions",
-    template: "%s | CodeJeet",
+    default: `${SITE_NAME} - Company-wise LeetCode Interview Questions`,
+    template: `%s | ${SITE_NAME}`,
   },
-  description:
-    "Browse 15,000+ company-wise LeetCode DSA interview questions from 700+ companies. " +
-    "Filter by company, topic, and difficulty. Practice smarter for your next tech interview.",
+  description: SITE_DESCRIPTION,
   openGraph: {
-    type: "website",
-    siteName: "CodeJeet",
+    type: OG_TYPE,
+    siteName: SITE_NAME,
     locale: "en_US",
-    images: [{ url: "/og-image.png", width: 1200, height: 630 }],
+    images: [
+      {
+        url: OG_IMAGE_PATH,
+        width: OG_IMAGE_WIDTH,
+        height: OG_IMAGE_HEIGHT,
+        alt: OG_IMAGE_ALT,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     site: "@codejeet",
     creator: "@codejeet",
+    images: [OG_IMAGE_PATH],
   },
   robots: { index: true, follow: true },
 };
@@ -49,7 +66,7 @@ const clerkPublishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <ClerkProvider publishableKey={clerkPublishableKey} appearance={{ baseTheme: dark }}>
-      <html lang="en" suppressHydrationWarning>
+      <html lang={SITE_LANG} suppressHydrationWarning>
         <head>
           <JsonLd data={websiteJsonLd()} />
           <JsonLd data={organizationJsonLd()} />

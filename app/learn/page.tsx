@@ -7,7 +7,7 @@ import type { CourseSummary } from "@/lib/learn/types";
 export const dynamic = "force-static";
 
 export const metadata: Metadata = {
-  title: "Learn DSA — Codejeet",
+  title: "Learn DSA",
   description:
     "A complete data-structures-and-algorithms roadmap with lessons, exercises and quizzes. Solve problems in C++, Python, JavaScript or Java — your code compiles and runs in your browser.",
 };

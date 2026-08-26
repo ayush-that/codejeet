@@ -1,9 +1,16 @@
 import type { Metadata } from "next";
 import type { CompanyProfile, ComparisonPair } from "./pseo-data";
 import { isCompareIndexable } from "./compare";
+import {
+  CONTACT_EMAIL,
+  OG_IMAGE_PATH,
+  SAME_AS,
+  SITE_DESCRIPTION,
+  SITE_NAME,
+  SITE_URL,
+} from "./site";
 
-const SITE_URL = "https://codejeet.com";
-const SITE_NAME = "CodeJeet";
+export { SITE_NAME, SITE_URL };
 
 export function websiteJsonLd() {
   return {
@@ -11,8 +18,7 @@ export function websiteJsonLd() {
     "@type": "WebSite",
     name: SITE_NAME,
     url: SITE_URL,
-    description:
-      "Browse 15,000+ company-wise LeetCode DSA interview questions from 700+ companies.",
+    description: SITE_DESCRIPTION,
     potentialAction: {
       "@type": "SearchAction",
       target: {
@@ -29,9 +35,39 @@ export function organizationJsonLd() {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: SITE_NAME,
+    description: SITE_DESCRIPTION,
     url: SITE_URL,
     logo: `${SITE_URL}/logo.png`,
-    sameAs: ["https://x.com/shydev69"],
+    sameAs: [...SAME_AS],
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "customer support",
+      email: CONTACT_EMAIL,
+      url: `${SITE_URL}/contact`,
+    },
+  };
+}
+
+export function softwareApplicationJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: SITE_NAME,
+    description: SITE_DESCRIPTION,
+    url: SITE_URL,
+    applicationCategory: "EducationalApplication",
+    operatingSystem: "Web",
+    image: `${SITE_URL}${OG_IMAGE_PATH}`,
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
+    },
+    author: {
+      "@type": "Person",
+      name: "shydev",
+      url: "https://github.com/ayush-that",
+    },
   };
 }
 
@@ -69,6 +105,12 @@ export function siteNavigationJsonLd() {
         position: 5,
         name: "System Design",
         url: `${SITE_URL}/system-design`,
+      },
+      {
+        "@type": "SiteNavigationElement",
+        position: 6,
+        name: "Developer resources",
+        url: `${SITE_URL}/developers`,
       },
     ],
   };

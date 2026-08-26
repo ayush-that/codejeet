@@ -22,5 +22,7 @@ describe("classifySitemapPath", () => {
     assert.equal(classifySitemapPath("/problem/two-sum"), "problem");
     assert.equal(classifySitemapPath("/compare/google-vs-amazon"), "compare");
     assert.equal(classifySitemapPath("/system-design/url-shortener"), "system-design");
+    assert.equal(classifySitemapPath("/about"), "static");
+    assert.equal(classifySitemapPath("/developers"), "static");
   });
 });

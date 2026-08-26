@@ -37,5 +37,6 @@ export default function robots(): MetadataRoute.Robots {
       },
     ],
     sitemap: "https://codejeet.com/sitemap.xml",
+    host: "codejeet.com",
   };
 }

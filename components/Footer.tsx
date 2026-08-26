@@ -1,4 +1,12 @@
 import { BsTwitterX, BsSuitHeartFill, BsGithub } from "react-icons/bs";
+import Link from "next/link";
+
+const FOOTER_LINKS = [
+  { href: "/about", label: "About" },
+  { href: "/contact", label: "Contact" },
+  { href: "/privacy", label: "Privacy" },
+  { href: "/developers", label: "Developers" },
+];
 
 const Footer = () => {
   return (
@@ -33,6 +41,20 @@ const Footer = () => {
             </a>
           </div>
         </div>
+        <nav
+          aria-label="About and legal"
+          className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted-foreground"
+        >
+          {FOOTER_LINKS.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="underline-offset-2 hover:text-foreground hover:underline transition-colors"
+            >
+              {link.label}
+            </Link>
+          ))}
+        </nav>
       </div>
     </footer>
   );
