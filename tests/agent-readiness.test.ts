@@ -6,7 +6,6 @@ import {
   ABOUT_H1,
   CONTACT_H1,
   DEVELOPERS_H1,
-  HOMEPAGE_H1,
   LLMS_FULL_TXT,
   LLMS_TXT,
   NOT_FOUND_MARKDOWN,
@@ -14,16 +13,17 @@ import {
   aboutVisibleText,
   contactVisibleText,
   developersVisibleText,
-  homepageVisibleText,
   privacyVisibleText,
 } from "../lib/agent-resources";
 import { organizationJsonLd, softwareApplicationJsonLd, websiteJsonLd } from "../lib/seo";
 import { OG_IMAGE_PATH, OG_TYPE, SITE_LANG, SITE_NAME, SITE_URL } from "../lib/site";
 import sitemap from "../app/sitemap";
 import { classifySitemapPath } from "../lib/sitemap/filters";
-import { STATIC_TRUST_PAGES } from "../lib/sitemap/static-pages";
+import { STATIC_TRUST_PAGES, TRUST_PAGES_LAST_MODIFIED } from "../lib/sitemap/static-pages";
 
 const root = process.cwd();
+
+const ORIGINAL_HOMEPAGE_H1 = "15,000+ Company-wise LeetCode Interview Questions";
 
 function assertMinChars(label: string, text: string, min = 500) {
   assert.ok(
@@ -32,16 +32,27 @@ function assertMinChars(label: string, text: string, min = 500) {
   );
 }
 
-describe("homepage SSR copy", () => {
-  it("exposes an H1 that names CodeJeet", () => {
-    assert.match(HOMEPAGE_H1, /^CodeJeet:/);
-    assert.match(HOMEPAGE_H1, /LeetCode/);
+function assertNoPhone(label: string, text: string) {
+  assert.doesNotMatch(text, /tel:/i, `${label} should not include tel: links`);
+  assert.doesNotMatch(text, /telephone/i, `${label} should not include a telephone field`);
+  assert.doesNotMatch(text, /\+?\d[\d\s().-]{8,}\d/, `${label} should not include a phone number`);
+}
+
+describe("homepage matches original product UI", () => {
+  it("keeps the original H1 and subhead in the client homepage", () => {
+    const source = readFileSync(path.join(root, "app/page.client.tsx"), "utf8");
+    assert.equal(source.includes(ORIGINAL_HOMEPAGE_H1), true);
+    assert.equal(source.includes("Filter by company, topic, and difficulty."), true);
+    assert.equal(source.includes("Practice smarter for your next tech"), true);
+    assert.doesNotMatch(source, /HomeOverview/);
+    assert.doesNotMatch(source, /CodeJeet is a free/);
   });
 
-  it("has at least 500 characters of visible homepage text", () => {
-    const text = homepageVisibleText();
-    assertMinChars("homepage", text);
-    assert.match(text, /CodeJeet/);
+  it("does not add a marketing overview section on the homepage", () => {
+    const homepage = readFileSync(path.join(root, "app/page.tsx"), "utf8");
+    assert.match(homepage, /HomeClient/);
+    assert.doesNotMatch(homepage, /HomeOverview/);
+    assert.doesNotMatch(homepage, /HOMEPAGE_OVERVIEW/);
   });
 });
 
@@ -93,7 +104,7 @@ describe("trust pages", () => {
 });
 
 describe("JSON-LD", () => {
-  it("includes Organization name, description, and contactPoint", () => {
+  it("includes Organization name, description, and contactPoint without a phone", () => {
     const org = organizationJsonLd();
     assert.equal(org.name, SITE_NAME);
     assert.ok(typeof org.description === "string" && org.description.length > 40);
@@ -101,6 +112,8 @@ describe("JSON-LD", () => {
     assert.equal(org.contactPoint["@type"], "ContactPoint");
     assert.ok(org.contactPoint.email.includes("@"));
     assert.equal(org.contactPoint.contactType, "customer support");
+    assert.equal("telephone" in org.contactPoint, false);
+    assert.equal("telephone" in org, false);
   });
 
   it("includes SoftwareApplication name, description, url, and offers", () => {
@@ -117,6 +130,18 @@ describe("JSON-LD", () => {
     const site = websiteJsonLd();
     assert.equal(site.name, SITE_NAME);
     assert.ok(site.description.length > 40);
+  });
+});
+
+describe("no phone number on agent or trust surfaces", () => {
+  it("omits telephone from copy, llms.txt, and JSON-LD", () => {
+    assertNoPhone("about", aboutVisibleText());
+    assertNoPhone("contact", contactVisibleText());
+    assertNoPhone("privacy", privacyVisibleText());
+    assertNoPhone("developers", developersVisibleText());
+    assertNoPhone("llms.txt", LLMS_TXT);
+    assertNoPhone("llms-full.txt", LLMS_FULL_TXT);
+    assertNoPhone("json-ld", JSON.stringify(organizationJsonLd()));
   });
 });
 
@@ -158,11 +183,19 @@ describe("sitemap trust pages", () => {
     assert.equal(classifySitemapPath("/developers"), "static");
   });
 
-  it("includes about, contact, privacy, and developers", () => {
+  it("includes about, contact, privacy, and developers with an August lastModified", () => {
     const entries = sitemap();
-    const paths = new Set(entries.map((entry) => new URL(entry.url).pathname));
+    const byPath = new Map(
+      entries.map((entry) => [new URL(entry.url).pathname, entry.lastModified])
+    );
     for (const page of STATIC_TRUST_PAGES) {
-      assert.equal(paths.has(page.path), true, `sitemap missing ${page.path}`);
+      assert.equal(byPath.has(page.path), true, `sitemap missing ${page.path}`);
+      const modified = byPath.get(page.path);
+      assert.ok(modified instanceof Date, `${page.path} lastModified should be a Date`);
+      assert.equal(
+        (modified as Date).toISOString().slice(0, 10),
+        TRUST_PAGES_LAST_MODIFIED.toISOString().slice(0, 10)
+      );
     }
   });
 });

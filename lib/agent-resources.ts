@@ -7,58 +7,6 @@ import {
   SITE_URL,
 } from "./site";
 
-export const HOMEPAGE_H1 = `${SITE_NAME}: 15,000+ Company-wise LeetCode Interview Questions`;
-
-export const HOMEPAGE_SUBHEAD =
-  "Filter by company, topic, and difficulty. Practice smarter for your next tech interview.";
-
-export const homepageFaqs = [
-  {
-    question: `What is ${SITE_NAME}?`,
-    answer:
-      `${SITE_NAME} is a free platform to browse 15,000+ company-wise LeetCode DSA interview questions from 700+ companies. ` +
-      "Filter by company, topic, and difficulty to practice smarter for your next tech interview.",
-  },
-  {
-    question: "How do I prepare for a FAANG coding interview?",
-    answer:
-      `Start by browsing company-specific questions on ${SITE_NAME}. Focus on the most frequently asked problems for your target company, ` +
-      "practice by difficulty level (start with Easy, progress to Medium and Hard), and study the top topics like Arrays, Dynamic Programming, Trees, and Graphs.",
-  },
-  {
-    question: `Which companies' interview questions are available on ${SITE_NAME}?`,
-    answer:
-      `${SITE_NAME} has interview questions from 700+ companies including Google, Amazon, Meta, Apple, Microsoft, Netflix, Goldman Sachs, Bloomberg, Uber, and many more. ` +
-      "Each company page shows questions sorted by frequency.",
-  },
-  {
-    question: "How are the LeetCode questions organized?",
-    answer:
-      "Questions are organized by company, topic (like Arrays, Trees, Dynamic Programming), and difficulty level (Easy, Medium, Hard). " +
-      "You can filter and sort to find the most relevant problems for your interview preparation.",
-  },
-  {
-    question: `Is ${SITE_NAME} free to use?`,
-    answer: `Yes, ${SITE_NAME} is completely free. All 15,000+ company-wise LeetCode questions, system design chapters, and interview preparation resources are available without any sign-up or payment.`,
-  },
-];
-
-export const HOMEPAGE_OVERVIEW_PARAGRAPHS = [
-  `${SITE_NAME} is a free, browser-based interview prep site at ${SITE_URL}. It helps you study the LeetCode problems companies actually ask, ` +
-    "instead of grinding an unsorted problem list. Company pages rank questions by reported frequency. Topic and difficulty filters " +
-    "narrow the set when you have a week to prepare, not a year.",
-  `The question tracker at ${SITE_URL}/dashboard is the main workspace: search titles, filter by company, topic, premium status, and timeframe, ` +
-    "and check off problems as you solve them. Progress stays in the browser when you are signed out, and syncs to your account when you sign in.",
-  `${SITE_NAME} also publishes system-design chapters (scaling, rate limiting, consistent hashing, URL shorteners, chat, news feeds, and more), ` +
-    "a Learn section with in-browser DSA exercises, company-vs-company comparison pages, and 2,700+ blog guides. It is not LeetCode, not a coding judge, " +
-    "and not an official careers portal. Use it to decide what to practice; submit solutions on LeetCode or in the Learn playground.",
-];
-
-export function homepageVisibleText(): string {
-  const faqText = homepageFaqs.map((item) => `${item.question} ${item.answer}`).join(" ");
-  return [HOMEPAGE_H1, HOMEPAGE_SUBHEAD, ...HOMEPAGE_OVERVIEW_PARAGRAPHS, faqText].join(" ");
-}
-
 export const NOT_FOUND_MARKDOWN = `# Page not found
 
 This URL is not a page on [${SITE_NAME}](${SITE_URL}). HTTP status is 404.
@@ -75,54 +23,34 @@ This URL is not a page on [${SITE_NAME}](${SITE_URL}). HTTP status is 404.
 
 export const ABOUT_H1 = `About ${SITE_NAME}`;
 export const ABOUT_PARAGRAPHS = [
-  `${SITE_NAME} is an open-source interview preparation site. It organizes 15,000+ LeetCode-style coding questions by the companies that ask them, ` +
-    "so you can spend practice time on problems that show up in real interviews at Google, Amazon, Meta, Apple, Microsoft, and hundreds of other employers.",
-  "Company-wise lists are sourced from the public liquidslr/interview-company-wise-problems dataset and rebuilt into browsable pages: one page per company, " +
-    "per topic, per difficulty, and per problem. Frequency sorting is the default because interview prep is a ranking problem, not a completionist one.",
-  `Beyond the tracker, ${SITE_NAME} includes system-design chapters with diagrams, a Learn path with in-browser code execution, side-by-side company comparisons, ` +
-    "and a large set of written guides. The product is free. Signing in is optional and only needed if you want progress and notes synced across devices.",
-  `${SITE_NAME} is built by shydev and released under the GPL-3.0 license. The canonical site is ${SITE_URL}. Source lives at ${CONTACT_GITHUB}. ` +
-    `${SITE_NAME} is not affiliated with LeetCode or with the companies whose interview questions appear here.`,
+  `${SITE_NAME} is an open-source interview prep site at ${SITE_URL}. It lists 15,000+ LeetCode questions grouped by the companies that ask them, plus system-design chapters, a Learn path, company comparisons, and written guides.`,
+  "Company-wise lists come from the public liquidslr/interview-company-wise-problems dataset. Each company, topic, difficulty, and problem has its own page. The tracker at /dashboard filters that same set.",
+  "The site is free. Signing in is optional and only needed to sync progress and notes across devices. Source is GPL-3.0 at GitHub. CodeJeet is not affiliated with LeetCode or with the employers named on the company pages.",
 ];
 
 export const CONTACT_H1 = `Contact ${SITE_NAME}`;
 export const CONTACT_PARAGRAPHS = [
-  `The fastest way to reach the ${SITE_NAME} maintainer is email or a GitHub issue. There is no phone support line and no ticket portal. ` +
-    "Use email for account or privacy questions. Use GitHub for bugs, data corrections, and feature requests so the discussion stays public and searchable.",
-  `Email: ${CONTACT_EMAIL}. This is the address used on the public ${SITE_NAME} git history and the address to use for privacy requests, takedown questions, ` +
-    `and anything you should not file in a public issue tracker.`,
-  `GitHub issues: ${CONTACT_GITHUB_ISSUES}. Please include the ${SITE_NAME} URL you were on, what you expected, and what you saw. ` +
-    "Company question lists come from an upstream dataset; if a problem is missing or miscategorized, link the company page.",
-  `Public updates and lighter-weight pings: ${CONTACT_X} (shydev). The ${SITE_NAME} repository is ${CONTACT_GITHUB}. ` +
-    `There is no physical office published for ${SITE_NAME}; it is a small open-source project, not a staffed company headquarters.`,
+  `Reach the ${SITE_NAME} maintainer by email or a GitHub issue. Use email for account or privacy questions. Use GitHub for bugs, bad question data, and feature requests so the thread stays public.`,
+  `Email: ${CONTACT_EMAIL}. Same address as the public git history. Use it for privacy requests, takedowns, and anything that should not go in a public issue.`,
+  `GitHub issues: ${CONTACT_GITHUB_ISSUES}. Include the ${SITE_NAME} URL, what you expected, and what you saw. Company lists come from an upstream dataset; if a problem is missing, link the company page.`,
+  `Updates: ${CONTACT_X} (shydev). Source: ${CONTACT_GITHUB}. There is no office or ticket portal.`,
 ];
 
 export const PRIVACY_H1 = `${SITE_NAME} Privacy Policy`;
 export const PRIVACY_PARAGRAPHS = [
-  `This policy describes how ${SITE_NAME} (${SITE_URL}) handles information. ${SITE_NAME} is a free interview-prep site. ` +
-    "You can browse companies, problems, system-design chapters, and the blog without creating an account.",
-  "If you never sign in, progress checkboxes and personal notes stay in your browser (localStorage) on that device. " +
-    `${SITE_NAME} does not receive those local records. Clearing site data in the browser deletes them.`,
-  `If you sign in, authentication is provided by Clerk. ${SITE_NAME} stores your Clerk user id plus the problem slugs you mark solved and the notes you save, ` +
-    "in a Cloudflare D1 database, so the same progress can load on another device. Those APIs are /api/progress and /api/notes and require your session cookie. " +
-    "Clerk's own privacy policy covers the identity data Clerk holds: https://clerk.com/legal/privacy",
-  `${SITE_NAME} does not sell personal information. Question lists and editorial content are published to help people prepare for interviews. ` +
-    `The site is hosted on Cloudflare. Cloudflare may process connection data (IP address, user agent) as any CDN would. ` +
-    `To ask a question about this policy or request deletion of an account's stored progress and notes, email ${CONTACT_EMAIL} and use the same address on the account if you have one.`,
-  `This page is the ${SITE_NAME} privacy notice as of 27 August 2026. If the data we store changes in a material way, this page will be updated.`,
+  `This policy describes how ${SITE_NAME} (${SITE_URL}) handles information. You can browse companies, problems, system-design chapters, and the blog without an account.`,
+  "If you never sign in, progress checkboxes and notes stay in your browser (localStorage) on that device. Clearing site data deletes them. CodeJeet does not receive those local records.",
+  `If you sign in, Clerk handles authentication. ${SITE_NAME} stores your Clerk user id plus solved problem slugs and notes in Cloudflare D1, via /api/progress and /api/notes (session cookie required). Clerk's privacy policy: https://clerk.com/legal/privacy`,
+  `${SITE_NAME} does not sell personal information. Hosting is on Cloudflare, which may log IP and user agent like any CDN. For questions or to delete stored progress and notes, email ${CONTACT_EMAIL} from the address on the account.`,
+  `This notice is current as of 27 August 2026. It will be updated if stored data changes in a material way.`,
 ];
 
 export const DEVELOPERS_H1 = `${SITE_NAME} developer resources`;
 export const DEVELOPERS_PARAGRAPHS = [
-  `${SITE_NAME} does not publish a public REST API, OpenAPI spec, or MCP server. Agents and developers should treat HTML pages, ` +
-    `/llms.txt, and /sitemap.xml as the supported machine-readable interface. Do not scrape /data/ JSON; robots.txt disallows /data/ and /api/.`,
-  `Use ${SITE_NAME} when you need company-wise LeetCode interview question lists, topic/difficulty filters, company comparisons, system-design chapters, or blog guides. ` +
-    "Call pages by URL. Prefer sitemap.xml to discover indexable routes instead of guessing slugs.",
-  "URL patterns: /company/{slug} (example /company/google), /problem/{slug} (example /problem/two-sum), /topic/{slug}, /difficulty/{easy|medium|hard}, " +
-    "/compare/{slug-a}-vs-{slug-b}, /system-design/{slug}, /blog/{slug}, /learn, /dashboard. Trust pages: /about, /contact, /privacy, /developers.",
-  `Authenticated JSON endpoints exist only for a signed-in human's own data: GET/POST /api/progress and GET/POST /api/notes. ` +
-    "They use a Clerk session cookie, not API keys. Signed-out GET returns empty maps. There is no bulk export and no service account. " +
-    `Start at ${SITE_URL}/llms.txt for when-to-use guidance.`,
+  `${SITE_NAME} does not publish a public REST API, OpenAPI spec, or MCP server. Agents and developers should use HTML pages, /llms.txt, and /sitemap.xml. Do not scrape /data/ JSON; robots.txt disallows /data/ and /api/.`,
+  `Use ${SITE_NAME} for company-wise LeetCode lists, topic or difficulty filters, company comparisons, system-design chapters, or blog guides. Prefer sitemap.xml over guessing slugs.`,
+  "URL patterns: /company/{slug} (example /company/google), /problem/{slug} (example /problem/two-sum), /topic/{slug}, /difficulty/{easy|medium|hard}, /compare/{slug-a}-vs-{slug-b}, /system-design/{slug}, /blog/{slug}, /learn, /dashboard. Also /about, /contact, /privacy, /developers.",
+  `Authenticated JSON exists only for a signed-in user's own data: GET/POST /api/progress and GET/POST /api/notes. Clerk session cookie, no API keys. Signed-out GET returns empty maps. See ${SITE_URL}/llms.txt.`,
 ];
 
 function joinParagraphs(heading: string, paragraphs: string[]): string {
