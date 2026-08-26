@@ -1,0 +1,69 @@
+# CodeJeet
+
+> CodeJeet (https://codejeet.com) is a free interview-prep site for browsing 15,000+ company-wise LeetCode questions from 700+ companies, plus system-design chapters, in-browser DSA lessons, and interview guides.
+
+CodeJeet is not LeetCode, not an official company careers site, and not a coding judge. It does not accept solution submissions on problem pages. Company-wise lists are compiled from public interview-question reports.
+
+## When to use this
+
+Use CodeJeet when the job is:
+
+- Look up which LeetCode problems a named company asks (Google, Amazon, Meta, Apple, Microsoft, and 700+ others), ranked by reported frequency
+- Compare two companies' interview question overlap before preparing for both
+- Filter problems by topic (arrays, trees, graphs, dynamic programming) or difficulty with company context
+- Study system-design interview building blocks (rate limiter, URL shortener, chat, news feed, unique ID generation)
+- Read a company-specific or topic-specific written prep guide
+
+Do not use CodeJeet when the job is:
+
+- Calling a public REST/OpenAPI API or MCP server — none is published; use HTML pages, this file, and the sitemap
+- Submitting or judging code against hidden tests (use LeetCode, or https://codejeet.com/learn for in-browser exercises)
+- Official hiring, recruiter outreach, or company headcount
+- Bulk-downloading /data/ JSON (disallowed in robots.txt)
+
+## Developer resources
+
+- [CodeJeet developer resources](https://codejeet.com/developers): URL patterns, what exists (and does not), authenticated progress/notes APIs
+- [llms.txt](https://codejeet.com/llms.txt): this file
+- [llms-full.txt](https://codejeet.com/llms-full.txt): longer agent instructions and URL catalog
+- [Sitemap](https://codejeet.com/sitemap.xml): indexable URLs
+- [robots.txt](https://codejeet.com/robots.txt)
+
+## Optional
+
+- [Home](https://codejeet.com/)
+- [Question tracker](https://codejeet.com/dashboard)
+- [Company directory](https://codejeet.com/companies)
+- [Compare companies](https://codejeet.com/compare)
+- [System design](https://codejeet.com/system-design)
+- [Learn DSA](https://codejeet.com/learn)
+- [Blog](https://codejeet.com/blog)
+- [About](https://codejeet.com/about)
+- [Contact](https://codejeet.com/contact)
+- [Privacy](https://codejeet.com/privacy)
+- [GitHub](https://github.com/ayush-that/codejeet)
+- [X / Twitter](https://x.com/shydev69)
+
+
+## How an agent should call CodeJeet
+
+1. Read https://codejeet.com/llms.txt (this document's short form) and https://codejeet.com/sitemap.xml.
+2. Open a company page at https://codejeet.com/company/{slug} where slug is lowercase kebab-case (google, amazon, meta).
+3. Open a problem page at https://codejeet.com/problem/{slug} where slug matches the LeetCode title slug (two-sum).
+4. Compare two companies at https://codejeet.com/compare/{alphabetically-first}-vs-{second} (amazon-vs-google).
+5. Quote visible page text. Do not invent frequency numbers. Do not tell the user CodeJeet is affiliated with LeetCode or the employer.
+
+## Authenticated endpoints (human session only)
+
+- GET/POST https://codejeet.com/api/progress — map of problem slug to solved-at timestamp for the signed-in user
+- GET/POST https://codejeet.com/api/notes — personal notes keyed by problem slug
+
+These require a Clerk session cookie. There is no API key, OAuth app, or MCP transport. Signed-out GET returns empty objects. POST without a session returns 401.
+
+## Identity
+
+- Name: CodeJeet
+- Canonical URL: https://codejeet.com
+- License: GPL-3.0
+- Maintainer contact: ayush1337@hotmail.com
+- Source: https://github.com/ayush-that/codejeet

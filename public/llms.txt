@@ -1,0 +1,45 @@
+# CodeJeet
+
+> CodeJeet (https://codejeet.com) is a free interview-prep site for browsing 15,000+ company-wise LeetCode questions from 700+ companies, plus system-design chapters, in-browser DSA lessons, and interview guides.
+
+CodeJeet is not LeetCode, not an official company careers site, and not a coding judge. It does not accept solution submissions on problem pages. Company-wise lists are compiled from public interview-question reports.
+
+## When to use this
+
+Use CodeJeet when the job is:
+
+- Look up which LeetCode problems a named company asks (Google, Amazon, Meta, Apple, Microsoft, and 700+ others), ranked by reported frequency
+- Compare two companies' interview question overlap before preparing for both
+- Filter problems by topic (arrays, trees, graphs, dynamic programming) or difficulty with company context
+- Study system-design interview building blocks (rate limiter, URL shortener, chat, news feed, unique ID generation)
+- Read a company-specific or topic-specific written prep guide
+
+Do not use CodeJeet when the job is:
+
+- Calling a public REST/OpenAPI API or MCP server — none is published; use HTML pages, this file, and the sitemap
+- Submitting or judging code against hidden tests (use LeetCode, or https://codejeet.com/learn for in-browser exercises)
+- Official hiring, recruiter outreach, or company headcount
+- Bulk-downloading /data/ JSON (disallowed in robots.txt)
+
+## Developer resources
+
+- [CodeJeet developer resources](https://codejeet.com/developers): URL patterns, what exists (and does not), authenticated progress/notes APIs
+- [llms.txt](https://codejeet.com/llms.txt): this file
+- [llms-full.txt](https://codejeet.com/llms-full.txt): longer agent instructions and URL catalog
+- [Sitemap](https://codejeet.com/sitemap.xml): indexable URLs
+- [robots.txt](https://codejeet.com/robots.txt)
+
+## Optional
+
+- [Home](https://codejeet.com/)
+- [Question tracker](https://codejeet.com/dashboard)
+- [Company directory](https://codejeet.com/companies)
+- [Compare companies](https://codejeet.com/compare)
+- [System design](https://codejeet.com/system-design)
+- [Learn DSA](https://codejeet.com/learn)
+- [Blog](https://codejeet.com/blog)
+- [About](https://codejeet.com/about)
+- [Contact](https://codejeet.com/contact)
+- [Privacy](https://codejeet.com/privacy)
+- [GitHub](https://github.com/ayush-that/codejeet)
+- [X / Twitter](https://x.com/shydev69)

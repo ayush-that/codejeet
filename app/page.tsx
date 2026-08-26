@@ -1,20 +1,35 @@
 import type { Metadata } from "next";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { faqJsonLd } from "@/lib/seo";
+import { faqJsonLd, softwareApplicationJsonLd } from "@/lib/seo";
+import {
+  OG_IMAGE_ALT,
+  OG_IMAGE_HEIGHT,
+  OG_IMAGE_PATH,
+  OG_IMAGE_WIDTH,
+  OG_TYPE,
+  SITE_DESCRIPTION,
+  SITE_NAME,
+  SITE_URL,
+} from "@/lib/site";
 import HomeClient from "./page.client";
 
 export const metadata: Metadata = {
-  title: "CodeJeet - Company-wise LeetCode Interview Questions",
-  description:
-    "Browse 15,000+ company-wise LeetCode DSA interview questions from 700+ companies. " +
-    "Filter by company, topic, and difficulty. Practice smarter for your next tech interview.",
-  alternates: { canonical: "https://codejeet.com" },
+  title: `${SITE_NAME} - Company-wise LeetCode Interview Questions`,
+  description: SITE_DESCRIPTION,
+  alternates: { canonical: SITE_URL },
   openGraph: {
-    title: "CodeJeet - Company-wise LeetCode Interview Questions",
-    description:
-      "Browse 15,000+ company-wise LeetCode DSA interview questions from 700+ companies.",
-    url: "https://codejeet.com",
-    type: "website",
+    title: `${SITE_NAME} - Company-wise LeetCode Interview Questions`,
+    description: SITE_DESCRIPTION,
+    url: SITE_URL,
+    type: OG_TYPE,
+    images: [
+      {
+        url: OG_IMAGE_PATH,
+        width: OG_IMAGE_WIDTH,
+        height: OG_IMAGE_HEIGHT,
+        alt: OG_IMAGE_ALT,
+      },
+    ],
   },
 };
 
@@ -50,6 +65,7 @@ export default function Home() {
   return (
     <>
       <HomeClient />
+      <JsonLd data={softwareApplicationJsonLd()} />
       <JsonLd data={faqJsonLd(homepageFaqs)} />
     </>
   );
