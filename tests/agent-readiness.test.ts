@@ -38,21 +38,20 @@ function assertNoPhone(label: string, text: string) {
   assert.doesNotMatch(text, /\+?\d[\d\s().-]{8,}\d/, `${label} should not include a phone number`);
 }
 
-describe("homepage matches original product UI", () => {
-  it("keeps the original H1 and subhead in the client homepage", () => {
+describe("homepage server-rendered content", () => {
+  it("keeps the primary H1 and subhead", () => {
     const source = readFileSync(path.join(root, "app/page.client.tsx"), "utf8");
     assert.equal(source.includes(ORIGINAL_HOMEPAGE_H1), true);
     assert.equal(source.includes("Filter by company, topic, and difficulty."), true);
     assert.equal(source.includes("Practice smarter for your next tech"), true);
-    assert.doesNotMatch(source, /HomeOverview/);
-    assert.doesNotMatch(source, /CodeJeet is a free/);
   });
 
-  it("does not add a marketing overview section on the homepage", () => {
+  it("includes at least 500 characters of useful static homepage copy", () => {
     const homepage = readFileSync(path.join(root, "app/page.tsx"), "utf8");
-    assert.match(homepage, /HomeClient/);
-    assert.doesNotMatch(homepage, /HomeOverview/);
-    assert.doesNotMatch(homepage, /HOMEPAGE_OVERVIEW/);
+    const overview = homepage.match(/function HomeOverview\(\) \{([\s\S]*?)\n\}/)?.[1] ?? "";
+    assert.match(homepage, /<HomeOverview \/>/);
+    assert.match(overview, /Prepare for coding interviews/);
+    assertMinChars("homepage overview", overview);
   });
 });
 
@@ -172,6 +171,14 @@ describe("metadata contract", () => {
     assert.match(layout, /type: OG_TYPE/);
     const notFound = readFileSync(path.join(root, "app/not-found.tsx"), "utf8");
     assert.match(notFound, /NOT_FOUND_MARKDOWN/);
+  });
+});
+
+describe("video structured data", () => {
+  it("does not emit VideoObject without a source upload date", () => {
+    const detailPage = readFileSync(path.join(root, "app/system-design/[slug]/page.tsx"), "utf8");
+    assert.doesNotMatch(detailPage, /videoObjectJsonLd/);
+    assert.doesNotMatch(detailPage, /"@type": "VideoObject"/);
   });
 });
 

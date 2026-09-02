@@ -11,7 +11,7 @@ import Slugger from "github-slugger";
 import TOC, { TocItem } from "@/components/TOC";
 import { cn } from "@/lib/utils";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { breadcrumbJsonLd, videoObjectJsonLd } from "@/lib/seo";
+import { breadcrumbJsonLd } from "@/lib/seo";
 import { SYSTEM_DESIGN_CHAPTERS } from "@/lib/system-design/generated";
 
 export const dynamicParams = true;
@@ -100,16 +100,6 @@ export default async function SystemDesignDetailPage({
           { name: pageTitle, url: `/system-design/${slug}` },
         ])}
       />
-      {embedUrl && (
-        <JsonLd
-          data={videoObjectJsonLd({
-            name: `${pageTitle} - System Design`,
-            description: `System design interview guide: ${pageTitle}. Learn key concepts with visual explanations.`,
-            thumbnailUrl: `https://codejeet.com/og-image.png`,
-            embedUrl,
-          })}
-        />
-      )}
       <div className="lg:hidden mb-4 space-y-2">
         <details className="w-full border rounded-lg">
           <summary className="cursor-pointer px-3 py-2">Chapters</summary>
