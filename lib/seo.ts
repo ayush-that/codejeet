@@ -131,24 +131,6 @@ export function faqJsonLd(questions: { question: string; answer: string }[]) {
   };
 }
 
-export function videoObjectJsonLd(opts: {
-  name: string;
-  description: string;
-  thumbnailUrl: string;
-  embedUrl: string;
-  uploadDate?: string;
-}) {
-  return {
-    "@context": "https://schema.org",
-    "@type": "VideoObject",
-    name: opts.name,
-    description: opts.description,
-    thumbnailUrl: opts.thumbnailUrl,
-    embedUrl: opts.embedUrl,
-    ...(opts.uploadDate ? { uploadDate: opts.uploadDate } : {}),
-  };
-}
-
 export function companyMetadata(profile: CompanyProfile): Metadata {
   const { displayName, questionCount, difficultyDist, topTopics } = profile;
   const topTopicNames = topTopics
