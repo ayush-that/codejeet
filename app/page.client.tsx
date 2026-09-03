@@ -10,7 +10,7 @@ import { GridRails, HatchDivider } from "@/components/ui/decor";
 export default function HomeClient() {
   const [focusLabel, setFocusLabel] = useState<"DSA" | "System Design">("DSA");
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional: SSR-safe random after mount
+    // oxlint-disable-next-line react/set-state-in-effect -- intentional: SSR-safe random after mount
     setFocusLabel(Math.random() < 0.5 ? "System Design" : "DSA");
   }, []);
   return (

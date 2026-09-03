@@ -27,6 +27,7 @@ export default function TopicDropdown({
   placeholder,
 }: TopicDropdownProps) {
   const [open, setOpen] = React.useState(false);
+  const commandId = React.useId();
 
   const toggleOption = (option: string) => {
     if (selectedOptions.includes(option)) {
@@ -43,6 +44,7 @@ export default function TopicDropdown({
           <Button
             variant="outline"
             role="combobox"
+            aria-controls={commandId}
             aria-expanded={open}
             className="justify-between min-w-[200px] [&>span]:line-clamp-1"
           >
@@ -53,7 +55,7 @@ export default function TopicDropdown({
           </Button>
         </PopoverTrigger>
         <PopoverContent align="start" className="w-[300px] p-0">
-          <Command>
+          <Command id={commandId}>
             <CommandInput placeholder={`Search ${(placeholder || "topics").toLowerCase()}...`} />
             <CommandEmpty>No results found.</CommandEmpty>
             <CommandGroup className="max-h-[300px] overflow-y-auto p-0">

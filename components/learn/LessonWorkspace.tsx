@@ -148,7 +148,7 @@ export function LessonWorkspace({
     const pref = loadLanguagePref();
     const next =
       pref && lesson.languages.includes(pref) ? pref : pickInitialLanguage(lesson, defaultLanguage);
-    // eslint-disable-next-line react-hooks/set-state-in-effect
+    // oxlint-disable-next-line react/set-state-in-effect
     setLanguage(next);
     setRehydrated(true);
   }, [lesson, defaultLanguage]);
@@ -157,7 +157,7 @@ export function LessonWorkspace({
   useEffect(() => {
     const saved = loadSaved(lesson.courseSlug, lesson.slug, language);
     const next = lesson.sources[language];
-    // eslint-disable-next-line react-hooks/set-state-in-effect
+    // oxlint-disable-next-line react/set-state-in-effect
     setCode(saved && saved.length > 0 ? saved : (next?.starter ?? ""));
     setRunResult(null);
     setSubmitResult(null);
