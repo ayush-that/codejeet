@@ -20,4 +20,11 @@
       "migrations_dir": "migrations",
     },
   ],
+  "observability": {
+    "logs": {
+      "enabled": true,
+      "invocation_logs": true,
+      "persist": true,
+    },
+  },
 }
