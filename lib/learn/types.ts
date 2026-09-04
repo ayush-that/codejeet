@@ -27,7 +27,7 @@ export interface TestCase {
   visible: boolean;
 }
 
-export interface LessonExerciseMeta {
+interface LessonExerciseMeta {
   prompt: string;
 }
 
@@ -104,9 +104,7 @@ export interface CourseSummary {
 // Quizzes
 // ---------------------------------------------------------------------------
 
-export type QuizQuestionKind = "mcq" | "fill-blank" | "predict-output";
-
-export interface QuizQuestionBase {
+interface QuizQuestionBase {
   id: string;
   prompt: string;
   /** Optional code block displayed alongside the prompt. */
@@ -117,19 +115,19 @@ export interface QuizQuestionBase {
   explanation?: string;
 }
 
-export interface QuizMcqQuestion extends QuizQuestionBase {
+interface QuizMcqQuestion extends QuizQuestionBase {
   kind: "mcq";
   options: string[];
   correctIndex: number;
 }
 
-export interface QuizFillBlankQuestion extends QuizQuestionBase {
+interface QuizFillBlankQuestion extends QuizQuestionBase {
   kind: "fill-blank";
   /** Acceptable answers (case- and whitespace-insensitive). */
   acceptedAnswers: string[];
 }
 
-export interface QuizPredictOutputQuestion extends QuizQuestionBase {
+interface QuizPredictOutputQuestion extends QuizQuestionBase {
   kind: "predict-output";
   /** Acceptable outputs (normalized like the runner). */
   acceptedOutputs: string[];
@@ -158,7 +156,7 @@ export interface QuizSummary {
 // Roadmap
 // ---------------------------------------------------------------------------
 
-export interface RoadmapTopic {
+interface RoadmapTopic {
   slug: string;
   title: string;
   description?: string;
@@ -166,7 +164,7 @@ export interface RoadmapTopic {
   courses: string[];
 }
 
-export interface RoadmapStep {
+interface RoadmapStep {
   slug: string;
   order: number;
   title: string;

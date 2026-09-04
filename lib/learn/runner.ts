@@ -30,7 +30,7 @@ function normalize(s: string): string {
     .replace(/\n+$/g, "");
 }
 
-export function compareOutput(actual: string, expected: string): boolean {
+function compareOutput(actual: string, expected: string): boolean {
   return normalize(actual) === normalize(expected);
 }
 

@@ -1,6 +1,6 @@
 import type { CourseMeta, Lesson, Quiz, Roadmap } from "./types";
 
-export interface GeneratedCourse {
+interface GeneratedCourse {
   meta: CourseMeta;
   lessons: Lesson[];
   quizzes: Quiz[];

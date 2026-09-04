@@ -10,8 +10,6 @@ import {
   SITE_URL,
 } from "./site";
 
-export { SITE_NAME, SITE_URL };
-
 export function websiteJsonLd() {
   return {
     "@context": "https://schema.org",

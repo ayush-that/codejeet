@@ -6,11 +6,11 @@ export const DIFFICULTIES = ["Easy", "Medium", "Hard"] as const;
 export type Difficulty = (typeof DIFFICULTIES)[number];
 
 // Bit order is load-bearing: timeframe masks are stored on disk.
-export const TIMEFRAMES = ["all", "30_days", "3_months", "6_months", "more_than_6m"] as const;
+const TIMEFRAMES = ["all", "30_days", "3_months", "6_months", "more_than_6m"] as const;
 export type Timeframe = (typeof TIMEFRAMES)[number];
 
-export const LEETCODE_BASE_URL = "https://leetcode.com";
-export const LINTCODE_BASE_URL = "https://www.lintcode.com";
+const LEETCODE_BASE_URL = "https://leetcode.com";
+const LINTCODE_BASE_URL = "https://www.lintcode.com";
 
 export type EncodedProblem = [
   slug: string,
@@ -77,7 +77,7 @@ export function problemUrl(slug: string): string {
  * LintCode problem page by LeetCode-style slug (singular /problem/, not /problems/).
  * Matching slugs redirect to numeric IDs (e.g. /problem/two-sum/ → /problem/56/).
  */
-export function lintcodeProblemUrl(slug: string): string {
+function lintcodeProblemUrl(slug: string): string {
   return `${LINTCODE_BASE_URL}/problem/${slug}/`;
 }
 

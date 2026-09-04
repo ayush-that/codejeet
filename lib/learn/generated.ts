@@ -1397,6 +1397,3 @@ export const LEARN_DATA: GeneratedLearnData = {
     },
   ],
 };
-
-// Backwards-compatible legacy export. Prefer LEARN_DATA.courses for new code.
-export const LEARN_COURSES = LEARN_DATA.courses;
