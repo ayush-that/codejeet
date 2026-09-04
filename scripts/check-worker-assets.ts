@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 
 const MAX_BYTES = 25 * 1024 * 1024;
+const MAX_FILES = 8_000;
 const assetsDir = path.join(process.cwd(), ".open-next", "assets");
 
 function walk(dir: string): string[] {
@@ -17,7 +18,16 @@ if (!fs.existsSync(assetsDir)) {
   process.exit(1);
 }
 
-const oversized = walk(assetsDir)
+const assets = walk(assetsDir);
+
+if (assets.length > MAX_FILES) {
+  console.error(
+    `Cloudflare Workers asset count ${assets.length} exceeds the ${MAX_FILES}-file deployment safety limit`
+  );
+  process.exit(1);
+}
+
+const oversized = assets
   .map((file) => ({ file, size: fs.statSync(file).size }))
   .filter(({ size }) => size > MAX_BYTES)
   .sort((a, b) => b.size - a.size);
@@ -31,4 +41,4 @@ if (oversized.length > 0) {
   process.exit(1);
 }
 
-console.log(`Asset size check passed (${assetsDir})`);
+console.log(`Worker asset check passed (${assets.length} files in ${assetsDir})`);

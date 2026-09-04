@@ -15,7 +15,7 @@ import { getBlogIndex, getBlogPost, getBlogSlugs } from "@/lib/blog-data";
 import "./code-theme.css";
 
 export const dynamic = "force-static";
-export const dynamicParams = true;
+export const dynamicParams = false;
 
 export async function generateStaticParams() {
   const slugs = await getBlogSlugs();

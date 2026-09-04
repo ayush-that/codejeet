@@ -14,7 +14,7 @@ import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { DifficultyBadge } from "@/components/ui/difficulty-badge";
 import { isCompareIndexable } from "@/lib/compare";
 
-export const dynamicParams = true;
+export const dynamicParams = false;
 
 export async function generateStaticParams() {
   const pairs = await getComparisonIndex();
