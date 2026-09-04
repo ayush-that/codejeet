@@ -102,7 +102,7 @@ const LeetCodeDashboard: React.FC<LeetCodeDashboardProps> = ({
       cancelled = true;
     };
     // checkedItems intentionally snapshotted at sign-in; mergedRef guards re-runs.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react/exhaustive-deps
   }, [isSignedIn]);
 
   const handleCheckboxChange = (id: string, value: boolean) => {

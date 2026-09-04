@@ -13,8 +13,8 @@
     "format:check": "oxfmt --check .",
     "prepare": "husky",
     "test": "tsx --test tests/**/*.test.ts",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
+    "lint": "oxlint . --deny-warnings",
+    "lint:fix": "oxlint . --fix --deny-warnings",
     "lint-staged": "lint-staged"
   },
   "dependencies": {
@@ -69,11 +69,10 @@
     "@types/react": "19.2.7",
     "@types/react-dom": "19.2.3",
     "baseline-browser-mapping": "^2.10.0",
-    "eslint": "^9.21.0",
-    "eslint-config-next": "16.2.12",
     "husky": "^9.1.7",
     "lint-staged": "^15.5.2",
     "oxfmt": "^0.36.0",
+    "oxlint": "1.81.0",
     "postcss": "^8.5.18",
     "react-doctor": "^0.0.30",
     "react-grab": "^0.1.28",
@@ -94,6 +93,9 @@
     "postcss": "^8.5.18",
     "prismjs": "^1.30.0",
     "sharp": "^0.35.3"
+  },
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
   },
   "packageManager": "pnpm@10.18.3+sha512.bbd16e6d7286fd7e01f6b3c0b3c932cda2965c06a908328f74663f10a9aea51f1129eea615134bf992831b009eabe167ecb7008b597f40ff9bc75946aadfb08d"
 }

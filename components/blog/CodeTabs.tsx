@@ -19,7 +19,7 @@ interface CodeBlock {
   content: ReactNode;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// oxlint-disable-next-line typescript/no-explicit-any
 type AnyProps = Record<string, any>;
 
 function extractCodeBlocks(children: ReactNode): CodeBlock[] {
