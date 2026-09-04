@@ -1,18 +1,5 @@
 /** Minimum shared questions for a comparison page to be indexable. */
-export const MIN_COMPARE_SHARED = 3;
-
-export type CompareQuestion = {
-  slug: string;
-  title: string;
-  difficulty: string;
-  topics: string[];
-};
-
-export type CompareTopicStat = {
-  name: string;
-  slug: string;
-  count: number;
-};
+const MIN_COMPARE_SHARED = 3;
 
 /** Canonical pair slug: alphabetically ordered `a-vs-b`. */
 export function comparePairSlug(companyA: string, companyB: string): string {
@@ -44,8 +31,4 @@ export function comparePairFromBlogSlug(blogSlug: string): string | null {
 
 export function isCompareIndexable(sharedCount: number): boolean {
   return sharedCount >= MIN_COMPARE_SHARED;
-}
-
-export function compareBlogSlug(pair: string): string {
-  return `${pair}-interview-comparison`;
 }

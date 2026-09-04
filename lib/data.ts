@@ -2,18 +2,7 @@ import fs from "fs/promises";
 import path from "path";
 import { parse } from "csv-parse/sync";
 
-export type Timeframe = "30_days" | "3_months" | "6_months" | "more_than_6m" | "all";
-
-export interface QuestionFilters {
-  companies?: string[];
-  difficulties?: ("Easy" | "Medium" | "Hard")[];
-  topics?: string[];
-  timeframes?: Timeframe[];
-  isPremium?: boolean;
-  search?: string;
-  limit?: number;
-  offset?: number;
-}
+type Timeframe = "30_days" | "3_months" | "6_months" | "more_than_6m" | "all";
 
 export interface QuestionWithDetails {
   id: number;
@@ -34,12 +23,6 @@ export interface QuestionWithDetails {
   Title: string;
   URL: string;
   "Is Premium": string;
-}
-
-export interface QuestionsResponse {
-  questions: QuestionWithDetails[];
-  companies: string[];
-  totalCount: number;
 }
 
 type RawCsvRecord = {
@@ -201,102 +184,4 @@ export async function loadAllQuestions(): Promise<{
   cachedCompanies = companies;
 
   return { questions, companies };
-}
-
-export async function getQuestions(filters: QuestionFilters = {}): Promise<QuestionsResponse> {
-  const { questions } = await loadAllQuestions();
-  let filtered = [...questions];
-  const hasExplicitTimeframes = questions.some((q) => q.timeframe !== "all");
-
-  if (filters.companies && filters.companies.length > 0) {
-    const companySet = new Set(filters.companies);
-    filtered = filtered.filter((q) => companySet.has(q.company));
-  }
-
-  if (filters.difficulties && filters.difficulties.length > 0) {
-    const difficultySet = new Set(filters.difficulties.map((d) => normalizeDifficulty(d)));
-    filtered = filtered.filter((q) => difficultySet.has(q.Difficulty));
-  }
-
-  if (
-    filters.timeframes &&
-    filters.timeframes.length > 0 &&
-    !filters.timeframes.includes("all") &&
-    hasExplicitTimeframes
-  ) {
-    const timeframeSet = new Set(filters.timeframes);
-    filtered = filtered.filter((q) => timeframeSet.has(q.timeframe));
-  }
-
-  if (filters.topics && filters.topics.length > 0) {
-    const topicSet = new Set(filters.topics.map((t) => t.toLowerCase()));
-    filtered = filtered.filter((q) => q.topics.some((topic) => topicSet.has(topic.toLowerCase())));
-  }
-
-  if (filters.search) {
-    const searchWords = filters.search.toLowerCase().split(/\s+/).filter(Boolean);
-
-    filtered = filtered.filter((q) =>
-      searchWords.every(
-        (word) =>
-          q.Title.toLowerCase().includes(word) ||
-          q.company.toLowerCase().includes(word) ||
-          q.Topics.toLowerCase().includes(word)
-      )
-    );
-  }
-
-  if (filters.isPremium !== undefined) {
-    filtered = filtered.filter((q) => {
-      const isPremiumFlag = q["Is Premium"].toUpperCase() === "Y";
-      return filters.isPremium ? isPremiumFlag : !isPremiumFlag;
-    });
-  }
-
-  if (filters.limit !== undefined) {
-    const offset = filters.offset || 0;
-    filtered = filtered.slice(offset, offset + filters.limit);
-  }
-
-  const uniqueCompanies = Array.from(new Set(filtered.map((q) => q.company)));
-
-  return {
-    questions: filtered,
-    companies: uniqueCompanies,
-    totalCount: filtered.length,
-  };
-}
-
-export async function getCompanies(): Promise<string[]> {
-  const { companies } = await loadAllQuestions();
-  return companies;
-}
-
-export async function getTopics(): Promise<string[]> {
-  const { questions } = await loadAllQuestions();
-  const topicSet = new Set<string>();
-
-  questions.forEach((q) => {
-    q.topics.forEach((topic) => {
-      topicSet.add(topic);
-    });
-  });
-
-  return Array.from(topicSet).sort((a, b) => a.localeCompare(b));
-}
-
-export async function getCompanyQuestions(
-  companyName: string,
-  timeframe?: "30_days" | "3_months" | "6_months" | "more_than_6m" | "all"
-): Promise<QuestionWithDetails[]> {
-  const filters: QuestionFilters = {
-    companies: [companyName],
-  };
-
-  if (timeframe) {
-    filters.timeframes = [timeframe];
-  }
-
-  const result = await getQuestions(filters);
-  return result.questions;
 }

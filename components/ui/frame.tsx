@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
  * Crosshair "+" marks centered on each corner — the ressl-style box-edge detail.
  * Drop inside any `relative` bordered element (Button, Card, badge, row).
  */
-export function CornerTicks({ className }: { className?: string }) {
+function CornerTicks({ className }: { className?: string }) {
   // Absolutely positioned, no wrapper element — so they never participate in
   // the parent's flex/grid flow (which would offset sibling content).
   return (

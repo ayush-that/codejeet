@@ -1,12 +1,4 @@
-import type {
-  CourseSummary,
-  Lesson,
-  LessonSummary,
-  Quiz,
-  QuizSummary,
-  Roadmap,
-  RoadmapStep,
-} from "./types";
+import type { CourseSummary, Lesson, LessonSummary, Quiz, QuizSummary, Roadmap } from "./types";
 import { LEARN_DATA } from "./generated";
 
 // Lessons are baked into a generated TS module at build time
@@ -67,10 +59,6 @@ export async function getRoadmap(): Promise<Roadmap> {
   return LEARN_DATA.roadmap;
 }
 
-export async function getRoadmapStep(stepSlug: string): Promise<RoadmapStep | null> {
-  return LEARN_DATA.roadmap.steps.find((s) => s.slug === stepSlug) ?? null;
-}
-
 export async function getQuizzesForCourse(courseSlug: string): Promise<QuizSummary[]> {
   const course = LEARN_DATA.courses.find((c) => c.meta.slug === courseSlug);
   if (!course) return [];
@@ -97,17 +85,4 @@ export async function getAllQuizParams(): Promise<Array<{ course: string; quiz: 
     }
   }
   return out;
-}
-
-/**
- * Resolve all courses listed inside a roadmap step. Returns the same shape as
- * getAllCourses(), but filtered to courses referenced by the step's topics.
- * Useful for the per-step landing page.
- */
-export async function getCoursesForStep(stepSlug: string): Promise<CourseSummary[]> {
-  const step = await getRoadmapStep(stepSlug);
-  if (!step) return [];
-  const courses = await getAllCourses();
-  const wantedSlugs = new Set(step.topics.flatMap((t) => t.courses));
-  return courses.filter((c) => wantedSlugs.has(c.slug));
 }

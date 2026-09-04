@@ -140,16 +140,6 @@ export async function getTopicProfile(slug: string): Promise<TopicProfile | null
 
 // === Cross-Product Data ===
 
-export interface CompanyFilterParam {
-  slug: string;
-  filter: string;
-  type: "topic" | "difficulty" | "problem";
-}
-
-export async function getCompanyFilterParams(): Promise<CompanyFilterParam[]> {
-  return readJson(path.join(DATA_DIR, "company-filter-params.json"));
-}
-
 export async function getFilterTypeLookup(): Promise<Record<string, "topic" | "difficulty">> {
   return readJson(path.join(DATA_DIR, "filter-type-lookup.json"));
 }
@@ -161,7 +151,7 @@ export interface CompareQuestion {
   topics: string[];
 }
 
-export interface CompareTopicStat {
+interface CompareTopicStat {
   name: string;
   slug: string;
   count: number;
@@ -213,13 +203,3 @@ export async function getComparisonPair(pair: string): Promise<ComparisonPair | 
 }
 
 // === Sitemap ===
-
-export interface SitemapUrl {
-  path: string;
-  priority: number;
-  changeFrequency: string;
-}
-
-export async function getSitemapUrls(): Promise<SitemapUrl[]> {
-  return readJson(path.join(DATA_DIR, "sitemap-urls.json"));
-}

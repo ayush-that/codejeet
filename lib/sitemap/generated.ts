@@ -14,6 +14,11 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "weekly",
   },
   {
+    path: "/about",
+    priority: 0.6,
+    changeFrequency: "monthly",
+  },
+  {
     path: "/blog",
     priority: 0.7,
     changeFrequency: "weekly",
@@ -36394,9 +36399,19 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
+    path: "/contact",
+    priority: 0.6,
+    changeFrequency: "monthly",
+  },
+  {
     path: "/dashboard",
     priority: 0.9,
     changeFrequency: "weekly",
+  },
+  {
+    path: "/developers",
+    priority: 0.7,
+    changeFrequency: "monthly",
   },
   {
     path: "/difficulty/easy",
@@ -36410,6 +36425,11 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   },
   {
     path: "/difficulty/medium",
+    priority: 0.6,
+    changeFrequency: "monthly",
+  },
+  {
+    path: "/privacy",
     priority: 0.6,
     changeFrequency: "monthly",
   },

@@ -4,7 +4,7 @@
 export const NOTES_LOCAL_KEY = "leetcode-problem-notes";
 export const NOTES_META_KEY = "leetcode-problem-notes-meta";
 // slug -> ISO deletedAt for signed-out clears that must still win over cloud
-export const NOTES_TOMBSTONES_KEY = "leetcode-problem-notes-deleted";
+const NOTES_TOMBSTONES_KEY = "leetcode-problem-notes-deleted";
 export const MAX_NOTE_LENGTH = 2000;
 export const MAX_SLUG_LENGTH = 256;
 
@@ -17,7 +17,7 @@ export function isValidSlug(slug: unknown): slug is string {
   return typeof slug === "string" && slug.length > 0 && slug.length <= MAX_SLUG_LENGTH;
 }
 
-export function parseNoteTimestamp(value: unknown): number {
+function parseNoteTimestamp(value: unknown): number {
   if (typeof value !== "string" || !value) return 0;
   const t = Date.parse(value);
   return Number.isFinite(t) ? t : 0;

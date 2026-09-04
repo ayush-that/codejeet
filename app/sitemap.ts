@@ -6,6 +6,7 @@ import { SITE_URL } from "@/lib/site";
 export const dynamic = "force-static";
 
 const BUILD_DATE = new Date("2026-07-07");
+const TRUST_PAGE_PATHS = new Set(STATIC_TRUST_PAGES.map((entry) => entry.path));
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const seen = new Set(SITEMAP_ENTRIES.map((entry) => entry.path));
@@ -13,7 +14,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     ...SITEMAP_ENTRIES.map((entry) => ({
       url: `${SITE_URL}${entry.path}`,
-      lastModified: BUILD_DATE,
+      lastModified: TRUST_PAGE_PATHS.has(entry.path) ? TRUST_PAGES_LAST_MODIFIED : BUILD_DATE,
       changeFrequency: entry.changeFrequency,
       priority: entry.priority,
     })),

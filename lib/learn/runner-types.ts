@@ -5,7 +5,7 @@ export type RunnerProgress =
   | { phase: "compiling" }
   | { phase: "running" };
 
-export interface RunOk {
+interface RunOk {
   ok: true;
   stdout: string;
   stderr: string;
@@ -13,7 +13,7 @@ export interface RunOk {
   durationMs: number;
 }
 
-export interface RunFail {
+interface RunFail {
   ok: false;
   /** "compile" | "runtime" | "timeout" | "internal" | "unsupported" */
   errorKind: "compile" | "runtime" | "timeout" | "internal" | "unsupported";

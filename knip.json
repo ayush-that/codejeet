@@ -1,0 +1,9 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "entry": [
+    "content/learn/**/{starter,solution}.js!",
+    "open-next.config.ts!",
+    "public/learn-runtime/*.worker.js!",
+    "scripts/**/*.{ts,mjs}!"
+  ]
+}

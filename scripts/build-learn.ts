@@ -226,9 +226,7 @@ async function main() {
     "// Run `pnpm run prebuild` (or `tsx scripts/build-learn.ts`) to refresh.\n\n";
   const body =
     `import type { GeneratedLearnData } from "./generated-types";\n\n` +
-    `export const LEARN_DATA: GeneratedLearnData = ${JSON.stringify(data, null, 2)};\n\n` +
-    `// Backwards-compatible legacy export. Prefer LEARN_DATA.courses for new code.\n` +
-    `export const LEARN_COURSES = LEARN_DATA.courses;\n`;
+    `export const LEARN_DATA: GeneratedLearnData = ${JSON.stringify(data, null, 2)};\n`;
 
   await fs.writeFile(OUT_FILE, banner + body, "utf8");
   const totalLessons = courses.reduce((acc, c) => acc + c.lessons.length, 0);
