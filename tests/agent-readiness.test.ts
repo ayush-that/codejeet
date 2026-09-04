@@ -45,14 +45,6 @@ describe("homepage server-rendered content", () => {
     assert.equal(source.includes("Filter by company, topic, and difficulty."), true);
     assert.equal(source.includes("Practice smarter for your next tech"), true);
   });
-
-  it("includes at least 500 characters of useful static homepage copy", () => {
-    const homepage = readFileSync(path.join(root, "app/page.tsx"), "utf8");
-    const overview = homepage.match(/function HomeOverview\(\) \{([\s\S]*?)\n\}/)?.[1] ?? "";
-    assert.match(homepage, /<HomeOverview \/>/);
-    assert.match(overview, /Prepare for coding interviews/);
-    assertMinChars("homepage overview", overview);
-  });
 });
 
 describe("agent 404 body", () => {

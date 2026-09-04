@@ -1,9 +1,9 @@
 "use client";
 
-import { Chango } from "next/font/google";
+import { Boldonse } from "next/font/google";
 import { cn } from "@/lib/utils";
 
-const chango = Chango({
+const boldonse = Boldonse({
   subsets: ["latin"],
   weight: "400",
 });
@@ -14,8 +14,8 @@ type BrandLockupProps = {
 
 export function BrandLockup({ className }: BrandLockupProps) {
   return (
-    <span className={cn(chango.className, "brand-lockup inline-flex items-center", className)}>
-      <span className="brand-wordmark select-none">Codejeet</span>
+    <span className={cn(boldonse.className, "brand-lockup inline-flex items-center", className)}>
+      <span className="brand-wordmark select-none">CODEJEET</span>
     </span>
   );
 }

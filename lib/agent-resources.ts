@@ -24,7 +24,7 @@ This URL is not a page on [${SITE_NAME}](${SITE_URL}). HTTP status is 404.
 export const ABOUT_H1 = `About ${SITE_NAME}`;
 export const ABOUT_PARAGRAPHS = [
   `${SITE_NAME} is an open-source interview prep site at ${SITE_URL}. It lists 15,000+ LeetCode questions grouped by the companies that ask them, plus system-design chapters, a Learn path, company comparisons, and written guides.`,
-  "Company-wise lists come from the public liquidslr/interview-company-wise-problems dataset. Each company, topic, difficulty, and problem has its own page. The tracker at /dashboard filters that same set.",
+  "Question data is sourced from the public liquidslr/interview-company-wise-problems dataset. Each company, topic, difficulty, and problem has its own page. The tracker at /dashboard filters that same set.",
   "The site is free. Signing in is optional and only needed to sync progress and notes across devices. Source is GPL-3.0 at GitHub. CodeJeet is not affiliated with LeetCode or with the employers named on the company pages.",
 ];
 
