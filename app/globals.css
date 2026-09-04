@@ -77,7 +77,32 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
+  }
+
+  /* Open Sans hierarchy — Boldonse is reserved for the brand wordmark. */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-sans tracking-normal;
+  }
+
+  h1 {
+    @apply font-extrabold leading-tight;
+  }
+
+  h2 {
+    @apply font-bold leading-snug;
+  }
+
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-semibold leading-snug;
   }
 
   ::selection {

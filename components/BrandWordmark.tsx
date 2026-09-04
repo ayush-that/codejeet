@@ -1,20 +1,13 @@
-"use client";
-
-import { Boldonse } from "next/font/google";
 import { cn } from "@/lib/utils";
-
-const boldonse = Boldonse({
-  subsets: ["latin"],
-  weight: "400",
-});
 
 type BrandLockupProps = {
   className?: string;
 };
 
+/** Navbar brand wordmark — Boldonse display face (short lockups only). */
 export function BrandLockup({ className }: BrandLockupProps) {
   return (
-    <span className={cn(boldonse.className, "brand-lockup inline-flex items-center", className)}>
+    <span className={cn("font-heading brand-lockup inline-flex items-center", className)}>
       <span className="brand-wordmark select-none">CODEJEET</span>
     </span>
   );

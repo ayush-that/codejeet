@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
-import { Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
+import { Boldonse, JetBrains_Mono, Open_Sans } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -22,9 +22,16 @@ import {
 } from "@/lib/site";
 import "./globals.css";
 
-const jakarta = Plus_Jakarta_Sans({
+const openSans = Open_Sans({
   subsets: ["latin"],
-  variable: "--font-jakarta",
+  variable: "--font-sans",
+  weight: ["300", "400", "500", "600", "700", "800"],
+});
+
+const boldonse = Boldonse({
+  subsets: ["latin"],
+  variable: "--font-heading",
+  weight: "400",
 });
 
 const jetbrainsMono = JetBrains_Mono({
@@ -89,7 +96,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <body
           // !pr-0 kills the scrollbar-compensation padding modals (Clerk, Radix) put on
           // <body>; the stable scrollbar gutter on <html> already reserves that space.
-          className={`${jakarta.variable} ${jetbrainsMono.variable} font-sans tracking-normal !pr-0`}
+          className={`${openSans.variable} ${boldonse.variable} ${jetbrainsMono.variable} font-sans font-normal tracking-normal !pr-0`}
           suppressHydrationWarning
         >
           <ThemeProvider
