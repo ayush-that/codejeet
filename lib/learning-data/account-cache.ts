@@ -37,6 +37,7 @@ const GENERATION_STORE = "canonicalGenerations";
 const PENDING_STORE = "pendingOverlay";
 const MATERIALIZED_STORE = "materializedProgress";
 const STAGED_SNAPSHOT_STORE = "stagedSnapshotRecords";
+const MAX_SNAPSHOT_STAGE_AGE_MS = 5 * 60 * 1000;
 const MAX_UINT64 = BigInt("18446744073709551615");
 const LEGACY_IMPORT_VERSION = "codejeet-legacy-import-v1";
 const LEGACY_KEYS = [
@@ -1719,9 +1720,21 @@ export function createIndexedDbAccountCache(
         accountId: string;
         generationId: string;
         index: number;
+        startedAt?: number;
       }>;
+      const expiredGenerationIds = new Set(
+        existing
+          .filter(
+            (item) =>
+              item.accountId === targetAccountId &&
+              item.index === -1 &&
+              (typeof item.startedAt !== "number" ||
+                item.startedAt <= Date.now() - MAX_SNAPSHOT_STAGE_AGE_MS)
+          )
+          .map((item) => item.generationId)
+      );
       for (const item of existing) {
-        if (item.accountId === targetAccountId) {
+        if (item.accountId === targetAccountId && expiredGenerationIds.has(item.generationId)) {
           stageStore.delete([targetAccountId, item.generationId, item.index]);
         }
       }
@@ -1731,6 +1744,7 @@ export function createIndexedDbAccountCache(
         index: -1,
         kind: "manifest",
         serverRevision: serverRevision.toString(),
+        startedAt: Date.now(),
         receivedChunks: 0,
         recordCount: 0,
       });
