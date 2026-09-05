@@ -28,7 +28,14 @@ import Topic from "./routes/topic";
 export default function App() {
   return (
     <Suspense>
-      <ErrorBoundary fallback={<main class="container mx-auto px-4 py-8">Could not load this page.</main>}>
+      <ErrorBoundary
+        fallback={
+          <main class="container mx-auto px-4 py-8">
+            <p>Could not load this page.</p>
+            <a class="mt-3 inline-block underline" href="/">Return home</a>
+          </main>
+        }
+      >
       <Router root={SiteShell}>
         <Route path="/" component={Home} />
         <Route path="/dashboard" component={Dashboard} />
