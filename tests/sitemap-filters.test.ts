@@ -19,7 +19,7 @@ describe("shouldIncludeInSitemap", () => {
 describe("classifySitemapPath", () => {
   it("groups paths for logging", () => {
     assert.equal(classifySitemapPath("/"), "static");
-    assert.equal(classifySitemapPath("/problem/two-sum"), "problem");
+    assert.equal(classifySitemapPath("/problem/two-sum"), "other");
     assert.equal(classifySitemapPath("/compare/google-vs-amazon"), "compare");
     assert.equal(classifySitemapPath("/system-design/url-shortener"), "system-design");
     assert.equal(classifySitemapPath("/about"), "static");

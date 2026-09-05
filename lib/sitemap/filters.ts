@@ -6,7 +6,6 @@ export function shouldIncludeInSitemap(path: string): boolean {
 
 export function classifySitemapPath(urlPath: string): string {
   if (urlPath.startsWith("/company/")) return "company";
-  if (urlPath.startsWith("/problem/")) return "problem";
   if (urlPath.startsWith("/topic/")) return "topic";
   if (urlPath.startsWith("/blog")) return "blog";
   if (urlPath.startsWith("/compare/")) return "compare";

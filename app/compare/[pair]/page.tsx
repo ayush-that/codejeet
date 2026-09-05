@@ -453,12 +453,14 @@ function QuestionTable({
               }`}
             >
               <td className="px-4 py-3">
-                <Link
-                  href={`/problem/${q.slug}`}
+                <a
+                  href={`https://leetcode.com/problems/${q.slug}/`}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="font-medium text-foreground hover:underline"
                 >
                   {q.title}
-                </Link>
+                </a>
               </td>
               <td className="px-4 py-3">
                 <DifficultyBadge difficulty={q.difficulty as "Easy" | "Medium" | "Hard"} />

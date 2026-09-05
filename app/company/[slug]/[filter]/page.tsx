@@ -125,7 +125,7 @@ export async function generateMetadata({
     };
   }
 
-  // Problem filter — canonical points to /problem/[slug] to avoid duplicate content
+  // Problem filters are standalone company pages, so they canonicalize to themselves.
   const problem = await getProblem(filter);
   if (!problem) return { title: "Not Found" };
 
@@ -134,7 +134,7 @@ export async function generateMetadata({
     description:
       `${problem.title} is a ${problem.difficulty.toLowerCase()} LeetCode problem asked at ${displayName}. ` +
       `${problem.acceptance_rate} acceptance rate. Topics: ${problem.topics.slice(0, 4).join(", ")}.`,
-    alternates: { canonical: `https://codejeet.com/problem/${filter}` },
+    alternates: { canonical: `https://codejeet.com/company/${slug}/${filter}` },
     robots: { index: false, follow: true },
     openGraph: {
       title: `${problem.title} \u2014 ${displayName} Interview Question | CodeJeet`,
@@ -447,12 +447,14 @@ async function ProblemFilterView({
         <section className="mb-8" aria-label="Problem description">
           <h2 className="text-lg font-semibold mb-3">Problem Description</h2>
           <p className="text-sm text-muted-foreground leading-relaxed">{description}</p>
-          <Link
-            href={`/problem/${filter}`}
+          <a
+            href={`https://leetcode.com/problems/${filter}/`}
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-block mt-3 text-sm font-medium text-primary hover:underline"
           >
-            Read full problem and hints
-          </Link>
+            Practice on LeetCode
+          </a>
         </section>
       )}
 
@@ -506,11 +508,13 @@ async function ProblemFilterView({
 
       {/* Full problem link */}
       <div className="mb-8">
-        <Link
-          href={`/problem/${filter}`}
+        <a
+          href={`https://leetcode.com/problems/${filter}/`}
+          target="_blank"
+          rel="noopener noreferrer"
           className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
         >
-          View Full Problem
+          Practice on LeetCode
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="14"
@@ -526,7 +530,7 @@ async function ProblemFilterView({
             <path d="M5 12h14" />
             <path d="m12 5 7 7-7 7" />
           </svg>
-        </Link>
+        </a>
       </div>
 
       {/* Related questions from this company */}
@@ -605,12 +609,14 @@ function QuestionTable({
               }`}
             >
               <td className="px-4 py-3">
-                <Link
-                  href={`/problem/${q.slug}`}
+                <a
+                  href={`https://leetcode.com/problems/${q.slug}/`}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="font-medium text-foreground hover:underline"
                 >
                   {q.title}
-                </Link>
+                </a>
               </td>
               <td className="px-4 py-3">
                 <DifficultyBadge difficulty={q.difficulty as "Easy" | "Medium" | "Hard"} />
