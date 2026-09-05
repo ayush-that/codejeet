@@ -1,5 +1,5 @@
 import { DurableObject } from "cloudflare:workers";
-import { LoroDoc } from "loro-crdt";
+import { LoroDoc } from "loro-crdt/bundler";
 import {
   Crc32cAccumulator,
   MAX_FRAME_BYTES,
