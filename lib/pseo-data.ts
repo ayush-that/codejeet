@@ -110,10 +110,6 @@ export async function getProblem(slug: string): Promise<ScrapedProblem | null> {
   }
 }
 
-export async function getProblemSlugs(): Promise<string[]> {
-  return readJson(path.join(DATA_DIR, "problem-slugs.json"));
-}
-
 export async function getProblemCompanies(): Promise<Record<string, string[]>> {
   return readJson(path.join(DATA_DIR, "problem-companies.json"));
 }

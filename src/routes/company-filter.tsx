@@ -20,10 +20,13 @@ const topicSlug = (value: string) =>
 
 export default function CompanyFilter() {
   const params = useParams<{ slug: string; filter: string }>();
-  const profiles = createAsync(() => loadPublicData<Record<string, Company>>("/data/company-profiles.json"), {
-    initialValue: {},
-    deferStream: true,
-  });
+  const profiles = createAsync(
+    () => loadPublicData<Record<string, Company>>("/data/company-profiles.json"),
+    {
+      initialValue: {},
+      deferStream: true,
+    }
+  );
   const company = createMemo(() => profiles()[params.slug]);
   const [loaded, setLoaded] = createSignal(false);
   createEffect(() => {

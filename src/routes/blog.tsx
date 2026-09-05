@@ -20,7 +20,6 @@ export default function Blog() {
   const [category, setCategory] = createSignal("all");
   const [search, setSearch] = createSignal("");
   const [page, setPage] = createSignal(1);
-  const [failed, setFailed] = createSignal(false);
   const filtered = createMemo(() => {
     const query = search().trim().toLowerCase();
     return posts().filter(
@@ -47,10 +46,7 @@ export default function Blog() {
           Interview prep guides, DSA patterns, and tips for cracking tech interviews
         </p>
       </header>
-      <Show
-        when={!failed()}
-        fallback={<p class="rounded border border-destructive p-4">Could not load blog posts.</p>}
-      >
+      <Show when={posts()}>
         <div class="mb-6 flex flex-col gap-3 sm:flex-row">
           <div class="flex flex-wrap gap-2">
             <For each={categories}>

@@ -32,34 +32,36 @@ export default function App() {
         fallback={
           <main class="container mx-auto px-4 py-8">
             <p>Could not load this page.</p>
-            <a class="mt-3 inline-block underline" href="/">Return home</a>
+            <a class="mt-3 inline-block underline" href="/">
+              Return home
+            </a>
           </main>
         }
       >
-      <Router root={SiteShell}>
-        <Route path="/" component={Home} />
-        <Route path="/dashboard" component={Dashboard} />
-        <Route path="/companies" component={Companies} />
-        <Route path="/compare" component={Compare} />
-        <Route path="/compare/:pair" component={ComparePair} />
-        <Route path="/company/:slug" component={Company} />
-        <Route path="/company/:slug/:filter" component={CompanyFilter} />
-        <Route path="/about" component={About} />
-        <Route path="/blog" component={Blog} />
-        <Route path="/blog/:slug" component={BlogPost} />
-        <Route path="/contact" component={Contact} />
-        <Route path="/privacy" component={Privacy} />
-        <Route path="/podcast" component={Podcast} />
-        <Route path="/learn" component={Learn} />
-        <Route path="/learn/:course" component={LearnCourse} />
-        <Route path="/learn/:course/:lesson" component={LearnLesson} />
-        <Route path="/learn/:course/quiz/:quiz" component={LearnQuiz} />
-        <Route path="/developers" component={Developers} />
-        <Route path="/difficulty/:level" component={Difficulty} />
-        <Route path="/system-design" component={SystemDesign} />
-        <Route path="/system-design/:slug" component={SystemDesignChapter} />
-        <Route path="/topic/:slug" component={Topic} />
-      </Router>
+        <Router root={SiteShell}>
+          <Route path="/" component={Home} />
+          <Route path="/dashboard" component={Dashboard} />
+          <Route path="/companies" component={Companies} />
+          <Route path="/compare" component={Compare} />
+          <Route path="/compare/:pair" component={ComparePair} />
+          <Route path="/company/:slug" component={Company} />
+          <Route path="/company/:slug/:filter" component={CompanyFilter} />
+          <Route path="/about" component={About} />
+          <Route path="/blog" component={Blog} />
+          <Route path="/blog/:slug" component={BlogPost} />
+          <Route path="/contact" component={Contact} />
+          <Route path="/privacy" component={Privacy} />
+          <Route path="/podcast" component={Podcast} />
+          <Route path="/learn" component={Learn} />
+          <Route path="/learn/:course" component={LearnCourse} />
+          <Route path="/learn/:course/:lesson" component={LearnLesson} />
+          <Route path="/learn/:course/quiz/:quiz" component={LearnQuiz} />
+          <Route path="/developers" component={Developers} />
+          <Route path="/difficulty/:level" component={Difficulty} />
+          <Route path="/system-design" component={SystemDesign} />
+          <Route path="/system-design/:slug" component={SystemDesignChapter} />
+          <Route path="/topic/:slug" component={Topic} />
+        </Router>
       </ErrorBoundary>
     </Suspense>
   );

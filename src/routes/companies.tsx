@@ -16,10 +16,13 @@ function percentage(value: number, total: number): string {
 }
 
 export default function Companies() {
-  const companies = createAsync(async () =>
-    Object.values(await loadPublicData<Record<string, Company>>("/data/company-profiles.json")).sort(
-      (a, b) => b.questionCount - a.questionCount
-    ), { initialValue: [], deferStream: true });
+  const companies = createAsync(
+    async () =>
+      Object.values(
+        await loadPublicData<Record<string, Company>>("/data/company-profiles.json")
+      ).sort((a, b) => b.questionCount - a.questionCount),
+    { initialValue: [], deferStream: true }
+  );
   const [search, setSearch] = createSignal("");
   const [page, setPage] = createSignal(1);
 

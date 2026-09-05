@@ -80,7 +80,8 @@ export function ProblemNoteButton({ slug, title, layout }: ProblemNoteButtonProp
         setSaveError(false);
       }
     } catch {
-      if (gen === mutationGenRef.current && draftVersion === draftVersionRef.current) setSaveError(true);
+      if (gen === mutationGenRef.current && draftVersion === draftVersionRef.current)
+        setSaveError(true);
     }
   }, [isLocallyActive, requestNoteFocus, slug, text]);
 

@@ -19,10 +19,14 @@ const validLevel = (value: string): value is Level =>
 
 export default function DifficultyPage() {
   const params = useParams<{ level: string }>();
-  const data = createAsync(async () => ({
-    questions: (await loadPublicData<{ questions: Question[] }>("/data/questions.json")).questions,
-    companies: await loadPublicData<Record<string, Company>>("/data/company-profiles.json"),
-  }), { initialValue: { questions: [], companies: {} }, deferStream: true });
+  const data = createAsync(
+    async () => ({
+      questions: (await loadPublicData<{ questions: Question[] }>("/data/questions.json"))
+        .questions,
+      companies: await loadPublicData<Record<string, Company>>("/data/company-profiles.json"),
+    }),
+    { initialValue: { questions: [], companies: {} }, deferStream: true }
+  );
   const questions = createMemo(() => data().questions);
   const companies = createMemo(() => data().companies);
   const level = createMemo(() => (validLevel(params.level) ? params.level : undefined));
@@ -53,7 +57,6 @@ export default function DifficultyPage() {
       .slice(0, 15)
       .map(([slug, count]) => ({ slug, count, name: companies()[slug]?.displayName ?? slug }));
   });
-
 
   return (
     <main class="container mx-auto max-w-5xl px-4 py-8">

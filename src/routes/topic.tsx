@@ -20,13 +20,16 @@ type Question = {
 
 export default function TopicPage() {
   const params = useParams<{ slug: string }>();
-  const data = createAsync(async () => {
-    const [profiles, questions] = await Promise.all([
-      loadPublicData<Record<string, Topic>>("/data/topic-profiles.json"),
-      loadPublicData<{ questions: Question[] }>("/data/questions.json"),
-    ]);
-    return { topic: profiles[params.slug] as Topic | undefined, questions: questions.questions };
-  }, { initialValue: { topic: undefined as Topic | undefined, questions: [] }, deferStream: true });
+  const data = createAsync(
+    async () => {
+      const [profiles, questions] = await Promise.all([
+        loadPublicData<Record<string, Topic>>("/data/topic-profiles.json"),
+        loadPublicData<{ questions: Question[] }>("/data/questions.json"),
+      ]);
+      return { topic: profiles[params.slug] as Topic | undefined, questions: questions.questions };
+    },
+    { initialValue: { topic: undefined as Topic | undefined, questions: [] }, deferStream: true }
+  );
   const topic = createMemo(() => data().topic);
   const questions = createMemo(() => data().questions);
   const [loaded, setLoaded] = createSignal(false);
@@ -46,7 +49,6 @@ export default function TopicPage() {
       })
       .slice(0, 100);
   });
-
 
   return (
     <main class="container mx-auto max-w-5xl px-4 py-8">

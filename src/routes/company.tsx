@@ -28,10 +28,13 @@ const difficultyClass = (difficulty: Question["difficulty"]) =>
 
 export default function CompanyPage() {
   const params = useParams<{ slug: string }>();
-  const profiles = createAsync(() => loadPublicData<Record<string, Company>>("/data/company-profiles.json"), {
-    initialValue: {},
-    deferStream: true,
-  });
+  const profiles = createAsync(
+    () => loadPublicData<Record<string, Company>>("/data/company-profiles.json"),
+    {
+      initialValue: {},
+      deferStream: true,
+    }
+  );
   const company = createMemo(() => profiles()[params.slug]);
   const [loaded, setLoaded] = createSignal(false);
   createEffect(() => {
