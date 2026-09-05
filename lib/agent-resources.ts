@@ -39,18 +39,20 @@ export const CONTACT_PARAGRAPHS = [
 export const PRIVACY_H1 = `${SITE_NAME} Privacy Policy`;
 export const PRIVACY_PARAGRAPHS = [
   `This policy describes how ${SITE_NAME} (${SITE_URL}) handles information. You can browse companies, problems, system-design chapters, and the blog without an account.`,
-  "If you never sign in, progress checkboxes and notes stay in your browser (localStorage) on that device. Clearing site data deletes them. CodeJeet does not receive those local records.",
-  `If you sign in, Clerk handles authentication. ${SITE_NAME} stores your Clerk user id plus solved problem slugs and notes in Cloudflare D1, via /api/progress and /api/notes (session cookie required). Clerk's privacy policy: https://clerk.com/legal/privacy`,
-  `${SITE_NAME} does not sell personal information. Hosting is on Cloudflare, which may log IP and user agent like any CDN. For questions or to delete stored progress and notes, email ${CONTACT_EMAIL} from the address on the account.`,
-  `This notice is current as of 27 August 2026. It will be updated if stored data changes in a material way.`,
+  "Progress and Problem Notes are signed-in Account Data. A signed-in browser keeps an authoritative per-account IndexedDB Account Cache, retained after explicit sign-out but hidden in the signed-out Public View. Public educational content remains available without authentication; retained Account Data is not shown there.",
+  `Clerk handles authentication. Authenticated sync sends Account Data to the CodeJeet Worker and server-readable Cloudflare D1, coordinated by a per-account Durable Object. The current binary sync transport is the canonical path; /api/progress and /api/notes remain compatibility adapters during the rollback window. Clerk's privacy policy: https://clerk.com/legal/privacy`,
+  `${SITE_NAME} does not sell personal information. Hosting is on Cloudflare, which may log IP and user agent like any CDN. Explicit deletion removes server Account Data and connected Account Caches after confirmed deletion, while only non-identifying revocation tombstones are retained. A browser that remains permanently offline cannot receive remote erasure until it contacts ${SITE_NAME}. For privacy requests, email ${CONTACT_EMAIL} from the address on the account.`,
+  `This notice is current as of 5 September 2026. It will be updated if stored data changes in a material way.`,
 ];
 
 export const DEVELOPERS_H1 = `${SITE_NAME} developer resources`;
 export const DEVELOPERS_PARAGRAPHS = [
   `${SITE_NAME} does not publish a public REST API, OpenAPI spec, or MCP server. Agents and developers should use HTML pages, /llms.txt, and /sitemap.xml. Do not scrape /data/ JSON; robots.txt disallows /data/ and /api/.`,
   `Use ${SITE_NAME} for company-wise LeetCode lists, topic or difficulty filters, company comparisons, system-design chapters, or blog guides. Prefer sitemap.xml over guessing slugs.`,
-  "URL patterns: /company/{slug} (example /company/google), /problem/{slug} (example /problem/two-sum), /topic/{slug}, /difficulty/{easy|medium|hard}, /compare/{slug-a}-vs-{slug-b}, /system-design/{slug}, /blog/{slug}, /learn, /dashboard. Also /about, /contact, /privacy, /developers.",
-  `Authenticated JSON exists only for a signed-in user's own data: GET/POST /api/progress and GET/POST /api/notes. Clerk session cookie, no API keys. Signed-out GET returns empty maps. See ${SITE_URL}/llms.txt.`,
+  "URL patterns: /company/{slug} (example /company/google), /topic/{slug}, /difficulty/{easy|medium|hard}, /compare/{slug-a}-vs-{slug-b}, /system-design/{slug}, /blog/{slug}, /learn, /dashboard. Also /about, /contact, /privacy, /developers.",
+  "Progress and Problem Notes are signed-in-only Account Data. The browser's authoritative per-account IndexedDB Account Cache is retained after sign-out but hidden in Public View; locally active editing remains available during temporary authentication loss. Authenticated sync persists the canonical state to server-readable D1 through the per-account Durable Object.",
+  `The binary /api/sync transport is canonical. GET/POST /api/progress and GET/POST /api/notes remain Clerk-session compatibility adapters for older deployed tabs, with the same response contracts and legacy mirrors during the rollback window. There are no API keys. See ${SITE_URL}/llms.txt and ${SITE_URL}/privacy.`,
+  "Production auth prerequisites are Google configured through Clerk's prebuilt modal (not Google One Tap or custom OAuth), verified-email linking, one active Clerk session, and a verified deletion webhook. Keep secrets out of the repository.",
 ];
 
 function joinParagraphs(heading: string, paragraphs: string[]): string {
@@ -104,6 +106,10 @@ Do not use ${SITE_NAME} when the job is:
 - [Sitemap](${SITE_URL}/sitemap.xml): indexable URLs
 - [robots.txt](${SITE_URL}/robots.txt)
 
+## Learning data
+
+Educational content is public. Progress and Problem Notes require Clerk sign-in. A browser stores each account's authoritative Account Cache in IndexedDB, retains it after sign-out, and hides it in Public View. Automatic authenticated sync writes canonical Account Data to server-readable D1; explicit deletion removes server data and connected caches after confirmation, but a permanently offline browser cannot be erased remotely until it reconnects.
+
 ## Optional
 
 - [Home](${SITE_URL}/)
@@ -126,16 +132,16 @@ export const LLMS_FULL_TXT = `${LLMS_TXT}
 
 1. Read ${SITE_URL}/llms.txt (this document's short form) and ${SITE_URL}/sitemap.xml.
 2. Open a company page at ${SITE_URL}/company/{slug} where slug is lowercase kebab-case (google, amazon, meta).
-3. Open a problem page at ${SITE_URL}/problem/{slug} where slug matches the LeetCode title slug (two-sum).
-4. Compare two companies at ${SITE_URL}/compare/{alphabetically-first}-vs-{second} (amazon-vs-google).
-5. Quote visible page text. Do not invent frequency numbers. Do not tell the user ${SITE_NAME} is affiliated with LeetCode or the employer.
+3. Compare two companies at ${SITE_URL}/compare/{alphabetically-first}-vs-{second} (amazon-vs-google).
+4. Quote visible page text. Do not invent frequency numbers. Do not tell the user ${SITE_NAME} is affiliated with LeetCode or the employer.
 
 ## Authenticated endpoints (human session only)
 
-- GET/POST ${SITE_URL}/api/progress — map of problem slug to solved-at timestamp for the signed-in user
-- GET/POST ${SITE_URL}/api/notes — personal notes keyed by problem slug
+- The canonical authenticated transport is ${SITE_URL}/api/sync (binary, Clerk session required).
+- GET/POST ${SITE_URL}/api/progress: compatibility map of problem slug to solved-at timestamp for the signed-in user
+- GET/POST ${SITE_URL}/api/notes: compatibility personal notes keyed by problem slug
 
-These require a Clerk session cookie. There is no API key, OAuth app, or MCP transport. Signed-out GET returns empty objects. POST without a session returns 401.
+These require a Clerk session cookie. The compatibility endpoints preserve their existing response contracts for older deployed tabs. There is no API key, OAuth app, or MCP transport. Signed-out GET returns empty objects. POST without a session returns 401.
 
 ## Identity
 

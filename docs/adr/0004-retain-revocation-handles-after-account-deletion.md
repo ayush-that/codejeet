@@ -1,0 +1,5 @@
+# Retain revocation handles after account deletion
+
+Each Account Cache will hold a 32-byte cryptographically random Revocation Handle so an installation can discover confirmed account deletion even when no deleted Clerk identity can authenticate. It travels only over TLS, and D1 stores only its SHA-256 hash. The verified `user.deleted` webhook routes through the account Durable Object's FIFO queue, atomically marks the account deleted, creates handle tombstones, and removes Progress, Problem Notes, actor registrations, causal state, and other account metadata before closing sockets. Repeated deletion delivery is idempotent, and the deleted marker rejects subsequent mutations even when a Clerk session token has not yet expired.
+
+D1 retains only each handle hash and its deletion tombstone indefinitely. A fixed-shape, rate-protected anonymous handle check returns only `deleted` or `not deleted`, with unknown and active handles sharing the same response and timing class; a deleted result instructs the installation to erase that Account Cache. This minimal operational tombstone is the exception required to make eventual offline cache deletion possible.

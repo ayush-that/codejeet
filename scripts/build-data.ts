@@ -5,6 +5,12 @@ import { spreadBlogDates } from "../lib/blog/dates";
 import { isCompareIndexable, parseComparePair } from "../lib/compare";
 import { loadAllQuestions, type QuestionWithDetails } from "../lib/data";
 import { encodeDashboardData } from "../lib/dashboard/encode";
+import { loadScrapedProblemSources } from "../lib/problem-registry-sources";
+import {
+  assertProblemRegistryRetains,
+  updateProblemRegistry,
+  type ProblemRegistry,
+} from "../lib/problem-registry";
 import { capitalizeWords } from "../utils/utils";
 
 interface ScrapedProblem {
@@ -68,30 +74,35 @@ function topicSlug(topic: string): string {
 
 async function loadScrapedProblems(): Promise<Map<string, ScrapedProblem>> {
   const problemsDir = path.join(process.cwd(), "data", "problems");
-  const map = new Map<string, ScrapedProblem>();
-
-  try {
-    const files = await fs.readdir(problemsDir);
-    const jsonFiles = files.filter((f) => f.endsWith(".json") && !f.startsWith("_"));
-
-    for (const file of jsonFiles) {
-      const content = await fs.readFile(path.join(problemsDir, file), "utf8");
-      const data = JSON.parse(content) as ScrapedProblem;
-      if (data.slug) {
-        map.set(data.slug, data);
-      }
-    }
-  } catch {
-    console.warn("No scraped problems found in data/problems/, continuing with CSV data only");
-  }
-
+  const map = await loadScrapedProblemSources<ScrapedProblem>(problemsDir);
+  if (map.size === 0) console.warn("No scraped problems found in data/problems/");
   return map;
+}
+
+async function loadProblemRegistry(registryPath: string): Promise<ProblemRegistry | null> {
+  try {
+    return JSON.parse(await fs.readFile(registryPath, "utf8")) as ProblemRegistry;
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === "ENOENT") return null;
+    throw error;
+  }
 }
 
 async function main() {
   const { questions, companies } = await loadAllQuestions();
   const scraped = await loadScrapedProblems();
   console.log(`Loaded ${scraped.size} scraped problem details`);
+
+  const registryPath = path.join(process.cwd(), "data", "problem-registry.json");
+  const previousProblemRegistry = await loadProblemRegistry(registryPath);
+  const currentProblemSlugs = new Set([
+    ...questions.map((question) => question.slug),
+    ...scraped.keys(),
+  ]);
+  const problemRegistry = updateProblemRegistry(previousProblemRegistry, currentProblemSlugs);
+  assertProblemRegistryRetains(previousProblemRegistry, problemRegistry);
+  const registryJson = `${JSON.stringify(problemRegistry, null, 2)}\n`;
+  await fs.writeFile(registryPath, registryJson);
 
   // Enrich questions with lightweight scraped metadata (no heavy HTML/markdown)
   // Also fix Is Premium flag: if scraper couldn't get content, the question is premium
@@ -156,6 +167,7 @@ async function main() {
 
   const outDir = path.join(process.cwd(), "public", "data");
   await fs.mkdir(outDir, { recursive: true });
+  await fs.writeFile(path.join(outDir, "problem-registry.json"), registryJson);
   // Drop legacy monolith if cached from an older build (exceeded 25 MiB asset limit).
   await fs.unlink(path.join(outDir, "comparison-pairs.json")).catch(() => {});
 
@@ -362,13 +374,6 @@ async function main() {
       priority: profile.questionCount >= 50 ? 0.8 : 0.7,
       changeFrequency: "weekly",
     });
-  }
-
-  // Problem pages
-  for (const [slug, problem] of scraped) {
-    if (problem.content_html) {
-      sitemapUrls.push({ path: `/problem/${slug}`, priority: 0.7, changeFrequency: "monthly" });
-    }
   }
 
   // Topic pages

@@ -8,6 +8,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Toaster } from "@/components/ui/toaster";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { LearningDataLifecycle } from "@/components/LearningDataLifecycle";
 import { websiteJsonLd, organizationJsonLd, siteNavigationJsonLd } from "@/lib/seo";
 import {
   OG_IMAGE_ALT,
@@ -105,14 +106,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             forcedTheme="dark"
             disableTransitionOnChange
           >
-            <div className="min-h-screen bg-background flex flex-col">
-              <div className="sticky top-0 z-50 bg-background">
-                <Navbar />
+            <LearningDataLifecycle>
+              <div className="min-h-screen bg-background flex flex-col">
+                <div className="sticky top-0 z-50 bg-background">
+                  <Navbar />
+                </div>
+                <main className="flex-1 overflow-x-clip">{children}</main>
+                <Footer />
+                <Toaster />
               </div>
-              <main className="flex-1 overflow-x-clip">{children}</main>
-              <Footer />
-              <Toaster />
-            </div>
+            </LearningDataLifecycle>
           </ThemeProvider>
         </body>
       </html>

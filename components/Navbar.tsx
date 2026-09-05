@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
 import { BrandLockup } from "@/components/BrandWordmark";
+import { AccountUserButton } from "@/components/AccountUserButton";
 
 const NAV_LINKS = [
   { href: "/blog", label: "Blog" },
@@ -48,7 +49,7 @@ const Navbar = () => {
             </SignInButton>
           </SignedOut>
           <SignedIn>
-            <UserButton afterSignOutUrl="/" />
+            <AccountUserButton />
           </SignedIn>
         </nav>
 
@@ -108,7 +109,7 @@ const Navbar = () => {
               </SignInButton>
             </SignedOut>
             <SignedIn>
-              <UserButton afterSignOutUrl="/" />
+              <AccountUserButton />
             </SignedIn>
           </div>
         </nav>

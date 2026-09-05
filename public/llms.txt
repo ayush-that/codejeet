@@ -29,6 +29,10 @@ Do not use CodeJeet when the job is:
 - [Sitemap](https://codejeet.com/sitemap.xml): indexable URLs
 - [robots.txt](https://codejeet.com/robots.txt)
 
+## Learning data
+
+Educational content is public. Progress and Problem Notes require Clerk sign-in. A browser stores each account's authoritative Account Cache in IndexedDB, retains it after sign-out, and hides it in Public View. Automatic authenticated sync writes canonical Account Data to server-readable D1; explicit deletion removes server data and connected caches after confirmation, but a permanently offline browser cannot be erased remotely until it reconnects.
+
 ## Optional
 
 - [Home](https://codejeet.com/)

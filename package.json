@@ -5,7 +5,7 @@
     "dev": "next dev --turbopack",
     "prebuild": "tsx scripts/build-data.ts && tsx scripts/verify-dashboard-data.ts && tsx scripts/build-blog.ts && tsx scripts/build-learn.ts && tsx scripts/build-system-design.ts && tsx scripts/build-sitemap.ts",
     "import:data": "node scripts/import-liquidslr.mjs",
-    "build": "NODE_OPTIONS='--max-old-space-size=6144' next build",
+    "build": "NODE_OPTIONS='--max-old-space-size=6144' next build --webpack",
     "build:worker": "opennextjs-cloudflare build --minify && tsx scripts/prune-worker-assets.ts && tsx scripts/check-worker-assets.ts",
     "preview": "opennextjs-cloudflare preview",
     "deploy": "pnpm exec tsx scripts/check-worker-assets.ts && opennextjs-cloudflare deploy",
@@ -13,7 +13,9 @@
     "format": "oxfmt --write .",
     "format:check": "oxfmt --check .",
     "prepare": "husky",
-    "test": "tsx --test tests/**/*.test.ts",
+    "test": "tsx --test --test-concurrency=1 'tests/*.test.ts'",
+    "test:workers": "vitest --config vitest.workers.config.mts run",
+    "typecheck": "tsc --noEmit --pretty false",
     "lint": "oxlint . --deny-warnings",
     "lint:fix": "oxlint . --fix --deny-warnings",
     "knip": "knip",
@@ -61,10 +63,13 @@
     "tailwind-merge": "^2.6.0"
   },
   "devDependencies": {
+    "@cloudflare/vitest-plugin": "1.1.4",
     "@tailwindcss/typography": "^0.5.19",
     "@types/node": "^20.19.21",
     "@types/react": "19.2.7",
     "@types/react-dom": "19.2.3",
+    "fake-indexeddb": "^6.2.5",
+    "fast-check": "4.9.0",
     "husky": "^9.1.7",
     "knip": "6.34.0",
     "lint-staged": "^15.5.2",
@@ -74,6 +79,7 @@
     "tailwindcss": "^3.4.18",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3",
+    "vitest": "4.1.0",
     "wrangler": "4.129.0"
   },
   "overrides": {

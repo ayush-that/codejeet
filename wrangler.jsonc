@@ -3,7 +3,7 @@
   "name": "codejeet",
   "compatibility_date": "2026-02-20",
   "compatibility_flags": ["nodejs_compat"],
-  "main": ".open-next/worker.js",
+  "main": "worker.ts",
   "assets": {
     "directory": ".open-next/assets",
     "binding": "ASSETS",
@@ -24,6 +24,20 @@
       "database_name": "codejeet-progress",
       "database_id": "68733624-7cca-48c8-8ee6-710e6791df5c",
       "migrations_dir": "migrations",
+    },
+  ],
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "ACCOUNT_DATA",
+        "class_name": "AccountData",
+      },
+    ],
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["AccountData"],
     },
   ],
   "observability": {

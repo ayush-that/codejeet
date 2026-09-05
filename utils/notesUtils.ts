@@ -1,6 +1,8 @@
 // Personal notes per problem, keyed by question slug (same identity as progress).
 // Signed-out users store notes in localStorage; signed-in users also sync via /api/notes.
 
+import { isValidProblemRegistrySlug } from "@/lib/problem-registry";
+
 export const NOTES_LOCAL_KEY = "leetcode-problem-notes";
 export const NOTES_META_KEY = "leetcode-problem-notes-meta";
 // slug -> ISO deletedAt for signed-out clears that must still win over cloud
@@ -35,7 +37,7 @@ export function parseNotesPostBody(body: unknown): NotesPostBody {
     return { ok: false, status: 400, error: "Invalid JSON" };
   }
   const { slug, note } = body as { slug?: unknown; note?: unknown };
-  if (!isValidSlug(slug)) {
+  if (!isValidProblemRegistrySlug(slug)) {
     return { ok: false, status: 400, error: "Invalid slug" };
   }
   if (typeof note !== "string") {
