@@ -1,4 +1,5 @@
 import { For, Show, createSignal, type ParentProps } from "solid-js";
+import { AuthControl } from "./auth-control";
 
 const navLinks = [
   { href: "/blog", label: "Blog" },
@@ -41,6 +42,7 @@ export function SiteShell(props: ParentProps) {
                 </a>
               )}
             </For>
+            <AuthControl />
           </nav>
           <button
             aria-expanded={mobileOpen()}
