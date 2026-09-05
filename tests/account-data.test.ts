@@ -461,6 +461,11 @@ describe("Account Data Durable Object persistence", () => {
       slug: "01-matrix",
       solved_at: "2026-01-01T00:00:00.000Z",
     });
+    database.seed("progress", {
+      user_id: account,
+      slug: "renamed-legacy-problem",
+      solved_at: "2026-01-01T00:00:00.000Z",
+    });
     database.seed("notes", {
       user_id: account,
       slug: "add-two-numbers",

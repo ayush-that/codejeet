@@ -887,22 +887,21 @@ export class AccountDataCoordinator {
 
     const progressSlugs = new Set<string>();
     for (const row of legacy.progress) {
-      if (
-        typeof row.slug !== "string" ||
-        !isRegisteredProblemSlug(committedProblemRegistry, row.slug)
-      )
-        throw new PersistenceError("Legacy Progress contains an unknown Problem Registry slug");
+      if (typeof row.slug !== "string")
+        throw new PersistenceError("Legacy Progress contains an invalid Problem Registry slug");
+      // Legacy endpoints accepted arbitrary non-empty slugs. Preserve the
+      // account's usable registered data when an old row no longer exists in
+      // the registry instead of making activation fail for the whole account.
+      if (!isRegisteredProblemSlug(committedProblemRegistry, row.slug)) continue;
       if (typeof row.solved_at !== "string" || !row.solved_at)
         throw new PersistenceError("Legacy Progress has an invalid solve timestamp");
       progressSlugs.add(row.slug);
     }
     const noteRows = new Map<string, LegacyNoteRow>();
     for (const row of legacy.notes) {
-      if (
-        typeof row.slug !== "string" ||
-        !isRegisteredProblemSlug(committedProblemRegistry, row.slug)
-      )
-        throw new PersistenceError("Legacy Problem Notes contain an unknown Problem Registry slug");
+      if (typeof row.slug !== "string")
+        throw new PersistenceError("Legacy Problem Notes contain an invalid Problem Registry slug");
+      if (!isRegisteredProblemSlug(committedProblemRegistry, row.slug)) continue;
       if (typeof row.note !== "string" || typeof row.updated_at !== "string" || !row.updated_at)
         throw new PersistenceError("Legacy Problem Note has invalid data");
       if (row.note.trim()) noteRows.set(row.slug, row);
@@ -1724,7 +1723,12 @@ export class AccountDataCoordinator {
         }
         continue;
       }
-      if (!previousNotes.has(slug) || !mirrorNotes.has(slug)) {
+      const previousRecord = previous.notes.notes.get(slug);
+      if (
+        !previousNotes.has(slug) ||
+        !mirrorNotes.has(slug) ||
+        previousRecord?.serverRevision !== record.serverRevision
+      ) {
         if (record.operation.kind !== "value") continue;
         statements.push(
           prepared(
@@ -1733,7 +1737,7 @@ export class AccountDataCoordinator {
             accountId,
             slug,
             decodeProblemNoteText(record.operation.bytes),
-            mirrorNotes.get(slug)?.updated_at ?? now
+            now
           )
         );
       }

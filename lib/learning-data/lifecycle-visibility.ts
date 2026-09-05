@@ -29,8 +29,12 @@ export function shouldInvalidateForLifecycleBroadcast(
   currentAccountId: string | null,
   currentEpoch: number,
   messageAccountId: string | null,
-  messageEpoch: number
+  messageEpoch: number,
+  isExplicitSignOut = false
 ): boolean {
+  // Epochs are local to each tab, so they cannot order a sign-out sent by a
+  // different tab. An explicit sign-out always wins for an active account.
+  if (isExplicitSignOut) return currentAccountId !== null;
   if (messageEpoch <= currentEpoch) return false;
   return (
     messageAccountId === null || currentAccountId === null || currentAccountId !== messageAccountId

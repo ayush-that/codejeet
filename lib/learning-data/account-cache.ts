@@ -1721,8 +1721,8 @@ export function createIndexedDbAccountCache(
         index: number;
       }>;
       for (const item of existing) {
-        if (item.accountId === targetAccountId && item.generationId === generationId) {
-          stageStore.delete([targetAccountId, generationId, item.index]);
+        if (item.accountId === targetAccountId) {
+          stageStore.delete([targetAccountId, item.generationId, item.index]);
         }
       }
       stageStore.put({

@@ -117,8 +117,16 @@ export function LearningDataLifecycle({ children }: PropsWithChildren) {
     const channel = new BroadcastChannel("codejeet-learning-lifecycle");
     lifecycleChannelRef.current = channel;
     channel.onmessage = (event: MessageEvent<unknown>) => {
-      const message = event.data as { kind?: unknown; accountId?: unknown; epoch?: unknown };
-      if (message?.kind !== "lifecycle" || typeof message.epoch !== "number") return;
+      const message = event.data as {
+        kind?: unknown;
+        accountId?: unknown;
+        epoch?: unknown;
+      };
+      if (
+        (message?.kind !== "lifecycle" && message?.kind !== "explicit-sign-out") ||
+        typeof message.epoch !== "number"
+      )
+        return;
       const current = stateRef.current;
       const currentAccountId =
         current.kind === "active" ||
@@ -131,7 +139,8 @@ export function LearningDataLifecycle({ children }: PropsWithChildren) {
           currentAccountId,
           epochRef.current,
           typeof message.accountId === "string" ? message.accountId : null,
-          message.epoch
+          message.epoch,
+          message.kind === "explicit-sign-out"
         )
       ) {
         return;
@@ -300,6 +309,11 @@ export function LearningDataLifecycle({ children }: PropsWithChildren) {
     learningData.lifecycle.deactivate();
     setProgress({});
     setState({ kind: "public", epoch: epochRef.current });
+    lifecycleChannelRef.current?.postMessage({
+      kind: "explicit-sign-out",
+      accountId: null,
+      epoch: epochRef.current,
+    });
     void clerk.signOut(() => {});
   }, [clerk]);
 

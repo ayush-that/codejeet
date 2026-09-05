@@ -57,6 +57,11 @@ describe("Learning Data lifecycle visibility", () => {
     assert.equal(shouldInvalidateForLifecycleBroadcast("account-a", 5, null, 5), false);
   });
 
+  it("honors an explicit sign-out from another tab regardless of local epoch", () => {
+    assert.equal(shouldInvalidateForLifecycleBroadcast("account-a", 99, null, 1, true), true);
+    assert.equal(shouldInvalidateForLifecycleBroadcast(null, 99, null, 1, true), false);
+  });
+
   it("makes explicit sign-out a Public View with no local account exposed", () => {
     assert.equal(
       shouldExposeLocalAccount(
