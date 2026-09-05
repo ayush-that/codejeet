@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "strict": true,
+    "skipLibCheck": true,
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "jsxImportSource": "solid-js",
+    "noEmit": true,
+    "types": ["@solidjs/start/env"]
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "lib/problem-registry.ts",
+    "lib/dashboard/**/*.ts",
+    "lib/sync/loro-account.ts"
+  ]
+}
