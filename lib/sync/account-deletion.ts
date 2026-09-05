@@ -1,4 +1,4 @@
-import type { WebhookEvent } from "@clerk/backend";
+import type { WebhookEvent } from "@clerk/nextjs/server";
 import { assertAccountRouteName } from "./account-route";
 
 const HANDLE_BYTES = 32;
