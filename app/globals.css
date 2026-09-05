@@ -3,9 +3,6 @@
 @tailwind utilities;
 
 :root {
-  --font-sans: "Open Sans", Arial, sans-serif;
-  --font-heading: "Arial Black", "Open Sans", Arial, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, monospace;
   --color-1: 0 100% 63%;
   --color-2: 270 100% 63%;
   --color-3: 210 100% 63%;
