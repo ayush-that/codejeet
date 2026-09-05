@@ -3,6 +3,8 @@ import { Suspense } from "solid-js";
 import "../app/globals.css";
 import { SiteShell } from "./components/site-shell";
 import About from "./routes/about";
+import Blog from "./routes/blog";
+import BlogPost from "./routes/blog-post";
 import Companies from "./routes/companies";
 import Company from "./routes/company";
 import Dashboard from "./routes/dashboard";
@@ -24,6 +26,8 @@ export default function App() {
         <Route path="/companies" component={Companies} />
         <Route path="/company/:slug" component={Company} />
         <Route path="/about" component={About} />
+        <Route path="/blog" component={Blog} />
+        <Route path="/blog/:slug" component={BlogPost} />
         <Route path="/contact" component={Contact} />
         <Route path="/privacy" component={Privacy} />
         <Route path="/developers" component={Developers} />
