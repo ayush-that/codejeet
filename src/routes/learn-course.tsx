@@ -62,6 +62,35 @@ export default function LearnCourse() {
                 </For>
               </ol>
             </section>
+            <Show when={item().quizzes.length > 0}>
+              <section class="mt-10">
+                <h2 class="mb-3 text-sm uppercase tracking-wider text-muted-foreground">Quizzes</h2>
+                <ol class="space-y-2">
+                  <For each={item().quizzes}>
+                    {(quiz, index) => (
+                      <li>
+                        <a
+                          class="group flex gap-4 rounded-lg border border-border p-4 hover:bg-accent"
+                          href={`/learn/${item().meta.slug}/quiz/${quiz.slug}`}
+                        >
+                          <span class="pt-0.5 font-mono text-xs text-muted-foreground">
+                            Q{String(index() + 1).padStart(2, "0")}
+                          </span>
+                          <span>
+                            <strong class="font-medium">{quiz.title}</strong>
+                            <Show when={quiz.description}>
+                              <span class="mt-1 block text-sm text-muted-foreground">
+                                {quiz.description}
+                              </span>
+                            </Show>
+                          </span>
+                        </a>
+                      </li>
+                    )}
+                  </For>
+                </ol>
+              </section>
+            </Show>
           </>
         )}
       </Show>

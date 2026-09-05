@@ -16,6 +16,8 @@ import Difficulty from "./routes/difficulty";
 import Home from "./routes/index";
 import Learn from "./routes/learn";
 import LearnCourse from "./routes/learn-course";
+import LearnLesson from "./routes/learn-lesson";
+import LearnQuiz from "./routes/learn-quiz";
 import Privacy from "./routes/privacy";
 import SystemDesign from "./routes/system-design";
 import SystemDesignChapter from "./routes/system-design-chapter";
@@ -38,6 +40,8 @@ export default function App() {
         <Route path="/privacy" component={Privacy} />
         <Route path="/learn" component={Learn} />
         <Route path="/learn/:course" component={LearnCourse} />
+        <Route path="/learn/:course/:lesson" component={LearnLesson} />
+        <Route path="/learn/:course/quiz/:quiz" component={LearnQuiz} />
         <Route path="/developers" component={Developers} />
         <Route path="/difficulty/:level" component={Difficulty} />
         <Route path="/system-design" component={SystemDesign} />
