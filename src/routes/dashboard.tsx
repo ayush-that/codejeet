@@ -91,10 +91,10 @@ export default function Dashboard() {
       guestProgress = loroGuestProgress;
       void getClerk().then((clerk) => {
         if (!active || !guestProgress) return;
-        remoteReplica = createAuthenticatedLoroReplica();
         const activate = (accountId: string | undefined) => {
-          if (!guestProgress || !remoteReplica) return;
+          if (!guestProgress) return;
           guestProgress.selectAccount(accountId);
+          remoteReplica = createAuthenticatedLoroReplica();
           setSolved(guestProgress.read());
           void guestProgress
             .sync(remoteReplica)
