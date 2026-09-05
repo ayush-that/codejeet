@@ -9,7 +9,7 @@ import {
 import type { LoroRemoteReplica } from "./loro-remote";
 
 const LEGACY_PROGRESS_KEY = "leetcode-checked-items";
-const LORO_PROGRESS_KEY = "codejeet-loro-guest-progress-v1";
+const LORO_PROGRESS_PREFIX = "codejeet-loro-progress-v1";
 
 type Listener = (progress: Record<string, boolean>) => void;
 
@@ -39,28 +39,53 @@ function readLegacy(): Record<string, boolean> {
 }
 
 class LoroGuestProgress {
+  private accountId: string | undefined;
   private doc: ReturnType<typeof createLoroAccountDocument> | undefined;
   private pendingFrom:
     | ReturnType<ReturnType<typeof createLoroAccountDocument>["oplogVersion"]>
     | undefined;
+  private pendingSnapshot = false;
   private readonly listeners = new Set<Listener>();
+
+  private get storageKey(): string {
+    return `${LORO_PROGRESS_PREFIX}:${this.accountId ? `account:${encodeURIComponent(this.accountId)}` : "guest"}`;
+  }
+
+  private get pendingKey(): string {
+    return `${this.storageKey}:pending`;
+  }
+
+  selectAccount(accountId: string | undefined): void {
+    if (this.accountId === accountId) return;
+    this.accountId = accountId;
+    this.doc = undefined;
+    this.pendingFrom = undefined;
+    this.pendingSnapshot = false;
+  }
 
   private getDocument() {
     if (this.doc) return this.doc;
     try {
-      const encoded = localStorage.getItem(LORO_PROGRESS_KEY);
-      if (encoded) this.doc = loadLoroAccountSnapshot(decode(encoded));
+      const encoded = localStorage.getItem(this.storageKey);
+      if (encoded) {
+        this.doc = loadLoroAccountSnapshot(decode(encoded));
+        this.pendingSnapshot = localStorage.getItem(this.pendingKey) === "1";
+      }
     } catch {
-      localStorage.removeItem(LORO_PROGRESS_KEY);
+      localStorage.removeItem(this.storageKey);
+      localStorage.removeItem(this.pendingKey);
     }
     if (!this.doc) {
       this.doc = createLoroAccountDocument();
-      for (const [slug, completed] of Object.entries(readLegacy())) {
-        if (completed) {
-          try {
-            setLoroProgress(this.doc, committedProblemRegistry, slug, true);
-          } catch {
-            // Discard stale legacy slugs outside the committed registry.
+      if (!this.accountId) {
+        for (const [slug, completed] of Object.entries(readLegacy())) {
+          if (completed) {
+            try {
+              setLoroProgress(this.doc, committedProblemRegistry, slug, true);
+              this.pendingSnapshot = true;
+            } catch {
+              // Discard stale legacy slugs outside the committed registry.
+            }
           }
         }
       }
@@ -75,10 +100,9 @@ class LoroGuestProgress {
 
   private persist(): void {
     try {
-      localStorage.setItem(
-        LORO_PROGRESS_KEY,
-        encode(exportLoroAccountSnapshot(this.getDocument()))
-      );
+      localStorage.setItem(this.storageKey, encode(exportLoroAccountSnapshot(this.getDocument())));
+      if (this.pendingSnapshot) localStorage.setItem(this.pendingKey, "1");
+      else localStorage.removeItem(this.pendingKey);
     } catch {
       // Storage quotas and private modes do not invalidate the in-memory document.
     }
@@ -90,7 +114,8 @@ class LoroGuestProgress {
 
   set(slug: string, completed: boolean): Record<string, boolean> {
     const doc = this.getDocument();
-    this.pendingFrom ??= doc.oplogVersion();
+    if (!this.pendingSnapshot) this.pendingFrom ??= doc.oplogVersion();
+    this.pendingSnapshot = true;
     setLoroProgress(doc, committedProblemRegistry, slug, completed);
     this.persist();
     const progress = this.snapshot();
@@ -100,9 +125,11 @@ class LoroGuestProgress {
 
   async sync(remote: LoroRemoteReplica): Promise<Record<string, boolean>> {
     const doc = this.getDocument();
-    if (this.pendingFrom) {
+    if (this.pendingSnapshot) {
       await remote.push(doc, this.pendingFrom);
       this.pendingFrom = undefined;
+      this.pendingSnapshot = false;
+      this.persist();
     }
     await remote.pull(doc);
     this.persist();

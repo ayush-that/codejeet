@@ -29,6 +29,7 @@ export default function CompanyPage() {
   const params = useParams<{ slug: string }>();
   const [profile, setProfile] = createSignal<Company>();
   const [failed, setFailed] = createSignal(false);
+  const [loaded, setLoaded] = createSignal(false);
   const company = createMemo(() => profile());
 
   onMount(() => {
@@ -36,6 +37,7 @@ export default function CompanyPage() {
       .then(async (response) => {
         if (!response.ok) throw new Error("Could not load company data");
         setProfile(((await response.json()) as Record<string, Company>)[params.slug]);
+        setLoaded(true);
       })
       .catch(() => setFailed(true));
   });
@@ -49,7 +51,11 @@ export default function CompanyPage() {
         when={company()}
         fallback={
           <p class="mt-6 text-muted-foreground">
-            {failed() ? "Could not load company data." : "Loading company…"}
+            {failed()
+              ? "Could not load company data."
+              : loaded()
+                ? "Company not found."
+                : "Loading company…"}
           </p>
         }
       >

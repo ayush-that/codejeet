@@ -67,10 +67,10 @@ export class LoroRemoteReplica {
     return this.revision;
   }
 
-  async push(doc: LoroDoc, from: ReturnType<LoroDoc["oplogVersion"]>): Promise<number> {
+  async push(doc: LoroDoc, from?: ReturnType<LoroDoc["oplogVersion"]>): Promise<number> {
     const token = await this.token();
     if (!token) return this.revision;
-    const update = doc.export({ mode: "update", from });
+    const update = from ? doc.export({ mode: "update", from }) : doc.export({ mode: "snapshot" });
     if (!update.byteLength) return this.revision;
     const response = await this.transport(this.endpoint, {
       method: "POST",
@@ -83,8 +83,10 @@ export class LoroRemoteReplica {
     if (!Number.isSafeInteger(result.revision) || (result.revision as number) < 1) {
       throw new Error("Loro push response is invalid");
     }
-    this.revision = result.revision as number;
-    return this.revision;
+    // Do not advance the pull cursor here. A client may be behind another
+    // device, and this new revision can sit after updates it has not imported.
+    // The next pull must still start at the previous cursor.
+    return result.revision as number;
   }
 }
 

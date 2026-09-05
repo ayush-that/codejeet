@@ -22,6 +22,7 @@ export default function TopicPage() {
   const [topic, setTopic] = createSignal<Topic>();
   const [questions, setQuestions] = createSignal<Question[]>([]);
   const [failed, setFailed] = createSignal(false);
+  const [loaded, setLoaded] = createSignal(false);
   const matching = createMemo(() => {
     const current = topic();
     if (!current) return [];
@@ -42,6 +43,7 @@ export default function TopicPage() {
         if (!profiles.ok || !data.ok) throw new Error("Could not load topic data");
         setTopic(((await profiles.json()) as Record<string, Topic>)[params.slug]);
         setQuestions(((await data.json()) as { questions: Question[] }).questions);
+        setLoaded(true);
       })
       .catch(() => setFailed(true));
   });
@@ -55,7 +57,11 @@ export default function TopicPage() {
         when={topic()}
         fallback={
           <p class="mt-6 text-muted-foreground">
-            {failed() ? "Could not load topic data." : "Loading topic…"}
+            {failed()
+              ? "Could not load topic data."
+              : loaded()
+                ? "Topic not found."
+                : "Loading topic…"}
           </p>
         }
       >

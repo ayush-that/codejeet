@@ -49,6 +49,7 @@ export default function Dashboard() {
   const [index, setIndex] = createSignal<DashboardIndex>();
   const [loading, setLoading] = createSignal(true);
   const [error, setError] = createSignal<string>();
+  const [syncError, setSyncError] = createSignal<string>();
   const [search, setSearch] = createSignal("");
   const [difficulties, setDifficulties] = createSignal<Difficulty[]>([]);
   const [topics, setTopics] = createSignal<string[]>([]);
@@ -80,16 +81,28 @@ export default function Dashboard() {
     void load();
     let active = true;
     let unsubscribe: (() => void) | undefined;
-    void Promise.all([import("../lib/loro-progress"), import("../lib/loro-remote")]).then(
-      ([{ loroGuestProgress }, { createAuthenticatedLoroReplica }]) => {
-        if (!active) return;
-        guestProgress = loroGuestProgress;
+    void Promise.all([
+      import("../lib/loro-progress"),
+      import("../lib/loro-remote"),
+      import("../lib/clerk"),
+    ]).then(([{ loroGuestProgress }, { createAuthenticatedLoroReplica }, { getClerk }]) => {
+      if (!active) return;
+      guestProgress = loroGuestProgress;
+      void getClerk().then((clerk) => {
+        if (!active || !guestProgress) return;
+        guestProgress.selectAccount(clerk?.user?.id);
         remoteReplica = createAuthenticatedLoroReplica();
         setSolved(guestProgress.read());
         unsubscribe = guestProgress.subscribe(setSolved);
-        void guestProgress.sync(remoteReplica).catch(() => undefined);
-      }
-    );
+        void guestProgress
+          .sync(remoteReplica)
+          .catch(() =>
+            setSyncError(
+              "Progress was saved locally but could not be synchronized. Try again later."
+            )
+          );
+      });
+    });
     return () => {
       active = false;
       unsubscribe?.();
@@ -132,7 +145,11 @@ export default function Dashboard() {
   const toggle = (slug: string, completed: boolean) => {
     guestProgress?.set(slug, completed);
     if (guestProgress && remoteReplica)
-      void guestProgress.sync(remoteReplica).catch(() => undefined);
+      void guestProgress
+        .sync(remoteReplica)
+        .catch(() =>
+          setSyncError("Progress was saved locally but could not be synchronized. Try again later.")
+        );
   };
 
   return (
@@ -163,6 +180,9 @@ export default function Dashboard() {
             </button>
           </section>
         )}
+      </Show>
+      <Show when={syncError()}>
+        {(message) => <p class="mb-4 rounded border border-destructive p-3 text-sm">{message()}</p>}
       </Show>
       <Show when={index() && !loading() && !error()}>
         <div class="space-y-6">
