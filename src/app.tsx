@@ -9,6 +9,8 @@ import Contact from "./routes/contact";
 import Developers from "./routes/developers";
 import Home from "./routes/index";
 import Privacy from "./routes/privacy";
+import SystemDesign from "./routes/system-design";
+import SystemDesignChapter from "./routes/system-design-chapter";
 
 export default function App() {
   return (
@@ -21,6 +23,8 @@ export default function App() {
         <Route path="/contact" component={Contact} />
         <Route path="/privacy" component={Privacy} />
         <Route path="/developers" component={Developers} />
+        <Route path="/system-design" component={SystemDesign} />
+        <Route path="/system-design/:slug" component={SystemDesignChapter} />
       </Router>
     </Suspense>
   );
