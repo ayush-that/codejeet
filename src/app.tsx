@@ -9,6 +9,7 @@ import Companies from "./routes/companies";
 import Compare from "./routes/compare";
 import ComparePair from "./routes/compare-pair";
 import Company from "./routes/company";
+import CompanyFilter from "./routes/company-filter";
 import Dashboard from "./routes/dashboard";
 import Contact from "./routes/contact";
 import Developers from "./routes/developers";
@@ -34,6 +35,7 @@ export default function App() {
         <Route path="/compare" component={Compare} />
         <Route path="/compare/:pair" component={ComparePair} />
         <Route path="/company/:slug" component={Company} />
+        <Route path="/company/:slug/:filter" component={CompanyFilter} />
         <Route path="/about" component={About} />
         <Route path="/blog" component={Blog} />
         <Route path="/blog/:slug" component={BlogPost} />
