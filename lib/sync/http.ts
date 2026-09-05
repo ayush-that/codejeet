@@ -160,7 +160,7 @@ async function authenticateWithClerk(
 ): Promise<string | null> {
   if (!env.CLERK_SECRET_KEY || !env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY) return null;
   try {
-    const { createClerkClient } = await import("@clerk/nextjs/server");
+    const { createClerkClient } = await import("@clerk/backend");
     const client = createClerkClient({
       secretKey: env.CLERK_SECRET_KEY,
       publishableKey: env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,

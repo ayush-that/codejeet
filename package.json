@@ -27,6 +27,7 @@
     "lint-staged": "lint-staged"
   },
   "dependencies": {
+    "@clerk/backend": "^3.17.1",
     "@clerk/clerk-js": "^6.31.0",
     "@clerk/nextjs": "^6",
     "@clerk/themes": "^2.4.57",

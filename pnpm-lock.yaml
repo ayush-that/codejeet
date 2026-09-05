@@ -20,6 +20,9 @@ importers:
 
   .:
     dependencies:
+      '@clerk/backend':
+        specifier: ^3.17.1
+        version: 3.17.1(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       '@clerk/clerk-js':
         specifier: ^6.31.0
         version: 6.31.0(@solana/web3.js@1.98.4(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@6.0.6))(@types/react@19.2.7)(bs58@6.0.0)(bufferutil@4.1.0)(react-dom@19.2.3(react@19.2.3))(react-native@0.87.1(@babel/core@7.29.7)(@types/react@19.2.7)(bufferutil@4.1.0)(react@19.2.3)(utf-8-validate@6.0.6))(react@19.2.3)(typescript@5.9.3)(use-sync-external-store@1.6.0(react@19.2.3))(utf-8-validate@6.0.6)(zod@4.4.3)
@@ -563,6 +566,10 @@ packages:
   '@clerk/backend@2.33.5':
     resolution: {integrity: sha512-YOzUYJfb1d4w+0rKKm+LnnNpkJGQ+NI/g7qmF3mgaSN9X9huteuwCZyufdsI7z2DDkwy/yGRgb9eUWV96t7xLg==}
     engines: {node: '>=18.17.0'}
+
+  '@clerk/backend@3.17.1':
+    resolution: {integrity: sha512-HDBknkYVTMknYsRNHeI0lUE+e4QfOty/LDzWKpbnaaKJUMzHZDUcVo9RQnLdg18XvhaBN7z1OoRiphJ82nimRA==}
+    engines: {node: '>=20.9.0'}
 
   '@clerk/clerk-js@6.31.0':
     resolution: {integrity: sha512-M8drc4zhZihYGat4BvXIXtu65UDunjr5q1exjTFX/59pmj1jbIdsttW5DvM423XHfRr0VzK8hhRG06c0lgNGlQ==}
@@ -7434,6 +7441,15 @@ snapshots:
     dependencies:
       '@clerk/shared': 3.47.7(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       '@clerk/types': 4.101.25(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      standardwebhooks: 1.0.0
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - react
+      - react-dom
+
+  '@clerk/backend@3.17.1(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
+    dependencies:
+      '@clerk/shared': 4.31.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       standardwebhooks: 1.0.0
       tslib: 2.8.1
     transitivePeerDependencies:
