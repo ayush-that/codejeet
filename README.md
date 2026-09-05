@@ -4,7 +4,7 @@ Browse 17,000+ company-wise LeetCode interview questions from 660+ companies. Fi
 
 > Company-wise interview questions are sourced from [liquidslr/interview-company-wise-problems](https://github.com/liquidslr/interview-company-wise-problems).
 
-<img width="900" height="856" alt="image" src="https://github.com/user-attachments/assets/cc681e71-ce2a-4136-91b9-a496479ed98a" />
+<img width="728" height="644" alt="image" src="https://github.com/user-attachments/assets/39489550-e0ea-420e-ab57-bc18d96dafed" />
 
 ### Features
 
