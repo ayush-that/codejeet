@@ -38,8 +38,7 @@ function readLegacy(): Record<string, boolean> {
   }
 }
 
-class LoroGuestProgress {
-  private accountId: string | undefined;
+export class LoroGuestProgress {
   private doc: ReturnType<typeof createLoroAccountDocument> | undefined;
   private pendingFrom:
     | ReturnType<ReturnType<typeof createLoroAccountDocument>["oplogVersion"]>
@@ -47,20 +46,14 @@ class LoroGuestProgress {
   private pendingSnapshot = false;
   private readonly listeners = new Set<Listener>();
 
+  constructor(private readonly accountId: string | undefined) {}
+
   private get storageKey(): string {
     return `${LORO_PROGRESS_PREFIX}:${this.accountId ? `account:${encodeURIComponent(this.accountId)}` : "guest"}`;
   }
 
   private get pendingKey(): string {
     return `${this.storageKey}:pending`;
-  }
-
-  selectAccount(accountId: string | undefined): void {
-    if (this.accountId === accountId) return;
-    this.accountId = accountId;
-    this.doc = undefined;
-    this.pendingFrom = undefined;
-    this.pendingSnapshot = false;
   }
 
   private getDocument() {
@@ -144,4 +137,6 @@ class LoroGuestProgress {
   }
 }
 
-export const loroGuestProgress = new LoroGuestProgress();
+export function createLoroGuestProgress(accountId: string | undefined): LoroGuestProgress {
+  return new LoroGuestProgress(accountId);
+}

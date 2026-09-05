@@ -7,7 +7,7 @@ import {
 import { computeStats, filterLinks, sortLinks, type SortOrder } from "../../lib/dashboard/query";
 import type { DashboardPayload, Difficulty, Timeframe } from "../../lib/dashboard/schema";
 
-type GuestProgress = typeof import("../lib/loro-progress").loroGuestProgress;
+type GuestProgress = import("../lib/loro-progress").LoroGuestProgress;
 type RemoteReplica = import("../lib/loro-remote").LoroRemoteReplica;
 const pageSizes = [10, 25, 50];
 
@@ -87,35 +87,37 @@ export default function Dashboard() {
       import("../lib/loro-progress"),
       import("../lib/loro-remote"),
       import("../lib/clerk"),
-    ]).then(([{ loroGuestProgress }, { LoroRemoteReplica }, { getClerk }]) => {
+    ]).then(([{ createLoroGuestProgress }, { LoroRemoteReplica }, { getClerk }]) => {
       if (!active) return;
-      guestProgress = loroGuestProgress;
       void getClerk().then((clerk) => {
-        if (!active || !guestProgress) return;
-        let activation = 0;
-        let syncQueue = Promise.resolve();
+        if (!active) return;
         const activate = (accountId: string | undefined) => {
-          const current = ++activation;
-          void Promise.resolve(clerk?.session?.getToken() ?? null).then((token) => {
+          unsubscribe?.();
+          const progress = createLoroGuestProgress(accountId);
+          const token = Promise.resolve(clerk?.session?.getToken() ?? null);
+          const replica = new LoroRemoteReplica(() => token);
+          guestProgress = progress;
+          remoteReplica = replica;
+          setSolved(progress.read());
+          unsubscribe = progress.subscribe(setSolved);
+          let syncQueue = Promise.resolve();
+          const queueSync = () => {
             syncQueue = syncQueue
               .catch(() => undefined)
               .then(async () => {
-                if (!active || current !== activation || !guestProgress) return;
-                guestProgress.selectAccount(accountId);
-                remoteReplica = new LoroRemoteReplica(async () => token ?? null);
-                setSolved(guestProgress.read());
-                await guestProgress.sync(remoteReplica);
+                if (!active) return;
+                await progress.sync(replica);
               })
               .catch(() => {
                 setSyncError(
                   "Progress was saved locally but could not be synchronized. Try again later."
                 );
               });
-          });
+          };
+          synchronize = queueSync;
+          queueSync();
         };
         activate(clerk?.user?.id);
-        unsubscribe = guestProgress.subscribe(setSolved);
-        synchronize = () => activate(clerk?.user?.id);
         unsubscribeClerk = clerk?.addListener((state) => activate(state.user?.id));
       });
     });
