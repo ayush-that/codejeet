@@ -6,6 +6,8 @@ import About from "./routes/about";
 import Blog from "./routes/blog";
 import BlogPost from "./routes/blog-post";
 import Companies from "./routes/companies";
+import Compare from "./routes/compare";
+import ComparePair from "./routes/compare-pair";
 import Company from "./routes/company";
 import Dashboard from "./routes/dashboard";
 import Contact from "./routes/contact";
@@ -26,6 +28,8 @@ export default function App() {
         <Route path="/" component={Home} />
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/companies" component={Companies} />
+        <Route path="/compare" component={Compare} />
+        <Route path="/compare/:pair" component={ComparePair} />
         <Route path="/company/:slug" component={Company} />
         <Route path="/about" component={About} />
         <Route path="/blog" component={Blog} />
