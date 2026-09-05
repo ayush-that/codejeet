@@ -12,6 +12,8 @@ import Contact from "./routes/contact";
 import Developers from "./routes/developers";
 import Difficulty from "./routes/difficulty";
 import Home from "./routes/index";
+import Learn from "./routes/learn";
+import LearnCourse from "./routes/learn-course";
 import Privacy from "./routes/privacy";
 import SystemDesign from "./routes/system-design";
 import SystemDesignChapter from "./routes/system-design-chapter";
@@ -30,6 +32,8 @@ export default function App() {
         <Route path="/blog/:slug" component={BlogPost} />
         <Route path="/contact" component={Contact} />
         <Route path="/privacy" component={Privacy} />
+        <Route path="/learn" component={Learn} />
+        <Route path="/learn/:course" component={LearnCourse} />
         <Route path="/developers" component={Developers} />
         <Route path="/difficulty/:level" component={Difficulty} />
         <Route path="/system-design" component={SystemDesign} />
