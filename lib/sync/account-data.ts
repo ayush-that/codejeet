@@ -1737,7 +1737,7 @@ export class AccountDataCoordinator {
             accountId,
             slug,
             decodeProblemNoteText(record.operation.bytes),
-            now
+            options.markLegacyMigrated ? (mirrorNotes.get(slug)?.updated_at ?? now) : now
           )
         );
       }
