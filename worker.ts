@@ -1,5 +1,6 @@
 import { AccountData } from "./lib/sync/account-do";
 import { createSyncHandler } from "./lib/sync/http";
+import { createLoroSyncHandler } from "./lib/sync/loro-http";
 import { createWebSocketSyncHandler } from "./lib/sync/websocket";
 
 import handler from "./src/entry-server";
@@ -7,6 +8,7 @@ import handler from "./src/entry-server";
 export { AccountData };
 
 const sync = createSyncHandler();
+const loroSync = createLoroSyncHandler();
 const websocket = createWebSocketSyncHandler();
 
 export default {
@@ -17,6 +19,7 @@ export default {
       }
       return sync(request, env);
     }
+    if (new URL(request.url).pathname === "/api/loro-sync") return loroSync(request, env);
     return handler.fetch(request);
   },
 } satisfies ExportedHandler<CloudflareEnv>;

@@ -68,6 +68,12 @@ const SOCKET_AUTH_CODE = 4003;
 const SOCKET_CAP_CODE = 4008;
 const MAX_ACCOUNT_SOCKETS = 16;
 const MAX_ACTOR_SOCKETS = 8;
+const MAX_LORO_UPDATE_BYTES = 512 * 1024;
+const MAX_LORO_ACCOUNT_BYTES = 16 * 1024 * 1024;
+const LORO_LOG_KEY = "loro-update-log";
+
+type LoroUpdate = { revision: number; update: Uint8Array };
+type LoroUpdateLog = { revision: number; bytes: number; updates: LoroUpdate[] };
 
 function zeroId(): Uint8Array {
   return new Uint8Array(16);
@@ -798,6 +804,42 @@ export class AccountData extends DurableObject<AccountEnvironment> {
     return this.coordinator.applyMutations(accountId, mutations);
   }
 
+  async loroUpdates(accountId: string, afterRevision = 0): Promise<LoroUpdateLog> {
+    await this.prepareRpc(accountId);
+    if (!Number.isSafeInteger(afterRevision) || afterRevision < 0) {
+      throw new Error("Loro revision is invalid");
+    }
+    const stored = await this.ctx.storage.get<LoroUpdateLog>(LORO_LOG_KEY);
+    const log = stored ?? { revision: 0, bytes: 0, updates: [] };
+    return {
+      revision: log.revision,
+      bytes: log.bytes,
+      updates: log.updates
+        .filter((entry) => entry.revision > afterRevision)
+        .map((entry) => ({ revision: entry.revision, update: entry.update.slice() })),
+    };
+  }
+
+  async appendLoroUpdate(accountId: string, update: Uint8Array | ArrayBuffer): Promise<number> {
+    await this.prepareRpc(accountId);
+    const bytes = update instanceof ArrayBuffer ? new Uint8Array(update).slice() : update.slice();
+    if (!bytes.byteLength || bytes.byteLength > MAX_LORO_UPDATE_BYTES) {
+      throw new Error("Loro update size is invalid");
+    }
+    const stored = await this.ctx.storage.get<LoroUpdateLog>(LORO_LOG_KEY);
+    const log = stored ?? { revision: 0, bytes: 0, updates: [] };
+    if (log.bytes + bytes.byteLength > MAX_LORO_ACCOUNT_BYTES) {
+      throw new Error("Loro account update log is full");
+    }
+    const revision = log.revision + 1;
+    if (!Number.isSafeInteger(revision)) throw new Error("Loro revision is exhausted");
+    log.revision = revision;
+    log.bytes += bytes.byteLength;
+    log.updates.push({ revision, update: bytes });
+    await this.ctx.storage.put(LORO_LOG_KEY, log);
+    return revision;
+  }
+
   async deleteAccount(accountId: string, accountRouteKey: string) {
     await this.prepareRpc(accountId, true);
     const route = this.routeName();
@@ -805,6 +847,7 @@ export class AccountData extends DurableObject<AccountEnvironment> {
       throw new Error("Durable Object account route mismatch");
     }
     const result = await this.coordinator.deleteAccount(accountId, route);
+    await this.ctx.storage.delete(LORO_LOG_KEY);
     for (const socket of this.ctx.getWebSockets()) this.close(socket, SOCKET_PROTOCOL_CODE);
     await this.scheduleSocketExpiry();
     return result;
