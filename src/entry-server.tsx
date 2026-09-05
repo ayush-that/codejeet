@@ -16,4 +16,4 @@ function Document(props: DocumentComponentProps) {
   );
 }
 
-export default createHandler(() => <StartServer document={Document} />, { mode: "sync" });
+export default createHandler(() => <StartServer document={Document} />, { mode: "async" });

@@ -1,4 +1,6 @@
-import { For, Show, createMemo, createSignal, onMount } from "solid-js";
+import { createAsync } from "@solidjs/router";
+import { getRequestEvent } from "solid-js/web";
+import { For, Show, createMemo, createSignal } from "solid-js";
 
 type Post = { slug: string; title: string; description: string; date: string; category: string };
 const PAGE_SIZE = 24;
@@ -9,8 +11,17 @@ const categories = [
   ["Tips & Strategies", "tips"],
 ] as const;
 
+async function loadPosts(): Promise<Post[]> {
+  const event = getRequestEvent();
+  const response = await fetch(
+    event ? new URL("/data/blog-index.json", event.request.url) : "/data/blog-index.json"
+  );
+  if (!response.ok) throw new Error("Could not load the blog");
+  return (await response.json()) as Post[];
+}
+
 export default function Blog() {
-  const [posts, setPosts] = createSignal<Post[]>([]);
+  const posts = createAsync(loadPosts, { initialValue: [], deferStream: true });
   const [category, setCategory] = createSignal("all");
   const [search, setSearch] = createSignal("");
   const [page, setPage] = createSignal(1);
@@ -32,15 +43,6 @@ export default function Blog() {
     action();
     setPage(1);
   };
-
-  onMount(() => {
-    void fetch("/data/blog-index.json")
-      .then(async (response) => {
-        if (!response.ok) throw new Error("Could not load the blog");
-        setPosts((await response.json()) as Post[]);
-      })
-      .catch(() => setFailed(true));
-  });
 
   return (
     <main class="container mx-auto max-w-5xl px-4 py-8">
