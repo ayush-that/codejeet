@@ -19,6 +19,7 @@ import LearnCourse from "./routes/learn-course";
 import LearnLesson from "./routes/learn-lesson";
 import LearnQuiz from "./routes/learn-quiz";
 import Privacy from "./routes/privacy";
+import Podcast from "./routes/podcast";
 import SystemDesign from "./routes/system-design";
 import SystemDesignChapter from "./routes/system-design-chapter";
 import Topic from "./routes/topic";
@@ -38,6 +39,7 @@ export default function App() {
         <Route path="/blog/:slug" component={BlogPost} />
         <Route path="/contact" component={Contact} />
         <Route path="/privacy" component={Privacy} />
+        <Route path="/podcast" component={Podcast} />
         <Route path="/learn" component={Learn} />
         <Route path="/learn/:course" component={LearnCourse} />
         <Route path="/learn/:course/:lesson" component={LearnLesson} />
