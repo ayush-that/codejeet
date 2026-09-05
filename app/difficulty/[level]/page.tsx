@@ -206,12 +206,14 @@ export default async function DifficultyPage({ params }: { params: Promise<{ lev
                   }`}
                 >
                   <td className="px-4 py-3">
-                    <Link
-                      href={`/problem/${q.slug}`}
+                    <a
+                      href={`https://leetcode.com/problems/${q.slug}/`}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="font-medium text-foreground hover:underline"
                     >
                       {q.title}
-                    </Link>
+                    </a>
                   </td>
                   <td className="px-4 py-3 text-muted-foreground hidden sm:table-cell">
                     {q.acceptance}

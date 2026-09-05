@@ -152,32 +152,6 @@ export function companyMetadata(profile: CompanyProfile): Metadata {
   };
 }
 
-export function problemMetadata(problem: {
-  title: string;
-  slug: string;
-  difficulty: string;
-  acceptance_rate: string;
-  topics: string[];
-  companies: string[];
-}): Metadata {
-  const topicList = problem.topics.slice(0, 4).join(", ");
-  const companyCount = problem.companies.length;
-
-  return {
-    title: `${problem.title} - LeetCode ${problem.difficulty}`,
-    description:
-      `${problem.title}. ${problem.difficulty} difficulty, ${problem.acceptance_rate} acceptance rate. ` +
-      `Topics: ${topicList}. Asked by ${companyCount} companies.`,
-    alternates: { canonical: `${SITE_URL}/problem/${problem.slug}` },
-    openGraph: {
-      title: `${problem.title} - LeetCode ${problem.difficulty} | ${SITE_NAME}`,
-      description: `${problem.title}. Topics: ${topicList}. Asked by ${companyCount} companies.`,
-      type: "article",
-      url: `${SITE_URL}/problem/${problem.slug}`,
-    },
-  };
-}
-
 export function topicMetadata(topic: {
   name: string;
   slug: string;

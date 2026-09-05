@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState, useMemo, useEffect, useRef, useDeferredValue } from "react";
-import { useUser } from "@clerk/nextjs";
-import { fetchUserProgress, updateQuestionProgress } from "@/utils/progressUtils";
+import React, { useState, useMemo, useEffect, useDeferredValue } from "react";
+import { learningData } from "@/lib/learning-data/facade";
+import { useLearningDataLifecycle } from "@/components/LearningDataLifecycle";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Table,
@@ -25,6 +25,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { DifficultyBadge } from "@/components/ui/difficulty-badge";
+import { ProblemNoteButton } from "@/components/ProblemNoteButton";
 import TopicDropdown from "@/components/TopicDropdown";
 import { toDisplayRow, type DashboardIndex } from "@/lib/dashboard/decode";
 import { computeStats, filterLinks, sortLinks, type SortOrder } from "@/lib/dashboard/query";
@@ -45,20 +46,9 @@ const LeetCodeDashboard: React.FC<LeetCodeDashboardProps> = ({
 }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [difficultyFilter, setDifficultyFilter] = useState<Difficulty[]>([]);
-  const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>(() => {
-    if (typeof window === "undefined") return {};
-
-    const savedItems = localStorage.getItem("leetcode-checked-items");
-    if (!savedItems) return {};
-
-    try {
-      const parsed = JSON.parse(savedItems);
-      return typeof parsed === "object" && parsed !== null ? parsed : {};
-    } catch {
-      localStorage.removeItem("leetcode-checked-items");
-      return {};
-    }
-  });
+  const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>(() =>
+    learningData.progress.readLocal()
+  );
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
@@ -73,46 +63,19 @@ const LeetCodeDashboard: React.FC<LeetCodeDashboardProps> = ({
   // re-runs at lower priority. The company dropdown keeps the raw value.
   const deferredSearch = useDeferredValue(searchQuery);
 
-  const { isSignedIn } = useUser();
-  const mergedRef = useRef(false);
-
-  // On sign-in: merge any existing local marks into the account (additive, never
-  // deletes), then adopt the server's progress as source of truth.
-  useEffect(() => {
-    if (!isSignedIn) return;
-    let cancelled = false;
-    (async () => {
-      if (!mergedRef.current) {
-        mergedRef.current = true;
-        const trueSlugs = Object.keys(checkedItems).filter((k) => checkedItems[k]);
-        if (trueSlugs.length) {
-          await Promise.all(trueSlugs.map((slug) => updateQuestionProgress(slug, true)));
-        }
-      }
-      const remote = await fetchUserProgress();
-      if (cancelled) return;
-      setCheckedItems((prev) => {
-        const next = { ...prev };
-        for (const slug of Object.keys(remote)) next[slug] = true;
-        localStorage.setItem("leetcode-checked-items", JSON.stringify(next));
-        return next;
-      });
-    })();
-    return () => {
-      cancelled = true;
-    };
-    // checkedItems intentionally snapshotted at sign-in; mergedRef guards re-runs.
-    // oxlint-disable-next-line react/exhaustive-deps
-  }, [isSignedIn]);
+  const { progress, isLocallyActive, requestProgressToggle } = useLearningDataLifecycle();
+  // The facade subscription is an external store notification.
+  // oxlint-disable-next-line react/set-state-in-effect
+  useEffect(() => setCheckedItems(progress), [progress]);
 
   const handleCheckboxChange = (id: string, value: boolean) => {
-    setCheckedItems((prev) => {
-      const next = { ...prev, [id]: value };
-      localStorage.setItem("leetcode-checked-items", JSON.stringify(next));
-      return next;
-    });
-    // Fire-and-forget: never block the UI on the network.
-    if (isSignedIn) void updateQuestionProgress(id, value);
+    if (!isLocallyActive) {
+      requestProgressToggle(id, value);
+      return;
+    }
+    const optimistic = { ...checkedItems, [id]: value };
+    setCheckedItems(optimistic);
+    requestProgressToggle(id, value);
   };
 
   // Counts come precomputed from the build, so no 11M-comparison scan on mount.
@@ -408,7 +371,7 @@ const LeetCodeDashboard: React.FC<LeetCodeDashboardProps> = ({
                         <TableHead>Topics</TableHead>
                         <TableHead className="text-center">Acceptance</TableHead>
                         <TableHead className="text-center">Frequency</TableHead>
-                        <TableHead className="w-14" aria-hidden="true"></TableHead>
+                        <TableHead className="w-14 text-center">Notes</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -438,8 +401,8 @@ const LeetCodeDashboard: React.FC<LeetCodeDashboardProps> = ({
                           <TableCell className="text-center">
                             <div className="w-12 h-4 bg-muted animate-pulse rounded mx-auto" />
                           </TableCell>
-                          <TableCell className="flex items-center gap-2" aria-hidden="true">
-                            <div className="h-9 w-9 opacity-0" />
+                          <TableCell className="text-center">
+                            <div className="h-7 w-7 bg-muted animate-pulse rounded mx-auto" />
                           </TableCell>
                         </TableRow>
                       ))}
@@ -552,7 +515,7 @@ const LeetCodeDashboard: React.FC<LeetCodeDashboardProps> = ({
                             )}
                           </div>
                         </TableHead>
-                        <TableHead className="w-14" aria-hidden="true"></TableHead>
+                        <TableHead className="w-14 text-center">Notes</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -561,6 +524,7 @@ const LeetCodeDashboard: React.FC<LeetCodeDashboardProps> = ({
                           <TableCell className="w-4">
                             <Checkbox
                               checked={checkedItems[row.slug] || false}
+                              aria-label={`Mark ${row.title} complete${isLocallyActive ? "" : "; sign in to save progress"}`}
                               onCheckedChange={(value) =>
                                 handleCheckboxChange(row.slug, Boolean(value))
                               }
@@ -605,8 +569,8 @@ const LeetCodeDashboard: React.FC<LeetCodeDashboardProps> = ({
                           </TableCell>
                           <TableCell className="text-center">{row.acceptance}</TableCell>
                           <TableCell className="text-center">{row.frequency}</TableCell>
-                          <TableCell className="flex items-center gap-2" aria-hidden="true">
-                            <div className="h-9 w-9 opacity-0" />
+                          <TableCell className="text-center">
+                            <ProblemNoteButton slug={row.slug} title={row.title} layout="desktop" />
                           </TableCell>
                         </TableRow>
                       ))}
@@ -683,6 +647,7 @@ const LeetCodeDashboard: React.FC<LeetCodeDashboardProps> = ({
                         <div className="flex items-center gap-2">
                           <Checkbox
                             checked={checkedItems[row.slug] || false}
+                            aria-label={`Mark ${row.title} complete${isLocallyActive ? "" : "; sign in to save progress"}`}
                             onCheckedChange={(value) =>
                               handleCheckboxChange(row.slug, Boolean(value))
                             }
@@ -720,6 +685,10 @@ const LeetCodeDashboard: React.FC<LeetCodeDashboardProps> = ({
                             </span>
                           ))
                         )}
+                      </div>
+                      <div className="mt-3 flex items-center gap-1 text-sm text-muted-foreground">
+                        <span>Frequency {row.frequency}</span>
+                        <ProblemNoteButton slug={row.slug} title={row.title} layout="mobile" />
                       </div>
                     </Card>
                   ))}

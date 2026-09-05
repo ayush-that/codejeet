@@ -187,9 +187,9 @@ ${
   similar
     ? `6. End with: Related problems: ${(p.similar_questions || [])
         .slice(0, 3)
-        .map((s) => `[${s.title}](/problem/${s.slug})`)
+        .map((s) => `[${s.title}](https://leetcode.com/problems/${s.slug}/)`)
         .join(", ")}`
-    : `6. End with: [Practice this problem on CodeJeet](/problem/${p.slug})`
+    : `6. End with: [Practice this problem on LeetCode](https://leetcode.com/problems/${p.slug}/)`
 }
 
 Include the complete solution code in a <div class="code-group"> with Python/JavaScript/Java.`,
