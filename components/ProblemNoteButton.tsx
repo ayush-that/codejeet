@@ -77,6 +77,7 @@ export function ProblemNoteButton({ slug, title, layout }: ProblemNoteButtonProp
       if (draftVersion === draftVersionRef.current) {
         setText(learningData.notes.readNote(slug));
         dirtyRef.current = false;
+        setSaveError(false);
       }
     } catch {
       if (gen === mutationGenRef.current && draftVersion === draftVersionRef.current) setSaveError(true);
@@ -104,7 +105,10 @@ export function ProblemNoteButton({ slug, title, layout }: ProblemNoteButtonProp
         }
         return;
       }
-      if (draftVersion === draftVersionRef.current) dirtyRef.current = false;
+      if (draftVersion === draftVersionRef.current) {
+        dirtyRef.current = false;
+        setSaveError(false);
+      }
     } catch {
       if (gen === mutationGenRef.current && draftVersion === draftVersionRef.current) {
         learningData.notes.setDraft(slug, previous);
