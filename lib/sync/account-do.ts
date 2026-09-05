@@ -1,4 +1,5 @@
 import { DurableObject } from "cloudflare:workers";
+import { LoroDoc } from "loro-crdt";
 import {
   Crc32cAccumulator,
   MAX_FRAME_BYTES,
@@ -74,6 +75,18 @@ const LORO_LOG_KEY = "loro-update-log";
 
 type LoroUpdate = { revision: number; update: Uint8Array };
 type LoroUpdateLog = { revision: number; bytes: number; updates: LoroUpdate[] };
+
+function compactLoroLog(log: LoroUpdateLog, update: Uint8Array): LoroUpdateLog {
+  const doc = new LoroDoc();
+  for (const entry of log.updates) doc.import(entry.update);
+  doc.import(update);
+  const revision = log.revision + 1;
+  const snapshot = doc.export({ mode: "snapshot" });
+  if (snapshot.byteLength > MAX_LORO_ACCOUNT_BYTES) {
+    throw new Error("Loro account snapshot is too large");
+  }
+  return { revision, bytes: snapshot.byteLength, updates: [{ revision, update: snapshot }] };
+}
 
 function zeroId(): Uint8Array {
   return new Uint8Array(16);
@@ -829,7 +842,9 @@ export class AccountData extends DurableObject<AccountEnvironment> {
     const stored = await this.ctx.storage.get<LoroUpdateLog>(LORO_LOG_KEY);
     const log = stored ?? { revision: 0, bytes: 0, updates: [] };
     if (log.bytes + bytes.byteLength > MAX_LORO_ACCOUNT_BYTES) {
-      throw new Error("Loro account update log is full");
+      const compacted = compactLoroLog(log, bytes);
+      await this.ctx.storage.put(LORO_LOG_KEY, compacted);
+      return compacted.revision;
     }
     const revision = log.revision + 1;
     if (!Number.isSafeInteger(revision)) throw new Error("Loro revision is exhausted");
