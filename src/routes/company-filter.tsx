@@ -1,5 +1,6 @@
-import { useParams } from "@solidjs/router";
-import { For, Show, createMemo, createSignal, onMount } from "solid-js";
+import { createAsync, useParams } from "@solidjs/router";
+import { For, Show, createMemo } from "solid-js";
+import { loadPublicData } from "../lib/public-data";
 
 type Question = {
   slug: string;
@@ -19,8 +20,11 @@ const topicSlug = (value: string) =>
 
 export default function CompanyFilter() {
   const params = useParams<{ slug: string; filter: string }>();
-  const [company, setCompany] = createSignal<Company>();
-  const [failed, setFailed] = createSignal(false);
+  const profiles = createAsync(() => loadPublicData<Record<string, Company>>("/data/company-profiles.json"), {
+    initialValue: {},
+    deferStream: true,
+  });
+  const company = createMemo(() => profiles()[params.slug]);
   const questions = createMemo(
     () =>
       company()?.questions.filter(
@@ -35,14 +39,6 @@ export default function CompanyFilter() {
       ? `${company()!.displayName} ${params.filter.replace(/-/g, " ")} Questions`
       : "Company questions"
   );
-  onMount(() => {
-    void fetch("/data/company-profiles.json")
-      .then(async (response) => {
-        if (!response.ok) throw new Error("Could not load company data");
-        setCompany(((await response.json()) as Record<string, Company>)[params.slug]);
-      })
-      .catch(() => setFailed(true));
-  });
   return (
     <main class="container mx-auto max-w-5xl px-4 py-8">
       <a class="text-sm text-muted-foreground hover:underline" href={`/company/${params.slug}`}>
@@ -52,7 +48,7 @@ export default function CompanyFilter() {
         when={company()}
         fallback={
           <p class="mt-6 text-muted-foreground">
-            {failed() ? "Company not found." : "Loading company…"}
+            Company not found.
           </p>
         }
       >

@@ -1,5 +1,6 @@
-import { useParams } from "@solidjs/router";
-import { For, Show, createMemo, createSignal, onMount } from "solid-js";
+import { createAsync, useParams } from "@solidjs/router";
+import { For, Show, createMemo } from "solid-js";
+import { loadPublicData } from "../lib/public-data";
 
 type Level = "easy" | "medium" | "hard";
 type Question = {
@@ -18,9 +19,12 @@ const validLevel = (value: string): value is Level =>
 
 export default function DifficultyPage() {
   const params = useParams<{ level: string }>();
-  const [questions, setQuestions] = createSignal<Question[]>([]);
-  const [companies, setCompanies] = createSignal<Record<string, Company>>({});
-  const [failed, setFailed] = createSignal(false);
+  const data = createAsync(async () => ({
+    questions: (await loadPublicData<{ questions: Question[] }>("/data/questions.json")).questions,
+    companies: await loadPublicData<Record<string, Company>>("/data/company-profiles.json"),
+  }), { initialValue: { questions: [], companies: {} }, deferStream: true });
+  const questions = createMemo(() => data().questions);
+  const companies = createMemo(() => data().companies);
   const level = createMemo(() => (validLevel(params.level) ? params.level : undefined));
   const label = createMemo(() => level()?.replace(/^./, (letter) => letter.toUpperCase()));
   const results = createMemo<Summary[]>(() => {
@@ -50,16 +54,6 @@ export default function DifficultyPage() {
       .map(([slug, count]) => ({ slug, count, name: companies()[slug]?.displayName ?? slug }));
   });
 
-  onMount(() => {
-    void Promise.all([fetch("/data/questions.json"), fetch("/data/company-profiles.json")])
-      .then(async ([questionResponse, companyResponse]) => {
-        if (!questionResponse.ok || !companyResponse.ok)
-          throw new Error("Could not load difficulty data");
-        setQuestions(((await questionResponse.json()) as { questions: Question[] }).questions);
-        setCompanies((await companyResponse.json()) as Record<string, Company>);
-      })
-      .catch(() => setFailed(true));
-  });
 
   return (
     <main class="container mx-auto max-w-5xl px-4 py-8">
@@ -83,12 +77,7 @@ export default function DifficultyPage() {
               {results().length.toLocaleString()} unique questions sorted by company popularity
             </p>
           </header>
-          <Show
-            when={!failed()}
-            fallback={
-              <p class="rounded border border-destructive p-4">Could not load difficulty data.</p>
-            }
-          >
+          <Show when={questions()}>
             <section class="mb-8">
               <h2 class="mb-4 text-lg font-semibold">Top companies</h2>
               <div class="flex flex-wrap gap-2">

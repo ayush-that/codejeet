@@ -1,6 +1,6 @@
 import { createAsync } from "@solidjs/router";
-import { getRequestEvent } from "solid-js/web";
 import { For, Show, createMemo, createSignal } from "solid-js";
+import { loadPublicData } from "../lib/public-data";
 
 type Post = { slug: string; title: string; description: string; date: string; category: string };
 const PAGE_SIZE = 24;
@@ -12,12 +12,7 @@ const categories = [
 ] as const;
 
 async function loadPosts(): Promise<Post[]> {
-  const event = getRequestEvent();
-  const response = await fetch(
-    event ? new URL("/data/blog-index.json", event.request.url) : "/data/blog-index.json"
-  );
-  if (!response.ok) throw new Error("Could not load the blog");
-  return (await response.json()) as Post[];
+  return loadPublicData<Post[]>("/data/blog-index.json");
 }
 
 export default function Blog() {

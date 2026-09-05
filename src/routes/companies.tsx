@@ -1,4 +1,6 @@
-import { For, Show, createMemo, createSignal, onMount } from "solid-js";
+import { createAsync } from "@solidjs/router";
+import { For, Show, createMemo, createSignal } from "solid-js";
+import { loadPublicData } from "../lib/public-data";
 
 type Company = {
   slug: string;
@@ -14,20 +16,12 @@ function percentage(value: number, total: number): string {
 }
 
 export default function Companies() {
-  const [companies, setCompanies] = createSignal<Company[]>([]);
+  const companies = createAsync(async () =>
+    Object.values(await loadPublicData<Record<string, Company>>("/data/company-profiles.json")).sort(
+      (a, b) => b.questionCount - a.questionCount
+    ), { initialValue: [], deferStream: true });
   const [search, setSearch] = createSignal("");
   const [page, setPage] = createSignal(1);
-  const [error, setError] = createSignal(false);
-
-  onMount(() => {
-    void fetch("/data/company-profiles.json")
-      .then(async (response) => {
-        if (!response.ok) throw new Error("Could not load company data");
-        const profiles = (await response.json()) as Record<string, Company>;
-        setCompanies(Object.values(profiles).sort((a, b) => b.questionCount - a.questionCount));
-      })
-      .catch(() => setError(true));
-  });
 
   const filtered = createMemo(() => {
     const query = search().trim().toLowerCase();
@@ -54,10 +48,7 @@ export default function Companies() {
           Browse LeetCode interview questions from {companies().length.toLocaleString()} companies
         </p>
       </header>
-      <Show
-        when={!error()}
-        fallback={<p class="rounded border border-destructive p-4">Could not load company data.</p>}
-      >
+      <Show when={companies()}>
         <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <label class="sr-only" for="company-search">
             Search companies

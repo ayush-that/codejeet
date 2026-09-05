@@ -1,5 +1,6 @@
-import { useParams } from "@solidjs/router";
-import { For, Show, createMemo, createSignal, onMount } from "solid-js";
+import { createAsync, useParams } from "@solidjs/router";
+import { For, Show, createMemo } from "solid-js";
+import { loadPublicData } from "../lib/public-data";
 
 type Topic = {
   slug: string;
@@ -19,10 +20,15 @@ type Question = {
 
 export default function TopicPage() {
   const params = useParams<{ slug: string }>();
-  const [topic, setTopic] = createSignal<Topic>();
-  const [questions, setQuestions] = createSignal<Question[]>([]);
-  const [failed, setFailed] = createSignal(false);
-  const [loaded, setLoaded] = createSignal(false);
+  const data = createAsync(async () => {
+    const [profiles, questions] = await Promise.all([
+      loadPublicData<Record<string, Topic>>("/data/topic-profiles.json"),
+      loadPublicData<{ questions: Question[] }>("/data/questions.json"),
+    ]);
+    return { topic: profiles[params.slug] as Topic | undefined, questions: questions.questions };
+  }, { initialValue: { topic: undefined as Topic | undefined, questions: [] }, deferStream: true });
+  const topic = createMemo(() => data().topic);
+  const questions = createMemo(() => data().questions);
   const matching = createMemo(() => {
     const current = topic();
     if (!current) return [];
@@ -37,16 +43,6 @@ export default function TopicPage() {
       .slice(0, 100);
   });
 
-  onMount(() => {
-    void Promise.all([fetch("/data/topic-profiles.json"), fetch("/data/questions.json")])
-      .then(async ([profiles, data]) => {
-        if (!profiles.ok || !data.ok) throw new Error("Could not load topic data");
-        setTopic(((await profiles.json()) as Record<string, Topic>)[params.slug]);
-        setQuestions(((await data.json()) as { questions: Question[] }).questions);
-        setLoaded(true);
-      })
-      .catch(() => setFailed(true));
-  });
 
   return (
     <main class="container mx-auto max-w-5xl px-4 py-8">
@@ -57,11 +53,7 @@ export default function TopicPage() {
         when={topic()}
         fallback={
           <p class="mt-6 text-muted-foreground">
-            {failed()
-              ? "Could not load topic data."
-              : loaded()
-                ? "Topic not found."
-                : "Loading topic…"}
+            Topic not found.
           </p>
         }
       >

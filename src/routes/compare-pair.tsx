@@ -1,5 +1,6 @@
-import { useParams } from "@solidjs/router";
-import { For, Show, createSignal, onMount } from "solid-js";
+import { createAsync, useParams } from "@solidjs/router";
+import { For, Show } from "solid-js";
+import { loadPublicData } from "../lib/public-data";
 
 type Question = { slug: string; title: string; difficulty: string; topics: string[] };
 type Company = {
@@ -23,16 +24,10 @@ type Comparison = {
 
 export default function ComparePair() {
   const params = useParams<{ pair: string }>();
-  const [comparison, setComparison] = createSignal<Comparison>();
-  const [failed, setFailed] = createSignal(false);
-  onMount(() => {
-    void fetch(`/data/compare/${params.pair}.json`)
-      .then(async (response) => {
-        if (!response.ok) throw new Error("Comparison not found");
-        setComparison((await response.json()) as Comparison);
-      })
-      .catch(() => setFailed(true));
-  });
+  const comparison = createAsync(
+    () => loadPublicData<Comparison>(`/data/compare/${params.pair}.json`),
+    { deferStream: true }
+  );
   return (
     <main class="container mx-auto max-w-5xl px-4 py-8">
       <a class="text-sm text-muted-foreground hover:underline" href="/compare">
@@ -42,7 +37,7 @@ export default function ComparePair() {
         when={comparison()}
         fallback={
           <p class="mt-6 text-muted-foreground">
-            {failed() ? "Comparison not found." : "Loading comparison…"}
+            Comparison not found.
           </p>
         }
       >

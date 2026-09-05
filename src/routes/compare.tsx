@@ -1,4 +1,6 @@
-import { For, Show, createMemo, createSignal, onMount } from "solid-js";
+import { createAsync } from "@solidjs/router";
+import { For, Show, createMemo } from "solid-js";
+import { loadPublicData } from "../lib/public-data";
 
 type Pair = {
   pair: string;
@@ -10,21 +12,15 @@ type Pair = {
 };
 
 export default function Compare() {
-  const [pairs, setPairs] = createSignal<Pair[]>([]);
-  const [failed, setFailed] = createSignal(false);
+  const pairs = createAsync(() => loadPublicData<Pair[]>("/data/comparison-index.json"), {
+    initialValue: [],
+    deferStream: true,
+  });
   const indexable = createMemo(() =>
     pairs()
       .filter((pair) => pair.sharedCount >= 3)
       .sort((left, right) => right.sharedCount - left.sharedCount)
   );
-  onMount(() => {
-    void fetch("/data/comparison-index.json")
-      .then(async (response) => {
-        if (!response.ok) throw new Error("Could not load comparisons");
-        setPairs((await response.json()) as Pair[]);
-      })
-      .catch(() => setFailed(true));
-  });
   return (
     <main class="container mx-auto max-w-5xl px-4 py-8">
       <header class="mb-8">
@@ -34,10 +30,7 @@ export default function Compare() {
           pairs.
         </p>
       </header>
-      <Show
-        when={!failed()}
-        fallback={<p class="rounded border border-destructive p-4">Could not load comparisons.</p>}
-      >
+      <Show when={pairs()}>
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <For each={indexable()}>
             {(pair) => (
