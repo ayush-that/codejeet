@@ -81,6 +81,7 @@ export default function Dashboard() {
     void load();
     let active = true;
     let unsubscribe: (() => void) | undefined;
+    let unsubscribeClerk: (() => void) | undefined;
     void Promise.all([
       import("../lib/loro-progress"),
       import("../lib/loro-remote"),
@@ -90,22 +91,28 @@ export default function Dashboard() {
       guestProgress = loroGuestProgress;
       void getClerk().then((clerk) => {
         if (!active || !guestProgress) return;
-        guestProgress.selectAccount(clerk?.user?.id);
         remoteReplica = createAuthenticatedLoroReplica();
-        setSolved(guestProgress.read());
+        const activate = (accountId: string | undefined) => {
+          if (!guestProgress || !remoteReplica) return;
+          guestProgress.selectAccount(accountId);
+          setSolved(guestProgress.read());
+          void guestProgress
+            .sync(remoteReplica)
+            .catch(() =>
+              setSyncError(
+                "Progress was saved locally but could not be synchronized. Try again later."
+              )
+            );
+        };
+        activate(clerk?.user?.id);
         unsubscribe = guestProgress.subscribe(setSolved);
-        void guestProgress
-          .sync(remoteReplica)
-          .catch(() =>
-            setSyncError(
-              "Progress was saved locally but could not be synchronized. Try again later."
-            )
-          );
+        unsubscribeClerk = clerk?.addListener((state) => activate(state.user?.id));
       });
     });
     return () => {
       active = false;
       unsubscribe?.();
+      unsubscribeClerk?.();
     };
   });
 
