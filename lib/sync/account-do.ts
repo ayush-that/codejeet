@@ -25,9 +25,10 @@ import {
   type BootstrapSessionResult,
   type BootstrapSessionStatus,
 } from "./account-data";
-import type { ActorId } from "./domain";
+import { progressSolvedSlugs, problemNoteText, type ActorId } from "./domain";
 import { accountRouteName, assertAccountRouteName } from "./account-route";
 import { isAccountDeleted } from "./account-deletion";
+import { committedProblemRegistry } from "../problem-registry";
 import {
   asAccountMutation,
   asMutationRecord,
@@ -36,6 +37,7 @@ import {
   snapshotRecords,
   validSnapshotNonce,
 } from "./http";
+import type { LoroDoc } from "loro-crdt";
 import {
   recordTransportDiagnostic,
   rejectionForFailure,
@@ -62,12 +64,46 @@ type SocketAttachment = {
   };
 };
 
+type LoroUpdateRow = { revision: number; update: Uint8Array };
+
+type LoroSnapshotRow = {
+  revision: number;
+  snapshot: Uint8Array;
+};
+
+type LoroUpdatesResult = {
+  revision: number;
+  snapshot: LoroSnapshotRow | null;
+  updates: LoroUpdateRow[];
+};
+
 const SOCKET_EXPIRY_CODE = 4001;
 const SOCKET_PROTOCOL_CODE = 4002;
 const SOCKET_AUTH_CODE = 4003;
 const SOCKET_CAP_CODE = 4008;
 const MAX_ACCOUNT_SOCKETS = 16;
 const MAX_ACTOR_SOCKETS = 8;
+const MAX_LORO_UPDATE_BYTES = 512 * 1024;
+const MAX_LORO_ACCOUNT_BYTES = 16 * 1024 * 1024;
+const LORO_MIGRATION_PENDING_REVISIONS = 0;
+const LORO_COMPACTION_UPDATE_BYTES = 1024 * 1024;
+const LORO_COMPACTION_UPDATE_COUNT = 128;
+
+function toBytes(value: unknown, label: string): Uint8Array {
+  if (value instanceof Uint8Array) return value.slice();
+  if (value instanceof ArrayBuffer) return new Uint8Array(value).slice();
+  if (ArrayBuffer.isView(value)) {
+    return new Uint8Array(value.buffer, value.byteOffset, value.byteLength).slice();
+  }
+  if (Object.prototype.toString.call(value) === "[object ArrayBuffer]") {
+    return new Uint8Array(value as ArrayBuffer).slice();
+  }
+  throw new Error(`${label} must be binary`);
+}
+
+function assertNonNegativeInteger(value: number, label: string): void {
+  if (!Number.isSafeInteger(value) || value < 0) throw new Error(`invalid ${label}`);
+}
 
 function zeroId(): Uint8Array {
   return new Uint8Array(16);
@@ -121,6 +157,10 @@ export class AccountData extends DurableObject<AccountEnvironment> {
     return assertAccountRouteName(name);
   }
 
+  private loro() {
+    return import("./loro-account");
+  }
+
   private async verifyAccountRoute(accountId: string): Promise<void> {
     const name = this.routeName();
     if (!name) return;
@@ -143,6 +183,141 @@ export class AccountData extends DurableObject<AccountEnvironment> {
       { DB: this.env.DB },
       await accountRouteName(this.env.SYNC_HMAC_SECRET, accountId)
     );
+  }
+
+  private async loroMigrationComplete(accountId: string): Promise<boolean> {
+    const row = await this.env.DB.prepare(
+      "SELECT completed_revision FROM sync_loro_migrations WHERE account_id = ?"
+    )
+      .bind(accountId)
+      .first<{ completed_revision: unknown }>();
+    return row !== null;
+  }
+
+  private async ensureLoroMigration(accountId: string): Promise<void> {
+    if (await this.loroMigrationComplete(accountId)) return;
+    const canonical = await this.coordinator.getCanonical(accountId);
+    const notes: Map<string, string> = new Map();
+    for (const [slug, record] of canonical.notes.notes) {
+      const text = problemNoteText(record);
+      if (text) notes.set(slug, text);
+    }
+
+    const { createLoroAccountDocument, hydrateFromCanonical } = await this.loro();
+    const doc = createLoroAccountDocument();
+    hydrateFromCanonical(
+      doc,
+      committedProblemRegistry,
+      progressSolvedSlugs(canonical.progress),
+      notes
+    );
+    const snapshotBytes = doc.export({ mode: "snapshot" });
+    if (snapshotBytes.byteLength > MAX_LORO_ACCOUNT_BYTES)
+      throw new Error("Loro account snapshot exceeds size limit");
+    const now = Math.floor(Date.now() / 1000);
+    const rows: D1PreparedStatement[] = [
+      this.env.DB.prepare(
+        "INSERT INTO sync_loro_snapshots (account_id, revision, snapshot, updated_at) VALUES (?, ?, ?, ?) ON CONFLICT(account_id) DO UPDATE SET revision = excluded.revision, snapshot = excluded.snapshot, updated_at = excluded.updated_at"
+      ).bind(accountId, LORO_MIGRATION_PENDING_REVISIONS, snapshotBytes, now),
+      this.env.DB.prepare("DELETE FROM sync_loro_updates WHERE account_id = ?").bind(accountId),
+      this.env.DB.prepare(
+        "INSERT INTO sync_loro_migrations (account_id, completed_revision) VALUES (?, ?) ON CONFLICT(account_id) DO UPDATE SET completed_revision = excluded.completed_revision"
+      ).bind(accountId, LORO_MIGRATION_PENDING_REVISIONS),
+    ];
+    await this.env.DB.batch(rows);
+  }
+
+  private async currentLoroState(accountId: string): Promise<LoroSnapshotRow> {
+    await this.ensureLoroMigration(accountId);
+    const [snapshotRow, updateRow] = await Promise.all([
+      this.env.DB.prepare("SELECT revision, snapshot FROM sync_loro_snapshots WHERE account_id = ?")
+        .bind(accountId)
+        .first<LoroSnapshotRow & { revision: unknown; snapshot: unknown }>(),
+      this.env.DB.prepare(
+        "SELECT revision FROM sync_loro_updates WHERE account_id = ? ORDER BY revision DESC LIMIT 1"
+      )
+        .bind(accountId)
+        .first<{ revision: unknown }>(),
+    ]);
+    if (!snapshotRow) throw new Error("Loro snapshot is unavailable");
+    const snapshotRevision = Number(snapshotRow.revision);
+    assertNonNegativeInteger(snapshotRevision, "loro snapshot revision");
+    const updateRevision =
+      updateRow && updateRow.revision != null ? Number(updateRow.revision) : snapshotRevision;
+    assertNonNegativeInteger(updateRevision, "loro update revision");
+    const revision = updateRevision > snapshotRevision ? updateRevision : snapshotRevision;
+    return { revision, snapshot: toBytes(snapshotRow.snapshot, "loro snapshot") };
+  }
+
+  private async loadLoroDocument(accountId: string): Promise<{
+    state: LoroSnapshotRow;
+    document: LoroDoc;
+  }> {
+    const {
+      importAndValidateLoroAccountUpdate,
+      loadLoroAccountSnapshot,
+      validateLoroAccountDocument,
+    } = await this.loro();
+    const state = await this.currentLoroState(accountId);
+    const document = loadLoroAccountSnapshot(state.snapshot);
+    const updates = await this.env.DB.prepare(
+      "SELECT update_data FROM sync_loro_updates WHERE account_id = ? ORDER BY revision"
+    )
+      .bind(accountId)
+      .all<{ update_data: unknown }>();
+    for (const row of updates.results ?? []) {
+      importAndValidateLoroAccountUpdate(
+        document,
+        toBytes(row.update_data, "loro update data"),
+        committedProblemRegistry
+      );
+    }
+    validateLoroAccountDocument(document, committedProblemRegistry);
+    return { state, document };
+  }
+
+  private async compactLoroUpdates(
+    accountId: string,
+    revision: number,
+    document: LoroDoc,
+    totalBytes: number,
+    updateCount: number
+  ): Promise<void> {
+    if (totalBytes < LORO_COMPACTION_UPDATE_BYTES && updateCount < LORO_COMPACTION_UPDATE_COUNT) {
+      return;
+    }
+    const snapshot = document.export({ mode: "snapshot" });
+    if (!snapshot.byteLength || snapshot.byteLength > MAX_LORO_ACCOUNT_BYTES) {
+      throw new Error("Loro account snapshot exceeds size limit");
+    }
+    const now = Math.floor(Date.now() / 1000);
+    await this.env.DB.batch([
+      this.env.DB.prepare(
+        "UPDATE sync_loro_snapshots SET revision = ?, snapshot = ?, updated_at = ? WHERE account_id = ?"
+      ).bind(revision, snapshot, now, accountId),
+      this.env.DB.prepare("DELETE FROM sync_loro_updates WHERE account_id = ?").bind(accountId),
+    ]);
+  }
+
+  private async ensureLoroFromCanonical(accountId: string): Promise<void> {
+    const canonical = await this.coordinator.getCanonical(accountId);
+    const notes = new Map<string, string>();
+    for (const [slug, note] of canonical.notes.notes) {
+      const text = problemNoteText(note);
+      if (text) notes.set(slug, text);
+    }
+    const { hydrateFromCanonical, validateLoroAccountDocument } = await this.loro();
+    const { document } = await this.loadLoroDocument(accountId);
+    const before = document.oplogVersion();
+    hydrateFromCanonical(
+      document,
+      committedProblemRegistry,
+      progressSolvedSlugs(canonical.progress),
+      notes
+    );
+    validateLoroAccountDocument(document, committedProblemRegistry);
+    const update = document.export({ mode: "update", from: before });
+    if (update.byteLength) await this.appendLoroUpdate(accountId, update);
   }
 
   private attachment(socket: WebSocket): SocketAttachment | null {
@@ -795,7 +970,75 @@ export class AccountData extends DurableObject<AccountEnvironment> {
 
   async applyMutations(accountId: string, mutations: readonly AccountMutation[]) {
     await this.prepareRpc(accountId);
-    return this.coordinator.applyMutations(accountId, mutations);
+    const result = await this.coordinator.applyMutations(accountId, mutations);
+    if (result.acceptedCount > 0 && (await this.loroMigrationComplete(accountId))) {
+      await this.ensureLoroFromCanonical(accountId);
+    }
+    return result;
+  }
+
+  async loroUpdates(accountId: string, afterRevision = 0): Promise<LoroUpdatesResult> {
+    await this.prepareRpc(accountId);
+    assertNonNegativeInteger(afterRevision, "loro pull revision");
+    await this.ensureLoroMigration(accountId);
+    const state = await this.currentLoroState(accountId);
+    const result = await this.env.DB.prepare(
+      "SELECT revision, update_data, byte_length FROM sync_loro_updates WHERE account_id = ? AND revision > ? ORDER BY revision"
+    )
+      .bind(accountId, afterRevision)
+      .all<{ revision: unknown; update_data: unknown; byte_length: unknown }>();
+    const rows = result.results ?? [];
+    const snapshotRevision = Number(
+      (
+        await this.env.DB.prepare("SELECT revision FROM sync_loro_snapshots WHERE account_id = ?")
+          .bind(accountId)
+          .first<{ revision: unknown }>()
+      )?.revision
+    );
+    return {
+      revision: state.revision,
+      snapshot:
+        afterRevision < snapshotRevision
+          ? { revision: snapshotRevision, snapshot: state.snapshot }
+          : null,
+      updates: rows.map((row) => ({
+        revision: Number(row.revision),
+        update: toBytes(row.update_data, "loro update data"),
+      })),
+    };
+  }
+
+  async appendLoroUpdate(accountId: string, update: Uint8Array | ArrayBuffer): Promise<number> {
+    await this.prepareRpc(accountId);
+    await this.ensureLoroMigration(accountId);
+    const bytes = update instanceof ArrayBuffer ? new Uint8Array(update) : update.slice();
+    if (!bytes.byteLength || bytes.byteLength > MAX_LORO_UPDATE_BYTES) {
+      throw new Error("Loro update has invalid size");
+    }
+    const { importAndValidateLoroAccountUpdate } = await this.loro();
+    const { state, document } = await this.loadLoroDocument(accountId);
+    importAndValidateLoroAccountUpdate(document, bytes, committedProblemRegistry);
+    const nextRevision = state.revision + 1;
+    assertNonNegativeInteger(nextRevision, "loro revision");
+    const now = Math.floor(Date.now() / 1000);
+    await this.env.DB.prepare(
+      "INSERT INTO sync_loro_updates (account_id, revision, update_data, byte_length, created_at) VALUES (?, ?, ?, ?, ?)"
+    )
+      .bind(accountId, nextRevision, bytes, bytes.byteLength, now)
+      .run();
+    const totals = await this.env.DB.prepare(
+      "SELECT COALESCE(SUM(byte_length), 0) AS total_bytes, COUNT(*) AS update_count FROM sync_loro_updates WHERE account_id = ?"
+    )
+      .bind(accountId)
+      .first<{ total_bytes: unknown; update_count: unknown }>();
+    await this.compactLoroUpdates(
+      accountId,
+      nextRevision,
+      document,
+      Number(totals?.total_bytes ?? 0),
+      Number(totals?.update_count ?? 0)
+    );
+    return nextRevision;
   }
 
   async deleteAccount(accountId: string, accountRouteKey: string) {
@@ -805,6 +1048,11 @@ export class AccountData extends DurableObject<AccountEnvironment> {
       throw new Error("Durable Object account route mismatch");
     }
     const result = await this.coordinator.deleteAccount(accountId, route);
+    await this.env.DB.batch([
+      this.env.DB.prepare("DELETE FROM sync_loro_updates WHERE account_id = ?").bind(accountId),
+      this.env.DB.prepare("DELETE FROM sync_loro_snapshots WHERE account_id = ?").bind(accountId),
+      this.env.DB.prepare("DELETE FROM sync_loro_migrations WHERE account_id = ?").bind(accountId),
+    ]);
     for (const socket of this.ctx.getWebSockets()) this.close(socket, SOCKET_PROTOCOL_CODE);
     await this.scheduleSocketExpiry();
     return result;
@@ -812,11 +1060,19 @@ export class AccountData extends DurableObject<AccountEnvironment> {
 
   async applyLegacyProgress(accountId: string, slug: string, completed: boolean) {
     await this.prepareRpc(accountId);
-    return this.coordinator.applyLegacyProgress(accountId, slug, completed);
+    const result = await this.coordinator.applyLegacyProgress(accountId, slug, completed);
+    if (result.acceptedCount > 0 && (await this.loroMigrationComplete(accountId))) {
+      await this.ensureLoroFromCanonical(accountId);
+    }
+    return result;
   }
 
   async applyLegacyNote(accountId: string, slug: string, text: string) {
     await this.prepareRpc(accountId);
-    return this.coordinator.applyLegacyNote(accountId, slug, text);
+    const result = await this.coordinator.applyLegacyNote(accountId, slug, text);
+    if (result.acceptedCount > 0 && (await this.loroMigrationComplete(accountId))) {
+      await this.ensureLoroFromCanonical(accountId);
+    }
+    return result;
   }
 }

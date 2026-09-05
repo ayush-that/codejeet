@@ -95,6 +95,9 @@ importers:
       gray-matter:
         specifier: ^4.0.3
         version: 4.0.3
+      loro-crdt:
+        specifier: ^1.5.3
+        version: 1.15.1
       lucide-react:
         specifier: ^0.460.0
         version: 0.460.0(react@19.2.3)
@@ -3617,6 +3620,9 @@ packages:
 
   longest-streak@3.1.0:
     resolution: {integrity: sha512-9Ri+o0JYgehTaVBBDoMqIl8GXtbWg711O3srftcHhZ0dqnETqLaoIK0x17fUw9rFSlK/0NlsKe0Ahhyl5pXE2g==}
+
+  loro-crdt@1.15.1:
+    resolution: {integrity: sha512-J3568cXG75MNotTJg2XVhlIEW8POjAZRFhK+3yXYBaQVB1LHn/Ksk3DIqoTOBUf+cgE4yVeqPbh7VUTX2QLV2g==}
 
   lowlight@3.3.0:
     resolution: {integrity: sha512-0JNhgFoPvP6U6lE/UdVsSq99tn6DhjjpAj5MxG49ewd2mOBVtwWYIT8ClyABhq198aXXODMU6Ox8DrGy/CpTZQ==}
@@ -8381,6 +8387,8 @@ snapshots:
       wrap-ansi: 9.0.2
 
   longest-streak@3.1.0: {}
+
+  loro-crdt@1.15.1: {}
 
   lowlight@3.3.0:
     dependencies:
