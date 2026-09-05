@@ -8,6 +8,7 @@ import Company from "./routes/company";
 import Dashboard from "./routes/dashboard";
 import Contact from "./routes/contact";
 import Developers from "./routes/developers";
+import Difficulty from "./routes/difficulty";
 import Home from "./routes/index";
 import Privacy from "./routes/privacy";
 import SystemDesign from "./routes/system-design";
@@ -26,6 +27,7 @@ export default function App() {
         <Route path="/contact" component={Contact} />
         <Route path="/privacy" component={Privacy} />
         <Route path="/developers" component={Developers} />
+        <Route path="/difficulty/:level" component={Difficulty} />
         <Route path="/system-design" component={SystemDesign} />
         <Route path="/system-design/:slug" component={SystemDesignChapter} />
         <Route path="/topic/:slug" component={Topic} />
