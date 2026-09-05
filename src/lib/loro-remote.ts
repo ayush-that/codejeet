@@ -1,4 +1,5 @@
 import type { LoroDoc } from "loro-crdt";
+import { getClerkSessionToken } from "./clerk";
 
 type RemoteUpdate = { revision: number; update: string };
 type PullResponse = { revision: number; updates: RemoteUpdate[] };
@@ -85,4 +86,8 @@ export class LoroRemoteReplica {
     this.revision = result.revision as number;
     return this.revision;
   }
+}
+
+export function createAuthenticatedLoroReplica(): LoroRemoteReplica {
+  return new LoroRemoteReplica(getClerkSessionToken);
 }

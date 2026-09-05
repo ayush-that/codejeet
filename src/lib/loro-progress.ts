@@ -6,6 +6,7 @@ import {
   readLoroAccountDocument,
   setLoroProgress,
 } from "../../lib/sync/loro-account";
+import type { LoroRemoteReplica } from "./loro-remote";
 
 const LEGACY_PROGRESS_KEY = "leetcode-checked-items";
 const LORO_PROGRESS_KEY = "codejeet-loro-guest-progress-v1";
@@ -39,6 +40,9 @@ function readLegacy(): Record<string, boolean> {
 
 class LoroGuestProgress {
   private doc: ReturnType<typeof createLoroAccountDocument> | undefined;
+  private pendingFrom:
+    | ReturnType<ReturnType<typeof createLoroAccountDocument>["oplogVersion"]>
+    | undefined;
   private readonly listeners = new Set<Listener>();
 
   private getDocument() {
@@ -85,7 +89,22 @@ class LoroGuestProgress {
   }
 
   set(slug: string, completed: boolean): Record<string, boolean> {
-    setLoroProgress(this.getDocument(), committedProblemRegistry, slug, completed);
+    const doc = this.getDocument();
+    this.pendingFrom ??= doc.oplogVersion();
+    setLoroProgress(doc, committedProblemRegistry, slug, completed);
+    this.persist();
+    const progress = this.snapshot();
+    for (const listener of this.listeners) listener(progress);
+    return progress;
+  }
+
+  async sync(remote: LoroRemoteReplica): Promise<Record<string, boolean>> {
+    const doc = this.getDocument();
+    if (this.pendingFrom) {
+      await remote.push(doc, this.pendingFrom);
+      this.pendingFrom = undefined;
+    }
+    await remote.pull(doc);
     this.persist();
     const progress = this.snapshot();
     for (const listener of this.listeners) listener(progress);

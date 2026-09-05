@@ -27,6 +27,7 @@
     "lint-staged": "lint-staged"
   },
   "dependencies": {
+    "@clerk/clerk-js": "^6.31.0",
     "@clerk/nextjs": "^6",
     "@clerk/themes": "^2.4.57",
     "@cloudflare/vite-plugin": "1.54.4",

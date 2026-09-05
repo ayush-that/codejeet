@@ -8,6 +8,7 @@ import { computeStats, filterLinks, sortLinks, type SortOrder } from "../../lib/
 import type { DashboardPayload, Difficulty, Timeframe } from "../../lib/dashboard/schema";
 
 type GuestProgress = typeof import("../lib/loro-progress").loroGuestProgress;
+type RemoteReplica = import("../lib/loro-remote").LoroRemoteReplica;
 const pageSizes = [10, 25, 50];
 
 function checkedOptions(event: Event): string[] {
@@ -59,6 +60,7 @@ export default function Dashboard() {
   const [pageSize, setPageSize] = createSignal(10);
   const [solved, setSolved] = createSignal<Record<string, boolean>>({});
   let guestProgress: GuestProgress | undefined;
+  let remoteReplica: RemoteReplica | undefined;
 
   const load = async () => {
     setLoading(true);
@@ -78,12 +80,16 @@ export default function Dashboard() {
     void load();
     let active = true;
     let unsubscribe: (() => void) | undefined;
-    void import("../lib/loro-progress").then(({ loroGuestProgress }) => {
-      if (!active) return;
-      guestProgress = loroGuestProgress;
-      setSolved(guestProgress.read());
-      unsubscribe = guestProgress.subscribe(setSolved);
-    });
+    void Promise.all([import("../lib/loro-progress"), import("../lib/loro-remote")]).then(
+      ([{ loroGuestProgress }, { createAuthenticatedLoroReplica }]) => {
+        if (!active) return;
+        guestProgress = loroGuestProgress;
+        remoteReplica = createAuthenticatedLoroReplica();
+        setSolved(guestProgress.read());
+        unsubscribe = guestProgress.subscribe(setSolved);
+        void guestProgress.sync(remoteReplica).catch(() => undefined);
+      }
+    );
     return () => {
       active = false;
       unsubscribe?.();
@@ -125,6 +131,8 @@ export default function Dashboard() {
   const cycle = (value: SortOrder) => (value === null ? "desc" : value === "desc" ? "asc" : null);
   const toggle = (slug: string, completed: boolean) => {
     guestProgress?.set(slug, completed);
+    if (guestProgress && remoteReplica)
+      void guestProgress.sync(remoteReplica).catch(() => undefined);
   };
 
   return (
