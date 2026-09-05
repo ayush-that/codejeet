@@ -10,7 +10,7 @@
     "preview": "opennextjs-cloudflare preview",
     "migrate:production": "pnpm exec wrangler d1 migrations apply codejeet-progress --remote --config wrangler.jsonc",
     "deploy": "pnpm run migrate:production && pnpm exec tsx scripts/check-worker-assets.ts && opennextjs-cloudflare deploy",
-    "upload": "pnpm exec tsx scripts/check-worker-assets.ts && opennextjs-cloudflare upload",
+    "upload": "pnpm run migrate:production && pnpm exec tsx scripts/check-worker-assets.ts && opennextjs-cloudflare upload",
     "format": "oxfmt --write .",
     "format:check": "oxfmt --check .",
     "prepare": "husky",
