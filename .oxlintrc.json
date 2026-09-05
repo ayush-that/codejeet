@@ -61,6 +61,14 @@
   },
   "overrides": [
     {
+      "files": ["src/**/*.{ts,tsx,mts,cts}"],
+      "rules": {
+        "nextjs/no-head-element": "off",
+        "nextjs/no-html-link-for-pages": "off",
+        "nextjs/no-img-element": "off"
+      }
+    },
+    {
       "files": ["**/*.{js,jsx,mjs,ts,tsx,mts,cts}"],
       "plugins": ["react", "import", "jsx-a11y"],
       "rules": {
