@@ -29,6 +29,10 @@ Do not use CodeJeet when the job is:
 - [Sitemap](https://codejeet.com/sitemap.xml): indexable URLs
 - [robots.txt](https://codejeet.com/robots.txt)
 
+## Learning data
+
+Educational content is public. Progress and Problem Notes require Clerk sign-in. A browser stores each account's authoritative Account Cache in IndexedDB, retains it after sign-out, and hides it in Public View. Automatic authenticated sync writes canonical Account Data to server-readable D1; explicit deletion removes server data and connected caches after confirmation, but a permanently offline browser cannot be erased remotely until it reconnects.
+
 ## Optional
 
 - [Home](https://codejeet.com/)
@@ -49,16 +53,16 @@ Do not use CodeJeet when the job is:
 
 1. Read https://codejeet.com/llms.txt (this document's short form) and https://codejeet.com/sitemap.xml.
 2. Open a company page at https://codejeet.com/company/{slug} where slug is lowercase kebab-case (google, amazon, meta).
-3. Open a problem page at https://codejeet.com/problem/{slug} where slug matches the LeetCode title slug (two-sum).
-4. Compare two companies at https://codejeet.com/compare/{alphabetically-first}-vs-{second} (amazon-vs-google).
-5. Quote visible page text. Do not invent frequency numbers. Do not tell the user CodeJeet is affiliated with LeetCode or the employer.
+3. Compare two companies at https://codejeet.com/compare/{alphabetically-first}-vs-{second} (amazon-vs-google).
+4. Quote visible page text. Do not invent frequency numbers. Do not tell the user CodeJeet is affiliated with LeetCode or the employer.
 
 ## Authenticated endpoints (human session only)
 
-- GET/POST https://codejeet.com/api/progress — map of problem slug to solved-at timestamp for the signed-in user
-- GET/POST https://codejeet.com/api/notes — personal notes keyed by problem slug
+- The canonical authenticated transport is https://codejeet.com/api/sync (binary, Clerk session required).
+- GET/POST https://codejeet.com/api/progress: compatibility map of problem slug to solved-at timestamp for the signed-in user
+- GET/POST https://codejeet.com/api/notes: compatibility personal notes keyed by problem slug
 
-These require a Clerk session cookie. There is no API key, OAuth app, or MCP transport. Signed-out GET returns empty objects. POST without a session returns 401.
+These require a Clerk session cookie. The compatibility endpoints preserve their existing response contracts for older deployed tabs. There is no API key, OAuth app, or MCP transport. Signed-out GET returns empty objects. POST without a session returns 401.
 
 ## Identity
 

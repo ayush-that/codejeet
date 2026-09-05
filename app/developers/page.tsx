@@ -7,7 +7,7 @@ export const dynamic = "force-static";
 export const metadata: Metadata = legalMetadata({
   title: DEVELOPERS_H1,
   description:
-    "CodeJeet developer resources: public URL patterns, sitemap, llms.txt, and authenticated progress APIs. No public OpenAPI or MCP server.",
+    "CodeJeet developer resources: public URL patterns, sitemap, llms.txt, and authenticated learning-data compatibility APIs. No public OpenAPI or MCP server.",
   path: "/developers",
 });
 

@@ -1,6 +1,6 @@
 ## CodeJeet
 
-Browse 17,000+ company-wise LeetCode interview questions from 660+ companies. Filter by company, topic, and difficulty. Fully static, no server required.
+Browse 17,000+ company-wise LeetCode interview questions from 660+ companies. Filter by company, topic, and difficulty. Public educational content is statically generated; signed-in learning data uses the authenticated sync service.
 
 > Company-wise interview questions are sourced from [liquidslr/interview-company-wise-problems](https://github.com/liquidslr/interview-company-wise-problems).
 
@@ -11,7 +11,8 @@ Browse 17,000+ company-wise LeetCode interview questions from 660+ companies. Fi
 - **Company-wise questions** — 663 companies with frequency-sorted questions (Google, Amazon, Meta, Apple, Microsoft, etc.)
 - **Filtering** — by company, difficulty (Easy/Medium/Hard), topic, premium status, and timeframe
 - **Full-text search** — search across titles, companies, and topics
-- **Progress tracking** — checkbox each question, persisted in localStorage
+- **Progress tracking**: signed-in Progress is kept in a per-account IndexedDB Account Cache and synchronized automatically when authenticated
+- **Problem Notes**: signed-in private notes with explicit Save and Clear actions
 - **Company comparison** — side-by-side comparison of question sets between two companies
 - **System design** — 16 chapters covering scaling, rate limiting, consistent hashing, URL shortener, chat systems, and more
 - **Blog** — 2,700+ articles on DSA and interview prep
@@ -23,13 +24,15 @@ Browse 17,000+ company-wise LeetCode interview questions from 660+ companies. Fi
 - **TypeScript**
 - **Tailwind CSS** with OKLCH color tokens
 - **shadcn/ui** (new-york style) + Radix primitives
-- **Cloudflare Pages** for deployment
+- **OpenNext on Cloudflare Workers**, with Durable Objects and D1 for authenticated learning data
 
 ### How It Works
 
-Question data lives in 663 CSV files (`data/companies/`), one per company. At build time, a prebuild script parses all CSVs into a single `public/data/questions.json`. The dashboard fetches this JSON client-side and caches it in localStorage.
+Public educational content lives in 663 CSV files (`data/companies/`), one per company. At build time, a prebuild script parses all CSVs into a single `public/data/questions.json`. The dashboard fetches this public content client-side and may cache it in localStorage.
 
-No API routes. No database. No auth. Everything is statically generated.
+Progress and Problem Notes are Account Data. A signed-in browser keeps an authoritative per-account IndexedDB Account Cache and applies a Pending Overlay for local edits. Authenticated sync persists the canonical account state through the Cloudflare Worker, Durable Object, and server-readable D1. The signed-out Public View hides retained Account Caches and shows empty learning data.
+
+Explicit account deletion removes server Account Data and connected caches after confirmation. A browser that stays permanently offline cannot receive a remote deletion until it reconnects. See [Privacy](https://codejeet.com/privacy) and the [deployment guide](docs/deployment.md) for the data and rollout contracts.
 
 ### Development
 
@@ -54,8 +57,10 @@ pnpm format
 ```bash
 pnpm run build:worker   # build for Cloudflare
 pnpm run preview        # local preview with Wrangler
-pnpm run deploy         # deploy to Cloudflare Pages
+pnpm run deploy         # deploy the Worker to Cloudflare
 ```
+
+Production rollout is ordered: apply additive D1 migrations, verify bindings and auth prerequisites, build and inspect the Worker asset guard, then activate the Worker. Keep the legacy mirrors and `/api/progress` and `/api/notes` compatibility endpoints during the rollback window. The [deployment guide](docs/deployment.md) contains the prerequisites and verification matrix.
 
 ### Project Structure
 

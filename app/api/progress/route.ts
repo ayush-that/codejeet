@@ -1,27 +1,17 @@
 import { auth } from "@clerk/nextjs/server";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
+import { isValidProblemRegistrySlug } from "@/lib/problem-registry";
+import { applyLegacyProgress, getLegacyProgress } from "@/lib/sync/legacy-adapters";
 
 // Reads Clerk identity + the D1 binding at request time — must be dynamic.
 export const dynamic = "force-dynamic";
-
-function db() {
-  return getCloudflareContext().env.DB;
-}
 
 // GET -> { progress: { [slug]: solvedAtISO } }. Signed-out returns an empty map
 // (200, not a redirect) so the client can call it unconditionally.
 export async function GET() {
   const { userId } = await auth();
   if (!userId) return Response.json({ progress: {} });
-
-  const { results } = await db()
-    .prepare("SELECT slug, solved_at FROM progress WHERE user_id = ?")
-    .bind(userId)
-    .all<{ slug: string; solved_at: string }>();
-
-  const progress: Record<string, string> = {};
-  for (const row of results ?? []) progress[row.slug] = row.solved_at;
-  return Response.json({ progress });
+  return Response.json(await getLegacyProgress(getCloudflareContext().env, userId));
 }
 
 // POST { slug, completed }. Check -> insert keeping the original solve date
@@ -39,21 +29,14 @@ export async function POST(req: Request) {
   }
 
   const { slug, completed } = body;
-  if (typeof slug !== "string" || slug.length === 0 || slug.length > 256) {
+  if (!isValidProblemRegistrySlug(slug)) {
     return new Response("Invalid slug", { status: 400 });
   }
-
-  const d = db();
-  if (completed) {
-    await d
-      .prepare(
-        "INSERT INTO progress (user_id, slug, solved_at) VALUES (?, ?, ?) ON CONFLICT(user_id, slug) DO NOTHING"
-      )
-      .bind(userId, slug, new Date().toISOString())
-      .run();
-  } else {
-    await d.prepare("DELETE FROM progress WHERE user_id = ? AND slug = ?").bind(userId, slug).run();
+  if (typeof completed !== "boolean") {
+    return new Response("Invalid completed value", { status: 400 });
   }
+
+  await applyLegacyProgress(getCloudflareContext().env, userId, slug, completed);
 
   return Response.json({ ok: true });
 }

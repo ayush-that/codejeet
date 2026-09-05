@@ -7,7 +7,7 @@ export const dynamic = "force-static";
 export const metadata: Metadata = legalMetadata({
   title: PRIVACY_H1,
   description:
-    "How CodeJeet handles browsing, local progress, signed-in notes, and Clerk authentication.",
+    "How CodeJeet handles public browsing, retained Account Caches, signed-in Progress and Problem Notes, and Clerk authentication.",
   path: "/privacy",
 });
 

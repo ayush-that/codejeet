@@ -1,0 +1,3 @@
+# Retain retired problem slugs
+
+Codejeet will validate synchronized Progress and Problem Notes against a committed append-only Problem Registry shared by the client and Worker builds. The data build adds slugs discovered in the recognized problem sources, including company data and `data/problems`, and fails if a registered slug disappears without being retained as inactive. Removing public educational content marks its slug inactive but never makes that formerly valid synchronization target unknown, so arbitrarily old offline changes remain mergeable and retained even while the problem is absent from the interface. Only slugs that have never appeared in the registry are permanently rejected.
