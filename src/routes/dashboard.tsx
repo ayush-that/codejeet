@@ -6,7 +6,8 @@ import {
 } from "../../lib/dashboard/decode";
 import { computeStats, filterLinks, sortLinks, type SortOrder } from "../../lib/dashboard/query";
 import type { DashboardPayload, Difficulty, Timeframe } from "../../lib/dashboard/schema";
-import { loroGuestProgress } from "../lib/loro-progress";
+
+type GuestProgress = typeof import("../lib/loro-progress").loroGuestProgress;
 const pageSizes = [10, 25, 50];
 
 function checkedOptions(event: Event): string[] {
@@ -57,6 +58,7 @@ export default function Dashboard() {
   const [page, setPage] = createSignal(1);
   const [pageSize, setPageSize] = createSignal(10);
   const [solved, setSolved] = createSignal<Record<string, boolean>>({});
+  let guestProgress: GuestProgress | undefined;
 
   const load = async () => {
     setLoading(true);
@@ -73,10 +75,19 @@ export default function Dashboard() {
   };
 
   onMount(() => {
-    setSolved(loroGuestProgress.read());
-    const unsubscribe = loroGuestProgress.subscribe(setSolved);
     void load();
-    return unsubscribe;
+    let active = true;
+    let unsubscribe: (() => void) | undefined;
+    void import("../lib/loro-progress").then(({ loroGuestProgress }) => {
+      if (!active) return;
+      guestProgress = loroGuestProgress;
+      setSolved(guestProgress.read());
+      unsubscribe = guestProgress.subscribe(setSolved);
+    });
+    return () => {
+      active = false;
+      unsubscribe?.();
+    };
   });
 
   const links = createMemo(() => {
@@ -113,7 +124,7 @@ export default function Dashboard() {
   };
   const cycle = (value: SortOrder) => (value === null ? "desc" : value === "desc" ? "asc" : null);
   const toggle = (slug: string, completed: boolean) => {
-    loroGuestProgress.set(slug, completed);
+    guestProgress?.set(slug, completed);
   };
 
   return (
