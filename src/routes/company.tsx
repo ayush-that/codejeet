@@ -1,5 +1,5 @@
 import { createAsync, useParams } from "@solidjs/router";
-import { For, Show, createMemo } from "solid-js";
+import { For, Show, createEffect, createMemo, createSignal } from "solid-js";
 import { loadPublicData } from "../lib/public-data";
 
 type Question = {
@@ -33,6 +33,10 @@ export default function CompanyPage() {
     deferStream: true,
   });
   const company = createMemo(() => profiles()[params.slug]);
+  const [loaded, setLoaded] = createSignal(false);
+  createEffect(() => {
+    if (Object.keys(profiles()).length > 0) setLoaded(true);
+  });
 
   return (
     <main class="container mx-auto max-w-5xl px-4 py-8">
@@ -43,7 +47,7 @@ export default function CompanyPage() {
         when={company()}
         fallback={
           <p class="mt-6 text-muted-foreground">
-            Company not found.
+            {loaded() ? "Company not found." : "Loading company…"}
           </p>
         }
       >

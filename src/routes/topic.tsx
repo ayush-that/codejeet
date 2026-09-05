@@ -1,5 +1,5 @@
 import { createAsync, useParams } from "@solidjs/router";
-import { For, Show, createMemo } from "solid-js";
+import { For, Show, createEffect, createMemo, createSignal } from "solid-js";
 import { loadPublicData } from "../lib/public-data";
 
 type Topic = {
@@ -29,6 +29,10 @@ export default function TopicPage() {
   }, { initialValue: { topic: undefined as Topic | undefined, questions: [] }, deferStream: true });
   const topic = createMemo(() => data().topic);
   const questions = createMemo(() => data().questions);
+  const [loaded, setLoaded] = createSignal(false);
+  createEffect(() => {
+    if (data().questions.length > 0) setLoaded(true);
+  });
   const matching = createMemo(() => {
     const current = topic();
     if (!current) return [];
@@ -53,7 +57,7 @@ export default function TopicPage() {
         when={topic()}
         fallback={
           <p class="mt-6 text-muted-foreground">
-            Topic not found.
+            {loaded() ? "Topic not found." : "Loading topic…"}
           </p>
         }
       >

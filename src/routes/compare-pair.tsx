@@ -1,5 +1,5 @@
 import { createAsync, useParams } from "@solidjs/router";
-import { For, Show } from "solid-js";
+import { For, Show, createEffect, createSignal } from "solid-js";
 import { loadPublicData } from "../lib/public-data";
 
 type Question = { slug: string; title: string; difficulty: string; topics: string[] };
@@ -28,6 +28,10 @@ export default function ComparePair() {
     () => loadPublicData<Comparison>(`/data/compare/${params.pair}.json`),
     { deferStream: true }
   );
+  const [loaded, setLoaded] = createSignal(false);
+  createEffect(() => {
+    if (comparison()) setLoaded(true);
+  });
   return (
     <main class="container mx-auto max-w-5xl px-4 py-8">
       <a class="text-sm text-muted-foreground hover:underline" href="/compare">
@@ -37,7 +41,7 @@ export default function ComparePair() {
         when={comparison()}
         fallback={
           <p class="mt-6 text-muted-foreground">
-            Comparison not found.
+            {loaded() ? "Comparison not found." : "Loading comparison…"}
           </p>
         }
       >

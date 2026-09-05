@@ -94,8 +94,10 @@ export default function Dashboard() {
         const activate = (accountId: string | undefined) => {
           unsubscribe?.();
           const progress = createLoroGuestProgress(accountId);
-          const token = Promise.resolve(clerk?.session?.getToken() ?? null);
-          const replica = new LoroRemoteReplica(() => token);
+          const replica = new LoroRemoteReplica(() => {
+            const session = clerk && clerk.user?.id === accountId ? clerk.session : undefined;
+            return Promise.resolve(session?.getToken() ?? null);
+          });
           guestProgress = progress;
           remoteReplica = replica;
           setSolved(progress.read());

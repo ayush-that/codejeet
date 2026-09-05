@@ -1,5 +1,5 @@
 import { Route, Router } from "@solidjs/router";
-import { Suspense } from "solid-js";
+import { ErrorBoundary, Suspense } from "solid-js";
 import "../app/globals.css";
 import { SiteShell } from "./components/site-shell";
 import About from "./routes/about";
@@ -28,6 +28,7 @@ import Topic from "./routes/topic";
 export default function App() {
   return (
     <Suspense>
+      <ErrorBoundary fallback={<main class="container mx-auto px-4 py-8">Could not load this page.</main>}>
       <Router root={SiteShell}>
         <Route path="/" component={Home} />
         <Route path="/dashboard" component={Dashboard} />
@@ -52,6 +53,7 @@ export default function App() {
         <Route path="/system-design/:slug" component={SystemDesignChapter} />
         <Route path="/topic/:slug" component={Topic} />
       </Router>
+      </ErrorBoundary>
     </Suspense>
   );
 }
