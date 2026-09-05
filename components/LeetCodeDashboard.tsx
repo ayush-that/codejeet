@@ -570,7 +570,7 @@ const LeetCodeDashboard: React.FC<LeetCodeDashboardProps> = ({
                           <TableCell className="text-center">{row.acceptance}</TableCell>
                           <TableCell className="text-center">{row.frequency}</TableCell>
                           <TableCell className="text-center">
-                            <ProblemNoteButton slug={row.slug} title={row.title} />
+                            <ProblemNoteButton slug={row.slug} title={row.title} layout="desktop" />
                           </TableCell>
                         </TableRow>
                       ))}
@@ -688,7 +688,7 @@ const LeetCodeDashboard: React.FC<LeetCodeDashboardProps> = ({
                       </div>
                       <div className="mt-3 flex items-center gap-1 text-sm text-muted-foreground">
                         <span>Frequency {row.frequency}</span>
-                        <ProblemNoteButton slug={row.slug} title={row.title} />
+                        <ProblemNoteButton slug={row.slug} title={row.title} layout="mobile" />
                       </div>
                     </Card>
                   ))}

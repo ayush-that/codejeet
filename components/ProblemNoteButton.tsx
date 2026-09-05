@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { NotebookPen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -10,12 +10,20 @@ import { learningData } from "@/lib/learning-data/facade";
 interface ProblemNoteButtonProps {
   slug: string;
   title: string;
+  layout: "desktop" | "mobile";
 }
 
-export function ProblemNoteButton({ slug, title }: ProblemNoteButtonProps) {
+function isVisibleLayout(layout: ProblemNoteButtonProps["layout"]): boolean {
+  return window.matchMedia(layout === "desktop" ? "(min-width: 768px)" : "(max-width: 767px)")
+    .matches;
+}
+
+export function ProblemNoteButton({ slug, title, layout }: ProblemNoteButtonProps) {
   const { isLocallyActive, state, requestNoteFocus, noteFocusRequest } = useLearningDataLifecycle();
   const [open, setOpen] = useState(false);
   const [text, setText] = useState("");
+  const [saveError, setSaveError] = useState(false);
+  const textareaId = useId();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const dirtyRef = useRef(false);
   const draftVersionRef = useRef(0);
@@ -41,12 +49,12 @@ export function ProblemNoteButton({ slug, title }: ProblemNoteButtonProps) {
   );
 
   useEffect(() => {
-    if (isLocallyActive && noteFocusRequest?.slug === slug) {
+    if (isLocallyActive && noteFocusRequest?.slug === slug && isVisibleLayout(layout)) {
       // oxlint-disable-next-line react/set-state-in-effect
       setOpen(true);
       requestAnimationFrame(() => textareaRef.current?.focus());
     }
-  }, [isLocallyActive, noteFocusRequest, slug]);
+  }, [isLocallyActive, layout, noteFocusRequest, slug]);
 
   useEffect(() => {
     if (open && isLocallyActive) requestAnimationFrame(() => textareaRef.current?.focus());
@@ -59,15 +67,11 @@ export function ProblemNoteButton({ slug, title }: ProblemNoteButtonProps) {
     }
     const gen = ++mutationGenRef.current;
     const draftVersion = draftVersionRef.current;
-    const previous = learningData.notes.readNote(slug);
     try {
       const ok = await learningData.notes.save(slug, text, false);
       if (gen !== mutationGenRef.current) return;
       if (!ok) {
-        if (draftVersion === draftVersionRef.current) {
-          learningData.notes.setDraft(slug, previous);
-          setText(previous);
-        }
+        if (draftVersion === draftVersionRef.current) setSaveError(true);
         return;
       }
       if (draftVersion === draftVersionRef.current) {
@@ -75,10 +79,7 @@ export function ProblemNoteButton({ slug, title }: ProblemNoteButtonProps) {
         dirtyRef.current = false;
       }
     } catch {
-      if (gen === mutationGenRef.current && draftVersion === draftVersionRef.current) {
-        learningData.notes.setDraft(slug, previous);
-        setText(previous);
-      }
+      if (gen === mutationGenRef.current && draftVersion === draftVersionRef.current) setSaveError(true);
     }
   }, [isLocallyActive, requestNoteFocus, slug, text]);
 
@@ -136,18 +137,19 @@ export function ProblemNoteButton({ slug, title }: ProblemNoteButtonProps) {
         </button>
       </PopoverTrigger>
       <PopoverContent align="end" className="w-80 p-3">
-        <label htmlFor={`problem-note-${slug}`} className="sr-only">
+        <label htmlFor={textareaId} className="sr-only">
           Personal note for {title}
         </label>
         <textarea
           ref={textareaRef}
-          id={`problem-note-${slug}`}
+          id={textareaId}
           value={visibleText}
           onChange={(event) => {
             const next = event.target.value;
             if (next.length > learningData.notes.maxLength) return;
             dirtyRef.current = true;
             draftVersionRef.current += 1;
+            setSaveError(false);
             learningData.notes.setDraft(slug, next);
             setText(next);
           }}
@@ -156,6 +158,11 @@ export function ProblemNoteButton({ slug, title }: ProblemNoteButtonProps) {
           maxLength={learningData.notes.maxLength}
           className="w-full resize-y rounded-[2px] border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
         />
+        {saveError && (
+          <p role="alert" className="mt-2 text-xs text-destructive">
+            Could not save your note. Your draft is still here.
+          </p>
+        )}
         <div className="mt-3 flex items-center gap-2">
           <Button type="button" size="sm" onClick={() => void handleSave()}>
             Save note
