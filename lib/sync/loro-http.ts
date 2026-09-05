@@ -71,7 +71,7 @@ export function createLoroSyncHandler(options: LoroSyncHandlerOptions = {}) {
       return response({ error: "deleted" }, 410);
     }
     const stub = env.ACCOUNT_DATA.getByName(route);
-    if (request.method === "GET") {
+    if (request.method === "GET" || request.headers.get("x-loro-pull") === "1") {
       const after = new URL(request.url).searchParams.get("after") ?? "0";
       if (!/^(0|[1-9][0-9]*)$/.test(after)) return response({ error: "invalid_revision" }, 400);
       const log = await stub.loroUpdates(accountId, Number(after));

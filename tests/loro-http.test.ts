@@ -60,7 +60,10 @@ describe("Loro HTTP synchronization", () => {
     );
     assert.deepEqual(await second.json(), { revision: 2 });
 
-    const read = await handler(request("/api/loro-sync?after=1"), env);
+    const read = await handler(
+      request("/api/loro-sync?after=1", { method: "POST", headers: { "X-Loro-Pull": "1" } }),
+      env
+    );
     assert.equal(read.status, 200);
     assert.deepEqual(await read.json(), {
       revision: 2,
