@@ -60,8 +60,28 @@ function response(value: unknown, status = 200): Response {
 async function body(request: Request): Promise<Uint8Array | null> {
   const size = request.headers.get("content-length");
   if (size !== null && (!/^[0-9]+$/.test(size) || Number(size) > MAX_UPDATE_BYTES)) return null;
-  const value = new Uint8Array(await request.arrayBuffer());
-  return value.byteLength && value.byteLength <= MAX_UPDATE_BYTES ? value : null;
+  if (!request.body) return null;
+  const reader = request.body.getReader();
+  const parts: Uint8Array[] = [];
+  let total = 0;
+  while (true) {
+    const item = await reader.read();
+    if (item.done) break;
+    total += item.value.byteLength;
+    if (total > MAX_UPDATE_BYTES) {
+      await reader.cancel();
+      return null;
+    }
+    parts.push(item.value);
+  }
+  if (!total) return null;
+  const value = new Uint8Array(total);
+  let offset = 0;
+  for (const part of parts) {
+    value.set(part, offset);
+    offset += part.byteLength;
+  }
+  return value;
 }
 
 export function createLoroSyncHandler(options: LoroSyncHandlerOptions = {}) {
@@ -69,10 +89,11 @@ export function createLoroSyncHandler(options: LoroSyncHandlerOptions = {}) {
   return async function handleLoroSync(request: Request, env: LoroEnvironment): Promise<Response> {
     if (!env.SYNC_HMAC_SECRET) return response({ error: "unavailable" }, 503);
     const origin = request.headers.get("origin");
-    if (!origin || origin !== env.SYNC_ORIGIN) return response({ error: "forbidden" }, 403);
+    if (origin !== null && origin !== env.SYNC_ORIGIN) return response({ error: "forbidden" }, 403);
+    const requestOrigin = origin ?? env.SYNC_ORIGIN;
     let accountId: string | null;
     try {
-      accountId = await authenticate(request, env, origin);
+      accountId = await authenticate(request, env, requestOrigin);
     } catch {
       return response({ error: "unauthorized" }, 401);
     }

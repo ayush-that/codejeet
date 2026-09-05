@@ -25,7 +25,7 @@ import {
   type BootstrapSessionResult,
   type BootstrapSessionStatus,
 } from "./account-data";
-import { progressSolvedSlugs, problemNoteText, type ActorId } from "./domain";
+import { progressHas, progressSolvedSlugs, problemNoteText, type ActorId } from "./domain";
 import { accountRouteName, assertAccountRouteName } from "./account-route";
 import { isAccountDeleted } from "./account-deletion";
 import { committedProblemRegistry } from "../problem-registry";
@@ -134,6 +134,7 @@ function socketBytes(message: string | ArrayBuffer): Uint8Array | null {
 
 export class AccountData extends DurableObject<AccountEnvironment> {
   private readonly coordinator: AccountDataCoordinator;
+  private readonly loroMigrations = new Map<string, Promise<void>>();
 
   constructor(ctx: DurableObjectState, env: AccountEnvironment) {
     super(ctx, env);
@@ -195,6 +196,18 @@ export class AccountData extends DurableObject<AccountEnvironment> {
   }
 
   private async ensureLoroMigration(accountId: string): Promise<void> {
+    const existing = this.loroMigrations.get(accountId);
+    if (existing) return existing;
+    const migration = this.performLoroMigration(accountId);
+    this.loroMigrations.set(accountId, migration);
+    try {
+      await migration;
+    } finally {
+      this.loroMigrations.delete(accountId);
+    }
+  }
+
+  private async performLoroMigration(accountId: string): Promise<void> {
     if (await this.loroMigrationComplete(accountId)) return;
     const canonical = await this.coordinator.getCanonical(accountId);
     const notes: Map<string, string> = new Map();
@@ -1018,6 +1031,18 @@ export class AccountData extends DurableObject<AccountEnvironment> {
     const { importAndValidateLoroAccountUpdate } = await this.loro();
     const { state, document } = await this.loadLoroDocument(accountId);
     importAndValidateLoroAccountUpdate(document, bytes, committedProblemRegistry);
+    const { readLoroAccountDocument } = await this.loro();
+    const desired = readLoroAccountDocument(document, committedProblemRegistry);
+    const canonical = await this.coordinator.getCanonical(accountId);
+    for (const problem of committedProblemRegistry.problems) {
+      const completed = desired.progress[problem.slug] === true;
+      if (progressHas(canonical.progress, problem.slug) !== completed) {
+        await this.coordinator.applyLegacyProgress(accountId, problem.slug, completed);
+      }
+      const current = problemNoteText(canonical.notes.notes.get(problem.slug));
+      const text = desired.notes[problem.slug] ?? "";
+      if (current !== text) await this.coordinator.applyLegacyNote(accountId, problem.slug, text);
+    }
     const nextRevision = state.revision + 1;
     assertNonNegativeInteger(nextRevision, "loro revision");
     const now = Math.floor(Date.now() / 1000);
