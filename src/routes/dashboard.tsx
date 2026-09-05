@@ -62,6 +62,7 @@ export default function Dashboard() {
   const [solved, setSolved] = createSignal<Record<string, boolean>>({});
   let guestProgress: GuestProgress | undefined;
   let remoteReplica: RemoteReplica | undefined;
+  let synchronize: (() => void) | undefined;
 
   const load = async () => {
     setLoading(true);
@@ -86,26 +87,35 @@ export default function Dashboard() {
       import("../lib/loro-progress"),
       import("../lib/loro-remote"),
       import("../lib/clerk"),
-    ]).then(([{ loroGuestProgress }, { createAuthenticatedLoroReplica }, { getClerk }]) => {
+    ]).then(([{ loroGuestProgress }, { LoroRemoteReplica }, { getClerk }]) => {
       if (!active) return;
       guestProgress = loroGuestProgress;
       void getClerk().then((clerk) => {
         if (!active || !guestProgress) return;
+        let activation = 0;
+        let syncQueue = Promise.resolve();
         const activate = (accountId: string | undefined) => {
-          if (!guestProgress) return;
-          guestProgress.selectAccount(accountId);
-          remoteReplica = createAuthenticatedLoroReplica();
-          setSolved(guestProgress.read());
-          void guestProgress
-            .sync(remoteReplica)
-            .catch(() =>
-              setSyncError(
-                "Progress was saved locally but could not be synchronized. Try again later."
-              )
-            );
+          const current = ++activation;
+          void Promise.resolve(clerk?.session?.getToken() ?? null).then((token) => {
+            syncQueue = syncQueue
+              .catch(() => undefined)
+              .then(async () => {
+                if (!active || current !== activation || !guestProgress) return;
+                guestProgress.selectAccount(accountId);
+                remoteReplica = new LoroRemoteReplica(async () => token ?? null);
+                setSolved(guestProgress.read());
+                await guestProgress.sync(remoteReplica);
+              })
+              .catch(() => {
+                setSyncError(
+                  "Progress was saved locally but could not be synchronized. Try again later."
+                );
+              });
+          });
         };
         activate(clerk?.user?.id);
         unsubscribe = guestProgress.subscribe(setSolved);
+        synchronize = () => activate(clerk?.user?.id);
         unsubscribeClerk = clerk?.addListener((state) => activate(state.user?.id));
       });
     });
@@ -113,6 +123,7 @@ export default function Dashboard() {
       active = false;
       unsubscribe?.();
       unsubscribeClerk?.();
+      synchronize = undefined;
     };
   });
 
@@ -151,12 +162,7 @@ export default function Dashboard() {
   const cycle = (value: SortOrder) => (value === null ? "desc" : value === "desc" ? "asc" : null);
   const toggle = (slug: string, completed: boolean) => {
     guestProgress?.set(slug, completed);
-    if (guestProgress && remoteReplica)
-      void guestProgress
-        .sync(remoteReplica)
-        .catch(() =>
-          setSyncError("Progress was saved locally but could not be synchronized. Try again later.")
-        );
+    if (guestProgress && remoteReplica) synchronize?.();
   };
 
   return (
