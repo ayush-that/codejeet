@@ -404,6 +404,19 @@ describe("Account Data Durable Object persistence", () => {
     );
   });
 
+  it("preserves exact Loro note whitespace in canonical storage", async () => {
+    const database = new MemoryD1();
+    const durableObject = object(database);
+    await durableObject.registerLegacyActor(account, hash(0));
+
+    await durableObject.applyLegacyState(account, {}, { [slug]: "  private note\n" }, []);
+
+    const note = (await durableObject.getCanonical(account)).notes.notes.get(slug);
+    assert.equal(note?.operation.kind, "value");
+    if (note?.operation.kind !== "value") assert.fail("expected a note value");
+    assert.equal(new TextDecoder().decode(note.operation.bytes), "  private note\n");
+  });
+
   it("enforces the installation Actor limit while retaining the legacy Actor", async () => {
     const database = new MemoryD1();
     const durableObject = object(database);

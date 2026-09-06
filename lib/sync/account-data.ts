@@ -1256,11 +1256,11 @@ export class AccountDataCoordinator {
             },
           });
         }
-        const normalized = (notes[problem.slug] ?? "").trim();
+        const text = notes[problem.slug] ?? "";
         const current = data.notes.notes.get(problem.slug);
         const currentText =
           current?.operation.kind === "value" ? decodeProblemNoteText(current.operation.bytes) : "";
-        if (currentText !== normalized) {
+        if (currentText !== text) {
           const previous = data.notes.highestLocalRevisions.get(problem.slug)?.get(legacyKey);
           const localRevision = previous === undefined ? BigInt(0) : nextRevision(previous);
           mutations.push({
@@ -1269,8 +1269,8 @@ export class AccountDataCoordinator {
               slug: problem.slug,
               actorId: legacyActor,
               localRevision,
-              operation: normalized
-                ? { kind: "value", bytes: encodeProblemNoteText(normalized) }
+              operation: text
+                ? { kind: "value", bytes: encodeProblemNoteText(text) }
                 : { kind: "delete" },
             },
           });
