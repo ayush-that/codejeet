@@ -5,34 +5,14 @@ import path from "path";
 const DATA_DIR = path.join(process.cwd(), "public", "data");
 const PROBLEMS_DIR = path.join(DATA_DIR, "problems");
 
-// In-memory cache to avoid re-parsing large JSON files per worker
+// In-memory cache to avoid re-parsing large JSON files per process
 const cache = new Map<string, unknown>();
-
-/**
- * Fetch a JSON file from Cloudflare static assets at runtime.
- * Used as fallback when fs.readFile is unavailable (Cloudflare Workers).
- */
-async function fetchFromAssets<T>(dataPath: string): Promise<T> {
-  const { getCloudflareContext } = await import("@opennextjs/cloudflare");
-  const { env } = await getCloudflareContext();
-  const res = await env.ASSETS.fetch(new Request(`http://assets.local/data/${dataPath}`));
-  if (!res.ok) throw new Error(`Asset fetch failed: /data/${dataPath} (${res.status})`);
-  return (await res.json()) as T;
-}
 
 async function readJson<T>(filePath: string): Promise<T> {
   const cached = cache.get(filePath);
   if (cached) return cached as T;
 
-  let data: T;
-  try {
-    // Build time + dev: filesystem access works
-    data = JSON.parse(await fs.readFile(filePath, "utf8")) as T;
-  } catch {
-    // Runtime on Cloudflare Workers: use ASSETS binding
-    const relativePath = filePath.substring(DATA_DIR.length + 1);
-    data = await fetchFromAssets<T>(relativePath);
-  }
+  const data = JSON.parse(await fs.readFile(filePath, "utf8")) as T;
 
   cache.set(filePath, data);
   return data;
@@ -102,11 +82,7 @@ export async function getProblem(slug: string): Promise<ScrapedProblem | null> {
     const data = await fs.readFile(filePath, "utf8");
     return JSON.parse(data) as ScrapedProblem;
   } catch {
-    try {
-      return await fetchFromAssets<ScrapedProblem>(`problems/${slug}.json`);
-    } catch {
-      return null;
-    }
+    return null;
   }
 }
 
