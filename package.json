@@ -47,7 +47,7 @@
     "github-slugger": "^2.0.0",
     "gray-matter": "^4.0.3",
     "lucide-react": "^0.460.0",
-    "mermaid": "^11.12.3",
+    "mermaid": "^11.16.1",
     "next": "16.3.4",
     "next-themes": "^0.4.6",
     "pg": "^8.23.0",
@@ -81,8 +81,10 @@
     "wrangler": "4.129.0"
   },
   "overrides": {
-    "dompurify": "^3.4.12",
+    "dompurify": "^3.4.13",
     "fast-uri": "^3.1.4",
+    "js-yaml": "^3.15.1",
+    "nanoid": "^3.3.18",
     "postcss": "^8.5.18",
     "prismjs": "^1.30.0",
     "sharp": "^0.35.3"
