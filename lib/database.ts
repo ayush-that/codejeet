@@ -13,9 +13,3 @@ export function getDatabasePool(): Pool {
   pool = new Pool({ connectionString });
   return pool;
 }
-
-export async function closeDatabasePool(): Promise<void> {
-  const current = pool;
-  pool = undefined;
-  await current?.end();
-}
