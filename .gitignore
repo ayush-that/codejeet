@@ -70,6 +70,7 @@ logo-options/
 .liquidslr/
 
 .env.production.local
+.migration/
 
 .agents/skills/seo-audit/
 docs/

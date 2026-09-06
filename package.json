@@ -16,6 +16,8 @@
     "test": "tsx --test tests/**/*.test.ts",
     "lint": "oxlint . --deny-warnings",
     "lint:fix": "oxlint . --fix --deny-warnings",
+    "migration:import": "tsx scripts/migrate-user-data.ts import",
+    "migration:verify": "tsx scripts/migrate-user-data.ts verify",
     "knip": "knip",
     "lint-staged": "lint-staged"
   },
