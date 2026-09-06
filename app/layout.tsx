@@ -6,6 +6,7 @@ import { dark } from "@clerk/themes";
 import { ThemeProvider } from "@/components/theme-provider";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import { Toaster } from "@/components/ui/toaster";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { websiteJsonLd, organizationJsonLd, siteNavigationJsonLd } from "@/lib/seo";
@@ -70,6 +71,8 @@ export const metadata: Metadata = {
 
 const clerkPublishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
+export const revalidate = 3600;
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <ClerkProvider publishableKey={clerkPublishableKey} appearance={{ baseTheme: dark }}>
@@ -99,6 +102,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           className={`${openSans.variable} ${boldonse.variable} ${jetbrainsMono.variable} font-sans font-normal tracking-normal !pr-0`}
           suppressHydrationWarning
         >
+          <GoogleAnalytics measurementId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
           <ThemeProvider
             attribute="class"
             defaultTheme="dark"
