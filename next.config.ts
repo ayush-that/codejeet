@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   output: "standalone",
+  expireTime: 7200,
   images: {
     formats: ["image/avif", "image/webp"],
   },

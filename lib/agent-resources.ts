@@ -40,9 +40,10 @@ export const PRIVACY_H1 = `${SITE_NAME} Privacy Policy`;
 export const PRIVACY_PARAGRAPHS = [
   `This policy describes how ${SITE_NAME} (${SITE_URL}) handles information. You can browse companies, problems, system-design chapters, and the blog without an account.`,
   "If you never sign in, progress checkboxes and notes stay in your browser (localStorage) on that device. Clearing site data deletes them. CodeJeet does not receive those local records.",
-  `If you sign in, Clerk handles authentication. ${SITE_NAME} stores your Clerk user id plus solved problem slugs and notes in Cloudflare D1, via /api/progress and /api/notes (session cookie required). Clerk's privacy policy: https://clerk.com/legal/privacy`,
-  `${SITE_NAME} does not sell personal information. Hosting is on Cloudflare, which may log IP and user agent like any CDN. For questions or to delete stored progress and notes, email ${CONTACT_EMAIL} from the address on the account.`,
-  `This notice is current as of 27 August 2026. It will be updated if stored data changes in a material way.`,
+  `If you sign in, Clerk handles authentication. ${SITE_NAME} stores your Clerk user id plus solved problem slugs and notes in PostgreSQL, via /api/progress and /api/notes (session cookie required). Clerk's privacy policy: https://clerk.com/legal/privacy`,
+  `${SITE_NAME} uses Google Analytics to measure page visits and browser navigation. Google Analytics uses cookies and receives page, browser, and device information. We do not send your notes, progress records, or Clerk user id to Google Analytics. Google's privacy policy: https://policies.google.com/privacy`,
+  `${SITE_NAME} does not sell personal information. The application runs on a hosted server behind Cloudflare's CDN; these services may log IP addresses and user agents. For questions or to delete stored progress and notes, email ${CONTACT_EMAIL} from the address on the account.`,
+  `This notice is current as of 6 September 2026. It will be updated if stored data changes in a material way.`,
 ];
 
 export const DEVELOPERS_H1 = `${SITE_NAME} developer resources`;
