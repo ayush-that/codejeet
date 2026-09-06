@@ -70,6 +70,9 @@ self.addEventListener("message", (event) => {
 
   postProgress({ phase: "running" });
   try {
+    // codeql[js/code-injection] Executing the user's submitted solution is this
+    // sandbox runner's whole purpose. The main thread terminates the worker on
+    // wall-clock timeout, so this line is intentionally flagged.
     const userFn = new Function("readline", "print", "console", `"use strict";\n${source}`);
     const maybePromise = userFn(sandboxReadline, sandboxPrint, sandboxConsole);
     // If the user code is async, we await it. We don't enforce timeout here —

@@ -9,7 +9,7 @@ export function comparePairSlug(companyA: string, companyB: string): string {
 
 export function parseComparePair(pair: string): { companyA: string; companyB: string } | null {
   const idx = pair.indexOf("-vs-");
-  if (idx <= 0 || idx === pair.length - 4) return null;
+  if (idx <= 0 || idx + 4 >= pair.length) return null;
   return { companyA: pair.slice(0, idx), companyB: pair.slice(idx + 4) };
 }
 
@@ -20,7 +20,7 @@ export function comparePairFromBlogSlug(blogSlug: string): string | null {
 
   const core = blogSlug.slice(0, -suffix.length);
   const idx = core.indexOf("-vs-");
-  if (idx <= 0 || idx === core.length - 4) return null;
+  if (idx <= 0 || idx + 4 >= core.length) return null;
 
   const left = core.slice(0, idx);
   const right = core.slice(idx + 4);
