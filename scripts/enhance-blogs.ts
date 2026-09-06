@@ -106,8 +106,7 @@ ${content}`;
   const newFrontmatter = Object.entries(frontmatter)
     .map(([k, v]) => {
       if (Array.isArray(v)) return `${k}: ${JSON.stringify(v)}`;
-      if (typeof v === "string" && (v.includes(":") || v.includes('"') || v.includes("'")))
-        return `${k}: "${v.replace(/"/g, '\\"')}"`;
+      if (typeof v === "string") return `${k}: "${v.replace(/\\/g, "\\\\").replace(/"/g, '\\"')}"`;
       return `${k}: "${v}"`;
     })
     .join("\n");
