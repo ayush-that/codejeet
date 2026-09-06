@@ -119,12 +119,8 @@ async function readSource(progressPath: string, notesPath: string): Promise<User
 
 async function readTarget(client: MigrationClient): Promise<UserDataExport> {
   const [progress, notes] = await Promise.all([
-    client.query(
-      `SELECT user_id, slug, to_char(solved_at AT TIME ZONE 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"') AS solved_at FROM progress ORDER BY user_id, slug`
-    ),
-    client.query(
-      `SELECT user_id, slug, note, to_char(updated_at AT TIME ZONE 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"') AS updated_at FROM notes ORDER BY user_id, slug`
-    ),
+    client.query("SELECT user_id, slug, solved_at FROM progress ORDER BY user_id, slug"),
+    client.query("SELECT user_id, slug, note, updated_at FROM notes ORDER BY user_id, slug"),
   ]);
   return normalizeD1Export([{ results: progress.rows }], [{ results: notes.rows }]);
 }

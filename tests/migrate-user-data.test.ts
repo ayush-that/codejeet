@@ -1,5 +1,8 @@
 import assert from "node:assert/strict";
+import { execFileSync } from "node:child_process";
+import { mkdtemp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { describe, it } from "node:test";
+import { Pool } from "pg";
 import {
   checksumRows,
   importUserData,
@@ -41,6 +44,79 @@ class FakeClient implements MigrationClient {
 }
 
 describe("D1 user data migration", () => {
+  it(
+    "verifies PostgreSQL TEXT timestamps without changing their representation",
+    {
+      skip: !process.env.MIGRATION_TEST_DATABASE_URL,
+    },
+    async () => {
+      const pool = new Pool({ connectionString: process.env.MIGRATION_TEST_DATABASE_URL });
+      const schema = `migration_test_${process.pid}_${Date.now()}`;
+      await mkdir(".migration", { recursive: true });
+      const directory = await mkdtemp(".migration/verification-test-");
+      try {
+        await pool.query(`CREATE SCHEMA ${schema}`);
+        const url = new URL(process.env.MIGRATION_TEST_DATABASE_URL!);
+        url.searchParams.set("options", `-c search_path=${schema}`);
+        const client = new Pool({ connectionString: url.toString() });
+        try {
+          await client.query(await readFile("migrations/postgres/0000_user_data.sql", "utf8"));
+        } finally {
+          await client.end();
+        }
+        const progress = [
+          {
+            results: [
+              {
+                user_id: "migration-test",
+                slug: "fixture",
+                solved_at: "2026-09-01T05:30:00+05:30",
+              },
+            ],
+          },
+        ];
+        const notes = [
+          {
+            results: [
+              {
+                user_id: "migration-test",
+                slug: "fixture",
+                note: "fixture",
+                updated_at: "2026-09-01T00:00:00Z",
+              },
+            ],
+          },
+        ];
+        await writeFile(`${directory}/progress.json`, JSON.stringify(progress));
+        await writeFile(`${directory}/notes.json`, JSON.stringify(notes));
+        for (const command of ["import", "verify"]) {
+          const output = execFileSync(
+            process.execPath,
+            [
+              "--import",
+              "tsx",
+              "scripts/migrate-user-data.ts",
+              command,
+              `${directory}/progress.json`,
+              `${directory}/notes.json`,
+            ],
+            {
+              encoding: "utf8",
+              env: { ...process.env, DATABASE_URL: url.toString() },
+              stdio: ["ignore", "pipe", "pipe"],
+            }
+          );
+          assert.match(output, /progress: source=1 target=1 checksum=match/);
+          assert.match(output, /notes: source=1 target=1 checksum=match/);
+        }
+      } finally {
+        await pool.query(`DROP SCHEMA IF EXISTS ${schema} CASCADE`);
+        await pool.end();
+        await rm(directory, { recursive: true, force: true });
+      }
+    }
+  );
+
   it("normalizes Wrangler JSON without losing Unicode or apostrophes", () => {
     const data = normalizeD1Export(progressExport, notesExport);
     assert.equal(data.progress[1]?.slug, "l'été");
