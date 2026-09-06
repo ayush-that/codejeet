@@ -1,5 +1,6 @@
 import fs from "fs/promises";
 import path from "path";
+import { fileURLToPath } from "node:url";
 import matter from "gray-matter";
 
 const DEEPSEEK_API_KEY = process.env.DEEPSEEK_API_KEY!;
@@ -78,6 +79,19 @@ public void example() {}
 7. Make the post at least 50% longer than the original with the code additions
 8. Fix any dates that say 2025 to 2026`;
 
+/** Serialize parsed frontmatter back to YAML text. String values use YAML
+ * double-quoted scalars with backslashes and double quotes escaped so that
+ * re-parsing with gray-matter preserves the original values. */
+export function serializeFrontmatter(frontmatter: Record<string, unknown>): string {
+  return Object.entries(frontmatter)
+    .map(([k, v]) => {
+      if (Array.isArray(v)) return `${k}: ${JSON.stringify(v)}`;
+      if (typeof v === "string") return `${k}: "${v.replace(/\\/g, "\\\\").replace(/"/g, '\\"')}"`;
+      return `${k}: "${String(v)}"`;
+    })
+    .join("\n");
+}
+
 async function enhanceFile(filePath: string): Promise<boolean> {
   const raw = await fs.readFile(filePath, "utf8");
   const { data: frontmatter, content } = matter(raw);
@@ -103,15 +117,10 @@ ${content}`;
   }
 
   // Rebuild file with frontmatter + enhanced content
-  const newFrontmatter = Object.entries(frontmatter)
-    .map(([k, v]) => {
-      if (Array.isArray(v)) return `${k}: ${JSON.stringify(v)}`;
-      if (typeof v === "string") return `${k}: "${v.replace(/\\/g, "\\\\").replace(/"/g, '\\"')}"`;
-      return `${k}: "${v}"`;
-    })
-    .join("\n");
-
-  await fs.writeFile(filePath, `---\n${newFrontmatter}\n---\n\n${enhanced_content}\n`);
+  await fs.writeFile(
+    filePath,
+    `---\n${serializeFrontmatter(frontmatter)}\n---\n\n${enhanced_content}\n`
+  );
   return true;
 }
 
@@ -156,7 +165,12 @@ async function main() {
   console.log(`Cost: $${totalCost.toFixed(4)}`);
 }
 
-main().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
+if (
+  process.argv[1] &&
+  path.resolve(process.argv[1]) === path.resolve(fileURLToPath(import.meta.url))
+) {
+  void main().catch((err) => {
+    console.error(err);
+    process.exit(1);
+  });
+}
