@@ -25,7 +25,7 @@ import {
   type BootstrapSessionResult,
   type BootstrapSessionStatus,
 } from "./account-data";
-import { progressHas, progressSolvedSlugs, problemNoteText, type ActorId } from "./domain";
+import { progressSolvedSlugs, problemNoteText, type ActorId } from "./domain";
 import { accountRouteName, assertAccountRouteName } from "./account-route";
 import { isAccountDeleted } from "./account-deletion";
 import { committedProblemRegistry } from "../problem-registry";
@@ -1033,24 +1033,14 @@ export class AccountData extends DurableObject<AccountEnvironment> {
     importAndValidateLoroAccountUpdate(document, bytes, committedProblemRegistry);
     const { readLoroAccountDocument } = await this.loro();
     const desired = readLoroAccountDocument(document, committedProblemRegistry);
-    const canonical = await this.coordinator.getCanonical(accountId);
-    for (const problem of committedProblemRegistry.problems) {
-      const completed = desired.progress[problem.slug] === true;
-      if (progressHas(canonical.progress, problem.slug) !== completed) {
-        await this.coordinator.applyLegacyProgress(accountId, problem.slug, completed);
-      }
-      const current = problemNoteText(canonical.notes.notes.get(problem.slug));
-      const text = desired.notes[problem.slug] ?? "";
-      if (current !== text) await this.coordinator.applyLegacyNote(accountId, problem.slug, text);
-    }
     const nextRevision = state.revision + 1;
     assertNonNegativeInteger(nextRevision, "loro revision");
     const now = Math.floor(Date.now() / 1000);
-    await this.env.DB.prepare(
-      "INSERT INTO sync_loro_updates (account_id, revision, update_data, byte_length, created_at) VALUES (?, ?, ?, ?, ?)"
-    )
-      .bind(accountId, nextRevision, bytes, bytes.byteLength, now)
-      .run();
+    await this.coordinator.applyLegacyState(accountId, desired.progress, desired.notes, [
+      this.env.DB.prepare(
+        "INSERT INTO sync_loro_updates (account_id, revision, update_data, byte_length, created_at) VALUES (?, ?, ?, ?, ?)"
+      ).bind(accountId, nextRevision, bytes, bytes.byteLength, now),
+    ]);
     const totals = await this.env.DB.prepare(
       "SELECT COALESCE(SUM(byte_length), 0) AS total_bytes, COUNT(*) AS update_count FROM sync_loro_updates WHERE account_id = ?"
     )

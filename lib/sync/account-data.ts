@@ -1226,6 +1226,64 @@ export class AccountDataCoordinator {
     return this.enqueue(async () => this.applyLoadedMutations(accountId, mutations));
   }
 
+  async applyLegacyState(
+    accountId: string,
+    progress: Readonly<Record<string, boolean>>,
+    notes: Readonly<Record<string, string>>,
+    statements: readonly D1PreparedStatement[]
+  ): Promise<BatchResult> {
+    return this.enqueue(async () => {
+      const data = await this.ensureLoaded(accountId);
+      const legacyActor = Uint8Array.from({ length: ACTOR_ID_BYTES }, () => 0);
+      const legacyKey = actorIdKey(legacyActor);
+      if (!data.actors.has(legacyKey)) {
+        throw new PersistenceError("The reserved legacy Actor is not registered");
+      }
+      let progressCounter = data.progress.causalSummary.get(legacyKey);
+      const mutations: AccountMutation[] = [];
+      for (const problem of committedProblemRegistry.problems) {
+        const completed = progress[problem.slug] === true;
+        if (progressHas(data.progress, problem.slug) !== completed) {
+          progressCounter =
+            progressCounter === undefined ? BigInt(0) : nextRevision(progressCounter);
+          mutations.push({
+            type: "progress",
+            mutation: {
+              kind: completed ? "add" : "remove",
+              actorId: legacyActor,
+              counter: progressCounter,
+              slug: problem.slug,
+            },
+          });
+        }
+        const normalized = (notes[problem.slug] ?? "").trim();
+        const current = data.notes.notes.get(problem.slug);
+        const currentText =
+          current?.operation.kind === "value" ? decodeProblemNoteText(current.operation.bytes) : "";
+        if (currentText !== normalized) {
+          const previous = data.notes.highestLocalRevisions.get(problem.slug)?.get(legacyKey);
+          const localRevision = previous === undefined ? BigInt(0) : nextRevision(previous);
+          mutations.push({
+            type: "note",
+            mutation: {
+              slug: problem.slug,
+              actorId: legacyActor,
+              localRevision,
+              operation: normalized
+                ? { kind: "value", bytes: encodeProblemNoteText(normalized) }
+                : { kind: "delete" },
+            },
+          });
+        }
+      }
+      return this.applyLoadedMutations(accountId, mutations, {
+        allowEmpty: true,
+        allowOversized: true,
+        statements,
+      });
+    });
+  }
+
   async applyBootstrapBatch(
     accountId: string,
     sessionId: string,
@@ -1251,10 +1309,18 @@ export class AccountDataCoordinator {
 
   private async applyLoadedMutations(
     accountId: string,
-    mutations: readonly AccountMutation[]
+    mutations: readonly AccountMutation[],
+    options: {
+      allowEmpty?: boolean;
+      allowOversized?: boolean;
+      statements?: readonly D1PreparedStatement[];
+    } = {}
   ): Promise<BatchResult> {
     const data = await this.ensureLoaded(accountId);
-    if (mutations.length === 0 || mutations.length > MAX_BATCH_CHANGES) {
+    if (
+      (!options.allowEmpty && mutations.length === 0) ||
+      (!options.allowOversized && mutations.length > MAX_BATCH_CHANGES)
+    ) {
       throw new PersistenceError(`Mutation batch must contain 1-${MAX_BATCH_CHANGES} changes`);
     }
     const next = cloneAccountData(data);
@@ -1340,17 +1406,19 @@ export class AccountDataCoordinator {
       acceptedCount++;
       results.push({ accepted: true, serverRevision: next.serverRevision });
     }
-    if (acceptedCount === 0)
+    if (acceptedCount === 0) {
+      if (options.statements?.length) await this.env.DB.batch([...options.statements]);
       return {
         serverRevision: data.serverRevision,
         acceptedCount,
         results,
         current: cloneAccountData(data),
       };
+    }
     const plan = await planShards(next.progress, next.shards, next.directory);
     next.shards = plan.shards;
     next.directory = plan.directory;
-    await this.persist(accountId, data, next);
+    await this.persist(accountId, data, next, { statements: options.statements });
     this.data = next;
     this.pruneBootstrapSessions();
     for (const [index, result] of results.entries()) {
@@ -1486,7 +1554,10 @@ export class AccountDataCoordinator {
     accountId: string,
     previous: CanonicalAccountData,
     data: CanonicalAccountData,
-    options: { markLegacyMigrated?: boolean } = {}
+    options: {
+      markLegacyMigrated?: boolean;
+      statements?: readonly D1PreparedStatement[];
+    } = {}
   ): Promise<void> {
     const mirrors = await this.readLegacyMirrors(accountId);
     const mirrorProgress = new Map(
@@ -1752,6 +1823,7 @@ export class AccountDataCoordinator {
         )
       );
     }
+    statements.push(...(options.statements ?? []));
     await this.env.DB.batch(statements);
   }
 }

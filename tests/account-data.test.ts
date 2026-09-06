@@ -50,6 +50,7 @@ class MemoryStatement implements D1PreparedStatement {
 class MemoryD1 implements D1Database {
   private rows = new Map<string, Row[]>();
   failAtStatement: number | undefined;
+  failQuery: string | undefined;
   batchDelay = 0;
 
   prepare(query: string): D1PreparedStatement {
@@ -79,14 +80,18 @@ class MemoryD1 implements D1Database {
         const statement = statements[index];
         if (!(statement instanceof MemoryStatement)) throw new Error("unknown statement");
         this.apply(statement.query, statement.values);
-        if (this.failAtStatement === index) throw new Error("injected D1 failure");
+        if (this.failAtStatement === index || statement.query.includes(this.failQuery ?? "\0")) {
+          throw new Error("injected D1 failure");
+        }
       }
       this.rows = snapshot;
       this.failAtStatement = undefined;
+      this.failQuery = undefined;
       return statements.map(() => ({ results: [], success: true })) as D1Result<T>[];
     } catch (error) {
       this.rows = original;
       this.failAtStatement = undefined;
+      this.failQuery = undefined;
       throw error;
     }
   }
@@ -372,6 +377,31 @@ describe("Account Data Durable Object persistence", () => {
     const reconstructed = await replacement.getCanonical(account);
     assert.equal(reconstructed.serverRevision, BigInt(1));
     assert.equal(reconstructed.progress.adds.length, 1);
+  });
+
+  it("rolls back canonical changes when the accompanying Loro update fails", async () => {
+    const database = new MemoryD1();
+    const durableObject = object(database);
+    await durableObject.registerLegacyActor(account, hash(0));
+    database.failQuery = "INSERT INTO sync_loro_updates";
+    const updateStatement = database
+      .prepare(
+        "INSERT INTO sync_loro_updates (account_id, revision, update_data, byte_length, created_at) VALUES (?, ?, ?, ?, ?)"
+      )
+      .bind(account, 1, new Uint8Array([1]), 1, 1);
+
+    await assert.rejects(() =>
+      durableObject.applyLegacyState(account, { [slug]: true }, {}, [updateStatement])
+    );
+
+    const canonical = await durableObject.getCanonical(account);
+    assert.equal(canonical.serverRevision, BigInt(0));
+    assert.equal(canonical.progress.adds.length, 0);
+    assert.equal(
+      database.select("SELECT revision FROM sync_loro_updates WHERE account_id = ?", [account])
+        .length,
+      0
+    );
   });
 
   it("enforces the installation Actor limit while retaining the legacy Actor", async () => {
