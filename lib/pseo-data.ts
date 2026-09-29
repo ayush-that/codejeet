@@ -1,6 +1,5 @@
 import fs from "fs/promises";
 import path from "path";
-import companyProfiles from "../public/data/company-profiles.json";
 
 // Use explicit path segments so Turbopack doesn't over-bundle
 const DATA_DIR = path.join(process.cwd(), "public", "data");
@@ -9,11 +8,44 @@ const PROBLEMS_DIR = path.join(DATA_DIR, "problems");
 // In-memory cache to avoid re-parsing large JSON files per process
 const cache = new Map<string, unknown>();
 
+// `public/` is not part of the worker bundle. On Cloudflare Workers it is served
+// through the ASSETS binding, so `fs.readFile` cannot see it at request time.
+// Routes that render on demand rather than at build time need the binding to read
+// the same files a prerender would have read from disk, for example
+// /company/[slug]/[filter], whose generateStaticParams returns []. The context is
+// imported lazily so local dev, `next build` and the Node test runner never load it.
+async function readFromAssets<T>(filePath: string): Promise<T | null> {
+  try {
+    const { getCloudflareContext } = await import("@opennextjs/cloudflare");
+    const { env } = getCloudflareContext();
+    if (!env?.ASSETS) return null;
+
+    const relative = path.relative(DATA_DIR, filePath).split(path.sep).join("/");
+    const response = await env.ASSETS.fetch(new URL(`/data/${relative}`, "https://assets.local"));
+    if (!response.ok) return null;
+
+    return (await response.json()) as T;
+  } catch {
+    // No worker context (dev, tests, static generation). Report the read as
+    // unavailable so the caller surfaces the original filesystem error.
+    return null;
+  }
+}
+
 async function readJson<T>(filePath: string): Promise<T> {
   const cached = cache.get(filePath);
   if (cached) return cached as T;
 
-  const data = JSON.parse(await fs.readFile(filePath, "utf8")) as T;
+  let data: T;
+  try {
+    data = JSON.parse(await fs.readFile(filePath, "utf8")) as T;
+  } catch (error) {
+    const fromAssets = await readFromAssets<T>(filePath);
+    // Rethrow when the binding has no copy either, so a genuinely missing file
+    // still surfaces as a miss (getProblem / getComparisonPair rely on that).
+    if (fromAssets === null) throw error;
+    data = fromAssets;
+  }
 
   cache.set(filePath, data);
   return data;
@@ -48,7 +80,7 @@ export interface CompanyProfile {
 }
 
 export async function getAllCompanyProfiles(): Promise<Record<string, CompanyProfile>> {
-  return companyProfiles as Record<string, CompanyProfile>;
+  return readJson(path.join(DATA_DIR, "company-profiles.json"));
 }
 
 export async function getCompanyProfile(slug: string): Promise<CompanyProfile | null> {
@@ -79,9 +111,7 @@ export interface ScrapedProblem {
 
 export async function getProblem(slug: string): Promise<ScrapedProblem | null> {
   try {
-    const filePath = path.join(PROBLEMS_DIR, `${slug}.json`);
-    const data = await fs.readFile(filePath, "utf8");
-    return JSON.parse(data) as ScrapedProblem;
+    return await readJson<ScrapedProblem>(path.join(PROBLEMS_DIR, `${slug}.json`));
   } catch {
     return null;
   }
