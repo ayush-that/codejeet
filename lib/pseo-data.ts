@@ -32,7 +32,11 @@ async function readFromAssets<T>(filePath: string): Promise<T | null> {
   const assets = await assetsBinding();
   if (!assets) return null;
 
-  const relative = path.relative(DATA_DIR, filePath).split(path.sep).join("/");
+  const relative = path
+    .relative(DATA_DIR, filePath)
+    .split(path.sep)
+    .map(encodeURIComponent)
+    .join("/");
   const url = new URL(`/data/${relative}`, "https://assets.local");
 
   let response: Response;
