@@ -37,23 +37,14 @@ async function readFromAssets<T>(filePath: string): Promise<T | null> {
     .split(path.sep)
     .map(encodeURIComponent)
     .join("/");
-  const url = new URL(`/data/${relative}`, "https://assets.local");
-
-  let response: Response;
-  try {
-    response = await assets.fetch(url);
-  } catch (cause) {
-    throw new AssetReadError(`ASSETS read of ${relative} failed`, { cause });
-  }
-
-  if (response.status === 404) return null;
-  if (!response.ok)
-    throw new AssetReadError(`ASSETS read of ${relative} failed: HTTP ${response.status}`);
 
   try {
+    const response = await assets.fetch(new URL(`/data/${relative}`, "https://assets.local"));
+    if (response.status === 404) return null;
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
     return (await response.json()) as T;
   } catch (cause) {
-    throw new AssetReadError(`ASSETS read of ${relative} returned invalid JSON`, { cause });
+    throw new AssetReadError(`ASSETS read of ${relative} failed`, { cause });
   }
 }
 

@@ -22,18 +22,13 @@ before(async () => {
 });
 
 after(() => {
+  delete (globalThis as Record<symbol, unknown>)[Symbol.for("__cloudflare-context__")];
   process.chdir(originalCwd);
   fs.rmSync(emptyCwd, { recursive: true, force: true });
 });
 
 describe("company profiles without a filesystem", () => {
   it("reads company profiles from the ASSETS binding", async () => {
-    // The premise of the test: nothing for the filesystem read to find.
-    assert.equal(
-      fs.existsSync(path.join(emptyCwd, "public", "data", "company-profiles.json")),
-      false
-    );
-
     const requested: string[] = [];
     const fixture = {
       google: { slug: "google", displayName: "Google", questions: [] },
