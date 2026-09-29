@@ -1,5 +1,6 @@
 import fs from "fs/promises";
 import path from "path";
+import companyProfiles from "../public/data/company-profiles.json";
 
 // Use explicit path segments so Turbopack doesn't over-bundle
 const DATA_DIR = path.join(process.cwd(), "public", "data");
@@ -47,7 +48,7 @@ export interface CompanyProfile {
 }
 
 export async function getAllCompanyProfiles(): Promise<Record<string, CompanyProfile>> {
-  return readJson(path.join(DATA_DIR, "company-profiles.json"));
+  return companyProfiles as Record<string, CompanyProfile>;
 }
 
 export async function getCompanyProfile(slug: string): Promise<CompanyProfile | null> {
