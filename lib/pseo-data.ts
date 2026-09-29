@@ -8,24 +8,48 @@ const PROBLEMS_DIR = path.join(DATA_DIR, "problems");
 // In-memory cache to avoid re-parsing large JSON files per process
 const cache = new Map<string, unknown>();
 
+// A read that reached the binding but could not be completed. Distinct from a
+// missing file, which is a normal miss the callers below turn into a 404.
+class AssetReadError extends Error {}
+
 // `public/` is not in the worker bundle: on Cloudflare Workers it is served
 // through the ASSETS binding, so `fs` cannot see it at request time. Only routes
 // that render on demand need this, e.g. /company/[slug]/[filter], whose
 // generateStaticParams returns []. Imported lazily so dev, build and tests skip it.
-async function readFromAssets<T>(filePath: string): Promise<T | null> {
+async function assetsBinding() {
   try {
     const { getCloudflareContext } = await import("@opennextjs/cloudflare");
-    const { env } = getCloudflareContext();
-    if (!env?.ASSETS) return null;
-
-    const relative = path.relative(DATA_DIR, filePath).split(path.sep).join("/");
-    const response = await env.ASSETS.fetch(new URL(`/data/${relative}`, "https://assets.local"));
-    if (!response.ok) return null;
-
-    return (await response.json()) as T;
+    return getCloudflareContext().env?.ASSETS ?? null;
   } catch {
     // No worker context (dev, tests, static generation).
     return null;
+  }
+}
+
+// null means "not there". A read that fails for any other reason throws, so a
+// broken or unreachable asset never masquerades as a missing file.
+async function readFromAssets<T>(filePath: string): Promise<T | null> {
+  const assets = await assetsBinding();
+  if (!assets) return null;
+
+  const relative = path.relative(DATA_DIR, filePath).split(path.sep).join("/");
+  const url = new URL(`/data/${relative}`, "https://assets.local");
+
+  let response: Response;
+  try {
+    response = await assets.fetch(url);
+  } catch (cause) {
+    throw new AssetReadError(`ASSETS read of ${relative} failed`, { cause });
+  }
+
+  if (response.status === 404) return null;
+  if (!response.ok)
+    throw new AssetReadError(`ASSETS read of ${relative} failed: HTTP ${response.status}`);
+
+  try {
+    return (await response.json()) as T;
+  } catch (cause) {
+    throw new AssetReadError(`ASSETS read of ${relative} returned invalid JSON`, { cause });
   }
 }
 
@@ -37,8 +61,9 @@ async function readJson<T>(filePath: string): Promise<T> {
   try {
     data = JSON.parse(await fs.readFile(filePath, "utf8")) as T;
   } catch (error) {
-    // Rethrow when the binding has no copy either, so a missing file still
-    // surfaces as a miss (getProblem / getComparisonPair rely on that).
+    // No copy on the binding either, so the file is genuinely missing. Rethrow
+    // the filesystem error: getProblem / getComparisonPair rely on it to 404,
+    // and it stays the miss signal in the worker, where fs fails for every path.
     const fromAssets = await readFromAssets<T>(filePath);
     if (fromAssets === null) throw error;
     data = fromAssets;
@@ -109,7 +134,10 @@ export interface ScrapedProblem {
 export async function getProblem(slug: string): Promise<ScrapedProblem | null> {
   try {
     return await readJson<ScrapedProblem>(path.join(PROBLEMS_DIR, `${slug}.json`));
-  } catch {
+  } catch (error) {
+    // A missing problem is a normal 404. A read that reached the binding and
+    // failed is not a miss, so let it surface instead of serving "Not Found".
+    if (error instanceof AssetReadError) throw error;
     return null;
   }
 }
@@ -201,7 +229,8 @@ export async function getComparisonIndex(): Promise<ComparisonIndexEntry[]> {
 export async function getComparisonPair(pair: string): Promise<ComparisonPair | null> {
   try {
     return await readJson<ComparisonPair>(path.join(DATA_DIR, "compare", `${pair}.json`));
-  } catch {
+  } catch (error) {
+    if (error instanceof AssetReadError) throw error;
     return null;
   }
 }

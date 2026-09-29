@@ -35,28 +35,52 @@ describe("portable production runtime", () => {
 });
 
 describe("worker data reads", () => {
+  // Each case needs its own slug: readJson caches successful reads by path, so a
+  // slug reused across cases would be served from the cache instead of the binding.
+  const workerContext = (fetch: (url: URL) => Promise<Response>) => ({
+    env: { ASSETS: { fetch } },
+  });
+
   it("serves on-demand reads from the ASSETS binding when there is no filesystem", async () => {
     const requested: string[] = [];
-    const fixture = { id: "42", title: "Two Sum", slug: "worker-only-problem" };
+    const fixture = { id: "42", title: "Two Sum", slug: "served-problem" };
 
     const problem = await withContext(
-      {
-        env: {
-          ASSETS: {
-            fetch: async (url: URL) => {
-              requested.push(url.pathname);
-              return new Response(JSON.stringify(fixture), {
-                headers: { "content-type": "application/json" },
-              });
-            },
-          },
-        },
-      },
-      () => getProblem("worker-only-problem")
+      workerContext(async (url) => {
+        requested.push(url.pathname);
+        return new Response(JSON.stringify(fixture), {
+          headers: { "content-type": "application/json" },
+        });
+      }),
+      () => getProblem("served-problem")
     );
 
     assert.deepEqual(problem, fixture);
-    assert.deepEqual(requested, ["/data/problems/worker-only-problem.json"]);
+    assert.deepEqual(requested, ["/data/problems/served-problem.json"]);
+  });
+
+  it("treats a 404 from the binding as a genuine miss", async () => {
+    const miss = await withContext(
+      workerContext(async () => new Response(null, { status: 404 })),
+      () => getProblem("absent-problem")
+    );
+
+    assert.equal(miss, null);
+  });
+
+  it("surfaces a failed binding read instead of reporting a miss", async () => {
+    const failures: Array<(url: URL) => Promise<Response>> = [
+      async () => new Response("boom", { status: 500 }),
+      async () => new Response("{ not json", { headers: { "content-type": "application/json" } }),
+      () => Promise.reject(new Error("binding unreachable")),
+    ];
+
+    for (const [index, fetch] of failures.entries()) {
+      await assert.rejects(
+        withContext(workerContext(fetch), () => getProblem(`broken-problem-${index}`)),
+        /ASSETS read of problems\/broken-problem-\d+\.json/
+      );
+    }
   });
 
   it("still reports a miss when no worker context and no file exist", async () => {
