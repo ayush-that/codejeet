@@ -69,20 +69,23 @@ describe("worker data reads", () => {
   });
 
   it("encodes path segments so query or fragment characters cannot alias real files", async () => {
-    const requested: URL[] = [];
+    const requested = { pathname: "", search: "", hash: "" };
 
     await withContext(
       workerContext(async (url) => {
-        requested.push(url);
+        requested.pathname = url.pathname;
+        requested.search = url.search;
+        requested.hash = url.hash;
         return new Response(null, { status: 404 });
       }),
       () => getProblem("target.json?injected-query")
     );
 
-    assert.equal(requested.length, 1);
-    assert.equal(requested[0].search, "");
-    assert.equal(requested[0].hash, "");
-    assert.equal(requested[0].pathname, "/data/problems/target.json%3Finjected-query.json");
+    assert.deepEqual(requested, {
+      pathname: "/data/problems/target.json%3Finjected-query.json",
+      search: "",
+      hash: "",
+    });
   });
 
   it("surfaces a failed binding read instead of reporting a miss", async () => {
