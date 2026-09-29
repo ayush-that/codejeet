@@ -8,12 +8,10 @@ const PROBLEMS_DIR = path.join(DATA_DIR, "problems");
 // In-memory cache to avoid re-parsing large JSON files per process
 const cache = new Map<string, unknown>();
 
-// `public/` is not part of the worker bundle. On Cloudflare Workers it is served
-// through the ASSETS binding, so `fs.readFile` cannot see it at request time.
-// Routes that render on demand rather than at build time need the binding to read
-// the same files a prerender would have read from disk, for example
-// /company/[slug]/[filter], whose generateStaticParams returns []. The context is
-// imported lazily so local dev, `next build` and the Node test runner never load it.
+// `public/` is not in the worker bundle: on Cloudflare Workers it is served
+// through the ASSETS binding, so `fs` cannot see it at request time. Only routes
+// that render on demand need this, e.g. /company/[slug]/[filter], whose
+// generateStaticParams returns []. Imported lazily so dev, build and tests skip it.
 async function readFromAssets<T>(filePath: string): Promise<T | null> {
   try {
     const { getCloudflareContext } = await import("@opennextjs/cloudflare");
@@ -26,8 +24,7 @@ async function readFromAssets<T>(filePath: string): Promise<T | null> {
 
     return (await response.json()) as T;
   } catch {
-    // No worker context (dev, tests, static generation). Report the read as
-    // unavailable so the caller surfaces the original filesystem error.
+    // No worker context (dev, tests, static generation).
     return null;
   }
 }
@@ -40,9 +37,9 @@ async function readJson<T>(filePath: string): Promise<T> {
   try {
     data = JSON.parse(await fs.readFile(filePath, "utf8")) as T;
   } catch (error) {
+    // Rethrow when the binding has no copy either, so a missing file still
+    // surfaces as a miss (getProblem / getComparisonPair rely on that).
     const fromAssets = await readFromAssets<T>(filePath);
-    // Rethrow when the binding has no copy either, so a genuinely missing file
-    // still surfaces as a miss (getProblem / getComparisonPair rely on that).
     if (fromAssets === null) throw error;
     data = fromAssets;
   }
