@@ -5,6 +5,7 @@ import { getAllCompanyProfiles, getQuestionsData } from "@/lib/pseo-data";
 import { collectionJsonLd } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
+import { ProblemLink } from "@/components/seo/ProblemLink";
 import { DifficultyBadge } from "@/components/ui/difficulty-badge";
 
 // Prerender known levels; SSR on cache-miss on demand (runtime-safe data).
@@ -206,12 +207,12 @@ export default async function DifficultyPage({ params }: { params: Promise<{ lev
                   }`}
                 >
                   <td className="px-4 py-3">
-                    <Link
-                      href={`/problem/${q.slug}`}
+                    <ProblemLink
+                      slug={q.slug}
                       className="font-medium text-foreground hover:underline"
                     >
                       {q.title}
-                    </Link>
+                    </ProblemLink>
                   </td>
                   <td className="px-4 py-3 text-muted-foreground hidden sm:table-cell">
                     {q.acceptance}

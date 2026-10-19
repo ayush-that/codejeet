@@ -18,7 +18,7 @@ async function loadSystemDesignSlugs(): Promise<string[]> {
   try {
     const raw = await fs.readFile(SYSTEM_DESIGN_FILE, "utf8");
     const slugs: string[] = [];
-    for (const match of raw.matchAll(/"slug":\s*"([^"]+)"/g)) {
+    for (const match of raw.matchAll(/^\s*"?slug"?:\s*"([^"]+)"/gm)) {
       slugs.push(match[1]);
     }
     return [...new Set(slugs)];
@@ -44,13 +44,6 @@ export async function assembleSitemapEntries(
 
   const sdSlugs = await loadSystemDesignSlugs();
   const existing = new Set(entries.map((e) => e.path));
-  if (!existing.has("/system-design") && sdSlugs.length > 0) {
-    entries.push({
-      path: "/system-design",
-      priority: 0.8,
-      changeFrequency: "monthly",
-    });
-  }
   for (const slug of sdSlugs) {
     const p = `/system-design/${slug}`;
     if (!existing.has(p)) {

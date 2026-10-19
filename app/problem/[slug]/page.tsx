@@ -10,6 +10,7 @@ import {
 import { problemMetadata, problemJsonLd } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
+import { ProblemLink } from "@/components/seo/ProblemLink";
 import { DifficultyBadge } from "@/components/ui/difficulty-badge";
 import ProblemNotes from "@/components/ProblemNotes";
 
@@ -206,16 +207,16 @@ export default async function ProblemPage({ params }: { params: Promise<{ slug: 
           <h2 className="text-xl font-semibold text-foreground mb-3">Similar Questions</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {problem.similar_questions.map((sq) => (
-              <Link
+              <ProblemLink
                 key={sq.slug}
-                href={`/problem/${sq.slug}`}
+                slug={sq.slug}
                 className="flex items-center justify-between gap-3 px-4 py-3 rounded-lg border border-border bg-card hover:bg-accent transition-colors"
               >
                 <span className="text-sm font-medium text-card-foreground truncate">
                   {sq.title}
                 </span>
                 <DifficultyBadge difficulty={sq.difficulty as "Easy" | "Medium" | "Hard"} />
-              </Link>
+              </ProblemLink>
             ))}
           </div>
         </section>

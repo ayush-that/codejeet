@@ -5,6 +5,7 @@ import { getAllCompanyProfiles, getCompanyProfile } from "@/lib/pseo-data";
 import { companyMetadata, collectionJsonLd, faqJsonLd, breadcrumbJsonLd } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
+import { ProblemLink } from "@/components/seo/ProblemLink";
 import { DifficultyBadge } from "@/components/ui/difficulty-badge";
 
 export const dynamicParams = true;
@@ -127,12 +128,12 @@ export default async function CompanyPage({ params }: { params: Promise<{ slug: 
                   }`}
                 >
                   <td className="px-4 py-3">
-                    <Link
-                      href={`/problem/${q.slug}`}
+                    <ProblemLink
+                      slug={q.slug}
                       className="font-medium text-foreground hover:underline"
                     >
                       {q.title}
-                    </Link>
+                    </ProblemLink>
                   </td>
                   <td className="px-4 py-3">
                     <DifficultyBadge difficulty={q.difficulty as "Easy" | "Medium" | "Hard"} />

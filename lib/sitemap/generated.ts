@@ -89,161 +89,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/blog/accenture-vs-airbnb-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/accenture-vs-atlassian-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/accenture-vs-bytedance-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/accenture-vs-capital-one-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/accenture-vs-cisco-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/accenture-vs-citadel-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/accenture-vs-coupang-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/accenture-vs-de-shaw-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/accenture-vs-doordash-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/accenture-vs-ebay-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/accenture-vs-epam-systems-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/accenture-vs-expedia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/accenture-vs-flipkart-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/accenture-vs-intuit-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/accenture-vs-jpmorgan-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/accenture-vs-morgan-stanley-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/accenture-vs-nutanix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/accenture-vs-nvidia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/accenture-vs-paypal-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/accenture-vs-phonepe-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/accenture-vs-qualcomm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/accenture-vs-roblox-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/accenture-vs-samsung-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/accenture-vs-servicenow-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/accenture-vs-snapchat-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/accenture-vs-snowflake-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/accenture-vs-twitter-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/accenture-vs-visa-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/accenture-vs-wix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/accenture-vs-yahoo-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/accenture-vs-yandex-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/blog/accolite-array-interview-questions",
     priority: 0.7,
     changeFrequency: "monthly",
@@ -350,201 +195,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   },
   {
     path: "/blog/adobe-two-pointers-interview-questions",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/adobe-vs-accenture-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/adobe-vs-airbnb-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/adobe-vs-atlassian-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/adobe-vs-bytedance-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/adobe-vs-capital-one-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/adobe-vs-cisco-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/adobe-vs-citadel-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/adobe-vs-coupang-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/adobe-vs-de-shaw-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/adobe-vs-doordash-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/adobe-vs-ebay-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/adobe-vs-epam-systems-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/adobe-vs-expedia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/adobe-vs-flipkart-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/adobe-vs-ibm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/adobe-vs-infosys-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/adobe-vs-intuit-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/adobe-vs-jpmorgan-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/adobe-vs-linkedin-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/adobe-vs-morgan-stanley-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/adobe-vs-nutanix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/adobe-vs-nvidia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/adobe-vs-paypal-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/adobe-vs-phonepe-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/adobe-vs-qualcomm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/adobe-vs-roblox-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/adobe-vs-salesforce-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/adobe-vs-samsung-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/adobe-vs-servicenow-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/adobe-vs-snapchat-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/adobe-vs-snowflake-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/adobe-vs-tcs-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/adobe-vs-twitter-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/adobe-vs-visa-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/adobe-vs-walmart-labs-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/adobe-vs-wix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/adobe-vs-yahoo-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/adobe-vs-yandex-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/adobe-vs-zoho-interview-comparison",
     priority: 0.7,
     changeFrequency: "monthly",
   },
@@ -659,71 +309,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/blog/airbnb-vs-atlassian-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/airbnb-vs-bytedance-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/airbnb-vs-capital-one-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/airbnb-vs-coupang-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/airbnb-vs-ebay-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/airbnb-vs-epam-systems-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/airbnb-vs-expedia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/airbnb-vs-morgan-stanley-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/airbnb-vs-qualcomm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/airbnb-vs-roblox-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/airbnb-vs-twitter-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/airbnb-vs-wix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/airbnb-vs-yahoo-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/blog/amazon-array-interview-questions",
     priority: 0.7,
     changeFrequency: "monthly",
@@ -785,246 +370,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   },
   {
     path: "/blog/amazon-string-interview-questions",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/amazon-vs-accenture-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/amazon-vs-adobe-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/amazon-vs-airbnb-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/amazon-vs-apple-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/amazon-vs-atlassian-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/amazon-vs-bloomberg-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/amazon-vs-bytedance-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/amazon-vs-capital-one-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/amazon-vs-cisco-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/amazon-vs-citadel-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/amazon-vs-coupang-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/amazon-vs-de-shaw-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/amazon-vs-doordash-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/amazon-vs-ebay-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/amazon-vs-epam-systems-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/amazon-vs-expedia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/amazon-vs-flipkart-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/amazon-vs-goldman-sachs-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/amazon-vs-ibm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/amazon-vs-infosys-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/amazon-vs-intuit-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/amazon-vs-jpmorgan-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/amazon-vs-linkedin-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/amazon-vs-meta-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/amazon-vs-microsoft-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/amazon-vs-morgan-stanley-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/amazon-vs-nutanix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/amazon-vs-nvidia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/amazon-vs-oracle-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/amazon-vs-paypal-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/amazon-vs-phonepe-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/amazon-vs-qualcomm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/amazon-vs-roblox-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/amazon-vs-salesforce-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/amazon-vs-samsung-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/amazon-vs-servicenow-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/amazon-vs-snapchat-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/amazon-vs-snowflake-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/amazon-vs-tcs-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/amazon-vs-tiktok-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/amazon-vs-twitter-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/amazon-vs-uber-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/amazon-vs-visa-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/amazon-vs-walmart-labs-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/amazon-vs-wix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/amazon-vs-yahoo-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/amazon-vs-yandex-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/amazon-vs-zoho-interview-comparison",
     priority: 0.7,
     changeFrequency: "monthly",
   },
@@ -1194,216 +539,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/blog/apple-vs-accenture-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/apple-vs-adobe-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/apple-vs-airbnb-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/apple-vs-atlassian-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/apple-vs-bytedance-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/apple-vs-capital-one-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/apple-vs-cisco-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/apple-vs-citadel-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/apple-vs-coupang-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/apple-vs-de-shaw-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/apple-vs-doordash-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/apple-vs-ebay-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/apple-vs-epam-systems-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/apple-vs-expedia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/apple-vs-flipkart-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/apple-vs-goldman-sachs-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/apple-vs-ibm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/apple-vs-infosys-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/apple-vs-intuit-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/apple-vs-jpmorgan-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/apple-vs-linkedin-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/apple-vs-morgan-stanley-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/apple-vs-nutanix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/apple-vs-nvidia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/apple-vs-oracle-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/apple-vs-paypal-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/apple-vs-phonepe-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/apple-vs-qualcomm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/apple-vs-roblox-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/apple-vs-salesforce-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/apple-vs-samsung-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/apple-vs-servicenow-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/apple-vs-snapchat-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/apple-vs-snowflake-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/apple-vs-tcs-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/apple-vs-twitter-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/apple-vs-visa-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/apple-vs-walmart-labs-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/apple-vs-wix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/apple-vs-yahoo-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/apple-vs-yandex-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/apple-vs-zoho-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/blog/arista-networks-array-interview-questions",
     priority: 0.7,
     changeFrequency: "monthly",
@@ -1500,56 +635,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   },
   {
     path: "/blog/atlassian-two-pointers-interview-questions",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/atlassian-vs-capital-one-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/atlassian-vs-coupang-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/atlassian-vs-ebay-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/atlassian-vs-epam-systems-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/atlassian-vs-expedia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/atlassian-vs-morgan-stanley-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/atlassian-vs-qualcomm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/atlassian-vs-roblox-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/atlassian-vs-twitter-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/atlassian-vs-wix-interview-comparison",
     priority: 0.7,
     changeFrequency: "monthly",
   },
@@ -1699,231 +784,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/blog/bloomberg-vs-accenture-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bloomberg-vs-adobe-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bloomberg-vs-airbnb-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bloomberg-vs-apple-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bloomberg-vs-atlassian-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bloomberg-vs-bytedance-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bloomberg-vs-capital-one-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bloomberg-vs-cisco-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bloomberg-vs-citadel-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bloomberg-vs-coupang-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bloomberg-vs-de-shaw-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bloomberg-vs-doordash-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bloomberg-vs-ebay-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bloomberg-vs-epam-systems-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bloomberg-vs-expedia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bloomberg-vs-flipkart-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bloomberg-vs-goldman-sachs-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bloomberg-vs-ibm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bloomberg-vs-infosys-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bloomberg-vs-intuit-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bloomberg-vs-jpmorgan-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bloomberg-vs-linkedin-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bloomberg-vs-morgan-stanley-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bloomberg-vs-nutanix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bloomberg-vs-nvidia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bloomberg-vs-oracle-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bloomberg-vs-paypal-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bloomberg-vs-phonepe-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bloomberg-vs-qualcomm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bloomberg-vs-roblox-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bloomberg-vs-salesforce-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bloomberg-vs-samsung-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bloomberg-vs-servicenow-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bloomberg-vs-snapchat-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bloomberg-vs-snowflake-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bloomberg-vs-tcs-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bloomberg-vs-tiktok-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bloomberg-vs-twitter-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bloomberg-vs-uber-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bloomberg-vs-visa-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bloomberg-vs-walmart-labs-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bloomberg-vs-wix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bloomberg-vs-yahoo-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bloomberg-vs-yandex-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bloomberg-vs-zoho-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/blog/brainteaser-interview-questions-patterns",
     priority: 0.7,
     changeFrequency: "monthly",
@@ -1995,66 +855,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   },
   {
     path: "/blog/bytedance-string-interview-questions",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bytedance-vs-atlassian-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bytedance-vs-capital-one-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bytedance-vs-coupang-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bytedance-vs-ebay-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bytedance-vs-epam-systems-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bytedance-vs-expedia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bytedance-vs-morgan-stanley-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bytedance-vs-qualcomm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bytedance-vs-roblox-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bytedance-vs-twitter-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bytedance-vs-wix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/bytedance-vs-yahoo-interview-comparison",
     priority: 0.7,
     changeFrequency: "monthly",
   },
@@ -2169,46 +969,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/blog/capital-one-vs-coupang-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/capital-one-vs-epam-systems-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/capital-one-vs-expedia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/capital-one-vs-morgan-stanley-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/capital-one-vs-qualcomm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/capital-one-vs-roblox-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/capital-one-vs-twitter-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/capital-one-vs-wix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/blog/cisco-array-interview-questions",
     priority: 0.7,
     changeFrequency: "monthly",
@@ -2260,101 +1020,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   },
   {
     path: "/blog/cisco-two-pointers-interview-questions",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/cisco-vs-airbnb-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/cisco-vs-atlassian-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/cisco-vs-bytedance-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/cisco-vs-capital-one-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/cisco-vs-coupang-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/cisco-vs-ebay-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/cisco-vs-epam-systems-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/cisco-vs-expedia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/cisco-vs-intuit-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/cisco-vs-jpmorgan-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/cisco-vs-morgan-stanley-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/cisco-vs-nutanix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/cisco-vs-qualcomm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/cisco-vs-roblox-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/cisco-vs-samsung-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/cisco-vs-servicenow-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/cisco-vs-twitter-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/cisco-vs-wix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/cisco-vs-yahoo-interview-comparison",
     priority: 0.7,
     changeFrequency: "monthly",
   },
@@ -2415,111 +1080,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   },
   {
     path: "/blog/citadel-string-interview-questions",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/citadel-vs-airbnb-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/citadel-vs-atlassian-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/citadel-vs-bytedance-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/citadel-vs-capital-one-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/citadel-vs-cisco-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/citadel-vs-coupang-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/citadel-vs-doordash-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/citadel-vs-ebay-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/citadel-vs-epam-systems-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/citadel-vs-expedia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/citadel-vs-intuit-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/citadel-vs-jpmorgan-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/citadel-vs-morgan-stanley-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/citadel-vs-nutanix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/citadel-vs-qualcomm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/citadel-vs-roblox-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/citadel-vs-samsung-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/citadel-vs-servicenow-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/citadel-vs-twitter-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/citadel-vs-wix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/citadel-vs-yahoo-interview-comparison",
     priority: 0.7,
     changeFrequency: "monthly",
   },
@@ -2649,21 +1209,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/blog/coupang-vs-epam-systems-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/coupang-vs-morgan-stanley-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/coupang-vs-twitter-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/blog/data-stream-interview-questions-patterns",
     priority: 0.7,
     changeFrequency: "monthly",
@@ -2780,146 +1325,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   },
   {
     path: "/blog/de-shaw-two-pointers-interview-questions",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/de-shaw-vs-airbnb-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/de-shaw-vs-atlassian-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/de-shaw-vs-bytedance-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/de-shaw-vs-capital-one-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/de-shaw-vs-cisco-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/de-shaw-vs-citadel-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/de-shaw-vs-coupang-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/de-shaw-vs-doordash-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/de-shaw-vs-ebay-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/de-shaw-vs-epam-systems-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/de-shaw-vs-expedia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/de-shaw-vs-flipkart-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/de-shaw-vs-intuit-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/de-shaw-vs-jpmorgan-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/de-shaw-vs-morgan-stanley-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/de-shaw-vs-nutanix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/de-shaw-vs-paypal-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/de-shaw-vs-phonepe-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/de-shaw-vs-qualcomm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/de-shaw-vs-roblox-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/de-shaw-vs-samsung-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/de-shaw-vs-servicenow-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/de-shaw-vs-snapchat-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/de-shaw-vs-snowflake-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/de-shaw-vs-twitter-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/de-shaw-vs-visa-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/de-shaw-vs-wix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/de-shaw-vs-yahoo-interview-comparison",
     priority: 0.7,
     changeFrequency: "monthly",
   },
@@ -3134,106 +1539,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/blog/doordash-vs-airbnb-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/doordash-vs-atlassian-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/doordash-vs-bytedance-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/doordash-vs-capital-one-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/doordash-vs-cisco-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/doordash-vs-coupang-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/doordash-vs-ebay-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/doordash-vs-epam-systems-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/doordash-vs-expedia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/doordash-vs-intuit-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/doordash-vs-jpmorgan-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/doordash-vs-morgan-stanley-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/doordash-vs-nutanix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/doordash-vs-qualcomm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/doordash-vs-roblox-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/doordash-vs-samsung-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/doordash-vs-servicenow-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/doordash-vs-twitter-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/doordash-vs-wix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/doordash-vs-yahoo-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/blog/doubly-linked-list-interview-questions-patterns",
     priority: 0.7,
     changeFrequency: "monthly",
@@ -3340,51 +1645,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   },
   {
     path: "/blog/ebay-two-pointers-interview-questions",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/ebay-vs-capital-one-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/ebay-vs-coupang-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/ebay-vs-epam-systems-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/ebay-vs-expedia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/ebay-vs-morgan-stanley-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/ebay-vs-qualcomm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/ebay-vs-roblox-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/ebay-vs-twitter-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/ebay-vs-wix-interview-comparison",
     priority: 0.7,
     changeFrequency: "monthly",
   },
@@ -3509,26 +1769,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/blog/expedia-vs-coupang-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/expedia-vs-epam-systems-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/expedia-vs-morgan-stanley-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/expedia-vs-twitter-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/blog/flipkart-array-interview-questions",
     priority: 0.7,
     changeFrequency: "monthly",
@@ -3590,136 +1830,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   },
   {
     path: "/blog/flipkart-string-interview-questions",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/flipkart-vs-airbnb-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/flipkart-vs-atlassian-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/flipkart-vs-bytedance-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/flipkart-vs-capital-one-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/flipkart-vs-cisco-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/flipkart-vs-citadel-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/flipkart-vs-coupang-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/flipkart-vs-doordash-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/flipkart-vs-ebay-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/flipkart-vs-epam-systems-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/flipkart-vs-expedia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/flipkart-vs-intuit-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/flipkart-vs-jpmorgan-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/flipkart-vs-morgan-stanley-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/flipkart-vs-nutanix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/flipkart-vs-paypal-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/flipkart-vs-phonepe-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/flipkart-vs-qualcomm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/flipkart-vs-roblox-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/flipkart-vs-samsung-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/flipkart-vs-servicenow-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/flipkart-vs-snapchat-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/flipkart-vs-snowflake-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/flipkart-vs-twitter-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/flipkart-vs-wix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/flipkart-vs-yahoo-interview-comparison",
     priority: 0.7,
     changeFrequency: "monthly",
   },
@@ -3844,206 +1954,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/blog/goldman-sachs-vs-accenture-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/goldman-sachs-vs-adobe-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/goldman-sachs-vs-airbnb-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/goldman-sachs-vs-atlassian-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/goldman-sachs-vs-bytedance-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/goldman-sachs-vs-capital-one-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/goldman-sachs-vs-cisco-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/goldman-sachs-vs-citadel-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/goldman-sachs-vs-coupang-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/goldman-sachs-vs-de-shaw-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/goldman-sachs-vs-doordash-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/goldman-sachs-vs-ebay-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/goldman-sachs-vs-epam-systems-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/goldman-sachs-vs-expedia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/goldman-sachs-vs-flipkart-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/goldman-sachs-vs-ibm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/goldman-sachs-vs-infosys-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/goldman-sachs-vs-intuit-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/goldman-sachs-vs-jpmorgan-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/goldman-sachs-vs-linkedin-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/goldman-sachs-vs-morgan-stanley-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/goldman-sachs-vs-nutanix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/goldman-sachs-vs-nvidia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/goldman-sachs-vs-paypal-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/goldman-sachs-vs-phonepe-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/goldman-sachs-vs-qualcomm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/goldman-sachs-vs-roblox-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/goldman-sachs-vs-salesforce-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/goldman-sachs-vs-samsung-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/goldman-sachs-vs-servicenow-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/goldman-sachs-vs-snapchat-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/goldman-sachs-vs-snowflake-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/goldman-sachs-vs-tcs-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/goldman-sachs-vs-twitter-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/goldman-sachs-vs-visa-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/goldman-sachs-vs-walmart-labs-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/goldman-sachs-vs-wix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/goldman-sachs-vs-yahoo-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/goldman-sachs-vs-yandex-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/goldman-sachs-vs-zoho-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/blog/google-array-interview-questions",
     priority: 0.7,
     changeFrequency: "monthly",
@@ -4105,251 +2015,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   },
   {
     path: "/blog/google-string-interview-questions",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/google-vs-accenture-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/google-vs-adobe-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/google-vs-airbnb-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/google-vs-amazon-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/google-vs-apple-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/google-vs-atlassian-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/google-vs-bloomberg-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/google-vs-bytedance-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/google-vs-capital-one-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/google-vs-cisco-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/google-vs-citadel-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/google-vs-coupang-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/google-vs-de-shaw-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/google-vs-doordash-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/google-vs-ebay-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/google-vs-epam-systems-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/google-vs-expedia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/google-vs-flipkart-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/google-vs-goldman-sachs-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/google-vs-ibm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/google-vs-infosys-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/google-vs-intuit-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/google-vs-jpmorgan-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/google-vs-linkedin-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/google-vs-meta-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/google-vs-microsoft-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/google-vs-morgan-stanley-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/google-vs-nutanix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/google-vs-nvidia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/google-vs-oracle-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/google-vs-paypal-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/google-vs-phonepe-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/google-vs-qualcomm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/google-vs-roblox-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/google-vs-salesforce-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/google-vs-samsung-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/google-vs-servicenow-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/google-vs-snapchat-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/google-vs-snowflake-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/google-vs-tcs-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/google-vs-tiktok-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/google-vs-twitter-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/google-vs-uber-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/google-vs-visa-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/google-vs-walmart-labs-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/google-vs-wix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/google-vs-yahoo-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/google-vs-yandex-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/google-vs-zoho-interview-comparison",
     priority: 0.7,
     changeFrequency: "monthly",
   },
@@ -6544,176 +4209,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/blog/ibm-vs-accenture-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/ibm-vs-airbnb-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/ibm-vs-atlassian-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/ibm-vs-bytedance-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/ibm-vs-capital-one-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/ibm-vs-cisco-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/ibm-vs-citadel-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/ibm-vs-coupang-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/ibm-vs-de-shaw-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/ibm-vs-doordash-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/ibm-vs-ebay-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/ibm-vs-epam-systems-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/ibm-vs-expedia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/ibm-vs-flipkart-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/ibm-vs-infosys-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/ibm-vs-intuit-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/ibm-vs-jpmorgan-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/ibm-vs-morgan-stanley-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/ibm-vs-nutanix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/ibm-vs-nvidia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/ibm-vs-paypal-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/ibm-vs-phonepe-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/ibm-vs-qualcomm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/ibm-vs-roblox-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/ibm-vs-samsung-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/ibm-vs-servicenow-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/ibm-vs-snapchat-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/ibm-vs-snowflake-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/ibm-vs-twitter-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/ibm-vs-visa-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/ibm-vs-walmart-labs-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/ibm-vs-wix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/ibm-vs-yahoo-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/ibm-vs-yandex-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/blog/infosys-array-interview-questions",
     priority: 0.7,
     changeFrequency: "monthly",
@@ -6770,171 +4265,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   },
   {
     path: "/blog/infosys-two-pointers-interview-questions",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/infosys-vs-accenture-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/infosys-vs-airbnb-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/infosys-vs-atlassian-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/infosys-vs-bytedance-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/infosys-vs-capital-one-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/infosys-vs-cisco-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/infosys-vs-citadel-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/infosys-vs-coupang-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/infosys-vs-de-shaw-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/infosys-vs-doordash-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/infosys-vs-ebay-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/infosys-vs-epam-systems-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/infosys-vs-expedia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/infosys-vs-flipkart-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/infosys-vs-intuit-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/infosys-vs-jpmorgan-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/infosys-vs-morgan-stanley-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/infosys-vs-nutanix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/infosys-vs-nvidia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/infosys-vs-paypal-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/infosys-vs-phonepe-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/infosys-vs-qualcomm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/infosys-vs-roblox-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/infosys-vs-samsung-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/infosys-vs-servicenow-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/infosys-vs-snapchat-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/infosys-vs-snowflake-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/infosys-vs-twitter-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/infosys-vs-visa-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/infosys-vs-walmart-labs-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/infosys-vs-wix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/infosys-vs-yahoo-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/infosys-vs-yandex-interview-comparison",
     priority: 0.7,
     changeFrequency: "monthly",
   },
@@ -7049,86 +4379,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/blog/intuit-vs-airbnb-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/intuit-vs-atlassian-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/intuit-vs-bytedance-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/intuit-vs-capital-one-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/intuit-vs-coupang-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/intuit-vs-ebay-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/intuit-vs-epam-systems-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/intuit-vs-expedia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/intuit-vs-morgan-stanley-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/intuit-vs-nutanix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/intuit-vs-qualcomm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/intuit-vs-roblox-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/intuit-vs-samsung-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/intuit-vs-twitter-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/intuit-vs-wix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/intuit-vs-yahoo-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/blog/iterator-interview-questions-patterns",
     priority: 0.7,
     changeFrequency: "monthly",
@@ -7234,96 +4484,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/blog/jpmorgan-vs-airbnb-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/jpmorgan-vs-atlassian-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/jpmorgan-vs-bytedance-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/jpmorgan-vs-capital-one-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/jpmorgan-vs-coupang-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/jpmorgan-vs-ebay-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/jpmorgan-vs-epam-systems-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/jpmorgan-vs-expedia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/jpmorgan-vs-intuit-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/jpmorgan-vs-morgan-stanley-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/jpmorgan-vs-nutanix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/jpmorgan-vs-qualcomm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/jpmorgan-vs-roblox-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/jpmorgan-vs-samsung-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/jpmorgan-vs-servicenow-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/jpmorgan-vs-twitter-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/jpmorgan-vs-wix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/jpmorgan-vs-yahoo-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/blog/linked-list-interview-questions-patterns",
     priority: 0.7,
     changeFrequency: "monthly",
@@ -7385,186 +4545,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   },
   {
     path: "/blog/linkedin-tree-interview-questions",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/linkedin-vs-accenture-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/linkedin-vs-airbnb-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/linkedin-vs-atlassian-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/linkedin-vs-bytedance-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/linkedin-vs-capital-one-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/linkedin-vs-cisco-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/linkedin-vs-citadel-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/linkedin-vs-coupang-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/linkedin-vs-de-shaw-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/linkedin-vs-doordash-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/linkedin-vs-ebay-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/linkedin-vs-epam-systems-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/linkedin-vs-expedia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/linkedin-vs-flipkart-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/linkedin-vs-ibm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/linkedin-vs-infosys-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/linkedin-vs-intuit-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/linkedin-vs-jpmorgan-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/linkedin-vs-morgan-stanley-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/linkedin-vs-nutanix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/linkedin-vs-nvidia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/linkedin-vs-paypal-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/linkedin-vs-phonepe-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/linkedin-vs-qualcomm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/linkedin-vs-roblox-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/linkedin-vs-samsung-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/linkedin-vs-servicenow-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/linkedin-vs-snapchat-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/linkedin-vs-snowflake-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/linkedin-vs-twitter-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/linkedin-vs-visa-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/linkedin-vs-walmart-labs-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/linkedin-vs-wix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/linkedin-vs-yahoo-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/linkedin-vs-yandex-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/linkedin-vs-zoho-interview-comparison",
     priority: 0.7,
     changeFrequency: "monthly",
   },
@@ -7874,241 +4854,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/blog/meta-vs-accenture-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/meta-vs-adobe-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/meta-vs-airbnb-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/meta-vs-apple-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/meta-vs-atlassian-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/meta-vs-bloomberg-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/meta-vs-bytedance-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/meta-vs-capital-one-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/meta-vs-cisco-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/meta-vs-citadel-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/meta-vs-coupang-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/meta-vs-de-shaw-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/meta-vs-doordash-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/meta-vs-ebay-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/meta-vs-epam-systems-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/meta-vs-expedia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/meta-vs-flipkart-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/meta-vs-goldman-sachs-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/meta-vs-ibm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/meta-vs-infosys-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/meta-vs-intuit-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/meta-vs-jpmorgan-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/meta-vs-linkedin-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/meta-vs-microsoft-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/meta-vs-morgan-stanley-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/meta-vs-nutanix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/meta-vs-nvidia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/meta-vs-oracle-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/meta-vs-paypal-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/meta-vs-phonepe-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/meta-vs-qualcomm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/meta-vs-roblox-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/meta-vs-salesforce-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/meta-vs-samsung-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/meta-vs-servicenow-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/meta-vs-snapchat-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/meta-vs-snowflake-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/meta-vs-tcs-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/meta-vs-tiktok-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/meta-vs-twitter-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/meta-vs-uber-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/meta-vs-visa-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/meta-vs-walmart-labs-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/meta-vs-wix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/meta-vs-yahoo-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/meta-vs-yandex-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/meta-vs-zoho-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/blog/microsoft-array-interview-questions",
     priority: 0.7,
     changeFrequency: "monthly",
@@ -8170,236 +4915,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   },
   {
     path: "/blog/microsoft-two-pointers-interview-questions",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/microsoft-vs-accenture-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/microsoft-vs-adobe-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/microsoft-vs-airbnb-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/microsoft-vs-apple-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/microsoft-vs-atlassian-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/microsoft-vs-bloomberg-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/microsoft-vs-bytedance-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/microsoft-vs-capital-one-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/microsoft-vs-cisco-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/microsoft-vs-citadel-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/microsoft-vs-coupang-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/microsoft-vs-de-shaw-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/microsoft-vs-doordash-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/microsoft-vs-ebay-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/microsoft-vs-epam-systems-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/microsoft-vs-expedia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/microsoft-vs-flipkart-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/microsoft-vs-goldman-sachs-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/microsoft-vs-ibm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/microsoft-vs-infosys-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/microsoft-vs-intuit-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/microsoft-vs-jpmorgan-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/microsoft-vs-linkedin-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/microsoft-vs-morgan-stanley-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/microsoft-vs-nutanix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/microsoft-vs-nvidia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/microsoft-vs-oracle-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/microsoft-vs-paypal-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/microsoft-vs-phonepe-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/microsoft-vs-qualcomm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/microsoft-vs-roblox-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/microsoft-vs-salesforce-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/microsoft-vs-samsung-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/microsoft-vs-servicenow-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/microsoft-vs-snapchat-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/microsoft-vs-snowflake-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/microsoft-vs-tcs-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/microsoft-vs-tiktok-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/microsoft-vs-twitter-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/microsoft-vs-uber-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/microsoft-vs-visa-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/microsoft-vs-walmart-labs-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/microsoft-vs-wix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/microsoft-vs-yahoo-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/microsoft-vs-yandex-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/microsoft-vs-zoho-interview-comparison",
     priority: 0.7,
     changeFrequency: "monthly",
   },
@@ -8510,16 +5025,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   },
   {
     path: "/blog/morgan-stanley-two-pointers-interview-questions",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/morgan-stanley-vs-epam-systems-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/morgan-stanley-vs-twitter-interview-comparison",
     priority: 0.7,
     changeFrequency: "monthly",
   },
@@ -8674,76 +5179,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/blog/nutanix-vs-airbnb-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/nutanix-vs-atlassian-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/nutanix-vs-bytedance-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/nutanix-vs-capital-one-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/nutanix-vs-coupang-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/nutanix-vs-ebay-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/nutanix-vs-epam-systems-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/nutanix-vs-expedia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/nutanix-vs-morgan-stanley-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/nutanix-vs-qualcomm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/nutanix-vs-roblox-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/nutanix-vs-twitter-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/nutanix-vs-wix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/nutanix-vs-yahoo-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/blog/nvidia-array-interview-questions",
     priority: 0.7,
     changeFrequency: "monthly",
@@ -8800,156 +5235,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   },
   {
     path: "/blog/nvidia-two-pointers-interview-questions",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/nvidia-vs-airbnb-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/nvidia-vs-atlassian-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/nvidia-vs-bytedance-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/nvidia-vs-capital-one-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/nvidia-vs-cisco-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/nvidia-vs-citadel-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/nvidia-vs-coupang-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/nvidia-vs-de-shaw-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/nvidia-vs-doordash-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/nvidia-vs-ebay-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/nvidia-vs-epam-systems-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/nvidia-vs-expedia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/nvidia-vs-flipkart-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/nvidia-vs-intuit-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/nvidia-vs-jpmorgan-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/nvidia-vs-morgan-stanley-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/nvidia-vs-nutanix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/nvidia-vs-paypal-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/nvidia-vs-phonepe-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/nvidia-vs-qualcomm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/nvidia-vs-roblox-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/nvidia-vs-samsung-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/nvidia-vs-servicenow-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/nvidia-vs-snapchat-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/nvidia-vs-snowflake-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/nvidia-vs-twitter-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/nvidia-vs-visa-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/nvidia-vs-wix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/nvidia-vs-yahoo-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/nvidia-vs-yandex-interview-comparison",
     priority: 0.7,
     changeFrequency: "monthly",
   },
@@ -9015,211 +5300,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   },
   {
     path: "/blog/oracle-two-pointers-interview-questions",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/oracle-vs-accenture-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/oracle-vs-adobe-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/oracle-vs-airbnb-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/oracle-vs-atlassian-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/oracle-vs-bytedance-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/oracle-vs-capital-one-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/oracle-vs-cisco-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/oracle-vs-citadel-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/oracle-vs-coupang-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/oracle-vs-de-shaw-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/oracle-vs-doordash-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/oracle-vs-ebay-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/oracle-vs-epam-systems-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/oracle-vs-expedia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/oracle-vs-flipkart-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/oracle-vs-goldman-sachs-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/oracle-vs-ibm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/oracle-vs-infosys-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/oracle-vs-intuit-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/oracle-vs-jpmorgan-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/oracle-vs-linkedin-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/oracle-vs-morgan-stanley-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/oracle-vs-nutanix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/oracle-vs-nvidia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/oracle-vs-paypal-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/oracle-vs-phonepe-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/oracle-vs-qualcomm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/oracle-vs-roblox-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/oracle-vs-salesforce-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/oracle-vs-samsung-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/oracle-vs-servicenow-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/oracle-vs-snapchat-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/oracle-vs-snowflake-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/oracle-vs-tcs-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/oracle-vs-twitter-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/oracle-vs-visa-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/oracle-vs-walmart-labs-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/oracle-vs-wix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/oracle-vs-yahoo-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/oracle-vs-yandex-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/oracle-vs-zoho-interview-comparison",
     priority: 0.7,
     changeFrequency: "monthly",
   },
@@ -9374,131 +5454,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/blog/paypal-vs-airbnb-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/paypal-vs-atlassian-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/paypal-vs-bytedance-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/paypal-vs-capital-one-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/paypal-vs-cisco-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/paypal-vs-citadel-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/paypal-vs-coupang-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/paypal-vs-doordash-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/paypal-vs-ebay-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/paypal-vs-epam-systems-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/paypal-vs-expedia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/paypal-vs-intuit-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/paypal-vs-jpmorgan-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/paypal-vs-morgan-stanley-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/paypal-vs-nutanix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/paypal-vs-phonepe-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/paypal-vs-qualcomm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/paypal-vs-roblox-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/paypal-vs-samsung-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/paypal-vs-servicenow-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/paypal-vs-snapchat-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/paypal-vs-snowflake-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/paypal-vs-twitter-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/paypal-vs-wix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/paypal-vs-yahoo-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/blog/paytm-array-interview-questions",
     priority: 0.7,
     changeFrequency: "monthly",
@@ -9604,121 +5559,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/blog/phonepe-vs-airbnb-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/phonepe-vs-atlassian-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/phonepe-vs-bytedance-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/phonepe-vs-capital-one-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/phonepe-vs-cisco-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/phonepe-vs-citadel-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/phonepe-vs-coupang-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/phonepe-vs-doordash-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/phonepe-vs-ebay-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/phonepe-vs-epam-systems-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/phonepe-vs-expedia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/phonepe-vs-intuit-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/phonepe-vs-jpmorgan-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/phonepe-vs-morgan-stanley-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/phonepe-vs-nutanix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/phonepe-vs-qualcomm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/phonepe-vs-roblox-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/phonepe-vs-samsung-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/phonepe-vs-servicenow-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/phonepe-vs-snapchat-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/phonepe-vs-twitter-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/phonepe-vs-wix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/phonepe-vs-yahoo-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/blog/pinterest-array-interview-questions",
     priority: 0.7,
     changeFrequency: "monthly",
@@ -9815,41 +5655,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   },
   {
     path: "/blog/qualcomm-two-pointers-interview-questions",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/qualcomm-vs-coupang-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/qualcomm-vs-epam-systems-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/qualcomm-vs-expedia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/qualcomm-vs-morgan-stanley-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/qualcomm-vs-roblox-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/qualcomm-vs-twitter-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/qualcomm-vs-wix-interview-comparison",
     priority: 0.7,
     changeFrequency: "monthly",
   },
@@ -9979,36 +5784,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/blog/roblox-vs-coupang-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/roblox-vs-epam-systems-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/roblox-vs-expedia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/roblox-vs-morgan-stanley-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/roblox-vs-twitter-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/roblox-vs-wix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/blog/rolling-hash-interview-questions-patterns",
     priority: 0.7,
     changeFrequency: "monthly",
@@ -10119,191 +5894,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/blog/salesforce-vs-accenture-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/salesforce-vs-airbnb-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/salesforce-vs-atlassian-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/salesforce-vs-bytedance-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/salesforce-vs-capital-one-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/salesforce-vs-cisco-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/salesforce-vs-citadel-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/salesforce-vs-coupang-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/salesforce-vs-de-shaw-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/salesforce-vs-doordash-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/salesforce-vs-ebay-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/salesforce-vs-epam-systems-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/salesforce-vs-expedia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/salesforce-vs-flipkart-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/salesforce-vs-ibm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/salesforce-vs-infosys-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/salesforce-vs-intuit-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/salesforce-vs-jpmorgan-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/salesforce-vs-linkedin-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/salesforce-vs-morgan-stanley-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/salesforce-vs-nutanix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/salesforce-vs-nvidia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/salesforce-vs-paypal-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/salesforce-vs-phonepe-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/salesforce-vs-qualcomm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/salesforce-vs-roblox-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/salesforce-vs-samsung-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/salesforce-vs-servicenow-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/salesforce-vs-snapchat-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/salesforce-vs-snowflake-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/salesforce-vs-twitter-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/salesforce-vs-visa-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/salesforce-vs-walmart-labs-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/salesforce-vs-wix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/salesforce-vs-yahoo-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/salesforce-vs-yandex-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/salesforce-vs-zoho-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/blog/samsung-array-interview-questions",
     priority: 0.7,
     changeFrequency: "monthly",
@@ -10365,81 +5955,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   },
   {
     path: "/blog/samsung-two-pointers-interview-questions",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/samsung-vs-airbnb-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/samsung-vs-atlassian-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/samsung-vs-bytedance-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/samsung-vs-capital-one-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/samsung-vs-coupang-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/samsung-vs-ebay-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/samsung-vs-epam-systems-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/samsung-vs-expedia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/samsung-vs-morgan-stanley-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/samsung-vs-nutanix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/samsung-vs-qualcomm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/samsung-vs-roblox-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/samsung-vs-twitter-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/samsung-vs-wix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/samsung-vs-yahoo-interview-comparison",
     priority: 0.7,
     changeFrequency: "monthly",
   },
@@ -10550,91 +6065,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   },
   {
     path: "/blog/servicenow-two-pointers-interview-questions",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/servicenow-vs-airbnb-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/servicenow-vs-atlassian-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/servicenow-vs-bytedance-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/servicenow-vs-capital-one-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/servicenow-vs-coupang-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/servicenow-vs-ebay-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/servicenow-vs-epam-systems-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/servicenow-vs-expedia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/servicenow-vs-intuit-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/servicenow-vs-morgan-stanley-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/servicenow-vs-nutanix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/servicenow-vs-qualcomm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/servicenow-vs-roblox-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/servicenow-vs-samsung-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/servicenow-vs-twitter-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/servicenow-vs-wix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/servicenow-vs-yahoo-interview-comparison",
     priority: 0.7,
     changeFrequency: "monthly",
   },
@@ -10764,116 +6194,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/blog/snapchat-vs-airbnb-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/snapchat-vs-atlassian-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/snapchat-vs-bytedance-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/snapchat-vs-capital-one-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/snapchat-vs-cisco-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/snapchat-vs-citadel-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/snapchat-vs-coupang-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/snapchat-vs-doordash-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/snapchat-vs-ebay-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/snapchat-vs-epam-systems-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/snapchat-vs-expedia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/snapchat-vs-intuit-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/snapchat-vs-jpmorgan-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/snapchat-vs-morgan-stanley-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/snapchat-vs-nutanix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/snapchat-vs-qualcomm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/snapchat-vs-roblox-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/snapchat-vs-samsung-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/snapchat-vs-servicenow-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/snapchat-vs-twitter-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/snapchat-vs-wix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/snapchat-vs-yahoo-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/blog/snowflake-array-interview-questions",
     priority: 0.7,
     changeFrequency: "monthly",
@@ -10925,126 +6245,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   },
   {
     path: "/blog/snowflake-tree-interview-questions",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/snowflake-vs-airbnb-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/snowflake-vs-atlassian-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/snowflake-vs-bytedance-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/snowflake-vs-capital-one-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/snowflake-vs-cisco-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/snowflake-vs-citadel-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/snowflake-vs-coupang-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/snowflake-vs-doordash-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/snowflake-vs-ebay-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/snowflake-vs-epam-systems-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/snowflake-vs-expedia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/snowflake-vs-intuit-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/snowflake-vs-jpmorgan-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/snowflake-vs-morgan-stanley-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/snowflake-vs-nutanix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/snowflake-vs-phonepe-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/snowflake-vs-qualcomm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/snowflake-vs-roblox-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/snowflake-vs-samsung-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/snowflake-vs-servicenow-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/snowflake-vs-snapchat-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/snowflake-vs-twitter-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/snowflake-vs-wix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/snowflake-vs-yahoo-interview-comparison",
     priority: 0.7,
     changeFrequency: "monthly",
   },
@@ -11284,196 +6484,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/blog/tcs-vs-accenture-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tcs-vs-airbnb-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tcs-vs-atlassian-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tcs-vs-bytedance-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tcs-vs-capital-one-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tcs-vs-cisco-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tcs-vs-citadel-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tcs-vs-coupang-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tcs-vs-de-shaw-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tcs-vs-doordash-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tcs-vs-ebay-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tcs-vs-epam-systems-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tcs-vs-expedia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tcs-vs-flipkart-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tcs-vs-ibm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tcs-vs-infosys-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tcs-vs-intuit-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tcs-vs-jpmorgan-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tcs-vs-linkedin-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tcs-vs-morgan-stanley-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tcs-vs-nutanix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tcs-vs-nvidia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tcs-vs-paypal-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tcs-vs-phonepe-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tcs-vs-qualcomm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tcs-vs-roblox-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tcs-vs-salesforce-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tcs-vs-samsung-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tcs-vs-servicenow-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tcs-vs-snapchat-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tcs-vs-snowflake-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tcs-vs-twitter-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tcs-vs-visa-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tcs-vs-walmart-labs-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tcs-vs-wix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tcs-vs-yahoo-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tcs-vs-yandex-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tcs-vs-zoho-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/blog/tekion-array-interview-questions",
     priority: 0.7,
     changeFrequency: "monthly",
@@ -11620,226 +6630,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   },
   {
     path: "/blog/tiktok-two-pointers-interview-questions",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tiktok-vs-accenture-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tiktok-vs-adobe-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tiktok-vs-airbnb-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tiktok-vs-apple-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tiktok-vs-atlassian-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tiktok-vs-bytedance-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tiktok-vs-capital-one-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tiktok-vs-cisco-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tiktok-vs-citadel-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tiktok-vs-coupang-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tiktok-vs-de-shaw-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tiktok-vs-doordash-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tiktok-vs-ebay-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tiktok-vs-epam-systems-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tiktok-vs-expedia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tiktok-vs-flipkart-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tiktok-vs-goldman-sachs-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tiktok-vs-ibm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tiktok-vs-infosys-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tiktok-vs-intuit-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tiktok-vs-jpmorgan-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tiktok-vs-linkedin-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tiktok-vs-morgan-stanley-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tiktok-vs-nutanix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tiktok-vs-nvidia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tiktok-vs-oracle-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tiktok-vs-paypal-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tiktok-vs-phonepe-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tiktok-vs-qualcomm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tiktok-vs-roblox-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tiktok-vs-salesforce-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tiktok-vs-samsung-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tiktok-vs-servicenow-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tiktok-vs-snapchat-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tiktok-vs-snowflake-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tiktok-vs-tcs-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tiktok-vs-twitter-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tiktok-vs-uber-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tiktok-vs-visa-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tiktok-vs-walmart-labs-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tiktok-vs-wix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tiktok-vs-yahoo-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tiktok-vs-yandex-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/tiktok-vs-zoho-interview-comparison",
     priority: 0.7,
     changeFrequency: "monthly",
   },
@@ -12004,11 +6794,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/blog/twitter-vs-epam-systems-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/blog/two-pointer-technique-complete-guide",
     priority: 0.7,
     changeFrequency: "monthly",
@@ -12084,221 +6869,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/blog/uber-vs-accenture-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/uber-vs-adobe-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/uber-vs-airbnb-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/uber-vs-apple-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/uber-vs-atlassian-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/uber-vs-bytedance-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/uber-vs-capital-one-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/uber-vs-cisco-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/uber-vs-citadel-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/uber-vs-coupang-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/uber-vs-de-shaw-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/uber-vs-doordash-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/uber-vs-ebay-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/uber-vs-epam-systems-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/uber-vs-expedia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/uber-vs-flipkart-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/uber-vs-goldman-sachs-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/uber-vs-ibm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/uber-vs-infosys-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/uber-vs-intuit-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/uber-vs-jpmorgan-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/uber-vs-linkedin-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/uber-vs-morgan-stanley-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/uber-vs-nutanix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/uber-vs-nvidia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/uber-vs-oracle-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/uber-vs-paypal-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/uber-vs-phonepe-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/uber-vs-qualcomm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/uber-vs-roblox-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/uber-vs-salesforce-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/uber-vs-samsung-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/uber-vs-servicenow-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/uber-vs-snapchat-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/uber-vs-snowflake-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/uber-vs-tcs-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/uber-vs-twitter-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/uber-vs-visa-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/uber-vs-walmart-labs-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/uber-vs-wix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/uber-vs-yahoo-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/uber-vs-yandex-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/uber-vs-zoho-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/blog/union-find-interview-questions-patterns",
     priority: 0.7,
     changeFrequency: "monthly",
@@ -12369,141 +6939,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/blog/visa-vs-airbnb-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/visa-vs-atlassian-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/visa-vs-bytedance-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/visa-vs-capital-one-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/visa-vs-cisco-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/visa-vs-citadel-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/visa-vs-coupang-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/visa-vs-doordash-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/visa-vs-ebay-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/visa-vs-epam-systems-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/visa-vs-expedia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/visa-vs-flipkart-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/visa-vs-intuit-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/visa-vs-jpmorgan-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/visa-vs-morgan-stanley-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/visa-vs-nutanix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/visa-vs-paypal-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/visa-vs-phonepe-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/visa-vs-qualcomm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/visa-vs-roblox-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/visa-vs-samsung-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/visa-vs-servicenow-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/visa-vs-snapchat-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/visa-vs-snowflake-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/visa-vs-twitter-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/visa-vs-wix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/visa-vs-yahoo-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/blog/walmart-labs-array-interview-questions",
     priority: 0.7,
     changeFrequency: "monthly",
@@ -12565,166 +7000,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   },
   {
     path: "/blog/walmart-labs-two-pointers-interview-questions",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/walmart-labs-vs-accenture-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/walmart-labs-vs-airbnb-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/walmart-labs-vs-atlassian-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/walmart-labs-vs-bytedance-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/walmart-labs-vs-capital-one-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/walmart-labs-vs-cisco-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/walmart-labs-vs-citadel-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/walmart-labs-vs-coupang-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/walmart-labs-vs-de-shaw-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/walmart-labs-vs-doordash-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/walmart-labs-vs-ebay-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/walmart-labs-vs-epam-systems-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/walmart-labs-vs-expedia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/walmart-labs-vs-flipkart-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/walmart-labs-vs-intuit-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/walmart-labs-vs-jpmorgan-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/walmart-labs-vs-morgan-stanley-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/walmart-labs-vs-nutanix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/walmart-labs-vs-nvidia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/walmart-labs-vs-paypal-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/walmart-labs-vs-phonepe-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/walmart-labs-vs-qualcomm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/walmart-labs-vs-roblox-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/walmart-labs-vs-samsung-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/walmart-labs-vs-servicenow-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/walmart-labs-vs-snapchat-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/walmart-labs-vs-snowflake-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/walmart-labs-vs-twitter-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/walmart-labs-vs-visa-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/walmart-labs-vs-wix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/walmart-labs-vs-yahoo-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/walmart-labs-vs-yandex-interview-comparison",
     priority: 0.7,
     changeFrequency: "monthly",
   },
@@ -12869,31 +7144,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/blog/wix-vs-coupang-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/wix-vs-epam-systems-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/wix-vs-expedia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/wix-vs-morgan-stanley-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/wix-vs-twitter-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/blog/yahoo-array-interview-questions",
     priority: 0.7,
     changeFrequency: "monthly",
@@ -12959,61 +7209,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/blog/yahoo-vs-atlassian-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/yahoo-vs-capital-one-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/yahoo-vs-coupang-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/yahoo-vs-ebay-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/yahoo-vs-epam-systems-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/yahoo-vs-expedia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/yahoo-vs-morgan-stanley-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/yahoo-vs-qualcomm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/yahoo-vs-roblox-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/yahoo-vs-twitter-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/yahoo-vs-wix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/blog/yandex-array-interview-questions",
     priority: 0.7,
     changeFrequency: "monthly",
@@ -13070,151 +7265,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   },
   {
     path: "/blog/yandex-two-pointers-interview-questions",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/yandex-vs-airbnb-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/yandex-vs-atlassian-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/yandex-vs-bytedance-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/yandex-vs-capital-one-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/yandex-vs-cisco-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/yandex-vs-citadel-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/yandex-vs-coupang-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/yandex-vs-de-shaw-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/yandex-vs-doordash-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/yandex-vs-ebay-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/yandex-vs-epam-systems-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/yandex-vs-expedia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/yandex-vs-flipkart-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/yandex-vs-intuit-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/yandex-vs-jpmorgan-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/yandex-vs-morgan-stanley-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/yandex-vs-nutanix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/yandex-vs-paypal-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/yandex-vs-phonepe-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/yandex-vs-qualcomm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/yandex-vs-roblox-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/yandex-vs-samsung-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/yandex-vs-servicenow-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/yandex-vs-snapchat-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/yandex-vs-snowflake-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/yandex-vs-twitter-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/yandex-vs-visa-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/yandex-vs-wix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/yandex-vs-yahoo-interview-comparison",
     priority: 0.7,
     changeFrequency: "monthly",
   },
@@ -13450,181 +7500,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   },
   {
     path: "/blog/zoho-two-pointers-interview-questions",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/zoho-vs-accenture-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/zoho-vs-airbnb-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/zoho-vs-atlassian-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/zoho-vs-bytedance-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/zoho-vs-capital-one-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/zoho-vs-cisco-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/zoho-vs-citadel-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/zoho-vs-coupang-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/zoho-vs-de-shaw-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/zoho-vs-doordash-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/zoho-vs-ebay-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/zoho-vs-epam-systems-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/zoho-vs-expedia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/zoho-vs-flipkart-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/zoho-vs-ibm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/zoho-vs-infosys-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/zoho-vs-intuit-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/zoho-vs-jpmorgan-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/zoho-vs-morgan-stanley-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/zoho-vs-nutanix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/zoho-vs-nvidia-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/zoho-vs-paypal-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/zoho-vs-phonepe-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/zoho-vs-qualcomm-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/zoho-vs-roblox-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/zoho-vs-samsung-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/zoho-vs-servicenow-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/zoho-vs-snapchat-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/zoho-vs-snowflake-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/zoho-vs-twitter-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/zoho-vs-visa-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/zoho-vs-walmart-labs-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/zoho-vs-wix-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/zoho-vs-yahoo-interview-comparison",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/blog/zoho-vs-yandex-interview-comparison",
     priority: 0.7,
     changeFrequency: "monthly",
   },
@@ -15954,11 +9829,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/compare/accenture-vs-j-p-morgan",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/compare/accenture-vs-josh-technology",
     priority: 0.65,
     changeFrequency: "monthly",
@@ -15980,11 +9850,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   },
   {
     path: "/compare/accenture-vs-makemytrip",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/accenture-vs-media-net",
     priority: 0.65,
     changeFrequency: "monthly",
   },
@@ -16434,11 +10299,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/compare/adobe-vs-j-p-morgan",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/compare/adobe-vs-josh-technology",
     priority: 0.65,
     changeFrequency: "monthly",
@@ -16465,11 +10325,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   },
   {
     path: "/compare/adobe-vs-mathworks",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/adobe-vs-media-net",
     priority: 0.65,
     changeFrequency: "monthly",
   },
@@ -16904,11 +10759,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/compare/agoda-vs-j-p-morgan",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/compare/agoda-vs-josh-technology",
     priority: 0.65,
     changeFrequency: "monthly",
@@ -17285,11 +11135,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   },
   {
     path: "/compare/airbnb-vs-intuit",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/airbnb-vs-j-p-morgan",
     priority: 0.65,
     changeFrequency: "monthly",
   },
@@ -17699,11 +11544,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/compare/amazon-vs-j-p-morgan",
-    priority: 0.75,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/compare/amazon-vs-josh-technology",
     priority: 0.7,
     changeFrequency: "monthly",
@@ -17731,11 +11571,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   {
     path: "/compare/amazon-vs-mathworks",
     priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/amazon-vs-media-net",
-    priority: 0.7,
     changeFrequency: "monthly",
   },
   {
@@ -18124,11 +11959,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/compare/american-express-vs-j-p-morgan",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/compare/american-express-vs-jpmorgan",
     priority: 0.65,
     changeFrequency: "monthly",
@@ -18429,11 +12259,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/compare/anduril-vs-j-p-morgan",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/compare/anduril-vs-josh-technology",
     priority: 0.65,
     changeFrequency: "monthly",
@@ -18450,11 +12275,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   },
   {
     path: "/compare/anduril-vs-lyft",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/anduril-vs-media-net",
     priority: 0.65,
     changeFrequency: "monthly",
   },
@@ -18859,11 +12679,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/compare/apple-vs-j-p-morgan",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/compare/apple-vs-josh-technology",
     priority: 0.65,
     changeFrequency: "monthly",
@@ -18886,11 +12701,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   {
     path: "/compare/apple-vs-makemytrip",
     priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/apple-vs-media-net",
-    priority: 0.65,
     changeFrequency: "monthly",
   },
   {
@@ -19279,11 +13089,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/compare/arista-networks-vs-j-p-morgan",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/compare/arista-networks-vs-josh-technology",
     priority: 0.65,
     changeFrequency: "monthly",
@@ -19655,11 +13460,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   },
   {
     path: "/compare/atlassian-vs-intuit",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/atlassian-vs-j-p-morgan",
     priority: 0.65,
     changeFrequency: "monthly",
   },
@@ -20064,11 +13864,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/compare/autodesk-vs-j-p-morgan",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/compare/autodesk-vs-josh-technology",
     priority: 0.65,
     changeFrequency: "monthly",
@@ -20085,11 +13880,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   },
   {
     path: "/compare/autodesk-vs-makemytrip",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/autodesk-vs-media-net",
     priority: 0.65,
     changeFrequency: "monthly",
   },
@@ -20459,11 +14249,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/compare/bloomberg-vs-j-p-morgan",
-    priority: 0.75,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/compare/bloomberg-vs-josh-technology",
     priority: 0.7,
     changeFrequency: "monthly",
@@ -20491,11 +14276,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   {
     path: "/compare/bloomberg-vs-mathworks",
     priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/bloomberg-vs-media-net",
-    priority: 0.7,
     changeFrequency: "monthly",
   },
   {
@@ -20884,11 +14664,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/compare/bytedance-vs-j-p-morgan",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/compare/bytedance-vs-josh-technology",
     priority: 0.65,
     changeFrequency: "monthly",
@@ -20910,11 +14685,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   },
   {
     path: "/compare/bytedance-vs-makemytrip",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/bytedance-vs-media-net",
     priority: 0.65,
     changeFrequency: "monthly",
   },
@@ -21269,11 +15039,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/compare/capgemini-vs-j-p-morgan",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/compare/capgemini-vs-jpmorgan",
     priority: 0.65,
     changeFrequency: "monthly",
@@ -21575,11 +15340,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   },
   {
     path: "/compare/capital-one-vs-intuit",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/capital-one-vs-j-p-morgan",
     priority: 0.65,
     changeFrequency: "monthly",
   },
@@ -21934,11 +15694,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/compare/cisco-vs-j-p-morgan",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/compare/cisco-vs-josh-technology",
     priority: 0.65,
     changeFrequency: "monthly",
@@ -21960,11 +15715,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   },
   {
     path: "/compare/cisco-vs-makemytrip",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/cisco-vs-media-net",
     priority: 0.65,
     changeFrequency: "monthly",
   },
@@ -22334,11 +16084,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/compare/citadel-vs-j-p-morgan",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/compare/citadel-vs-josh-technology",
     priority: 0.65,
     changeFrequency: "monthly",
@@ -22360,11 +16105,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   },
   {
     path: "/compare/citadel-vs-makemytrip",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/citadel-vs-media-net",
     priority: 0.65,
     changeFrequency: "monthly",
   },
@@ -22704,11 +16444,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/compare/cognizant-vs-j-p-morgan",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/compare/cognizant-vs-jpmorgan",
     priority: 0.65,
     changeFrequency: "monthly",
@@ -22975,11 +16710,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   },
   {
     path: "/compare/coupang-vs-intuit",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/coupang-vs-j-p-morgan",
     priority: 0.65,
     changeFrequency: "monthly",
   },
@@ -23294,11 +17024,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/compare/databricks-vs-j-p-morgan",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/compare/databricks-vs-jpmorgan",
     priority: 0.65,
     changeFrequency: "monthly",
@@ -23529,11 +17254,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/compare/de-shaw-vs-j-p-morgan",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/compare/de-shaw-vs-jpmorgan",
     priority: 0.65,
     changeFrequency: "monthly",
@@ -23555,11 +17275,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   },
   {
     path: "/compare/de-shaw-vs-mathworks",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/de-shaw-vs-media-net",
     priority: 0.65,
     changeFrequency: "monthly",
   },
@@ -23909,11 +17624,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/compare/deloitte-vs-j-p-morgan",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/compare/deloitte-vs-josh-technology",
     priority: 0.65,
     changeFrequency: "monthly",
@@ -24209,11 +17919,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/compare/deutsche-bank-vs-j-p-morgan",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/compare/deutsche-bank-vs-jpmorgan",
     priority: 0.65,
     changeFrequency: "monthly",
@@ -24385,11 +18090,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   },
   {
     path: "/compare/docusign-vs-intuit",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/docusign-vs-j-p-morgan",
     priority: 0.65,
     changeFrequency: "monthly",
   },
@@ -24734,11 +18434,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/compare/doordash-vs-j-p-morgan",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/compare/doordash-vs-josh-technology",
     priority: 0.65,
     changeFrequency: "monthly",
@@ -24760,11 +18455,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   },
   {
     path: "/compare/doordash-vs-makemytrip",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/doordash-vs-media-net",
     priority: 0.65,
     changeFrequency: "monthly",
   },
@@ -25064,11 +18754,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/compare/dropbox-vs-j-p-morgan",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/compare/dropbox-vs-jpmorgan",
     priority: 0.65,
     changeFrequency: "monthly",
@@ -25275,11 +18960,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   },
   {
     path: "/compare/ebay-vs-intuit",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/ebay-vs-j-p-morgan",
     priority: 0.65,
     changeFrequency: "monthly",
   },
@@ -25609,11 +19289,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/compare/epam-systems-vs-j-p-morgan",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/compare/epam-systems-vs-josh-technology",
     priority: 0.65,
     changeFrequency: "monthly",
@@ -25934,11 +19609,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/compare/expedia-vs-j-p-morgan",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/compare/expedia-vs-josh-technology",
     priority: 0.65,
     changeFrequency: "monthly",
@@ -25960,11 +19630,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   },
   {
     path: "/compare/expedia-vs-makemytrip",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/expedia-vs-media-net",
     priority: 0.65,
     changeFrequency: "monthly",
   },
@@ -26259,11 +19924,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/compare/flipkart-vs-j-p-morgan",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/compare/flipkart-vs-josh-technology",
     priority: 0.65,
     changeFrequency: "monthly",
@@ -26285,11 +19945,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   },
   {
     path: "/compare/flipkart-vs-makemytrip",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/flipkart-vs-media-net",
     priority: 0.65,
     changeFrequency: "monthly",
   },
@@ -26599,11 +20254,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/compare/goldman-sachs-vs-j-p-morgan",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/compare/goldman-sachs-vs-josh-technology",
     priority: 0.65,
     changeFrequency: "monthly",
@@ -26630,11 +20280,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   },
   {
     path: "/compare/goldman-sachs-vs-mathworks",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/goldman-sachs-vs-media-net",
     priority: 0.65,
     changeFrequency: "monthly",
   },
@@ -26939,11 +20584,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/compare/google-vs-j-p-morgan",
-    priority: 0.75,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/compare/google-vs-josh-technology",
     priority: 0.7,
     changeFrequency: "monthly",
@@ -26971,11 +20611,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   {
     path: "/compare/google-vs-mathworks",
     priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/google-vs-media-net",
-    priority: 0.7,
     changeFrequency: "monthly",
   },
   {
@@ -27269,11 +20904,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/compare/grammarly-vs-j-p-morgan",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/compare/grammarly-vs-jpmorgan",
     priority: 0.65,
     changeFrequency: "monthly",
@@ -27509,11 +21139,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/compare/hashedin-vs-j-p-morgan",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/compare/hashedin-vs-jpmorgan",
     priority: 0.65,
     changeFrequency: "monthly",
@@ -27734,11 +21359,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/compare/ibm-vs-j-p-morgan",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/compare/ibm-vs-josh-technology",
     priority: 0.65,
     changeFrequency: "monthly",
@@ -27760,11 +21380,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   },
   {
     path: "/compare/ibm-vs-makemytrip",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/ibm-vs-media-net",
     priority: 0.65,
     changeFrequency: "monthly",
   },
@@ -28034,11 +21649,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/compare/infosys-vs-j-p-morgan",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/compare/infosys-vs-josh-technology",
     priority: 0.65,
     changeFrequency: "monthly",
@@ -28060,11 +21670,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   },
   {
     path: "/compare/infosys-vs-makemytrip",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/infosys-vs-media-net",
     priority: 0.65,
     changeFrequency: "monthly",
   },
@@ -28334,22 +21939,12 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/compare/intel-vs-j-p-morgan",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/compare/intel-vs-jpmorgan",
     priority: 0.65,
     changeFrequency: "monthly",
   },
   {
     path: "/compare/intel-vs-linkedin",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/intel-vs-media-net",
     priority: 0.65,
     changeFrequency: "monthly",
   },
@@ -28584,11 +22179,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/compare/intuit-vs-j-p-morgan",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/compare/intuit-vs-josh-technology",
     priority: 0.65,
     changeFrequency: "monthly",
@@ -28610,11 +22200,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   },
   {
     path: "/compare/intuit-vs-makemytrip",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/intuit-vs-media-net",
     priority: 0.65,
     changeFrequency: "monthly",
   },
@@ -28894,272 +22479,7 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/compare/j-p-morgan-vs-linkedin",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/j-p-morgan-vs-makemytrip",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/j-p-morgan-vs-media-net",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/j-p-morgan-vs-medianet",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/compare/j-p-morgan-vs-meesho",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/j-p-morgan-vs-meta",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/j-p-morgan-vs-microsoft",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/j-p-morgan-vs-mongodb",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/j-p-morgan-vs-morgan-stanley",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/j-p-morgan-vs-myntra",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/j-p-morgan-vs-netflix",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/j-p-morgan-vs-nutanix",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/j-p-morgan-vs-nvidia",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/j-p-morgan-vs-okta",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/j-p-morgan-vs-ola-cabs",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/j-p-morgan-vs-oracle",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/j-p-morgan-vs-palo-alto-networks",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/j-p-morgan-vs-paypal",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/j-p-morgan-vs-paytm",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/j-p-morgan-vs-phonepe",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/j-p-morgan-vs-pinterest",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/j-p-morgan-vs-qualcomm",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/j-p-morgan-vs-rippling",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/j-p-morgan-vs-roblox",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/j-p-morgan-vs-salesforce",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/j-p-morgan-vs-samsung",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/j-p-morgan-vs-sap",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/j-p-morgan-vs-servicenow",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/j-p-morgan-vs-siemens",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/j-p-morgan-vs-snap",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/j-p-morgan-vs-snapchat",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/j-p-morgan-vs-snowflake",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/j-p-morgan-vs-squarepoint-capital",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/j-p-morgan-vs-swiggy",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/j-p-morgan-vs-tcs",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/j-p-morgan-vs-tekion",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/j-p-morgan-vs-tesla",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/j-p-morgan-vs-tiktok",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/j-p-morgan-vs-turing",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/j-p-morgan-vs-twitter",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/j-p-morgan-vs-uber",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/j-p-morgan-vs-visa",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/j-p-morgan-vs-walmart-labs",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/j-p-morgan-vs-wells-fargo",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/j-p-morgan-vs-wix",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/j-p-morgan-vs-x",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/j-p-morgan-vs-yahoo",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/j-p-morgan-vs-yandex",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/j-p-morgan-vs-yelp",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/j-p-morgan-vs-zenefits",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/j-p-morgan-vs-zepto",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/j-p-morgan-vs-zeta",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/j-p-morgan-vs-zoho",
-    priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/j-p-morgan-vs-zomato",
     priority: 0.65,
     changeFrequency: "monthly",
   },
@@ -29320,11 +22640,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   },
   {
     path: "/compare/jpmorgan-vs-makemytrip",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/jpmorgan-vs-media-net",
     priority: 0.65,
     changeFrequency: "monthly",
   },
@@ -30319,16 +23634,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/compare/media-net-vs-meta",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/media-net-vs-microsoft",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/compare/media-net-vs-mongodb",
     priority: 0.65,
     changeFrequency: "monthly",
@@ -30339,22 +23644,7 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/compare/media-net-vs-nutanix",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/media-net-vs-nvidia",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/compare/media-net-vs-ola-cabs",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/media-net-vs-oracle",
     priority: 0.65,
     changeFrequency: "monthly",
   },
@@ -30364,22 +23654,7 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/compare/media-net-vs-paypal",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/compare/media-net-vs-paytm",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/media-net-vs-phonepe",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/media-net-vs-qualcomm",
     priority: 0.65,
     changeFrequency: "monthly",
   },
@@ -30389,27 +23664,7 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/compare/media-net-vs-roblox",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/media-net-vs-salesforce",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/media-net-vs-samsung",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/compare/media-net-vs-sap",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/media-net-vs-servicenow",
     priority: 0.65,
     changeFrequency: "monthly",
   },
@@ -30419,17 +23674,7 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/compare/media-net-vs-snap",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/compare/media-net-vs-snapchat",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/media-net-vs-snowflake",
     priority: 0.65,
     changeFrequency: "monthly",
   },
@@ -30444,17 +23689,7 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/compare/media-net-vs-tcs",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/compare/media-net-vs-tesla",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/media-net-vs-tiktok",
     priority: 0.65,
     changeFrequency: "monthly",
   },
@@ -30464,42 +23699,7 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
     changeFrequency: "monthly",
   },
   {
-    path: "/compare/media-net-vs-twitter",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/media-net-vs-uber",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/media-net-vs-visa",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/media-net-vs-walmart-labs",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
     path: "/compare/media-net-vs-wix",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/media-net-vs-x",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/media-net-vs-yandex",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/media-net-vs-zenefits",
     priority: 0.65,
     changeFrequency: "monthly",
   },
@@ -30510,11 +23710,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   },
   {
     path: "/compare/media-net-vs-zeta",
-    priority: 0.65,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/compare/media-net-vs-zoho",
     priority: 0.65,
     changeFrequency: "monthly",
   },
@@ -50341,11 +43536,6 @@ export const SITEMAP_ENTRIES: SitemapEntry[] = [
   {
     path: "/problem/zuma-game",
     priority: 0.7,
-    changeFrequency: "monthly",
-  },
-  {
-    path: "/system-design",
-    priority: 0.8,
     changeFrequency: "monthly",
   },
   {

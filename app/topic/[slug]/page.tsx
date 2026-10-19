@@ -5,6 +5,7 @@ import { getAllTopicProfiles, getTopicProfile, getQuestionsData } from "@/lib/ps
 import { topicMetadata, collectionJsonLd } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
+import { ProblemLink } from "@/components/seo/ProblemLink";
 import { DifficultyBadge } from "@/components/ui/difficulty-badge";
 
 // Prerender known topics; SSR unknown/cache-miss on demand (runtime-safe data).
@@ -163,12 +164,12 @@ export default async function TopicPage({ params }: { params: Promise<{ slug: st
                   }`}
                 >
                   <td className="px-4 py-3">
-                    <Link
-                      href={`/problem/${q.slug}`}
+                    <ProblemLink
+                      slug={q.slug}
                       className="font-medium text-foreground hover:underline"
                     >
                       {q.title}
-                    </Link>
+                    </ProblemLink>
                   </td>
                   <td className="px-4 py-3">
                     <DifficultyBadge difficulty={q.difficulty} />

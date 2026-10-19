@@ -1,5 +1,9 @@
+import { comparePairFromBlogSlug } from "../compare";
+
 export function shouldIncludeInSitemap(path: string): boolean {
   if (path.startsWith("/podcast")) return false;
+  if (path === "/system-design") return false;
+  if (path.startsWith("/blog/") && comparePairFromBlogSlug(path.slice(6))) return false;
   if (/^\/company\/[^/]+\/[^/]+$/.test(path)) return false;
   return true;
 }

@@ -12,6 +12,7 @@ import {
 import { collectionJsonLd, problemJsonLd } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
+import { ProblemLink } from "@/components/seo/ProblemLink";
 import { DifficultyBadge } from "@/components/ui/difficulty-badge";
 
 const DIFFICULTY_LABELS: Record<string, string> = {
@@ -78,7 +79,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug, filter } = await params;
   const profile = await getCompanyProfile(slug);
-  if (!profile) return { title: "Not Found" };
+  if (!profile) return notFound();
 
   const filterType = await resolveFilterType(filter);
   const { displayName, questions } = profile;
@@ -126,19 +127,25 @@ export async function generateMetadata({
   }
 
   // Problem filter — canonical points to /problem/[slug] to avoid duplicate content
+  const companyQuestion = questions.find((q) => q.slug === filter);
+  if (!companyQuestion) return notFound();
   const problem = await getProblem(filter);
-  if (!problem) return { title: "Not Found" };
+  const { title, difficulty, acceptance, topics } = companyQuestion;
 
   return {
-    title: `${problem.title} \u2014 ${displayName} Interview Question`,
+    title: `${title} \u2014 ${displayName} Interview Question`,
     description:
-      `${problem.title} is a ${problem.difficulty.toLowerCase()} LeetCode problem asked at ${displayName}. ` +
-      `${problem.acceptance_rate} acceptance rate. Topics: ${problem.topics.slice(0, 4).join(", ")}.`,
-    alternates: { canonical: `https://codejeet.com/problem/${filter}` },
+      `${title} is a ${difficulty.toLowerCase()} LeetCode problem asked at ${displayName}. ` +
+      `${acceptance} acceptance rate. Topics: ${topics.slice(0, 4).join(", ")}.`,
+    alternates: {
+      canonical: problem
+        ? `https://codejeet.com/problem/${filter}`
+        : `https://codejeet.com/company/${slug}/${filter}`,
+    },
     robots: { index: false, follow: true },
     openGraph: {
-      title: `${problem.title} \u2014 ${displayName} Interview Question | CodeJeet`,
-      description: `${problem.title} at ${displayName}. ${problem.difficulty}, ${problem.acceptance_rate} acceptance.`,
+      title: `${title} \u2014 ${displayName} Interview Question | CodeJeet`,
+      description: `${title} at ${displayName}. ${difficulty}, ${acceptance} acceptance.`,
       type: "article",
       url: `https://codejeet.com/company/${slug}/${filter}`,
     },
@@ -506,11 +513,11 @@ async function ProblemFilterView({
 
       {/* Full problem link */}
       <div className="mb-8">
-        <Link
-          href={`/problem/${filter}`}
+        <ProblemLink
+          slug={filter}
           className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
         >
-          View Full Problem
+          {problem ? "View Full Problem" : "View on LeetCode"}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="14"
@@ -526,7 +533,7 @@ async function ProblemFilterView({
             <path d="M5 12h14" />
             <path d="m12 5 7 7-7 7" />
           </svg>
-        </Link>
+        </ProblemLink>
       </div>
 
       {/* Related questions from this company */}
@@ -605,12 +612,9 @@ function QuestionTable({
               }`}
             >
               <td className="px-4 py-3">
-                <Link
-                  href={`/problem/${q.slug}`}
-                  className="font-medium text-foreground hover:underline"
-                >
+                <ProblemLink slug={q.slug} className="font-medium text-foreground hover:underline">
                   {q.title}
-                </Link>
+                </ProblemLink>
               </td>
               <td className="px-4 py-3">
                 <DifficultyBadge difficulty={q.difficulty as "Easy" | "Medium" | "Hard"} />
