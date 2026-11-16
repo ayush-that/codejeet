@@ -7,7 +7,7 @@ dependencies = [
   "beautifulsoup4>=4.14.3",
   "html2text>=2025.4.15",
   "markdownify>=1.2.2",
-  "setuptools>=82.0.0",
+  "setuptools>=84.1.0",
   "undetected-chromedriver>=3.5.5",
 ]
 
