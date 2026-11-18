@@ -1,3 +1,5 @@
+
+import { withSensor as brekenWithSensor } from "../../../lib/breken-sensor";
 import { auth } from "@clerk/nextjs/server";
 import { getDatabasePool } from "@/lib/database";
 import { handleProgressGet, handleProgressPost } from "@/lib/progress-api";
@@ -20,13 +22,19 @@ function dependencies() {
 
 // GET -> { progress: { [slug]: solvedAtISO } }. Signed-out returns an empty map
 // (200, not a redirect) so the client can call it unconditionally.
-export async function GET() {
+ async function GET() {
   return handleProgressGet(dependencies());
 }
 
 // POST { slug, completed }. Check -> insert keeping the original solve date
 // (ON CONFLICT DO NOTHING, so the revision clock never resets). Uncheck -> delete.
 // user_id always comes from the server session, never the request body.
-export async function POST(req: Request) {
+ async function POST(req: Request) {
   return handleProgressPost(req, dependencies());
 }
+
+// Scout observes API outcomes while preserving handler behavior.
+const brekenGET = brekenWithSensor(GET, {"route":"/api/progress","routeFile":"app/api/progress/route.ts","problemJson":false,"reportThroughHook":true});
+export { brekenGET as GET };
+const brekenPOST = brekenWithSensor(POST, {"route":"/api/progress","routeFile":"app/api/progress/route.ts","problemJson":false,"reportThroughHook":true});
+export { brekenPOST as POST };
